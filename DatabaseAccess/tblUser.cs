@@ -38,10 +38,10 @@ namespace DatabaseAccess
         public int UserTypeID { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
-        public int ContactNo { get; set; }
+        public string ContactNo { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
-        public string IsActive { get; set; }
+        public bool IsActive { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblAccountControl> tblAccountControl { get; set; }
