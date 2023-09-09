@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище CloudErpV1Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Хранилище CloudDBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="tblAccountControl">
           <Key>
             <PropertyRef Name="AccountControlID" />
@@ -974,7 +974,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Хранилище CloudErpV1ModelContainer">
+        <EntityContainer Name="Хранилище CloudDBModelContainer">
           <EntitySet Name="tblAccountControl" EntityType="Self.tblAccountControl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblAccountHead" EntityType="Self.tblAccountHead" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblAccountSubControl" EntityType="Self.tblAccountSubControl" Schema="dbo" store:Type="Tables" />
@@ -1222,7 +1222,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="CloudErpV1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="CloudDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="tblAccountControl">
           <Key>
             <PropertyRef Name="AccountControlID" />
@@ -2302,7 +2302,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="CloudErpV1Entities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="CloudDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="tblAccountControl" EntityType="Self.tblAccountControl" />
           <EntitySet Name="tblAccountHead" EntityType="Self.tblAccountHead" />
           <EntitySet Name="tblAccountSubControl" EntityType="Self.tblAccountSubControl" />
@@ -2551,9 +2551,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище CloudErpV1ModelContainer" CdmEntityContainer="CloudErpV1Entities">
+        <EntityContainerMapping StorageEntityContainer="Хранилище CloudDBModelContainer" CdmEntityContainer="CloudDBEntities">
           <EntitySetMapping Name="tblAccountControl">
-            <EntityTypeMapping TypeName="CloudErpV1Model.tblAccountControl">
+            <EntityTypeMapping TypeName="CloudDBModel.tblAccountControl">
               <MappingFragment StoreEntitySet="tblAccountControl">
                 <ScalarProperty Name="AccountControlID" ColumnName="AccountControlID" />
                 <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
@@ -2565,7 +2565,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tblAccountHead">
-            <EntityTypeMapping TypeName="CloudErpV1Model.tblAccountHead">
+            <EntityTypeMapping TypeName="CloudDBModel.tblAccountHead">
               <MappingFragment StoreEntitySet="tblAccountHead">
                 <ScalarProperty Name="AccountHeadID" ColumnName="AccountHeadID" />
                 <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
@@ -2577,7 +2577,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tblAccountSubControl">
-            <EntityTypeMapping TypeName="CloudErpV1Model.tblAccountSubControl">
+            <EntityTypeMapping TypeName="CloudDBModel.tblAccountSubControl">
               <MappingFragment StoreEntitySet="tblAccountSubControl">
                 <ScalarProperty Name="AccountSubControlID" ColumnName="AccountSubControlID" />
                 <ScalarProperty Name="AccountHeadID" ColumnName="AccountHeadID" />
@@ -2590,7 +2590,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tblBranch">
-            <EntityTypeMapping TypeName="CloudErpV1Model.tblBranch">
+            <EntityTypeMapping TypeName="CloudDBModel.tblBranch">
               <MappingFragment StoreEntitySet="tblBranch">
                 <ScalarProperty Name="BranchID" ColumnName="BranchID" />
                 <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
@@ -2604,7 +2604,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tblBranchType">
-            <EntityTypeMapping TypeName="CloudErpV1Model.tblBranchType">
+            <EntityTypeMapping TypeName="CloudDBModel.tblBranchType">
               <MappingFragment StoreEntitySet="tblBranchType">
                 <ScalarProperty Name="BranchTypeID" ColumnName="BranchTypeID" />
                 <ScalarProperty Name="BranchType" ColumnName="BranchType" />
@@ -2612,7 +2612,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tblCategory">
-            <EntityTypeMapping TypeName="CloudErpV1Model.tblCategory">
+            <EntityTypeMapping TypeName="CloudDBModel.tblCategory">
               <MappingFragment StoreEntitySet="tblCategory">
                 <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
                 <ScalarProperty Name="categoryName" ColumnName="categoryName" />
@@ -2623,7 +2623,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tblCompany">
-            <EntityTypeMapping TypeName="CloudErpV1Model.tblCompany">
+            <EntityTypeMapping TypeName="CloudDBModel.tblCompany">
               <MappingFragment StoreEntitySet="tblCompany">
                 <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
                 <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
@@ -2631,7 +2631,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tblCustomer">
-            <EntityTypeMapping TypeName="CloudErpV1Model.tblCustomer">
+            <EntityTypeMapping TypeName="CloudDBModel.tblCustomer">
               <MappingFragment StoreEntitySet="tblCustomer">
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="Customername" ColumnName="Customername" />
@@ -2646,7 +2646,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tblCustomerInvoice">
-            <EntityTypeMapping TypeName="CloudErpV1Model.tblCustomerInvoice">
+            <EntityTypeMapping TypeName="CloudDBModel.tblCustomerInvoice">
               <MappingFragment StoreEntitySet="tblCustomerInvoice">
                 <ScalarProperty Name="CustomerInvoiceID" ColumnName="CustomerInvoiceID" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
@@ -2662,7 +2662,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tblCustomerInvoiceDetail">
-            <EntityTypeMapping TypeName="CloudErpV1Model.tblCustomerInvoiceDetail">
+            <EntityTypeMapping TypeName="CloudDBModel.tblCustomerInvoiceDetail">
               <MappingFragment StoreEntitySet="tblCustomerInvoiceDetail">
                 <ScalarProperty Name="CustomerInvoiceDetailID" ColumnName="CustomerInvoiceDetailID" />
                 <ScalarProperty Name="CustomerInvoiceID" ColumnName="CustomerInvoiceID" />
@@ -2673,7 +2673,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tblCustomerPayment">
-            <EntityTypeMapping TypeName="CloudErpV1Model.tblCustomerPayment">
+            <EntityTypeMapping TypeName="CloudDBModel.tblCustomerPayment">
               <MappingFragment StoreEntitySet="tblCustomerPayment">
                 <ScalarProperty Name="CustomerPaymentID" ColumnName="CustomerPaymentID" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
@@ -2689,7 +2689,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tblEmployee">
-            <EntityTypeMapping TypeName="CloudErpV1Model.tblEmployee">
+            <EntityTypeMapping TypeName="CloudDBModel.tblEmployee">
               <MappingFragment StoreEntitySet="tblEmployee">
                 <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -2707,7 +2707,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tblFinancialYear">
-            <EntityTypeMapping TypeName="CloudErpV1Model.tblFinancialYear">
+            <EntityTypeMapping TypeName="CloudDBModel.tblFinancialYear">
               <MappingFragment StoreEntitySet="tblFinancialYear">
                 <ScalarProperty Name="FinancialYearID" ColumnName="FinancialYearID" />
                 <ScalarProperty Name="FinancialYear" ColumnName="FinancialYear" />
@@ -2717,7 +2717,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tblPayroll">
-            <EntityTypeMapping TypeName="CloudErpV1Model.tblPayroll">
+            <EntityTypeMapping TypeName="CloudDBModel.tblPayroll">
               <MappingFragment StoreEntitySet="tblPayroll">
                 <ScalarProperty Name="PayrollID" ColumnName="PayrollID" />
                 <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
@@ -2733,7 +2733,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tblStock">
-            <EntityTypeMapping TypeName="CloudErpV1Model.tblStock">
+            <EntityTypeMapping TypeName="CloudDBModel.tblStock">
               <MappingFragment StoreEntitySet="tblStock">
                 <ScalarProperty Name="ProductID" ColumnName="ProductID" />
                 <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
@@ -2753,7 +2753,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tblSupplier">
-            <EntityTypeMapping TypeName="CloudErpV1Model.tblSupplier">
+            <EntityTypeMapping TypeName="CloudDBModel.tblSupplier">
               <MappingFragment StoreEntitySet="tblSupplier">
                 <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
                 <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
@@ -2768,7 +2768,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tblSupplierInvoice">
-            <EntityTypeMapping TypeName="CloudErpV1Model.tblSupplierInvoice">
+            <EntityTypeMapping TypeName="CloudDBModel.tblSupplierInvoice">
               <MappingFragment StoreEntitySet="tblSupplierInvoice">
                 <ScalarProperty Name="SupplierInvoiceID" ColumnName="SupplierInvoiceID" />
                 <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
@@ -2783,7 +2783,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tblSupplierInvoiceDetail">
-            <EntityTypeMapping TypeName="CloudErpV1Model.tblSupplierInvoiceDetail">
+            <EntityTypeMapping TypeName="CloudDBModel.tblSupplierInvoiceDetail">
               <MappingFragment StoreEntitySet="tblSupplierInvoiceDetail">
                 <ScalarProperty Name="SupplierInvoiceDetailID" ColumnName="SupplierInvoiceDetailID" />
                 <ScalarProperty Name="SupplierInvoiceID" ColumnName="SupplierInvoiceID" />
@@ -2794,7 +2794,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tblSupplierPayment">
-            <EntityTypeMapping TypeName="CloudErpV1Model.tblSupplierPayment">
+            <EntityTypeMapping TypeName="CloudDBModel.tblSupplierPayment">
               <MappingFragment StoreEntitySet="tblSupplierPayment">
                 <ScalarProperty Name="SupplierPaymentID" ColumnName="SupplierPaymentID" />
                 <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
@@ -2810,7 +2810,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tblTransaction">
-            <EntityTypeMapping TypeName="CloudErpV1Model.tblTransaction">
+            <EntityTypeMapping TypeName="CloudDBModel.tblTransaction">
               <MappingFragment StoreEntitySet="tblTransaction">
                 <ScalarProperty Name="TransactionID" ColumnName="TransactionID" />
                 <ScalarProperty Name="FinancialYearID" ColumnName="FinancialYearID" />
@@ -2829,7 +2829,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tblUser">
-            <EntityTypeMapping TypeName="CloudErpV1Model.tblUser">
+            <EntityTypeMapping TypeName="CloudDBModel.tblUser">
               <MappingFragment StoreEntitySet="tblUser">
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
@@ -2844,7 +2844,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tblUserType">
-            <EntityTypeMapping TypeName="CloudErpV1Model.tblUserType">
+            <EntityTypeMapping TypeName="CloudDBModel.tblUserType">
               <MappingFragment StoreEntitySet="tblUserType">
                 <ScalarProperty Name="UserTypeID" ColumnName="UserTypeID" />
                 <ScalarProperty Name="UserType" ColumnName="UserType" />
