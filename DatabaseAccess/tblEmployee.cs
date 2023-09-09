@@ -28,10 +28,11 @@ namespace DatabaseAccess
         public string Address { get; set; }
         public string CNIC { get; set; }
         public string Designation { get; set; }
-        public byte[] Description { get; set; }
+        public string Description { get; set; }
         public double MonthlySalary { get; set; }
         public int BranchID { get; set; }
         public int CompanyID { get; set; }
+        public int UserID { get; set; }
     
         public virtual tblBranch tblBranch { get; set; }
         public virtual tblCompany tblCompany { get; set; }

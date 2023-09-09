@@ -31,7 +31,6 @@ namespace DatabaseAccess
         }
     
         public int BranchID { get; set; }
-        public int EmployeeID { get; set; }
         public int BranchTypeID { get; set; }
         public string BranchName { get; set; }
         public string BranchContact { get; set; }
