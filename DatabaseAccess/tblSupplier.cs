@@ -32,11 +32,11 @@ namespace DatabaseAccess
         public int UserID { get; set; }
     
         public virtual tblBranch tblBranch { get; set; }
-        public virtual tblCompany tblCompany { get; set; }
         public virtual tblUser tblUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblSupplierInvoice> tblSupplierInvoice { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblSupplierPayment> tblSupplierPayment { get; set; }
+        public virtual tblCompany tblCompany { get; set; }
     }
 }

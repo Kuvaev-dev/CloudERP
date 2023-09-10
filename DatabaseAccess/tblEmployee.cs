@@ -35,8 +35,8 @@ namespace DatabaseAccess
         public int UserID { get; set; }
     
         public virtual tblBranch tblBranch { get; set; }
-        public virtual tblCompany tblCompany { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblPayroll> tblPayroll { get; set; }
+        public virtual tblCompany tblCompany { get; set; }
     }
 }

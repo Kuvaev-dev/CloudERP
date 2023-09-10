@@ -73,7 +73,8 @@
             <PropertyRef Name="CompanyID" />
           </Key>
           <Property Name="CompanyID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="CompanyName" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Logo" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="tblCustomer">
           <Key>
@@ -1231,7 +1232,6 @@
           <EntitySet Name="tblBranch" EntityType="CloudDBModel.tblBranch" />
           <EntitySet Name="tblBranchType" EntityType="CloudDBModel.tblBranchType" />
           <EntitySet Name="tblCategory" EntityType="CloudDBModel.tblCategory" />
-          <EntitySet Name="tblCompany" EntityType="CloudDBModel.tblCompany" />
           <EntitySet Name="tblCustomer" EntityType="CloudDBModel.tblCustomer" />
           <EntitySet Name="tblCustomerInvoice" EntityType="CloudDBModel.tblCustomerInvoice" />
           <EntitySet Name="tblCustomerInvoiceDetail" EntityType="CloudDBModel.tblCustomerInvoiceDetail" />
@@ -1249,10 +1249,6 @@
           <EntitySet Name="tblUserType" EntityType="CloudDBModel.tblUserType" />
           <AssociationSet Name="FK_tblAccountControl_tblBranch" Association="CloudDBModel.FK_tblAccountControl_tblBranch">
             <End Role="tblBranch" EntitySet="tblBranch" />
-            <End Role="tblAccountControl" EntitySet="tblAccountControl" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblAccountControl_tblCompany" Association="CloudDBModel.FK_tblAccountControl_tblCompany">
-            <End Role="tblCompany" EntitySet="tblCompany" />
             <End Role="tblAccountControl" EntitySet="tblAccountControl" />
           </AssociationSet>
           <AssociationSet Name="FK_tblAccountControl_tblUser" Association="CloudDBModel.FK_tblAccountControl_tblUser">
@@ -1335,10 +1331,6 @@
             <End Role="tblBranch" EntitySet="tblBranch" />
             <End Role="tblSupplierInvoice" EntitySet="tblSupplierInvoice" />
           </AssociationSet>
-          <AssociationSet Name="FK_tblCategory_tblCompany" Association="CloudDBModel.FK_tblCategory_tblCompany">
-            <End Role="tblCompany" EntitySet="tblCompany" />
-            <End Role="tblCategory" EntitySet="tblCategory" />
-          </AssociationSet>
           <AssociationSet Name="FK_tblCategory_tblUser" Association="CloudDBModel.FK_tblCategory_tblUser">
             <End Role="tblUser" EntitySet="tblUser" />
             <End Role="tblCategory" EntitySet="tblCategory" />
@@ -1346,38 +1338,6 @@
           <AssociationSet Name="FK_tblStock_tblCategory" Association="CloudDBModel.FK_tblStock_tblCategory">
             <End Role="tblCategory" EntitySet="tblCategory" />
             <End Role="tblStock" EntitySet="tblStock" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblCustomer_tblCompany" Association="CloudDBModel.FK_tblCustomer_tblCompany">
-            <End Role="tblCompany" EntitySet="tblCompany" />
-            <End Role="tblCustomer" EntitySet="tblCustomer" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblCustomerInvoice_tblCompany" Association="CloudDBModel.FK_tblCustomerInvoice_tblCompany">
-            <End Role="tblCompany" EntitySet="tblCompany" />
-            <End Role="tblCustomerInvoice" EntitySet="tblCustomerInvoice" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblCustomerPayment_tblCompany" Association="CloudDBModel.FK_tblCustomerPayment_tblCompany">
-            <End Role="tblCompany" EntitySet="tblCompany" />
-            <End Role="tblCustomerPayment" EntitySet="tblCustomerPayment" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblEmployee_tblCompany" Association="CloudDBModel.FK_tblEmployee_tblCompany">
-            <End Role="tblCompany" EntitySet="tblCompany" />
-            <End Role="tblEmployee" EntitySet="tblEmployee" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblPayroll_tblCompany" Association="CloudDBModel.FK_tblPayroll_tblCompany">
-            <End Role="tblCompany" EntitySet="tblCompany" />
-            <End Role="tblPayroll" EntitySet="tblPayroll" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblStock_tblCompany" Association="CloudDBModel.FK_tblStock_tblCompany">
-            <End Role="tblCompany" EntitySet="tblCompany" />
-            <End Role="tblStock" EntitySet="tblStock" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblSupplier_tblCompany" Association="CloudDBModel.FK_tblSupplier_tblCompany">
-            <End Role="tblCompany" EntitySet="tblCompany" />
-            <End Role="tblSupplier" EntitySet="tblSupplier" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblSupplierInvoiceTable_tblCompany" Association="CloudDBModel.FK_tblSupplierInvoiceTable_tblCompany">
-            <End Role="tblCompany" EntitySet="tblCompany" />
-            <End Role="tblSupplierInvoice" EntitySet="tblSupplierInvoice" />
           </AssociationSet>
           <AssociationSet Name="FK_tblCustomer_tblUser" Association="CloudDBModel.FK_tblCustomer_tblUser">
             <End Role="tblUser" EntitySet="tblUser" />
@@ -1467,6 +1427,47 @@
             <End Role="tblUserType" EntitySet="tblUserType" />
             <End Role="tblUser" EntitySet="tblUser" />
           </AssociationSet>
+          <EntitySet Name="tblCompany" EntityType="CloudDBModel.tblCompany" />
+          <AssociationSet Name="FK_tblAccountControl_tblCompany" Association="CloudDBModel.FK_tblAccountControl_tblCompany">
+            <End Role="tblCompany" EntitySet="tblCompany" />
+            <End Role="tblAccountControl" EntitySet="tblAccountControl" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblCategory_tblCompany" Association="CloudDBModel.FK_tblCategory_tblCompany">
+            <End Role="tblCompany" EntitySet="tblCompany" />
+            <End Role="tblCategory" EntitySet="tblCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblCustomer_tblCompany" Association="CloudDBModel.FK_tblCustomer_tblCompany">
+            <End Role="tblCompany" EntitySet="tblCompany" />
+            <End Role="tblCustomer" EntitySet="tblCustomer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblCustomerInvoice_tblCompany" Association="CloudDBModel.FK_tblCustomerInvoice_tblCompany">
+            <End Role="tblCompany" EntitySet="tblCompany" />
+            <End Role="tblCustomerInvoice" EntitySet="tblCustomerInvoice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblCustomerPayment_tblCompany" Association="CloudDBModel.FK_tblCustomerPayment_tblCompany">
+            <End Role="tblCompany" EntitySet="tblCompany" />
+            <End Role="tblCustomerPayment" EntitySet="tblCustomerPayment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblEmployee_tblCompany" Association="CloudDBModel.FK_tblEmployee_tblCompany">
+            <End Role="tblCompany" EntitySet="tblCompany" />
+            <End Role="tblEmployee" EntitySet="tblEmployee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblPayroll_tblCompany" Association="CloudDBModel.FK_tblPayroll_tblCompany">
+            <End Role="tblCompany" EntitySet="tblCompany" />
+            <End Role="tblPayroll" EntitySet="tblPayroll" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblStock_tblCompany" Association="CloudDBModel.FK_tblStock_tblCompany">
+            <End Role="tblCompany" EntitySet="tblCompany" />
+            <End Role="tblStock" EntitySet="tblStock" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblSupplier_tblCompany" Association="CloudDBModel.FK_tblSupplier_tblCompany">
+            <End Role="tblCompany" EntitySet="tblCompany" />
+            <End Role="tblSupplier" EntitySet="tblSupplier" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblSupplierInvoiceTable_tblCompany" Association="CloudDBModel.FK_tblSupplierInvoiceTable_tblCompany">
+            <End Role="tblCompany" EntitySet="tblCompany" />
+            <End Role="tblSupplierInvoice" EntitySet="tblSupplierInvoice" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="tblAccountControl">
           <Key>
@@ -1479,10 +1480,10 @@
           <Property Name="AccountControlName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="tblBranch" Relationship="CloudDBModel.FK_tblAccountControl_tblBranch" FromRole="tblAccountControl" ToRole="tblBranch" />
-          <NavigationProperty Name="tblCompany" Relationship="CloudDBModel.FK_tblAccountControl_tblCompany" FromRole="tblAccountControl" ToRole="tblCompany" />
           <NavigationProperty Name="tblUser" Relationship="CloudDBModel.FK_tblAccountControl_tblUser" FromRole="tblAccountControl" ToRole="tblUser" />
           <NavigationProperty Name="tblAccountSubControl" Relationship="CloudDBModel.FK_tblAccountSubControl_tblAccountControl" FromRole="tblAccountControl" ToRole="tblAccountSubControl" />
           <NavigationProperty Name="tblTransaction" Relationship="CloudDBModel.FK_tblTransaction_tblAccountControl" FromRole="tblAccountControl" ToRole="tblTransaction" />
+          <NavigationProperty Name="tblCompany" Relationship="CloudDBModel.FK_tblAccountControl_tblCompany" FromRole="tblAccountControl" ToRole="tblCompany" />
         </EntityType>
         <EntityType Name="tblAccountHead">
           <Key>
@@ -1558,26 +1559,9 @@
           <Property Name="CompanyID" Type="Int32" Nullable="false" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="tblBranch" Relationship="CloudDBModel.FK_tblCategory_tblBranch" FromRole="tblCategory" ToRole="tblBranch" />
-          <NavigationProperty Name="tblCompany" Relationship="CloudDBModel.FK_tblCategory_tblCompany" FromRole="tblCategory" ToRole="tblCompany" />
           <NavigationProperty Name="tblUser" Relationship="CloudDBModel.FK_tblCategory_tblUser" FromRole="tblCategory" ToRole="tblUser" />
           <NavigationProperty Name="tblStock" Relationship="CloudDBModel.FK_tblStock_tblCategory" FromRole="tblCategory" ToRole="tblStock" />
-        </EntityType>
-        <EntityType Name="tblCompany">
-          <Key>
-            <PropertyRef Name="CompanyID" />
-          </Key>
-          <Property Name="CompanyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="tblAccountControl" Relationship="CloudDBModel.FK_tblAccountControl_tblCompany" FromRole="tblCompany" ToRole="tblAccountControl" />
-          <NavigationProperty Name="tblCategory" Relationship="CloudDBModel.FK_tblCategory_tblCompany" FromRole="tblCompany" ToRole="tblCategory" />
-          <NavigationProperty Name="tblCustomer" Relationship="CloudDBModel.FK_tblCustomer_tblCompany" FromRole="tblCompany" ToRole="tblCustomer" />
-          <NavigationProperty Name="tblCustomerInvoice" Relationship="CloudDBModel.FK_tblCustomerInvoice_tblCompany" FromRole="tblCompany" ToRole="tblCustomerInvoice" />
-          <NavigationProperty Name="tblCustomerPayment" Relationship="CloudDBModel.FK_tblCustomerPayment_tblCompany" FromRole="tblCompany" ToRole="tblCustomerPayment" />
-          <NavigationProperty Name="tblEmployee" Relationship="CloudDBModel.FK_tblEmployee_tblCompany" FromRole="tblCompany" ToRole="tblEmployee" />
-          <NavigationProperty Name="tblPayroll" Relationship="CloudDBModel.FK_tblPayroll_tblCompany" FromRole="tblCompany" ToRole="tblPayroll" />
-          <NavigationProperty Name="tblStock" Relationship="CloudDBModel.FK_tblStock_tblCompany" FromRole="tblCompany" ToRole="tblStock" />
-          <NavigationProperty Name="tblSupplier" Relationship="CloudDBModel.FK_tblSupplier_tblCompany" FromRole="tblCompany" ToRole="tblSupplier" />
-          <NavigationProperty Name="tblSupplierInvoice" Relationship="CloudDBModel.FK_tblSupplierInvoiceTable_tblCompany" FromRole="tblCompany" ToRole="tblSupplierInvoice" />
+          <NavigationProperty Name="tblCompany" Relationship="CloudDBModel.FK_tblCategory_tblCompany" FromRole="tblCategory" ToRole="tblCompany" />
         </EntityType>
         <EntityType Name="tblCustomer">
           <Key>
@@ -1593,9 +1577,9 @@
           <Property Name="CompanyID" Type="Int32" Nullable="false" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="tblBranch" Relationship="CloudDBModel.FK_tblCustomer_tblBranch" FromRole="tblCustomer" ToRole="tblBranch" />
-          <NavigationProperty Name="tblCompany" Relationship="CloudDBModel.FK_tblCustomer_tblCompany" FromRole="tblCustomer" ToRole="tblCompany" />
           <NavigationProperty Name="tblUser" Relationship="CloudDBModel.FK_tblCustomer_tblUser" FromRole="tblCustomer" ToRole="tblUser" />
           <NavigationProperty Name="tblCustomerInvoice" Relationship="CloudDBModel.FK_tblCustomerInvoice_tblCustomer" FromRole="tblCustomer" ToRole="tblCustomerInvoice" />
+          <NavigationProperty Name="tblCompany" Relationship="CloudDBModel.FK_tblCustomer_tblCompany" FromRole="tblCustomer" ToRole="tblCompany" />
         </EntityType>
         <EntityType Name="tblCustomerInvoice">
           <Key>
@@ -1612,11 +1596,11 @@
           <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="tblBranch" Relationship="CloudDBModel.FK_tblCustomerInvoice_tblBranch" FromRole="tblCustomerInvoice" ToRole="tblBranch" />
-          <NavigationProperty Name="tblCompany" Relationship="CloudDBModel.FK_tblCustomerInvoice_tblCompany" FromRole="tblCustomerInvoice" ToRole="tblCompany" />
           <NavigationProperty Name="tblCustomer" Relationship="CloudDBModel.FK_tblCustomerInvoice_tblCustomer" FromRole="tblCustomerInvoice" ToRole="tblCustomer" />
           <NavigationProperty Name="tblUser" Relationship="CloudDBModel.FK_tblCustomerInvoice_tblUser" FromRole="tblCustomerInvoice" ToRole="tblUser" />
           <NavigationProperty Name="tblCustomerInvoiceDetail" Relationship="CloudDBModel.FK_tblCustomerInvoiceDetail_tblCustomerInvoice" FromRole="tblCustomerInvoice" ToRole="tblCustomerInvoiceDetail" />
           <NavigationProperty Name="tblCustomerPayment" Relationship="CloudDBModel.FK_tblCustomerPayment_tblCustomerInvoice" FromRole="tblCustomerInvoice" ToRole="tblCustomerPayment" />
+          <NavigationProperty Name="tblCompany" Relationship="CloudDBModel.FK_tblCustomerInvoice_tblCompany" FromRole="tblCustomerInvoice" ToRole="tblCompany" />
         </EntityType>
         <EntityType Name="tblCustomerInvoiceDetail">
           <Key>
@@ -1645,9 +1629,9 @@
           <Property Name="RemainingBalance" Type="Double" Nullable="false" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="tblBranch" Relationship="CloudDBModel.FK_tblCustomerPayment_tblBranch" FromRole="tblCustomerPayment" ToRole="tblBranch" />
-          <NavigationProperty Name="tblCompany" Relationship="CloudDBModel.FK_tblCustomerPayment_tblCompany" FromRole="tblCustomerPayment" ToRole="tblCompany" />
           <NavigationProperty Name="tblCustomerInvoice" Relationship="CloudDBModel.FK_tblCustomerPayment_tblCustomerInvoice" FromRole="tblCustomerPayment" ToRole="tblCustomerInvoice" />
           <NavigationProperty Name="tblUser" Relationship="CloudDBModel.FK_tblCustomerPayment_tblUser" FromRole="tblCustomerPayment" ToRole="tblUser" />
+          <NavigationProperty Name="tblCompany" Relationship="CloudDBModel.FK_tblCustomerPayment_tblCompany" FromRole="tblCustomerPayment" ToRole="tblCompany" />
         </EntityType>
         <EntityType Name="tblEmployee">
           <Key>
@@ -1667,8 +1651,8 @@
           <Property Name="CompanyID" Type="Int32" Nullable="false" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="tblBranch" Relationship="CloudDBModel.FK_tblEmployee_tblBranch" FromRole="tblEmployee" ToRole="tblBranch" />
-          <NavigationProperty Name="tblCompany" Relationship="CloudDBModel.FK_tblEmployee_tblCompany" FromRole="tblEmployee" ToRole="tblCompany" />
           <NavigationProperty Name="tblPayroll" Relationship="CloudDBModel.FK_tblPayroll_tblEmployee" FromRole="tblEmployee" ToRole="tblPayroll" />
+          <NavigationProperty Name="tblCompany" Relationship="CloudDBModel.FK_tblEmployee_tblCompany" FromRole="tblEmployee" ToRole="tblCompany" />
         </EntityType>
         <EntityType Name="tblFinancialYear">
           <Key>
@@ -1699,9 +1683,9 @@
           <Property Name="SalaryYear" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="tblBranch" Relationship="CloudDBModel.FK_tblPayroll_tblBranch" FromRole="tblPayroll" ToRole="tblBranch" />
-          <NavigationProperty Name="tblCompany" Relationship="CloudDBModel.FK_tblPayroll_tblCompany" FromRole="tblPayroll" ToRole="tblCompany" />
           <NavigationProperty Name="tblEmployee" Relationship="CloudDBModel.FK_tblPayroll_tblEmployee" FromRole="tblPayroll" ToRole="tblEmployee" />
           <NavigationProperty Name="tblUser" Relationship="CloudDBModel.FK_tblPayroll_tblUser" FromRole="tblPayroll" ToRole="tblUser" />
+          <NavigationProperty Name="tblCompany" Relationship="CloudDBModel.FK_tblPayroll_tblCompany" FromRole="tblPayroll" ToRole="tblCompany" />
         </EntityType>
         <EntityType Name="tblStock">
           <Key>
@@ -1723,10 +1707,10 @@
           <Property Name="IsActive" Type="Boolean" />
           <NavigationProperty Name="tblBranch" Relationship="CloudDBModel.FK_tblStock_tblBranch" FromRole="tblStock" ToRole="tblBranch" />
           <NavigationProperty Name="tblCategory" Relationship="CloudDBModel.FK_tblStock_tblCategory" FromRole="tblStock" ToRole="tblCategory" />
-          <NavigationProperty Name="tblCompany" Relationship="CloudDBModel.FK_tblStock_tblCompany" FromRole="tblStock" ToRole="tblCompany" />
           <NavigationProperty Name="tblCustomerInvoiceDetail" Relationship="CloudDBModel.FK_tblCustomerInvoiceDetail_tblStock" FromRole="tblStock" ToRole="tblCustomerInvoiceDetail" />
           <NavigationProperty Name="tblUser" Relationship="CloudDBModel.FK_tblStock_tblUser" FromRole="tblStock" ToRole="tblUser" />
           <NavigationProperty Name="tblSupplierInvoiceDetail" Relationship="CloudDBModel.FK_tblSupplierInvoiceDetail_tblStock" FromRole="tblStock" ToRole="tblSupplierInvoiceDetail" />
+          <NavigationProperty Name="tblCompany" Relationship="CloudDBModel.FK_tblStock_tblCompany" FromRole="tblStock" ToRole="tblCompany" />
         </EntityType>
         <EntityType Name="tblSupplier">
           <Key>
@@ -1742,10 +1726,10 @@
           <Property Name="CompanyID" Type="Int32" Nullable="false" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="tblBranch" Relationship="CloudDBModel.FK_tblSupplier_tblBranch" FromRole="tblSupplier" ToRole="tblBranch" />
-          <NavigationProperty Name="tblCompany" Relationship="CloudDBModel.FK_tblSupplier_tblCompany" FromRole="tblSupplier" ToRole="tblCompany" />
           <NavigationProperty Name="tblUser" Relationship="CloudDBModel.FK_tblSupplier_tblUser" FromRole="tblSupplier" ToRole="tblUser" />
           <NavigationProperty Name="tblSupplierInvoice" Relationship="CloudDBModel.FK_tblSupplierInvoiceTable_tblSupplier" FromRole="tblSupplier" ToRole="tblSupplierInvoice" />
           <NavigationProperty Name="tblSupplierPayment" Relationship="CloudDBModel.FK_tblSupplierPayment_tblSupplier" FromRole="tblSupplier" ToRole="tblSupplierPayment" />
+          <NavigationProperty Name="tblCompany" Relationship="CloudDBModel.FK_tblSupplier_tblCompany" FromRole="tblSupplier" ToRole="tblCompany" />
         </EntityType>
         <EntityType Name="tblSupplierInvoice">
           <Key>
@@ -1761,10 +1745,10 @@
           <Property Name="Description" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="tblBranch" Relationship="CloudDBModel.FK_tblSupplierInvoiceTable_tblBranch" FromRole="tblSupplierInvoice" ToRole="tblBranch" />
-          <NavigationProperty Name="tblCompany" Relationship="CloudDBModel.FK_tblSupplierInvoiceTable_tblCompany" FromRole="tblSupplierInvoice" ToRole="tblCompany" />
           <NavigationProperty Name="tblSupplier" Relationship="CloudDBModel.FK_tblSupplierInvoiceTable_tblSupplier" FromRole="tblSupplierInvoice" ToRole="tblSupplier" />
           <NavigationProperty Name="tblUser" Relationship="CloudDBModel.FK_tblSupplierInvoice_tblUser" FromRole="tblSupplierInvoice" ToRole="tblUser" />
           <NavigationProperty Name="tblSupplierInvoiceDetail" Relationship="CloudDBModel.FK_tblSupplierInvoiceDetail_tblSupplierInvoice" FromRole="tblSupplierInvoice" ToRole="tblSupplierInvoiceDetail" />
+          <NavigationProperty Name="tblCompany" Relationship="CloudDBModel.FK_tblSupplierInvoiceTable_tblCompany" FromRole="tblSupplierInvoice" ToRole="tblCompany" />
         </EntityType>
         <EntityType Name="tblSupplierInvoiceDetail">
           <Key>
@@ -1866,18 +1850,6 @@
             </Principal>
             <Dependent Role="tblAccountControl">
               <PropertyRef Name="BranchID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblAccountControl_tblCompany">
-          <End Type="CloudDBModel.tblCompany" Role="tblCompany" Multiplicity="1" />
-          <End Type="CloudDBModel.tblAccountControl" Role="tblAccountControl" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblCompany">
-              <PropertyRef Name="CompanyID" />
-            </Principal>
-            <Dependent Role="tblAccountControl">
-              <PropertyRef Name="CompanyID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2131,18 +2103,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tblCategory_tblCompany">
-          <End Type="CloudDBModel.tblCompany" Role="tblCompany" Multiplicity="1" />
-          <End Type="CloudDBModel.tblCategory" Role="tblCategory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblCompany">
-              <PropertyRef Name="CompanyID" />
-            </Principal>
-            <Dependent Role="tblCategory">
-              <PropertyRef Name="CompanyID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_tblCategory_tblUser">
           <End Type="CloudDBModel.tblUser" Role="tblUser" Multiplicity="1" />
           <End Type="CloudDBModel.tblCategory" Role="tblCategory" Multiplicity="*" />
@@ -2166,102 +2126,6 @@
             </Principal>
             <Dependent Role="tblStock">
               <PropertyRef Name="CategoryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblCustomer_tblCompany">
-          <End Type="CloudDBModel.tblCompany" Role="tblCompany" Multiplicity="1" />
-          <End Type="CloudDBModel.tblCustomer" Role="tblCustomer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblCompany">
-              <PropertyRef Name="CompanyID" />
-            </Principal>
-            <Dependent Role="tblCustomer">
-              <PropertyRef Name="CompanyID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblCustomerInvoice_tblCompany">
-          <End Type="CloudDBModel.tblCompany" Role="tblCompany" Multiplicity="1" />
-          <End Type="CloudDBModel.tblCustomerInvoice" Role="tblCustomerInvoice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblCompany">
-              <PropertyRef Name="CompanyID" />
-            </Principal>
-            <Dependent Role="tblCustomerInvoice">
-              <PropertyRef Name="CompanyID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblCustomerPayment_tblCompany">
-          <End Type="CloudDBModel.tblCompany" Role="tblCompany" Multiplicity="1" />
-          <End Type="CloudDBModel.tblCustomerPayment" Role="tblCustomerPayment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblCompany">
-              <PropertyRef Name="CompanyID" />
-            </Principal>
-            <Dependent Role="tblCustomerPayment">
-              <PropertyRef Name="CompanyID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblEmployee_tblCompany">
-          <End Type="CloudDBModel.tblCompany" Role="tblCompany" Multiplicity="1" />
-          <End Type="CloudDBModel.tblEmployee" Role="tblEmployee" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblCompany">
-              <PropertyRef Name="CompanyID" />
-            </Principal>
-            <Dependent Role="tblEmployee">
-              <PropertyRef Name="CompanyID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblPayroll_tblCompany">
-          <End Type="CloudDBModel.tblCompany" Role="tblCompany" Multiplicity="1" />
-          <End Type="CloudDBModel.tblPayroll" Role="tblPayroll" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblCompany">
-              <PropertyRef Name="CompanyID" />
-            </Principal>
-            <Dependent Role="tblPayroll">
-              <PropertyRef Name="CompanyID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblStock_tblCompany">
-          <End Type="CloudDBModel.tblCompany" Role="tblCompany" Multiplicity="1" />
-          <End Type="CloudDBModel.tblStock" Role="tblStock" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblCompany">
-              <PropertyRef Name="CompanyID" />
-            </Principal>
-            <Dependent Role="tblStock">
-              <PropertyRef Name="CompanyID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblSupplier_tblCompany">
-          <End Type="CloudDBModel.tblCompany" Role="tblCompany" Multiplicity="1" />
-          <End Type="CloudDBModel.tblSupplier" Role="tblSupplier" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblCompany">
-              <PropertyRef Name="CompanyID" />
-            </Principal>
-            <Dependent Role="tblSupplier">
-              <PropertyRef Name="CompanyID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblSupplierInvoiceTable_tblCompany">
-          <End Type="CloudDBModel.tblCompany" Role="tblCompany" Multiplicity="1" />
-          <End Type="CloudDBModel.tblSupplierInvoice" Role="tblSupplierInvoice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblCompany">
-              <PropertyRef Name="CompanyID" />
-            </Principal>
-            <Dependent Role="tblSupplierInvoice">
-              <PropertyRef Name="CompanyID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2549,6 +2413,144 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="tblCompany">
+          <Key>
+            <PropertyRef Name="CompanyID" />
+          </Key>
+          <Property Name="CompanyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Logo" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tblAccountControl" Relationship="CloudDBModel.FK_tblAccountControl_tblCompany" FromRole="tblCompany" ToRole="tblAccountControl" />
+          <NavigationProperty Name="tblCategory" Relationship="CloudDBModel.FK_tblCategory_tblCompany" FromRole="tblCompany" ToRole="tblCategory" />
+          <NavigationProperty Name="tblCustomer" Relationship="CloudDBModel.FK_tblCustomer_tblCompany" FromRole="tblCompany" ToRole="tblCustomer" />
+          <NavigationProperty Name="tblCustomerInvoice" Relationship="CloudDBModel.FK_tblCustomerInvoice_tblCompany" FromRole="tblCompany" ToRole="tblCustomerInvoice" />
+          <NavigationProperty Name="tblCustomerPayment" Relationship="CloudDBModel.FK_tblCustomerPayment_tblCompany" FromRole="tblCompany" ToRole="tblCustomerPayment" />
+          <NavigationProperty Name="tblEmployee" Relationship="CloudDBModel.FK_tblEmployee_tblCompany" FromRole="tblCompany" ToRole="tblEmployee" />
+          <NavigationProperty Name="tblPayroll" Relationship="CloudDBModel.FK_tblPayroll_tblCompany" FromRole="tblCompany" ToRole="tblPayroll" />
+          <NavigationProperty Name="tblStock" Relationship="CloudDBModel.FK_tblStock_tblCompany" FromRole="tblCompany" ToRole="tblStock" />
+          <NavigationProperty Name="tblSupplier" Relationship="CloudDBModel.FK_tblSupplier_tblCompany" FromRole="tblCompany" ToRole="tblSupplier" />
+          <NavigationProperty Name="tblSupplierInvoice" Relationship="CloudDBModel.FK_tblSupplierInvoiceTable_tblCompany" FromRole="tblCompany" ToRole="tblSupplierInvoice" />
+        </EntityType>
+        <Association Name="FK_tblAccountControl_tblCompany">
+          <End Type="CloudDBModel.tblCompany" Role="tblCompany" Multiplicity="1" />
+          <End Type="CloudDBModel.tblAccountControl" Role="tblAccountControl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCompany">
+              <PropertyRef Name="CompanyID" />
+            </Principal>
+            <Dependent Role="tblAccountControl">
+              <PropertyRef Name="CompanyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblCategory_tblCompany">
+          <End Type="CloudDBModel.tblCompany" Role="tblCompany" Multiplicity="1" />
+          <End Type="CloudDBModel.tblCategory" Role="tblCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCompany">
+              <PropertyRef Name="CompanyID" />
+            </Principal>
+            <Dependent Role="tblCategory">
+              <PropertyRef Name="CompanyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblCustomer_tblCompany">
+          <End Type="CloudDBModel.tblCompany" Role="tblCompany" Multiplicity="1" />
+          <End Type="CloudDBModel.tblCustomer" Role="tblCustomer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCompany">
+              <PropertyRef Name="CompanyID" />
+            </Principal>
+            <Dependent Role="tblCustomer">
+              <PropertyRef Name="CompanyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblCustomerInvoice_tblCompany">
+          <End Type="CloudDBModel.tblCompany" Role="tblCompany" Multiplicity="1" />
+          <End Type="CloudDBModel.tblCustomerInvoice" Role="tblCustomerInvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCompany">
+              <PropertyRef Name="CompanyID" />
+            </Principal>
+            <Dependent Role="tblCustomerInvoice">
+              <PropertyRef Name="CompanyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblCustomerPayment_tblCompany">
+          <End Type="CloudDBModel.tblCompany" Role="tblCompany" Multiplicity="1" />
+          <End Type="CloudDBModel.tblCustomerPayment" Role="tblCustomerPayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCompany">
+              <PropertyRef Name="CompanyID" />
+            </Principal>
+            <Dependent Role="tblCustomerPayment">
+              <PropertyRef Name="CompanyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblEmployee_tblCompany">
+          <End Type="CloudDBModel.tblCompany" Role="tblCompany" Multiplicity="1" />
+          <End Type="CloudDBModel.tblEmployee" Role="tblEmployee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCompany">
+              <PropertyRef Name="CompanyID" />
+            </Principal>
+            <Dependent Role="tblEmployee">
+              <PropertyRef Name="CompanyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblPayroll_tblCompany">
+          <End Type="CloudDBModel.tblCompany" Role="tblCompany" Multiplicity="1" />
+          <End Type="CloudDBModel.tblPayroll" Role="tblPayroll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCompany">
+              <PropertyRef Name="CompanyID" />
+            </Principal>
+            <Dependent Role="tblPayroll">
+              <PropertyRef Name="CompanyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblStock_tblCompany">
+          <End Type="CloudDBModel.tblCompany" Role="tblCompany" Multiplicity="1" />
+          <End Type="CloudDBModel.tblStock" Role="tblStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCompany">
+              <PropertyRef Name="CompanyID" />
+            </Principal>
+            <Dependent Role="tblStock">
+              <PropertyRef Name="CompanyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblSupplier_tblCompany">
+          <End Type="CloudDBModel.tblCompany" Role="tblCompany" Multiplicity="1" />
+          <End Type="CloudDBModel.tblSupplier" Role="tblSupplier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCompany">
+              <PropertyRef Name="CompanyID" />
+            </Principal>
+            <Dependent Role="tblSupplier">
+              <PropertyRef Name="CompanyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblSupplierInvoiceTable_tblCompany">
+          <End Type="CloudDBModel.tblCompany" Role="tblCompany" Multiplicity="1" />
+          <End Type="CloudDBModel.tblSupplierInvoice" Role="tblSupplierInvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCompany">
+              <PropertyRef Name="CompanyID" />
+            </Principal>
+            <Dependent Role="tblSupplierInvoice">
+              <PropertyRef Name="CompanyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2621,14 +2623,6 @@
                 <ScalarProperty Name="BranchID" ColumnName="BranchID" />
                 <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
                 <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblCompany">
-            <EntityTypeMapping TypeName="CloudDBModel.tblCompany">
-              <MappingFragment StoreEntitySet="tblCompany">
-                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
-                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2853,6 +2847,15 @@
               <MappingFragment StoreEntitySet="tblUserType">
                 <ScalarProperty Name="UserType" ColumnName="UserType" />
                 <ScalarProperty Name="UserTypeID" ColumnName="UserTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblCompany">
+            <EntityTypeMapping TypeName="CloudDBModel.tblCompany">
+              <MappingFragment StoreEntitySet="tblCompany">
+                <ScalarProperty Name="Logo" ColumnName="Logo" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
