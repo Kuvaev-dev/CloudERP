@@ -39,7 +39,7 @@
                     {
                         @Html.AntiForgeryToken()
 
-                        @ViewBag.Message
+                        <p class="text-danger">@ViewBag.Message</p>
                         <div class="form-group">
                             <div class="input-group with-focus">
                                 <input class="form-control border-right-0" id="email" name="email" type="email" placeholder="Enter email" autocomplete="off" required>

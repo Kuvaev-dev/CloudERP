@@ -33,10 +33,21 @@
                 <div class="navbar-header">
                     <a class="navbar-brand" href="#/">
                         <div class="brand-logo">
-                            <img class="img-fluid" src="~/Content/Template/img/logo.png" alt="App Logo">
+                            @{
+                                string logo = string.Empty;
+                                if (string.IsNullOrEmpty(Convert.ToString(Session["CLogo"])))
+                                {
+                                    logo = "~/Content/CompanyLogo/erp-logo.png";
+                                }
+                                else
+                                {
+                                    logo = Convert.ToString(Session["CLogo"]);
+                                }
+                            }
+                            <img class="img-fluid" src="@Url.Content(logo)" alt="App Logo" width="30" height="30">
                         </div>
                         <div class="brand-logo-collapsed">
-                            <img class="img-fluid" src="~/Content/Template/img/logo-single.png" alt="App Logo">
+                            <img class="img-fluid" src="@Url.Content(logo)" alt="App Logo" width="30" height="30">
                         </div>
                     </a>
                 </div>
@@ -180,14 +191,25 @@
                                     <!-- User picture-->
                                     <div class="user-block-picture">
                                         <div class="user-block-status">
-                                            <img class="img-thumbnail rounded-circle" src="~/Content/Template/img/user/02.jpg" alt="Avatar" width="60" height="60">
+                                            @{
+                                                string userImg = string.Empty;
+                                                if (string.IsNullOrEmpty(Convert.ToString(Session["EPhoto"])))
+                                                {
+                                                    userImg = "~/Content/Template/img/user-default-img.png";
+                                                }
+                                                else
+                                                {
+                                                    userImg = Convert.ToString(Session["EPhoto"]);
+                                                }
+                                            }
+                                            <img class="img-thumbnail rounded-circle" src="@Url.Content(userImg)" alt="Avatar" width="60" height="60">
                                             <div class="circle bg-success circle-lg"></div>
                                         </div>
                                     </div>
                                     <!-- Name and Job-->
                                     <div class="user-block-info">
-                                        <span class="user-block-name">Hello, Mike</span>
-                                        <span class="user-block-role">Designer</span>
+                                        <span class="user-block-name">Hello, @Session["UserName"]</span>
+                                        <span class="user-block-role">@Session["Designation"]</span>
                                     </div>
                                 </div>
                             </div>
