@@ -13,6 +13,11 @@ namespace CloudERP.Controllers
 
         public ActionResult Index()
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login");
+            }
+
             return View();
         }
 
@@ -110,6 +115,25 @@ namespace CloudERP.Controllers
                 Session["BranchID"] = string.Empty;
                 Session["CompanyID"] = string.Empty;
             }
+
+            return View("Login");
+        }
+
+        public ActionResult Logout()
+        {
+            Session["UserTypeID"] = string.Empty;
+            Session["FullName"] = string.Empty;
+            Session["Email"] = string.Empty;
+            Session["ContactNo"] = string.Empty;
+            Session["UserName"] = string.Empty;
+            Session["Password"] = string.Empty;
+            Session["IsActive"] = string.Empty;
+            Session["EmployeeID"] = string.Empty;
+            Session["EName"] = string.Empty;
+            Session["EPhoto"] = string.Empty;
+            Session["Designation"] = string.Empty;
+            Session["BranchID"] = string.Empty;
+            Session["CompanyID"] = string.Empty;
 
             return View("Login");
         }

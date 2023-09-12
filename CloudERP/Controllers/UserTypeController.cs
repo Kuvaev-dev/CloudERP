@@ -17,12 +17,21 @@ namespace CloudERP.Controllers
         // GET: UserType
         public ActionResult Index()
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login");
+            }
+
             return View(db.tblUserType.ToList());
         }
 
         // GET: UserType/Details/5
         public ActionResult Details(int? id)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -38,6 +47,11 @@ namespace CloudERP.Controllers
         // GET: UserType/Create
         public ActionResult Create()
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login");
+            }
+
             return View();
         }
 
@@ -46,8 +60,12 @@ namespace CloudERP.Controllers
         // Дополнительные сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "UserTypeID,UserType")] tblUserType tblUserType)
+        public ActionResult Create(tblUserType tblUserType)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login");
+            }
             if (ModelState.IsValid)
             {
                 db.tblUserType.Add(tblUserType);
@@ -61,6 +79,10 @@ namespace CloudERP.Controllers
         // GET: UserType/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -78,8 +100,12 @@ namespace CloudERP.Controllers
         // Дополнительные сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "UserTypeID,UserType")] tblUserType tblUserType)
+        public ActionResult Edit(tblUserType tblUserType)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login");
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(tblUserType).State = EntityState.Modified;
@@ -92,6 +118,10 @@ namespace CloudERP.Controllers
         // GET: UserType/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -109,6 +139,10 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login");
+            }
             tblUserType tblUserType = db.tblUserType.Find(id);
             db.tblUserType.Remove(tblUserType);
             db.SaveChanges();

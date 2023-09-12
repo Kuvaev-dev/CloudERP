@@ -74,7 +74,7 @@
                     <!-- END User avatar toggle-->
                     <!-- START lock screen-->
                     <li class="nav-item d-none d-md-block">
-                        <a class="nav-link" href="lock.html" title="Lock screen">
+                        <a class="nav-link" href="@Url.Action("Logout", "Home")" title="Lock screen">
                             <em class="icon-lock"></em>
                         </a>
                     </li>
@@ -265,6 +265,18 @@
                                 </li>
                             </ul>
                         </li>
+
+                        @*Configuration*@
+                        <li class="nav-heading ">
+                            <span data-localize="sidebar.heading.COMPONENTS">User Setting</span>
+                        </li>
+                        <li class="">
+                            <a href="@Url.Action("Index", "UserType")" title="User Types">
+                                <em class="icon-chemistry"></em>
+                                <span data-localize="sidebar.nav.element.ELEMENTS">User Types</span>
+                            </a>
+                        </li>
+
                         <li class="nav-heading ">
                             <span data-localize="sidebar.heading.COMPONENTS">Components</span>
                         </li>
