@@ -4,31 +4,34 @@
     ViewBag.Title = "Company Details";
 }
 
-<h2>Company</h2>
-
-<div>
-    <h4>Details</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            Company Title
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-        <dt>
-            Logo
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Logo)
-        </dd>
-
-    </dl>
+<div class="card col-md-12" style="height: 50vh; padding: 3vh;">
+    <div class="row row-flush">
+        <div class="col-5 d-flex align-items-center justify-content-center">
+            <img src="@Url.Content(Model.Logo)" style="height: 43vh;"/>
+        </div>
+        <div class="col-7">
+            <div clss="p-3">
+                <div class="float-right">
+                    @Html.ActionLink("Edit Profile", "Edit", new { id = Model.CompanyID }, new { @class = "btn btn-primary btn-sm" })
+                </div>
+                <p>
+                    <span class="text-lg col-1">@Html.DisplayFor(model => model.Name)</span>
+                </p>
+                <p>
+                    <strong class="col-1">@Html.DisplayFor(model => model.Name)</strong>
+                </p>
+                <p class="col-11">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure 
+                    dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
+                    anim id est laborum.
+                </p>
+            </div>
+        </div>
+    </div>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.CompanyID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
