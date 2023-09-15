@@ -24,18 +24,14 @@
         <EntityTypeShape EntityType="CloudDBModel.tblSupplierInvoiceDetail" Width="1.5" PointX="15.75" PointY="22.125" />
         <EntityTypeShape EntityType="CloudDBModel.tblSupplierPayment" Width="1.5" PointX="13.5" PointY="21" />
         <EntityTypeShape EntityType="CloudDBModel.tblTransaction" Width="1.5" PointX="12.75" PointY="30.75" />
-        <EntityTypeShape EntityType="CloudDBModel.tblUser" Width="1.5" PointX="3" PointY="17.875" />
         <EntityTypeShape EntityType="CloudDBModel.tblUserType" Width="1.5" PointX="0.75" PointY="19.875" />
         <AssociationConnector Association="CloudDBModel.FK_tblAccountControl_tblBranch" />
-        <AssociationConnector Association="CloudDBModel.FK_tblAccountControl_tblUser" />
         <AssociationConnector Association="CloudDBModel.FK_tblAccountSubControl_tblAccountControl" />
         <AssociationConnector Association="CloudDBModel.FK_tblTransaction_tblAccountControl" />
-        <AssociationConnector Association="CloudDBModel.FK_tblAccountHead_tblUser" />
         <AssociationConnector Association="CloudDBModel.FK_tblAccountSubControl_tblAccountHead" />
         <AssociationConnector Association="CloudDBModel.FK_tblTransaction_tblAccountHead" />
         <AssociationConnector Association="CloudDBModel.FK_tblTransection_tblAccountHead" />
         <AssociationConnector Association="CloudDBModel.FK_tblAccountSubControl_tblBranch" />
-        <AssociationConnector Association="CloudDBModel.FK_tblAccountSubControl_tblUser" />
         <AssociationConnector Association="CloudDBModel.FK_tblTransection_tblAccountSubControl" />
         <AssociationConnector Association="CloudDBModel.FK_tblBranch_tblBranchType" />
         <AssociationConnector Association="CloudDBModel.FK_tblCategory_tblBranch" />
@@ -47,30 +43,18 @@
         <AssociationConnector Association="CloudDBModel.FK_tblStock_tblBranch" />
         <AssociationConnector Association="CloudDBModel.FK_tblSupplier_tblBranch" />
         <AssociationConnector Association="CloudDBModel.FK_tblSupplierInvoiceTable_tblBranch" />
-        <AssociationConnector Association="CloudDBModel.FK_tblCategory_tblUser" />
         <AssociationConnector Association="CloudDBModel.FK_tblStock_tblCategory" />
-        <AssociationConnector Association="CloudDBModel.FK_tblCustomer_tblUser" />
         <AssociationConnector Association="CloudDBModel.FK_tblCustomerInvoice_tblCustomer" />
-        <AssociationConnector Association="CloudDBModel.FK_tblCustomerInvoice_tblUser" />
         <AssociationConnector Association="CloudDBModel.FK_tblCustomerInvoiceDetail_tblCustomerInvoice" />
         <AssociationConnector Association="CloudDBModel.FK_tblCustomerPayment_tblCustomerInvoice" />
         <AssociationConnector Association="CloudDBModel.FK_tblCustomerInvoiceDetail_tblStock" />
-        <AssociationConnector Association="CloudDBModel.FK_tblCustomerPayment_tblUser" />
         <AssociationConnector Association="CloudDBModel.FK_tblPayroll_tblEmployee" />
-        <AssociationConnector Association="CloudDBModel.FK_tblFinancialYear_tblUser" />
         <AssociationConnector Association="CloudDBModel.FK_tblTransaction_tblFinancialYear" />
         <AssociationConnector Association="CloudDBModel.FK_tblTransection_tblFinancialYear" />
-        <AssociationConnector Association="CloudDBModel.FK_tblPayroll_tblUser" />
-        <AssociationConnector Association="CloudDBModel.FK_tblStock_tblUser" />
         <AssociationConnector Association="CloudDBModel.FK_tblSupplierInvoiceDetail_tblStock" />
-        <AssociationConnector Association="CloudDBModel.FK_tblSupplier_tblUser" />
         <AssociationConnector Association="CloudDBModel.FK_tblSupplierInvoiceTable_tblSupplier" />
         <AssociationConnector Association="CloudDBModel.FK_tblSupplierPayment_tblSupplier" />
-        <AssociationConnector Association="CloudDBModel.FK_tblSupplierInvoice_tblUser" />
         <AssociationConnector Association="CloudDBModel.FK_tblSupplierInvoiceDetail_tblSupplierInvoice" />
-        <AssociationConnector Association="CloudDBModel.FK_tblSupplierPayment_tblUser" />
-        <AssociationConnector Association="CloudDBModel.FK_tblTransaction_tblUser" />
-        <AssociationConnector Association="CloudDBModel.FK_tblUser_tblUserType" />
         <EntityTypeShape EntityType="CloudDBModel.tblCompany" Width="1.5" PointX="0.75" PointY="23" />
         <AssociationConnector Association="CloudDBModel.FK_tblAccountControl_tblCompany" />
         <AssociationConnector Association="CloudDBModel.FK_tblCategory_tblCompany" />
@@ -82,6 +66,22 @@
         <AssociationConnector Association="CloudDBModel.FK_tblStock_tblCompany" />
         <AssociationConnector Association="CloudDBModel.FK_tblSupplier_tblCompany" />
         <AssociationConnector Association="CloudDBModel.FK_tblSupplierInvoiceTable_tblCompany" />
+        <EntityTypeShape EntityType="CloudDBModel.tblUser" Width="1.5" PointX="3" PointY="18" />
+        <AssociationConnector Association="CloudDBModel.FK_tblAccountControl_tblUser" />
+        <AssociationConnector Association="CloudDBModel.FK_tblAccountHead_tblUser" />
+        <AssociationConnector Association="CloudDBModel.FK_tblAccountSubControl_tblUser" />
+        <AssociationConnector Association="CloudDBModel.FK_tblCategory_tblUser" />
+        <AssociationConnector Association="CloudDBModel.FK_tblCustomer_tblUser" />
+        <AssociationConnector Association="CloudDBModel.FK_tblCustomerInvoice_tblUser" />
+        <AssociationConnector Association="CloudDBModel.FK_tblCustomerPayment_tblUser" />
+        <AssociationConnector Association="CloudDBModel.FK_tblFinancialYear_tblUser" />
+        <AssociationConnector Association="CloudDBModel.FK_tblPayroll_tblUser" />
+        <AssociationConnector Association="CloudDBModel.FK_tblStock_tblUser" />
+        <AssociationConnector Association="CloudDBModel.FK_tblSupplier_tblUser" />
+        <AssociationConnector Association="CloudDBModel.FK_tblSupplierInvoice_tblUser" />
+        <AssociationConnector Association="CloudDBModel.FK_tblSupplierPayment_tblUser" />
+        <AssociationConnector Association="CloudDBModel.FK_tblTransaction_tblUser" />
+        <AssociationConnector Association="CloudDBModel.FK_tblUser_tblUserType" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

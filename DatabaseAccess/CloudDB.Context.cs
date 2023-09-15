@@ -44,8 +44,8 @@ namespace DatabaseAccess
         public virtual DbSet<tblSupplierInvoiceDetail> tblSupplierInvoiceDetail { get; set; }
         public virtual DbSet<tblSupplierPayment> tblSupplierPayment { get; set; }
         public virtual DbSet<tblTransaction> tblTransaction { get; set; }
-        public virtual DbSet<tblUser> tblUser { get; set; }
         public virtual DbSet<tblUserType> tblUserType { get; set; }
         public virtual DbSet<tblCompany> tblCompany { get; set; }
+        public virtual DbSet<tblUser> tblUser { get; set; }
     }
 }

@@ -125,6 +125,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
+    <Compile Include="Controllers\CompanyRegistrationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UserTypeController.cs" />
@@ -132,6 +133,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\FileHelper.cs" />
+    <Compile Include="Models\CompanyRegistrationMV.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -337,11 +339,11 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Content\Template\server\datatable.json" />
-    <Content Include="Content\Template\server\documentation\readme.md" />
-    <Content Include="Content\Template\server\i18n\site-en.json" />
-    <Content Include="Content\Template\server\i18n\site-es.json" />
-    <Content Include="Content\Template\server\xeditable-groups.json" />
+    <Content Include="Content\server\datatable.json" />
+    <Content Include="Content\server\documentation\readme.md" />
+    <Content Include="Content\server\i18n\site-en.json" />
+    <Content Include="Content\server\i18n\site-es.json" />
+    <Content Include="Content\server\xeditable-groups.json" />
     <Content Include="Content\Template\vendor\font-awesome\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\Template\vendor\font-awesome\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\Template\vendor\font-awesome\fonts\fontawesome-webfont.woff" />
@@ -397,10 +399,15 @@
     <Content Include="Views\Company\Details.cshtml" />
     <Content Include="Views\Company\Edit.cshtml" />
     <Content Include="Views\Company\Index.cshtml" />
+    <Content Include="Views\CompanyRegistration\RegistrationForm.cshtml" />
+    <Content Include="Views\CompanyRegistration\server\datatable.json" />
+    <Content Include="Views\CompanyRegistration\server\documentation\readme.md" />
+    <Content Include="Views\CompanyRegistration\server\i18n\site-en.json" />
+    <Content Include="Views\CompanyRegistration\server\i18n\site-es.json" />
+    <Content Include="Views\CompanyRegistration\server\xeditable-groups.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
