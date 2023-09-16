@@ -14,6 +14,10 @@ namespace CloudERP.Controllers
         // GET: CompanyRegistration
         public ActionResult RegistrationForm()
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
             return View();
         }
 
@@ -24,6 +28,11 @@ namespace CloudERP.Controllers
                                              string EAddress, string CName, string BranchName,
                                              string BranchContact, string BranchAddress)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
             try
             {
                 if (!string.IsNullOrEmpty(UserName) && !string.IsNullOrEmpty(Password) &&
@@ -93,7 +102,7 @@ namespace CloudERP.Controllers
                     return View("RegistrationForm");
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ViewBag.Message = "Please Contact to Administrator!";
                 return View();
