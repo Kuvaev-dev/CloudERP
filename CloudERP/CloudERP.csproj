@@ -125,8 +125,10 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BranchController.cs" />
+    <Compile Include="Controllers\BranchEmployeeController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\CompanyRegistrationController.cs" />
+    <Compile Include="Controllers\HeadEmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UserTypeController.cs" />
@@ -411,9 +413,15 @@
     <Content Include="Views\Branch\Details.cshtml" />
     <Content Include="Views\Branch\Edit.cshtml" />
     <Content Include="Views\Branch\Index.cshtml" />
+    <Content Include="Views\BranchEmployee\Employee.cshtml" />
+    <Content Include="Views\BranchEmployee\EmployeeRegistration.cshtml" />
+    <Content Include="Views\BranchEmployee\EmployeeUpdation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\EmployeePhoto\" />
+    <Folder Include="Views\EmployeeRegistration\" />
+    <Folder Include="Views\HeadEmployee\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
