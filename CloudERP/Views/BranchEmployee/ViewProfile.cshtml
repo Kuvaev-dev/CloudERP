@@ -1,0 +1,98 @@
+﻿@model DatabaseAccess.tblEmployee
+
+@{
+    ViewBag.Title = "Profile";
+}
+
+<h2>Employee Profile</h2>
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            Employee Name
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            Contact №
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContactNo)
+        </dd>
+
+        <dt>
+            Photo
+        </dt>
+
+        <dd>
+            @if (!string.IsNullOrEmpty(Model.Photo))
+            {
+                <img src="@Url.Content(Model.Photo)" alt="image" style="width:50px;height:50px;max-width:100%;height:auto;" />
+            }
+        </dd>
+
+        <dt>
+            Email
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            Address
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+
+        <dt>
+            CNIC
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CNIC)
+        </dd>
+
+        <dt>
+            Designation
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Designation)
+        </dd>
+
+        <dt>
+            Description
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            Basic Salary
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MonthlySalary)
+        </dd>
+
+        <dt>
+            Branch
+        </dt>
+
+        <dt>
+            @Html.DisplayFor(model => model.tblBranch.BranchName)
+        </dt>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit Profile", "EmployeeUpdation", new { id = Model.EmployeeID }, new { @class="btn btn-primary" })
+    @Html.ActionLink("Back", "Index", null, new { @class="btn btn-default" })
+</p>

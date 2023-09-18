@@ -140,5 +140,32 @@ namespace CloudERP.Controllers
 
             return View(employee);
         }
+
+        public ActionResult ViewProfile(int? id)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+                if (id == null)
+                {
+                    return RedirectToAction("EP500", "EP");
+                }
+                int companyID = 0;
+                companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
+                var employee = db.tblEmployee.Where(c => c.CompanyID == companyID && c.EmployeeID == id).FirstOrDefault();
+                if (employee == null)
+                {
+                    return RedirectToAction("EP404", "EP");
+                }
+                return View(employee);
+            }
+            catch
+            {
+                return RedirectToAction("EP500", "EP");
+            }
+        }
     }
 }

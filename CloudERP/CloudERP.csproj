@@ -128,9 +128,11 @@
     <Compile Include="Controllers\BranchEmployeeController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\CompanyRegistrationController.cs" />
+    <Compile Include="Controllers\EPController.cs" />
     <Compile Include="Controllers\HeadEmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\UserSettingController.cs" />
     <Compile Include="Controllers\UserTypeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -416,6 +418,12 @@
     <Content Include="Views\BranchEmployee\Employee.cshtml" />
     <Content Include="Views\BranchEmployee\EmployeeRegistration.cshtml" />
     <Content Include="Views\BranchEmployee\EmployeeUpdation.cshtml" />
+    <Content Include="Views\BranchEmployee\ViewProfile.cshtml" />
+    <Content Include="Views\EP\EP404.cshtml" />
+    <Content Include="Views\EP\EP500.cshtml" />
+    <Content Include="Views\EP\EP600.cshtml" />
+    <Content Include="Views\UserSetting\CreateUser.cshtml" />
+    <Content Include="Views\UserSetting\UpdateUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -32,9 +32,6 @@
                             Designation
                         </th>
                         <th>
-                            User
-                        </th>
-                        <th>
                             Actions
                         </th>
                     </tr>
@@ -61,13 +58,18 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.Designation)
                             </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.UserID)
-                            </td>
                             <td class="btn-group">
                                 @Html.ActionLink("Update", "EmployeeUpdation", new { id = item.EmployeeID }, new { @class = "btn btn-primary" })
-                                @Html.ActionLink("Details", "Details", new { id = item.EmployeeID }, new { @class = "btn btn-info" })
-                                @Html.ActionLink("Create User", "CreateUser", new { id = item.EmployeeID }, new { @class = "btn btn-success" })
+                                @Html.ActionLink("Profile", "ViewProfile", new { id = item.EmployeeID }, new { @class = "btn btn-info" })
+
+                                @if (item.UserID == null)
+                                {
+                                    @Html.ActionLink("Create User", "CreateUser", "UserSetting", new { employeeID = item.EmployeeID }, new { @class = "btn btn-success" })
+                                }
+                                else
+                                {
+                                    @Html.ActionLink("Update User", "UpdateUser", "UserSetting", new { userID = item.UserID }, new { @class = "btn btn-success" })
+                                }
                             </td>
                         </tr>
                     }
