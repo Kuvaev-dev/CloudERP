@@ -127,6 +127,7 @@
     <Compile Include="Controllers\BranchController.cs" />
     <Compile Include="Controllers\BranchEmployeeController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
+    <Compile Include="Controllers\CompanyEmployeeController.cs" />
     <Compile Include="Controllers\CompanyRegistrationController.cs" />
     <Compile Include="Controllers\EPController.cs" />
     <Compile Include="Controllers\HeadEmployeeController.cs" />
@@ -424,6 +425,8 @@
     <Content Include="Views\EP\EP600.cshtml" />
     <Content Include="Views\UserSetting\CreateUser.cshtml" />
     <Content Include="Views\UserSetting\UpdateUser.cshtml" />
+    <Content Include="Views\CompanyEmployee\Employees.cshtml" />
+    <Content Include="Views\CompanyEmployee\EmployeeRegistration.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
