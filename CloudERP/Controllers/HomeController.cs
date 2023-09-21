@@ -95,6 +95,14 @@ namespace CloudERP.Controllers
                 Session["CName"] = company.Name;
                 Session["CLogo"] = company.Logo;
 
+                var branchType = db.tblBranch.Where(b => b.BranchID == employeeDetails.BranchID).FirstOrDefault();
+                if (branchType == null)
+                {
+                    ViewBag.Message = "Please contact to Administrator";
+                    return View("Login");
+                }
+                Session["BranchTypeID"] = branchType.BranchTypeID;
+
                 return RedirectToAction("Index");
             }
             else
