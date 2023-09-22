@@ -11,7 +11,8 @@ namespace DatabaseAccess
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class tblStock
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,18 +23,30 @@ namespace DatabaseAccess
         }
     
         public int ProductID { get; set; }
+        [Required(ErrorMessage = "*Required!")]
         public int CategoryID { get; set; }
         public int CompanyID { get; set; }
         public int BranchID { get; set; }
+        [Required(ErrorMessage = "*Required!")]
         public string ProductName { get; set; }
+        [Required(ErrorMessage = "*Required!")]
         public int Quantity { get; set; }
+        [Required(ErrorMessage = "*Required!")]
         public double SaleUnitPrice { get; set; }
+        [Required(ErrorMessage = "*Required!")]
         public double CurrentPurchaseUnitPrice { get; set; }
+        [Required(ErrorMessage = "*Required!")]
+        [DataType(DataType.Date)]
         public System.DateTime ExpiryDate { get; set; }
+        [Required(ErrorMessage = "*Required!")]
+        [DataType(DataType.Date)]
         public System.DateTime Manufacture { get; set; }
+        [Required(ErrorMessage = "*Required!")]
         public int StockTreshHoldQuantity { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
         public int UserID { get; set; }
+        [Required(ErrorMessage = "*Required!")]
         public Nullable<bool> IsActive { get; set; }
     
         public virtual tblBranch tblBranch { get; set; }
