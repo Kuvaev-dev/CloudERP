@@ -1,0 +1,50 @@
+﻿@model IEnumerable<DatabaseAccess.tblAccountControl>
+@using DatabaseAccess
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("New Account Control", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Account Head
+        </th>
+        <th>
+            Account Control
+        </th>
+        <th>
+            User
+        </th>
+        <th>
+            Actions
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @{
+                var headID = item.AccountHeadID;
+                var headName = (new CloudDBEntities()).tblAccountHead.Find(item.AccountHeadID).AccountHeadName;
+                @Html.Display(headName);
+            }
+            </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AccountControlName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tblUser.FullName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.AccountControlID }, new { @class="btn btn-primary" })
+        </td>
+    </tr>
+}
+
+</table>

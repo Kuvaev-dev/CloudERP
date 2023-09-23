@@ -1,0 +1,63 @@
+﻿@model IEnumerable<DatabaseAccess.tblAccountSubControl>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CompanyID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AccountSubControlName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tblAccountControl.AccountControlName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tblAccountHead.AccountHeadName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tblBranch.BranchName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tblUser.FullName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CompanyID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AccountSubControlName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tblAccountControl.AccountControlName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tblAccountHead.AccountHeadName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tblBranch.BranchName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tblUser.FullName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.AccountSubControlID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.AccountSubControlID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.AccountSubControlID })
+        </td>
+    </tr>
+}
+
+</table>

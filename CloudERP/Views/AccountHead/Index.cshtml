@@ -1,0 +1,43 @@
+﻿@model IEnumerable<DatabaseAccess.tblAccountHead>
+
+@{
+    ViewBag.Title = "Account Head";
+}
+
+<p>
+    @Html.ActionLink("New Account Head", "Create", null, new { @class="btn btn-success" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Account Head
+        </th>
+        <th>
+            Code
+        </th>
+        <th>
+            User
+        </th>
+        <th>
+            Actions
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.AccountHeadName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Code)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tblUser.FullName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.AccountHeadID }, new { @class="btn btn-primary" })
+        </td>
+    </tr>
+}
+
+</table>
