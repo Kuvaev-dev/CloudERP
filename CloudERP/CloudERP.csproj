@@ -144,6 +144,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\FileHelper.cs" />
+    <Compile Include="Models\AccountControlMV.cs" />
     <Compile Include="Models\CompanyRegistrationMV.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -453,8 +454,6 @@
     <Content Include="Views\AccountControl\Edit.cshtml" />
     <Content Include="Views\AccountControl\Index.cshtml" />
     <Content Include="Views\AccountSubControl\Create.cshtml" />
-    <Content Include="Views\AccountSubControl\Delete.cshtml" />
-    <Content Include="Views\AccountSubControl\Details.cshtml" />
     <Content Include="Views\AccountSubControl\Edit.cshtml" />
     <Content Include="Views\AccountSubControl\Index.cshtml" />
   </ItemGroup>

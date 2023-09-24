@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using CloudERP.Models;
 using DatabaseAccess;
 
 namespace CloudERP.Controllers
@@ -13,10 +14,12 @@ namespace CloudERP.Controllers
     public class AccountControlController : Controller
     {
         private CloudDBEntities db = new CloudDBEntities();
+        private List<AccountControlMV> accountControl = new List<AccountControlMV>();
 
         // GET: AccountControl
         public ActionResult Index()
         {
+            accountControl.Clear();
             if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
@@ -28,22 +31,23 @@ namespace CloudERP.Controllers
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
             var tblAccountControl = db.tblAccountControl.Include(t => t.tblBranch).Include(t => t.tblCompany).Include(t => t.tblUser).Where(a => a.CompanyID == companyID && a.BranchID == branchID);
-            return View(tblAccountControl.ToList());
-        }
-
-        // GET: AccountControl/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
+            foreach (var item in tblAccountControl)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                accountControl.Add(new AccountControlMV
+                {
+                    AccountControlID = item.AccountControlID,
+                    AccountControlName = item.AccountControlName,
+                    AccountHeadID = item.AccountHeadID,
+                    AccountHeadName = db.tblAccountHead.Find(item.AccountHeadID).AccountHeadName,
+                    BranchID = item.BranchID,
+                    BranchName = item.tblBranch.BranchName,
+                    CompanyID = item.CompanyID,
+                    Name = item.tblCompany.Name,
+                    UserID = item.UserID,
+                    UserName = item.tblUser.UserName
+                });
             }
-            tblAccountControl tblAccountControl = db.tblAccountControl.Find(id);
-            if (tblAccountControl == null)
-            {
-                return HttpNotFound();
-            }
-            return View(tblAccountControl);
+            return View(accountControl.ToList());
         }
 
         // GET: AccountControl/Create
@@ -60,6 +64,7 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(tblAccountControl tblAccountControl)
         {
+            accountControl.Clear();
             if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
@@ -142,32 +147,6 @@ namespace CloudERP.Controllers
 
             ViewBag.AccountHeadID = new SelectList(db.tblAccountHead, "AccountHeadID", "AccountHeadName", tblAccountControl.AccountHeadID);
             return View(tblAccountControl);
-        }
-
-        // GET: AccountControl/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            tblAccountControl tblAccountControl = db.tblAccountControl.Find(id);
-            if (tblAccountControl == null)
-            {
-                return HttpNotFound();
-            }
-            return View(tblAccountControl);
-        }
-
-        // POST: AccountControl/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            tblAccountControl tblAccountControl = db.tblAccountControl.Find(id);
-            db.tblAccountControl.Remove(tblAccountControl);
-            db.SaveChanges();
-            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
