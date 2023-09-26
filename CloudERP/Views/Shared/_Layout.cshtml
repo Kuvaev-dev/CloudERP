@@ -388,6 +388,33 @@
                                             </a>
                                         </li>
                                     }
+                                    <li class="nav-heading ">
+                                        <span data-localize="sidebar.heading.COMPONENTS">Financial Year Setting</span>
+                                    </li>
+                                    if (userType == 1)
+                                    {
+                                        <li class="">
+                                            <a href="@Url.Action("Index", "FinancialYear")" title="Financial Year">
+                                                <em class="icon-chemistry"></em>
+                                                <span data-localize="sidebar.nav.element.ELEMENTS">Financial Year</span>
+                                            </a>
+                                        </li>
+                                        <li class="">
+                                            <a href="@Url.Action("Create", "FinancialYear")" title="New Financial Year">
+                                                <em class="icon-chemistry"></em>
+                                                <span data-localize="sidebar.nav.element.ELEMENTS">New Financial Year</span>
+                                            </a>
+                                        </li>
+                                    }
+                                    if (userType == 2)
+                                    {
+                                        <li class="">
+                                            <a href="@Url.Action("Index", "FinancialYearView")" title="Financial Years">
+                                                <em class="icon-chemistry"></em>
+                                                <span data-localize="sidebar.nav.element.ELEMENTS">Financial Years</span>
+                                            </a>
+                                        </li>
+                                    }
                                 }
                             }
                         }

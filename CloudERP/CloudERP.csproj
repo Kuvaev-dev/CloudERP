@@ -134,6 +134,8 @@
     <Compile Include="Controllers\CompanyEmployeeController.cs" />
     <Compile Include="Controllers\CompanyRegistrationController.cs" />
     <Compile Include="Controllers\EPController.cs" />
+    <Compile Include="Controllers\FinancialYearController.cs" />
+    <Compile Include="Controllers\FinancialYearViewController.cs" />
     <Compile Include="Controllers\HeadEmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\StockController.cs" />
@@ -456,6 +458,12 @@
     <Content Include="Views\AccountSubControl\Create.cshtml" />
     <Content Include="Views\AccountSubControl\Edit.cshtml" />
     <Content Include="Views\AccountSubControl\Index.cshtml" />
+    <Content Include="Views\FinancialYear\Create.cshtml" />
+    <Content Include="Views\FinancialYear\Delete.cshtml" />
+    <Content Include="Views\FinancialYear\Details.cshtml" />
+    <Content Include="Views\FinancialYear\Edit.cshtml" />
+    <Content Include="Views\FinancialYear\Index.cshtml" />
+    <Content Include="Views\FinancialYearView\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
