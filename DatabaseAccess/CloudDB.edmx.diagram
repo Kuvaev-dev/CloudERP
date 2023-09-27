@@ -5,83 +5,83 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="41873b2bc2ab4bab80c976f711b24650" Name="Diagram1">
-        <EntityTypeShape EntityType="CloudDBModel.tblAccountControl" Width="1.5" PointX="8.25" PointY="19.125" />
-        <EntityTypeShape EntityType="CloudDBModel.tblAccountHead" Width="1.5" PointX="5.25" PointY="41.5" />
-        <EntityTypeShape EntityType="CloudDBModel.tblAccountSubControl" Width="1.5" PointX="10.5" PointY="29.5" />
-        <EntityTypeShape EntityType="CloudDBModel.tblBranch" Width="1.5" PointX="3" PointY="8.875" />
-        <EntityTypeShape EntityType="CloudDBModel.tblBranchType" Width="1.5" PointX="0.75" PointY="10.5" />
-        <EntityTypeShape EntityType="CloudDBModel.tblCategory" Width="1.5" PointX="8.25" PointY="15.375" />
-        <EntityTypeShape EntityType="CloudDBModel.tblCustomer" Width="1.5" PointX="5.25" PointY="18.875" />
-        <EntityTypeShape EntityType="CloudDBModel.tblCustomerInvoice" Width="1.5" PointX="10.5" PointY="22.625" />
-        <EntityTypeShape EntityType="CloudDBModel.tblCustomerInvoiceDetail" Width="1.5" PointX="12.75" PointY="17.625" />
-        <EntityTypeShape EntityType="CloudDBModel.tblCustomerPayment" Width="1.5" PointX="15.75" PointY="17.5" />
-        <EntityTypeShape EntityType="CloudDBModel.tblFinancialYear" Width="1.5" PointX="5.25" PointY="25.625" />
-        <EntityTypeShape EntityType="CloudDBModel.tblPayroll" Width="1.5" PointX="5.25" PointY="13.875" />
-        <EntityTypeShape EntityType="CloudDBModel.tblStock" Width="1.5" PointX="10.5" PointY="17" />
-        <EntityTypeShape EntityType="CloudDBModel.tblSupplier" Width="1.5" PointX="8.25" PointY="23.875" />
-        <EntityTypeShape EntityType="CloudDBModel.tblSupplierInvoice" Width="1.5" PointX="13.5" PointY="25.875" />
-        <EntityTypeShape EntityType="CloudDBModel.tblSupplierInvoiceDetail" Width="1.5" PointX="15.75" PointY="22.125" />
-        <EntityTypeShape EntityType="CloudDBModel.tblSupplierPayment" Width="1.5" PointX="13.5" PointY="21" />
-        <EntityTypeShape EntityType="CloudDBModel.tblTransaction" Width="1.5" PointX="12.75" PointY="30.75" />
+        <EntityTypeShape EntityType="CloudDBModel.tblAccountControl" Width="1.5" PointX="5.25" PointY="14.125" />
+        <EntityTypeShape EntityType="CloudDBModel.tblAccountHead" Width="1.5" PointX="5.25" PointY="38" />
+        <EntityTypeShape EntityType="CloudDBModel.tblAccountSubControl" Width="1.5" PointX="7.5" PointY="27.875" />
+        <EntityTypeShape EntityType="CloudDBModel.tblBranch" Width="1.5" PointX="3" PointY="24.5" />
+        <EntityTypeShape EntityType="CloudDBModel.tblBranchType" Width="1.5" PointX="0.75" PointY="26" />
+        <EntityTypeShape EntityType="CloudDBModel.tblCategory" Width="1.5" PointX="8.25" PointY="19.375" />
+        <EntityTypeShape EntityType="CloudDBModel.tblCompany" Width="1.5" PointX="3" PointY="11.25" />
+        <EntityTypeShape EntityType="CloudDBModel.tblCustomer" Width="1.5" PointX="8.25" PointY="14.875" />
+        <EntityTypeShape EntityType="CloudDBModel.tblCustomerInvoice" Width="1.5" PointX="10.5" PointY="17.125" />
+        <EntityTypeShape EntityType="CloudDBModel.tblCustomerInvoiceDetail" Width="1.5" PointX="18.75" PointY="19" />
+        <EntityTypeShape EntityType="CloudDBModel.tblCustomerPayment" Width="1.5" PointX="15.75" PointY="18.375" />
+        <EntityTypeShape EntityType="CloudDBModel.tblEmployee" Width="1.5" PointX="6" PointY="32.625" />
+        <EntityTypeShape EntityType="CloudDBModel.tblFinancialYear" Width="1.5" PointX="5.25" PointY="41.75" />
+        <EntityTypeShape EntityType="CloudDBModel.tblPayroll" Width="1.5" PointX="8.25" PointY="22.875" />
+        <EntityTypeShape EntityType="CloudDBModel.tblStock" Width="1.5" PointX="13.5" PointY="18.25" />
+        <EntityTypeShape EntityType="CloudDBModel.tblSupplier" Width="1.5" PointX="5.25" PointY="18.875" />
+        <EntityTypeShape EntityType="CloudDBModel.tblSupplierInvoice" Width="1.5" PointX="13.5" PointY="12.875" />
+        <EntityTypeShape EntityType="CloudDBModel.tblSupplierInvoiceDetail" Width="1.5" PointX="15.75" PointY="14.75" />
+        <EntityTypeShape EntityType="CloudDBModel.tblSupplierPayment" Width="1.5" PointX="10.5" PointY="22" />
+        <EntityTypeShape EntityType="CloudDBModel.tblTransaction" Width="1.5" PointX="9.75" PointY="27.875" />
+        <EntityTypeShape EntityType="CloudDBModel.tblUser" Width="1.5" PointX="3" PointY="18" />
         <EntityTypeShape EntityType="CloudDBModel.tblUserType" Width="1.5" PointX="0.75" PointY="19.875" />
         <AssociationConnector Association="CloudDBModel.FK_tblAccountControl_tblBranch" />
+        <AssociationConnector Association="CloudDBModel.FK_tblAccountControl_tblCompany" />
+        <AssociationConnector Association="CloudDBModel.FK_tblAccountControl_tblUser" />
         <AssociationConnector Association="CloudDBModel.FK_tblAccountSubControl_tblAccountControl" />
         <AssociationConnector Association="CloudDBModel.FK_tblTransaction_tblAccountControl" />
+        <AssociationConnector Association="CloudDBModel.FK_tblAccountHead_tblUser" />
         <AssociationConnector Association="CloudDBModel.FK_tblAccountSubControl_tblAccountHead" />
         <AssociationConnector Association="CloudDBModel.FK_tblTransaction_tblAccountHead" />
         <AssociationConnector Association="CloudDBModel.FK_tblTransection_tblAccountHead" />
         <AssociationConnector Association="CloudDBModel.FK_tblAccountSubControl_tblBranch" />
+        <AssociationConnector Association="CloudDBModel.FK_tblAccountSubControl_tblUser" />
         <AssociationConnector Association="CloudDBModel.FK_tblTransection_tblAccountSubControl" />
         <AssociationConnector Association="CloudDBModel.FK_tblBranch_tblBranchType" />
         <AssociationConnector Association="CloudDBModel.FK_tblCategory_tblBranch" />
         <AssociationConnector Association="CloudDBModel.FK_tblCustomer_tblBranch" />
         <AssociationConnector Association="CloudDBModel.FK_tblCustomerInvoice_tblBranch" />
         <AssociationConnector Association="CloudDBModel.FK_tblCustomerPayment_tblBranch" />
+        <AssociationConnector Association="CloudDBModel.FK_tblEmployee_tblBranch" />
         <AssociationConnector Association="CloudDBModel.FK_tblPayroll_tblBranch" />
         <AssociationConnector Association="CloudDBModel.FK_tblStock_tblBranch" />
         <AssociationConnector Association="CloudDBModel.FK_tblSupplier_tblBranch" />
         <AssociationConnector Association="CloudDBModel.FK_tblSupplierInvoiceTable_tblBranch" />
-        <AssociationConnector Association="CloudDBModel.FK_tblStock_tblCategory" />
-        <AssociationConnector Association="CloudDBModel.FK_tblCustomerInvoice_tblCustomer" />
-        <AssociationConnector Association="CloudDBModel.FK_tblCustomerInvoiceDetail_tblCustomerInvoice" />
-        <AssociationConnector Association="CloudDBModel.FK_tblCustomerPayment_tblCustomerInvoice" />
-        <AssociationConnector Association="CloudDBModel.FK_tblCustomerInvoiceDetail_tblStock" />
-        <AssociationConnector Association="CloudDBModel.FK_tblTransaction_tblFinancialYear" />
-        <AssociationConnector Association="CloudDBModel.FK_tblTransection_tblFinancialYear" />
-        <AssociationConnector Association="CloudDBModel.FK_tblSupplierInvoiceDetail_tblStock" />
-        <AssociationConnector Association="CloudDBModel.FK_tblSupplierInvoiceTable_tblSupplier" />
-        <AssociationConnector Association="CloudDBModel.FK_tblSupplierPayment_tblSupplier" />
-        <AssociationConnector Association="CloudDBModel.FK_tblSupplierInvoiceDetail_tblSupplierInvoice" />
-        <EntityTypeShape EntityType="CloudDBModel.tblCompany" Width="1.5" PointX="0.75" PointY="23" />
-        <AssociationConnector Association="CloudDBModel.FK_tblAccountControl_tblCompany" />
         <AssociationConnector Association="CloudDBModel.FK_tblCategory_tblCompany" />
+        <AssociationConnector Association="CloudDBModel.FK_tblCategory_tblUser" />
+        <AssociationConnector Association="CloudDBModel.FK_tblStock_tblCategory" />
         <AssociationConnector Association="CloudDBModel.FK_tblCustomer_tblCompany" />
         <AssociationConnector Association="CloudDBModel.FK_tblCustomerInvoice_tblCompany" />
         <AssociationConnector Association="CloudDBModel.FK_tblCustomerPayment_tblCompany" />
+        <AssociationConnector Association="CloudDBModel.FK_tblEmployee_tblCompany" />
         <AssociationConnector Association="CloudDBModel.FK_tblPayroll_tblCompany" />
         <AssociationConnector Association="CloudDBModel.FK_tblStock_tblCompany" />
         <AssociationConnector Association="CloudDBModel.FK_tblSupplier_tblCompany" />
         <AssociationConnector Association="CloudDBModel.FK_tblSupplierInvoiceTable_tblCompany" />
-        <EntityTypeShape EntityType="CloudDBModel.tblUser" Width="1.5" PointX="3" PointY="18" />
-        <AssociationConnector Association="CloudDBModel.FK_tblAccountControl_tblUser" />
-        <AssociationConnector Association="CloudDBModel.FK_tblAccountHead_tblUser" />
-        <AssociationConnector Association="CloudDBModel.FK_tblAccountSubControl_tblUser" />
-        <AssociationConnector Association="CloudDBModel.FK_tblCategory_tblUser" />
         <AssociationConnector Association="CloudDBModel.FK_tblCustomer_tblUser" />
+        <AssociationConnector Association="CloudDBModel.FK_tblCustomerInvoice_tblCustomer" />
         <AssociationConnector Association="CloudDBModel.FK_tblCustomerInvoice_tblUser" />
+        <AssociationConnector Association="CloudDBModel.FK_tblCustomerInvoiceDetail_tblCustomerInvoice" />
+        <AssociationConnector Association="CloudDBModel.FK_tblCustomerPayment_tblCustomerInvoice" />
+        <AssociationConnector Association="CloudDBModel.FK_tblCustomerInvoiceDetail_tblStock" />
         <AssociationConnector Association="CloudDBModel.FK_tblCustomerPayment_tblUser" />
+        <AssociationConnector Association="CloudDBModel.FK_tblPayroll_tblEmployee" />
         <AssociationConnector Association="CloudDBModel.FK_tblFinancialYear_tblUser" />
+        <AssociationConnector Association="CloudDBModel.FK_tblTransaction_tblFinancialYear" />
+        <AssociationConnector Association="CloudDBModel.FK_tblTransection_tblFinancialYear" />
         <AssociationConnector Association="CloudDBModel.FK_tblPayroll_tblUser" />
         <AssociationConnector Association="CloudDBModel.FK_tblStock_tblUser" />
+        <AssociationConnector Association="CloudDBModel.FK_tblSupplierInvoiceDetail_tblStock" />
         <AssociationConnector Association="CloudDBModel.FK_tblSupplier_tblUser" />
+        <AssociationConnector Association="CloudDBModel.FK_tblSupplierInvoiceTable_tblSupplier" />
+        <AssociationConnector Association="CloudDBModel.FK_tblSupplierPayment_tblSupplier" />
         <AssociationConnector Association="CloudDBModel.FK_tblSupplierInvoice_tblUser" />
+        <AssociationConnector Association="CloudDBModel.FK_tblSupplierInvoiceDetail_tblSupplierInvoice" />
         <AssociationConnector Association="CloudDBModel.FK_tblSupplierPayment_tblUser" />
         <AssociationConnector Association="CloudDBModel.FK_tblTransaction_tblUser" />
         <AssociationConnector Association="CloudDBModel.FK_tblUser_tblUserType" />
-        <EntityTypeShape EntityType="CloudDBModel.tblEmployee" Width="1.5" PointX="8.25" PointY="9.625" />
-        <AssociationConnector Association="CloudDBModel.FK_tblEmployee_tblBranch" />
-        <AssociationConnector Association="CloudDBModel.FK_tblEmployee_tblCompany" />
-        <AssociationConnector Association="CloudDBModel.FK_tblPayroll_tblEmployee" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

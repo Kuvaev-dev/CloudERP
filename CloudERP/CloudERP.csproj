@@ -133,6 +133,7 @@
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\CompanyEmployeeController.cs" />
     <Compile Include="Controllers\CompanyRegistrationController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\EPController.cs" />
     <Compile Include="Controllers\FinancialYearController.cs" />
     <Compile Include="Controllers\FinancialYearViewController.cs" />
@@ -147,6 +148,7 @@
     </Compile>
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Models\AccountControlMV.cs" />
+    <Compile Include="Models\BranchsCustomersMV.cs" />
     <Compile Include="Models\CompanyRegistrationMV.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -464,6 +466,13 @@
     <Content Include="Views\FinancialYear\Edit.cshtml" />
     <Content Include="Views\FinancialYear\Index.cshtml" />
     <Content Include="Views\FinancialYearView\Index.cshtml" />
+    <Content Include="Views\Customer\Create.cshtml" />
+    <Content Include="Views\Customer\Delete.cshtml" />
+    <Content Include="Views\Customer\Details.cshtml" />
+    <Content Include="Views\Customer\Edit.cshtml" />
+    <Content Include="Views\Customer\Index.cshtml" />
+    <Content Include="Views\Customer\AllCustomers.cshtml" />
+    <Content Include="Views\Customer\SubBranchCustomer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

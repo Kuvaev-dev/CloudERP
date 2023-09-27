@@ -388,11 +388,12 @@
                                             </a>
                                         </li>
                                     }
-                                    <li class="nav-heading ">
-                                        <span data-localize="sidebar.heading.COMPONENTS">Financial Year Setting</span>
-                                    </li>
+
                                     if (userType == 1)
                                     {
+                                        <li class="nav-heading ">
+                                            <span data-localize="sidebar.heading.COMPONENTS">Financial Year Setting</span>
+                                        </li>
                                         <li class="">
                                             <a href="@Url.Action("Index", "FinancialYear")" title="Financial Year">
                                                 <em class="icon-chemistry"></em>
@@ -408,10 +409,46 @@
                                     }
                                     if (userType == 2)
                                     {
+                                        <li class="nav-heading ">
+                                            <span data-localize="sidebar.heading.COMPONENTS">Financial Years</span>
+                                        </li>
                                         <li class="">
-                                            <a href="@Url.Action("Index", "FinancialYearView")" title="Financial Years">
+                                            <a href="@Url.Action("Index", "FinancialYearView")" title="All Financial Years">
                                                 <em class="icon-chemistry"></em>
-                                                <span data-localize="sidebar.nav.element.ELEMENTS">Financial Years</span>
+                                                <span data-localize="sidebar.nav.element.ELEMENTS">All Financial Years</span>
+                                            </a>
+                                        </li>
+                                    }
+                                    <li class="nav-heading ">
+                                        <span data-localize="sidebar.heading.COMPONENTS">Customer`s</span>
+                                    </li>
+                                    if (userType == 2)
+                                    {
+                                        <li class="">
+                                            <a href="@Url.Action("Create", "Customer")" title="New Customers">
+                                                <em class="icon-chemistry"></em>
+                                                <span data-localize="sidebar.nav.element.ELEMENTS">New Customers</span>
+                                            </a>
+                                        </li>
+                                        <li class="">
+                                            <a href="@Url.Action("Index", "Customer")" title="Branch Customers">
+                                                <em class="icon-chemistry"></em>
+                                                <span data-localize="sidebar.nav.element.ELEMENTS">Branch Customers</span>
+                                            </a>
+                                        </li>
+                                        <li class="">
+                                            <a href="@Url.Action("SubBranchCustomer", "Customer")" title="Sub Branch Customers">
+                                                <em class="icon-chemistry"></em>
+                                                <span data-localize="sidebar.nav.element.ELEMENTS">Sub Branch Customers</span>
+                                            </a>
+                                        </li>
+                                    }
+                                    if (userType == 1)
+                                    {
+                                        <li class="">
+                                            <a href="@Url.Action("AllCustomers", "Customer")" title="All Customers">
+                                                <em class="icon-chemistry"></em>
+                                                <span data-localize="sidebar.nav.element.ELEMENTS">All Customers</span>
                                             </a>
                                         </li>
                                     }

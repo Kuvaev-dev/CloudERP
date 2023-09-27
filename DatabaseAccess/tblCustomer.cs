@@ -11,7 +11,8 @@ namespace DatabaseAccess
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class tblCustomer
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,9 +22,13 @@ namespace DatabaseAccess
         }
     
         public int CustomerID { get; set; }
+        [Required(ErrorMessage = "*Required!")]
         public string Customername { get; set; }
-        public int CustomerContact { get; set; }
+        [Required(ErrorMessage = "*Required!")]
+        public string CustomerContact { get; set; }
+        [Required(ErrorMessage = "*Required!")]
         public string CustomerArea { get; set; }
+        [Required(ErrorMessage = "*Required!")]
         public string CustomerAddress { get; set; }
         public string Description { get; set; }
         public int BranchID { get; set; }
@@ -31,9 +36,9 @@ namespace DatabaseAccess
         public int UserID { get; set; }
     
         public virtual tblBranch tblBranch { get; set; }
+        public virtual tblCompany tblCompany { get; set; }
         public virtual tblUser tblUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblCustomerInvoice> tblCustomerInvoice { get; set; }
-        public virtual tblCompany tblCompany { get; set; }
     }
 }

@@ -31,10 +31,12 @@ namespace DatabaseAccess
         public virtual DbSet<tblBranch> tblBranch { get; set; }
         public virtual DbSet<tblBranchType> tblBranchType { get; set; }
         public virtual DbSet<tblCategory> tblCategory { get; set; }
+        public virtual DbSet<tblCompany> tblCompany { get; set; }
         public virtual DbSet<tblCustomer> tblCustomer { get; set; }
         public virtual DbSet<tblCustomerInvoice> tblCustomerInvoice { get; set; }
         public virtual DbSet<tblCustomerInvoiceDetail> tblCustomerInvoiceDetail { get; set; }
         public virtual DbSet<tblCustomerPayment> tblCustomerPayment { get; set; }
+        public virtual DbSet<tblEmployee> tblEmployee { get; set; }
         public virtual DbSet<tblFinancialYear> tblFinancialYear { get; set; }
         public virtual DbSet<tblPayroll> tblPayroll { get; set; }
         public virtual DbSet<tblStock> tblStock { get; set; }
@@ -43,9 +45,7 @@ namespace DatabaseAccess
         public virtual DbSet<tblSupplierInvoiceDetail> tblSupplierInvoiceDetail { get; set; }
         public virtual DbSet<tblSupplierPayment> tblSupplierPayment { get; set; }
         public virtual DbSet<tblTransaction> tblTransaction { get; set; }
-        public virtual DbSet<tblUserType> tblUserType { get; set; }
-        public virtual DbSet<tblCompany> tblCompany { get; set; }
         public virtual DbSet<tblUser> tblUser { get; set; }
-        public virtual DbSet<tblEmployee> tblEmployee { get; set; }
+        public virtual DbSet<tblUserType> tblUserType { get; set; }
     }
 }
