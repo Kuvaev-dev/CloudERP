@@ -140,15 +140,18 @@
     <Compile Include="Controllers\HeadEmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\StockController.cs" />
+    <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UserSettingController.cs" />
     <Compile Include="Controllers\UserTypeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\BranchHelper.cs" />
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Models\AccountControlMV.cs" />
     <Compile Include="Models\BranchsCustomersMV.cs" />
+    <Compile Include="Models\BranchsSuppliersMV.cs" />
     <Compile Include="Models\CompanyRegistrationMV.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -473,6 +476,13 @@
     <Content Include="Views\Customer\Index.cshtml" />
     <Content Include="Views\Customer\AllCustomers.cshtml" />
     <Content Include="Views\Customer\SubBranchCustomer.cshtml" />
+    <Content Include="Views\Supplier\Create.cshtml" />
+    <Content Include="Views\Supplier\Delete.cshtml" />
+    <Content Include="Views\Supplier\Details.cshtml" />
+    <Content Include="Views\Supplier\Edit.cshtml" />
+    <Content Include="Views\Supplier\Index.cshtml" />
+    <Content Include="Views\Supplier\SubBranchSupplier.cshtml" />
+    <Content Include="Views\Supplier\AllSuppliers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

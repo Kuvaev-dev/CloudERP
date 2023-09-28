@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using CloudERP.Helpers;
 using CloudERP.Models;
 using DatabaseAccess;
 
@@ -52,38 +53,10 @@ namespace CloudERP.Controllers
                 return RedirectToAction("Login", "Home");
             }
 
-            List<int> branchIDs = new List<int>();
-            List<int> isSubBranchsFirst = new List<int>();
-            List<int> isSubBranchsSecond = new List<int>();
             List<BranchsCustomersMV> branchsCustomers = new List<BranchsCustomersMV>();
-            
             int branchID = 0;
             branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            var brnch = db.tblBranch.Where(b => b.BrchID == branchID);
-
-            foreach (var item in brnch)
-            {
-                isSubBranchsFirst.Add(item.BranchID);
-            }
-        subBranch:
-            foreach (var item in isSubBranchsFirst)
-            {
-                branchIDs.Add(item);
-                foreach (var sub in db.tblBranch.Where(b => b.BrchID == item))
-                {
-                    isSubBranchsSecond.Add(sub.BranchID);
-                }
-            }
-            if (isSubBranchsSecond.Count > 0)
-            {
-                isSubBranchsFirst.Clear();
-                foreach (var item in isSubBranchsSecond)
-                {
-                    isSubBranchsFirst.Add(item);
-                }
-                isSubBranchsSecond.Clear();
-                goto subBranch;
-            }
+            List<int> branchIDs = BranchHelper.GetBranchsIDs(branchID, db);
 
             foreach (var item in branchIDs)
             {
@@ -158,7 +131,9 @@ namespace CloudERP.Controllers
             tblCustomer.UserID = userID;
             if (ModelState.IsValid)
             {
-                var findCustomer = db.tblCustomer.Where(c => c.Customername == tblCustomer.Customername && c.CustomerContact == tblCustomer.CustomerContact).FirstOrDefault();
+                var findCustomer = db.tblCustomer.Where(c => c.Customername == tblCustomer.Customername
+                                                          && c.CustomerContact == tblCustomer.CustomerContact
+                                                          && c.BranchID == branchID).FirstOrDefault();
                 if (findCustomer == null)
                 {
                     db.tblCustomer.Add(tblCustomer);

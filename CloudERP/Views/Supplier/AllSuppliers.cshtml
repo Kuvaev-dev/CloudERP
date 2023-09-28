@@ -1,14 +1,14 @@
-﻿﻿@model IEnumerable<CloudERP.Models.BranchsCustomersMV>
+﻿@model IEnumerable<DatabaseAccess.tblSupplier>
 
 @{
-    ViewBag.Title = "Sub Branch Customers";
+    ViewBag.Title = "All Suppliers";
 }
 
 <script src="~/Scripts/jquery-3.7.1.js"></script>
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        <input class="form-control col-md-3" style="float:right;" type="text" id="searchSBCustomer" name="searchSBCustomer" placeholder="Search..." />
+        <input class="form-control col-md-3" style="float:right;" type="text" id="searchSBSupplier" name="searchSBSupplier" placeholder="Search..." />
     </div>
     <div class="card-body">
         <div class="table-responsive bootgrid">
@@ -22,53 +22,52 @@
                             Branch
                         </th>
                         <th>
-                            Customer Name
+                            Supplier Name
                         </th>
                         <th>
                             Conatct №
                         </th>
                         <th>
-                            Area
+                            Email
                         </th>
                         <th>
                             Address
                         </th>
                         <th>
-                            Description
-                        </th>
-                        <th>
                             User
                         </th>
-                        <th></th>
+                        <th>
+                            Description
+                        </th>
                     </tr>
                 </thead>
-                <tbody id="SBCustomerList">
+                <tbody id="SBSupplierList">
                     @foreach (var item in Model)
                     {
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelItem => item.CompanyName)
+                                @Html.DisplayFor(modelItem => item.tblCompany.Name)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.BranchName)
+                                @Html.DisplayFor(modelItem => item.tblBranch.BranchName)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Customername)
+                                @Html.DisplayFor(modelItem => item.SupplierName)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.CustomerContact)
+                                @Html.DisplayFor(modelItem => item.SupplierConatctNo)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.CustomerArea)
+                                @Html.DisplayFor(modelItem => item.SupplierEmail)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.CustomerAddress)
+                                @Html.DisplayFor(modelItem => item.SupplierAddress)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Description)
+                                @Html.DisplayFor(modelItem => item.tblUser.UserName)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.User)
+                                @Html.DisplayFor(modelItem => item.Discription)
                             </td>
                         </tr>
                     }
@@ -79,9 +78,9 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#searchSBCustomer").on("keyup", function () {
+        $("#searchSBSupplier").on("keyup", function () {
             var value = $(this).val().toLowerCase();
-            $("#SBCustomerList tr").filter(function () {
+            $("#SBSupplierList tr").filter(function () {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             })
         })
