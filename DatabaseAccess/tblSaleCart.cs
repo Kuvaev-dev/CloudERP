@@ -12,22 +12,30 @@ namespace DatabaseAccess
     using System;
     using System.Collections.Generic;
     
-    public partial class tblCustomerPayment
+    public partial class tblSaleCart
     {
-        public int CustomerPaymentID { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tblSaleCart()
+        {
+            this.tblSaleCartDetail = new HashSet<tblSaleCartDetail>();
+        }
+    
+        public int SaleCartID { get; set; }
         public int CustomerID { get; set; }
-        public int CustomerInvoiceID { get; set; }
-        public int BranchID { get; set; }
         public int CompanyID { get; set; }
+        public int BranchID { get; set; }
         public string InvoiceNo { get; set; }
+        public string Title { get; set; }
         public double TotalAmount { get; set; }
-        public double PaidAmount { get; set; }
-        public double RemainingBalance { get; set; }
+        public System.DateTime InvoiceDate { get; set; }
+        public string Description { get; set; }
         public int UserID { get; set; }
     
         public virtual tblBranch tblBranch { get; set; }
         public virtual tblCompany tblCompany { get; set; }
-        public virtual tblCustomerInvoice tblCustomerInvoice { get; set; }
+        public virtual tblCustomer tblCustomer { get; set; }
         public virtual tblUser tblUser { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblSaleCartDetail> tblSaleCartDetail { get; set; }
     }
 }

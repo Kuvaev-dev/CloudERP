@@ -11,21 +11,16 @@ namespace DatabaseAccess
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
-    public partial class tblUserType
+    
+    public partial class tblPurchaseCartDetail
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tblUserType()
-        {
-            this.tblUser = new HashSet<tblUser>();
-        }
-
-        public int UserTypeID { get; set; }
-        [Required(ErrorMessage = "*Required!")]
-        public string UserType { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblUser> tblUser { get; set; }
+        public int PurchaseCartDetailID { get; set; }
+        public int PurchaseCartID { get; set; }
+        public int ProductID { get; set; }
+        public int PurchaseQuantity { get; set; }
+        public double PurchaseUnitPrice { get; set; }
+    
+        public virtual tblPurchaseCart tblPurchaseCart { get; set; }
+        public virtual tblStock tblStock { get; set; }
     }
 }

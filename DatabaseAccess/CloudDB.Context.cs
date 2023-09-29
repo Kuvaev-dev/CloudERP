@@ -39,6 +39,10 @@ namespace DatabaseAccess
         public virtual DbSet<tblEmployee> tblEmployee { get; set; }
         public virtual DbSet<tblFinancialYear> tblFinancialYear { get; set; }
         public virtual DbSet<tblPayroll> tblPayroll { get; set; }
+        public virtual DbSet<tblPurchaseCart> tblPurchaseCart { get; set; }
+        public virtual DbSet<tblPurchaseCartDetail> tblPurchaseCartDetail { get; set; }
+        public virtual DbSet<tblSaleCart> tblSaleCart { get; set; }
+        public virtual DbSet<tblSaleCartDetail> tblSaleCartDetail { get; set; }
         public virtual DbSet<tblStock> tblStock { get; set; }
         public virtual DbSet<tblSupplier> tblSupplier { get; set; }
         public virtual DbSet<tblSupplierInvoice> tblSupplierInvoice { get; set; }

@@ -21,7 +21,7 @@ namespace DatabaseAccess
             this.tblTransaction = new HashSet<tblTransaction>();
             this.tblTransaction1 = new HashSet<tblTransaction>();
         }
-    
+
         public int FinancialYearID { get; set; }
         public int UserID { get; set; }
         [Required(ErrorMessage = "*Required!")]
@@ -33,7 +33,7 @@ namespace DatabaseAccess
         [DataType(DataType.Date)]
         public System.DateTime EndDate { get; set; }
         public bool IsActive { get; set; }
-    
+
         public virtual tblUser tblUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblTransaction> tblTransaction { get; set; }

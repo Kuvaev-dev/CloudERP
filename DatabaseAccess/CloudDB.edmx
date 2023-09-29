@@ -174,6 +174,55 @@
           <Property Name="SalaryYear" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="tblPurchaseCart">
+          <Key>
+            <PropertyRef Name="PurchaseCartID" />
+          </Key>
+          <Property Name="PurchaseCartID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SupplierID" Type="int" Nullable="false" />
+          <Property Name="CompanyID" Type="int" Nullable="false" />
+          <Property Name="BranchID" Type="int" Nullable="false" />
+          <Property Name="InvoiceNo" Type="int" Nullable="false" />
+          <Property Name="TotalAmount" Type="float" Nullable="false" />
+          <Property Name="InvoiceDate" Type="date" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblPurchaseCartDetail">
+          <Key>
+            <PropertyRef Name="PurchaseCartDetailID" />
+          </Key>
+          <Property Name="PurchaseCartDetailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PurchaseCartID" Type="int" Nullable="false" />
+          <Property Name="ProductID" Type="int" Nullable="false" />
+          <Property Name="PurchaseQuantity" Type="int" Nullable="false" />
+          <Property Name="PurchaseUnitPrice" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblSaleCart">
+          <Key>
+            <PropertyRef Name="SaleCartID" />
+          </Key>
+          <Property Name="SaleCartID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="CompanyID" Type="int" Nullable="false" />
+          <Property Name="BranchID" Type="int" Nullable="false" />
+          <Property Name="InvoiceNo" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="TotalAmount" Type="float" Nullable="false" />
+          <Property Name="InvoiceDate" Type="date" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="500" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblSaleCartDetail">
+          <Key>
+            <PropertyRef Name="SaleCartDetailID" />
+          </Key>
+          <Property Name="SaleCartDetailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SaleCartID" Type="int" Nullable="false" />
+          <Property Name="ProductID" Type="int" Nullable="false" />
+          <Property Name="SaleQuantity" Type="int" Nullable="false" />
+          <Property Name="SaleUnitPrice" Type="float" Nullable="false" />
+        </EntityType>
         <EntityType Name="tblStock">
           <Key>
             <PropertyRef Name="ProductID" />
@@ -684,6 +733,162 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tblPurchaseCart_tblUser">
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="1" />
+          <End Role="tblPurchaseCart" Type="Self.tblPurchaseCart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="tblPurchaseCart">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblPurchaseCartDetail_tblPurchaseCart">
+          <End Role="tblPurchaseCart" Type="Self.tblPurchaseCart" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tblPurchaseCartDetail" Type="Self.tblPurchaseCartDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPurchaseCart">
+              <PropertyRef Name="PurchaseCartID" />
+            </Principal>
+            <Dependent Role="tblPurchaseCartDetail">
+              <PropertyRef Name="PurchaseCartID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblPurchaseCartDetail_tblStock">
+          <End Role="tblStock" Type="Self.tblStock" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tblPurchaseCartDetail" Type="Self.tblPurchaseCartDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblStock">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="tblPurchaseCartDetail">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblPurchaseCartTable_tblBranch">
+          <End Role="tblBranch" Type="Self.tblBranch" Multiplicity="1" />
+          <End Role="tblPurchaseCart" Type="Self.tblPurchaseCart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblBranch">
+              <PropertyRef Name="BranchID" />
+            </Principal>
+            <Dependent Role="tblPurchaseCart">
+              <PropertyRef Name="BranchID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblPurchaseCartTable_tblCompany">
+          <End Role="tblCompany" Type="Self.tblCompany" Multiplicity="1" />
+          <End Role="tblPurchaseCart" Type="Self.tblPurchaseCart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCompany">
+              <PropertyRef Name="CompanyID" />
+            </Principal>
+            <Dependent Role="tblPurchaseCart">
+              <PropertyRef Name="CompanyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblPurchaseCartTable_tblSupplier">
+          <End Role="tblSupplier" Type="Self.tblSupplier" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tblPurchaseCart" Type="Self.tblPurchaseCart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblSupplier">
+              <PropertyRef Name="SupplierID" />
+            </Principal>
+            <Dependent Role="tblPurchaseCart">
+              <PropertyRef Name="SupplierID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblSaleCart_tblBranch">
+          <End Role="tblBranch" Type="Self.tblBranch" Multiplicity="1" />
+          <End Role="tblSaleCart" Type="Self.tblSaleCart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblBranch">
+              <PropertyRef Name="BranchID" />
+            </Principal>
+            <Dependent Role="tblSaleCart">
+              <PropertyRef Name="BranchID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblSaleCart_tblCompany">
+          <End Role="tblCompany" Type="Self.tblCompany" Multiplicity="1" />
+          <End Role="tblSaleCart" Type="Self.tblSaleCart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCompany">
+              <PropertyRef Name="CompanyID" />
+            </Principal>
+            <Dependent Role="tblSaleCart">
+              <PropertyRef Name="CompanyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblSaleCart_tblCustomer">
+          <End Role="tblCustomer" Type="Self.tblCustomer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tblSaleCart" Type="Self.tblSaleCart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCustomer">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="tblSaleCart">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblSaleCart_tblUser">
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="1" />
+          <End Role="tblSaleCart" Type="Self.tblSaleCart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="tblSaleCart">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblSaleCartDetail_tblSaleCart">
+          <End Role="tblSaleCart" Type="Self.tblSaleCart" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tblSaleCartDetail" Type="Self.tblSaleCartDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblSaleCart">
+              <PropertyRef Name="SaleCartID" />
+            </Principal>
+            <Dependent Role="tblSaleCartDetail">
+              <PropertyRef Name="SaleCartID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblSaleCartDetail_tblStock">
+          <End Role="tblStock" Type="Self.tblStock" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tblSaleCartDetail" Type="Self.tblSaleCartDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblStock">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="tblSaleCartDetail">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tblStock_tblBranch">
           <End Role="tblBranch" Type="Self.tblBranch" Multiplicity="1" />
           <End Role="tblStock" Type="Self.tblStock" Multiplicity="*" />
@@ -991,6 +1196,10 @@
           <EntitySet Name="tblEmployee" EntityType="Self.tblEmployee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblFinancialYear" EntityType="Self.tblFinancialYear" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblPayroll" EntityType="Self.tblPayroll" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblPurchaseCart" EntityType="Self.tblPurchaseCart" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblPurchaseCartDetail" EntityType="Self.tblPurchaseCartDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblSaleCart" EntityType="Self.tblSaleCart" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblSaleCartDetail" EntityType="Self.tblSaleCartDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblStock" EntityType="Self.tblStock" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblSupplier" EntityType="Self.tblSupplier" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblSupplierInvoice" EntityType="Self.tblSupplierInvoice" Schema="dbo" store:Type="Tables" />
@@ -1127,6 +1336,54 @@
             <End Role="tblUser" EntitySet="tblUser" />
             <End Role="tblPayroll" EntitySet="tblPayroll" />
           </AssociationSet>
+          <AssociationSet Name="FK_tblPurchaseCart_tblUser" Association="Self.FK_tblPurchaseCart_tblUser">
+            <End Role="tblUser" EntitySet="tblUser" />
+            <End Role="tblPurchaseCart" EntitySet="tblPurchaseCart" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblPurchaseCartDetail_tblPurchaseCart" Association="Self.FK_tblPurchaseCartDetail_tblPurchaseCart">
+            <End Role="tblPurchaseCart" EntitySet="tblPurchaseCart" />
+            <End Role="tblPurchaseCartDetail" EntitySet="tblPurchaseCartDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblPurchaseCartDetail_tblStock" Association="Self.FK_tblPurchaseCartDetail_tblStock">
+            <End Role="tblStock" EntitySet="tblStock" />
+            <End Role="tblPurchaseCartDetail" EntitySet="tblPurchaseCartDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblPurchaseCartTable_tblBranch" Association="Self.FK_tblPurchaseCartTable_tblBranch">
+            <End Role="tblBranch" EntitySet="tblBranch" />
+            <End Role="tblPurchaseCart" EntitySet="tblPurchaseCart" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblPurchaseCartTable_tblCompany" Association="Self.FK_tblPurchaseCartTable_tblCompany">
+            <End Role="tblCompany" EntitySet="tblCompany" />
+            <End Role="tblPurchaseCart" EntitySet="tblPurchaseCart" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblPurchaseCartTable_tblSupplier" Association="Self.FK_tblPurchaseCartTable_tblSupplier">
+            <End Role="tblSupplier" EntitySet="tblSupplier" />
+            <End Role="tblPurchaseCart" EntitySet="tblPurchaseCart" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblSaleCart_tblBranch" Association="Self.FK_tblSaleCart_tblBranch">
+            <End Role="tblBranch" EntitySet="tblBranch" />
+            <End Role="tblSaleCart" EntitySet="tblSaleCart" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblSaleCart_tblCompany" Association="Self.FK_tblSaleCart_tblCompany">
+            <End Role="tblCompany" EntitySet="tblCompany" />
+            <End Role="tblSaleCart" EntitySet="tblSaleCart" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblSaleCart_tblCustomer" Association="Self.FK_tblSaleCart_tblCustomer">
+            <End Role="tblCustomer" EntitySet="tblCustomer" />
+            <End Role="tblSaleCart" EntitySet="tblSaleCart" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblSaleCart_tblUser" Association="Self.FK_tblSaleCart_tblUser">
+            <End Role="tblUser" EntitySet="tblUser" />
+            <End Role="tblSaleCart" EntitySet="tblSaleCart" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblSaleCartDetail_tblSaleCart" Association="Self.FK_tblSaleCartDetail_tblSaleCart">
+            <End Role="tblSaleCart" EntitySet="tblSaleCart" />
+            <End Role="tblSaleCartDetail" EntitySet="tblSaleCartDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblSaleCartDetail_tblStock" Association="Self.FK_tblSaleCartDetail_tblStock">
+            <End Role="tblStock" EntitySet="tblStock" />
+            <End Role="tblSaleCartDetail" EntitySet="tblSaleCartDetail" />
+          </AssociationSet>
           <AssociationSet Name="FK_tblStock_tblBranch" Association="Self.FK_tblStock_tblBranch">
             <End Role="tblBranch" EntitySet="tblBranch" />
             <End Role="tblStock" EntitySet="tblStock" />
@@ -1239,6 +1496,10 @@
           <EntitySet Name="tblEmployee" EntityType="CloudDBModel.tblEmployee" />
           <EntitySet Name="tblFinancialYear" EntityType="CloudDBModel.tblFinancialYear" />
           <EntitySet Name="tblPayroll" EntityType="CloudDBModel.tblPayroll" />
+          <EntitySet Name="tblPurchaseCart" EntityType="CloudDBModel.tblPurchaseCart" />
+          <EntitySet Name="tblPurchaseCartDetail" EntityType="CloudDBModel.tblPurchaseCartDetail" />
+          <EntitySet Name="tblSaleCart" EntityType="CloudDBModel.tblSaleCart" />
+          <EntitySet Name="tblSaleCartDetail" EntityType="CloudDBModel.tblSaleCartDetail" />
           <EntitySet Name="tblStock" EntityType="CloudDBModel.tblStock" />
           <EntitySet Name="tblSupplier" EntityType="CloudDBModel.tblSupplier" />
           <EntitySet Name="tblSupplierInvoice" EntityType="CloudDBModel.tblSupplierInvoice" />
@@ -1323,6 +1584,14 @@
             <End Role="tblBranch" EntitySet="tblBranch" />
             <End Role="tblPayroll" EntitySet="tblPayroll" />
           </AssociationSet>
+          <AssociationSet Name="FK_tblPurchaseCartTable_tblBranch" Association="CloudDBModel.FK_tblPurchaseCartTable_tblBranch">
+            <End Role="tblBranch" EntitySet="tblBranch" />
+            <End Role="tblPurchaseCart" EntitySet="tblPurchaseCart" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblSaleCart_tblBranch" Association="CloudDBModel.FK_tblSaleCart_tblBranch">
+            <End Role="tblBranch" EntitySet="tblBranch" />
+            <End Role="tblSaleCart" EntitySet="tblSaleCart" />
+          </AssociationSet>
           <AssociationSet Name="FK_tblStock_tblBranch" Association="CloudDBModel.FK_tblStock_tblBranch">
             <End Role="tblBranch" EntitySet="tblBranch" />
             <End Role="tblStock" EntitySet="tblStock" />
@@ -1367,6 +1636,14 @@
             <End Role="tblCompany" EntitySet="tblCompany" />
             <End Role="tblPayroll" EntitySet="tblPayroll" />
           </AssociationSet>
+          <AssociationSet Name="FK_tblPurchaseCartTable_tblCompany" Association="CloudDBModel.FK_tblPurchaseCartTable_tblCompany">
+            <End Role="tblCompany" EntitySet="tblCompany" />
+            <End Role="tblPurchaseCart" EntitySet="tblPurchaseCart" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblSaleCart_tblCompany" Association="CloudDBModel.FK_tblSaleCart_tblCompany">
+            <End Role="tblCompany" EntitySet="tblCompany" />
+            <End Role="tblSaleCart" EntitySet="tblSaleCart" />
+          </AssociationSet>
           <AssociationSet Name="FK_tblStock_tblCompany" Association="CloudDBModel.FK_tblStock_tblCompany">
             <End Role="tblCompany" EntitySet="tblCompany" />
             <End Role="tblStock" EntitySet="tblStock" />
@@ -1386,6 +1663,10 @@
           <AssociationSet Name="FK_tblCustomerInvoice_tblCustomer" Association="CloudDBModel.FK_tblCustomerInvoice_tblCustomer">
             <End Role="tblCustomer" EntitySet="tblCustomer" />
             <End Role="tblCustomerInvoice" EntitySet="tblCustomerInvoice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblSaleCart_tblCustomer" Association="CloudDBModel.FK_tblSaleCart_tblCustomer">
+            <End Role="tblCustomer" EntitySet="tblCustomer" />
+            <End Role="tblSaleCart" EntitySet="tblSaleCart" />
           </AssociationSet>
           <AssociationSet Name="FK_tblCustomerInvoice_tblUser" Association="CloudDBModel.FK_tblCustomerInvoice_tblUser">
             <End Role="tblUser" EntitySet="tblUser" />
@@ -1426,6 +1707,34 @@
           <AssociationSet Name="FK_tblPayroll_tblUser" Association="CloudDBModel.FK_tblPayroll_tblUser">
             <End Role="tblUser" EntitySet="tblUser" />
             <End Role="tblPayroll" EntitySet="tblPayroll" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblPurchaseCart_tblUser" Association="CloudDBModel.FK_tblPurchaseCart_tblUser">
+            <End Role="tblUser" EntitySet="tblUser" />
+            <End Role="tblPurchaseCart" EntitySet="tblPurchaseCart" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblPurchaseCartDetail_tblPurchaseCart" Association="CloudDBModel.FK_tblPurchaseCartDetail_tblPurchaseCart">
+            <End Role="tblPurchaseCart" EntitySet="tblPurchaseCart" />
+            <End Role="tblPurchaseCartDetail" EntitySet="tblPurchaseCartDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblPurchaseCartTable_tblSupplier" Association="CloudDBModel.FK_tblPurchaseCartTable_tblSupplier">
+            <End Role="tblSupplier" EntitySet="tblSupplier" />
+            <End Role="tblPurchaseCart" EntitySet="tblPurchaseCart" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblPurchaseCartDetail_tblStock" Association="CloudDBModel.FK_tblPurchaseCartDetail_tblStock">
+            <End Role="tblStock" EntitySet="tblStock" />
+            <End Role="tblPurchaseCartDetail" EntitySet="tblPurchaseCartDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblSaleCart_tblUser" Association="CloudDBModel.FK_tblSaleCart_tblUser">
+            <End Role="tblUser" EntitySet="tblUser" />
+            <End Role="tblSaleCart" EntitySet="tblSaleCart" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblSaleCartDetail_tblSaleCart" Association="CloudDBModel.FK_tblSaleCartDetail_tblSaleCart">
+            <End Role="tblSaleCart" EntitySet="tblSaleCart" />
+            <End Role="tblSaleCartDetail" EntitySet="tblSaleCartDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblSaleCartDetail_tblStock" Association="CloudDBModel.FK_tblSaleCartDetail_tblStock">
+            <End Role="tblStock" EntitySet="tblStock" />
+            <End Role="tblSaleCartDetail" EntitySet="tblSaleCartDetail" />
           </AssociationSet>
           <AssociationSet Name="FK_tblStock_tblUser" Association="CloudDBModel.FK_tblStock_tblUser">
             <End Role="tblUser" EntitySet="tblUser" />
@@ -1536,6 +1845,8 @@
           <NavigationProperty Name="tblCustomerPayment" Relationship="CloudDBModel.FK_tblCustomerPayment_tblBranch" FromRole="tblBranch" ToRole="tblCustomerPayment" />
           <NavigationProperty Name="tblEmployee" Relationship="CloudDBModel.FK_tblEmployee_tblBranch" FromRole="tblBranch" ToRole="tblEmployee" />
           <NavigationProperty Name="tblPayroll" Relationship="CloudDBModel.FK_tblPayroll_tblBranch" FromRole="tblBranch" ToRole="tblPayroll" />
+          <NavigationProperty Name="tblPurchaseCart" Relationship="CloudDBModel.FK_tblPurchaseCartTable_tblBranch" FromRole="tblBranch" ToRole="tblPurchaseCart" />
+          <NavigationProperty Name="tblSaleCart" Relationship="CloudDBModel.FK_tblSaleCart_tblBranch" FromRole="tblBranch" ToRole="tblSaleCart" />
           <NavigationProperty Name="tblStock" Relationship="CloudDBModel.FK_tblStock_tblBranch" FromRole="tblBranch" ToRole="tblStock" />
           <NavigationProperty Name="tblSupplier" Relationship="CloudDBModel.FK_tblSupplier_tblBranch" FromRole="tblBranch" ToRole="tblSupplier" />
           <NavigationProperty Name="tblSupplierInvoice" Relationship="CloudDBModel.FK_tblSupplierInvoiceTable_tblBranch" FromRole="tblBranch" ToRole="tblSupplierInvoice" />
@@ -1576,6 +1887,8 @@
           <NavigationProperty Name="tblCustomerPayment" Relationship="CloudDBModel.FK_tblCustomerPayment_tblCompany" FromRole="tblCompany" ToRole="tblCustomerPayment" />
           <NavigationProperty Name="tblEmployee" Relationship="CloudDBModel.FK_tblEmployee_tblCompany" FromRole="tblCompany" ToRole="tblEmployee" />
           <NavigationProperty Name="tblPayroll" Relationship="CloudDBModel.FK_tblPayroll_tblCompany" FromRole="tblCompany" ToRole="tblPayroll" />
+          <NavigationProperty Name="tblPurchaseCart" Relationship="CloudDBModel.FK_tblPurchaseCartTable_tblCompany" FromRole="tblCompany" ToRole="tblPurchaseCart" />
+          <NavigationProperty Name="tblSaleCart" Relationship="CloudDBModel.FK_tblSaleCart_tblCompany" FromRole="tblCompany" ToRole="tblSaleCart" />
           <NavigationProperty Name="tblStock" Relationship="CloudDBModel.FK_tblStock_tblCompany" FromRole="tblCompany" ToRole="tblStock" />
           <NavigationProperty Name="tblSupplier" Relationship="CloudDBModel.FK_tblSupplier_tblCompany" FromRole="tblCompany" ToRole="tblSupplier" />
           <NavigationProperty Name="tblSupplierInvoice" Relationship="CloudDBModel.FK_tblSupplierInvoiceTable_tblCompany" FromRole="tblCompany" ToRole="tblSupplierInvoice" />
@@ -1597,6 +1910,7 @@
           <NavigationProperty Name="tblCompany" Relationship="CloudDBModel.FK_tblCustomer_tblCompany" FromRole="tblCustomer" ToRole="tblCompany" />
           <NavigationProperty Name="tblUser" Relationship="CloudDBModel.FK_tblCustomer_tblUser" FromRole="tblCustomer" ToRole="tblUser" />
           <NavigationProperty Name="tblCustomerInvoice" Relationship="CloudDBModel.FK_tblCustomerInvoice_tblCustomer" FromRole="tblCustomer" ToRole="tblCustomerInvoice" />
+          <NavigationProperty Name="tblSaleCart" Relationship="CloudDBModel.FK_tblSaleCart_tblCustomer" FromRole="tblCustomer" ToRole="tblSaleCart" />
         </EntityType>
         <EntityType Name="tblCustomerInvoice">
           <Key>
@@ -1704,6 +2018,69 @@
           <NavigationProperty Name="tblEmployee" Relationship="CloudDBModel.FK_tblPayroll_tblEmployee" FromRole="tblPayroll" ToRole="tblEmployee" />
           <NavigationProperty Name="tblUser" Relationship="CloudDBModel.FK_tblPayroll_tblUser" FromRole="tblPayroll" ToRole="tblUser" />
         </EntityType>
+        <EntityType Name="tblPurchaseCart">
+          <Key>
+            <PropertyRef Name="PurchaseCartID" />
+          </Key>
+          <Property Name="PurchaseCartID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SupplierID" Type="Int32" Nullable="false" />
+          <Property Name="CompanyID" Type="Int32" Nullable="false" />
+          <Property Name="BranchID" Type="Int32" Nullable="false" />
+          <Property Name="InvoiceNo" Type="Int32" Nullable="false" />
+          <Property Name="TotalAmount" Type="Double" Nullable="false" />
+          <Property Name="InvoiceDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tblBranch" Relationship="CloudDBModel.FK_tblPurchaseCartTable_tblBranch" FromRole="tblPurchaseCart" ToRole="tblBranch" />
+          <NavigationProperty Name="tblCompany" Relationship="CloudDBModel.FK_tblPurchaseCartTable_tblCompany" FromRole="tblPurchaseCart" ToRole="tblCompany" />
+          <NavigationProperty Name="tblUser" Relationship="CloudDBModel.FK_tblPurchaseCart_tblUser" FromRole="tblPurchaseCart" ToRole="tblUser" />
+          <NavigationProperty Name="tblPurchaseCartDetail" Relationship="CloudDBModel.FK_tblPurchaseCartDetail_tblPurchaseCart" FromRole="tblPurchaseCart" ToRole="tblPurchaseCartDetail" />
+          <NavigationProperty Name="tblSupplier" Relationship="CloudDBModel.FK_tblPurchaseCartTable_tblSupplier" FromRole="tblPurchaseCart" ToRole="tblSupplier" />
+        </EntityType>
+        <EntityType Name="tblPurchaseCartDetail">
+          <Key>
+            <PropertyRef Name="PurchaseCartDetailID" />
+          </Key>
+          <Property Name="PurchaseCartDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PurchaseCartID" Type="Int32" Nullable="false" />
+          <Property Name="ProductID" Type="Int32" Nullable="false" />
+          <Property Name="PurchaseQuantity" Type="Int32" Nullable="false" />
+          <Property Name="PurchaseUnitPrice" Type="Double" Nullable="false" />
+          <NavigationProperty Name="tblPurchaseCart" Relationship="CloudDBModel.FK_tblPurchaseCartDetail_tblPurchaseCart" FromRole="tblPurchaseCartDetail" ToRole="tblPurchaseCart" />
+          <NavigationProperty Name="tblStock" Relationship="CloudDBModel.FK_tblPurchaseCartDetail_tblStock" FromRole="tblPurchaseCartDetail" ToRole="tblStock" />
+        </EntityType>
+        <EntityType Name="tblSaleCart">
+          <Key>
+            <PropertyRef Name="SaleCartID" />
+          </Key>
+          <Property Name="SaleCartID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="CompanyID" Type="Int32" Nullable="false" />
+          <Property Name="BranchID" Type="Int32" Nullable="false" />
+          <Property Name="InvoiceNo" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="TotalAmount" Type="Double" Nullable="false" />
+          <Property Name="InvoiceDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tblBranch" Relationship="CloudDBModel.FK_tblSaleCart_tblBranch" FromRole="tblSaleCart" ToRole="tblBranch" />
+          <NavigationProperty Name="tblCompany" Relationship="CloudDBModel.FK_tblSaleCart_tblCompany" FromRole="tblSaleCart" ToRole="tblCompany" />
+          <NavigationProperty Name="tblCustomer" Relationship="CloudDBModel.FK_tblSaleCart_tblCustomer" FromRole="tblSaleCart" ToRole="tblCustomer" />
+          <NavigationProperty Name="tblUser" Relationship="CloudDBModel.FK_tblSaleCart_tblUser" FromRole="tblSaleCart" ToRole="tblUser" />
+          <NavigationProperty Name="tblSaleCartDetail" Relationship="CloudDBModel.FK_tblSaleCartDetail_tblSaleCart" FromRole="tblSaleCart" ToRole="tblSaleCartDetail" />
+        </EntityType>
+        <EntityType Name="tblSaleCartDetail">
+          <Key>
+            <PropertyRef Name="SaleCartDetailID" />
+          </Key>
+          <Property Name="SaleCartDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SaleCartID" Type="Int32" Nullable="false" />
+          <Property Name="ProductID" Type="Int32" Nullable="false" />
+          <Property Name="SaleQuantity" Type="Int32" Nullable="false" />
+          <Property Name="SaleUnitPrice" Type="Double" Nullable="false" />
+          <NavigationProperty Name="tblSaleCart" Relationship="CloudDBModel.FK_tblSaleCartDetail_tblSaleCart" FromRole="tblSaleCartDetail" ToRole="tblSaleCart" />
+          <NavigationProperty Name="tblStock" Relationship="CloudDBModel.FK_tblSaleCartDetail_tblStock" FromRole="tblSaleCartDetail" ToRole="tblStock" />
+        </EntityType>
         <EntityType Name="tblStock">
           <Key>
             <PropertyRef Name="ProductID" />
@@ -1726,6 +2103,8 @@
           <NavigationProperty Name="tblCategory" Relationship="CloudDBModel.FK_tblStock_tblCategory" FromRole="tblStock" ToRole="tblCategory" />
           <NavigationProperty Name="tblCompany" Relationship="CloudDBModel.FK_tblStock_tblCompany" FromRole="tblStock" ToRole="tblCompany" />
           <NavigationProperty Name="tblCustomerInvoiceDetail" Relationship="CloudDBModel.FK_tblCustomerInvoiceDetail_tblStock" FromRole="tblStock" ToRole="tblCustomerInvoiceDetail" />
+          <NavigationProperty Name="tblPurchaseCartDetail" Relationship="CloudDBModel.FK_tblPurchaseCartDetail_tblStock" FromRole="tblStock" ToRole="tblPurchaseCartDetail" />
+          <NavigationProperty Name="tblSaleCartDetail" Relationship="CloudDBModel.FK_tblSaleCartDetail_tblStock" FromRole="tblStock" ToRole="tblSaleCartDetail" />
           <NavigationProperty Name="tblUser" Relationship="CloudDBModel.FK_tblStock_tblUser" FromRole="tblStock" ToRole="tblUser" />
           <NavigationProperty Name="tblSupplierInvoiceDetail" Relationship="CloudDBModel.FK_tblSupplierInvoiceDetail_tblStock" FromRole="tblStock" ToRole="tblSupplierInvoiceDetail" />
         </EntityType>
@@ -1744,6 +2123,7 @@
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="tblBranch" Relationship="CloudDBModel.FK_tblSupplier_tblBranch" FromRole="tblSupplier" ToRole="tblBranch" />
           <NavigationProperty Name="tblCompany" Relationship="CloudDBModel.FK_tblSupplier_tblCompany" FromRole="tblSupplier" ToRole="tblCompany" />
+          <NavigationProperty Name="tblPurchaseCart" Relationship="CloudDBModel.FK_tblPurchaseCartTable_tblSupplier" FromRole="tblSupplier" ToRole="tblPurchaseCart" />
           <NavigationProperty Name="tblUser" Relationship="CloudDBModel.FK_tblSupplier_tblUser" FromRole="tblSupplier" ToRole="tblUser" />
           <NavigationProperty Name="tblSupplierInvoice" Relationship="CloudDBModel.FK_tblSupplierInvoiceTable_tblSupplier" FromRole="tblSupplier" ToRole="tblSupplierInvoice" />
           <NavigationProperty Name="tblSupplierPayment" Relationship="CloudDBModel.FK_tblSupplierPayment_tblSupplier" FromRole="tblSupplier" ToRole="tblSupplierPayment" />
@@ -1842,6 +2222,8 @@
           <NavigationProperty Name="tblCustomerPayment" Relationship="CloudDBModel.FK_tblCustomerPayment_tblUser" FromRole="tblUser" ToRole="tblCustomerPayment" />
           <NavigationProperty Name="tblFinancialYear" Relationship="CloudDBModel.FK_tblFinancialYear_tblUser" FromRole="tblUser" ToRole="tblFinancialYear" />
           <NavigationProperty Name="tblPayroll" Relationship="CloudDBModel.FK_tblPayroll_tblUser" FromRole="tblUser" ToRole="tblPayroll" />
+          <NavigationProperty Name="tblPurchaseCart" Relationship="CloudDBModel.FK_tblPurchaseCart_tblUser" FromRole="tblUser" ToRole="tblPurchaseCart" />
+          <NavigationProperty Name="tblSaleCart" Relationship="CloudDBModel.FK_tblSaleCart_tblUser" FromRole="tblUser" ToRole="tblSaleCart" />
           <NavigationProperty Name="tblStock" Relationship="CloudDBModel.FK_tblStock_tblUser" FromRole="tblUser" ToRole="tblStock" />
           <NavigationProperty Name="tblSupplier" Relationship="CloudDBModel.FK_tblSupplier_tblUser" FromRole="tblUser" ToRole="tblSupplier" />
           <NavigationProperty Name="tblSupplierInvoice" Relationship="CloudDBModel.FK_tblSupplierInvoice_tblUser" FromRole="tblUser" ToRole="tblSupplierInvoice" />
@@ -2095,6 +2477,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tblPurchaseCartTable_tblBranch">
+          <End Type="CloudDBModel.tblBranch" Role="tblBranch" Multiplicity="1" />
+          <End Type="CloudDBModel.tblPurchaseCart" Role="tblPurchaseCart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblBranch">
+              <PropertyRef Name="BranchID" />
+            </Principal>
+            <Dependent Role="tblPurchaseCart">
+              <PropertyRef Name="BranchID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblSaleCart_tblBranch">
+          <End Type="CloudDBModel.tblBranch" Role="tblBranch" Multiplicity="1" />
+          <End Type="CloudDBModel.tblSaleCart" Role="tblSaleCart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblBranch">
+              <PropertyRef Name="BranchID" />
+            </Principal>
+            <Dependent Role="tblSaleCart">
+              <PropertyRef Name="BranchID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tblStock_tblBranch">
           <End Type="CloudDBModel.tblBranch" Role="tblBranch" Multiplicity="1" />
           <End Type="CloudDBModel.tblStock" Role="tblStock" Multiplicity="*" />
@@ -2229,6 +2635,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tblPurchaseCartTable_tblCompany">
+          <End Type="CloudDBModel.tblCompany" Role="tblCompany" Multiplicity="1" />
+          <End Type="CloudDBModel.tblPurchaseCart" Role="tblPurchaseCart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCompany">
+              <PropertyRef Name="CompanyID" />
+            </Principal>
+            <Dependent Role="tblPurchaseCart">
+              <PropertyRef Name="CompanyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblSaleCart_tblCompany">
+          <End Type="CloudDBModel.tblCompany" Role="tblCompany" Multiplicity="1" />
+          <End Type="CloudDBModel.tblSaleCart" Role="tblSaleCart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCompany">
+              <PropertyRef Name="CompanyID" />
+            </Principal>
+            <Dependent Role="tblSaleCart">
+              <PropertyRef Name="CompanyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tblStock_tblCompany">
           <End Type="CloudDBModel.tblCompany" Role="tblCompany" Multiplicity="1" />
           <End Type="CloudDBModel.tblStock" Role="tblStock" Multiplicity="*" />
@@ -2287,6 +2717,20 @@
               <PropertyRef Name="CustomerID" />
             </Principal>
             <Dependent Role="tblCustomerInvoice">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblSaleCart_tblCustomer">
+          <End Type="CloudDBModel.tblCustomer" Role="tblCustomer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CloudDBModel.tblSaleCart" Role="tblSaleCart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCustomer">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="tblSaleCart">
               <PropertyRef Name="CustomerID" />
             </Dependent>
           </ReferentialConstraint>
@@ -2418,6 +2862,100 @@
             </Principal>
             <Dependent Role="tblPayroll">
               <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblPurchaseCart_tblUser">
+          <End Type="CloudDBModel.tblUser" Role="tblUser" Multiplicity="1" />
+          <End Type="CloudDBModel.tblPurchaseCart" Role="tblPurchaseCart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="tblPurchaseCart">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblPurchaseCartDetail_tblPurchaseCart">
+          <End Type="CloudDBModel.tblPurchaseCart" Role="tblPurchaseCart" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CloudDBModel.tblPurchaseCartDetail" Role="tblPurchaseCartDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPurchaseCart">
+              <PropertyRef Name="PurchaseCartID" />
+            </Principal>
+            <Dependent Role="tblPurchaseCartDetail">
+              <PropertyRef Name="PurchaseCartID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblPurchaseCartTable_tblSupplier">
+          <End Type="CloudDBModel.tblSupplier" Role="tblSupplier" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CloudDBModel.tblPurchaseCart" Role="tblPurchaseCart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblSupplier">
+              <PropertyRef Name="SupplierID" />
+            </Principal>
+            <Dependent Role="tblPurchaseCart">
+              <PropertyRef Name="SupplierID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblPurchaseCartDetail_tblStock">
+          <End Type="CloudDBModel.tblStock" Role="tblStock" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CloudDBModel.tblPurchaseCartDetail" Role="tblPurchaseCartDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblStock">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="tblPurchaseCartDetail">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblSaleCart_tblUser">
+          <End Type="CloudDBModel.tblUser" Role="tblUser" Multiplicity="1" />
+          <End Type="CloudDBModel.tblSaleCart" Role="tblSaleCart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="tblSaleCart">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblSaleCartDetail_tblSaleCart">
+          <End Type="CloudDBModel.tblSaleCart" Role="tblSaleCart" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CloudDBModel.tblSaleCartDetail" Role="tblSaleCartDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblSaleCart">
+              <PropertyRef Name="SaleCartID" />
+            </Principal>
+            <Dependent Role="tblSaleCartDetail">
+              <PropertyRef Name="SaleCartID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblSaleCartDetail_tblStock">
+          <End Type="CloudDBModel.tblStock" Role="tblStock" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CloudDBModel.tblSaleCartDetail" Role="tblSaleCartDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblStock">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="tblSaleCartDetail">
+              <PropertyRef Name="ProductID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2735,6 +3273,59 @@
                 <ScalarProperty Name="BranchID" ColumnName="BranchID" />
                 <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
                 <ScalarProperty Name="PayrollID" ColumnName="PayrollID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblPurchaseCart">
+            <EntityTypeMapping TypeName="CloudDBModel.tblPurchaseCart">
+              <MappingFragment StoreEntitySet="tblPurchaseCart">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="InvoiceNo" ColumnName="InvoiceNo" />
+                <ScalarProperty Name="BranchID" ColumnName="BranchID" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+                <ScalarProperty Name="PurchaseCartID" ColumnName="PurchaseCartID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblPurchaseCartDetail">
+            <EntityTypeMapping TypeName="CloudDBModel.tblPurchaseCartDetail">
+              <MappingFragment StoreEntitySet="tblPurchaseCartDetail">
+                <ScalarProperty Name="PurchaseUnitPrice" ColumnName="PurchaseUnitPrice" />
+                <ScalarProperty Name="PurchaseQuantity" ColumnName="PurchaseQuantity" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="PurchaseCartID" ColumnName="PurchaseCartID" />
+                <ScalarProperty Name="PurchaseCartDetailID" ColumnName="PurchaseCartDetailID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblSaleCart">
+            <EntityTypeMapping TypeName="CloudDBModel.tblSaleCart">
+              <MappingFragment StoreEntitySet="tblSaleCart">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="InvoiceNo" ColumnName="InvoiceNo" />
+                <ScalarProperty Name="BranchID" ColumnName="BranchID" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="SaleCartID" ColumnName="SaleCartID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblSaleCartDetail">
+            <EntityTypeMapping TypeName="CloudDBModel.tblSaleCartDetail">
+              <MappingFragment StoreEntitySet="tblSaleCartDetail">
+                <ScalarProperty Name="SaleUnitPrice" ColumnName="SaleUnitPrice" />
+                <ScalarProperty Name="SaleQuantity" ColumnName="SaleQuantity" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="SaleCartID" ColumnName="SaleCartID" />
+                <ScalarProperty Name="SaleCartDetailID" ColumnName="SaleCartDetailID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

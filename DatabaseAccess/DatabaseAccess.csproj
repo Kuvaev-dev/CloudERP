@@ -111,6 +111,18 @@
     <Compile Include="tblPayroll.cs">
       <DependentUpon>CloudDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="tblPurchaseCart.cs">
+      <DependentUpon>CloudDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblPurchaseCartDetail.cs">
+      <DependentUpon>CloudDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblSaleCart.cs">
+      <DependentUpon>CloudDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblSaleCartDetail.cs">
+      <DependentUpon>CloudDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="tblStock.cs">
       <DependentUpon>CloudDB.tt</DependentUpon>
     </Compile>
