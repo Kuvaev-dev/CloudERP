@@ -27,7 +27,8 @@ namespace DatabaseAccess
             this.tblFinancialYear = new HashSet<tblFinancialYear>();
             this.tblPayroll = new HashSet<tblPayroll>();
             this.tblPurchaseCart = new HashSet<tblPurchaseCart>();
-            this.tblSaleCart = new HashSet<tblSaleCart>();
+            this.tblPurchaseCartDetail = new HashSet<tblPurchaseCartDetail>();
+            this.tblSaleCartDetail = new HashSet<tblSaleCartDetail>();
             this.tblStock = new HashSet<tblStock>();
             this.tblSupplier = new HashSet<tblSupplier>();
             this.tblSupplierInvoice = new HashSet<tblSupplierInvoice>();
@@ -65,7 +66,9 @@ namespace DatabaseAccess
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblPurchaseCart> tblPurchaseCart { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblSaleCart> tblSaleCart { get; set; }
+        public virtual ICollection<tblPurchaseCartDetail> tblPurchaseCartDetail { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblSaleCartDetail> tblSaleCartDetail { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblStock> tblStock { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

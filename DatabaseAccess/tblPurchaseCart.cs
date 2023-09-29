@@ -14,12 +14,6 @@ namespace DatabaseAccess
     
     public partial class tblPurchaseCart
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tblPurchaseCart()
-        {
-            this.tblPurchaseCartDetail = new HashSet<tblPurchaseCartDetail>();
-        }
-    
         public int PurchaseCartID { get; set; }
         public int SupplierID { get; set; }
         public int CompanyID { get; set; }
@@ -33,8 +27,6 @@ namespace DatabaseAccess
         public virtual tblBranch tblBranch { get; set; }
         public virtual tblCompany tblCompany { get; set; }
         public virtual tblUser tblUser { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblPurchaseCartDetail> tblPurchaseCartDetail { get; set; }
         public virtual tblSupplier tblSupplier { get; set; }
     }
 }

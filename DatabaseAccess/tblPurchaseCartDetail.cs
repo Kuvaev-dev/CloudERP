@@ -15,12 +15,16 @@ namespace DatabaseAccess
     public partial class tblPurchaseCartDetail
     {
         public int PurchaseCartDetailID { get; set; }
-        public int PurchaseCartID { get; set; }
         public int ProductID { get; set; }
         public int PurchaseQuantity { get; set; }
         public double PurchaseUnitPrice { get; set; }
+        public int CompanyID { get; set; }
+        public int BranchID { get; set; }
+        public int UserID { get; set; }
     
-        public virtual tblPurchaseCart tblPurchaseCart { get; set; }
+        public virtual tblBranch tblBranch { get; set; }
+        public virtual tblCompany tblCompany { get; set; }
         public virtual tblStock tblStock { get; set; }
+        public virtual tblUser tblUser { get; set; }
     }
 }

@@ -117,9 +117,6 @@
     <Compile Include="tblPurchaseCartDetail.cs">
       <DependentUpon>CloudDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="tblSaleCart.cs">
-      <DependentUpon>CloudDB.tt</DependentUpon>
-    </Compile>
     <Compile Include="tblSaleCartDetail.cs">
       <DependentUpon>CloudDB.tt</DependentUpon>
     </Compile>
