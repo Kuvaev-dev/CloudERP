@@ -139,6 +139,7 @@
     <Compile Include="Controllers\FinancialYearViewController.cs" />
     <Compile Include="Controllers\HeadEmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PurchaseCartController.cs" />
     <Compile Include="Controllers\StockController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -153,6 +154,7 @@
     <Compile Include="Models\BranchsCustomersMV.cs" />
     <Compile Include="Models\BranchsSuppliersMV.cs" />
     <Compile Include="Models\CompanyRegistrationMV.cs" />
+    <Compile Include="Models\ProductMV.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -483,6 +485,8 @@
     <Content Include="Views\Supplier\Index.cshtml" />
     <Content Include="Views\Supplier\SubBranchSupplier.cshtml" />
     <Content Include="Views\Supplier\AllSuppliers.cshtml" />
+    <Content Include="Views\PurchaseCart\NewPurchase.cshtml" />
+    <Content Include="Views\PurchaseCart\AddItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

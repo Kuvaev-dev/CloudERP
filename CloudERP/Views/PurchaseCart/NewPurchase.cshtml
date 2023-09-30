@@ -1,0 +1,136 @@
+﻿@model IEnumerable<DatabaseAccess.tblPurchaseCartDetail>
+
+@{
+    ViewBag.Title = "Purchasing";
+}
+
+<script src="~/Scripts/jquery-3.7.1.js"></script>
+
+
+@using (Html.BeginForm("AddItem", "PurchaseCart", FormMethod.Post, null))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>tblPurchaseCartDetail</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Select Product</label>
+            <div class="col-md-10">
+                <select class="form-control" id="PID" name="PID" required></select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Quantity</label>
+            <div class="col-md-10">
+                <input type="number" class="form-control" id="Qty" name="Qty" placeholder="Enter Purchase Quantity..." required />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Unit Price</label>
+            <div class="col-md-10">
+                <input type="number" class="form-control" id="Price" step=".01" name="Price" placeholder="Enter Unit Price..." required />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Add Item" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+
+<div class="card card-default col-md-12">
+    <div class="card-header">
+        <h3 class="text-bold">Item`s List</h3>
+        <h4 class="text-success">@ViewBag.Message</h4>
+        <input class="form-control col-md-3" style="float:right;" type="text" id="searchPurchase" name="searchPurchase" placeholder="Search..." />
+    </div>
+    <div class="card-body">
+        <div class="table-responsive bootgrid">
+            <table class="table table-striped table-bordered table-hover" id="dataTable">
+                <thead>
+                    <tr>
+                        <th>
+                            Item`s
+                        </th>
+                        <th>
+                            Quantity
+                        </th>
+                        <th>
+                            Unit Price
+                        </th>
+                        <th>
+                            User
+                        </th>
+                        <th>
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="purchaseList">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.tblStock.ProductName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PurchaseQuantity)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PurchaseUnitPrice)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.tblUser.UserName)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Delete", "DeleteConfirm", new { id = item.PurchaseCartDetailID }, new { @class = "btn btn-danger" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+            <div style="float:right;">
+                @Html.ActionLink("Finalize", "PurchaseConfirm", null, new { @class = "btn btn-success", style="padding:20px;" })
+                @Html.ActionLink("Cancel", "CancelPurchase", null, new { @class = "btn btn-danger", style = "padding:20px;" })
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#searchPurchase").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#purchaseList tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            })
+        })
+
+        $.ajax({
+            url: '@Url.Action("GetProduct", "PurchaseCart")',
+            type: 'GET',
+            data: { sid: $(this).val() },
+            dataType: 'Json',
+            success: function (response) {
+                for (var i = 0; i < response.data.length; i++) {
+                    $('#PID').append("<option value=" + response.data[i].ProductID + ">" + response.data[i].Name + "</option>");
+                }
+            },
+            error: function () { }
+        });
+    });
+</script>
