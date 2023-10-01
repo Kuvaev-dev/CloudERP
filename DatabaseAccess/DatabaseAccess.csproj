@@ -69,10 +69,16 @@
       <DependentUpon>CloudDB.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="tblAccountActivity.cs">
+      <DependentUpon>CloudDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="tblAccountControl.cs">
       <DependentUpon>CloudDB.tt</DependentUpon>
     </Compile>
     <Compile Include="tblAccountHead.cs">
+      <DependentUpon>CloudDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblAccountSetting.cs">
       <DependentUpon>CloudDB.tt</DependentUpon>
     </Compile>
     <Compile Include="tblAccountSubControl.cs">

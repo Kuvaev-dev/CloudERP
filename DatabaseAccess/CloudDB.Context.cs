@@ -25,8 +25,10 @@ namespace DatabaseAccess
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<tblAccountActivity> tblAccountActivity { get; set; }
         public virtual DbSet<tblAccountControl> tblAccountControl { get; set; }
         public virtual DbSet<tblAccountHead> tblAccountHead { get; set; }
+        public virtual DbSet<tblAccountSetting> tblAccountSetting { get; set; }
         public virtual DbSet<tblAccountSubControl> tblAccountSubControl { get; set; }
         public virtual DbSet<tblBranch> tblBranch { get; set; }
         public virtual DbSet<tblBranchType> tblBranchType { get; set; }

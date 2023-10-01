@@ -19,6 +19,7 @@ namespace DatabaseAccess
         {
             this.tblAccountSubControl = new HashSet<tblAccountSubControl>();
             this.tblTransaction = new HashSet<tblTransaction>();
+            this.tblAccountSetting = new HashSet<tblAccountSetting>();
         }
     
         public int AccountControlID { get; set; }
@@ -35,5 +36,7 @@ namespace DatabaseAccess
         public virtual ICollection<tblAccountSubControl> tblAccountSubControl { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblTransaction> tblTransaction { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblAccountSetting> tblAccountSetting { get; set; }
     }
 }

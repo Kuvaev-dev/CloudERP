@@ -11,25 +11,28 @@ namespace DatabaseAccess
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class tblAccountHead
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tblAccountHead()
         {
+            this.tblAccountSetting = new HashSet<tblAccountSetting>();
             this.tblAccountSubControl = new HashSet<tblAccountSubControl>();
             this.tblTransaction = new HashSet<tblTransaction>();
             this.tblTransaction1 = new HashSet<tblTransaction>();
         }
     
         public int AccountHeadID { get; set; }
-        public int CompanyID { get; set; }
-        public int BranchID { get; set; }
+        [Required(ErrorMessage = "*Required!")]
         public string AccountHeadName { get; set; }
         public int Code { get; set; }
         public int UserID { get; set; }
     
         public virtual tblUser tblUser { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblAccountSetting> tblAccountSetting { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblAccountSubControl> tblAccountSubControl { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

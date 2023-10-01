@@ -5,6 +5,13 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="Хранилище CloudDBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblAccountActivity">
+          <Key>
+            <PropertyRef Name="AccountActivityID" />
+          </Key>
+          <Property Name="AccountActivityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
         <EntityType Name="tblAccountControl">
           <Key>
             <PropertyRef Name="AccountControlID" />
@@ -21,11 +28,19 @@
             <PropertyRef Name="AccountHeadID" />
           </Key>
           <Property Name="AccountHeadID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="CompanyID" Type="int" Nullable="false" />
-          <Property Name="BranchID" Type="int" Nullable="false" />
           <Property Name="AccountHeadName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Code" Type="int" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblAccountSetting">
+          <Key>
+            <PropertyRef Name="AccountSettingID" />
+          </Key>
+          <Property Name="AccountSettingID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AccountHeadID" Type="int" Nullable="false" />
+          <Property Name="AccountControlID" Type="int" Nullable="false" />
+          <Property Name="AccountSubControlID" Type="int" Nullable="false" />
+          <Property Name="AccountActivityID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="tblAccountSubControl">
           <Key>
@@ -367,6 +382,54 @@
             </Principal>
             <Dependent Role="tblAccountHead">
               <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblAccountSetting_tblAccountActivity">
+          <End Role="tblAccountActivity" Type="Self.tblAccountActivity" Multiplicity="1" />
+          <End Role="tblAccountSetting" Type="Self.tblAccountSetting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblAccountActivity">
+              <PropertyRef Name="AccountActivityID" />
+            </Principal>
+            <Dependent Role="tblAccountSetting">
+              <PropertyRef Name="AccountActivityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblAccountSetting_tblAccountControl">
+          <End Role="tblAccountControl" Type="Self.tblAccountControl" Multiplicity="1" />
+          <End Role="tblAccountSetting" Type="Self.tblAccountSetting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblAccountControl">
+              <PropertyRef Name="AccountControlID" />
+            </Principal>
+            <Dependent Role="tblAccountSetting">
+              <PropertyRef Name="AccountControlID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblAccountSetting_tblAccountHead">
+          <End Role="tblAccountHead" Type="Self.tblAccountHead" Multiplicity="1" />
+          <End Role="tblAccountSetting" Type="Self.tblAccountSetting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblAccountHead">
+              <PropertyRef Name="AccountHeadID" />
+            </Principal>
+            <Dependent Role="tblAccountSetting">
+              <PropertyRef Name="AccountHeadID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblAccountSetting_tblAccountSubControl">
+          <End Role="tblAccountSubControl" Type="Self.tblAccountSubControl" Multiplicity="1" />
+          <End Role="tblAccountSetting" Type="Self.tblAccountSetting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblAccountSubControl">
+              <PropertyRef Name="AccountSubControlID" />
+            </Principal>
+            <Dependent Role="tblAccountSetting">
+              <PropertyRef Name="AccountSubControlID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1161,8 +1224,10 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="Хранилище CloudDBModelContainer">
+          <EntitySet Name="tblAccountActivity" EntityType="Self.tblAccountActivity" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblAccountControl" EntityType="Self.tblAccountControl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblAccountHead" EntityType="Self.tblAccountHead" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblAccountSetting" EntityType="Self.tblAccountSetting" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblAccountSubControl" EntityType="Self.tblAccountSubControl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblBranch" EntityType="Self.tblBranch" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblBranchType" EntityType="Self.tblBranchType" Schema="dbo" store:Type="Tables" />
@@ -1201,6 +1266,22 @@
           <AssociationSet Name="FK_tblAccountHead_tblUser" Association="Self.FK_tblAccountHead_tblUser">
             <End Role="tblUser" EntitySet="tblUser" />
             <End Role="tblAccountHead" EntitySet="tblAccountHead" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblAccountSetting_tblAccountActivity" Association="Self.FK_tblAccountSetting_tblAccountActivity">
+            <End Role="tblAccountActivity" EntitySet="tblAccountActivity" />
+            <End Role="tblAccountSetting" EntitySet="tblAccountSetting" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblAccountSetting_tblAccountControl" Association="Self.FK_tblAccountSetting_tblAccountControl">
+            <End Role="tblAccountControl" EntitySet="tblAccountControl" />
+            <End Role="tblAccountSetting" EntitySet="tblAccountSetting" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblAccountSetting_tblAccountHead" Association="Self.FK_tblAccountSetting_tblAccountHead">
+            <End Role="tblAccountHead" EntitySet="tblAccountHead" />
+            <End Role="tblAccountSetting" EntitySet="tblAccountSetting" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblAccountSetting_tblAccountSubControl" Association="Self.FK_tblAccountSetting_tblAccountSubControl">
+            <End Role="tblAccountSubControl" EntitySet="tblAccountSubControl" />
+            <End Role="tblAccountSetting" EntitySet="tblAccountSetting" />
           </AssociationSet>
           <AssociationSet Name="FK_tblAccountSubControl_tblAccountControl" Association="Self.FK_tblAccountSubControl_tblAccountControl">
             <End Role="tblAccountControl" EntitySet="tblAccountControl" />
@@ -1460,8 +1541,10 @@
     <edmx:ConceptualModels>
       <Schema Namespace="CloudDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="CloudDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblAccountActivity" EntityType="CloudDBModel.tblAccountActivity" />
           <EntitySet Name="tblAccountControl" EntityType="CloudDBModel.tblAccountControl" />
           <EntitySet Name="tblAccountHead" EntityType="CloudDBModel.tblAccountHead" />
+          <EntitySet Name="tblAccountSetting" EntityType="CloudDBModel.tblAccountSetting" />
           <EntitySet Name="tblAccountSubControl" EntityType="CloudDBModel.tblAccountSubControl" />
           <EntitySet Name="tblBranch" EntityType="CloudDBModel.tblBranch" />
           <EntitySet Name="tblBranchType" EntityType="CloudDBModel.tblBranchType" />
@@ -1485,6 +1568,10 @@
           <EntitySet Name="tblTransaction" EntityType="CloudDBModel.tblTransaction" />
           <EntitySet Name="tblUser" EntityType="CloudDBModel.tblUser" />
           <EntitySet Name="tblUserType" EntityType="CloudDBModel.tblUserType" />
+          <AssociationSet Name="FK_tblAccountSetting_tblAccountActivity" Association="CloudDBModel.FK_tblAccountSetting_tblAccountActivity">
+            <End Role="tblAccountActivity" EntitySet="tblAccountActivity" />
+            <End Role="tblAccountSetting" EntitySet="tblAccountSetting" />
+          </AssociationSet>
           <AssociationSet Name="FK_tblAccountControl_tblBranch" Association="CloudDBModel.FK_tblAccountControl_tblBranch">
             <End Role="tblBranch" EntitySet="tblBranch" />
             <End Role="tblAccountControl" EntitySet="tblAccountControl" />
@@ -1496,6 +1583,10 @@
           <AssociationSet Name="FK_tblAccountControl_tblUser" Association="CloudDBModel.FK_tblAccountControl_tblUser">
             <End Role="tblUser" EntitySet="tblUser" />
             <End Role="tblAccountControl" EntitySet="tblAccountControl" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblAccountSetting_tblAccountControl" Association="CloudDBModel.FK_tblAccountSetting_tblAccountControl">
+            <End Role="tblAccountControl" EntitySet="tblAccountControl" />
+            <End Role="tblAccountSetting" EntitySet="tblAccountSetting" />
           </AssociationSet>
           <AssociationSet Name="FK_tblAccountSubControl_tblAccountControl" Association="CloudDBModel.FK_tblAccountSubControl_tblAccountControl">
             <End Role="tblAccountControl" EntitySet="tblAccountControl" />
@@ -1509,6 +1600,10 @@
             <End Role="tblUser" EntitySet="tblUser" />
             <End Role="tblAccountHead" EntitySet="tblAccountHead" />
           </AssociationSet>
+          <AssociationSet Name="FK_tblAccountSetting_tblAccountHead" Association="CloudDBModel.FK_tblAccountSetting_tblAccountHead">
+            <End Role="tblAccountHead" EntitySet="tblAccountHead" />
+            <End Role="tblAccountSetting" EntitySet="tblAccountSetting" />
+          </AssociationSet>
           <AssociationSet Name="FK_tblAccountSubControl_tblAccountHead" Association="CloudDBModel.FK_tblAccountSubControl_tblAccountHead">
             <End Role="tblAccountHead" EntitySet="tblAccountHead" />
             <End Role="tblAccountSubControl" EntitySet="tblAccountSubControl" />
@@ -1520,6 +1615,10 @@
           <AssociationSet Name="FK_tblTransection_tblAccountHead" Association="CloudDBModel.FK_tblTransection_tblAccountHead">
             <End Role="tblAccountHead" EntitySet="tblAccountHead" />
             <End Role="tblTransaction" EntitySet="tblTransaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblAccountSetting_tblAccountSubControl" Association="CloudDBModel.FK_tblAccountSetting_tblAccountSubControl">
+            <End Role="tblAccountSubControl" EntitySet="tblAccountSubControl" />
+            <End Role="tblAccountSetting" EntitySet="tblAccountSetting" />
           </AssociationSet>
           <AssociationSet Name="FK_tblAccountSubControl_tblBranch" Association="CloudDBModel.FK_tblAccountSubControl_tblBranch">
             <End Role="tblBranch" EntitySet="tblBranch" />
@@ -1754,6 +1853,14 @@
             <End Role="tblUser" EntitySet="tblUser" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="tblAccountActivity">
+          <Key>
+            <PropertyRef Name="AccountActivityID" />
+          </Key>
+          <Property Name="AccountActivityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tblAccountSetting" Relationship="CloudDBModel.FK_tblAccountSetting_tblAccountActivity" FromRole="tblAccountActivity" ToRole="tblAccountSetting" />
+        </EntityType>
         <EntityType Name="tblAccountControl">
           <Key>
             <PropertyRef Name="AccountControlID" />
@@ -1767,6 +1874,7 @@
           <NavigationProperty Name="tblBranch" Relationship="CloudDBModel.FK_tblAccountControl_tblBranch" FromRole="tblAccountControl" ToRole="tblBranch" />
           <NavigationProperty Name="tblCompany" Relationship="CloudDBModel.FK_tblAccountControl_tblCompany" FromRole="tblAccountControl" ToRole="tblCompany" />
           <NavigationProperty Name="tblUser" Relationship="CloudDBModel.FK_tblAccountControl_tblUser" FromRole="tblAccountControl" ToRole="tblUser" />
+          <NavigationProperty Name="tblAccountSetting" Relationship="CloudDBModel.FK_tblAccountSetting_tblAccountControl" FromRole="tblAccountControl" ToRole="tblAccountSetting" />
           <NavigationProperty Name="tblAccountSubControl" Relationship="CloudDBModel.FK_tblAccountSubControl_tblAccountControl" FromRole="tblAccountControl" ToRole="tblAccountSubControl" />
           <NavigationProperty Name="tblTransaction" Relationship="CloudDBModel.FK_tblTransaction_tblAccountControl" FromRole="tblAccountControl" ToRole="tblTransaction" />
         </EntityType>
@@ -1775,15 +1883,28 @@
             <PropertyRef Name="AccountHeadID" />
           </Key>
           <Property Name="AccountHeadID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CompanyID" Type="Int32" Nullable="false" />
-          <Property Name="BranchID" Type="Int32" Nullable="false" />
           <Property Name="AccountHeadName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Code" Type="Int32" Nullable="false" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="tblUser" Relationship="CloudDBModel.FK_tblAccountHead_tblUser" FromRole="tblAccountHead" ToRole="tblUser" />
+          <NavigationProperty Name="tblAccountSetting" Relationship="CloudDBModel.FK_tblAccountSetting_tblAccountHead" FromRole="tblAccountHead" ToRole="tblAccountSetting" />
           <NavigationProperty Name="tblAccountSubControl" Relationship="CloudDBModel.FK_tblAccountSubControl_tblAccountHead" FromRole="tblAccountHead" ToRole="tblAccountSubControl" />
           <NavigationProperty Name="tblTransaction" Relationship="CloudDBModel.FK_tblTransaction_tblAccountHead" FromRole="tblAccountHead" ToRole="tblTransaction" />
           <NavigationProperty Name="tblTransaction1" Relationship="CloudDBModel.FK_tblTransection_tblAccountHead" FromRole="tblAccountHead" ToRole="tblTransaction" />
+        </EntityType>
+        <EntityType Name="tblAccountSetting">
+          <Key>
+            <PropertyRef Name="AccountSettingID" />
+          </Key>
+          <Property Name="AccountSettingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountHeadID" Type="Int32" Nullable="false" />
+          <Property Name="AccountControlID" Type="Int32" Nullable="false" />
+          <Property Name="AccountSubControlID" Type="Int32" Nullable="false" />
+          <Property Name="AccountActivityID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tblAccountActivity" Relationship="CloudDBModel.FK_tblAccountSetting_tblAccountActivity" FromRole="tblAccountSetting" ToRole="tblAccountActivity" />
+          <NavigationProperty Name="tblAccountControl" Relationship="CloudDBModel.FK_tblAccountSetting_tblAccountControl" FromRole="tblAccountSetting" ToRole="tblAccountControl" />
+          <NavigationProperty Name="tblAccountHead" Relationship="CloudDBModel.FK_tblAccountSetting_tblAccountHead" FromRole="tblAccountSetting" ToRole="tblAccountHead" />
+          <NavigationProperty Name="tblAccountSubControl" Relationship="CloudDBModel.FK_tblAccountSetting_tblAccountSubControl" FromRole="tblAccountSetting" ToRole="tblAccountSubControl" />
         </EntityType>
         <EntityType Name="tblAccountSubControl">
           <Key>
@@ -1798,6 +1919,7 @@
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="tblAccountControl" Relationship="CloudDBModel.FK_tblAccountSubControl_tblAccountControl" FromRole="tblAccountSubControl" ToRole="tblAccountControl" />
           <NavigationProperty Name="tblAccountHead" Relationship="CloudDBModel.FK_tblAccountSubControl_tblAccountHead" FromRole="tblAccountSubControl" ToRole="tblAccountHead" />
+          <NavigationProperty Name="tblAccountSetting" Relationship="CloudDBModel.FK_tblAccountSetting_tblAccountSubControl" FromRole="tblAccountSubControl" ToRole="tblAccountSetting" />
           <NavigationProperty Name="tblBranch" Relationship="CloudDBModel.FK_tblAccountSubControl_tblBranch" FromRole="tblAccountSubControl" ToRole="tblBranch" />
           <NavigationProperty Name="tblUser" Relationship="CloudDBModel.FK_tblAccountSubControl_tblUser" FromRole="tblAccountSubControl" ToRole="tblUser" />
           <NavigationProperty Name="tblTransaction" Relationship="CloudDBModel.FK_tblTransection_tblAccountSubControl" FromRole="tblAccountSubControl" ToRole="tblTransaction" />
@@ -2205,6 +2327,18 @@
           <Property Name="UserType" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="tblUser" Relationship="CloudDBModel.FK_tblUser_tblUserType" FromRole="tblUserType" ToRole="tblUser" />
         </EntityType>
+        <Association Name="FK_tblAccountSetting_tblAccountActivity">
+          <End Type="CloudDBModel.tblAccountActivity" Role="tblAccountActivity" Multiplicity="1" />
+          <End Type="CloudDBModel.tblAccountSetting" Role="tblAccountSetting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblAccountActivity">
+              <PropertyRef Name="AccountActivityID" />
+            </Principal>
+            <Dependent Role="tblAccountSetting">
+              <PropertyRef Name="AccountActivityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tblAccountControl_tblBranch">
           <End Type="CloudDBModel.tblBranch" Role="tblBranch" Multiplicity="1" />
           <End Type="CloudDBModel.tblAccountControl" Role="tblAccountControl" Multiplicity="*" />
@@ -2238,6 +2372,18 @@
             </Principal>
             <Dependent Role="tblAccountControl">
               <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblAccountSetting_tblAccountControl">
+          <End Type="CloudDBModel.tblAccountControl" Role="tblAccountControl" Multiplicity="1" />
+          <End Type="CloudDBModel.tblAccountSetting" Role="tblAccountSetting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblAccountControl">
+              <PropertyRef Name="AccountControlID" />
+            </Principal>
+            <Dependent Role="tblAccountSetting">
+              <PropertyRef Name="AccountControlID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2281,6 +2427,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tblAccountSetting_tblAccountHead">
+          <End Type="CloudDBModel.tblAccountHead" Role="tblAccountHead" Multiplicity="1" />
+          <End Type="CloudDBModel.tblAccountSetting" Role="tblAccountSetting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblAccountHead">
+              <PropertyRef Name="AccountHeadID" />
+            </Principal>
+            <Dependent Role="tblAccountSetting">
+              <PropertyRef Name="AccountHeadID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tblAccountSubControl_tblAccountHead">
           <End Type="CloudDBModel.tblAccountHead" Role="tblAccountHead" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -2318,6 +2476,18 @@
             </Principal>
             <Dependent Role="tblTransaction">
               <PropertyRef Name="AccountHeadID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblAccountSetting_tblAccountSubControl">
+          <End Type="CloudDBModel.tblAccountSubControl" Role="tblAccountSubControl" Multiplicity="1" />
+          <End Type="CloudDBModel.tblAccountSetting" Role="tblAccountSetting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblAccountSubControl">
+              <PropertyRef Name="AccountSubControlID" />
+            </Principal>
+            <Dependent Role="tblAccountSetting">
+              <PropertyRef Name="AccountSubControlID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3049,6 +3219,14 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="Хранилище CloudDBModelContainer" CdmEntityContainer="CloudDBEntities">
+          <EntitySetMapping Name="tblAccountActivity">
+            <EntityTypeMapping TypeName="CloudDBModel.tblAccountActivity">
+              <MappingFragment StoreEntitySet="tblAccountActivity">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="AccountActivityID" ColumnName="AccountActivityID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tblAccountControl">
             <EntityTypeMapping TypeName="CloudDBModel.tblAccountControl">
               <MappingFragment StoreEntitySet="tblAccountControl">
@@ -3067,9 +3245,18 @@
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="AccountHeadName" ColumnName="AccountHeadName" />
-                <ScalarProperty Name="BranchID" ColumnName="BranchID" />
-                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
                 <ScalarProperty Name="AccountHeadID" ColumnName="AccountHeadID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblAccountSetting">
+            <EntityTypeMapping TypeName="CloudDBModel.tblAccountSetting">
+              <MappingFragment StoreEntitySet="tblAccountSetting">
+                <ScalarProperty Name="AccountActivityID" ColumnName="AccountActivityID" />
+                <ScalarProperty Name="AccountSubControlID" ColumnName="AccountSubControlID" />
+                <ScalarProperty Name="AccountControlID" ColumnName="AccountControlID" />
+                <ScalarProperty Name="AccountHeadID" ColumnName="AccountHeadID" />
+                <ScalarProperty Name="AccountSettingID" ColumnName="AccountSettingID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

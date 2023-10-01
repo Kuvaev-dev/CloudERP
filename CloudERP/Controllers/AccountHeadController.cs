@@ -27,7 +27,7 @@ namespace CloudERP.Controllers
             branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var tblAccountHead = db.tblAccountHead.Include(t => t.tblUser).Where(a => a.CompanyID == companyID && a.BranchID == branchID);
+            var tblAccountHead = db.tblAccountHead.Include(t => t.tblUser).ToList();
             return View(tblAccountHead.ToList());
         }
 
@@ -69,12 +69,10 @@ namespace CloudERP.Controllers
             branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            tblAccountHead.BranchID = branchID;
-            tblAccountHead.CompanyID = companyID;
             tblAccountHead.UserID = userID;
             if (ModelState.IsValid)
             {
-                var findHead = db.tblAccountHead.Where(a => a.CompanyID == companyID && a.BranchID == branchID && a.AccountHeadName == tblAccountHead.AccountHeadName).FirstOrDefault();
+                var findHead = db.tblAccountHead.Where(a => a.AccountHeadName == tblAccountHead.AccountHeadName).FirstOrDefault();
                 if (findHead == null)
                 {
                     db.tblAccountHead.Add(tblAccountHead);
@@ -122,10 +120,8 @@ namespace CloudERP.Controllers
             tblAccountHead.UserID = userID;
             if (ModelState.IsValid)
             {
-                var findHead = db.tblAccountHead.Where(a => a.CompanyID == tblAccountHead.CompanyID 
-                                                         && a.BranchID == tblAccountHead.BranchID 
-                                                         && a.AccountHeadName == tblAccountHead.AccountHeadName
-                                                         && a.AccountHeadID == tblAccountHead.AccountHeadID).FirstOrDefault();
+                var findHead = db.tblAccountHead.Where(a => a.AccountHeadName == tblAccountHead.AccountHeadName
+                                                         && a.AccountHeadID != tblAccountHead.AccountHeadID).FirstOrDefault();
                 if (findHead == null)
                 {
                     db.Entry(tblAccountHead).State = EntityState.Modified;
