@@ -126,6 +126,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountControlController.cs" />
     <Compile Include="Controllers\AccountHeadController.cs" />
+    <Compile Include="Controllers\AccountSettingController.cs" />
     <Compile Include="Controllers\AccountSubControlController.cs" />
     <Compile Include="Controllers\BranchController.cs" />
     <Compile Include="Controllers\BranchEmployeeController.cs" />
@@ -487,6 +488,11 @@
     <Content Include="Views\Supplier\AllSuppliers.cshtml" />
     <Content Include="Views\PurchaseCart\NewPurchase.cshtml" />
     <Content Include="Views\PurchaseCart\AddItem.cshtml" />
+    <Content Include="Views\AccountSetting\Create.cshtml" />
+    <Content Include="Views\AccountSetting\Delete.cshtml" />
+    <Content Include="Views\AccountSetting\Details.cshtml" />
+    <Content Include="Views\AccountSetting\Edit.cshtml" />
+    <Content Include="Views\AccountSetting\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -33,6 +33,7 @@ namespace DatabaseAccess
             this.tblStock = new HashSet<tblStock>();
             this.tblSupplier = new HashSet<tblSupplier>();
             this.tblSupplierInvoice = new HashSet<tblSupplierInvoice>();
+            this.tblAccountSetting = new HashSet<tblAccountSetting>();
         }
 
         public int CompanyID { get; set; }
@@ -68,5 +69,7 @@ namespace DatabaseAccess
         public virtual ICollection<tblSupplier> tblSupplier { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblSupplierInvoice> tblSupplierInvoice { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblAccountSetting> tblAccountSetting { get; set; }
     }
 }

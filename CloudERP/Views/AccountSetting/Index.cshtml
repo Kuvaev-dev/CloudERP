@@ -1,16 +1,15 @@
-﻿@model IEnumerable<DatabaseAccess.tblAccountSubControl>
+﻿@model IEnumerable<DatabaseAccess.tblAccountSetting>
 
 @{
-    ViewBag.Title = "Account Sub Controls";
+    ViewBag.Title = "Manage Transactions";
 }
 
 <script src="~/Scripts/jquery-3.7.1.js"></script>
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        @Html.ActionLink("New Account Sub Control", "Create", null, new { @style = "float:left;", @class = "btn btn-primary" })
-        @ViewBag.Message
-        <input class="form-control col-md-3" style="float:right;" type="text" id="searchAccountSubControl" name="searchAccountSubControl" placeholder="Search..." />
+        @Html.ActionLink("Set Accounting Flow", "Create", null, new { @style = "float:left;", @class = "btn btn-primary" })
+        <input class="form-control col-md-3" style="float:right;" type="text" id="searchAccountSetting" name="searchAccountSetting" placeholder="Search..." />
     </div>
     <div class="card-body">
         <div class="table-responsive bootgrid">
@@ -18,26 +17,29 @@
                 <thead>
                     <tr>
                         <th>
+                            Activity
+                        </th>
+                        <th>
                             Head Account
                         </th>
                         <th>
                             Control Account
                         </th>
                         <th>
-                            Sub Control Account
-                        </th>
-                        <th>
-                            User
+                            Sub Control
                         </th>
                         <th>
                             Actions
                         </th>
                     </tr>
                 </thead>
-                <tbody id="accountSubControlList">
+                <tbody id="accountSettingList">
                     @foreach (var item in Model)
                     {
                         <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.tblAccountActivity.Name)
+                            </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.tblAccountHead.AccountHeadName)
                             </td>
@@ -45,13 +47,10 @@
                                 @Html.DisplayFor(modelItem => item.tblAccountControl.AccountControlName)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.AccountSubControlName)
+                                @Html.DisplayFor(modelItem => item.tblAccountSubControl.AccountSubControlName)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.tblUser.FullName)
-                            </td>
-                            <td>
-                                @Html.ActionLink("Edit", "Edit", new { id = item.AccountSubControlID }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink("Update", "Edit", new { id = item.AccountSettingID }, new { @class = "btn btn-primary" })
                             </td>
                         </tr>
                     }
@@ -62,9 +61,9 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#searchAccountSubControl").on("keyup", function () {
+        $("#searchAccountSetting").on("keyup", function () {
             var value = $(this).val().toLowerCase();
-            $("#accountSubControlList tr").filter(function () {
+            $("#accountSettingList tr").filter(function () {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             })
         })

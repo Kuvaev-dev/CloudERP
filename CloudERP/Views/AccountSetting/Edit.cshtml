@@ -1,0 +1,62 @@
+﻿@model DatabaseAccess.tblAccountSetting
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @ViewBag.Message
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.AccountSettingID)
+        @Html.HiddenFor(model => model.CompanyID)
+        @Html.HiddenFor(model => model.BranchID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AccountHeadID, "Select Account", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("AccountHeadID", null, "Head Account", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.AccountHeadID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AccountControlID, "Select Account", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("AccountControlID", null, "Control Account", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.AccountControlID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AccountSubControlID, "Select Account", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("AccountSubControlID", null, "Sub Account", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.AccountSubControlID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AccountActivityID, "Select Activity", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("AccountActivityID", null, "Activity", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.AccountActivityID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
