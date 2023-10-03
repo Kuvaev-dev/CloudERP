@@ -123,7 +123,7 @@
         $.ajax({
             url: '@Url.Action("GetProduct", "PurchaseCart")',
             type: 'GET',
-            data: { sid: $(this).val() },
+            data: "{}",
             dataType: 'Json',
             success: function (response) {
                 for (var i = 0; i < response.data.length; i++) {

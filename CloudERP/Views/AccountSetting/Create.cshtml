@@ -4,6 +4,8 @@
     ViewBag.Title = "New Account Setting";
 }
 
+<script src="~/Scripts/jquery-3.7.1.js"></script>
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -14,7 +16,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.AccountHeadID, "Select Account", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("AccountHeadID", null, "Head Account", htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("AccountHeadID", null, "Head Account", htmlAttributes: new { @class = "form-control", @id = "AccountHeadID" })
                 @Html.ValidationMessageFor(model => model.AccountHeadID, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -22,7 +24,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.AccountControlID, "Select Account", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("AccountControlID", null, "Control Account", htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("AccountControlID", null, "Control Account", htmlAttributes: new { @class = "form-control", @id = "AccountControlID" })
                 @Html.ValidationMessageFor(model => model.AccountControlID, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -30,7 +32,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.AccountSubControlID, "Select Account", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("AccountSubControlID", null, "Sub Account", htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("AccountSubControlID", null, "Sub Account", htmlAttributes: new { @class = "form-control", @id = "AccountSubControlID" })
                 @Html.ValidationMessageFor(model => model.AccountSubControlID, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -51,3 +53,40 @@
         </div>
     </div>
 }
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#AccountHeadID').change(function () {
+            $('#AccountControlID').html('');
+            $.ajax({
+                url: '@Url.Action("GetAccountControls", "AccountSetting")',
+                type: 'GET',
+                data: { id: $(this).val() },
+                dataType: 'Json',
+                success: function (response) {
+                    $('#AccountControlID').append("<option value='0'>Control Account</option>");
+                    for (var i = 0; i < response.data.length; i++) {
+                        $('#AccountControlID').append("<option value=" + response.data[i].AccountControlID + ">" + response.data[i].AccountControlName + "</option>");
+                    }
+                },
+                error: function () { }
+            });
+        });
+
+        $('#AccountControlID').change(function () {
+            $('#AccountSubControlID').html('');
+            $.ajax({
+                url: '@Url.Action("GetSubControls", "AccountSetting")',
+                type: 'GET',
+                data: { id: $(this).val() },
+                dataType: 'Json',
+                success: function (response) {
+                    $('#AccountSubControlID').append("<option value='0'>Sub Control Account</option>");
+                    for (var i = 0; i < response.data.length; i++) {
+                        $('#AccountSubControlID').append("<option value=" + response.data[i].AccountSubControlID + ">" + response.data[i].AccountSubControlName + "</option>");
+                    }
+                },
+                error: function () { }
+            });
+        });
+    });
+</script>
