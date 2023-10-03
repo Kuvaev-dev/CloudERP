@@ -7,7 +7,6 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using CloudERP.Models;
 using DatabaseAccess;
 
 namespace CloudERP.Controllers
@@ -164,54 +163,6 @@ namespace CloudERP.Controllers
             ViewBag.AccountHeadID = new SelectList(db.tblAccountHead, "AccountHeadID", "AccountHeadName", tblAccountSetting.AccountHeadID);
             ViewBag.AccountSubControlID = new SelectList(db.tblAccountSubControl.Where(c => c.BranchID == branchID && c.CompanyID == companyID), "AccountSubControlID", "AccountSubControlName", tblAccountSetting.AccountSubControlID);
             return View(tblAccountSetting);
-        }
-
-        [HttpGet]
-        public ActionResult GetAccountControls(int? id)
-        {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
-                return RedirectToAction("Login", "Home");
-            }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-
-            List<AccountControlMV> controls = new List<AccountControlMV>();
-            var controlList = db.tblAccountControl.Where(p => p.BranchID == branchID && p.CompanyID == companyID && p.AccountHeadID == id).ToList();
-            foreach (var item in controlList)
-            {
-                controls.Add(new AccountControlMV() { AccountControlID = item.AccountControlID, AccountControlName = item.AccountControlName });
-            }
-
-            return Json(new { data = controls }, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpGet]
-        public ActionResult GetSubControls(int? id)
-        {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
-                return RedirectToAction("Login", "Home");
-            }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-
-            List<AccountSubControlMV> subControls = new List<AccountSubControlMV>();
-            var subControlList = db.tblAccountSubControl.Where(p => p.BranchID == branchID && p.CompanyID == companyID && p.AccountControlID == id).ToList();
-            foreach (var item in subControlList)
-            {
-                subControls.Add(new AccountSubControlMV() { AccountSubControlID = item.AccountSubControlID, AccountSubControlName = item.AccountSubControlName });
-            }
-
-            return Json(new { data = subControls }, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)

@@ -152,8 +152,6 @@
     <Compile Include="Helpers\BranchHelper.cs" />
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Models\AccountControlMV.cs" />
-    <Compile Include="Models\AccountControlsMV.cs" />
-    <Compile Include="Models\AccountSubControlMV.cs" />
     <Compile Include="Models\BranchsCustomersMV.cs" />
     <Compile Include="Models\BranchsSuppliersMV.cs" />
     <Compile Include="Models\CompanyRegistrationMV.cs" />
