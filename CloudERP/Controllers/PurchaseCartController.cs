@@ -20,6 +20,7 @@ namespace CloudERP.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
+            double totalAmount = 0;
             int companyID = 0;
             int branchID = 0;
             int userID = 0;
@@ -28,6 +29,11 @@ namespace CloudERP.Controllers
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
 
             var findDetail = db.tblPurchaseCartDetail.Where(i => i.BranchID == branchID && i.CompanyID == companyID && i.UserID == userID);
+            foreach (var item in findDetail)
+            {
+                totalAmount += item.PurchaseQuantity * item.PurchaseUnitPrice;
+            }
+            ViewBag.TotalAmount = totalAmount;
 
             return View(findDetail.ToList());
         }

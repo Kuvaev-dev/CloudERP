@@ -53,8 +53,8 @@
     </div>
     <div class="card-body">
         <div class="table-responsive bootgrid">
-            <table class="table table-striped table-bordered table-hover" id="dataTable">
-                <thead>
+            <table class="table table-striped table-hover" id="dataTable">
+                <thead style="background-color:lightgray;">
                     <tr>
                         <th>
                             Item`s
@@ -64,6 +64,9 @@
                         </th>
                         <th>
                             Unit Price
+                        </th>
+                        <th>
+                            Item Cost
                         </th>
                         <th>
                             User
@@ -87,6 +90,9 @@
                                 @Html.DisplayFor(modelItem => item.PurchaseUnitPrice)
                             </td>
                             <td>
+                                @(string.Format("{0:0.000}", Math.Truncate(item.PurchaseQuantity * item.PurchaseUnitPrice * 10) / 10))
+                            </td>
+                            <td>
                                 @Html.DisplayFor(modelItem => item.tblUser.UserName)
                             </td>
                             <td>
@@ -100,10 +106,14 @@
                         <td></td>
                         <td></td>
                         <td></td>
+                        <td style="background-color:black; color:white;">Total Purchase Amount</td>
+                        <td style="background-color:black; color:white;">
+                            @(string.Format("{0:0.000}", Math.Truncate(ViewBag.TotalAmount * 10) / 10)) UAH
+                        </td>
                     </tr>
                 </tfoot>
             </table>
-            <div style="float:right;">
+            <div style="float:right; margin-top:20px;">
                 @Html.ActionLink("Finalize", "PurchaseConfirm", null, new { @class = "btn btn-success", style="padding:20px;" })
                 @Html.ActionLink("Cancel", "CancelPurchase", null, new { @class = "btn btn-danger", style = "padding:20px;" })
             </div>

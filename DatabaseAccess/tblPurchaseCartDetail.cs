@@ -11,12 +11,14 @@ namespace DatabaseAccess
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class tblPurchaseCartDetail
     {
         public int PurchaseCartDetailID { get; set; }
         public int ProductID { get; set; }
         public int PurchaseQuantity { get; set; }
+        [DisplayFormat(DataFormatString = "{0:N}", ApplyFormatInEditMode = true)]
         public double PurchaseUnitPrice { get; set; }
         public int CompanyID { get; set; }
         public int BranchID { get; set; }
