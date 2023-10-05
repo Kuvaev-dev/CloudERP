@@ -170,8 +170,63 @@ namespace CloudERP.Controllers
             return RedirectToAction("NewPurchase");
         }
 
-        public ActionResult PurchaseConfirm()
+        public ActionResult SelectSupplier()
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            int companyID = 0;
+            int branchID = 0;
+            int userID = 0;
+            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
+            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
+            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
+            var purchaseDetails = db.tblPurchaseCartDetail.Where(pd => pd.CompanyID == companyID && pd.BranchID == branchID).ToList();
+            if (purchaseDetails.Count == 0)
+            {
+                ViewBag.Message = "Purchase Cart Empty";
+                return View("NewPurchase");
+            }
+            var suppliers = db.tblSupplier.Where(s => s.CompanyID == companyID && s.BranchID == branchID).ToList();
+            return View(suppliers);
+        }
+
+        [HttpPost]
+        public ActionResult PurchaseConfirm(FormCollection collection)
+        {
+            int companyID = 0;
+            int branchID = 0;
+            int userID = 0;
+            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
+            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
+            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
+
+            int supplierID = 0;
+            string[] keys = collection.AllKeys;
+            foreach (var name in keys)
+            {
+                if (name.Contains("name"))
+                {
+                    string idName = name;
+                    string[] valueIDs = idName.Split(' ');
+                    supplierID = Convert.ToInt32(valueIDs[1]);
+                }
+            }
+
+            var supplier = db.tblSupplier.Find(supplierID);
+            var purchaseDetails = db.tblPurchaseCartDetail.Where(pd => pd.BranchID == branchID && pd.CompanyID == companyID).ToList();
+            double totalAmount = 0;
+            foreach (var item in purchaseDetails)
+            {
+                totalAmount = totalAmount + (item.PurchaseQuantity * item.PurchaseUnitPrice);
+            }
+            if (totalAmount == 0)
+            {
+                ViewBag.Message = "Purchase Cart Empty";
+                return View("NewPurchase");
+            }
+
             return View();
         }
     }
