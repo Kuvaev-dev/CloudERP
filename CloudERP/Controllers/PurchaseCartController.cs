@@ -219,13 +219,15 @@ namespace CloudERP.Controllers
             double totalAmount = 0;
             foreach (var item in purchaseDetails)
             {
-                totalAmount = totalAmount + (item.PurchaseQuantity * item.PurchaseUnitPrice);
+                totalAmount += (item.PurchaseQuantity * item.PurchaseUnitPrice);
             }
             if (totalAmount == 0)
             {
                 ViewBag.Message = "Purchase Cart Empty";
                 return View("NewPurchase");
             }
+
+            string invoiceNo = "PUR" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
 
             return View();
         }
