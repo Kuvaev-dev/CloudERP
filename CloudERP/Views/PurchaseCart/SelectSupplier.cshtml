@@ -13,6 +13,7 @@
         <h4>Purchase Details</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <h3 class="text-danger">@ViewBag.Message</h3>
 
         <div class="form-group">
             <label class="control-label col-md-2">Purchase Description</label>
@@ -20,10 +21,16 @@
                 <input type="text" class="form-control" id="item.Description" name="item.Description" placeholder="Enter Purchase Description..." required />
             </div>
         </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Is Purchase Payment Paid?</label>
+            <div class="col-md-12">
+                <input type="checkbox" name="IsPayment"/>
+            </div>
+        </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                
+
             </div>
         </div>
     </div>
@@ -72,7 +79,7 @@
                                     @Html.DisplayFor(modelItem => item.SupplierEmail)
                                 </td>
                                 <td>
-                                    <input type="checkbox" name="name @item.SupplierID" class="chb"/>
+                                    <input type="checkbox" name="name @item.SupplierID" class="chb" />
                                 </td>
                             </tr>
                         }

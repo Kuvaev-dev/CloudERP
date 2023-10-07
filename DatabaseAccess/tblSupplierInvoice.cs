@@ -24,7 +24,7 @@ namespace DatabaseAccess
         public int SupplierID { get; set; }
         public int CompanyID { get; set; }
         public int BranchID { get; set; }
-        public int InvoiceNo { get; set; }
+        public string InvoiceNo { get; set; }
         public double TotalAmount { get; set; }
         public System.DateTime InvoiceDate { get; set; }
         public string Description { get; set; }

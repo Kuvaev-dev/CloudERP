@@ -1,5 +1,6 @@
 ﻿using CloudERP.Models;
 using DatabaseAccess;
+using DatabaseAccess.Code;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace CloudERP.Controllers
     public class PurchaseCartController : Controller
     {
         private CloudDBEntities db = new CloudDBEntities();
+        private PurchaseEntry purchaseEntry = new PurchaseEntry();
 
         // GET: PurchaseCart
         public ActionResult NewPurchase()
@@ -203,6 +205,7 @@ namespace CloudERP.Controllers
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
 
             int supplierID = 0;
+            bool IsPayment = false;
             string[] keys = collection.AllKeys;
             foreach (var name in keys)
             {
@@ -213,7 +216,23 @@ namespace CloudERP.Controllers
                     supplierID = Convert.ToInt32(valueIDs[1]);
                 }
             }
-
+            string Description = string.Empty;
+            string[] DescriptionList = collection["item.Description"].Split(',');
+            if (DescriptionList != null)
+            {
+                if (DescriptionList[0] != null)
+                {
+                    Description = DescriptionList[0];
+                }
+            }
+            if (collection["IsPayment"] != null)
+            {
+                //IsPayment = collection["IsPayment"];
+            }
+            else
+            {
+                IsPayment = false;
+            }
             var supplier = db.tblSupplier.Find(supplierID);
             var purchaseDetails = db.tblPurchaseCartDetail.Where(pd => pd.BranchID == branchID && pd.CompanyID == companyID).ToList();
             double totalAmount = 0;
@@ -228,8 +247,45 @@ namespace CloudERP.Controllers
             }
 
             string invoiceNo = "PUR" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
+            var invoiceHeader = new tblSupplierInvoice()
+            {
+                BranchID = branchID,
+                CompanyID = companyID,
+                Description = Description,
+                InvoiceDate = DateTime.Now,
+                InvoiceNo = invoiceNo,
+                SupplierID = supplierID,
+                UserID = userID,
+                TotalAmount = totalAmount
+            };
+            db.tblSupplierInvoice.Add(invoiceHeader);
+            db.SaveChanges();
 
-            return View();
+            foreach (var item in purchaseDetails)
+            {
+                var newPurchaseDetails = new tblSupplierInvoiceDetail()
+                {
+                    ProductID = item.ProductID,
+                    PurchaseQuantity = item.PurchaseQuantity,
+                    PurchaseUnitPrice = item.PurchaseUnitPrice,
+                    SupplierInvoiceID = invoiceHeader.SupplierInvoiceID
+                };
+                db.tblSupplierInvoiceDetail.Add(newPurchaseDetails);
+                db.SaveChanges();
+            }
+
+            string Message = purchaseEntry.ConfirmPurchase(companyID, branchID, userID, invoiceNo, invoiceHeader.SupplierInvoiceID.ToString(), (float)totalAmount, supplierID.ToString(), supplier.SupplierName, IsPayment);
+            if (Message.Contains("Success"))
+            {
+                foreach (var item in purchaseDetails)
+                {
+                    db.Entry(item).State = System.Data.Entity.EntityState.Deleted;
+                    db.SaveChanges();
+                }
+            }
+            ViewBag.Message = Message;
+
+            return View("NewPurchase");
         }
     }
 }
