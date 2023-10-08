@@ -86,7 +86,7 @@ namespace DatabaseAccess.Code
                         Convert.ToString(entryRow[5]),
                         Convert.ToString(entryRow[6]),
                         Convert.ToString(entryRow[7]),
-                        Convert.ToString(entryRow[8]),
+                        Convert.ToDateTime(Convert.ToString(entryRow[8])).ToString("yyyy/MM/dd HH:mm"),
                         Convert.ToString(entryRow[9]),
                         CompanyID, BranchID);
                     DatabaseQuery.Insert(entryQuery);
@@ -129,64 +129,17 @@ namespace DatabaseAccess.Code
 
             if (dtEntries != null)
             {
-                if (dtEntries.Rows.Count == 0)
-                {
-                    dtEntries.Rows.Add(
-                    FinancialYearID,
-                    AccountHeadID,
-                    AccountControlID,
-                    AccountSubControlID,
-                    InvoiceNo,
-                    UserID,
-                    Credit,
-                    Debit,
-                    TransactionDate,
-                    TransectionTitle);
-                }
-                else
-                {
-                    bool isupdated = false;
-                    foreach (DataRow item in dtEntries.Rows)
-                    {
-                        decimal creditvalue = 0;
-                        decimal debetvalue = 0;
-                        decimal.TryParse(Convert.ToString(item[6]).Trim(), out creditvalue);
-                        decimal.TryParse(Convert.ToString(item[7]).Trim(), out debetvalue);
-
-                        if (Convert.ToString(item[1]).Trim() == AccountHeadID.Trim() &&
-                           Convert.ToString(item[2]).Trim() == AccountControlID.Trim() &&
-                           Convert.ToString(item[3]).Trim() == AccountSubControlID.Trim() &&
-                           creditvalue > 0)
-                        {
-                            item[6] = (creditvalue + Convert.ToDecimal(Credit));
-                            isupdated = true;
-
-                        }
-                        else if (Convert.ToString(item[1]).Trim() == AccountHeadID.Trim() &&
-                          Convert.ToString(item[2]).Trim() == AccountControlID.Trim() &&
-                          Convert.ToString(item[3]).Trim() == AccountSubControlID.Trim() &&
-                          debetvalue > 0)
-                        {
-                            item[7] = (debetvalue + Convert.ToDecimal(Debit));
-                            isupdated = true;
-                        }
-                    }
-
-                    if (isupdated == false)
-                    {
-                        dtEntries.Rows.Add(
-                        FinancialYearID,
-                        AccountHeadID,
-                        AccountControlID,
-                        AccountSubControlID,
-                        InvoiceNo,
-                        UserID,
-                        Credit,
-                        Debit,
-                        TransactionDate,
-                        TransectionTitle);
-                    }
-                }
+                dtEntries.Rows.Add(
+                FinancialYearID,
+                AccountHeadID,
+                AccountControlID,
+                AccountSubControlID,
+                InvoiceNo,
+                UserID,
+                Credit,
+                Debit,
+                TransactionDate.ToString("yyyy/MM/dd HH:mm"),
+                TransectionTitle);
             }
         }
     }

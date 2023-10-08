@@ -227,7 +227,15 @@ namespace CloudERP.Controllers
             }
             if (collection["IsPayment"] != null)
             {
-                //IsPayment = collection["IsPayment"];
+                string[] isPaymentDirCet = collection["IsPayment"].Split(',');
+                if (isPaymentDirCet[0] == "on")
+                {
+                    IsPayment = true;
+                }
+                else
+                {
+                    IsPayment = false;
+                }
             }
             else
             {
@@ -279,6 +287,11 @@ namespace CloudERP.Controllers
             {
                 foreach (var item in purchaseDetails)
                 {
+                    var stockItem = db.tblStock.Find(item.ProductID);
+                    stockItem.CurrentPurchaseUnitPrice = item.PurchaseUnitPrice;
+                    stockItem.Quantity += item.PurchaseQuantity;
+                    db.Entry(stockItem).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
                     db.Entry(item).State = System.Data.Entity.EntityState.Deleted;
                     db.SaveChanges();
                 }

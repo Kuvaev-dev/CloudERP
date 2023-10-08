@@ -17,7 +17,7 @@ namespace DatabaseAccess.Code
         {
             if (conn == null)
             {
-                var costring = ConfigurationManager.ConnectionStrings["CloudDBEntities"].ConnectionString;
+                var costring = @"data source=localhost\\SQLEXPRESS;initial catalog=CloudErpV1;integrated security=True;";
                 conn = new SqlConnection(costring);
             }
 
