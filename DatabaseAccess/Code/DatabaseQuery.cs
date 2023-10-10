@@ -13,7 +13,7 @@ namespace DatabaseAccess.Code
     {
         public static SqlConnection conn;
 
-        private static SqlConnection ConnOpen()
+        public static SqlConnection ConnOpen()
         {
             if (conn == null)
             {

@@ -141,6 +141,7 @@
     <Compile Include="Controllers\HeadEmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PurchaseCartController.cs" />
+    <Compile Include="Controllers\PurchasePaymentController.cs" />
     <Compile Include="Controllers\StockController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -496,6 +497,7 @@
     <Content Include="Views\AccountSetting\Edit.cshtml" />
     <Content Include="Views\AccountSetting\Index.cshtml" />
     <Content Include="Views\PurchaseCart\SelectSupplier.cshtml" />
+    <Content Include="Views\PurchasePayment\RemainingPaymentList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
