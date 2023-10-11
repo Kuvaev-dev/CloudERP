@@ -53,5 +53,49 @@ namespace DatabaseAccess.Code.SP_Code
             }
             return remainingPaymentList;
         }
+
+        public List<PurchasePaymentModel> PurchasePaymentHistory(int SupplierInvoiceID)
+        {
+            var remainingPaymentList = new List<PurchasePaymentModel>();
+            SqlCommand command = new SqlCommand("GetSupplierPaymentHistory", DatabaseQuery.ConnOpen())
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+            command.Parameters.AddWithValue("@SupplierInvoiceID", SupplierInvoiceID);
+            var dt = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(command);
+            da.Fill(dt);
+            foreach (DataRow row in dt.Rows)
+            {
+                var supplierID = Convert.ToInt32(Convert.ToString(row[4]));
+                var userID = Convert.ToInt32(Convert.ToString(row[9]));
+                var supplier = db.tblSupplier.Find(supplierID);
+                var user = db.tblUser.Find(userID);
+                var payment = new PurchasePaymentModel();
+                payment.SupplierInvoiceID = Convert.ToInt32(Convert.ToString(row[0]));
+                payment.BranchID = Convert.ToInt32(Convert.ToString(row[1]));
+                payment.CompanyID = Convert.ToInt32(Convert.ToString(row[2]));
+                payment.InvoiceDate = Convert.ToDateTime(Convert.ToString(row[3]));
+                payment.InvoiceNo = Convert.ToString(row[5]);
+                double payAmount = 0;
+                double.TryParse(Convert.ToString(row[7]), out payAmount);
+                double remainingBalance = 0;
+                double.TryParse(Convert.ToString(row[8]), out remainingBalance);
+                double totalAmount = 0;
+                double.TryParse(Convert.ToString(row[6]), out totalAmount);
+                payment.PaymentAmount = payAmount;
+                payment.RemainingBalance = remainingBalance;
+                payment.SupplierContactNo = supplier.SupplierConatctNo;
+                payment.SupplierAddress = supplier.SupplierAddress;
+                payment.SupplierID = supplier.SupplierID;
+                payment.SupplierName = supplier.SupplierName;
+                payment.TotalAmount = totalAmount;
+                payment.UserID = user.UserID;
+                payment.UserName = user.UserName;
+
+                remainingPaymentList.Add(payment);
+            }
+            return remainingPaymentList;
+        }
     }
 }

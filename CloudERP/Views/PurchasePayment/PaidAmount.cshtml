@@ -1,13 +1,14 @@
 ﻿@model IEnumerable<DatabaseAccess.Models.PurchasePaymentModel>
 
 @{
-    ViewBag.Title = "Purchase`s Payment Pending";
+    ViewBag.Title = "Supplier Payment Form";
 }
 
 <script src="~/Scripts/jquery-3.7.1.js"></script>
 
 <div class="card card-default col-md-12">
     <div class="card-header">
+        <h3>Purchase Invoice Payment Detail</h3>
         <input class="form-control col-md-3" style="float:right;" type="text" id="searchPayment" name="searchPayment" placeholder="Search..." />
     </div>
     <div class="card-body">
@@ -62,18 +63,6 @@
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.RemainingBalance)
-                            </td>
-                            <td class="btn-group">
-                                @{
-                                    if (item.TotalAmount - 1 > item.PaymentAmount)
-                                    {
-                                        Html.ActionLink("Pay Amount", "PaidAmount", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-primary" });
-                                    }
-                                    if (item.PaymentAmount > 0)
-                                    {
-                                        Html.ActionLink("Pay History", "PaidHistory", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-info" });
-                                    }
-                                }
                             </td>
                         </tr>
                     }

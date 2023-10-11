@@ -498,6 +498,8 @@
     <Content Include="Views\AccountSetting\Index.cshtml" />
     <Content Include="Views\PurchaseCart\SelectSupplier.cshtml" />
     <Content Include="Views\PurchasePayment\RemainingPaymentList.cshtml" />
+    <Content Include="Views\PurchasePayment\PaidAmount.cshtml" />
+    <Content Include="Views\PurchasePayment\PaidHistory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
