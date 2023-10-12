@@ -296,9 +296,9 @@ namespace CloudERP.Controllers
                     db.SaveChanges();
                 }
             }
-            ViewBag.Message = Message;
+            Session["Message"] = Message;
 
-            return View("NewPurchase");
+            return RedirectToAction("NewPurchase");
         }
     }
 }

@@ -101,7 +101,7 @@ namespace DatabaseAccess.Code
             }
         }
 
-        public string PurchasePayment(int CompanyID, int BranchID, int UserID, string InvoiceNo, string SupplierInvoiceID, float Amount, string SupplierID, string SupplierName, float RemainingBalance)
+        public string PurchasePayment(int CompanyID, int BranchID, int UserID, string InvoiceNo, string SupplierInvoiceID, float TotalAmount, float Amount, string SupplierID, string SupplierName, float RemainingBalance)
         {
             try
             {
@@ -140,7 +140,7 @@ namespace DatabaseAccess.Code
 
                 string paymentquery = string.Format("insert into tblSupplierPayment(SupplierID,SupplierInvoiceID,UserID,InvoiceNo,TotalAmount,PaymentAmount,RemainingBalance,CompanyID,BranchID) " +
                 "values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}')",
-                SupplierID, SupplierInvoiceID, UserID, InvoiceNo, Amount, Amount, Convert.ToString(RemainingBalance), CompanyID, BranchID);
+                SupplierID, SupplierInvoiceID, UserID, InvoiceNo, TotalAmount, Amount, Convert.ToString(RemainingBalance), CompanyID, BranchID);
                 DatabaseQuery.Insert(paymentquery);
 
                 foreach (DataRow entryRow in dtEntries.Rows)
