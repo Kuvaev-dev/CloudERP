@@ -17,7 +17,7 @@ namespace DatabaseAccess.Code
         {
             if (conn == null)
             {
-                var costring = @"data source=localhost\\SQLEXPRESS;initial catalog=CloudErpV1;integrated security=True;";
+                var costring = @"data source=localhost\SQLEXPRESS;initial catalog=CloudErpV1;integrated security=True;";
                 conn = new SqlConnection(costring);
             }
 

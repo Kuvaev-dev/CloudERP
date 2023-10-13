@@ -71,6 +71,7 @@
     </Compile>
     <Compile Include="Code\DatabaseQuery.cs" />
     <Compile Include="Code\PurchaseEntry.cs" />
+    <Compile Include="Code\SaleEntry.cs" />
     <Compile Include="Code\SP_Code\SP_Purchase.cs" />
     <Compile Include="Models\PurchasePaymentModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

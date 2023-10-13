@@ -82,6 +82,7 @@ namespace CloudERP.Controllers
             return RedirectToAction("NewPurchase");
         }
 
+        [HttpPost]
         public ActionResult GetProduct()
         {
             if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
