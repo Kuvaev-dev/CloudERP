@@ -19,8 +19,12 @@ namespace DatabaseAccess.Code
             {
                 dtEntries = null;
                 string pruchasetitle = "Purchase From " + SupplierName.Trim();
-                var financialYearCheck = DatabaseQuery.Retrive("select top 1 FinancialYearID from FinancialYearTable where IsActive = 1");
-                string FinancialYearID = (financialYearCheck != null ? Convert.ToString(financialYearCheck.Rows[0][0]) : string.Empty);
+                var financialYearCheck = DatabaseQuery.Retrive("select top 1 FinancialYearID from tblFinancialYear where IsActive = 1");
+                string FinancialYearID = string.Empty;
+                if (financialYearCheck != null && financialYearCheck.Rows.Count > 0)
+                {
+                    FinancialYearID = Convert.ToString(financialYearCheck.Rows[0][0]);
+                }
                 if (string.IsNullOrEmpty(FinancialYearID))
                 {
                     return "Your Company Financial Year is not Set! Please Contact to Administrator!";
@@ -36,7 +40,7 @@ namespace DatabaseAccess.Code
                 // Capital 4     increae(Credit)   decrese(Debit)
                 // Revenue 5     increae(Credit)   decrese(Debit)
                 var purchaseAccount = db.tblAccountSetting.Where(a => a.AccountActivityID == 3 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); // 3 - Purchase
-                // Debit Entry Purchase                                                                                                                                            // Debit Entry Purchase
+                // Debit Entry Purchase                                                                                                                                            
                 AccountHeadID = Convert.ToString(purchaseAccount.AccountHeadID);
                 AccountControlID = Convert.ToString(purchaseAccount.AccountControlID);
                 AccountSubControlID = Convert.ToString(purchaseAccount.AccountSubControlID);
@@ -97,7 +101,7 @@ namespace DatabaseAccess.Code
             }
             catch (Exception ex)
             {
-                return "Unexpected Error is Occured. Please Try Again!";
+                return "Unexpected Error is Occured. Please Try Again!" + ex.Message;
             }
         }
 
@@ -108,7 +112,11 @@ namespace DatabaseAccess.Code
                 dtEntries = null;
                 string pruchasetitle = "Purchase From " + SupplierName.Trim();
                 var financialYearCheck = DatabaseQuery.Retrive("select top 1 FinancialYearID from tblFinancialYear where IsActive = 1");
-                string FinancialYearID = (financialYearCheck != null ? Convert.ToString(financialYearCheck.Rows[0][0]) : string.Empty);
+                string FinancialYearID = string.Empty;
+                if (financialYearCheck != null && financialYearCheck.Rows.Count > 0)
+                {
+                    FinancialYearID = Convert.ToString(financialYearCheck.Rows[0][0]);
+                }
                 if (string.IsNullOrEmpty(FinancialYearID))
                 {
                     return "Your Company Financial Year is not Set! Please Contact to Administrator!";
@@ -165,7 +173,7 @@ namespace DatabaseAccess.Code
             }
             catch (Exception ex)
             {
-                return "Unexpected Error is Occured. Please Try Again!";
+                return "Unexpected Error is Occured. Please Try Again!" + ex.Message;
             }
         }
 

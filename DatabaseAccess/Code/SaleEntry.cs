@@ -19,7 +19,7 @@ namespace DatabaseAccess.Code
             {
                 dtEntries = null;
                 string saletitle = "Sale To " + Customername.Trim();
-                var financialYearCheck = DatabaseQuery.Retrive("select top 1 FinancialYearID from FinancialYearTable where IsActive = 1");
+                var financialYearCheck = DatabaseQuery.Retrive("select top 1 FinancialYearID from tblFinancialYear where IsActive = 1");
                 string FinancialYearID = (financialYearCheck != null ? Convert.ToString(financialYearCheck.Rows[0][0]) : string.Empty);
                 if (string.IsNullOrEmpty(FinancialYearID))
                 {

@@ -53,6 +53,13 @@ namespace CloudERP.Controllers
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
 
+            var checkQty = db.tblStock.Find(PID);
+            if (Qty > checkQty.Quantity)
+            {
+                ViewBag.Message = "Sale Quantity Must be Less Ther or Equal to Avl Qty";
+                return RedirectToAction("NewSale");
+            }
+
             var findDetail = db.tblSaleCartDetail.Where(i => i.ProductID == PID && i.BranchID == branchID && i.CompanyID == companyID).FirstOrDefault();
             if (findDetail == null)
             {
@@ -67,6 +74,7 @@ namespace CloudERP.Controllers
                         CompanyID = companyID,
                         UserID = userID
                     };
+
                     db.tblSaleCartDetail.Add(newItem);
                     db.SaveChanges();
                     ViewBag.Message = "Item Added Successfully!";
@@ -125,10 +133,17 @@ namespace CloudERP.Controllers
             var productList = db.tblStock.Where(p => p.BranchID == branchID && p.CompanyID == companyID).ToList();
             foreach (var item in productList)
             {
-                products.Add(new ProductMV() { Name = item.ProductName, ProductID = item.ProductID });
+                products.Add(new ProductMV() { Name = item.ProductName + " (Avl Qty: " + item.Quantity + ")", ProductID = item.ProductID });
             }
 
             return Json(new { data = products }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult GetProductDetails(int? id)
+        {
+            var product = db.tblStock.Find(id);
+            return Json(new { data = product.SaleUnitPrice }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult CancelSale()
