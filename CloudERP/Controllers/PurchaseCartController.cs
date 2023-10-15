@@ -175,6 +175,7 @@ namespace CloudERP.Controllers
 
         public ActionResult SelectSupplier()
         {
+            Session["ErrorMessagePurchase"] = string.Empty;
             if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
@@ -185,11 +186,11 @@ namespace CloudERP.Controllers
             branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var purchaseDetails = db.tblPurchaseCartDetail.Where(pd => pd.CompanyID == companyID && pd.BranchID == branchID).ToList();
-            if (purchaseDetails.Count == 0)
+            var checkPurchaseCart = db.tblPurchaseCartDetail.Where(pd => pd.BranchID == branchID && pd.CompanyID == companyID).FirstOrDefault();
+            if (checkPurchaseCart == null)
             {
-                ViewBag.Message = "Purchase Cart Empty";
-                return View("NewPurchase");
+                Session["ErrorMessagePurchase"] = "Purchase Cart Empty";
+                return RedirectToAction("NewPurchase");
             }
             var suppliers = db.tblSupplier.Where(s => s.CompanyID == companyID && s.BranchID == branchID).ToList();
             return View(suppliers);

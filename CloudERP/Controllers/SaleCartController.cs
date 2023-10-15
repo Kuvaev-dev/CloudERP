@@ -188,6 +188,7 @@ namespace CloudERP.Controllers
 
         public ActionResult SelectCustomer()
         {
+            Session["ErrorMessageSale"] = string.Empty;
             if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
@@ -198,18 +199,18 @@ namespace CloudERP.Controllers
             branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var saleDetails = db.tblSaleCartDetail.Where(pd => pd.CompanyID == companyID && pd.BranchID == branchID).ToList();
-            if (saleDetails.Count == 0)
+            var saleDetails = db.tblSaleCartDetail.Where(pd => pd.CompanyID == companyID && pd.BranchID == branchID).FirstOrDefault();
+            if (saleDetails == null)
             {
-                ViewBag.Message = "Sale Cart Empty";
-                return View("NewSale");
+                Session["ErrorMessageSale"] = "Sale Cart Empty";
+                return RedirectToAction("NewSale");
             }
             var customers = db.tblCustomer.Where(s => s.CompanyID == companyID && s.BranchID == branchID).ToList();
             return View(customers);
         }
 
         [HttpPost]
-        public ActionResult PurchaseConfirm(FormCollection collection)
+        public ActionResult SaleConfirm(FormCollection collection)
         {
             int companyID = 0;
             int branchID = 0;
@@ -272,6 +273,7 @@ namespace CloudERP.Controllers
             var invoiceHeader = new tblCustomerInvoice()
             {
                 BranchID = branchID,
+                Title = "Sale Invoice " + customer.Customername,
                 CompanyID = companyID,
                 Description = Description,
                 InvoiceDate = DateTime.Now,

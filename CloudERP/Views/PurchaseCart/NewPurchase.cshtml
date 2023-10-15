@@ -51,7 +51,7 @@
         <h4 class="text-success">@{if (ViewBag.Message != null) {
                                        @ViewBag.Message;
                                    } else {
-                                       @Session["Message"];
+                                       @Session["ErrorMessagePurchase"];
                                    } }</h4>
         <input class="form-control col-md-3" style="float:right;" type="text" id="searchPurchase" name="searchPurchase" placeholder="Search..." />
     </div>
