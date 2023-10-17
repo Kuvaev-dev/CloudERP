@@ -504,13 +504,15 @@
     <Content Include="Views\PurchasePayment\PaidHistory.cshtml" />
     <Content Include="Views\SaleCart\NewSale.cshtml" />
     <Content Include="Views\SaleCart\SelectCustomer.cshtml" />
+    <Content Include="Views\SalePayment\RemainingPaymentList.cshtml" />
+    <Content Include="Views\SalePayment\PaidHistory.cshtml" />
+    <Content Include="Views\SalePayment\PaidAmount.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\EmployeePhoto\" />
     <Folder Include="Views\EmployeeRegistration\" />
     <Folder Include="Views\HeadEmployee\" />
-    <Folder Include="Views\SalePayment\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

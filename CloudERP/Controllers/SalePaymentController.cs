@@ -76,7 +76,7 @@ namespace CloudERP.Controllers
         }
 
         [HttpPost]
-        public ActionResult PaidAmount(int? id, float previousRemainingAmount, float paymentAmount)
+        public ActionResult PaidAmount(int? id, float previousRemainingAmount, float paidAmount)
         {
             try
             {
@@ -90,7 +90,7 @@ namespace CloudERP.Controllers
                 branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
                 companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
                 userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-                if (paymentAmount > previousRemainingAmount)
+                if (paidAmount > previousRemainingAmount)
                 {
                     ViewBag.Message = "Payment Must be Less Then or Equal to Previous Remaining Amount!";
                     var list = sale.SalePaymentHistory((int)id);
@@ -109,10 +109,10 @@ namespace CloudERP.Controllers
                 }
                 string payinvoicenno = "INP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
                 var customer = db.tblCustomer.Find(db.tblCustomerInvoice.Find(id).CustomerID);
-                var purchaseInvoice = db.tblSupplierInvoice.Find(id);
-                var purchasePaymentDetails = db.tblSupplierPayment.Where(p => p.SupplierInvoiceID == id);
+                var purchaseInvoice = db.tblCustomerInvoice.Find(id);
+                var purchasePaymentDetails = db.tblCustomerPayment.Where(p => p.CustomerInvoiceID == id);
                 string message = saleEntry.SalePayment(companyID, branchID, userID, payinvoicenno, Convert.ToString(id), (float)purchaseInvoice.TotalAmount,
-                    paymentAmount, Convert.ToString(customer.CustomerID), customer.Customername, previousRemainingAmount - paymentAmount);
+                    paidAmount, Convert.ToString(customer.CustomerID), customer.Customername, previousRemainingAmount - paidAmount);
                 Session["Message"] = message;
                 return RedirectToAction("RemainingPaymentList");
             }
