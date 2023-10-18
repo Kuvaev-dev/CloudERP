@@ -504,15 +504,21 @@
                                         <span data-localize="sidebar.heading.COMPONENTS">Purchase</span>
                                     </li>
                                     <li class="">
-                                        <a href="@Url.Action("NewPurchase", "PurchaseCart")" title="New Suppliers">
+                                        <a href="@Url.Action("NewPurchase", "PurchaseCart")" title="New Purchase">
                                             <em class="icon-chemistry"></em>
                                             <span data-localize="sidebar.nav.element.ELEMENTS">New Purchase</span>
                                         </a>
                                     </li>
                                     <li class="">
-                                        <a href="@Url.Action("RemainingPaymentList", "PurchasePayment")" title="Pending Payment">
+                                        <a href="@Url.Action("RemainingPaymentList", "PurchasePayment")" title="Purchase Pending Payment">
                                             <em class="icon-chemistry"></em>
                                             <span data-localize="sidebar.nav.element.ELEMENTS">Purchase Pending Payment</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="@Url.Action("CustomPurchasesHistory", "PurchasePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now })" title="All Purchases">
+                                            <em class="icon-chemistry"></em>
+                                            <span data-localize="sidebar.nav.element.ELEMENTS">All Purchases</span>
                                         </a>
                                     </li>
                                 }

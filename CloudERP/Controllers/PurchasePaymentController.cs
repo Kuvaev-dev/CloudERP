@@ -134,5 +134,21 @@ namespace CloudERP.Controllers
                 return View(list);
             }
         }
+
+        public ActionResult CustomPurchasesHistory(DateTime FromDate, DateTime ToDate)
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            int companyID = 0;
+            int branchID = 0;
+            int userID = 0;
+            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
+            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
+            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
+            var list = purchase.CustomPurchasesList(companyID, branchID, FromDate, ToDate);
+            return View(list.ToList());
+        }
     }
 }
