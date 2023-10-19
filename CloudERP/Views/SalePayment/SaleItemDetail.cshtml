@@ -1,0 +1,47 @@
+﻿@model IEnumerable<DatabaseAccess.tblCustomerInvoiceDetail>
+
+@{
+    ViewBag.Title = "Sale Details";
+}
+
+<table class="table">
+    <tr>
+        <th>
+            Invoice №
+        </th>
+        <th>
+            Product
+        </th>
+        <th>
+            Quantity
+        </th>
+        <th>
+            Unit Price
+        </th>
+        <th>
+            Item Cost
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.tblCustomerInvoice.InvoiceNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.tblStock.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SaleQuantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SaleUnitPrice)
+            </td>
+            <td>
+                <label>@(item.SaleQuantity * item.SaleUnitPrice)</label>
+            </td>
+        </tr>
+    }
+
+</table>

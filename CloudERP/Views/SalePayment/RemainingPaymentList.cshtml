@@ -62,7 +62,7 @@
                                 @Html.DisplayFor(modelItem => item.PaymentAmount)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.RemainingBalance)
+                                <label>@(item.TotalAmount - item.PaymentAmount)</label>
                             </td>
                             <td class="btn-group">
                                 @{

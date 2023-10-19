@@ -134,5 +134,37 @@ namespace CloudERP.Controllers
                 return View(list);
             }
         }
+
+        public ActionResult CustomSalesHistory(DateTime FromDate, DateTime ToDate)
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            int companyID = 0;
+            int branchID = 0;
+            int userID = 0;
+            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
+            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
+            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
+            var list = sale.CustomSalesList(companyID, branchID, FromDate, ToDate);
+            return View(list.ToList());
+        }
+
+        public ActionResult SaleItemDetail(int? id)
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            int companyID = 0;
+            int branchID = 0;
+            int userID = 0;
+            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
+            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
+            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
+            var list = db.tblCustomerInvoiceDetail.Where(i => i.CustomerInvoiceID == id);
+            return View(list.ToList());
+        }
     }
 }

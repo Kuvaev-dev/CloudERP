@@ -150,5 +150,21 @@ namespace CloudERP.Controllers
             var list = purchase.CustomPurchasesList(companyID, branchID, FromDate, ToDate);
             return View(list.ToList());
         }
+
+        public ActionResult PurchaseItemDetail(int? id)
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            int companyID = 0;
+            int branchID = 0;
+            int userID = 0;
+            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
+            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
+            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
+            var list = db.tblSupplierInvoiceDetail.Where(i => i.SupplierInvoiceID == id);
+            return View(list.ToList());
+        }
     }
 }

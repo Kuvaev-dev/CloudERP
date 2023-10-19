@@ -508,6 +508,9 @@
     <Content Include="Views\SalePayment\PaidHistory.cshtml" />
     <Content Include="Views\SalePayment\PaidAmount.cshtml" />
     <Content Include="Views\PurchasePayment\CustomPurchasesHistory.cshtml" />
+    <Content Include="Views\SalePayment\CustomSalesHistory.cshtml" />
+    <Content Include="Views\PurchasePayment\PurchaseItemDetail.cshtml" />
+    <Content Include="Views\SalePayment\SaleItemDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
