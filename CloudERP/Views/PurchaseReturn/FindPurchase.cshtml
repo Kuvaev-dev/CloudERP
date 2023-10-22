@@ -1,0 +1,123 @@
+﻿@model DatabaseAccess.tblSupplierInvoice
+
+@{
+    ViewBag.Title = "Search Purchase By Invoice №";
+}
+
+@using (Html.BeginForm("FindPurchase", "PurchaseReturn", FormMethod.Post, null))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        <div class="form-group">
+            <label class="control-label col-md-2">Purchase Invoice №</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="invoiceID" name="invoiceID" placeholder="Enter Purchase Invoice..." required />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Find Purchase" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+@{
+    try
+    {
+        if (Model.InvoiceNo != null)
+        {
+            <div>
+                <h4>Invoice Details</h4>
+                <hr />
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Invoice №</th>
+                            <th>Invoice Date</th>
+                            <th>Supplier</th>
+                            <th>Total Amount</th>
+                            <th>Description</th>
+                            <th>User</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(model => model.InvoiceNo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => model.InvoiceDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => model.tblSupplier.SupplierName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => model.TotalAmount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => model.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => model.tblUser.UserName)
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div>
+                <table class="table table-hover">
+                    <tr>
+                        <th>
+                            Invoice №
+                        </th>
+                        <th>
+                            Product
+                        </th>
+                        <th>
+                            Quantity
+                        </th>
+                        <th>
+                            Unit Price
+                        </th>
+                        <th>
+                            Item Cost
+                        </th>
+                    </tr>
+
+                    @foreach (var item in Model.tblSupplierInvoiceDetail)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.tblSupplierInvoice.InvoiceNo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.tblStock.ProductName)
+                            </td>
+                            <td>
+                                @Html.EditorFor(modelItem => item.PurchaseQuantity)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PurchaseUnitPrice)
+                            </td>
+                            <td>
+                                <label style="float:left;">@(item.PurchaseQuantity * item.PurchaseUnitPrice)</label>
+                            </td>
+                            <td>
+                                @Html.ActionLink("Return", "ReturnItem", "PurchaseReturn", new { @class="btn btn-primary" })
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+            }
+        }
+        catch
+        {
+
+        }
+    }
+}
