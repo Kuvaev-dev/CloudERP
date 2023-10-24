@@ -199,6 +199,10 @@ namespace CloudERP.Controllers
         [HttpPost]
         public ActionResult PurchaseConfirm(FormCollection collection)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
             int companyID = 0;
             int branchID = 0;
             int userID = 0;

@@ -36,7 +36,9 @@
                         <div class="card-body">
                             <div class="d-flex align-items-center">
                                 <h3 class="m-0">Invoice №: @Html.DisplayFor(model => model.InvoiceNo)</h3>
+                                <h3 class="m-0 text-danger"> (@Session["ReturnMessage"])</h3>
                                 <h3 class="ml-auto">Purchase Invoice</h3>
+                                <input style="display:none;" id="supplierInvoiceID" name="supplierInvoiceID" value="@Model.SupplierInvoiceID" />
                             </div>
                             <hr>
                             <div class="row mb-3">
@@ -102,7 +104,7 @@
                                             <tr>
                                                 <td>@Html.DisplayFor(modelItem => item.tblStock.ProductName)</td>
                                                 <td>@Html.DisplayFor(modelItem => item.PurchaseQuantity)</td>
-                                                <td><input type="number" value="0" min="0" max="@item.PurchaseQuantity" /></td>
+                                                <td><input type="number" id="ProductID @item.ProductID" name="ProductID @item.ProductID" value="0" min="0" max="@item.PurchaseQuantity" /></td>
                                                 <td>@Html.DisplayFor(modelItem => item.PurchaseUnitPrice)</td>
                                                 <td class="text-left">@((item.PurchaseQuantity * item.PurchaseUnitPrice).ToString())</td>
                                             </tr>
@@ -113,6 +115,14 @@
                             <div class="row">
                                 <div class="col-lg-6"></div>
                                 <div class="col-lg-6 py-2">
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-7">
+                                            <div class="h5">Is Return Purchase Payment Paid?</div>
+                                        </div>
+                                        <div class="col-5">
+                                            <div class="text-right h3"><input type="checkbox" name="IsPayment"/></div>
+                                        </div>
+                                    </div>
                                     <div class="row mb-3 align-items-center">
                                         <div class="col-7">
                                             <div class="h3">GRAND TOTAL</div>
