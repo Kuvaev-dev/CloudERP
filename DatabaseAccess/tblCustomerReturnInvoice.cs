@@ -12,23 +12,21 @@ namespace DatabaseAccess
     using System;
     using System.Collections.Generic;
     
-    public partial class tblCustomerInvoice
+    public partial class tblCustomerReturnInvoice
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tblCustomerInvoice()
+        public tblCustomerReturnInvoice()
         {
-            this.tblCustomerInvoiceDetail = new HashSet<tblCustomerInvoiceDetail>();
-            this.tblCustomerPayment = new HashSet<tblCustomerPayment>();
-            this.tblCustomerReturnInvoice = new HashSet<tblCustomerReturnInvoice>();
+            this.tblCustomerReturnInvoiceDetail = new HashSet<tblCustomerReturnInvoiceDetail>();
             this.tblCustomerReturnPayment = new HashSet<tblCustomerReturnPayment>();
         }
     
+        public int CustomerReturnInvoiceID { get; set; }
         public int CustomerInvoiceID { get; set; }
         public int CustomerID { get; set; }
         public int CompanyID { get; set; }
         public int BranchID { get; set; }
         public string InvoiceNo { get; set; }
-        public string Title { get; set; }
         public double TotalAmount { get; set; }
         public System.DateTime InvoiceDate { get; set; }
         public string Description { get; set; }
@@ -37,13 +35,10 @@ namespace DatabaseAccess
         public virtual tblBranch tblBranch { get; set; }
         public virtual tblCompany tblCompany { get; set; }
         public virtual tblCustomer tblCustomer { get; set; }
+        public virtual tblCustomerInvoice tblCustomerInvoice { get; set; }
         public virtual tblUser tblUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblCustomerInvoiceDetail> tblCustomerInvoiceDetail { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblCustomerPayment> tblCustomerPayment { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblCustomerReturnInvoice> tblCustomerReturnInvoice { get; set; }
+        public virtual ICollection<tblCustomerReturnInvoiceDetail> tblCustomerReturnInvoiceDetail { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblCustomerReturnPayment> tblCustomerReturnPayment { get; set; }
     }

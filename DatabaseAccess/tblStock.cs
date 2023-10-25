@@ -22,6 +22,8 @@ namespace DatabaseAccess
             this.tblPurchaseCartDetail = new HashSet<tblPurchaseCartDetail>();
             this.tblSaleCartDetail = new HashSet<tblSaleCartDetail>();
             this.tblSupplierInvoiceDetail = new HashSet<tblSupplierInvoiceDetail>();
+            this.tblCustomerReturnInvoiceDetail = new HashSet<tblCustomerReturnInvoiceDetail>();
+            this.tblSupplierReturnInvoiceDetail = new HashSet<tblSupplierReturnInvoiceDetail>();
         }
 
         public int ProductID { get; set; }
@@ -63,5 +65,9 @@ namespace DatabaseAccess
         public virtual tblUser tblUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblSupplierInvoiceDetail> tblSupplierInvoiceDetail { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblCustomerReturnInvoiceDetail> tblCustomerReturnInvoiceDetail { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblSupplierReturnInvoiceDetail> tblSupplierReturnInvoiceDetail { get; set; }
     }
 }

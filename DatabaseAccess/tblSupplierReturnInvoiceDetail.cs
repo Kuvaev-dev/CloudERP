@@ -12,22 +12,19 @@ namespace DatabaseAccess
     using System;
     using System.Collections.Generic;
     
-    public partial class tblSupplierInvoiceDetail
+    public partial class tblSupplierReturnInvoiceDetail
     {
-        public tblSupplierInvoiceDetail()
-        {
-            this.tblSupplierReturnInvoiceDetail = new HashSet<tblSupplierReturnInvoiceDetail>();
-        }
-
-        public int SupplierInvoiceDetailID { get; set; }
+        public int SupplierReturnInvoiceDetailID { get; set; }
         public int SupplierInvoiceID { get; set; }
+        public int SupplierInvoiceDetailID { get; set; }
+        public int SupplierReturnInvoiceID { get; set; }
         public int ProductID { get; set; }
-        public int PurchaseQuantity { get; set; }
-        public double PurchaseUnitPrice { get; set; }
+        public int PurchaseReturnQuantity { get; set; }
+        public double PurchaseReturnUnitPrice { get; set; }
     
         public virtual tblStock tblStock { get; set; }
         public virtual tblSupplierInvoice tblSupplierInvoice { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblSupplierReturnInvoiceDetail> tblSupplierReturnInvoiceDetail { get; set; }
+        public virtual tblSupplierInvoiceDetail tblSupplierInvoiceDetail { get; set; }
+        public virtual tblSupplierReturnInvoice tblSupplierReturnInvoice { get; set; }
     }
 }

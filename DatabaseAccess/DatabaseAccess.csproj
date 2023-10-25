@@ -116,6 +116,15 @@
     <Compile Include="tblCustomerPayment.cs">
       <DependentUpon>CloudDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="tblCustomerReturnInvoice.cs">
+      <DependentUpon>CloudDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblCustomerReturnInvoiceDetail.cs">
+      <DependentUpon>CloudDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblCustomerReturnPayment.cs">
+      <DependentUpon>CloudDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="tblEmployee.cs">
       <DependentUpon>CloudDB.tt</DependentUpon>
     </Compile>
@@ -147,6 +156,15 @@
       <DependentUpon>CloudDB.tt</DependentUpon>
     </Compile>
     <Compile Include="tblSupplierPayment.cs">
+      <DependentUpon>CloudDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblSupplierReturnInvoice.cs">
+      <DependentUpon>CloudDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblSupplierReturnInvoiceDetail.cs">
+      <DependentUpon>CloudDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblSupplierReturnPayment.cs">
       <DependentUpon>CloudDB.tt</DependentUpon>
     </Compile>
     <Compile Include="tblTransaction.cs">

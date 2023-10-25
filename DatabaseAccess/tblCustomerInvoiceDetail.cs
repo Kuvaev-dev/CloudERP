@@ -14,6 +14,11 @@ namespace DatabaseAccess
     
     public partial class tblCustomerInvoiceDetail
     {
+        public tblCustomerInvoiceDetail()
+        {
+            this.tblCustomerReturnInvoiceDetail = new HashSet<tblCustomerReturnInvoiceDetail>();
+        }
+
         public int CustomerInvoiceDetailID { get; set; }
         public int CustomerInvoiceID { get; set; }
         public int ProductID { get; set; }
@@ -22,5 +27,7 @@ namespace DatabaseAccess
     
         public virtual tblCustomerInvoice tblCustomerInvoice { get; set; }
         public virtual tblStock tblStock { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblCustomerReturnInvoiceDetail> tblCustomerReturnInvoiceDetail { get; set; }
     }
 }

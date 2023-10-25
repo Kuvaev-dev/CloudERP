@@ -131,6 +131,22 @@ namespace CloudERP.Controllers
                 return RedirectToAction("FindPurchase");
             }
 
+            string invoiceNo = "RPU" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
+            var returnInvoiceHeader = new tblSupplierReturnInvoice()
+            {
+                BranchID = branchID,
+                CompanyID = companyID,
+                Description = Description,
+                InvoiceDate = DateTime.Now,
+                InvoiceNo = invoiceNo,
+                SupplierID = supplierID,
+                UserID = userID,
+                TotalAmount = TotalAmount,
+                SupplierReturnInvoiceID = supplierInvoice.SupplierInvoiceID
+            };
+            db.tblSupplierReturnInvoice.Add(returnInvoiceHeader);
+            db.SaveChanges();
+
             return View();
         }
     }

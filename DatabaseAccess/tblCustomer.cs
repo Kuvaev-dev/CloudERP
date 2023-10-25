@@ -19,6 +19,8 @@ namespace DatabaseAccess
         public tblCustomer()
         {
             this.tblCustomerInvoice = new HashSet<tblCustomerInvoice>();
+            this.tblCustomerReturnInvoice = new HashSet<tblCustomerReturnInvoice>();
+            this.tblCustomerReturnPayment = new HashSet<tblCustomerReturnPayment>();
         }
 
         public int CustomerID { get; set; }
@@ -40,5 +42,9 @@ namespace DatabaseAccess
         public virtual tblUser tblUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblCustomerInvoice> tblCustomerInvoice { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblCustomerReturnInvoice> tblCustomerReturnInvoice { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblCustomerReturnPayment> tblCustomerReturnPayment { get; set; }
     }
 }

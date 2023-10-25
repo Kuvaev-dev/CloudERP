@@ -38,6 +38,9 @@ namespace DatabaseAccess
         public virtual DbSet<tblCustomerInvoice> tblCustomerInvoice { get; set; }
         public virtual DbSet<tblCustomerInvoiceDetail> tblCustomerInvoiceDetail { get; set; }
         public virtual DbSet<tblCustomerPayment> tblCustomerPayment { get; set; }
+        public virtual DbSet<tblCustomerReturnInvoice> tblCustomerReturnInvoice { get; set; }
+        public virtual DbSet<tblCustomerReturnInvoiceDetail> tblCustomerReturnInvoiceDetail { get; set; }
+        public virtual DbSet<tblCustomerReturnPayment> tblCustomerReturnPayment { get; set; }
         public virtual DbSet<tblEmployee> tblEmployee { get; set; }
         public virtual DbSet<tblFinancialYear> tblFinancialYear { get; set; }
         public virtual DbSet<tblPayroll> tblPayroll { get; set; }
@@ -49,6 +52,9 @@ namespace DatabaseAccess
         public virtual DbSet<tblSupplierInvoice> tblSupplierInvoice { get; set; }
         public virtual DbSet<tblSupplierInvoiceDetail> tblSupplierInvoiceDetail { get; set; }
         public virtual DbSet<tblSupplierPayment> tblSupplierPayment { get; set; }
+        public virtual DbSet<tblSupplierReturnInvoice> tblSupplierReturnInvoice { get; set; }
+        public virtual DbSet<tblSupplierReturnInvoiceDetail> tblSupplierReturnInvoiceDetail { get; set; }
+        public virtual DbSet<tblSupplierReturnPayment> tblSupplierReturnPayment { get; set; }
         public virtual DbSet<tblTransaction> tblTransaction { get; set; }
         public virtual DbSet<tblUser> tblUser { get; set; }
         public virtual DbSet<tblUserType> tblUserType { get; set; }

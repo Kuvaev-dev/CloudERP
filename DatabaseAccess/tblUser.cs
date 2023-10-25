@@ -34,6 +34,10 @@ namespace DatabaseAccess
             this.tblSupplierInvoice = new HashSet<tblSupplierInvoice>();
             this.tblSupplierPayment = new HashSet<tblSupplierPayment>();
             this.tblTransaction = new HashSet<tblTransaction>();
+            this.tblCustomerReturnInvoice = new HashSet<tblCustomerReturnInvoice>();
+            this.tblCustomerReturnPayment = new HashSet<tblCustomerReturnPayment>();
+            this.tblSupplierReturnInvoice = new HashSet<tblSupplierReturnInvoice>();
+            this.tblSupplierReturnPayment = new HashSet<tblSupplierReturnPayment>();
         }
     
         public int UserID { get; set; }
@@ -80,5 +84,13 @@ namespace DatabaseAccess
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblTransaction> tblTransaction { get; set; }
         public virtual tblUserType tblUserType { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblCustomerReturnInvoice> tblCustomerReturnInvoice { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblCustomerReturnPayment> tblCustomerReturnPayment { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblSupplierReturnInvoice> tblSupplierReturnInvoice { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblSupplierReturnPayment> tblSupplierReturnPayment { get; set; }
     }
 }
