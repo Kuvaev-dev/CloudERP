@@ -24,6 +24,8 @@ namespace DatabaseAccess
             this.tblCustomer = new HashSet<tblCustomer>();
             this.tblCustomerInvoice = new HashSet<tblCustomerInvoice>();
             this.tblCustomerPayment = new HashSet<tblCustomerPayment>();
+            this.tblCustomerReturnInvoice = new HashSet<tblCustomerReturnInvoice>();
+            this.tblCustomerReturnPayment = new HashSet<tblCustomerReturnPayment>();
             this.tblFinancialYear = new HashSet<tblFinancialYear>();
             this.tblPayroll = new HashSet<tblPayroll>();
             this.tblPurchaseCart = new HashSet<tblPurchaseCart>();
@@ -33,11 +35,9 @@ namespace DatabaseAccess
             this.tblSupplier = new HashSet<tblSupplier>();
             this.tblSupplierInvoice = new HashSet<tblSupplierInvoice>();
             this.tblSupplierPayment = new HashSet<tblSupplierPayment>();
-            this.tblTransaction = new HashSet<tblTransaction>();
-            this.tblCustomerReturnInvoice = new HashSet<tblCustomerReturnInvoice>();
-            this.tblCustomerReturnPayment = new HashSet<tblCustomerReturnPayment>();
             this.tblSupplierReturnInvoice = new HashSet<tblSupplierReturnInvoice>();
             this.tblSupplierReturnPayment = new HashSet<tblSupplierReturnPayment>();
+            this.tblTransaction = new HashSet<tblTransaction>();
         }
     
         public int UserID { get; set; }
@@ -64,6 +64,10 @@ namespace DatabaseAccess
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblCustomerPayment> tblCustomerPayment { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblCustomerReturnInvoice> tblCustomerReturnInvoice { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblCustomerReturnPayment> tblCustomerReturnPayment { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblFinancialYear> tblFinancialYear { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblPayroll> tblPayroll { get; set; }
@@ -82,15 +86,11 @@ namespace DatabaseAccess
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblSupplierPayment> tblSupplierPayment { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblTransaction> tblTransaction { get; set; }
-        public virtual tblUserType tblUserType { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblCustomerReturnInvoice> tblCustomerReturnInvoice { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblCustomerReturnPayment> tblCustomerReturnPayment { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblSupplierReturnInvoice> tblSupplierReturnInvoice { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblSupplierReturnPayment> tblSupplierReturnPayment { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblTransaction> tblTransaction { get; set; }
+        public virtual tblUserType tblUserType { get; set; }
     }
 }

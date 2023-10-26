@@ -47,7 +47,7 @@
                                         <div class="col-lg-2 text-center d-none d-lg-block">
                                         </div>
                                         <div class="col-lg-10">
-                                            <h4>Company Profile</h4>
+                                            <h4>Company:</h4>
                                             <hr />
                                             <h4>@Html.DisplayFor(model => model.tblCompany.Name) - @Html.DisplayFor(model => model.tblBranch.BranchName)</h4>
                                             <address></address>Address: @Html.DisplayFor(model => model.tblBranch.BranchAddress)
@@ -61,7 +61,7 @@
                                             <em class="fa fa-truck fa-4x text-muted"></em>
                                         </div>
                                         <div class="col-lg-10">
-                                            <h4>Supplier Profile</h4>
+                                            <h4>Supplier:</h4>
                                             <hr />
                                             <h4>@Html.DisplayFor(model => model.tblSupplier.SupplierName)</h4>
                                             <address></address>@Html.DisplayFor(model => model.tblSupplier.SupplierAddress)
@@ -72,6 +72,8 @@
                                 </div>
                                 <hr>
                                 <div class="col-xl-4 col-12 py-2">
+                                    <h4>Invoice:</h4>
+                                    <hr />
                                     <div class="clearfix">
                                         <p class="float-left">INVOICE №</p>
                                         <p class="float-right mr-2">@Html.DisplayFor(model => model.InvoiceNo)</p>
@@ -100,13 +102,18 @@
                                     <tbody>
                                         @foreach (var item in Model.tblSupplierInvoiceDetail)
                                         {
-                                            total += (item.PurchaseQuantity * item.PurchaseUnitPrice);
+                                            int qty = 0;
+                                            double itemCost = 0;
+                                            qty = item.PurchaseQuantity - item.tblSupplierReturnInvoiceDetail.Where(q => q.ProductID == item.ProductID).Sum(q => q.PurchaseReturnQuantity);
+                                            itemCost = qty * item.PurchaseUnitPrice;
+                                            total += itemCost;
+
                                             <tr>
                                                 <td>@Html.DisplayFor(modelItem => item.tblStock.ProductName)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.PurchaseQuantity)</td>
-                                                <td><input type="number" id="ProductID @item.ProductID" name="ProductID @item.ProductID" value="0" min="0" max="@item.PurchaseQuantity" /></td>
+                                                <td>@qty</td>
+                                                <td><input type="number" id="ProductID @item.ProductID" name="ProductID @item.ProductID" value="0" min="0" max="@qty" /></td>
                                                 <td>@Html.DisplayFor(modelItem => item.PurchaseUnitPrice)</td>
-                                                <td class="text-left">@((item.PurchaseQuantity * item.PurchaseUnitPrice).ToString())</td>
+                                                <td class="text-left">@itemCost</td>
                                             </tr>
                                         }
                                     </tbody>

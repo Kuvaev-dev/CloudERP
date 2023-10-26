@@ -17,6 +17,7 @@ namespace DatabaseAccess
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tblSupplier()
         {
+            this.tblPurchaseCart = new HashSet<tblPurchaseCart>();
             this.tblSupplierInvoice = new HashSet<tblSupplierInvoice>();
             this.tblSupplierPayment = new HashSet<tblSupplierPayment>();
             this.tblSupplierReturnInvoice = new HashSet<tblSupplierReturnInvoice>();
@@ -35,6 +36,8 @@ namespace DatabaseAccess
     
         public virtual tblBranch tblBranch { get; set; }
         public virtual tblCompany tblCompany { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblPurchaseCart> tblPurchaseCart { get; set; }
         public virtual tblUser tblUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblSupplierInvoice> tblSupplierInvoice { get; set; }

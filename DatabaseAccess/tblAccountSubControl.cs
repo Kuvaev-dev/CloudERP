@@ -17,8 +17,8 @@ namespace DatabaseAccess
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tblAccountSubControl()
         {
-            this.tblTransaction = new HashSet<tblTransaction>();
             this.tblAccountSetting = new HashSet<tblAccountSetting>();
+            this.tblTransaction = new HashSet<tblTransaction>();
         }
     
         public int AccountSubControlID { get; set; }
@@ -31,11 +31,11 @@ namespace DatabaseAccess
     
         public virtual tblAccountControl tblAccountControl { get; set; }
         public virtual tblAccountHead tblAccountHead { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblAccountSetting> tblAccountSetting { get; set; }
         public virtual tblBranch tblBranch { get; set; }
         public virtual tblUser tblUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblTransaction> tblTransaction { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblAccountSetting> tblAccountSetting { get; set; }
     }
 }

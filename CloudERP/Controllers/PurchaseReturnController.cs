@@ -1,4 +1,5 @@
 ﻿using DatabaseAccess;
+using DatabaseAccess.Code;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace CloudERP.Controllers
     public class PurchaseReturnController : Controller
     {
         private CloudDBEntities db = new CloudDBEntities();
+        private PurchaseEntry purchaseEntry = new PurchaseEntry();
 
         // GET: PurchaseReturn
         public ActionResult FindPurchase()
@@ -124,6 +126,7 @@ namespace CloudERP.Controllers
             }
 
             var supplierInvoice = db.tblSupplierInvoice.Find(SupplierInvoiceID);
+            supplierID = supplierInvoice.SupplierID;
             if (TotalAmount == 0)
             {
                 Session["InvoiceNo"] = supplierInvoice.InvoiceNo;
@@ -142,12 +145,52 @@ namespace CloudERP.Controllers
                 SupplierID = supplierID,
                 UserID = userID,
                 TotalAmount = TotalAmount,
-                SupplierReturnInvoiceID = supplierInvoice.SupplierInvoiceID
+                SupplierInvoiceID = SupplierInvoiceID
             };
             db.tblSupplierReturnInvoice.Add(returnInvoiceHeader);
             db.SaveChanges();
 
-            return View();
+            var supplier = db.tblSupplier.Find(supplierID);
+            string Message = purchaseEntry.ReturnPurchase(companyID, branchID, userID, invoiceNo, returnInvoiceHeader.SupplierInvoiceID.ToString(), returnInvoiceHeader.SupplierReturnInvoiceID, (float)TotalAmount, supplierID.ToString(), supplier.SupplierName, IsPayment);
+            if (Message.Contains("Success"))
+            {
+                for (int i = 0; i < purchaseDetails.Count; i++)
+                {
+                    foreach (var productID in ProductIDs)
+                    {
+                        if (productID == purchaseDetails[i].ProductID)
+                        {
+                            if (ReturnQty[i] > 0)
+                            {
+                                var returnProductDetails = new tblSupplierReturnInvoiceDetail()
+                                {
+                                    SupplierInvoiceID = SupplierInvoiceID,
+                                    PurchaseReturnQuantity = ReturnQty[i],
+                                    ProductID = productID,
+                                    PurchaseReturnUnitPrice = purchaseDetails[i].PurchaseUnitPrice,
+                                    SupplierReturnInvoiceID = returnInvoiceHeader.SupplierReturnInvoiceID,
+                                    SupplierInvoiceDetailID = purchaseDetails[i].SupplierInvoiceDetailID
+                                };
+                                db.tblSupplierReturnInvoiceDetail.Add(returnProductDetails);
+                                db.SaveChanges();
+
+                                var stock = db.tblStock.Find(productID);
+                                stock.Quantity -= ReturnQty[i];
+                                db.Entry(stock).State = System.Data.Entity.EntityState.Modified;
+                                db.SaveChanges();
+                            }
+                        }
+                    }
+                }
+
+                Session["InvoiceNo"] = supplierInvoice.InvoiceNo;
+                Session["ReturnMessage"] = "Return Successfully";
+                return RedirectToAction("FindPurchase");
+            }
+
+            Session["InvoiceNo"] = supplierInvoice.InvoiceNo;
+            Session["ReturnMessage"] = "Some Unexpected Issue is Occured. Please Contact to Administrator";
+            return RedirectToAction("FindPurchase");
         }
     }
 }

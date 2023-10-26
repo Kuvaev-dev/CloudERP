@@ -14,11 +14,12 @@ namespace DatabaseAccess
     
     public partial class tblSupplierInvoiceDetail
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tblSupplierInvoiceDetail()
         {
             this.tblSupplierReturnInvoiceDetail = new HashSet<tblSupplierReturnInvoiceDetail>();
         }
-
+    
         public int SupplierInvoiceDetailID { get; set; }
         public int SupplierInvoiceID { get; set; }
         public int ProductID { get; set; }

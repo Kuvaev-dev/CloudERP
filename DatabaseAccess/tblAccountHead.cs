@@ -11,8 +11,7 @@ namespace DatabaseAccess
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class tblAccountHead
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -25,7 +24,6 @@ namespace DatabaseAccess
         }
     
         public int AccountHeadID { get; set; }
-        [Required(ErrorMessage = "*Required!")]
         public string AccountHeadName { get; set; }
         public int Code { get; set; }
         public int UserID { get; set; }
