@@ -32,7 +32,16 @@
                             Total Amount
                         </th>
                         <th>
+                            Return Products (Total Amount)
+                        </th>
+                        <th>
+                            Amount After Return
+                        </th>
+                        <th>
                             Paid Amount
+                        </th>
+                        <th>
+                            Payment Amount
                         </th>
                         <th>
                             Remaining Balance
@@ -59,10 +68,20 @@
                                 @Html.DisplayFor(modelItem => item.TotalAmount)
                             </td>
                             <td>
+                                @Html.DisplayFor(modelItem => item.ReturnProductAmount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.AfterReturnTotalAmount)
+                            </td>
+                            <td>
                                 @Html.DisplayFor(modelItem => item.PaymentAmount)
                             </td>
                             <td>
-                                <label>@(item.TotalAmount - item.PaymentAmount)</label>
+                                @Html.DisplayFor(modelItem => item.ReturnPaymentAmount)
+                            </td>
+                            <td>
+                                @*<label>@(item.TotalAmount - item.PaymentAmount)</label>*@
+                                @Html.DisplayFor(modelItem => item.RemainingBalance)
                             </td>
                             <td class="btn-group">
                                 @{

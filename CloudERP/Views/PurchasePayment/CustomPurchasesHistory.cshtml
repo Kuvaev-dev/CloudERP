@@ -61,10 +61,22 @@
                             Total Amount
                         </th>
                         <th>
+                            Return Products (Total Amount)
+                        </th>
+                        <th>
+                            After Return (Total Amount)
+                        </th>
+                        <th>
                             Paid Amount
                         </th>
                         <th>
+                            Payment Amount
+                        </th>
+                        <th>
                             Remaining Balance
+                        </th>
+                        <th>
+                            Action`s
                         </th>
                     </tr>
                 </thead>
@@ -88,8 +100,14 @@
                                 @Html.DisplayFor(modelItem => item.TotalAmount)
                             </td>
                             <td>
+                                @Html.DisplayFor(modelItem => item.ReturnProductAmount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.AfterReturnTotalAmount)
+                            </td>
+                            <td>
                                 @{
-                                    if (item.PaymentAmount == 0)
+                                    if (item.PaymentAmount == 0 && item.AfterReturnTotalAmount > 0)
                                     {
                                         @Html.ActionLink("Set Payment", "PaidAmount", new { id = item.SupplierInvoiceID }, new { @class = "text-success" })
                                     }
@@ -98,6 +116,9 @@
                                         @Html.DisplayFor(modelItem => item.PaymentAmount)
                                     }
                                 }
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ReturnPaymentAmount)
                             </td>
                             <td>
                                 @{
@@ -109,7 +130,7 @@
                                     }
                                     else
                                     {
-                                        <label>@(item.TotalAmount - item.PaymentAmount)</label>
+                                        <label>@Html.DisplayFor(modelItem => item.RemainingBalance)</label>
                                     }
                                 }
                             </td>
