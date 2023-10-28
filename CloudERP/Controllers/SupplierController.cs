@@ -95,6 +95,20 @@ namespace CloudERP.Controllers
             return View(tblSupplier);
         }
 
+        public ActionResult SupplierDetails(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            tblSupplier tblSupplier = db.tblSupplier.Find(id);
+            if (tblSupplier == null)
+            {
+                return HttpNotFound();
+            }
+            return View(tblSupplier);
+        }
+
         // GET: Supplier/Create
         public ActionResult Create()
         {

@@ -513,6 +513,7 @@
     <Content Include="Views\PurchasePayment\PurchaseItemDetail.cshtml" />
     <Content Include="Views\SalePayment\SaleItemDetail.cshtml" />
     <Content Include="Views\PurchaseReturn\FindPurchase.cshtml" />
+    <Content Include="Views\Supplier\SupplierDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

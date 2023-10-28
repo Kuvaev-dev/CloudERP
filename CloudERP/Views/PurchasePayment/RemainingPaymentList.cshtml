@@ -20,9 +20,6 @@
                             Supplier
                         </th>
                         <th>
-                            Contact №
-                        </th>
-                        <th>
                             Invoice №
                         </th>
                         <th>
@@ -53,10 +50,7 @@
                     {
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelItem => item.SupplierName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.SupplierContactNo)
+                                @Html.ActionLink(item.SupplierName, "SupplierDetails", "Supplier", new { id = item.SupplierID }, null)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.InvoiceNo)
@@ -83,7 +77,7 @@
                                 @*<label>@(item.TotalAmount - item.PaymentAmount)</label>*@
                                 @Html.DisplayFor(modelItem => item.RemainingBalance)
                             </td>
-                            <td class="btn-group">
+                            <td>
                                 @{
                                     if (item.TotalAmount - 1 > item.PaymentAmount)
                                     {

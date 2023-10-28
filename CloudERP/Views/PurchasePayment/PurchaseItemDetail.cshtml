@@ -1,47 +1,142 @@
 ﻿@model IEnumerable<DatabaseAccess.tblSupplierInvoiceDetail>
 
 @{
-    ViewBag.Title = "Purchase Details";
-}
+    double total = 0;
 
-<table class="table table-hover">
-    <tr>
-        <th>
-            Invoice №
-        </th>
-        <th>
-            Product
-        </th>
-        <th>
-            Quantity
-        </th>
-        <th>
-            Unit Price
-        </th>
-        <th>
-            Item Cost
-        </th>
-    </tr>
+    <div class="card">
+        <div class="card card-float">
+            <div class="card-header">
+                <h3 class="text-success">Purchase Products Detail</h3>
+            </div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <tr>
+                        <th>
+                            Product
+                        </th>
+                        <th>
+                            Quantity
+                        </th>
+                        <th>
+                            Unit Price
+                        </th>
+                        <th>
+                            Item Cost
+                        </th>
+                    </tr>
 
-    @foreach (var item in Model)
+                    @foreach (var item in Model)
+                    {
+                        ViewBag.Title = "Purchase Invoice №: " + item.tblSupplierInvoice.InvoiceNo;
+                        int qty = 0;
+                        double itemCost = 0;
+                        qty = item.PurchaseQuantity - item.tblSupplierReturnInvoiceDetail.Where(q => q.ProductID == item.ProductID).Sum(q => q.PurchaseReturnQuantity);
+                        itemCost = qty * item.PurchaseUnitPrice;
+                        total += itemCost;
+
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.tblStock.ProductName)
+                            </td>
+                            <td>
+                                @qty
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PurchaseUnitPrice)
+                            </td>
+                            <td class="text-left">
+                                @itemCost
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-lg-6"></div>
+                <div class="col-lg-6 py-2">
+                    <div class="row mb-3 align-items-center">
+                        <div class="col-7">
+                            <div class="h3">GRAND TOTAL</div>
+                        </div>
+                        <div class="col-5">
+                            <div class="text-left h3">@total.ToString("F2")</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.tblSupplierInvoice.InvoiceNo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.tblStock.ProductName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PurchaseQuantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PurchaseUnitPrice)
-            </td>
-            <td>
-                <label>@(item.PurchaseQuantity * item.PurchaseUnitPrice)</label>
-            </td>
-        </tr>
-    }
+        if (item.tblSupplierReturnInvoiceDetail != null)
+        {
+            double returnTotal = 0;
 
-</table>
+            <div class="card">
+                <div class="card card-float">
+                    <div class="card-header">
+                        <h3 class="text-danger">Return Products Detail</h3>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-hover">
+                            <tr>
+                                <th>
+                                    Return Product
+                                </th>
+                                <th>
+                                    Return Quantity
+                                </th>
+                                <th>
+                                    Unit Price
+                                </th>
+                                <th>
+                                    Item Cost
+                                </th>
+                            </tr>
+
+                            @foreach (var itemProduct in item.tblSupplierReturnInvoiceDetail)
+                            {
+                                int qty = 0;
+                                double itemCost = 0;
+                                qty = itemProduct.PurchaseReturnQuantity;
+                                itemCost = qty * itemProduct.PurchaseReturnUnitPrice;
+                                returnTotal += itemCost;
+
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => itemProduct.tblStock.ProductName)
+                                    </td>
+                                    <td>
+                                        @qty
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => itemProduct.PurchaseReturnUnitPrice)
+                                    </td>
+                                    <td class="text-left">
+                                        @itemCost
+                                    </td>
+                                </tr>
+                            }
+
+                        </table>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6"></div>
+                        <div class="col-lg-6 py-2">
+                            <div class="row mb-3 align-items-center">
+                                <div class="col-7">
+                                    <div class="h3">RETURN TOTAL</div>
+                                </div>
+                                <div class="col-5">
+                                    <div class="text-left h3">@returnTotal.ToString("F2")</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+}
