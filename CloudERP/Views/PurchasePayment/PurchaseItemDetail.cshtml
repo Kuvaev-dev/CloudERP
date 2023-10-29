@@ -70,7 +70,7 @@
 
     foreach (var item in Model)
     {
-        if (item.tblSupplierReturnInvoiceDetail != null)
+        if (item.tblSupplierReturnInvoiceDetail.Where(s => s.SupplierInvoiceID == item.SupplierInvoiceID).FirstOrDefault() != null)
         {
             double returnTotal = 0;
 

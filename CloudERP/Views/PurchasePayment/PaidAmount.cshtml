@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<DatabaseAccess.Models.PurchasePaymentModel>
-
 @{
+    double remainingBalance = 0;
     ViewBag.Title = "Purchase Payment";
 }
 
@@ -16,11 +16,11 @@
             @using (Html.BeginForm("PaidAmount", "PurchasePayment", FormMethod.Post))
             {
                 @Html.AntiForgeryToken()
-                <input type="text" value="@ViewBag.InvoiceID" id="id" name="id" style="display:none;"/>
+                <input type="text" value="@ViewBag.InvoiceID" id="id" name="id" style="display:none;" />
                 <div class="row">
                     <div class="col-md-4">
                         <label>Previous Remaining Amount</label>
-                        <input type="text" id="previousRemainingAmount" name="previousRemainingAmount" value="@ViewBag.PreviousRemainingAmount" readonly="readonly" class="form-control" required>
+                        <input type="text" id="previousRemainingAmount" name="previousRemainingAmount" value="@remainingBalance" readonly="readonly" class="form-control" required>
                     </div>
                     <div class="col-md-4">
                         <label>Payment Amount</label>
@@ -104,6 +104,166 @@
         </div>
     </div>
 </div>
+
+@{
+    double totalReturnRemainingBalance = 0;
+    int noOfInvoice = 0;
+
+    if (ViewData["ReturnPurchaseDetails"] != null)
+    {
+        <h3>Purchase Return Details</h3>
+        var returnPurchaseDetail = ViewData["ReturnPurchaseDetails"] as List<DatabaseAccess.tblSupplierReturnInvoice>;
+        foreach (DatabaseAccess.tblSupplierReturnInvoice item in returnPurchaseDetail)
+        {
+            noOfInvoice += 1;
+            double invoiceRemainingBalance = 0;
+            double payAmount = item.tblSupplierReturnPayment.Sum(s => s.PaymentAmount);
+            invoiceRemainingBalance = item.TotalAmount - payAmount;
+            totalReturnRemainingBalance += invoiceRemainingBalance;
+
+            <div class="row todo">
+                <div class="col-lg-12 todo-item-list">
+                    <div id="accordion" role="tablist" aria-multiselectable="true">
+                        <div class="card mb-0 todo-item">
+                            <div class="card-header">
+                                <p class="text-bold mb-0">
+                                    <div class="clickable collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#collapseTwo_@noOfInvoice">
+                                        <div class="row">
+                                            <div class="col-md-1">
+                                                <div>
+                                                    Supplier
+                                                    <div>
+                                                        @item.tblSupplier.SupplierName
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div>
+                                                    Invoice Date:
+                                                    <div>
+                                                        @item.InvoiceDate
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div>
+                                                    Invoice №:
+                                                    <div>
+                                                        @item.InvoiceNo
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div>
+                                                    Return Total:
+                                                    <div>
+                                                        @item.TotalAmount
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div>
+                                                    Return Payment:
+                                                    <div>
+                                                        @payAmount
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div>
+                                                    Remaining Return:
+                                                    <div>
+                                                        @invoiceRemainingBalance
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </p>
+                            </div>
+                            <div class="collapse" id="collapseTwo_@noOfInvoice">
+                                <div class="card-body">
+                                    <div class="table-responsive bootgrid">
+                                        @if (payAmount > 0)
+                                        {
+                                            <table class="table table-hover" id="dataTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            Invoice №
+                                                        </th>
+                                                        <th>
+                                                            Payment Date
+                                                        </th>
+                                                        <th>
+                                                            Total Amount
+                                                        </th>
+                                                        <th>
+                                                            Payment Amount
+                                                        </th>
+                                                        <th>
+                                                            Remaining Balance
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="paymentList">
+                                                    @foreach (var paymentDetails in item.tblSupplierReturnPayment)
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                @paymentDetails.InvoiceNo
+                                                            </td>
+                                                            <td>
+                                                                @paymentDetails.InvoiceDate
+                                                            </td>
+                                                            <td>
+                                                                @paymentDetails.TotalAmount
+                                                            </td>
+                                                            <td>
+                                                                @paymentDetails.PaymentAmount
+                                                            </td>
+                                                            <td>
+                                                                @paymentDetails.RemainingBalance
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        }
+                                        else
+                                        {
+                                            <div class="text-center">
+                                                No Payment Record
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+
+        }
+    }
+    remainingBalance = ((double)ViewBag.PreviousRemainingAmount - totalReturnRemainingBalance);
+}
+
+<div class="row">
+    <div class="col-lg-6"></div>
+    <div class="col-lg-6 py-2">
+        <div class="row mb-3 align-items-center">
+            <div class="col-7">
+                <div class="h3">Remaining Total Balance: </div>
+            </div>
+            <div class="col-5">
+                <div id="previousRemainingAmounts" class="text-left h3">@remainingBalance.ToString("F2"))</div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
     $(document).ready(function () {
         $("#searchPayment").on("keyup", function () {
@@ -113,8 +273,10 @@
             })
         })
 
+        $("#previousRemainingAmount").val(@remainingBalance);
+
         $("#paymentAmount").keyup(function () {
-            var previousRemainingAmount = $("#previousRemainingAmount").val();
+            var previousRemainingAmount = $("#previousRemainingAmounts").val();
             var payment = this.value;
             $("#remainingAmount").val(previousRemainingAmount - payment);
         })

@@ -24,6 +24,7 @@ namespace DatabaseAccess
         public double PaidAmount { get; set; }
         public double RemainingBalance { get; set; }
         public int UserID { get; set; }
+        public Nullable<System.DateTime> InvoiceDate { get; set; }
     
         public virtual tblBranch tblBranch { get; set; }
         public virtual tblCompany tblCompany { get; set; }

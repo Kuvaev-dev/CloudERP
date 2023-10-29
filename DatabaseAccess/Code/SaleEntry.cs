@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -67,9 +68,9 @@ namespace DatabaseAccess.Code
                     transectiontitle = Customername + ", Sale Payment is Succeed!";
                     SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, payinvoicenno, UserID.ToString(), "0", Convert.ToString(Amount), DateTime.Now, transectiontitle);
 
-                    string paymentquery = string.Format("insert into tblCustomerPayment(CustomerID,CustomerInvoiceID,UserID,InvoiceNo,TotalAmount,PaidAmount,RemainingBalance,CompanyID,BranchID) " +
-                    "values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}')",
-                    CustomerID, CustomerInvoiceID, UserID, payinvoicenno, Amount, Amount, "0", CompanyID, BranchID);
+                    string paymentquery = string.Format("insert into tblCustomerPayment(CustomerID,CustomerInvoiceID,UserID,InvoiceNo,TotalAmount,PaidAmount,RemainingBalance,CompanyID,BranchID,InvoiceDate) " +
+                    "values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}')",
+                    CustomerID, CustomerInvoiceID, UserID, payinvoicenno, Amount, Amount, "0", CompanyID, BranchID, DateTime.Now.ToString("yyyy/MM/dd"));
                     DatabaseQuery.Insert(paymentquery);
 
                     successmessage += " with Payment.";
@@ -137,9 +138,9 @@ namespace DatabaseAccess.Code
                 transectiontitle = Customername + ", Sale Payment is Succeed!";
                 SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID.ToString(), "0", Convert.ToString(Amount), DateTime.Now, transectiontitle);
 
-                string paymentquery = string.Format("insert into tblCustomerPayment(CustomerID,CustomerInvoiceID,UserID,InvoiceNo,TotalAmount,PaidAmount,RemainingBalance,CompanyID,BranchID) " +
-                "values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}')",
-                CustomerID, CustomerInvoiceID, UserID, InvoiceNo, TotalAmount, Amount, Convert.ToString(RemainingBalance), CompanyID, BranchID);
+                string paymentquery = string.Format("insert into tblCustomerPayment(CustomerID,CustomerInvoiceID,UserID,InvoiceNo,TotalAmount,PaidAmount,RemainingBalance,CompanyID,BranchID,InvoiceDate) " +
+                "values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}')",
+                CustomerID, CustomerInvoiceID, UserID, InvoiceNo, TotalAmount, Amount, Convert.ToString(RemainingBalance), CompanyID, BranchID, DateTime.Now.ToString("yyyy/MM/dd"));
                 DatabaseQuery.Insert(paymentquery);
 
                 foreach (DataRow entryRow in dtEntries.Rows)
@@ -224,9 +225,9 @@ namespace DatabaseAccess.Code
                     transectiontitle = Customername + ", Return Sale Payment is Succeed!";
                     SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, payinvoicenno, UserID.ToString(), Convert.ToString(Amount), "0", DateTime.Now, transectiontitle);
 
-                    string paymentquery = string.Format("insert into tblCustomerReturnPayment(CustomerID,CustomerInvoiceID,UserID,InvoiceNo,TotalAmount,PaidAmount,RemainingBalance,CompanyID,BranchID,CustomerReturnInvoiceID) " +
-                    "values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}')",
-                    CustomerID, CustomerInvoiceID, UserID, payinvoicenno, Amount, Amount, "0", CompanyID, BranchID, CustomerReturnInvoiceID);
+                    string paymentquery = string.Format("insert into tblCustomerReturnPayment(CustomerID,CustomerInvoiceID,UserID,InvoiceNo,TotalAmount,PaidAmount,RemainingBalance,CompanyID,BranchID,CustomerReturnInvoiceID,InvoiceDate) " +
+                    "values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}')",
+                    CustomerID, CustomerInvoiceID, UserID, payinvoicenno, Amount, Amount, "0", CompanyID, BranchID, CustomerReturnInvoiceID, DateTime.Now.ToString("yyyy/MM/dd"));
                     DatabaseQuery.Insert(paymentquery);
 
                     successmessage += " with Payment.";
@@ -294,9 +295,9 @@ namespace DatabaseAccess.Code
                 transectiontitle = Customername + ", Return Sale Payment is Succeed!";
                 SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID.ToString(), Convert.ToString(Amount), "0", DateTime.Now, transectiontitle);
 
-                string paymentquery = string.Format("insert into tblCustomerReturnPayment(CustomerID,CustomerInvoiceID,UserID,InvoiceNo,TotalAmount,PaidAmount,RemainingBalance,CompanyID,BranchID,CustomerReturnInvoiceID) " +
-                "values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}')",
-                CustomerID, CustomerInvoiceID, UserID, InvoiceNo, TotalAmount, Amount, Convert.ToString(RemainingBalance), CompanyID, BranchID, CustomerReturnInvoiceID);
+                string paymentquery = string.Format("insert into tblCustomerReturnPayment(CustomerID,CustomerInvoiceID,UserID,InvoiceNo,TotalAmount,PaidAmount,RemainingBalance,CompanyID,BranchID,CustomerReturnInvoiceID,InvoiceDate) " +
+                "values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}')",
+                CustomerID, CustomerInvoiceID, UserID, InvoiceNo, TotalAmount, Amount, Convert.ToString(RemainingBalance), CompanyID, BranchID, CustomerReturnInvoiceID, DateTime.Now.ToString("yyyy/MM/dd"));
                 DatabaseQuery.Insert(paymentquery);
 
                 foreach (DataRow entryRow in dtEntries.Rows)

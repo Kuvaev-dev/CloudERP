@@ -146,6 +146,7 @@
           <Property Name="PaidAmount" Type="float" Nullable="false" />
           <Property Name="RemainingBalance" Type="float" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="InvoiceDate" Type="date" />
         </EntityType>
         <EntityType Name="tblCustomerReturnInvoice">
           <Key>
@@ -189,6 +190,7 @@
           <Property Name="PaidAmount" Type="float" Nullable="false" />
           <Property Name="RemainingBalance" Type="float" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="InvoiceDate" Type="date" />
         </EntityType>
         <EntityType Name="tblEmployee">
           <Key>
@@ -343,6 +345,7 @@
           <Property Name="PaymentAmount" Type="float" Nullable="false" />
           <Property Name="RemainingBalance" Type="float" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="InvoiceDate" Type="date" />
         </EntityType>
         <EntityType Name="tblSupplierReturnInvoice">
           <Key>
@@ -386,6 +389,7 @@
           <Property Name="PaymentAmount" Type="float" Nullable="false" />
           <Property Name="RemainingBalance" Type="float" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="InvoiceDate" Type="date" />
         </EntityType>
         <EntityType Name="tblTransaction">
           <Key>
@@ -2819,6 +2823,7 @@
           <Property Name="PaidAmount" Type="Double" Nullable="false" />
           <Property Name="RemainingBalance" Type="Double" Nullable="false" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="InvoiceDate" Type="DateTime" Precision="0" />
           <NavigationProperty Name="tblBranch" Relationship="CloudDBModel.FK_tblCustomerPayment_tblBranch" FromRole="tblCustomerPayment" ToRole="tblBranch" />
           <NavigationProperty Name="tblCompany" Relationship="CloudDBModel.FK_tblCustomerPayment_tblCompany" FromRole="tblCustomerPayment" ToRole="tblCompany" />
           <NavigationProperty Name="tblCustomerInvoice" Relationship="CloudDBModel.FK_tblCustomerPayment_tblCustomerInvoice" FromRole="tblCustomerPayment" ToRole="tblCustomerInvoice" />
@@ -2877,6 +2882,7 @@
           <Property Name="PaidAmount" Type="Double" Nullable="false" />
           <Property Name="RemainingBalance" Type="Double" Nullable="false" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="InvoiceDate" Type="DateTime" Precision="0" />
           <NavigationProperty Name="tblBranch" Relationship="CloudDBModel.FK_tblCustomerReturnPayment_tblBranch" FromRole="tblCustomerReturnPayment" ToRole="tblBranch" />
           <NavigationProperty Name="tblCompany" Relationship="CloudDBModel.FK_tblCustomerReturnPayment_tblCompany" FromRole="tblCustomerReturnPayment" ToRole="tblCompany" />
           <NavigationProperty Name="tblCustomer" Relationship="CloudDBModel.FK_tblCustomerReturnPayment_tblCustomer" FromRole="tblCustomerReturnPayment" ToRole="tblCustomer" />
@@ -3088,6 +3094,7 @@
           <Property Name="PaymentAmount" Type="Double" Nullable="false" />
           <Property Name="RemainingBalance" Type="Double" Nullable="false" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="InvoiceDate" Type="DateTime" Precision="0" />
           <NavigationProperty Name="tblSupplier" Relationship="CloudDBModel.FK_tblSupplierPayment_tblSupplier" FromRole="tblSupplierPayment" ToRole="tblSupplier" />
           <NavigationProperty Name="tblUser" Relationship="CloudDBModel.FK_tblSupplierPayment_tblUser" FromRole="tblSupplierPayment" ToRole="tblUser" />
         </EntityType>
@@ -3144,6 +3151,7 @@
           <Property Name="PaymentAmount" Type="Double" Nullable="false" />
           <Property Name="RemainingBalance" Type="Double" Nullable="false" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="InvoiceDate" Type="DateTime" Precision="0" />
           <NavigationProperty Name="tblBranch" Relationship="CloudDBModel.FK_tblSupplierReturnPayment_tblBranch" FromRole="tblSupplierReturnPayment" ToRole="tblBranch" />
           <NavigationProperty Name="tblCompany" Relationship="CloudDBModel.FK_tblSupplierReturnPayment_tblCompany" FromRole="tblSupplierReturnPayment" ToRole="tblCompany" />
           <NavigationProperty Name="tblSupplier" Relationship="CloudDBModel.FK_tblSupplierReturnPayment_tblSupplier" FromRole="tblSupplierReturnPayment" ToRole="tblSupplier" />
@@ -4637,6 +4645,7 @@
           <EntitySetMapping Name="tblCustomerPayment">
             <EntityTypeMapping TypeName="CloudDBModel.tblCustomerPayment">
               <MappingFragment StoreEntitySet="tblCustomerPayment">
+                <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="RemainingBalance" ColumnName="RemainingBalance" />
                 <ScalarProperty Name="PaidAmount" ColumnName="PaidAmount" />
@@ -4682,6 +4691,7 @@
           <EntitySetMapping Name="tblCustomerReturnPayment">
             <EntityTypeMapping TypeName="CloudDBModel.tblCustomerReturnPayment">
               <MappingFragment StoreEntitySet="tblCustomerReturnPayment">
+                <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="RemainingBalance" ColumnName="RemainingBalance" />
                 <ScalarProperty Name="PaidAmount" ColumnName="PaidAmount" />
@@ -4848,6 +4858,7 @@
           <EntitySetMapping Name="tblSupplierPayment">
             <EntityTypeMapping TypeName="CloudDBModel.tblSupplierPayment">
               <MappingFragment StoreEntitySet="tblSupplierPayment">
+                <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="RemainingBalance" ColumnName="RemainingBalance" />
                 <ScalarProperty Name="PaymentAmount" ColumnName="PaymentAmount" />
@@ -4893,6 +4904,7 @@
           <EntitySetMapping Name="tblSupplierReturnPayment">
             <EntityTypeMapping TypeName="CloudDBModel.tblSupplierReturnPayment">
               <MappingFragment StoreEntitySet="tblSupplierReturnPayment">
+                <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="RemainingBalance" ColumnName="RemainingBalance" />
                 <ScalarProperty Name="PaymentAmount" ColumnName="PaymentAmount" />
