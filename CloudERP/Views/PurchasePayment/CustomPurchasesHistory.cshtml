@@ -128,6 +128,12 @@
                                             <label class="text-success">Clear</label>
                                         </em>
                                     }
+                                    else if (item.RemainingBalance < 0)
+                                    {
+                                        @*<button class="btn btn-outline-danger btn-lg" type="button" data-toggle="modal" data-target="#myModal">@item.RemainingBalance</button>*@
+                                        @*<button class="btn btn-outline-danger btn-lg" type="button">@item.RemainingBalance</button>*@
+                                        @Html.ActionLink(item.RemainingBalance.ToString("F2"), "ReturnPurchasePayment", "PurchasePayment", new { @id = item.SupplierInvoiceID }, new { @class = "btn btn-outline-danger btn-lg" })
+                                    }
                                     else
                                     {
                                         <label>@Html.DisplayFor(modelItem => item.RemainingBalance)</label>

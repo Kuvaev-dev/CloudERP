@@ -24,7 +24,7 @@
                     </div>
                     <div class="col-md-4">
                         <label>Payment Amount</label>
-                        <input type="text" id="paymentAmount" name="paymentAmount" value="10" class="form-control" required>
+                        <input min="0" type="number" id="paymentAmount" name="paymentAmount" value="10" class="form-control" required>
                     </div>
                     <div class="col-md-4">
                         <label>Current Remaining Amount</label>
@@ -274,6 +274,7 @@
         })
 
         $("#previousRemainingAmount").val(@remainingBalance);
+        $("#paymentAmount").max(@remainingBalance);
 
         $("#paymentAmount").keyup(function () {
             var previousRemainingAmount = $("#previousRemainingAmounts").val();

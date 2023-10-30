@@ -1483,5 +1483,44 @@
     <script src="~/Content/Template/vendor/jquery-steps/build/jquery.steps.js"></script>
     <!-- =============== APP SCRIPTS ===============-->
     <script src="~/Content/Template/js/app.js"></script>
+
+    @*<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                @using (Html.BeginForm("ReturnPaymentPaid", "PurchasePayment", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel">Enter Purchase Return Payment</h4>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" value="@ViewBag.InvoiceID" id="id" name="id" style="display:none;" />
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Previous Payment Amount</label>
+                                <input type="text" id="previousRemainingAmount" name="previousRemainingAmount" value="0" readonly="readonly" class="form-control" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Payment Amount</label>
+                                <input min="0" type="number" id="paymentAmount" name="paymentAmount" value="10" class="form-control" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Remaining Payment Amount</label>
+                                <input type="text" id="remainingAmount" name="remainingAmount" value="10" readonly="readonly" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
+                        <input type="submit" value="Submit Payment" class="btn btn-primary" style="float:right;" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>*@
+
 </body>
 </html>
