@@ -76,6 +76,7 @@
     <Compile Include="Code\SP_Code\SP_Sale.cs" />
     <Compile Include="Models\PurchasePaymentModel.cs" />
     <Compile Include="Models\SalePaymentModel.cs" />
+    <Compile Include="Models\SupplierReturnInvoiceModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="tblAccountActivity.cs">
       <DependentUpon>CloudDB.tt</DependentUpon>

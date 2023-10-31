@@ -132,7 +132,7 @@
                                     {
                                         @*<button class="btn btn-outline-danger btn-lg" type="button" data-toggle="modal" data-target="#myModal">@item.RemainingBalance</button>*@
                                         @*<button class="btn btn-outline-danger btn-lg" type="button">@item.RemainingBalance</button>*@
-                                        @Html.ActionLink(item.RemainingBalance.ToString("F2"), "ReturnPurchasePayment", "PurchasePayment", new { @id = item.SupplierInvoiceID }, new { @class = "btn btn-outline-danger btn-lg" })
+                                        @Html.ActionLink(item.RemainingBalance.ToString("F2"), "ReturnPurchasePendingAmount", "PurchasePaymentReturn", new { @id = item.SupplierInvoiceID }, new { @class = "btn btn-outline-danger btn-lg" })
                                     }
                                     else
                                     {
