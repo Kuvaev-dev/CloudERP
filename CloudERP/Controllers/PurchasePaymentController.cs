@@ -127,15 +127,26 @@ namespace CloudERP.Controllers
                 {
                     ViewBag.Message = "Payment Must be Less Then or Equal to Previous Remaining Amount!";
                     var list = purchase.PurchasePaymentHistory((int)id);
+                    var returnDetails = db.tblSupplierReturnInvoice.Where(r => r.SupplierID == id).ToList();
+                    if (returnDetails != null)
+                    {
+                        if (returnDetails.Count > 0)
+                        {
+                            ViewData["ReturnPurchaseDetails"] = returnDetails;
+                        }
+                    }
                     double remainingAmount = 0;
-                    foreach (var item in list)
-                    {
-                        remainingAmount = item.RemainingBalance;
-                    }
-                    if (remainingAmount == 0)
-                    {
-                        remainingAmount = db.tblSupplierInvoice.Find(id).TotalAmount;
-                    }
+                    double totalInvoiceAmount = db.tblSupplierInvoice.Find(id).TotalAmount;
+                    double totalPaidAmount = db.tblSupplierPayment.Where(p => p.SupplierInvoiceID == id).Sum(p => p.PaymentAmount);
+                    remainingAmount = totalInvoiceAmount - totalPaidAmount;
+                    //foreach (var item in list)
+                    //{
+                    //    remainingAmount = item.RemainingBalance;
+                    //}
+                    //if (remainingAmount == 0)
+                    //{
+                    //    remainingAmount = db.tblSupplierInvoice.Find(id).TotalAmount;
+                    //}
                     ViewBag.PreviousRemainingAmount = remainingAmount;
                     ViewBag.InvoiceID = id;
                     return View(list);

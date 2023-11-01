@@ -26,5 +26,81 @@ namespace CloudERP.Controllers
 
             return View(list);
         }
+
+        public ActionResult ReturnAmount(int? id)
+        {
+            var list = db.tblSupplierReturnPayment.Where(r => r.SupplierReturnInvoiceID == id);
+            double remainingAmount = 0;
+            foreach (var item in list)
+            {
+                remainingAmount = item.RemainingBalance;
+            }
+            if (remainingAmount == 0)
+            {
+                remainingAmount = db.tblSupplierReturnInvoice.Find(id).TotalAmount;
+            }
+            ViewBag.PreviousRemainingAmount = remainingAmount;
+            ViewBag.InvoiceID = id;
+            return View(list);
+        }
+
+        [HttpPost]
+        public ActionResult ReturnAmount(int? id, float previousRemainingAmount, float paymentAmount)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])) || string.IsNullOrEmpty(Convert.ToString(id)))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+                int companyID = 0;
+                int branchID = 0;
+                int userID = 0;
+                branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
+                companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
+                userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
+                if (paymentAmount > previousRemainingAmount)
+                {
+                    ViewBag.Message = "Payment Must be Less Then or Equal to Previous Remaining Amount!";
+                    var list = db.tblSupplierReturnPayment.Where(r => r.SupplierReturnInvoiceID == id);
+                    double remainingAmount = 0;
+                    foreach (var item in list)
+                    {
+                        remainingAmount = item.RemainingBalance;
+                    }
+                    if (remainingAmount == 0)
+                    {
+                        remainingAmount = db.tblSupplierReturnInvoice.Find(id).TotalAmount;
+                    }
+                    ViewBag.PreviousRemainingAmount = remainingAmount;
+                    ViewBag.InvoiceID = id;
+                    return View(list);
+                }
+                string payinvoicenno = "RPP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
+                var supplier = db.tblSupplier.Find(db.tblSupplierReturnInvoice.Find(id).SupplierID);
+                var purchaseInvoice = db.tblSupplierReturnInvoice.Find(id);
+                var purchasePaymentDetails = db.tblSupplierReturnPayment.Where(p => p.SupplierReturnInvoiceID == id);
+                string message = purchaseEntry.ReturnPurchasePayment(companyID, branchID, userID, payinvoicenno, purchaseInvoice.SupplierInvoiceID.ToString(), purchaseInvoice.SupplierReturnInvoiceID, (float)purchaseInvoice.TotalAmount,
+                    paymentAmount, Convert.ToString(supplier.SupplierID), supplier.SupplierName, previousRemainingAmount - paymentAmount);
+                Session["Message"] = message;
+                return RedirectToAction("PurchasePaymentReturn", new { id = id });
+            }
+            catch
+            {
+                var list = db.tblSupplierReturnPayment.Where(r => r.SupplierReturnInvoiceID == id);
+                double remainingAmount = 0;
+                foreach (var item in list)
+                {
+                    remainingAmount = item.RemainingBalance;
+                }
+                if (remainingAmount == 0)
+                {
+                    remainingAmount = db.tblSupplierReturnInvoice.Find(id).TotalAmount;
+                }
+                ViewBag.PreviousRemainingAmount = remainingAmount;
+                ViewBag.InvoiceID = id;
+                return View(list);
+            }
+        }
     }
 }

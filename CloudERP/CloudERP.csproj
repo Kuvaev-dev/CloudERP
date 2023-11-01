@@ -516,6 +516,7 @@
     <Content Include="Views\PurchaseReturn\FindPurchase.cshtml" />
     <Content Include="Views\Supplier\SupplierDetails.cshtml" />
     <Content Include="Views\PurchasePaymentReturn\ReturnPurchasePendingAmount.cshtml" />
+    <Content Include="Views\PurchasePaymentReturn\ReturnAmount.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
