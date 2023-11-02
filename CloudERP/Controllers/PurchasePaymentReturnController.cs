@@ -27,6 +27,23 @@ namespace CloudERP.Controllers
             return View(list);
         }
 
+        public ActionResult AllPurchasesPendingPayment()
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            int companyID = 0;
+            int branchID = 0;
+            int userID = 0;
+            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
+            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
+            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
+            var list = purchase.GetReturnPurchasesPaymentPending(companyID, branchID);
+
+            return View(list);
+        }
+
         public ActionResult ReturnAmount(int? id)
         {
             var list = db.tblSupplierReturnPayment.Where(r => r.SupplierReturnInvoiceID == id);
@@ -34,6 +51,10 @@ namespace CloudERP.Controllers
             foreach (var item in list)
             {
                 remainingAmount = item.RemainingBalance;
+                if (remainingAmount == 0)
+                {
+                    return RedirectToAction("AllPurchasesPendingPayment");
+                }
             }
             if (remainingAmount == 0)
             {

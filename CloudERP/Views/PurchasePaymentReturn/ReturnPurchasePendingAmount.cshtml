@@ -67,10 +67,6 @@
                                     {
                                         Html.ActionLink("Return Payment", "ReturnAmount", new { id = item.SupplierReturnInvoiceID }, new { @class = "btn btn-primary" });
                                     }
-                                    if (item.ReturnPaymentAmount > 0)
-                                    {
-                                        Html.ActionLink("Return Payment History", "PaymentHistory", new { id = item.SupplierReturnInvoiceID }, new { @class = "btn btn-info" });
-                                    }
                                 }
                             </td>
                         </tr>
