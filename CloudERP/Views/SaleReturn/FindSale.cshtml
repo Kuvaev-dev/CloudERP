@@ -1,0 +1,157 @@
+﻿@model DatabaseAccess.tblCustomerInvoice
+
+@{
+    ViewBag.Title = "Search Sale By Invoice №";
+}
+
+@using (Html.BeginForm("FindSale", "SaleReturn", FormMethod.Post, null))
+{
+    @Html.AntiForgeryToken()
+    <hr />
+    <div class="form-group">
+        <label class="control-label col-md-2">Enter Sale Invoice №</label>
+        <div class="col-md-10">
+            <input type="text" class="form-control" id="invoiceID" name="invoiceID" placeholder="Enter Sale Invoice..." required />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Find Sale" class="btn btn-success" />
+        </div>
+    </div>
+}
+@{
+    if (Model != null)
+    {
+        try
+        {
+            double total = 0;
+            if (Model.InvoiceNo != null)
+            {
+                using (Html.BeginForm("ReturnConfirm", "SaleReturn", FormMethod.Post, null))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <h3 class="m-0">Invoice №: @Html.DisplayFor(model => model.InvoiceNo)</h3>
+                                <h3 class="m-0 text-danger"> (@Session["SaleReturnMessage"])</h3>
+                                <h3 class="ml-auto">Sale Invoice</h3>
+                                <input style="display:none;" id="customerInvoiceID" name="customerInvoiceID" value="@Model.CustomerInvoiceID" />
+                            </div>
+                            <hr>
+                            <div class="row mb-3">
+                                <div class="col-xl-4 col-6 br py-2">
+                                    <div class="row">
+                                        <div class="col-lg-2 text-center d-none d-lg-block">
+                                        </div>
+                                        <div class="col-lg-10">
+                                            <h4>Company:</h4>
+                                            <hr />
+                                            <h4>@Html.DisplayFor(model => model.tblCompany.Name) - @Html.DisplayFor(model => model.tblBranch.BranchName)</h4>
+                                            <address></address>Address: @Html.DisplayFor(model => model.tblBranch.BranchAddress)
+                                            <br>Contact №: @Html.DisplayFor(model => model.tblBranch.BranchContact)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-6 br py-2">
+                                    <div class="row">
+                                        <div class="col-lg-2 text-center d-none d-lg-block">
+                                            <em class="fa fa-truck fa-4x text-muted"></em>
+                                        </div>
+                                        <div class="col-lg-10">
+                                            <h4>Customer:</h4>
+                                            <hr />
+                                            <h4>@Html.DisplayFor(model => model.tblCustomer.Customername)</h4>
+                                            <address></address>@Html.DisplayFor(model => model.tblCustomer.CustomerAddress)
+                                            <br>@Html.DisplayFor(model => model.tblCustomer.CustomerContact)
+                                            <br>@Html.DisplayFor(model => model.tblCustomer.CustomerArea)
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="col-xl-4 col-12 py-2">
+                                    <h4>Invoice:</h4>
+                                    <hr />
+                                    <div class="clearfix">
+                                        <p class="float-left">INVOICE №</p>
+                                        <p class="float-right mr-2">@Html.DisplayFor(model => model.InvoiceNo)</p>
+                                    </div>
+                                    <div class="clearfix">
+                                        <p class="float-left">Invoice Date</p>
+                                        <p class="float-right mr-2">@Html.DisplayFor(model => model.InvoiceDate)</p>
+                                    </div>
+                                    <div class="clearfix">
+                                        <p class="float-left">Created By</p>
+                                        <p class="float-right mr-2">@Html.DisplayFor(model => model.tblUser.FullName)</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive table-bordered mb-3">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Sale Qty</th>
+                                            <th>Return Qty</th>
+                                            <th>Unit Price</th>
+                                            <th>Item Cost</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.tblCustomerInvoiceDetail)
+                                        {
+                                            int qty = 0;
+                                            double itemCost = 0;
+                                            qty = item.SaleQuantity - item.tblCustomerReturnInvoiceDetail.Where(q => q.ProductID == item.ProductID).Sum(q => q.SaleReturnQuantity);
+                                            itemCost = qty * item.SaleUnitPrice;
+                                            total += itemCost;
+
+                                            <tr>
+                                                <td>@Html.DisplayFor(modelItem => item.tblStock.ProductName)</td>
+                                                <td>@qty</td>
+                                                <td><input type="number" id="ProductID @item.ProductID" name="ProductID @item.ProductID" value="0" min="0" max="@qty" /></td>
+                                                <td>@Html.DisplayFor(modelItem => item.SaleUnitPrice)</td>
+                                                <td class="text-left">@itemCost</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6"></div>
+                                <div class="col-lg-6 py-2">
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-7">
+                                            <div class="h5">Is Return Sale Payment Paid?</div>
+                                        </div>
+                                        <div class="col-5">
+                                            <div class="text-right h3"><input type="checkbox" name="IsPayment" /></div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-7">
+                                            <div class="h3">GRAND TOTAL</div>
+                                        </div>
+                                        <div class="col-5">
+                                            <div class="text-right h3">@total.ToString("F2")</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="d-print-none">
+                            <div class="clearfix">
+                                <button class="btn btn-success float-right" type="submit">Submit Return</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        }
+        catch
+        {
+
+        }
+    }
+}

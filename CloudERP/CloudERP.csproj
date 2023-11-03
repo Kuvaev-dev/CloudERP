@@ -146,6 +146,7 @@
     <Compile Include="Controllers\PurchaseReturnController.cs" />
     <Compile Include="Controllers\SaleCartController.cs" />
     <Compile Include="Controllers\SalePaymentController.cs" />
+    <Compile Include="Controllers\SaleReturnController.cs" />
     <Compile Include="Controllers\StockController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -518,6 +519,7 @@
     <Content Include="Views\PurchasePaymentReturn\ReturnPurchasePendingAmount.cshtml" />
     <Content Include="Views\PurchasePaymentReturn\ReturnAmount.cshtml" />
     <Content Include="Views\PurchasePaymentReturn\AllPurchasesPendingPayment.cshtml" />
+    <Content Include="Views\SaleReturn\FindSale.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

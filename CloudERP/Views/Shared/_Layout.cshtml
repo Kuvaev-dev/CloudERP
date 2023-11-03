@@ -468,9 +468,15 @@
                                         </a>
                                     </li>
                                     <li class="">
-                                        <a href="@Url.Action("CustomSalesHistory", "SalePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now })" title="All Purchases">
+                                        <a href="@Url.Action("CustomSalesHistory", "SalePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now })" title="All Sales">
                                             <em class="icon-chemistry"></em>
                                             <span data-localize="sidebar.nav.element.ELEMENTS">All Sales</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="@Url.Action("FindSale", "SaleReturn")" title="Sale Return">
+                                            <em class="icon-chemistry"></em>
+                                            <span data-localize="sidebar.nav.element.ELEMENTS">Sale Return</span>
                                         </a>
                                     </li>
                                 }
