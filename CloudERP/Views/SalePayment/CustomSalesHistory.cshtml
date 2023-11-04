@@ -58,13 +58,25 @@
                             Date
                         </th>
                         <th>
-                            Total Amount
+                            Sale Total Amount
+                        </th>
+                        <th>
+                            Return Products (Total Amount)
+                        </th>
+                        <th>
+                            After Return (Sale Total Amount)
                         </th>
                         <th>
                             Paid Amount
                         </th>
                         <th>
+                            Payment To (Customer)
+                        </th>
+                        <th>
                             Remaining Balance
+                        </th>
+                        <th>
+                            Action`s
                         </th>
                     </tr>
                 </thead>
@@ -85,7 +97,13 @@
                                 @Html.DisplayFor(modelItem => item.InvoiceDate)
                             </td>
                             <td>
-                                <label>@(item.TotalAmount - item.PaymentAmount)</label>
+                                @Html.DisplayFor(modelItem => item.TotalAmount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ReturnProductAmount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.AfterReturnTotalAmount)
                             </td>
                             <td>
                                 @{
@@ -100,12 +118,19 @@
                                 }
                             </td>
                             <td>
+                                @Html.DisplayFor(modelItem => item.ReturnPaymentAmount)
+                            </td>
+                            <td>
                                 @{
                                     if (item.RemainingBalance == 0 && item.PaymentAmount != 0)
                                     {
                                         <em class="icon-check">
                                             <label class="text-success">Clear</label>
                                         </em>
+                                    }
+                                    else if (item.RemainingBalance < 0)
+                                    {
+                                        @Html.ActionLink(item.RemainingBalance.ToString("F2"), "ReturnSalePendingAmount", "SalePaymentReturn", new { @id = item.CustomerInvoiceID }, new { @class = "btn btn-outline-danger btn-lg" })
                                     }
                                     else
                                     {
@@ -114,7 +139,7 @@
                                 }
                                 }
                             </td>
-                            <td class="btn-group">
+                            <td>
                                 @{
                                     if (item.RemainingBalance < item.TotalAmount && item.PaymentAmount != 0)
                                     {

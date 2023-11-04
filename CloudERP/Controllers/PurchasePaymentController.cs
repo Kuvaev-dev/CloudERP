@@ -45,7 +45,7 @@ namespace CloudERP.Controllers
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
             var list = purchase.PurchasePaymentHistory((int)id);
-            var returnDetails = db.tblSupplierReturnInvoice.Where(r => r.SupplierID == id).ToList();
+            var returnDetails = db.tblSupplierReturnInvoice.Where(r => r.SupplierInvoiceID == id).ToList();
             if (returnDetails != null)
             {
                 if (returnDetails.Count > 0)
@@ -83,7 +83,7 @@ namespace CloudERP.Controllers
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
             var list = purchase.PurchasePaymentHistory((int)id);
-            var returnDetails = db.tblSupplierReturnInvoice.Where(r => r.SupplierID == id).ToList();
+            var returnDetails = db.tblSupplierReturnInvoice.Where(r => r.SupplierInvoiceID == id).ToList();
             if (returnDetails != null)
             {
                 if (returnDetails.Count > 0)
@@ -127,7 +127,7 @@ namespace CloudERP.Controllers
                 {
                     ViewBag.Message = "Payment Must be Less Then or Equal to Previous Remaining Amount!";
                     var list = purchase.PurchasePaymentHistory((int)id);
-                    var returnDetails = db.tblSupplierReturnInvoice.Where(r => r.SupplierID == id).ToList();
+                    var returnDetails = db.tblSupplierReturnInvoice.Where(r => r.SupplierInvoiceID == id).ToList();
                     if (returnDetails != null)
                     {
                         if (returnDetails.Count > 0)

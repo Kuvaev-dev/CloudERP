@@ -146,6 +146,7 @@
     <Compile Include="Controllers\PurchaseReturnController.cs" />
     <Compile Include="Controllers\SaleCartController.cs" />
     <Compile Include="Controllers\SalePaymentController.cs" />
+    <Compile Include="Controllers\SalePaymentReturnController.cs" />
     <Compile Include="Controllers\SaleReturnController.cs" />
     <Compile Include="Controllers\StockController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
@@ -526,6 +527,7 @@
     <Folder Include="Content\EmployeePhoto\" />
     <Folder Include="Views\EmployeeRegistration\" />
     <Folder Include="Views\HeadEmployee\" />
+    <Folder Include="Views\SalePaymentReturn\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

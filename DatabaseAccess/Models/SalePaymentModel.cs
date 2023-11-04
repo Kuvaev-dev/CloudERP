@@ -19,7 +19,10 @@ namespace DatabaseAccess.Models
         public DateTime InvoiceDate { get; set; }
         public string InvoiceNo { get; set; }
         public double TotalAmount { get; set; }
+        public double ReturnProductAmount { get; set; }
+        public double AfterReturnTotalAmount { get; set; }
         public double PaymentAmount { get; set; }
+        public double ReturnPaymentAmount { get; set; }
         public double RemainingBalance { get; set; }
         public int UserID { get; set; }
         public string UserName { get; set; }

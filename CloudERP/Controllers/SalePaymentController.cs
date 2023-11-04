@@ -45,6 +45,20 @@ namespace CloudERP.Controllers
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
             var list = sale.SalePaymentHistory((int)id);
+            var returnDetails = db.tblCustomerReturnInvoice.Where(r => r.CustomerInvoiceID == id).ToList();
+            if (returnDetails != null)
+            {
+                if (returnDetails.Count > 0)
+                {
+                    ViewData["ReturnSaleDetails"] = returnDetails;
+                }
+            }
+            double remainingAmount = 0;
+            double totalInvoiceAmount = db.tblCustomerInvoice.Find(id).TotalAmount;
+            double totalPaidAmount = db.tblCustomerPayment.Where(p => p.CustomerInvoiceID == id).Sum(p => p.PaidAmount);
+            remainingAmount = totalInvoiceAmount - totalPaidAmount;
+            ViewBag.PreviousRemainingAmount = remainingAmount;
+            ViewBag.InvoiceID = id;
             return View(list.ToList());
         }
 
