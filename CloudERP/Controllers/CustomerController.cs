@@ -99,6 +99,24 @@ namespace CloudERP.Controllers
             return View(tblCustomer);
         }
 
+        public ActionResult CustomerDetails(int? id)
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            tblCustomer tblCustomer = db.tblCustomer.Find(id);
+            if (tblCustomer == null)
+            {
+                return HttpNotFound();
+            }
+            return View(tblCustomer);
+        }
+
         // GET: Customer/Create
         public ActionResult Create()
         {

@@ -521,13 +521,16 @@
     <Content Include="Views\PurchasePaymentReturn\ReturnAmount.cshtml" />
     <Content Include="Views\PurchasePaymentReturn\AllPurchasesPendingPayment.cshtml" />
     <Content Include="Views\SaleReturn\FindSale.cshtml" />
+    <Content Include="Views\SalePaymentReturn\AllReturnSalesPendingAmount.cshtml" />
+    <Content Include="Views\SalePaymentReturn\ReturnSalePendingAmount.cshtml" />
+    <Content Include="Views\Customer\CustomerDetails.cshtml" />
+    <Content Include="Views\SalePaymentReturn\ReturnAmount.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\EmployeePhoto\" />
     <Folder Include="Views\EmployeeRegistration\" />
     <Folder Include="Views\HeadEmployee\" />
-    <Folder Include="Views\SalePaymentReturn\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

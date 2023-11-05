@@ -74,6 +74,7 @@
     <Compile Include="Code\SaleEntry.cs" />
     <Compile Include="Code\SP_Code\SP_Purchase.cs" />
     <Compile Include="Code\SP_Code\SP_Sale.cs" />
+    <Compile Include="Models\CustomerReturnInvoiceModel.cs" />
     <Compile Include="Models\PurchasePaymentModel.cs" />
     <Compile Include="Models\SalePaymentModel.cs" />
     <Compile Include="Models\SupplierReturnInvoiceModel.cs" />
