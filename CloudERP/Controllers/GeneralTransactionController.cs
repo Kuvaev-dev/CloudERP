@@ -1,0 +1,77 @@
+﻿using CloudERP.Models;
+using DatabaseAccess;
+using DatabaseAccess.Code;
+using DatabaseAccess.Code.SP_Code;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.Design;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace CloudERP.Controllers
+{
+    public class GeneralTransactionController : Controller
+    {
+        private CloudDBEntities db = new CloudDBEntities();
+        private SP_GeneralTransaction accounts = new SP_GeneralTransaction();
+        private GeneralTransactionEntry generalEntry = new GeneralTransactionEntry();
+
+        // GET: GeneralTransaction
+        public ActionResult GeneralTransactions(GeneralTransactionMV transaction)
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            if (Session["GNMessage"] != null)
+            {
+                Session["GNMessage"] = string.Empty;
+            }
+            int companyID = 0;
+            int branchID = 0;
+            int userID = 0;
+            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
+            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
+            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
+            ViewBag.CreditAccountControlID = new SelectList(accounts.GetAllAccounts(companyID, branchID), "AccountSubControlID", "AccountSubControl", "0");
+            ViewBag.DebitAccountControlID = new SelectList(accounts.GetAllAccounts(companyID, branchID), "AccountSubControlID", "AccountSubControl", "0");
+            return View(transaction);
+        }
+
+        public ActionResult SaveGeneralTransaction(GeneralTransactionMV transaction)
+        {
+            Session["GNMessage"] = string.Empty;
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            int companyID = 0;
+            int branchID = 0;
+            int userID = 0;
+            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
+            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
+            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
+
+            if (ModelState.IsValid)
+            {
+                string payinvoiceno = "GEN" + DateTime.Now.ToString("yyyyMMddHHmmssmm");
+                var message = generalEntry.ConfirmGeneralTransaction(transaction.TransferAmount, userID, branchID, companyID, payinvoiceno, transaction.DebitAccountControlID, transaction.CreditAccountControlID, transaction.Reason);
+                
+                if (message.Contains("Succeed"))
+                {
+                    Session["GNMessage"] = message;
+                    //return RedirectToAction("Journal");
+                }
+                else
+                {
+                    Session["GNMessage"] = "Some Issue is Occure, Re-Login and Try Again!";
+                }
+            }
+
+            ViewBag.CreditAccountControlID = new SelectList(accounts.GetAllAccounts(companyID, branchID), "AccountSubControlID", "AccountSubControl", "0");
+            ViewBag.DebitAccountControlID = new SelectList(accounts.GetAllAccounts(companyID, branchID), "AccountSubControlID", "AccountSubControl", "0");
+            return RedirectToAction("GeneralTransactions", new { transaction = transaction });
+        }
+    }
+}

@@ -1,0 +1,55 @@
+﻿@model CloudERP.Models.GeneralTransactionMV
+@{
+    ViewBag.Title = "New General Transaction";
+}
+
+@using (Html.BeginForm("SaveGeneralTransaction", "GeneralTransaction", FormMethod.Post, null))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h3 class="text-danger">@Session["GNMessage"]</h3>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            <label class="control-label col-md-3">Select Account (Credit):</label>
+            <div class="col-md-10">
+                @Html.DropDownList("CreditAccountControlID", null, "Select Credit Account", htmlAttributes: new { @class = "form-control", required = "required" })
+                @Html.ValidationMessageFor(model => model.CreditAccountControlID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3">Select Account (Debit):</label>
+            <div class="col-md-10">
+                @Html.DropDownList("DebitAccountControlID", null, "Select Debit Account", htmlAttributes: new { @class = "form-control", required = "required" })
+                @Html.ValidationMessageFor(model => model.DebitAccountControlID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TransferAmount, "Enter Amount", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TransferAmount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TransferAmount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TransferAmount, "Enter Reason", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Reason, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Reason, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Submit Transaction" class="btn btn-success" />
+                @Html.ActionLink("Back to List", "AllTransactions")
+            </div>
+        </div>
+    </div>
+}
+

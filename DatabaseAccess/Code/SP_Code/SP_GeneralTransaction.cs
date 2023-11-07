@@ -13,7 +13,7 @@ namespace DatabaseAccess.Code.SP_Code
     {
         private CloudDBEntities db = new CloudDBEntities();
 
-        public List<AllAccountModel> GetAllTransactions(int CompanyID, int BranchID)
+        public List<AllAccountModel> GetAllAccounts(int CompanyID, int BranchID)
         {
             var accountsList = new List<AllAccountModel>();
             SqlCommand command = new SqlCommand("GetAllAccounts", DatabaseQuery.ConnOpen())

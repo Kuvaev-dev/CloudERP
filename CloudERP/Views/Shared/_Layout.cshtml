@@ -551,6 +551,15 @@
                                             <span data-localize="sidebar.nav.element.ELEMENTS">Return Payment Pending</span>
                                         </a>
                                     </li>
+                                    <li class="nav-heading ">
+                                        <span data-localize="sidebar.heading.COMPONENTS">Transaction</span>
+                                    </li>
+                                    <li class="">
+                                        <a href="@Url.Action("GeneralTransactions", "GeneralTransaction", new { transaction = new CloudERP.Models.GeneralTransactionMV() { CreditAccountControlID = 0, DebitAccountControlID = 0, TransferAmount = 0 } })" title="General Transaction">
+                                            <em class="icon-chemistry"></em>
+                                            <span data-localize="sidebar.nav.element.ELEMENTS">General Transaction</span>
+                                        </a>
+                                    </li>
                                 }
                                 if (userType == 1)
                                 {
