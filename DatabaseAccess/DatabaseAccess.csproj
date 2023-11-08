@@ -72,6 +72,7 @@
     <Compile Include="Code\DatabaseQuery.cs" />
     <Compile Include="Code\GeneralTransactionEntry.cs" />
     <Compile Include="Code\PurchaseEntry.cs" />
+    <Compile Include="Code\SalaryTransaction.cs" />
     <Compile Include="Code\SaleEntry.cs" />
     <Compile Include="Code\SP_Code\SP_GeneralTransaction.cs" />
     <Compile Include="Code\SP_Code\SP_Purchase.cs" />
