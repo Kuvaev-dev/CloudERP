@@ -81,24 +81,12 @@ namespace CloudERP.Controllers
             return View(employee);
         }
 
-        public ActionResult GetEmployee(string cnic) // CNIC
-        {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
-                return RedirectToAction("Login", "Home");
-            }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var employee = db.tblEmployee.Where(p => p.CNIC == cnic).FirstOrDefault();
-            return Json(new { data = employee }, JsonRequestBehavior.AllowGet);
-        }
-
         public ActionResult EmployeeSalary()
         {
+            if (Session["SalaryMessage"] == null)
+            {
+                Session["SalaryMessage"] = string.Empty;
+            }
             if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
@@ -116,7 +104,32 @@ namespace CloudERP.Controllers
         }
 
         [HttpPost]
-        public ActionResult EmployeeSalary(SalaryMV salary)
+        public ActionResult EmployeeSalary(SalaryMV salary) // CNIC
+        {
+            Session["SalaryMessage"] = string.Empty;
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            int companyID = 0;
+            int branchID = 0;
+            int userID = 0;
+            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
+            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
+            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
+            var employee = db.tblEmployee.Where(p => p.CNIC == salary.CNIC).FirstOrDefault();
+            salary.SalaryMonth = DateTime.Now.AddMonths(-1).ToString("MMMM");
+            salary.SalaryYear = DateTime.Now.AddMonths(-1).ToString("yyyy");
+            salary.EmployeeID = employee.EmployeeID;
+            salary.EmployeeName = employee.Name;
+            salary.Designation = employee.Designation;
+            salary.CNIC = employee.CNIC;
+            salary.TransferAmount = employee.MonthlySalary;
+            return View(salary);
+        }
+
+        [HttpPost]
+        public ActionResult EmployeeSalaryConfirm(SalaryMV salary)
         {
             try
             {
@@ -131,7 +144,7 @@ namespace CloudERP.Controllers
                 companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
                 userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
                 salary.SalaryMonth = salary.SalaryMonth.ToLower();
-                var emp = db.tblPayroll.Where(p => p.EmployeeID == salary.EmployeeID && p.BranchID==branchID && p.CompanyID==companyID && p.SalaryMonth == salary.SalaryMonth && p.SalaryYear == salary.SalaryYear).FirstOrDefault();
+                var emp = db.tblPayroll.Where(p => p.EmployeeID == salary.EmployeeID && p.BranchID == branchID && p.CompanyID == companyID && p.SalaryMonth == salary.SalaryMonth && p.SalaryYear == salary.SalaryYear).FirstOrDefault();
                 if (emp != null)
                 {
                     string invoiceNo = "ESA" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
@@ -153,13 +166,29 @@ namespace CloudERP.Controllers
                 {
                     Session["SalaryMessage"] = "Please Re-Login and Try Again";
                 }
-                return View(salary);
+                return RedirectToAction("EmployeeSalary");
             }
             catch
             {
                 Session["SalaryMessage"] = "Some Unexpected Issue is Occure. Please Try Again";
-                return View(salary);
+                return RedirectToAction("EmployeeSalary");
             }
+        }
+
+        public ActionResult SalaryHistory()
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            int companyID = 0;
+            int branchID = 0;
+            int userID = 0;
+            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
+            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
+            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
+            var salaryList = db.tblPayroll.Where(p => p.BranchID == branchID && p.CompanyID == companyID).OrderByDescending(p => p.PayrollID).ToList();
+            return View(salaryList);
         }
     }
 }
