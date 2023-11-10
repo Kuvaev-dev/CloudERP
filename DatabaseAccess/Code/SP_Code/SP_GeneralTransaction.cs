@@ -41,5 +41,35 @@ namespace DatabaseAccess.Code.SP_Code
             }
             return accountsList;
         }
+
+        public List<JournalModel> GetJournal(int CompanyID, int BranchID, DateTime FromDate, DateTime ToDate)
+        {
+            var journalEntries = new List<JournalModel>();
+            SqlCommand command = new SqlCommand("GetJournal", DatabaseQuery.ConnOpen())
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+            command.Parameters.AddWithValue("@BranchID", BranchID);
+            command.Parameters.AddWithValue("@CompanyID", CompanyID);
+            command.Parameters.AddWithValue("@FromDate", FromDate);
+            command.Parameters.AddWithValue("@ToDate", ToDate);
+            var dt = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(command);
+            da.Fill(dt);
+            foreach (DataRow row in dt.Rows)
+            {
+                var entry = new JournalModel();
+                entry.TransectionDate = Convert.ToDateTime(row[0].ToString());
+                entry.AccountSubControl = Convert.ToString(row[1]);
+                entry.TransectionTitle = Convert.ToString(row[2].ToString());
+                entry.AccountSubControlID = Convert.ToInt32(row[3]);
+                entry.InvoiceNo = Convert.ToString(row[4].ToString());
+                entry.Debit = Convert.ToDouble(row[5].ToString());
+                entry.Credit = Convert.ToDouble(row[6].ToString());
+
+                journalEntries.Add(entry);
+            }
+            return journalEntries;
+        }
     }
 }

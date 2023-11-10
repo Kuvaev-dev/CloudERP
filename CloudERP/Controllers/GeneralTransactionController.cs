@@ -73,5 +73,42 @@ namespace CloudERP.Controllers
             ViewBag.DebitAccountControlID = new SelectList(accounts.GetAllAccounts(companyID, branchID), "AccountSubControlID", "AccountSubControl", "0");
             return RedirectToAction("GeneralTransactions", new { transaction = transaction });
         }
+
+        public ActionResult Journal()
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            if (Session["GNMessage"] != null)
+            {
+                Session["GNMessage"] = string.Empty;
+            }
+            int companyID = 0;
+            int branchID = 0;
+            int userID = 0;
+            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
+            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
+            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
+            var list = accounts.GetJournal(companyID, branchID, DateTime.Now, DateTime.Now);
+            return View(list);
+        }
+
+        [HttpPost]
+        public ActionResult Journal(DateTime FromDate, DateTime ToDate)
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            int companyID = 0;
+            int branchID = 0;
+            int userID = 0;
+            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
+            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
+            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
+            var list = accounts.GetJournal(companyID, branchID, FromDate, ToDate);
+            return View(list);
+        }
     }
 }
