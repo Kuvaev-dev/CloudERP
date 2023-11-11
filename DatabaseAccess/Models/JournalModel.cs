@@ -8,6 +8,7 @@ namespace DatabaseAccess.Models
 {
     public class JournalModel
     {
+        public int SNO { get; set; }    // Selected №
         public DateTime TransectionDate { get; set; }
         public string AccountSubControl { get; set; }
         public string TransectionTitle { get; set; }

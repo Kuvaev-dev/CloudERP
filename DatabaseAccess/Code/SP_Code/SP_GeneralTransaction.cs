@@ -56,6 +56,7 @@ namespace DatabaseAccess.Code.SP_Code
             var dt = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(command);
             da.Fill(dt);
+            int no = 1; // №
             foreach (DataRow row in dt.Rows)
             {
                 var entry = new JournalModel();
@@ -66,8 +67,9 @@ namespace DatabaseAccess.Code.SP_Code
                 entry.InvoiceNo = Convert.ToString(row[4].ToString());
                 entry.Debit = Convert.ToDouble(row[5].ToString());
                 entry.Credit = Convert.ToDouble(row[6].ToString());
-
+                entry.SNO = no;
                 journalEntries.Add(entry);
+                no += 1;
             }
             return journalEntries;
         }

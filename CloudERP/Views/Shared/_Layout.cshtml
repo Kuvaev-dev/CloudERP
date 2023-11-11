@@ -17,6 +17,10 @@
     <!-- WHIRL (spinners)-->
     <link rel="stylesheet" href="~/Content/Template/vendor/whirl/dist/whirl.css">
     <!-- =============== PAGE VENDOR STYLES ===============-->
+    <!-- Datatables-->
+    <link rel="stylesheet" href="~/Content/Template/vendor/datatables.net-bs4/css/dataTables.bootstrap4.css">
+    <link rel="stylesheet" href="~/Content/Template/vendor/datatables.net-keytable-bs/css/keyTable.bootstrap.css">
+    <link rel="stylesheet" href="~/Content/Template/vendor/datatables.net-responsive-bs/css/responsive.bootstrap.css">
     <!-- =============== BOOTSTRAP STYLES ===============-->
     <link rel="stylesheet" href="~/Content/Template/css/bootstrap.css" id="bscss">
     <!-- =============== APP STYLES ===============-->
@@ -1538,46 +1542,61 @@
     <script src="~/Content/Template/vendor/jquery-validation/dist/additional-methods.js"></script>
     <!-- JQUERY STEPS-->
     <script src="~/Content/Template/vendor/jquery-steps/build/jquery.steps.js"></script>
+    <!-- Datatables-->
+    <script src="~/Content/Template/vendor/datatables.net/js/jquery.dataTables.js"></script>
+    <script src="~/Content/Template/vendor/datatables.net-bs4/js/dataTables.bootstrap4.js"></script>
+    <script src="~/Content/Template/vendor/datatables.net-buttons/js/dataTables.buttons.js"></script>
+    <script src="~/Content/Template/vendor/datatables.net-buttons-bs/js/buttons.bootstrap.js"></script>
+    <script src="~/Content/Template/vendor/datatables.net-buttons/js/buttons.colVis.js"></script>
+    <script src="~/Content/Template/vendor/datatables.net-buttons/js/buttons.flash.js"></script>
+    <script src="~/Content/Template/vendor/datatables.net-buttons/js/buttons.html5.js"></script>
+    <script src="~/Content/Template/vendor/datatables.net-buttons/js/buttons.print.js"></script>
+    <script src="~/Content/Template/vendor/datatables.net-keytable/js/dataTables.keyTable.js"></script>
+    <script src="~/Content/Template/vendor/datatables.net-responsive/js/dataTables.responsive.js"></script>
+    <script src="~/Content/Template/vendor/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+    <script src="~/Content/Template/vendor/jszip/dist/jszip.js"></script>
+    <script src="~/Content/Template/vendor/pdfmake/build/pdfmake.js"></script>
+    <script src="~/Content/Template/vendor/pdfmake/build/vfs_fonts.js"></script>
     <!-- =============== APP SCRIPTS ===============-->
     <script src="~/Content/Template/js/app.js"></script>
 
     @*<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                @using (Html.BeginForm("ReturnPaymentPaid", "PurchasePayment", FormMethod.Post))
-                {
-                    @Html.AntiForgeryToken()
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="myModalLabel">Enter Purchase Return Payment</h4>
-                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <input type="text" value="@ViewBag.InvoiceID" id="id" name="id" style="display:none;" />
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>Previous Payment Amount</label>
-                                <input type="text" id="previousRemainingAmount" name="previousRemainingAmount" value="0" readonly="readonly" class="form-control" required>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Payment Amount</label>
-                                <input min="0" type="number" id="paymentAmount" name="paymentAmount" value="10" class="form-control" required>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Remaining Payment Amount</label>
-                                <input type="text" id="remainingAmount" name="remainingAmount" value="10" readonly="readonly" class="form-control" required>
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    @using (Html.BeginForm("ReturnPaymentPaid", "PurchasePayment", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="myModalLabel">Enter Purchase Return Payment</h4>
+                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="text" value="@ViewBag.InvoiceID" id="id" name="id" style="display:none;" />
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>Previous Payment Amount</label>
+                                    <input type="text" id="previousRemainingAmount" name="previousRemainingAmount" value="0" readonly="readonly" class="form-control" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Payment Amount</label>
+                                    <input min="0" type="number" id="paymentAmount" name="paymentAmount" value="10" class="form-control" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Remaining Payment Amount</label>
+                                    <input type="text" id="remainingAmount" name="remainingAmount" value="10" readonly="readonly" class="form-control" required>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
-                        <input type="submit" value="Submit Payment" class="btn btn-primary" style="float:right;" />
-                    </div>
-                }
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
+                            <input type="submit" value="Submit Payment" class="btn btn-primary" style="float:right;" />
+                        </div>
+                    }
+                </div>
             </div>
-        </div>
-    </div>*@
+        </div>*@
 
 </body>
 </html>

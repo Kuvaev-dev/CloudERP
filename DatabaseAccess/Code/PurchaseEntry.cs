@@ -63,13 +63,13 @@ namespace DatabaseAccess.Code
                     AccountControlID = Convert.ToString(purchaseAccount.AccountControlID);
                     AccountSubControlID = Convert.ToString(purchaseAccount.AccountSubControlID);
                     transectiontitle = "Payment Paid to " + SupplierName;
-                    SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID.ToString(), "0", Convert.ToString(Amount), DateTime.Now, transectiontitle);
+                    SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, payinvoicenno, UserID.ToString(), "0", Convert.ToString(Amount), DateTime.Now, transectiontitle);
                     purchaseAccount = db.tblAccountSetting.Where(a => a.AccountActivityID == 9 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); ; // 9 - Purchase Payment Succed
                     AccountHeadID = Convert.ToString(purchaseAccount.AccountHeadID);
                     AccountControlID = Convert.ToString(purchaseAccount.AccountControlID);
                     AccountSubControlID = Convert.ToString(purchaseAccount.AccountSubControlID);
                     transectiontitle = SupplierName + ", Purchase Payment is Succeed!";
-                    SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID.ToString(), Convert.ToString(Amount), "0", DateTime.Now, transectiontitle);
+                    SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, payinvoicenno, UserID.ToString(), Convert.ToString(Amount), "0", DateTime.Now, transectiontitle);
 
                     string paymentquery = string.Format("insert into tblSupplierPayment(SupplierID,SupplierInvoiceID,UserID,InvoiceNo,TotalAmount,PaymentAmount,RemainingBalance,CompanyID,BranchID,InvoiceDate) " +
                     "values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}', '{9}')",
@@ -228,13 +228,13 @@ namespace DatabaseAccess.Code
                     AccountControlID = Convert.ToString(returnPurchaseAccount.AccountControlID);
                     AccountSubControlID = Convert.ToString(returnPurchaseAccount.AccountSubControlID);
                     transectiontitle = "Return Payment from " + SupplierName;
-                    SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID.ToString(), Convert.ToString(Amount), "0", DateTime.Now, transectiontitle);
+                    SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, payinvoicenno, UserID.ToString(), Convert.ToString(Amount), "0", DateTime.Now, transectiontitle);
                     returnPurchaseAccount = db.tblAccountSetting.Where(a => a.AccountActivityID == 13 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); ; // 13 - Purchase Return Payment Succeed
                     AccountHeadID = Convert.ToString(returnPurchaseAccount.AccountHeadID);
                     AccountControlID = Convert.ToString(returnPurchaseAccount.AccountControlID);
                     AccountSubControlID = Convert.ToString(returnPurchaseAccount.AccountSubControlID);
                     transectiontitle = SupplierName + ", Return Purchase Payment is Succeed!";
-                    SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID.ToString(), "0", Convert.ToString(Amount), DateTime.Now, transectiontitle);
+                    SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, payinvoicenno, UserID.ToString(), "0", Convert.ToString(Amount), DateTime.Now, transectiontitle);
 
                     string paymentquery = string.Format("insert into tblSupplierReturnPayment(SupplierID,SupplierInvoiceID,UserID,InvoiceNo,TotalAmount,PaymentAmount,RemainingBalance,CompanyID,BranchID,SupplierReturnInvoiceID,InvoiceDate) " +
                     "values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}')",
