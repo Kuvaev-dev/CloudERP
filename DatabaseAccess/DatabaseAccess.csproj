@@ -77,12 +77,14 @@
     <Compile Include="Code\SP_Code\SP_GeneralTransaction.cs" />
     <Compile Include="Code\SP_Code\SP_Purchase.cs" />
     <Compile Include="Code\SP_Code\SP_Sale.cs" />
+    <Compile Include="Code\SP_Code\SP_TrialBalance.cs" />
     <Compile Include="Models\AllAccountModel.cs" />
     <Compile Include="Models\CustomerReturnInvoiceModel.cs" />
     <Compile Include="Models\JournalModel.cs" />
     <Compile Include="Models\PurchasePaymentModel.cs" />
     <Compile Include="Models\SalePaymentModel.cs" />
     <Compile Include="Models\SupplierReturnInvoiceModel.cs" />
+    <Compile Include="Models\TrialBalanceModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="tblAccountActivity.cs">
       <DependentUpon>CloudDB.tt</DependentUpon>
