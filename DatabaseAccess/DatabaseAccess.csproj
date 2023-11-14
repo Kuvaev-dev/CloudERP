@@ -74,11 +74,13 @@
     <Compile Include="Code\PurchaseEntry.cs" />
     <Compile Include="Code\SalaryTransaction.cs" />
     <Compile Include="Code\SaleEntry.cs" />
+    <Compile Include="Code\SP_Code\SP_BalanceSheet.cs" />
     <Compile Include="Code\SP_Code\SP_GeneralTransaction.cs" />
     <Compile Include="Code\SP_Code\SP_Purchase.cs" />
     <Compile Include="Code\SP_Code\SP_Sale.cs" />
     <Compile Include="Code\SP_Code\SP_TrialBalance.cs" />
     <Compile Include="Models\AllAccountModel.cs" />
+    <Compile Include="Models\BalanceSheetModel.cs" />
     <Compile Include="Models\CustomerReturnInvoiceModel.cs" />
     <Compile Include="Models\JournalModel.cs" />
     <Compile Include="Models\PurchasePaymentModel.cs" />
