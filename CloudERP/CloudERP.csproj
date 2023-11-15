@@ -128,6 +128,7 @@
     <Compile Include="Controllers\AccountHeadController.cs" />
     <Compile Include="Controllers\AccountSettingController.cs" />
     <Compile Include="Controllers\AccountSubControlController.cs" />
+    <Compile Include="Controllers\BalanceSheetController.cs" />
     <Compile Include="Controllers\BranchController.cs" />
     <Compile Include="Controllers\BranchEmployeeController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
@@ -534,6 +535,7 @@
     <Content Include="Views\CompanyEmployee\SalaryHistory.cshtml" />
     <Content Include="Views\GeneralTransaction\Journal.cshtml" />
     <Content Include="Views\TrialBalance\GetTrialBalance.cshtml" />
+    <Content Include="Views\BalanceSheet\BalanceSheet.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

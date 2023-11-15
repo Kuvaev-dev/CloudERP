@@ -25,7 +25,7 @@ namespace DatabaseAccess.Code.SP_Code
         {
             var BalanceSheet = new BalanceSheetModel();
             
-            double TotalAssests = 0;
+            double TotalAssets = 0;
             double TotalLiabilities = 0;
             double TotalOwnerEquity = 0;
             double TotalReturnEarning = 0;
@@ -44,15 +44,15 @@ namespace DatabaseAccess.Code.SP_Code
                     AccountHead = GetHeadAccountsWithTotal(CompanyID, BranchID, FinancialYearID, HeadID);
                     if (HeadID == 1) // Total Assets
                     {
-                        TotalAssests = AccountHead.TotalAccount;
+                        TotalAssets = GetAccountTotalAmount(CompanyID, BranchID, FinancialYearID, HeadID);
                     }
                     else if (HeadID == 2) // Total Liabilities
                     {
-                        TotalLiabilities = AccountHead.TotalAccount;
+                        TotalLiabilities = GetAccountTotalAmount(CompanyID, BranchID, FinancialYearID, HeadID);
                     }
                     else if (HeadID == 4) // Total Owner Equity
                     {
-                        TotalOwnerEquity = AccountHead.TotalAccount;
+                        TotalOwnerEquity = GetAccountTotalAmount(CompanyID, BranchID, FinancialYearID, HeadID);
                     }
 
                     AllHeads.Add(AccountHead);
@@ -60,12 +60,12 @@ namespace DatabaseAccess.Code.SP_Code
                 else if (HeadID == 3) // Total Expenses
                 {
                     AccountHead = GetHeadAccountsWithTotal(CompanyID, BranchID, FinancialYearID, HeadID);
-                    TotalExpenses = AccountHead.TotalAccount;
+                    TotalExpenses = AccountHead.TotalAmount;
                 }
                 else if (HeadID == 5) // Total Revenue
                 {
                     AccountHead = GetHeadAccountsWithTotal(CompanyID, BranchID, FinancialYearID, HeadID);
-                    TotalRevenue = AccountHead.TotalAccount;
+                    TotalRevenue = AccountHead.TotalAmount;
                 }
             }
 
@@ -74,10 +74,34 @@ namespace DatabaseAccess.Code.SP_Code
             BalanceSheet.Title = "Total Balance";
             BalanceSheet.ReturnEarning = TotalReturnEarning;
             BalanceSheet.Total_Liabilities_OwnerEquity_ReturnEarning = TotalLiabilities + TotalOwnerEquity + TotalReturnEarning;
-            BalanceSheet.TotalAssests = TotalAssests;
+            BalanceSheet.TotalAssets = TotalAssets;
             BalanceSheet.AccountHeadTotals = AllHeads;
 
             return BalanceSheet;
+        }
+
+        public double GetAccountTotalAmount(int CompanyID, int BranchID, int FinancialYearID, int HeadID)
+        {
+            SqlCommand command = new SqlCommand("GetTotalByHeadAccount", DatabaseQuery.ConnOpen())
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+            command.Parameters.AddWithValue("@BranchID", BranchID);
+            command.Parameters.AddWithValue("@CompanyID", CompanyID);
+            command.Parameters.AddWithValue("@HeadID", HeadID);
+            command.Parameters.AddWithValue("@FinancialYearID", FinancialYearID);
+            var dt = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(command);
+            da.Fill(dt);
+            double totalAmount = 0;
+            if (dt != null)
+            {
+                if (dt.Rows.Count > 0)
+                {
+                    totalAmount = Convert.ToDouble(dt.Rows[0][0]);
+                }
+            }
+            return totalAmount;
         }
 
         public AccountHeadTotal GetHeadAccountsWithTotal(int CompanyID, int BranchID, int FinancialYearID, int HeadID)
@@ -101,10 +125,15 @@ namespace DatabaseAccess.Code.SP_Code
                 var account = new AccountHeadDetail();
                 account.AccountSubTitle = Convert.ToString(row[0].ToString());
                 account.TotalAmount = Convert.ToDouble(row[1]);
+                account.Status = Convert.ToString(row[2]);
                 totalAmount += account.TotalAmount;
-                accountsList.Add(account);
+                if (account.TotalAmount > 0)
+                {
+                    accountsList.Add(account);
+                }
             }
             var accountHead = db.tblAccountHead.Find(HeadID);
+            accountsHeadWithDetails.TotalAmount = totalAmount;
             accountsHeadWithDetails.AccountHeadTitle = accountHead.AccountHeadName;
             accountsHeadWithDetails.AccountHeadDetails = accountsList;
 

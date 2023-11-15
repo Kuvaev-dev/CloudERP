@@ -1,0 +1,74 @@
+﻿@model DatabaseAccess.Models.BalanceSheetModel
+@{
+    ViewBag.Title = "Balance Sheet";
+}
+
+<h2>Balance Sheet</h2>
+
+@{
+    <table>
+        <tr>
+            <th>
+                Account Title
+            </th>
+            <th>
+                Amount
+            </th>
+            <th>
+                Total
+            </th>
+        </tr>
+        @foreach (var accountHead in Model.AccountHeadTotals)
+        {
+            <tr>
+                <td>
+                    @accountHead.AccountHeadTitle
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+            foreach (var accounts in accountHead.AccountHeadDetails)
+            {
+                <tr>
+                    <td>
+                        @accounts.AccountSubTitle
+                    </td>
+                    <td>
+                        @accounts.TotalAmount
+                    </td>
+                    <td></td>
+                </tr>
+            }
+            <tr>
+                <td>
+                    @accountHead.AccountHeadTitle
+                </td>
+                <td></td>
+                <td>
+                    @accountHead.TotalAmount
+                </td>
+            </tr>
+        }
+        <tr>
+            <td>
+                Total Return Earning
+            </td>
+            <td></td>
+            <td>
+                @Model.ReturnEarning
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Total Balance
+            </td>
+            <td>
+                @Model.TotalAssets
+            </td>
+            <td>
+                @Model.Total_Liabilities_OwnerEquity_ReturnEarning
+            </td>
+        </tr>
+    </table>
+}
+
