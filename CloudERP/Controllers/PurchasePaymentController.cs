@@ -92,8 +92,12 @@ namespace CloudERP.Controllers
                 }
             }
             double remainingAmount = 0;
+            double totalPaidAmount = 0;
             double totalInvoiceAmount = db.tblSupplierInvoice.Find(id).TotalAmount;
-            double totalPaidAmount = db.tblSupplierPayment.Where(p => p.SupplierInvoiceID == id).Sum(p => p.PaymentAmount);
+            if (db.tblSupplierPayment.Where(p => p.SupplierInvoiceID == id).FirstOrDefault() != null)
+            {
+                totalPaidAmount = db.tblSupplierPayment.Where(p => p.SupplierInvoiceID == id).Sum(p => p.PaymentAmount);
+            }
             remainingAmount = totalInvoiceAmount - totalPaidAmount;
             //foreach (var item in list)
             //{

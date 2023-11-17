@@ -71,6 +71,7 @@
     </Compile>
     <Compile Include="Code\DatabaseQuery.cs" />
     <Compile Include="Code\GeneralTransactionEntry.cs" />
+    <Compile Include="Code\IncomeStatement.cs" />
     <Compile Include="Code\PurchaseEntry.cs" />
     <Compile Include="Code\SalaryTransaction.cs" />
     <Compile Include="Code\SaleEntry.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="Models\AllAccountModel.cs" />
     <Compile Include="Models\BalanceSheetModel.cs" />
     <Compile Include="Models\CustomerReturnInvoiceModel.cs" />
+    <Compile Include="Models\IncomeStatementModel.cs" />
     <Compile Include="Models\JournalModel.cs" />
     <Compile Include="Models\PurchasePaymentModel.cs" />
     <Compile Include="Models\SalePaymentModel.cs" />
