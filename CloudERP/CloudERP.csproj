@@ -142,6 +142,8 @@
     <Compile Include="Controllers\GeneralTransactionController.cs" />
     <Compile Include="Controllers\HeadEmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IncomeStatementController.cs" />
+    <Compile Include="Controllers\LedgerController.cs" />
     <Compile Include="Controllers\PurchaseCartController.cs" />
     <Compile Include="Controllers\PurchasePaymentController.cs" />
     <Compile Include="Controllers\PurchasePaymentReturnController.cs" />
@@ -536,12 +538,14 @@
     <Content Include="Views\GeneralTransaction\Journal.cshtml" />
     <Content Include="Views\TrialBalance\GetTrialBalance.cshtml" />
     <Content Include="Views\BalanceSheet\BalanceSheet.cshtml" />
+    <Content Include="Views\IncomeStatement\GetIncomeStatement.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\EmployeePhoto\" />
     <Folder Include="Views\EmployeeRegistration\" />
     <Folder Include="Views\HeadEmployee\" />
+    <Folder Include="Views\Ledger\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

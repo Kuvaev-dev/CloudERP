@@ -126,14 +126,7 @@ namespace DatabaseAccess.Code.SP_Code
                 account.AccountSubTitle = Convert.ToString(row[0].ToString());
                 account.TotalAmount = Convert.ToDouble(row[1]);
                 account.Status = Convert.ToString(row[2]);
-                if (account.Status == "Debit")
-                {
-                    totalAmount += account.TotalAmount;
-                }
-                else
-                {
-                    totalAmount -= account.TotalAmount;
-                }
+                totalAmount += account.TotalAmount;
                 if (account.TotalAmount > 0)
                 {
                     accountsList.Add(account);

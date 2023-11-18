@@ -77,9 +77,11 @@
     <Compile Include="Code\SaleEntry.cs" />
     <Compile Include="Code\SP_Code\SP_BalanceSheet.cs" />
     <Compile Include="Code\SP_Code\SP_GeneralTransaction.cs" />
+    <Compile Include="Code\SP_Code\SP_Ledger.cs" />
     <Compile Include="Code\SP_Code\SP_Purchase.cs" />
     <Compile Include="Code\SP_Code\SP_Sale.cs" />
     <Compile Include="Code\SP_Code\SP_TrialBalance.cs" />
+    <Compile Include="Models\AccountLedgerModel.cs" />
     <Compile Include="Models\AllAccountModel.cs" />
     <Compile Include="Models\BalanceSheetModel.cs" />
     <Compile Include="Models\CustomerReturnInvoiceModel.cs" />
