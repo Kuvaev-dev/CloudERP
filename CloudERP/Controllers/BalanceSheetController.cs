@@ -15,7 +15,7 @@ namespace CloudERP.Controllers
         private SP_BalanceSheet bal_sheet = new SP_BalanceSheet();
 
         // GET: BalanceSheet
-        public ActionResult BalanceSheet()
+        public ActionResult GetBalanceSheet()
         {
             if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
@@ -38,7 +38,7 @@ namespace CloudERP.Controllers
         }
 
         [HttpPost]
-        public ActionResult BalanceSheet(int? id)
+        public ActionResult GetBalanceSheet(int? id)
         {
             if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
