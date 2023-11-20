@@ -30,9 +30,8 @@ namespace CloudERP.Controllers
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
             var tblAccountSetting = db.tblAccountSetting.Include(t => t.tblAccountActivity).Include(t => t.tblAccountControl)
-                                                        .Include(t => t.tblAccountHead).Include(t => t.tblAccountSubControl)
-                                                        .Include(t => t.tblBranch).Include(t => t.tblCompany)
-                                                        .Where(t => t.CompanyID == companyID && t.BranchID == branchID);
+                                                        .Include(t => t.tblAccountHead).Include(t => t.tblBranch)
+                                                        .Include(t => t.tblCompany).Where(t => t.CompanyID == companyID && t.BranchID == branchID);
             return View(tblAccountSetting.ToList());
         }
 
