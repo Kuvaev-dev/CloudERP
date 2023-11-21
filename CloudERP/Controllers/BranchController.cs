@@ -23,7 +23,33 @@ namespace CloudERP.Controllers
             }
             int companyID = 0;
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            var tblBranch = db.tblBranch.Include(t => t.tblBranchType).Where(c => c.CompanyID == companyID);
+            int branchTypeID = 0;
+            int.TryParse(Convert.ToString(Session["BranchTypeID"]), out branchTypeID);
+            int brchID = 0;
+            brchID = Convert.ToInt32(Convert.ToString(Session["BrchID"]));
+            if (branchTypeID == 1)  // Main Branch
+            {
+                var tblBranch = db.tblBranch.Include(t => t.tblBranchType).Where(c => c.CompanyID == companyID);
+                return View(tblBranch.ToList());
+            }
+            else
+            {
+                var tblBranch = db.tblBranch.Include(t => t.tblBranchType).Where(c => c.BrchID == brchID);
+                return View(tblBranch.ToList());
+            }
+        }
+
+        public ActionResult SubBranchs()
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            int branchID = 0;
+            int.TryParse(Convert.ToString(Session["BranchID"]), out branchID);
+            int companyID = 0;
+            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
+            var tblBranch = db.tblBranch.Include(t => t.tblBranchType).Where(c => c.CompanyID == companyID && c.BrchID == branchID);
             return View(tblBranch.ToList());
         }
 

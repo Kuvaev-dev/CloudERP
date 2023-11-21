@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel.Design;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
@@ -21,8 +23,53 @@ namespace CloudERP.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
+
             var tblUser = db.tblUser.Include(t => t.tblUserType);
             return View(tblUser.ToList());
+        }
+
+        public ActionResult SubBranchUser()
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            int companyID = 0;
+            int.TryParse(Convert.ToString(Session["CompanyID"]), out companyID);
+            int branchTypeID = 0;
+            int.TryParse(Convert.ToString(Session["BranchTypeID"]), out branchTypeID);
+            int brchID = 0;
+            brchID = Convert.ToInt32(Convert.ToString(Session["BrchID"]));
+            if (branchTypeID == 1)  // Main Branch
+            {
+                var tblUser = from s in db.tblUser
+                              join sa in db.tblEmployee on s.UserID equals sa.UserID
+                              where sa.CompanyID == companyID
+                              select s;
+
+                //var tblUser = db.tblUser.Include(t => t.tblUserType);
+                //return View(tblUser.ToList());
+
+                foreach (var item in tblUser)
+                {
+                    item.FullName = item.FullName + "(" + db.tblEmployee.Where(e => e.UserID == item.UserID).FirstOrDefault().tblBranch.BranchName + ")";
+                }
+                return View(tblUser.ToList());
+            }
+            else
+            {
+                var tblUser = from s in db.tblUser
+                              join sa in db.tblEmployee on s.UserID equals sa.UserID
+                              where sa.tblBranch.BrchID == brchID
+                              select s;
+
+                foreach (var item in tblUser)
+                {
+                    item.FullName = item.FullName + "(" + db.tblEmployee.Where(e => e.UserID == item.UserID).FirstOrDefault().tblBranch.BranchName + ")";
+                }
+                //var tblUser = db.tblUser.Include(t => t.tblUserType);
+                return View(tblUser.ToList());
+            }
         }
 
         // GET: User/Details/5
@@ -62,6 +109,17 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(tblUser tblUser)
         {
+            int companyID = 0;
+            int.TryParse(Convert.ToString(Session["CompanyID"]), out companyID);
+            if (companyID == 0)
+            {
+                tblUser.UserTypeID = 1;
+            }
+            else
+            {
+                tblUser.UserTypeID = 2;
+            }
+            
             if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
@@ -70,7 +128,14 @@ namespace CloudERP.Controllers
             {
                 db.tblUser.Add(tblUser);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                if (companyID == 0)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return RedirectToAction("SubBranchUser");
+                }
             }
 
             ViewBag.UserTypeID = new SelectList(db.tblUserType, "UserTypeID", "UserType", tblUser.UserTypeID);
@@ -104,6 +169,8 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(tblUser tblUser)
         {
+            int companyID = 0;
+            int.TryParse(Convert.ToString(Session["CompanyID"]), out companyID);
             if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
@@ -112,7 +179,14 @@ namespace CloudERP.Controllers
             {
                 db.Entry(tblUser).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                if (companyID == 0)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return RedirectToAction("SubBranchUser");
+                }
             }
             ViewBag.UserTypeID = new SelectList(db.tblUserType, "UserTypeID", "UserType", tblUser.UserTypeID);
             return View(tblUser);

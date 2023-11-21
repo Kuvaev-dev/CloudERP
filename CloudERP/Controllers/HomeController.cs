@@ -102,6 +102,7 @@ namespace CloudERP.Controllers
                     return View("Login");
                 }
                 Session["BranchTypeID"] = branchType.BranchTypeID;
+                Session["BrchID"] = branchType.BrchID == null ? 0 : branchType.BrchID;
 
                 return RedirectToAction("Index");
             }
@@ -122,6 +123,7 @@ namespace CloudERP.Controllers
                 Session["Designation"] = string.Empty;
                 Session["BranchID"] = string.Empty;
                 Session["CompanyID"] = string.Empty;
+                Session["BrchID"] = string.Empty;
             }
 
             return View("Login");
@@ -142,6 +144,7 @@ namespace CloudERP.Controllers
             Session["Designation"] = string.Empty;
             Session["BranchID"] = string.Empty;
             Session["CompanyID"] = string.Empty;
+            Session["BrchID"] = string.Empty;
 
             return View("Login");
         }

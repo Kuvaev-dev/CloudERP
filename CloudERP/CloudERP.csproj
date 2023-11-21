@@ -540,6 +540,8 @@
     <Content Include="Views\BalanceSheet\BalanceSheet.cshtml" />
     <Content Include="Views\IncomeStatement\GetIncomeStatement.cshtml" />
     <Content Include="Views\Ledger\GetLedger.cshtml" />
+    <Content Include="Views\User\SubBranchUser.cshtml" />
+    <Content Include="Views\Branch\SubBranchs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
