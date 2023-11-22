@@ -1,0 +1,130 @@
+﻿@model IEnumerable<DatabaseAccess.Models.AccountLedgerModel>
+@{
+    ViewBag.Title = "Sub Branch Accounts Ledger";
+}
+
+<script src="~/Scripts/jquery-3.7.1.js"></script>
+
+@using (Html.BeginForm("GetSubLedger", "Ledger", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="card">
+        <div class="card card-float">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Select Financial Year</label>
+                        <select class="form-control" id="id" name="id" required />
+                        <input type="submit" value="Retrive Ledger" class="btn btn-success form-control">
+                    </div>
+                    <div class="col-md-4">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="card">
+    <div class="card-header">
+        <div class="card-title">Export</div>
+        <div class="text-sm">
+            Accounts Ledger
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table my-4 w-100" id="datatable2">
+            <thead>
+                <tr>
+                    <th style="display:none;">
+                        Sno
+                    </th>
+                    <th>
+                        Account
+                    </th>
+                    <th>
+                        Date
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                    <th>
+                        Debit
+                    </th>
+                    <th>
+                        Credit
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    if (item.Date == "Date")
+                    {
+                        <tr style="background-color:lightgray">
+                            <td style="display:none;">
+                                @Html.DisplayFor(modelItem => item.SNo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Account)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Date)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Debit)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Credit)
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td style="display:none;">
+                                @Html.DisplayFor(modelItem => item.SNo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Account)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Date)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Debit)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Credit)
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "/TrialBalance/GetFinancialYear",
+            data: {},
+            dataType: 'Json',
+            success: function (response) {
+                $('#id').append("<option value='0'>Select Financial Year</option>")
+                for (var i = 0; i < respone.data.length; i++) {
+                    $('#id').append("<option value=" + response.data[i].FinancialYearID + ">" + response.data[i].FinancialYear + "</option>")
+                }
+            }
+        })
+    })
+</script>

@@ -542,6 +542,10 @@
     <Content Include="Views\Ledger\GetLedger.cshtml" />
     <Content Include="Views\User\SubBranchUser.cshtml" />
     <Content Include="Views\Branch\SubBranchs.cshtml" />
+    <Content Include="Views\SalePayment\SubCustomSalesHistory.cshtml" />
+    <Content Include="Views\PurchasePayment\SubCustomPurchasesHistory.cshtml" />
+    <Content Include="Views\GeneralTransaction\SubJournal.cshtml" />
+    <Content Include="Views\Ledger\GetSubLedger.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

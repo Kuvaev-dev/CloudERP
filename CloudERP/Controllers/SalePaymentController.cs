@@ -158,7 +158,27 @@ namespace CloudERP.Controllers
             int companyID = 0;
             int branchID = 0;
             int userID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
+            int.TryParse(Convert.ToString(Session["BranchID"]), out branchID);
+            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
+            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
+            var list = sale.CustomSalesList(companyID, branchID, FromDate, ToDate);
+            return View(list.ToList());
+        }
+
+        public ActionResult SubCustomSalesHistory(DateTime FromDate, DateTime ToDate, int? id)
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            int companyID = 0;
+            int branchID = 0;
+            int userID = 0;
+            if (id != null)
+            {
+                Session["SubBranchID"] = id;
+            }
+            int.TryParse(Convert.ToString(Session["SubBranchID"]), out branchID);
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
             var list = sale.CustomSalesList(companyID, branchID, FromDate, ToDate);

@@ -1,0 +1,130 @@
+﻿@model IEnumerable<DatabaseAccess.Models.JournalModel>
+
+@{
+    string invoiceNo = string.Empty;
+    ViewBag.Title = "Sub Branch Journal (By Transaction`s Date";
+}
+
+<script src="~/Scripts/jquery-3.7.1.js"></script>
+
+<div class="card">
+    <div class="card card-float">
+        <div class="card-header">
+            <h4>Select Range (From Date and To Date)</h4>
+            <h5 class="table-danger">@ViewBag.JournalMessage</h5>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm("SubJournal", "GeneralTransaction", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Select From Date</label>
+                        <input type="date" id="FromDate" name="FromDate" value="@DateTime.Now" class="form-control" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label>Select To Date</label>
+                        <input type="date" id="ToDate" name="ToDate" value="@DateTime.Now" class="form-control" required>
+                    </div>
+                </div>
+                <br />
+                <hr />
+                <input type="submit" value="Retrive Transactions" class="btn btn-success" style="float: right;">
+            }
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div class="card-title">Export</div>
+        <div class="text-sm">
+            Transactions
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table my-4 w-100" id="datatable2">
+            <thead>
+                <tr>
+                    <th>
+                        №
+                    </th>
+                    <th>
+                        Date
+                    </th>
+                    <th>
+                        Account
+                    </th>
+                    <th>
+                        Title
+                    </th>
+                    <th>
+                        Invoice №
+                    </th>
+                    <th>
+                        Debit
+                    </th>
+                    <th>
+                        Credit
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    if (invoiceNo != item.InvoiceNo)
+                    {
+                        <tr style="background-color:aliceblue">
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SNO)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TransectionDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.AccountSubControl)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TransectionTitle)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.InvoiceNo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Debit)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Credit)
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SNO)
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.AccountSubControl)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TransectionTitle)
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Debit)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Credit)
+                            </td>
+                        </tr>
+                    }
+                    invoiceNo = item.InvoiceNo;
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

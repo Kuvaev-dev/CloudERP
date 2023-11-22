@@ -48,8 +48,19 @@
                                 @Html.DisplayFor(modelItem => item.BranchAddress)
                             </td>
                             <td>
-                                @Html.ActionLink("Edit", "Edit", new { id = item.BranchID }, new { @class="btn btn-primary" })
-                                @Html.ActionLink("Details", "Details", new { id = item.BranchID }, new { @class = "btn btn-info" })
+                                <div class="mt-2 btn-group">
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.BranchID }, new { @class = "btn btn-primary" })
+                                    @Html.ActionLink("Sales", "SubCustomSalesHistory", "SalePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now, id = item.BranchID }, new { @class = "btn btn-info" })
+                                    @Html.ActionLink("Purchases", "SubCustomPurchasesHistory", "PurchasePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now, id = item.BranchID }, new { @class = "btn btn-info" })
+                                </div>
+                                <div class="mt-2 btn-group">
+                                    @Html.ActionLink("Journal", "SubJournal", "GeneralTransaction", new { id = item.BranchID }, new { @class = "btn btn-info" })
+                                    @Html.ActionLink("Accounts Ledger", "GetSubLedger", "Ledger", new { brchid = item.BranchID.ToString() }, new { @class = "btn btn-info" })
+                                </div>
+                                <div class="mt-2 btn-group">
+                                    @Html.ActionLink("Balance Sheet", "Details", new { id = item.BranchID }, new { @class = "btn btn-info" })
+                                    @Html.ActionLink("Income Statement", "Details", new { id = item.BranchID }, new { @class = "btn btn-info" })
+                                </div>
                             </td>
                         </tr>
                     }
