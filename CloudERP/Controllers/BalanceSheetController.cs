@@ -55,5 +55,50 @@ namespace CloudERP.Controllers
 
             return View(balanceSheet);
         }
+
+        public ActionResult GetSubBalanceSheet(string brnchid)
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            int companyID = 0;
+            int branchID = 0;
+            int userID = 0;
+            if (brnchid != null)
+            {
+                Session["SubBranchID"] = brnchid;
+            }
+            branchID = Convert.ToInt32(Convert.ToString(Session["SubBranchID"]));
+            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
+            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
+            var FinancialYear = db.tblFinancialYear.Where(f => f.IsActive == true).FirstOrDefault();
+            if (FinancialYear == null)
+            {
+                ViewBag.Message = "Your Company Financial Year is not Set! Please Contact to Administrator!";
+            }
+            var balanceSheet = bal_sheet.GetBalanceSheet(companyID, branchID, FinancialYear.FinancialYearID, new List<int> { 1, 2, 3, 4, 5 });
+
+            return View(balanceSheet);
+        }
+
+        [HttpPost]
+        public ActionResult GetSubBalanceSheet(int? id)
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            int companyID = 0;
+            int branchID = 0;
+            int userID = 0;
+            branchID = Convert.ToInt32(Convert.ToString(Session["SubBranchID"]));
+            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
+            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
+
+            var balanceSheet = bal_sheet.GetBalanceSheet(companyID, branchID, (int)id, new List<int> { 1, 2, 3, 4, 5 });
+
+            return View(balanceSheet);
+        }
     }
 }

@@ -36,6 +36,9 @@
                         <th>
                             Created By
                         </th>
+                        <th>
+                            Salary Invoice
+                        </th>
                     </tr>
                 </thead>
                 <tbody id="financialYearList">
@@ -62,6 +65,9 @@
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.tblUser.FullName)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Print Payroll", "PrintSalaryInvoice", new { id = item.PayrollID }, new { @class="btn btn-info" })
                             </td>
                         </tr>
                     }

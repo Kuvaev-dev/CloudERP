@@ -120,11 +120,19 @@ namespace CloudERP.Controllers
             var employee = db.tblEmployee.Where(p => p.CNIC == salary.CNIC).FirstOrDefault();
             salary.SalaryMonth = DateTime.Now.AddMonths(-1).ToString("MMMM");
             salary.SalaryYear = DateTime.Now.AddMonths(-1).ToString("yyyy");
-            salary.EmployeeID = employee.EmployeeID;
-            salary.EmployeeName = employee.Name;
-            salary.Designation = employee.Designation;
-            salary.CNIC = employee.CNIC;
-            salary.TransferAmount = employee.MonthlySalary;
+            if (employee != null)
+            {
+                salary.EmployeeID = employee.EmployeeID;
+                salary.EmployeeName = employee.Name;
+                salary.Designation = employee.Designation;
+                salary.CNIC = employee.CNIC;
+                salary.TransferAmount = employee.MonthlySalary;
+                Session["SalaryMessage"] = "";
+            }
+            else
+            {
+                Session["SalaryMessage"] = "Record Not Found";
+            }
             return View(salary);
         }
 
@@ -156,6 +164,8 @@ namespace CloudERP.Controllers
                     if (message.Contains("Succeed"))
                     {
                         Session["SalaryMessage"] = message;
+                        int payrollNo = db.tblPayroll.Max(p => p.PayrollID);
+                        return RedirectToAction("PrintSalaryInvoice", new { id = payrollNo });
                     }
                     else
                     {
@@ -189,6 +199,17 @@ namespace CloudERP.Controllers
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
             var salaryList = db.tblPayroll.Where(p => p.BranchID == branchID && p.CompanyID == companyID).OrderByDescending(p => p.PayrollID).ToList();
             return View(salaryList);
+        }
+
+        public ActionResult PrintSalaryInvoice(int id)
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            
+            var salary = db.tblPayroll.Where(p => p.PayrollID == id).FirstOrDefault();
+            return View(salary);
         }
     }
 }

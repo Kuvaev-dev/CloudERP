@@ -1,11 +1,11 @@
-﻿@model DatabaseAccess.Models.BalanceSheetModel
+﻿@model DatabaseAccess.Models.IncomeStatementModel
 @{
-    ViewBag.Title = "Balance Sheet";
+    ViewBag.Title = "Sub Branch Income Statement";
 }
 
 <script src="~/Scripts/jquery-3.7.1.js"></script>
 
-@using (Html.BeginForm("BalanceSheet", "BalanceSheet", FormMethod.Post))
+@using (Html.BeginForm("GetSubIncomeStatement", "IncomeStatement", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     <div class="card">
@@ -15,7 +15,7 @@
                     <div class="col-md-4">
                         <label>Select Financial Year</label>
                         <select class="form-control" id="id" name="id" required />
-                        <input type="submit" value="Retrive Balance Sheet" class="btn btn-success form-control">
+                        <input type="submit" value="Retrive Income Statement" class="btn btn-success form-control">
                     </div>
                     <div class="col-md-4">
 
@@ -29,7 +29,7 @@
 @{
     <div class="card card-default col-md-12">
         <div class="card-header">
-            <h3 class="text-primary">Balance Sheet</h3>
+            <h3 class="text-primary">Income Statement</h3>
         </div>
         <div class="card-body">
             <div class="table-responsive bootgrid">
@@ -46,16 +46,16 @@
                                 Total
                             </th>
                         </tr>
-                        @foreach (var accountHead in Model.AccountHeadTotals)
+                        @foreach (var accountHead in Model.IncomeStatementHeads)
                         {
                             <tr style="background-color:lightgray;">
                                 <td>
-                                    @accountHead.AccountHeadTitle
+                                    @accountHead.Title
                                 </td>
                                 <td></td>
                                 <td></td>
                             </tr>
-                            foreach (var accounts in accountHead.AccountHeadDetails)
+                            foreach (var accounts in accountHead.AccountHead.AccountHeadDetails)
                             {
                                 <tr>
                                     <td>
@@ -63,31 +63,31 @@
                                     </td>
                                     @if (accounts.Status == "Debit")
                                     {
-                                        if (accounts.AccountSubTitle.Contains("Assets"))
-                                        {
-                                            <td>
-                                                @accounts.TotalAmount
-                                            </td>
-                                        }
-                                        else if (accounts.AccountSubTitle.Contains("Liabilities") || accounts.AccountSubTitle.Contains("Capital"))
+                                        if (accounts.AccountSubTitle.Contains("Revenue"))
                                         {
                                             <td>
                                                 (@accounts.TotalAmount)
+                                            </td>
+                                        }
+                                        else if (accounts.AccountSubTitle.Contains("Expenses"))
+                                        {
+                                            <td>
+                                                @accounts.TotalAmount
                                             </td>
                                         }
                                     }
                                     else
                                     {
-                                        if (accounts.AccountSubTitle.Contains("Assets"))
-                                        {
-                                            <td>
-                                                (@accounts.TotalAmount)
-                                            </td>
-                                        }
-                                        else if (accounts.AccountSubTitle.Contains("Liabilities") || accounts.AccountSubTitle.Contains("Capital"))
+                                        if (accounts.AccountSubTitle.Contains("Revenue"))
                                         {
                                             <td>
                                                 @accounts.TotalAmount
+                                            </td>
+                                        }
+                                        else if (accounts.AccountSubTitle.Contains("Expenses"))
+                                        {
+                                            <td>
+                                                (@accounts.TotalAmount)
                                             </td>
                                         }
                                     }
@@ -95,23 +95,11 @@
                                 </tr>
                             }
 
-                            if (accountHead.AccountHeadTitle.Contains("Assets"))
+                            if (accountHead.Title.Contains("Revenue"))
                             {
                                 <tr style="background-color:black;color:white;">
                                     <td>
-                                        Total Assets:
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        @Model.TotalAssets
-                                    </td>
-                                </tr>
-                            }
-                            else if (accountHead.AccountHeadTitle.Contains("Liabilities"))
-                            {
-                                <tr style="background-color:lightcyan;color:black;">
-                                    <td>
-                                        Total Liabilities:
+                                        Total Revenue:
                                     </td>
                                     <td></td>
                                     <td>
@@ -119,11 +107,11 @@
                                     </td>
                                 </tr>
                             }
-                            if (accountHead.AccountHeadTitle.Contains("Capital"))
+                            else if (accountHead.Title.Contains("Expenses"))
                             {
-                                <tr style="background-color:lightcyan;color:black;">
+                                <tr style="background-color:black;color:white;">
                                     <td>
-                                        Total Owner Equity:
+                                        Total Expenses:
                                     </td>
                                     <td></td>
                                     <td>
@@ -133,22 +121,14 @@
                             }
                             <tr><td></td><td></td><td></td></tr>
                         }
-                        <tr style="background-color:lightcyan;color:black;">
-                            <td>
-                                Total Return Earning
-                            </td>
-                            <td></td>
-                            <td>
-                                @Model.ReturnEarning
-                            </td>
-                        </tr>
+
                         <tr style="background-color:black;color:white;">
                             <td>
-                                Total Balance (Liabilities + Owner Equity + Return Earning)
+                                Net Income
                             </td>
                             <td></td>
                             <td>
-                                @Model.Total_Liabilities_OwnerEquity_ReturnEarning
+                                @Model.NetIncome
                             </td>
                         </tr>
                 </table>
