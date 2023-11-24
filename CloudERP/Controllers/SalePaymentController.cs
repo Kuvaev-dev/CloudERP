@@ -200,5 +200,21 @@ namespace CloudERP.Controllers
             var list = db.tblCustomerInvoiceDetail.Where(i => i.CustomerInvoiceID == id);
             return View(list.ToList());
         }
+
+        public ActionResult PrintSaleInvoice(int? id)
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            int companyID = 0;
+            int branchID = 0;
+            int userID = 0;
+            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
+            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
+            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
+            var list = db.tblCustomerInvoiceDetail.Where(i => i.CustomerInvoiceID == id);
+            return View(list.ToList());
+        }
     }
 }

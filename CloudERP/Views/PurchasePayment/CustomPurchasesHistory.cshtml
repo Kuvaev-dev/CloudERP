@@ -154,7 +154,8 @@
                                     }
                                 }
 
-                                @Html.ActionLink("View Details", "PurchaseItemDetail", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-info" });
+                                @Html.ActionLink("View Details", "PurchaseItemDetail", new { id = item.SupplierInvoiceID }, new { @class = "mt-2 btn btn-info" });
+                                @Html.ActionLink("Print Invoice", "PrintPurchaseInvoice", "PurchasePayment", new { id = item.SupplierInvoiceID }, new { @class = "mt-2 btn btn-info" });
                             </td>
                         </tr>
                     }

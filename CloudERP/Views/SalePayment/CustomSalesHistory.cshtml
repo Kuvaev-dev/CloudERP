@@ -143,7 +143,7 @@
                                 @{
                                     if (item.RemainingBalance < item.TotalAmount && item.PaymentAmount != 0)
                                     {
-                                        @Html.ActionLink("Pay History", "SaleItemDetail", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-primary" });
+                                        @Html.ActionLink("Pay History", "SaleItemDetail", new { id = item.CustomerInvoiceID }, new { @class = "mt-2 btn btn-primary" });
                                     }
                                     else
                                     {
@@ -151,8 +151,10 @@
                                             <label class="text-danger"><b>No History</b></label>
                                         </em>
                                     }
-                                    @Html.ActionLink("View Details", "SaleItemDetail", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-info" });
+                                    @Html.ActionLink("View Details", "SaleItemDetail", new { id = item.CustomerInvoiceID }, new { @class = "mt-2 btn btn-info" });
                                 }
+
+                                @Html.ActionLink("Print Invoice", "PrintSaleInvoice", "SalePayment", new { id = item.CustomerInvoiceID }, new { @class = "mt-2 btn btn-info" });
                             </td>
                         </tr>
                     }

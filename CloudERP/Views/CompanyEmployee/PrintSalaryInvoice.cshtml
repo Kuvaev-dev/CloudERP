@@ -45,10 +45,16 @@
                         <div class="col-xl-4 col-6 br py-2">
                             <div class="row">
                                 <div class="col-lg-2 text-center d-none d-lg-block">
-                                    <em class="fa fa-plane fa-4x text-muted"></em>
+                                    @{
+                                        string imgurl = Model.tblCompany.Logo;
+                                        if (string.IsNullOrEmpty(imgurl))
+                                        {
+                                            imgurl = "~/Content/CompanyLogo/erp-logo.png";
+                                        }
+                                    }
+                                    <img src="@Url.Content(imgurl)" alt="Image" style="width: 50px; height: 50px; max-width: 100%; height: auto;"/>
                                 </div>
                                 <div class="col-lg-10">
-                                    @Model.tblCompany.Logo
                                     <h4>@Model.tblCompany.Name</h4>
                                 </div>
                             </div>
@@ -56,7 +62,10 @@
                         <div class="col-xl-4 col-6 br py-2">
                             <div class="row">
                                 <div class="col-lg-2 text-center d-none d-lg-block">
-                                    <em class="fa fa-truck fa-4x text-muted"></em>
+                                    @{
+                                        string branchimgurl = "~/Content/CompanyLogo/erp-logo.png";
+                                    }
+                                    <img src="@Url.Content(branchimgurl)" alt="Image" style="width: 50px; height: 50px; max-width: 100%; height: auto;" />
                                 </div>
                                 <div class="col-lg-10">
                                     <h4>@Model.tblBranch.BranchName</h4>

@@ -311,6 +311,12 @@ namespace CloudERP.Controllers
                     db.SaveChanges();
                 }
             }
+
+            if (Message.Contains("Success"))
+            {
+                return RedirectToAction("PrintSaleInvoice", "SalePayment", new { id = invoiceHeader.CustomerInvoiceID });
+            }
+
             Session["Message"] = Message;
 
             return RedirectToAction("NewSale");

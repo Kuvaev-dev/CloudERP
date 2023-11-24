@@ -549,6 +549,8 @@
     <Content Include="Views\IncomeStatement\GetSubIncomeStatement.cshtml" />
     <Content Include="Views\BalanceSheet\GetSubBalanceSheet.cshtml" />
     <Content Include="Views\CompanyEmployee\PrintSalaryInvoice.cshtml" />
+    <Content Include="Views\SalePayment\PrintSaleInvoice.cshtml" />
+    <Content Include="Views\PurchasePayment\PrintPurchaseInvoice.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

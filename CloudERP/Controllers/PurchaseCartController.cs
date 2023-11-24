@@ -302,6 +302,12 @@ namespace CloudERP.Controllers
                     db.SaveChanges();
                 }
             }
+
+            if (Message.Contains("Success"))
+            {
+                return RedirectToAction("PrintPurchaseInvoice", "PurchasePayment", new { id = invoiceHeader.SupplierInvoiceID });
+            }
+
             Session["Message"] = Message;
 
             return RedirectToAction("NewPurchase");
