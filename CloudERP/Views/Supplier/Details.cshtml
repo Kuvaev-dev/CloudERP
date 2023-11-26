@@ -1,82 +1,82 @@
 ﻿@model DatabaseAccess.tblSupplier
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Supplier Details";
 }
 
-<h2>Details</h2>
+<div class="form-horizontal">
+    <div class="col-md-10">
+        <dl class="dl-horizontal">
+            <dt>
+                Supplier Name
+            </dt>
 
-<div>
-    <h4>tblSupplier</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.SupplierName)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.SupplierName)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.SupplierName)
-        </dd>
+            <dt>
+                Contact №
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.SupplierConatctNo)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.SupplierConatctNo)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.SupplierConatctNo)
-        </dd>
+            <dt>
+                Address
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.SupplierAddress)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.SupplierAddress)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.SupplierAddress)
-        </dd>
+            <dt>
+                E-mail
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.SupplierEmail)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.SupplierEmail)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.SupplierEmail)
-        </dd>
+            <dt>
+                Description
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Discription)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Discription)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Discription)
-        </dd>
+            <dt>
+                Branch
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.tblBranch.BranchName)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.tblBranch.BranchName)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.tblBranch.BranchName)
-        </dd>
+            <dt>
+                Company
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.tblCompany.Name)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.tblCompany.Name)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.tblCompany.Name)
-        </dd>
+            <dt>
+                Full Name
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.tblUser.FullName)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.tblUser.FullName)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.tblUser.FullName)
-        </dd>
-
-    </dl>
+        </dl>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            @Html.ActionLink("Edit", "Edit", new { id = Model.SupplierID }, new { @class="btn btn-primary" })
+            @Html.ActionLink("Back to List", "Index", null, new { @class="btn btn-default" })
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.SupplierID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

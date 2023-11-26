@@ -8,7 +8,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        @Html.ActionLink("Add Employee", "EmployeeRegistration", "CompanyEmployee", null, new { @style = "float:left;", @class = "btn btn-primary" })
+        @Html.ActionLink("Add Employee", "EmployeeRegistration", "CompanyEmployee", null, new { @style = "float:left;", @class = "btn btn-success" })
         <input class="form-control col-md-3" style="float:right;" type="text" id="searchEmployee" name="searchEmployee" placeholder="Search..." />
     </div>
     <div class="card-body">
@@ -59,16 +59,15 @@
                                 @Html.DisplayFor(modelItem => item.Designation)
                             </td>
                             <td class="btn-group">
-                                @Html.ActionLink("Update", "EmployeeUpdation", new { id = item.EmployeeID }, new { @class = "btn btn-primary" })
                                 @Html.ActionLink("Profile", "ViewProfile", new { id = item.EmployeeID }, new { @class = "btn btn-info" })
 
                                 @if (item.UserID == null)
                                 {
-                                    @Html.ActionLink("Create User", "CreateUser", "UserSetting", new { employeeID = item.EmployeeID }, new { @class = "btn btn-success" })
+                                    @Html.ActionLink("Create User", "CreateUser", "UserSetting", new { employeeID = item.EmployeeID }, new { @class = "btn btn-primary" })
                                 }
                                 else
                                 {
-                                    @Html.ActionLink("Update User", "UpdateUser", "UserSetting", new { userID = item.UserID }, new { @class = "btn btn-success" })
+                                    @Html.ActionLink("Update User", "UpdateUser", "UserSetting", new { userID = item.UserID }, new { @class = "btn btn-primary" })
                                 }
                             </td>
                         </tr>

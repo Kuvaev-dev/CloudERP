@@ -376,9 +376,9 @@
                                 if (userType == 2)
                                 {
                                     <li class="">
-                                        <a href="@Url.Action("Create", "Customer")" title="New Customers">
+                                        <a href="@Url.Action("Create", "Customer")" title="New Customer">
                                             <em class="bi bi-person-fill-add h4"></em>
-                                            <span data-localize="sidebar.nav.element.ELEMENTS">New Customers</span>
+                                            <span data-localize="sidebar.nav.element.ELEMENTS">New Customer</span>
                                         </a>
                                     </li>
                                     <li class="">
@@ -442,9 +442,9 @@
                                 if (userType == 2)
                                 {
                                     <li class="">
-                                        <a href="@Url.Action("Create", "Supplier")" title="New Suppliers">
+                                        <a href="@Url.Action("Create", "Supplier")" title="New Supplier">
                                             <em class="bi bi-umbrella h4"></em>
-                                            <span data-localize="sidebar.nav.element.ELEMENTS">New Suppliers</span>
+                                            <span data-localize="sidebar.nav.element.ELEMENTS">New Supplier</span>
                                         </a>
                                     </li>
                                     <li class="">
@@ -496,7 +496,7 @@
                                         <span data-localize="sidebar.heading.COMPONENTS">Transaction`s</span>
                                     </li>
                                     <li class="">
-                                        <a href="@Url.Action("GeneralTransactions", "GeneralTransaction", new { transaction = new CloudERP.Models.GeneralTransactionMV() { CreditAccountControlID = 0, DebitAccountControlID = 0, TransferAmount = 0 } })" title="General Transaction">
+                                        <a href="@Url.Action("GeneralTransaction", "GeneralTransaction", new { transaction = new CloudERP.Models.GeneralTransactionMV() { CreditAccountControlID = 0, DebitAccountControlID = 0, TransferAmount = 0 } })" title="General Transaction">
                                             <em class="bi bi-briefcase h4"></em>
                                             <span data-localize="sidebar.nav.element.ELEMENTS">General Transaction</span>
                                         </a>
@@ -559,7 +559,7 @@
                         @ViewBag.Title
                     </div>
                 </div>
-                <div class="row">
+                <div>
                     @RenderBody()
                 </div>
             </div>

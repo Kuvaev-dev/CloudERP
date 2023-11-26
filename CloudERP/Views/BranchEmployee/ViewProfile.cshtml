@@ -1,98 +1,100 @@
 ﻿@model DatabaseAccess.tblEmployee
 
 @{
-    ViewBag.Title = "Profile";
+    ViewBag.Title = "Employee Profile";
 }
 
-<h2>Employee Profile</h2>
+<div class="form-horizontal">
+    <div class="col-md-10">
+        <dl class="dl-horizontal">
+            <dt>
+                Employee Name
+            </dt>
 
-<div>
-    <dl class="dl-horizontal">
-        <dt>
-            Employee Name
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+            <dt>
+                Contact №
+            </dt>
 
-        <dt>
-            Contact №
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ContactNo)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.ContactNo)
-        </dd>
+            <dt>
+                Photo
+            </dt>
 
-        <dt>
-            Photo
-        </dt>
+            <dd>
+                @if (!string.IsNullOrEmpty(Model.Photo))
+                {
+                    <img src="@Url.Content(Model.Photo)" alt="image" style="width:50px;height:50px;max-width:100%;height:auto;" />
+                }
+            </dd>
 
-        <dd>
-            @if (!string.IsNullOrEmpty(Model.Photo))
-            {
-                <img src="@Url.Content(Model.Photo)" alt="image" style="width:50px;height:50px;max-width:100%;height:auto;" />
-            }
-        </dd>
+            <dt>
+                Email
+            </dt>
 
-        <dt>
-            Email
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Email)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
+            <dt>
+                Address
+            </dt>
 
-        <dt>
-            Address
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Address)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Address)
-        </dd>
+            <dt>
+                CNIC
+            </dt>
 
-        <dt>
-            CNIC
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.CNIC)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.CNIC)
-        </dd>
+            <dt>
+                Designation
+            </dt>
 
-        <dt>
-            Designation
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Designation)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Designation)
-        </dd>
+            <dt>
+                Description
+            </dt>
 
-        <dt>
-            Description
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+            <dt>
+                Basic Salary
+            </dt>
 
-        <dt>
-            Basic Salary
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.MonthlySalary)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.MonthlySalary)
-        </dd>
+            <dt>
+                Branch
+            </dt>
 
-        <dt>
-            Branch
-        </dt>
-
-        <dt>
-            @Html.DisplayFor(model => model.tblBranch.BranchName)
-        </dt>
-    </dl>
+            <dt>
+                @Html.DisplayFor(model => model.tblBranch.BranchName)
+            </dt>
+        </dl>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            @Html.ActionLink("Edit Profile", "EmployeeUpdation", new { id = Model.EmployeeID }, new { @class = "btn btn-primary" })
+            @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-default" })
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit Profile", "EmployeeUpdation", new { id = Model.EmployeeID }, new { @class="btn btn-primary" })
-    @Html.ActionLink("Back", "Index", null, new { @class="btn btn-default" })
-</p>

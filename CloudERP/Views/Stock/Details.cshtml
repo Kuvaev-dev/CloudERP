@@ -1,122 +1,122 @@
 ﻿@model DatabaseAccess.tblStock
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Product Details";
 }
 
-<h2>Details</h2>
+<div class="form-horizontal">
+    <div class="col-md-10">
+        <dl class="dl-horizontal">
+            <dt>
+                Product Name
+            </dt>
 
-<div>
-    <h4>tblStock</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.ProductName)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ProductName)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.ProductName)
-        </dd>
+            <dt>
+                Quantity
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Quantity)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Quantity)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Quantity)
-        </dd>
+            <dt>
+                Sale Unit Price
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.SaleUnitPrice)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.SaleUnitPrice)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.SaleUnitPrice)
-        </dd>
+            <dt>
+                Current Purchase Unit Price
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CurrentPurchaseUnitPrice)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.CurrentPurchaseUnitPrice)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.CurrentPurchaseUnitPrice)
-        </dd>
+            <dt>
+                Expiry Date
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ExpiryDate)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ExpiryDate)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.ExpiryDate)
-        </dd>
+            <dt>
+                Manufacture
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Manufacture)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Manufacture)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Manufacture)
-        </dd>
+            <dt>
+                Stock Tresh Hold Quantity)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.StockTreshHoldQuantity)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.StockTreshHoldQuantity)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.StockTreshHoldQuantity)
-        </dd>
+            <dt>
+                Description
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+            <dt>
+                Status / Is Active
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.IsActive)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.IsActive)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.IsActive)
-        </dd>
+            <dt>
+                Branch
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.tblBranch.BranchName)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.tblBranch.BranchName)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.tblBranch.BranchName)
-        </dd>
+            <dt>
+                Category
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.tblCategory.CategoryName)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.tblCategory.CategoryName)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.tblCategory.CategoryName)
-        </dd>
+            <dt>
+                Company
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.tblCompany.Name)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.tblCompany.Name)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.tblCompany.Name)
-        </dd>
+            <dt>
+                Full Name
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.tblUser.FullName)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.tblUser.FullName)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.tblUser.FullName)
-        </dd>
-
-    </dl>
+        </dl>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            @Html.ActionLink("Edit", "Edit", new { id = Model.ProductID }, new { @class = "btn btn-primary" })
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ProductID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

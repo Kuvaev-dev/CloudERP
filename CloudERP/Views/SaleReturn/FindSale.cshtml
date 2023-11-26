@@ -7,10 +7,9 @@
 @using (Html.BeginForm("FindSale", "SaleReturn", FormMethod.Post, null))
 {
     @Html.AntiForgeryToken()
-    <hr />
     <div class="form-group">
         <label class="control-label col-md-2">Enter Sale Invoice №</label>
-        <div class="col-md-10">
+        <div class="col-md-5">
             <input type="text" class="form-control" id="invoiceID" name="invoiceID" placeholder="Enter Sale Invoice..." required />
         </div>
     </div>

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DatabaseAccess.tblSaleCartDetail>
 
 @{
-    ViewBag.Title = "Sale";
+    ViewBag.Title = "New Sale";
 }
 
 <script src="~/Scripts/jquery-3.7.1.js"></script>
@@ -11,34 +11,32 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Sale Details</h4>
-        <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div class="form-group">
             <label class="control-label col-md-2">Select Product</label>
-            <div class="col-md-10">
+            <div class="col-md-5">
                 <select class="form-control" id="PID" name="PID" required></select>
             </div>
         </div>
 
         <div class="form-group">
             <label class="control-label col-md-2">Quantity</label>
-            <div class="col-md-10">
+            <div class="col-md-5">
                 <input type="number" class="form-control" id="Qty" name="Qty" placeholder="Enter Purchase Quantity..." required />
             </div>
         </div>
 
         <div class="form-group">
             <label class="control-label col-md-2">Unit Price</label>
-            <div class="col-md-10">
+            <div class="col-md-5">
                 <input type="number" class="form-control" id="Price" step=".01" name="Price" placeholder="Enter Unit Price..." required />
             </div>
         </div>
 
         <div class="form-group">
             <label class="control-label col-md-2">Item Cost</label>
-            <div class="col-md-10">
+            <div class="col-md-5">
                 <input type="text" readonly class="form-control" id="selectItemCost" step=".01" name="selectItemCost" placeholder="Item Cost..." required />
             </div>
         </div>
@@ -53,7 +51,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        <h3 class="text-bold">Sale Item`s List</h3>
+        <h3 class="text-bold">Sale Items List</h3>
         <h4 class="text-success">
             @{if (ViewBag.Message != null)
                 {

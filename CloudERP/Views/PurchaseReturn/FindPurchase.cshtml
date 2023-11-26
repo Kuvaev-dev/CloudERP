@@ -7,16 +7,15 @@
 @using (Html.BeginForm("FindPurchase", "PurchaseReturn", FormMethod.Post, null))
 {
     @Html.AntiForgeryToken()
-    <hr />
     <div class="form-group">
         <label class="control-label col-md-2">Enter Purchase Invoice №</label>
-        <div class="col-md-10">
+        <div class="col-md-5">
             <input type="text" class="form-control" id="invoiceID" name="invoiceID" placeholder="Enter Purchase Invoice..." required />
         </div>
     </div>
 
     <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
+        <div class="col-md-offset-2 col-md-5">
             <input type="submit" value="Find Purchase" class="btn btn-success" />
         </div>
     </div>

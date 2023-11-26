@@ -18,7 +18,7 @@ namespace CloudERP.Controllers
         private GeneralTransactionEntry generalEntry = new GeneralTransactionEntry();
 
         // GET: GeneralTransaction
-        public ActionResult GeneralTransactions(GeneralTransactionMV transaction)
+        public ActionResult GeneralTransaction(GeneralTransactionMV transaction)
         {
             if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {

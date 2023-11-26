@@ -1,7 +1,7 @@
 ﻿@model DatabaseAccess.tblAccountSetting
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Manage Transactions";
 }
 
 <script src="~/Scripts/jquery-3.7.1.js"></script>
@@ -18,24 +18,24 @@
         @Html.HiddenFor(model => model.BranchID)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.AccountHeadID, "Select Account", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            @Html.LabelFor(model => model.AccountHeadID, "Select Head Account", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-5">
                 @Html.DropDownList("AccountHeadID", null, "Head Account", htmlAttributes: new { @class = "form-control", @id = "AccountHeadID" })
                 @Html.ValidationMessageFor(model => model.AccountHeadID, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.AccountControlID, "Select Account", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            @Html.LabelFor(model => model.AccountControlID, "Select Control Account", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-5">
                 @Html.DropDownList("AccountControlID", null, "Control Account", htmlAttributes: new { @class = "form-control", @id = "AccountControlID" })
                 @Html.ValidationMessageFor(model => model.AccountControlID, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.AccountSubControlID, "Select Account", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            @Html.LabelFor(model => model.AccountSubControlID, "Select Sub Account", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-5">
                 @Html.DropDownList("AccountSubControlID", null, "Sub Account", htmlAttributes: new { @class = "form-control", @id = "AccountSubControlID" })
                 @Html.ValidationMessageFor(model => model.AccountSubControlID, "", new { @class = "text-danger" })
             </div>
@@ -43,14 +43,14 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.AccountActivityID, "Select Activity", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-5">
                 @Html.DropDownList("AccountActivityID", null, "Activity", htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.AccountActivityID, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
+            <div class="col-md-offset-2 col-md-5">
                 <input type="submit" value="Save" class="btn btn-success" />
                 @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
             </div>

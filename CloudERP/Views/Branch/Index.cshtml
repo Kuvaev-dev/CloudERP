@@ -8,7 +8,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        @Html.ActionLink("Add Branch", "Create", null, new { @style = "float:left;", @class = "btn btn-primary" })
+        @Html.ActionLink("Add Branch", "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
         <input class="form-control col-md-3" style="float:right;" type="text" id="searchBranch" name="searchBranch" placeholder="Search..." />
     </div>
     <div class="card-body">
@@ -28,7 +28,9 @@
                         <th>
                             Branch Address
                         </th>
-                        <th></th>
+                        <th>
+                            Actions
+                        </th>
                     </tr>
                 </thead>
                 <tbody id="branchList">
