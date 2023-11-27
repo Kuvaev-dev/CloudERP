@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DatabaseAccess.tblEmployee>
 
 @{
-    ViewBag.Title = "Employees";
+    ViewBag.Title = "All Employees";
 }
 
 <script src="~/Scripts/jquery-3.7.1.js"></script>
@@ -59,7 +59,7 @@
                                 @Html.DisplayFor(modelItem => item.Designation)
                             </td>
                             <td class="btn-group">
-                                @Html.ActionLink("Profile", "ViewProfile", new { id = item.EmployeeID }, new { @class = "btn btn-info" })
+                                @Html.ActionLink("Profile", "ViewProfile", "BranchEmployee", new { id = item.EmployeeID }, new { @class = "btn btn-info" })
 
                                 @if (item.UserID == null)
                                 {

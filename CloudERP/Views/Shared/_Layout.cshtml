@@ -27,8 +27,11 @@
     <link rel="stylesheet" href="~/Content/Template/css/app.css" id="maincss">
     <!-- Bootgrid-->
     <link rel="stylesheet" href="~/Content/Template/vendor/jquery-bootgrid/dist/jquery.bootgrid.css">
+    <!-- Icons-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.2/font/bootstrap-icons.min.css" />
+    <!-- Themes-->
+    <link rel="stylesheet" href="~/Scripts/Theme/dark-theme.css">
 </head>
 
 <body>
@@ -102,16 +105,17 @@
                     <li class="nav-item d-none d-md-block">
                         <div class="nav-link container">
                             <div class="dropdown">
-                                <em class="fas fa-language dropdown-toggle" type="button" id="languageDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></em>
+                                <em class="fas fa-language dropdown-toggle" type="button" id="languageDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                </em>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="languageDropdown">
-                                    <a class="dropdown-item" href="#">
+                                    <a class="dropdown-item" href="#" onclick="">
                                         <i class="flag-icon flag-icon-us"></i> English
                                     </a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="flag-icon flag-icon-ru"></i> Українська
+                                    <a class="dropdown-item" href="#" onclick="">
+                                        <i class="flag-icon flag-icon-ru"></i> Русский
                                     </a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="flag-icon flag-icon-fr"></i> Русский
+                                    <a class="dropdown-item" href="#" onclick="">
+                                        <i class="flag-icon flag-icon-fr"></i> Українська
                                     </a>
                                 </div>
                             </div>
@@ -168,21 +172,20 @@
                                 if (Session["BranchTypeID"] != null)
                                 {
                                     <!-- Iterates over all sidebar items-->
-                                    <li class="nav-heading ">
-                                        <span data-localize="sidebar.heading.HEADER">Home</span>
-                                    </li>
-
-                                    <li class=" ">
-                                        <a href="@Url.Action("Index", "Home")" title="Dashboard">
-                                            <em class="bi bi-speedometer2 h4"></em>
-                                            <span data-localize="sidebar.nav.DASHBOARD">Dashboard</span>
-                                        </a>
-                                    </li>
 
                                     @*Configuration*@
                                     @*Admin*@
                                     if (userType == 1)
                                     {
+                                        <li class="nav-heading ">
+                                            <span data-localize="sidebar.heading.COMPONENTS">Guide</span>
+                                        </li>
+                                        <li class="">
+                                            <a href="@Url.Action("AdminMenuGuide", "Guide")" title="Admin Guide">
+                                                <em class="bi bi-info-circle h4"></em>
+                                                <span data-localize="sidebar.nav.element.ELEMENTS">Admin Guide</span>
+                                            </a>
+                                        </li>
                                         <li class="nav-heading ">
                                             <span data-localize="sidebar.heading.COMPONENTS">User Setting</span>
                                         </li>
@@ -227,6 +230,15 @@
                                     if (userType == 2)
                                     {
                                         <li class="nav-heading ">
+                                            <span data-localize="sidebar.heading.HEADER">Home</span>
+                                        </li>
+                                        <li class=" ">
+                                            <a href="@Url.Action("Index", "Home")" title="Dashboard">
+                                                <em class="bi bi-speedometer2 h4"></em>
+                                                <span data-localize="sidebar.nav.DASHBOARD">Dashboard</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-heading ">
                                             <span data-localize="sidebar.heading.COMPONENTS">Sub Branch`s</span>
                                         </li>
                                         <li class="">
@@ -246,6 +258,15 @@
                                         @*Main Branch*@
                                         if (branchTypeID == 1)
                                         {
+                                            <li class="nav-heading ">
+                                                <span data-localize="sidebar.heading.COMPONENTS">Guide</span>
+                                            </li>
+                                            <li class="">
+                                                <a href="@Url.Action("MainBranchEmployeeGuide", "Guide")" title="Main Employee Guide">
+                                                    <em class="bi bi-info-circle h4"></em>
+                                                    <span data-localize="sidebar.nav.element.ELEMENTS">Main Employee Guide</span>
+                                                </a>
+                                            </li>
                                             <li class="nav-heading ">
                                                 <span data-localize="sidebar.heading.COMPONENTS">Branch`s</span>
                                             </li>
@@ -279,6 +300,15 @@
                                         }
                                         if (branchTypeID > 1)
                                         {
+                                            <li class="nav-heading ">
+                                                <span data-localize="sidebar.heading.COMPONENTS">Guide</span>
+                                            </li>
+                                            <li class="">
+                                                <a href="@Url.Action("EmployeeGuide", "Guide")" title="Employee Guide">
+                                                    <em class="bi bi-info-circle h4"></em>
+                                                    <span data-localize="sidebar.nav.element.ELEMENTS">Employee Guide</span>
+                                                </a>
+                                            </li>
                                             <li class="nav-heading ">
                                                 <span data-localize="sidebar.heading.COMPONENTS">Employee`s</span>
                                             </li>
@@ -541,6 +571,15 @@
                                         </a>
                                     </li>
                                 }
+                                <li class="nav-heading ">
+                                    <span data-localize="sidebar.heading.COMPONENTS">License</span>
+                                </li>
+                                <li class="">
+                                    <a href="@Url.Action("License", "Guide")" title="Privacy Policy">
+                                        <em class="bi bi-sourceforge h4"></em>
+                                        <span data-localize="sidebar.nav.element.ELEMENTS">Privacy Policy</span>
+                                    </a>
+                                </li>
                             }
                         }
                         }
@@ -611,6 +650,9 @@
     <script src="~/Content/Template/vendor/jszip/dist/jszip.js"></script>
     <script src="~/Content/Template/vendor/pdfmake/build/pdfmake.js"></script>
     <script src="~/Content/Template/vendor/pdfmake/build/vfs_fonts.js"></script>
+    <!-- Themes-->
+    @*TODO: Dark Theme
+      <script src="~/Scripts/Theme/theme-switcher.js"></script>*@
     <!-- =============== APP SCRIPTS ===============-->
     <script src="~/Content/Template/js/app.js"></script>
 </body>

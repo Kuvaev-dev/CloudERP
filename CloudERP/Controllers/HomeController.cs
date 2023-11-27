@@ -1,8 +1,6 @@
 ﻿using DatabaseAccess;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace CloudERP.Controllers
@@ -104,7 +102,14 @@ namespace CloudERP.Controllers
                 Session["BranchTypeID"] = branchType.BranchTypeID;
                 Session["BrchID"] = branchType.BrchID == null ? 0 : branchType.BrchID;
 
-                return RedirectToAction("Index");
+                if (Convert.ToInt32(Convert.ToString(Session["UserTypeID"])) == 1)  // Admin
+                {
+                    return RedirectToAction("AdminMenuGuide", "Guide");
+                }
+                else if (Convert.ToInt32(Convert.ToString(Session["UserTypeID"])) == 2) // User
+                {
+                    return RedirectToAction("Index");
+                }
             }
             else
             {
@@ -151,20 +156,6 @@ namespace CloudERP.Controllers
 
         public ActionResult ForgetPassword()
         {
-            return View();
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
             return View();
         }
     }

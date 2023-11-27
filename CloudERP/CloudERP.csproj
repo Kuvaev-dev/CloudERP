@@ -58,6 +58,9 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -140,6 +143,7 @@
     <Compile Include="Controllers\FinancialYearController.cs" />
     <Compile Include="Controllers\FinancialYearViewController.cs" />
     <Compile Include="Controllers\GeneralTransactionController.cs" />
+    <Compile Include="Controllers\GuideController.cs" />
     <Compile Include="Controllers\HeadEmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IncomeStatementController.cs" />
@@ -2520,6 +2524,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\Theme\dark-theme.css" />
+    <Content Include="Scripts\Theme\theme-switcher.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -2665,12 +2671,13 @@
     <Content Include="Views\CompanyEmployee\PrintSalaryInvoice.cshtml" />
     <Content Include="Views\SalePayment\PrintSaleInvoice.cshtml" />
     <Content Include="Views\PurchasePayment\PrintPurchaseInvoice.cshtml" />
+    <Content Include="Views\Guide\AdminMenuGuide.cshtml" />
+    <Content Include="Views\Guide\MainBranchEmployeeGuide.cshtml" />
+    <Content Include="Views\Guide\EmployeeGuide.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\EmployeePhoto\" />
-    <Folder Include="Views\EmployeeRegistration\" />
-    <Folder Include="Views\HeadEmployee\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
@@ -2704,6 +2711,17 @@
       <Project>{e0eace6c-1dc7-4469-bd76-5c4813baf619}</Project>
       <Name>DatabaseAccess</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\App_LocalResources\Lang.en.resx">
+      <CustomToolNamespace>Language</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\App_LocalResources\Lang.ru.resx">
+      <CustomToolNamespace>Language</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\App_LocalResources\Lang.uk.resx">
+      <CustomToolNamespace>Language</CustomToolNamespace>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
