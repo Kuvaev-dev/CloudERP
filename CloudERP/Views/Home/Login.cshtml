@@ -42,7 +42,9 @@
                         <p class="text-danger">@ViewBag.Message</p>
                         <div class="form-group">
                             <div class="input-group with-focus">
-                                <input class="form-control border-right-0" id="email" name="email" type="email" placeholder="Enter email" autocomplete="off" required>
+                                <input class="form-control border-right-0" id="email" name="email" type="email"
+                                       placeholder="Enter email" autocomplete="off"
+                                       value="@ViewBag.RememberedEmail" required>
                                 <div class="input-group-append">
                                     <span class="input-group-text fa fa-envelope text-muted bg-transparent border-left-0"></span>
                                 </div>
@@ -59,7 +61,7 @@
                         <div class="clearfix">
                             <div class="checkbox c-checkbox float-left mt-0">
                                 <label>
-                                    <input type="checkbox" value="" name="remember">
+                                    <input type="checkbox" value="" name="rememberMe">
                                     <span class="fa fa-check"></span>Remember Me
                                 </label>
                             </div>

@@ -1,6 +1,13 @@
-﻿using DatabaseAccess;
+﻿using CloudERP.Helpers;
+using CloudERP.Models;
+using DatabaseAccess;
+using Microsoft.AspNet.Identity;
 using System;
+using System.Data.Entity;
 using System.Linq;
+using System.Net.Mail;
+using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 
 namespace CloudERP.Controllers
@@ -21,11 +28,16 @@ namespace CloudERP.Controllers
 
         public ActionResult Login()
         {
+            var rememberMeCookie = Request.Cookies["RememberMe"];
+            if (rememberMeCookie != null)
+            {
+                ViewBag.RememberedEmail = rememberMeCookie["Email"];
+            }
             return View();
         }
 
         [HttpPost]
-        public ActionResult LoginUser(string email, string password)
+        public ActionResult LoginUser(string email, string password, bool rememberMe)
         {
             var user = db.tblUser.Where(u => u.Email == email && u.Password == password && u.IsActive == true).FirstOrDefault();
             if (user != null)
@@ -110,6 +122,14 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Index");
                 }
+
+                if (rememberMe)
+                {
+                    HttpCookie cookie = new HttpCookie("RememberMe");
+                    cookie.Values["Email"] = email;
+                    cookie.Expires = DateTime.Now.AddDays(30);
+                    Response.Cookies.Add(cookie);
+                }
             }
             else
             {
@@ -157,6 +177,89 @@ namespace CloudERP.Controllers
         public ActionResult ForgetPassword()
         {
             return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ForgetPassword(string email)
+        {
+            var user = db.tblUser.FirstOrDefault(u => u.Email == email);
+            if (user == null)
+            {
+                ViewBag.Message = "User With Provided E-mail is Not Found";
+                return View();
+            }
+            var resetCode = Guid.NewGuid().ToString();
+            user.ResetPasswordCode = resetCode;
+            db.Entry(user).State = EntityState.Modified;
+            db.SaveChanges();
+
+            var resetLink = Url.Action("ResetPassword", "Home", new { id = resetCode }, protocol: Request.Url.Scheme);
+
+            var message = new MailMessage();
+            message.To.Add(user.Email);
+            message.Subject = "Password Reset";
+            message.Body = "To Reset Your Password Please Follow This Link: " + resetLink;
+            message.IsBodyHtml = true;
+
+            using (var smtp = new SmtpClient())
+            {
+                await smtp.SendMailAsync(message);
+            }
+
+            return RedirectToAction("ForgotPasswordConfirmation", "Home");
+        }
+
+        [HttpGet]
+        public ActionResult ResetPassword(string id)
+        {
+            var user = db.tblUser.FirstOrDefault(u => u.ResetPasswordCode == id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+
+            var model = new ResetPasswordModel { ResetCode = id };
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult ResetPassword(ResetPasswordModel model)
+        {
+            var user = db.tblUser.FirstOrDefault(u => u.ResetPasswordCode == model.ResetCode);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+
+            user.Password = model.NewPassword;
+            user.ResetPasswordCode = null;
+
+            db.Entry(user).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("ResetPasswordConfirmation", "Home");
+        }
+
+        public ActionResult SetCulture(string culture)
+        {
+            // Validate input
+            culture = CultureHelper.GetImplementedCulture(culture);
+
+            // Save culture in a cookie
+            HttpCookie cookie = Request.Cookies["_culture"];
+            if (cookie != null)
+                cookie.Value = culture;   // update cookie value
+            else
+            {
+                cookie = new HttpCookie("_culture")
+                {
+                    Value = culture,
+                    Expires = DateTime.Now.AddYears(1)
+                };
+            }
+            Response.Cookies.Add(cookie);
+
+            return RedirectToAction("Index");
         }
     }
 }
