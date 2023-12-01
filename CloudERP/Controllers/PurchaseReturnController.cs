@@ -3,15 +3,14 @@ using DatabaseAccess.Code;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace CloudERP.Controllers
 {
     public class PurchaseReturnController : Controller
     {
-        private CloudDBEntities db = new CloudDBEntities();
-        private PurchaseEntry purchaseEntry = new PurchaseEntry();
+        private readonly CloudDBEntities db = new CloudDBEntities();
+        private readonly PurchaseEntry purchaseEntry = new PurchaseEntry();
 
         // GET: PurchaseReturn
         public ActionResult FindPurchase()

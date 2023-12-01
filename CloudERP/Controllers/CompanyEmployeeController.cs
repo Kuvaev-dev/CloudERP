@@ -3,18 +3,16 @@ using CloudERP.Models;
 using DatabaseAccess;
 using DatabaseAccess.Code;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace CloudERP.Controllers
 {
     public class CompanyEmployeeController : Controller
     {
-        private CloudDBEntities db = new CloudDBEntities();
-        private SalaryTransaction salaryTransaction = new SalaryTransaction();
+        private readonly CloudDBEntities db = new CloudDBEntities();
+        private readonly SalaryTransaction salaryTransaction = new SalaryTransaction();
 
         // GET: Employees
         public ActionResult Employees()

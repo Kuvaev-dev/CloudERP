@@ -2,18 +2,16 @@
 using DatabaseAccess.Code;
 using DatabaseAccess.Code.SP_Code;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace CloudERP.Controllers
 {
     public class PurchasePaymentController : Controller
     {
-        private CloudDBEntities db = new CloudDBEntities();
-        private SP_Purchase purchase = new SP_Purchase();
-        private PurchaseEntry paymentEntry = new PurchaseEntry();
+        private readonly CloudDBEntities db = new CloudDBEntities();
+        private readonly SP_Purchase purchase = new SP_Purchase();
+        private readonly PurchaseEntry paymentEntry = new PurchaseEntry();
 
         // GET: PurchasePayment
         public ActionResult RemainingPaymentList()
@@ -57,14 +55,7 @@ namespace CloudERP.Controllers
             double totalInvoiceAmount = db.tblSupplierInvoice.Find(id).TotalAmount;
             double totalPaidAmount = db.tblSupplierPayment.Where(p => p.SupplierInvoiceID == id).Sum(p => p.PaymentAmount);
             remainingAmount = totalInvoiceAmount - totalPaidAmount;
-            //foreach (var item in list)
-            //{
-            //    remainingAmount = item.RemainingBalance;
-            //}
-            //if (remainingAmount == 0)
-            //{
-            //    remainingAmount = db.tblSupplierInvoice.Find(id).TotalAmount;
-            //}
+
             ViewBag.PreviousRemainingAmount = remainingAmount;
             ViewBag.InvoiceID = id;
             return View(list.ToList());
@@ -99,14 +90,7 @@ namespace CloudERP.Controllers
                 totalPaidAmount = db.tblSupplierPayment.Where(p => p.SupplierInvoiceID == id).Sum(p => p.PaymentAmount);
             }
             remainingAmount = totalInvoiceAmount - totalPaidAmount;
-            //foreach (var item in list)
-            //{
-            //    remainingAmount = item.RemainingBalance;
-            //}
-            //if (remainingAmount == 0)
-            //{
-            //    remainingAmount = db.tblSupplierInvoice.Find(id).TotalAmount;
-            //}
+
             ViewBag.PreviousRemainingAmount = remainingAmount;
             ViewBag.InvoiceID = id;
             return View(list.ToList());
@@ -143,14 +127,7 @@ namespace CloudERP.Controllers
                     double totalInvoiceAmount = db.tblSupplierInvoice.Find(id).TotalAmount;
                     double totalPaidAmount = db.tblSupplierPayment.Where(p => p.SupplierInvoiceID == id).Sum(p => p.PaymentAmount);
                     remainingAmount = totalInvoiceAmount - totalPaidAmount;
-                    //foreach (var item in list)
-                    //{
-                    //    remainingAmount = item.RemainingBalance;
-                    //}
-                    //if (remainingAmount == 0)
-                    //{
-                    //    remainingAmount = db.tblSupplierInvoice.Find(id).TotalAmount;
-                    //}
+
                     ViewBag.PreviousRemainingAmount = remainingAmount;
                     ViewBag.InvoiceID = id;
                     return View(list);

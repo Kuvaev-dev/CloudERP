@@ -25,9 +25,13 @@ namespace CloudERP
             HttpCookie cultureCookie = Request.Cookies["_culture"];
             string culture = cultureCookie?.Value;
 
-            // Set culture
-            Thread.CurrentThread.CurrentCulture = new CultureInfo(culture);
-            Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
+            // Check if culture is not null before setting it
+            if (!string.IsNullOrEmpty(culture))
+            {
+                // Set culture
+                Thread.CurrentThread.CurrentCulture = new CultureInfo(culture);
+                Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
+            }
         }
     }
 }

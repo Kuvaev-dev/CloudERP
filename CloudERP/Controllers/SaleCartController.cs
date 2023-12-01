@@ -3,7 +3,6 @@ using DatabaseAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using CloudERP.Models;
 
@@ -11,8 +10,8 @@ namespace CloudERP.Controllers
 {
     public class SaleCartController : Controller
     {
-        private CloudDBEntities db = new CloudDBEntities();
-        private SaleEntry saleEntry = new SaleEntry();
+        private readonly CloudDBEntities db = new CloudDBEntities();
+        private readonly SaleEntry saleEntry = new SaleEntry();
 
         // GET: SaleCart
         public ActionResult NewSale()

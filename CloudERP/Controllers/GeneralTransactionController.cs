@@ -3,19 +3,15 @@ using DatabaseAccess;
 using DatabaseAccess.Code;
 using DatabaseAccess.Code.SP_Code;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace CloudERP.Controllers
 {
     public class GeneralTransactionController : Controller
     {
-        private CloudDBEntities db = new CloudDBEntities();
-        private SP_GeneralTransaction accounts = new SP_GeneralTransaction();
-        private GeneralTransactionEntry generalEntry = new GeneralTransactionEntry();
+        private readonly CloudDBEntities db = new CloudDBEntities();
+        private readonly SP_GeneralTransaction accounts = new SP_GeneralTransaction();
+        private readonly GeneralTransactionEntry generalEntry = new GeneralTransactionEntry();
 
         // GET: GeneralTransaction
         public ActionResult GeneralTransaction(GeneralTransactionMV transaction)

@@ -1,18 +1,16 @@
 ﻿using DatabaseAccess;
-using DatabaseAccess.Code;
 using DatabaseAccess.Code.SP_Code;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace CloudERP.Controllers
 {
     public class BalanceSheetController : Controller
     {
-        private CloudDBEntities db = new CloudDBEntities();
-        private SP_BalanceSheet bal_sheet = new SP_BalanceSheet();
+        private readonly CloudDBEntities db = new CloudDBEntities();
+        private readonly SP_BalanceSheet bal_sheet = new SP_BalanceSheet();
 
         // GET: BalanceSheet
         public ActionResult GetBalanceSheet()

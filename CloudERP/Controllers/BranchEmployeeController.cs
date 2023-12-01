@@ -1,18 +1,16 @@
 ﻿using CloudERP.Helpers;
 using DatabaseAccess;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 
 namespace CloudERP.Controllers
 {
     public class BranchEmployeeController : Controller
     {
-        private CloudDBEntities db = new CloudDBEntities();
+        private readonly CloudDBEntities db = new CloudDBEntities();
 
         // GET: Employee
         public ActionResult Employee()

@@ -4,7 +4,6 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using CloudERP.Helpers;
 using CloudERP.Models;
@@ -14,7 +13,7 @@ namespace CloudERP.Controllers
 {
     public class CustomerController : Controller
     {
-        private CloudDBEntities db = new CloudDBEntities();
+        private readonly CloudDBEntities db = new CloudDBEntities();
 
         // GET: All Customers
         public ActionResult AllCustomers()

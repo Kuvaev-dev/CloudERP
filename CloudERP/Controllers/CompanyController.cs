@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
-using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using CloudERP.Helpers;
 using DatabaseAccess;
@@ -14,7 +10,7 @@ namespace CloudERP.Controllers
 {
     public class CompanyController : Controller
     {
-        private CloudDBEntities db = new CloudDBEntities();
+        private readonly CloudDBEntities db = new CloudDBEntities();
 
         // GET: Company
         public ActionResult Index()

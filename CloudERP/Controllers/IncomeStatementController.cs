@@ -1,18 +1,15 @@
 ﻿using DatabaseAccess;
 using DatabaseAccess.Code;
-using DatabaseAccess.Code.SP_Code;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace CloudERP.Controllers
 {
     public class IncomeStatementController : Controller
     {
-        private CloudDBEntities db = new CloudDBEntities();
-        private IncomeStatement income = new IncomeStatement();
+        private readonly CloudDBEntities db = new CloudDBEntities();
+        private readonly IncomeStatement income = new IncomeStatement();
 
         // GET: IncomeStatement
         public ActionResult GetIncomeStatement()

@@ -1,9 +1,7 @@
-﻿using CloudERP.Models;
-using DatabaseAccess;
+﻿using DatabaseAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace CloudERP.Helpers
 {
@@ -23,24 +21,23 @@ namespace CloudERP.Helpers
             {
                 isSubBranchsFirst.Add(item.BranchID);
             }
-        subBranch:
-            foreach (var item in isSubBranchsFirst)
+
+            while (isSubBranchsFirst.Count > 0)
             {
-                branchIDs.Add(item);
-                foreach (var sub in db.tblBranch.Where(b => b.BrchID == item))
+                foreach (var item in isSubBranchsFirst)
                 {
-                    isSubBranchsSecond.Add(sub.BranchID);
+                    branchIDs.Add(item);
+                    foreach (var sub in db.tblBranch.Where(b => b.BrchID == item))
+                    {
+                        isSubBranchsSecond.Add(sub.BranchID);
+                    }
                 }
-            }
-            if (isSubBranchsSecond.Count > 0)
-            {
                 isSubBranchsFirst.Clear();
                 foreach (var item in isSubBranchsSecond)
                 {
                     isSubBranchsFirst.Add(item);
                 }
                 isSubBranchsSecond.Clear();
-                goto subBranch;
             }
 
             return branchIDs;

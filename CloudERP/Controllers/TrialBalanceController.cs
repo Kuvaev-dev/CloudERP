@@ -5,15 +5,14 @@ using DatabaseAccess.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace CloudERP.Controllers
 {
     public class TrialBalanceController : Controller
     {
-        CloudDBEntities db = new CloudDBEntities();
-        SP_TrialBalance trialBalance = new SP_TrialBalance();
+        private readonly CloudDBEntities db = new CloudDBEntities();
+        private readonly SP_TrialBalance trialBalance = new SP_TrialBalance();
 
         // GET: TrialBalance
         public ActionResult GetTrialBalance()

@@ -4,7 +4,6 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using CloudERP.Models;
 using DatabaseAccess;
@@ -13,8 +12,8 @@ namespace CloudERP.Controllers
 {
     public class AccountControlController : Controller
     {
-        private CloudDBEntities db = new CloudDBEntities();
-        private List<AccountControlMV> accountControl = new List<AccountControlMV>();
+        private readonly CloudDBEntities db = new CloudDBEntities();
+        private readonly List<AccountControlMV> accountControl = new List<AccountControlMV>();
 
         // GET: AccountControl
         public ActionResult Index()

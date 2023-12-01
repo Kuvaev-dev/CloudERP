@@ -420,6 +420,9 @@
           <Property Name="ContactNo" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="Password" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ResetPasswordCode" Type="nvarchar" MaxLength="150" />
+          <Property Name="LastPasswordResetRequest" Type="datetime" />
+          <Property Name="ResetPasswordExpiration" Type="datetime" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="tblUserType">
@@ -3195,6 +3198,9 @@
           <Property Name="ContactNo" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="UserName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="Password" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ResetPasswordCode" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="LastPasswordResetRequest" Type="DateTime" Precision="3" />
+          <Property Name="ResetPasswordExpiration" Type="DateTime" Precision="3" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="tblAccountControl" Relationship="CloudDBModel.FK_tblAccountControl_tblUser" FromRole="tblUser" ToRole="tblAccountControl" />
           <NavigationProperty Name="tblAccountHead" Relationship="CloudDBModel.FK_tblAccountHead_tblUser" FromRole="tblUser" ToRole="tblAccountHead" />
@@ -4942,6 +4948,9 @@
             <EntityTypeMapping TypeName="CloudDBModel.tblUser">
               <MappingFragment StoreEntitySet="tblUser">
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ResetPasswordExpiration" ColumnName="ResetPasswordExpiration" />
+                <ScalarProperty Name="LastPasswordResetRequest" ColumnName="LastPasswordResetRequest" />
+                <ScalarProperty Name="ResetPasswordCode" ColumnName="ResetPasswordCode" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />

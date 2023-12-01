@@ -1,12 +1,11 @@
 ﻿using CloudERP.Helpers;
-using CloudERP.Models;
 using DatabaseAccess;
-using Microsoft.AspNet.Identity;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 using System;
 using System.Data.Entity;
 using System.Linq;
-using System.Net.Mail;
-using System.Threading.Tasks;
+using System.Security.Cryptography;
 using System.Web;
 using System.Web.Mvc;
 
@@ -14,7 +13,7 @@ namespace CloudERP.Controllers
 {
     public class HomeController : Controller
     {
-        private CloudDBEntities db = new CloudDBEntities();
+        private readonly CloudDBEntities db = new CloudDBEntities();
 
         public ActionResult Index()
         {
@@ -37,7 +36,7 @@ namespace CloudERP.Controllers
         }
 
         [HttpPost]
-        public ActionResult LoginUser(string email, string password, bool rememberMe)
+        public ActionResult LoginUser(string email, string password, bool? rememberMe)
         {
             var user = db.tblUser.Where(u => u.Email == email && u.Password == password && u.IsActive == true).FirstOrDefault();
             if (user != null)
@@ -123,9 +122,9 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Index");
                 }
 
-                if (rememberMe)
+                if (rememberMe.HasValue && rememberMe.Value)
                 {
-                    HttpCookie cookie = new HttpCookie("RememberMe");
+                    HttpCookie cookie = new HttpCookie("rememberMe");
                     cookie.Values["Email"] = email;
                     cookie.Expires = DateTime.Now.AddDays(30);
                     Response.Cookies.Add(cookie);
@@ -174,81 +173,12 @@ namespace CloudERP.Controllers
             return View("Login");
         }
 
-        public ActionResult ForgetPassword()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> ForgetPassword(string email)
-        {
-            var user = db.tblUser.FirstOrDefault(u => u.Email == email);
-            if (user == null)
-            {
-                ViewBag.Message = "User With Provided E-mail is Not Found";
-                return View();
-            }
-            var resetCode = Guid.NewGuid().ToString();
-            user.ResetPasswordCode = resetCode;
-            db.Entry(user).State = EntityState.Modified;
-            db.SaveChanges();
-
-            var resetLink = Url.Action("ResetPassword", "Home", new { id = resetCode }, protocol: Request.Url.Scheme);
-
-            var message = new MailMessage();
-            message.To.Add(user.Email);
-            message.Subject = "Password Reset";
-            message.Body = "To Reset Your Password Please Follow This Link: " + resetLink;
-            message.IsBodyHtml = true;
-
-            using (var smtp = new SmtpClient())
-            {
-                await smtp.SendMailAsync(message);
-            }
-
-            return RedirectToAction("ForgotPasswordConfirmation", "Home");
-        }
-
-        [HttpGet]
-        public ActionResult ResetPassword(string id)
-        {
-            var user = db.tblUser.FirstOrDefault(u => u.ResetPasswordCode == id);
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
-
-            var model = new ResetPasswordModel { ResetCode = id };
-            return View(model);
-        }
-
-        [HttpPost]
-        public ActionResult ResetPassword(ResetPasswordModel model)
-        {
-            var user = db.tblUser.FirstOrDefault(u => u.ResetPasswordCode == model.ResetCode);
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
-
-            user.Password = model.NewPassword;
-            user.ResetPasswordCode = null;
-
-            db.Entry(user).State = EntityState.Modified;
-            db.SaveChanges();
-
-            return RedirectToAction("ResetPasswordConfirmation", "Home");
-        }
-
         public ActionResult SetCulture(string culture)
         {
-            // Validate input
             culture = CultureHelper.GetImplementedCulture(culture);
-
-            // Save culture in a cookie
             HttpCookie cookie = Request.Cookies["_culture"];
             if (cookie != null)
-                cookie.Value = culture;   // update cookie value
+                cookie.Value = culture;
             else
             {
                 cookie = new HttpCookie("_culture")
@@ -260,6 +190,114 @@ namespace CloudERP.Controllers
             Response.Cookies.Add(cookie);
 
             return RedirectToAction("Index");
+        }
+
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ForgotPassword(string email)
+        {
+            var user = db.tblUser.FirstOrDefault(u => u.Email == email);
+            if (user != null)
+            {
+                if (user.LastPasswordResetRequest.HasValue && (DateTime.Now - user.LastPasswordResetRequest.Value).TotalMinutes < 5)
+                {
+                    ModelState.AddModelError("", "Вы уже запрашивали сброс пароля. Пожалуйста, подождите некоторое время, прежде чем делать это снова.");
+                    return View("ForgotPassword");
+                }
+
+                user.ResetPasswordCode = Guid.NewGuid().ToString();
+                user.ResetPasswordExpiration = DateTime.Now.AddHours(1);
+                user.LastPasswordResetRequest = DateTime.Now;
+
+                try
+                {
+                    db.Entry(user).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    // Обработка ошибок при сохранении в базу данных
+                    ModelState.AddModelError("", "Произошла ошибка при сохранении в базу данных. Пожалуйста, попробуйте еще раз.");
+                    return View("ForgotPassword");
+                }
+
+                try
+                {
+                    SendPasswordResetEmail(user.Email, user.ResetPasswordCode);
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Произошла ошибка при отправке электронной почты. Пожалуйста, попробуйте еще раз.");
+                    return View("ForgotPassword");
+                }
+
+                return View("ForgotPasswordEmailSent");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Адрес электронной почты не найден.");
+                return View("ForgotPassword");
+            }
+        }
+
+        private void SendPasswordResetEmail(string email, string resetCode)
+        {
+            var resetLink = Url.Action("ResetPassword", "Home", new { id = resetCode }, protocol: Request.Url.Scheme);
+
+            var client = new SendGridClient("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");
+            var from = new EmailAddress("kuvaevtestmail@gmail.com", "Cloud ERP");
+            var subject = "Сброс пароля";
+            var to = new EmailAddress(email);
+            var plainTextContent = $"Пожалуйста, сбросьте свой пароль, перейдя по следующей ссылке: {resetLink}";
+            var htmlContent = $"<p>Пожалуйста, сбросьте свой пароль, перейдя по следующей ссылке: <a href='{resetLink}'>ссылка</a></p>";
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+
+            client.SendEmailAsync(msg);
+        }
+
+        public ActionResult ResetPassword(string id)
+        {
+            var user = db.tblUser.FirstOrDefault(u => u.ResetPasswordCode == id);
+            if (user != null)
+            {
+                return View();
+            }
+            else
+            {
+                return HttpNotFound();
+            }
+        }
+
+        [HttpPost]
+        public ActionResult ResetPassword(string id, string password, string confirmPassword)
+        {
+            var user = db.tblUser.FirstOrDefault(u => u.ResetPasswordCode == id);
+            if (user != null)
+            {
+                if (password == confirmPassword)
+                {
+                    user.Password = password;
+                    user.ResetPasswordCode = null;
+
+                    db.Entry(user).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                    return RedirectToAction("Login");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Пароли не совпадают.");
+                    return View();
+                }
+            }
+            else
+            {
+                return HttpNotFound();
+            }
         }
     }
 }

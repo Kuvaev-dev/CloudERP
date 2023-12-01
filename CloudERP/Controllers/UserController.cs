@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel.Design;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using DatabaseAccess;
 
@@ -14,7 +10,7 @@ namespace CloudERP.Controllers
 {
     public class UserController : Controller
     {
-        private CloudDBEntities db = new CloudDBEntities();
+        private readonly CloudDBEntities db = new CloudDBEntities();
 
         // GET: User
         public ActionResult Index()
@@ -47,9 +43,6 @@ namespace CloudERP.Controllers
                               where sa.CompanyID == companyID
                               select s;
 
-                //var tblUser = db.tblUser.Include(t => t.tblUserType);
-                //return View(tblUser.ToList());
-
                 foreach (var item in tblUser)
                 {
                     item.FullName = item.FullName + "(" + db.tblEmployee.Where(e => e.UserID == item.UserID).FirstOrDefault().tblBranch.BranchName + ")";
@@ -67,7 +60,7 @@ namespace CloudERP.Controllers
                 {
                     item.FullName = item.FullName + "(" + db.tblEmployee.Where(e => e.UserID == item.UserID).FirstOrDefault().tblBranch.BranchName + ")";
                 }
-                //var tblUser = db.tblUser.Include(t => t.tblUserType);
+
                 return View(tblUser.ToList());
             }
         }
