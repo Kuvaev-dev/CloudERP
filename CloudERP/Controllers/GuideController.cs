@@ -35,5 +35,15 @@ namespace CloudERP.Controllers
 
             return View();
         }
+
+        public ActionResult PrivacyPolicy()
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login");
+            }
+
+            return View();
+        }
     }
 }

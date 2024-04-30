@@ -158,7 +158,7 @@
                                     </div>
                                     <!-- Name and Job-->
                                     <div class="user-block-info">
-                                        <span class="user-block-name">@HttpContext.GetGlobalResourceObject("Resources", "Hello"), @Session["UserName"]</span>
+                                        <span class="user-block-name">@HttpContext.GetGlobalResourceObject("Resources", "Hello") Hello, @Session["UserName"]</span>
                                         <span class="user-block-role">@Session["Designation"]</span>
                                     </div>
                                 </div>
@@ -575,7 +575,7 @@
                                     <span data-localize="sidebar.heading.COMPONENTS">License</span>
                                 </li>
                                 <li class="">
-                                    <a href="@Url.Action("License", "Guide")" title="Privacy Policy">
+                                    <a href="@Url.Action("PrivacyPolicy", "Guide")" title="Privacy Policy">
                                         <em class="bi bi-sourceforge h4"></em>
                                         <span data-localize="sidebar.nav.element.ELEMENTS">Privacy Policy</span>
                                     </a>
