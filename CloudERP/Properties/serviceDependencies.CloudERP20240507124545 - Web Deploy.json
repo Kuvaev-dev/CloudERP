@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/CloudERP20240507124545/providers/Microsoft.ServiceLinker/linkers/CloudERPDBAzure_907417E797",
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/clouderpdbserver/databases/CloudERP_db",
+      "type": "mssql.azure",
+      "connectionId": "CloudERPDBAzure",
+      "dynamicId": null
+    }
+  }
+}
