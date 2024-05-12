@@ -10,8 +10,13 @@ namespace CloudERP.Controllers
 {
     public class PurchaseCartController : Controller
     {
-        private readonly CloudDBEntities db = new CloudDBEntities();
+        private readonly CloudDBEntities _db;
         private readonly PurchaseEntry purchaseEntry = new PurchaseEntry();
+
+        public PurchaseCartController(CloudDBEntities db)
+        {
+            _db = db;
+        }
 
         // GET: PurchaseCart
         public ActionResult NewPurchase()
@@ -28,7 +33,7 @@ namespace CloudERP.Controllers
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
 
-            var findDetail = db.tblPurchaseCartDetail.Where(i => i.BranchID == branchID && i.CompanyID == companyID && i.UserID == userID);
+            var findDetail = _db.tblPurchaseCartDetail.Where(i => i.BranchID == branchID && i.CompanyID == companyID && i.UserID == userID);
             foreach (var item in findDetail)
             {
                 totalAmount += item.PurchaseQuantity * item.PurchaseUnitPrice;
@@ -53,7 +58,7 @@ namespace CloudERP.Controllers
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
 
-            var findDetail = db.tblPurchaseCartDetail.Where(i => i.ProductID == PID && i.BranchID == branchID && i.CompanyID == companyID).FirstOrDefault();
+            var findDetail = _db.tblPurchaseCartDetail.Where(i => i.ProductID == PID && i.BranchID == branchID && i.CompanyID == companyID).FirstOrDefault();
             if (findDetail == null)
             {
                 if (PID > 0 && Qty > 0 && Price > 0)
@@ -67,8 +72,8 @@ namespace CloudERP.Controllers
                         CompanyID = companyID,
                         UserID = userID
                     };
-                    db.tblPurchaseCartDetail.Add(newItem);
-                    db.SaveChanges();
+                    _db.tblPurchaseCartDetail.Add(newItem);
+                    _db.SaveChanges();
                     ViewBag.Message = "Item Added Successfully!";
                 }
             }
@@ -95,7 +100,7 @@ namespace CloudERP.Controllers
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
 
             List<ProductMV> products = new List<ProductMV>();
-            var productList = db.tblStock.Where(p => p.BranchID == branchID && p.CompanyID == companyID).ToList();
+            var productList = _db.tblStock.Where(p => p.BranchID == branchID && p.CompanyID == companyID).ToList();
             foreach (var item in productList)
             {
                 products.Add(new ProductMV() { Name = item.ProductName, ProductID = item.ProductID });
@@ -117,17 +122,17 @@ namespace CloudERP.Controllers
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
 
-            var product = db.tblPurchaseCartDetail.Find(id);
+            var product = _db.tblPurchaseCartDetail.Find(id);
             if (product != null)
             {
-                db.Entry(product).State = System.Data.Entity.EntityState.Deleted;
-                db.SaveChanges();
+                _db.Entry(product).State = System.Data.Entity.EntityState.Deleted;
+                _db.SaveChanges();
                 ViewBag.Message = "Deleted Successfully.";
                 return RedirectToAction("NewPurchase");
             }
 
             ViewBag.Message = "Some Unexptected issue is occure, please contact to concern person!";
-            var find = db.tblPurchaseCartDetail.Where(i => i.BranchID == branchID && i.CompanyID == companyID && i.UserID == userID);
+            var find = _db.tblPurchaseCartDetail.Where(i => i.BranchID == branchID && i.CompanyID == companyID && i.UserID == userID);
             return View(find.ToList());
         }
 
@@ -144,13 +149,13 @@ namespace CloudERP.Controllers
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
 
-            var list = db.tblPurchaseCartDetail.Where(p => p.BranchID == branchID && p.CompanyID == companyID && p.UserID == userID).ToList();
+            var list = _db.tblPurchaseCartDetail.Where(p => p.BranchID == branchID && p.CompanyID == companyID && p.UserID == userID).ToList();
             bool cancelstatus = false;
 
             foreach (var item in list)
             {
-                db.Entry(item).State = System.Data.Entity.EntityState.Deleted;
-                int noofrecords = db.SaveChanges();
+                _db.Entry(item).State = System.Data.Entity.EntityState.Deleted;
+                int noofrecords = _db.SaveChanges();
                 if (cancelstatus == false)
                 {
                     if (noofrecords > 0)
@@ -184,13 +189,13 @@ namespace CloudERP.Controllers
             branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var checkPurchaseCart = db.tblPurchaseCartDetail.Where(pd => pd.BranchID == branchID && pd.CompanyID == companyID).FirstOrDefault();
+            var checkPurchaseCart = _db.tblPurchaseCartDetail.Where(pd => pd.BranchID == branchID && pd.CompanyID == companyID).FirstOrDefault();
             if (checkPurchaseCart == null)
             {
                 Session["ErrorMessagePurchase"] = "Purchase Cart Empty";
                 return RedirectToAction("NewPurchase");
             }
-            var suppliers = db.tblSupplier.Where(s => s.CompanyID == companyID && s.BranchID == branchID).ToList();
+            var suppliers = _db.tblSupplier.Where(s => s.CompanyID == companyID && s.BranchID == branchID).ToList();
             return View(suppliers);
         }
 
@@ -245,8 +250,8 @@ namespace CloudERP.Controllers
             {
                 IsPayment = false;
             }
-            var supplier = db.tblSupplier.Find(supplierID);
-            var purchaseDetails = db.tblPurchaseCartDetail.Where(pd => pd.BranchID == branchID && pd.CompanyID == companyID).ToList();
+            var supplier = _db.tblSupplier.Find(supplierID);
+            var purchaseDetails = _db.tblPurchaseCartDetail.Where(pd => pd.BranchID == branchID && pd.CompanyID == companyID).ToList();
             double totalAmount = 0;
             foreach (var item in purchaseDetails)
             {
@@ -270,8 +275,8 @@ namespace CloudERP.Controllers
                 UserID = userID,
                 TotalAmount = totalAmount
             };
-            db.tblSupplierInvoice.Add(invoiceHeader);
-            db.SaveChanges();
+            _db.tblSupplierInvoice.Add(invoiceHeader);
+            _db.SaveChanges();
 
             foreach (var item in purchaseDetails)
             {
@@ -282,8 +287,8 @@ namespace CloudERP.Controllers
                     PurchaseUnitPrice = item.PurchaseUnitPrice,
                     SupplierInvoiceID = invoiceHeader.SupplierInvoiceID
                 };
-                db.tblSupplierInvoiceDetail.Add(newPurchaseDetails);
-                db.SaveChanges();
+                _db.tblSupplierInvoiceDetail.Add(newPurchaseDetails);
+                _db.SaveChanges();
             }
 
             string Message = purchaseEntry.ConfirmPurchase(companyID, branchID, userID, invoiceNo, invoiceHeader.SupplierInvoiceID.ToString(), (float)totalAmount, supplierID.ToString(), supplier.SupplierName, IsPayment);
@@ -291,13 +296,13 @@ namespace CloudERP.Controllers
             {
                 foreach (var item in purchaseDetails)
                 {
-                    var stockItem = db.tblStock.Find(item.ProductID);
+                    var stockItem = _db.tblStock.Find(item.ProductID);
                     stockItem.CurrentPurchaseUnitPrice = item.PurchaseUnitPrice;
                     stockItem.Quantity += item.PurchaseQuantity;
-                    db.Entry(stockItem).State = System.Data.Entity.EntityState.Modified;
-                    db.SaveChanges();
-                    db.Entry(item).State = System.Data.Entity.EntityState.Deleted;
-                    db.SaveChanges();
+                    _db.Entry(stockItem).State = System.Data.Entity.EntityState.Modified;
+                    _db.SaveChanges();
+                    _db.Entry(item).State = System.Data.Entity.EntityState.Deleted;
+                    _db.SaveChanges();
                 }
             }
 

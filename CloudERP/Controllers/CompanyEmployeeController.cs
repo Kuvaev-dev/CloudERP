@@ -11,8 +11,13 @@ namespace CloudERP.Controllers
 {
     public class CompanyEmployeeController : Controller
     {
-        private readonly CloudDBEntities db = new CloudDBEntities();
+        private readonly CloudDBEntities _db;
         private readonly SalaryTransaction salaryTransaction = new SalaryTransaction();
+
+        public CompanyEmployeeController(CloudDBEntities db)
+        {
+            _db = db;
+        }
 
         // GET: Employees
         public ActionResult Employees()
@@ -23,7 +28,7 @@ namespace CloudERP.Controllers
             }
             int companyID = 0;
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            var tblEmployee = db.tblEmployee.Where(c => c.CompanyID == companyID);
+            var tblEmployee = _db.tblEmployee.Where(c => c.CompanyID == companyID);
             return View(tblEmployee);
         }
 
@@ -35,7 +40,7 @@ namespace CloudERP.Controllers
             }
             int companyID = 0;
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            ViewBag.BranchID = new SelectList(db.tblBranch.Where(b => b.CompanyID == companyID), "BranchID", "BranchName", 0);
+            ViewBag.BranchID = new SelectList(_db.tblBranch.Where(b => b.CompanyID == companyID), "BranchID", "BranchName", 0);
             return View();
         }
 
@@ -56,8 +61,8 @@ namespace CloudERP.Controllers
 
             if (ModelState.IsValid)
             {
-                db.tblEmployee.Add(employee);
-                db.SaveChanges();
+                _db.tblEmployee.Add(employee);
+                _db.SaveChanges();
 
                 if (employee.LogoFile != null)
                 {
@@ -68,8 +73,8 @@ namespace CloudERP.Controllers
                     {
                         var picture = string.Format("{0}/{1}", folder, file);
                         employee.Photo = picture;
-                        db.Entry(employee).State = EntityState.Modified;
-                        db.SaveChanges();
+                        _db.Entry(employee).State = EntityState.Modified;
+                        _db.SaveChanges();
                     }
                 }
 
@@ -115,7 +120,7 @@ namespace CloudERP.Controllers
             branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var employee = db.tblEmployee.Where(p => p.CNIC == salary.CNIC).FirstOrDefault();
+            var employee = _db.tblEmployee.Where(p => p.CNIC == salary.CNIC).FirstOrDefault();
             salary.SalaryMonth = DateTime.Now.AddMonths(-1).ToString("MMMM");
             salary.SalaryYear = DateTime.Now.AddMonths(-1).ToString("yyyy");
             if (employee != null)
@@ -150,7 +155,7 @@ namespace CloudERP.Controllers
                 companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
                 userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
                 salary.SalaryMonth = salary.SalaryMonth.ToLower();
-                var emp = db.tblPayroll.Where(p => p.EmployeeID == salary.EmployeeID && p.BranchID == branchID && p.CompanyID == companyID && p.SalaryMonth == salary.SalaryMonth && p.SalaryYear == salary.SalaryYear).FirstOrDefault();
+                var emp = _db.tblPayroll.Where(p => p.EmployeeID == salary.EmployeeID && p.BranchID == branchID && p.CompanyID == companyID && p.SalaryMonth == salary.SalaryMonth && p.SalaryYear == salary.SalaryYear).FirstOrDefault();
                 if (emp != null)
                 {
                     string invoiceNo = "ESA" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
@@ -162,7 +167,7 @@ namespace CloudERP.Controllers
                     if (message.Contains("Succeed"))
                     {
                         Session["SalaryMessage"] = message;
-                        int payrollNo = db.tblPayroll.Max(p => p.PayrollID);
+                        int payrollNo = _db.tblPayroll.Max(p => p.PayrollID);
                         return RedirectToAction("PrintSalaryInvoice", new { id = payrollNo });
                     }
                     else
@@ -195,7 +200,7 @@ namespace CloudERP.Controllers
             branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var salaryList = db.tblPayroll.Where(p => p.BranchID == branchID && p.CompanyID == companyID).OrderByDescending(p => p.PayrollID).ToList();
+            var salaryList = _db.tblPayroll.Where(p => p.BranchID == branchID && p.CompanyID == companyID).OrderByDescending(p => p.PayrollID).ToList();
             return View(salaryList);
         }
 
@@ -206,7 +211,7 @@ namespace CloudERP.Controllers
                 return RedirectToAction("Login", "Home");
             }
             
-            var salary = db.tblPayroll.Where(p => p.PayrollID == id).FirstOrDefault();
+            var salary = _db.tblPayroll.Where(p => p.PayrollID == id).FirstOrDefault();
             return View(salary);
         }
     }

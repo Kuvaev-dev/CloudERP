@@ -10,8 +10,13 @@ namespace CloudERP.Controllers
 {
     public class SaleCartController : Controller
     {
-        private readonly CloudDBEntities db = new CloudDBEntities();
+        private readonly CloudDBEntities _db;
         private readonly SaleEntry saleEntry = new SaleEntry();
+
+        public SaleCartController(CloudDBEntities db)
+        {
+            _db = db;
+        }
 
         // GET: SaleCart
         public ActionResult NewSale()
@@ -28,7 +33,7 @@ namespace CloudERP.Controllers
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
 
-            var findDetail = db.tblSaleCartDetail.Where(i => i.BranchID == branchID && i.CompanyID == companyID && i.UserID == userID);
+            var findDetail = _db.tblSaleCartDetail.Where(i => i.BranchID == branchID && i.CompanyID == companyID && i.UserID == userID);
             foreach (var item in findDetail)
             {
                 totalAmount += item.SaleQuantity * item.SaleUnitPrice;
@@ -52,14 +57,14 @@ namespace CloudERP.Controllers
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
 
-            var checkQty = db.tblStock.Find(PID);
+            var checkQty = _db.tblStock.Find(PID);
             if (Qty > checkQty.Quantity)
             {
                 ViewBag.Message = "Sale Quantity Must be Less Ther or Equal to Avl Qty";
                 return RedirectToAction("NewSale");
             }
 
-            var findDetail = db.tblSaleCartDetail.Where(i => i.ProductID == PID && i.BranchID == branchID && i.CompanyID == companyID).FirstOrDefault();
+            var findDetail = _db.tblSaleCartDetail.Where(i => i.ProductID == PID && i.BranchID == branchID && i.CompanyID == companyID).FirstOrDefault();
             if (findDetail == null)
             {
                 if (PID > 0 && Qty > 0 && Price > 0)
@@ -74,8 +79,8 @@ namespace CloudERP.Controllers
                         UserID = userID
                     };
 
-                    db.tblSaleCartDetail.Add(newItem);
-                    db.SaveChanges();
+                    _db.tblSaleCartDetail.Add(newItem);
+                    _db.SaveChanges();
                     ViewBag.Message = "Item Added Successfully!";
                 }
             }
@@ -100,17 +105,17 @@ namespace CloudERP.Controllers
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
 
-            var product = db.tblSaleCartDetail.Find(id);
+            var product = _db.tblSaleCartDetail.Find(id);
             if (product != null)
             {
-                db.Entry(product).State = System.Data.Entity.EntityState.Deleted;
-                db.SaveChanges();
+                _db.Entry(product).State = System.Data.Entity.EntityState.Deleted;
+                _db.SaveChanges();
                 ViewBag.Message = "Deleted Successfully.";
                 return RedirectToAction("NewSale");
             }
 
             ViewBag.Message = "Some Unexptected issue is occure, please contact to concern person!";
-            var find = db.tblSaleCartDetail.Where(i => i.BranchID == branchID && i.CompanyID == companyID && i.UserID == userID);
+            var find = _db.tblSaleCartDetail.Where(i => i.BranchID == branchID && i.CompanyID == companyID && i.UserID == userID);
             return View(find.ToList());
         }
 
@@ -129,7 +134,7 @@ namespace CloudERP.Controllers
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
 
             List<ProductMV> products = new List<ProductMV>();
-            var productList = db.tblStock.Where(p => p.BranchID == branchID && p.CompanyID == companyID).ToList();
+            var productList = _db.tblStock.Where(p => p.BranchID == branchID && p.CompanyID == companyID).ToList();
             foreach (var item in productList)
             {
                 products.Add(new ProductMV() { Name = item.ProductName + " (Avl Qty: " + item.Quantity + ")", ProductID = item.ProductID });
@@ -141,7 +146,7 @@ namespace CloudERP.Controllers
         [HttpPost]
         public ActionResult GetProductDetails(int? id)
         {
-            var product = db.tblStock.Find(id);
+            var product = _db.tblStock.Find(id);
             return Json(new { data = product.SaleUnitPrice }, JsonRequestBehavior.AllowGet);
         }
 
@@ -158,13 +163,13 @@ namespace CloudERP.Controllers
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
 
-            var list = db.tblSaleCartDetail.Where(p => p.BranchID == branchID && p.CompanyID == companyID && p.UserID == userID).ToList();
+            var list = _db.tblSaleCartDetail.Where(p => p.BranchID == branchID && p.CompanyID == companyID && p.UserID == userID).ToList();
             bool cancelstatus = false;
 
             foreach (var item in list)
             {
-                db.Entry(item).State = System.Data.Entity.EntityState.Deleted;
-                int noofrecords = db.SaveChanges();
+                _db.Entry(item).State = System.Data.Entity.EntityState.Deleted;
+                int noofrecords = _db.SaveChanges();
                 if (cancelstatus == false)
                 {
                     if (noofrecords > 0)
@@ -198,13 +203,13 @@ namespace CloudERP.Controllers
             branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var saleDetails = db.tblSaleCartDetail.Where(pd => pd.CompanyID == companyID && pd.BranchID == branchID).FirstOrDefault();
+            var saleDetails = _db.tblSaleCartDetail.Where(pd => pd.CompanyID == companyID && pd.BranchID == branchID).FirstOrDefault();
             if (saleDetails == null)
             {
                 Session["ErrorMessageSale"] = "Sale Cart Empty";
                 return RedirectToAction("NewSale");
             }
-            var customers = db.tblCustomer.Where(s => s.CompanyID == companyID && s.BranchID == branchID).ToList();
+            var customers = _db.tblCustomer.Where(s => s.CompanyID == companyID && s.BranchID == branchID).ToList();
             return View(customers);
         }
 
@@ -255,8 +260,8 @@ namespace CloudERP.Controllers
             {
                 IsPayment = false;
             }
-            var customer = db.tblCustomer.Find(customerID);
-            var saleDetails = db.tblSaleCartDetail.Where(pd => pd.BranchID == branchID && pd.CompanyID == companyID).ToList();
+            var customer = _db.tblCustomer.Find(customerID);
+            var saleDetails = _db.tblSaleCartDetail.Where(pd => pd.BranchID == branchID && pd.CompanyID == companyID).ToList();
             double totalAmount = 0;
             foreach (var item in saleDetails)
             {
@@ -281,8 +286,8 @@ namespace CloudERP.Controllers
                 UserID = userID,
                 TotalAmount = totalAmount
             };
-            db.tblCustomerInvoice.Add(invoiceHeader);
-            db.SaveChanges();
+            _db.tblCustomerInvoice.Add(invoiceHeader);
+            _db.SaveChanges();
 
             foreach (var item in saleDetails)
             {
@@ -293,8 +298,8 @@ namespace CloudERP.Controllers
                     SaleUnitPrice = item.SaleUnitPrice,
                     CustomerInvoiceID = invoiceHeader.CustomerInvoiceID
                 };
-                db.tblCustomerInvoiceDetail.Add(newSaleDetails);
-                db.SaveChanges();
+                _db.tblCustomerInvoiceDetail.Add(newSaleDetails);
+                _db.SaveChanges();
             }
 
             string Message = saleEntry.ConfirmSale(companyID, branchID, userID, invoiceNo, invoiceHeader.CustomerInvoiceID.ToString(), (float)totalAmount, customerID.ToString(), customer.Customername, IsPayment);
@@ -302,12 +307,12 @@ namespace CloudERP.Controllers
             {
                 foreach (var item in saleDetails)
                 {
-                    var stockItem = db.tblStock.Find(item.ProductID);
+                    var stockItem = _db.tblStock.Find(item.ProductID);
                     stockItem.Quantity += item.SaleQuantity;
-                    db.Entry(stockItem).State = System.Data.Entity.EntityState.Modified;
-                    db.SaveChanges();
-                    db.Entry(item).State = System.Data.Entity.EntityState.Deleted;
-                    db.SaveChanges();
+                    _db.Entry(stockItem).State = System.Data.Entity.EntityState.Modified;
+                    _db.SaveChanges();
+                    _db.Entry(item).State = System.Data.Entity.EntityState.Deleted;
+                    _db.SaveChanges();
                 }
             }
 

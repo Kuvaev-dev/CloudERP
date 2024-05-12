@@ -1,23 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Globalization;
+using System.Threading;
 
-namespace CloudERP.Helpers
+public class ResourceManagerHelper
 {
-    public class CultureHelper
+    public static void SetCulture(string cultureCode)
     {
-        private static readonly List<string> _validCultures = new List<string> { "en", "ru", "uk" };
-        private static readonly string _defaultCulture = "en";
-
-        public static string GetImplementedCulture(string name)
+        try
         {
-            if (string.IsNullOrEmpty(name))
-                return _defaultCulture;
- 
-            if (_validCultures.Where(c => c.Equals(name, StringComparison.InvariantCultureIgnoreCase)).Count() > 0)
-                return name;
-
-            return _defaultCulture;
+            CultureInfo culture = new CultureInfo(cultureCode);
+            Thread.CurrentThread.CurrentCulture = culture;
+            Thread.CurrentThread.CurrentUICulture = culture;
+        }
+        catch (CultureNotFoundException)
+        {
+            SetCulture("en-US");
         }
     }
 }

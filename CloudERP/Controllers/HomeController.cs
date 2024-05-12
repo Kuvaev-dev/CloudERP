@@ -4,8 +4,10 @@ using SendGrid;
 using SendGrid.Helpers.Mail;
 using System;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
-using System.Security.Cryptography;
+using System.Resources;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 
@@ -13,7 +15,12 @@ namespace CloudERP.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly CloudDBEntities db = new CloudDBEntities();
+        private readonly CloudDBEntities _db;
+
+        public HomeController(CloudDBEntities db)
+        {
+            _db = db;
+        }
 
         public ActionResult Index()
         {
@@ -38,7 +45,7 @@ namespace CloudERP.Controllers
         [HttpPost]
         public ActionResult LoginUser(string email, string password, bool? rememberMe)
         {
-            var user = db.tblUser.Where(u => u.Email == email && u.Password == password && u.IsActive == true).FirstOrDefault();
+            var user = _db.tblUser.Where(u => u.Email == email && u.Password == password && u.IsActive == true).FirstOrDefault();
             if (user != null)
             {
                 Session["UserID"] = user.UserID;
@@ -50,7 +57,7 @@ namespace CloudERP.Controllers
                 Session["Password"] = user.Password;
                 Session["IsActive"] = user.IsActive;
 
-                var employeeDetails = db.tblEmployee.Where(e => e.UserID == user.UserID).FirstOrDefault();
+                var employeeDetails = _db.tblEmployee.Where(e => e.UserID == user.UserID).FirstOrDefault();
                 if (employeeDetails == null)
                 {
                     ViewBag.Message = "Please contact to Administrator";
@@ -79,7 +86,7 @@ namespace CloudERP.Controllers
                 Session["BranchID"] = employeeDetails.BranchID;
                 Session["CompanyID"] = employeeDetails.CompanyID;
 
-                var company = db.tblCompany.Where(c => c.CompanyID == employeeDetails.CompanyID).FirstOrDefault();
+                var company = _db.tblCompany.Where(c => c.CompanyID == employeeDetails.CompanyID).FirstOrDefault();
                 if (company == null)
                 {
                     ViewBag.Message = "Please contact to Administrator";
@@ -104,7 +111,7 @@ namespace CloudERP.Controllers
                 Session["CName"] = company.Name;
                 Session["CLogo"] = company.Logo;
 
-                var branchType = db.tblBranch.Where(b => b.BranchID == employeeDetails.BranchID).FirstOrDefault();
+                var branchType = _db.tblBranch.Where(b => b.BranchID == employeeDetails.BranchID).FirstOrDefault();
                 if (branchType == null)
                 {
                     ViewBag.Message = "Please contact to Administrator";
@@ -175,21 +182,21 @@ namespace CloudERP.Controllers
 
         public ActionResult SetCulture(string culture)
         {
-            culture = CultureHelper.GetImplementedCulture(culture);
-            HttpCookie cookie = Request.Cookies["_culture"];
-            if (cookie != null)
-                cookie.Value = culture;
-            else
+            ResourceManagerHelper.SetCulture(culture);
+            if (Session["UserTypeID"] != null)
             {
-                cookie = new HttpCookie("_culture")
+                int userTypeID = Convert.ToInt32(Session["UserTypeID"]);
+                if (userTypeID == 1) // Admin
                 {
-                    Value = culture,
-                    Expires = DateTime.Now.AddYears(1)
-                };
+                    return RedirectToAction("AdminMenuGuide", "Guide");
+                }
+                else if (userTypeID == 2) // User
+                {
+                    return RedirectToAction("Index");
+                }
             }
-            Response.Cookies.Add(cookie);
 
-            return RedirectToAction("Index");
+            return View("Login");
         }
 
         public ActionResult ForgotPassword()
@@ -200,7 +207,7 @@ namespace CloudERP.Controllers
         [HttpPost]
         public ActionResult ForgotPassword(string email)
         {
-            var user = db.tblUser.FirstOrDefault(u => u.Email == email);
+            var user = _db.tblUser.FirstOrDefault(u => u.Email == email);
             if (user != null)
             {
                 if (user.LastPasswordResetRequest.HasValue && (DateTime.Now - user.LastPasswordResetRequest.Value).TotalMinutes < 5)
@@ -215,8 +222,8 @@ namespace CloudERP.Controllers
 
                 try
                 {
-                    db.Entry(user).State = EntityState.Modified;
-                    db.SaveChanges();
+                    _db.Entry(user).State = EntityState.Modified;
+                    _db.SaveChanges();
                 }
                 catch (Exception ex)
                 {
@@ -261,7 +268,7 @@ namespace CloudERP.Controllers
 
         public ActionResult ResetPassword(string id)
         {
-            var user = db.tblUser.FirstOrDefault(u => u.ResetPasswordCode == id);
+            var user = _db.tblUser.FirstOrDefault(u => u.ResetPasswordCode == id);
             if (user != null)
             {
                 return View();
@@ -275,7 +282,7 @@ namespace CloudERP.Controllers
         [HttpPost]
         public ActionResult ResetPassword(string id, string password, string confirmPassword)
         {
-            var user = db.tblUser.FirstOrDefault(u => u.ResetPasswordCode == id);
+            var user = _db.tblUser.FirstOrDefault(u => u.ResetPasswordCode == id);
             if (user != null)
             {
                 if (password == confirmPassword)
@@ -283,8 +290,8 @@ namespace CloudERP.Controllers
                     user.Password = password;
                     user.ResetPasswordCode = null;
 
-                    db.Entry(user).State = EntityState.Modified;
-                    db.SaveChanges();
+                    _db.Entry(user).State = EntityState.Modified;
+                    _db.SaveChanges();
 
                     return RedirectToAction("Login");
                 }

@@ -10,7 +10,12 @@ namespace CloudERP.Controllers
 {
     public class BranchController : Controller
     {
-        private readonly CloudDBEntities db = new CloudDBEntities();
+        private readonly CloudDBEntities _db;
+
+        public BranchController(CloudDBEntities db)
+        {
+            _db = db;
+        }
 
         // GET: Branch
         public ActionResult Index()
@@ -27,12 +32,12 @@ namespace CloudERP.Controllers
             brchID = Convert.ToInt32(Convert.ToString(Session["BrchID"]));
             if (branchTypeID == 1)  // Main Branch
             {
-                var tblBranch = db.tblBranch.Include(t => t.tblBranchType).Where(c => c.CompanyID == companyID);
+                var tblBranch = _db.tblBranch.Include(t => t.tblBranchType).Where(c => c.CompanyID == companyID);
                 return View(tblBranch.ToList());
             }
             else
             {
-                var tblBranch = db.tblBranch.Include(t => t.tblBranchType).Where(c => c.BrchID == brchID);
+                var tblBranch = _db.tblBranch.Include(t => t.tblBranchType).Where(c => c.BrchID == brchID);
                 return View(tblBranch.ToList());
             }
         }
@@ -47,7 +52,7 @@ namespace CloudERP.Controllers
             int.TryParse(Convert.ToString(Session["BranchID"]), out branchID);
             int companyID = 0;
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            var tblBranch = db.tblBranch.Include(t => t.tblBranchType).Where(c => c.CompanyID == companyID && c.BrchID == branchID);
+            var tblBranch = _db.tblBranch.Include(t => t.tblBranchType).Where(c => c.CompanyID == companyID && c.BrchID == branchID);
             return View(tblBranch.ToList());
         }
 
@@ -62,7 +67,7 @@ namespace CloudERP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tblBranch tblBranch = db.tblBranch.Find(id);
+            tblBranch tblBranch = _db.tblBranch.Find(id);
             if (tblBranch == null)
             {
                 return HttpNotFound();
@@ -79,8 +84,8 @@ namespace CloudERP.Controllers
             }
             int companyID = 0;
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            ViewBag.BrchID = new SelectList(db.tblBranch.Where(c => c.CompanyID == companyID).ToList(), "BranchID", "BranchName", 0);
-            ViewBag.BranchTypeID = new SelectList(db.tblBranchType, "BranchTypeID", "BranchType", 0);
+            ViewBag.BrchID = new SelectList(_db.tblBranch.Where(c => c.CompanyID == companyID).ToList(), "BranchID", "BranchName", 0);
+            ViewBag.BranchTypeID = new SelectList(_db.tblBranchType, "BranchTypeID", "BranchType", 0);
             return View();
         }
 
@@ -100,12 +105,12 @@ namespace CloudERP.Controllers
             tblBranch.CompanyID = companyID;
             if (ModelState.IsValid)
             {
-                db.tblBranch.Add(tblBranch);
-                db.SaveChanges();
+                _db.tblBranch.Add(tblBranch);
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.BrchID = new SelectList(db.tblBranch.Where(c => c.CompanyID == companyID).ToList(), "BranchID", "BranchName");
-            ViewBag.BranchTypeID = new SelectList(db.tblBranchType, "BranchTypeID", "BranchType", tblBranch.BranchTypeID);
+            ViewBag.BrchID = new SelectList(_db.tblBranch.Where(c => c.CompanyID == companyID).ToList(), "BranchID", "BranchName");
+            ViewBag.BranchTypeID = new SelectList(_db.tblBranchType, "BranchTypeID", "BranchType", tblBranch.BranchTypeID);
             return View(tblBranch);
         }
 
@@ -122,13 +127,13 @@ namespace CloudERP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tblBranch tblBranch = db.tblBranch.Find(id);
+            tblBranch tblBranch = _db.tblBranch.Find(id);
             if (tblBranch == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.BrchID = new SelectList(db.tblBranch.Where(c => c.CompanyID == companyID).ToList(), "BranchID", "BranchName", tblBranch.BrchID);
-            ViewBag.BranchTypeID = new SelectList(db.tblBranchType, "BranchTypeID", "BranchType", tblBranch.BranchTypeID);
+            ViewBag.BrchID = new SelectList(_db.tblBranch.Where(c => c.CompanyID == companyID).ToList(), "BranchID", "BranchName", tblBranch.BrchID);
+            ViewBag.BranchTypeID = new SelectList(_db.tblBranchType, "BranchTypeID", "BranchType", tblBranch.BranchTypeID);
             return View(tblBranch);
         }
 
@@ -148,12 +153,12 @@ namespace CloudERP.Controllers
             tblBranch.CompanyID = companyID;
             if (ModelState.IsValid)
             {
-                db.Entry(tblBranch).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(tblBranch).State = EntityState.Modified;
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.BrchID = new SelectList(db.tblBranch.Where(c => c.CompanyID == companyID).ToList(), "BranchID", "BranchName", tblBranch.BrchID);
-            ViewBag.BranchTypeID = new SelectList(db.tblBranchType, "BranchTypeID", "BranchType", tblBranch.BranchTypeID);
+            ViewBag.BrchID = new SelectList(_db.tblBranch.Where(c => c.CompanyID == companyID).ToList(), "BranchID", "BranchName", tblBranch.BrchID);
+            ViewBag.BranchTypeID = new SelectList(_db.tblBranchType, "BranchTypeID", "BranchType", tblBranch.BranchTypeID);
             return View(tblBranch);
         }
 
@@ -168,7 +173,7 @@ namespace CloudERP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tblBranch tblBranch = db.tblBranch.Find(id);
+            tblBranch tblBranch = _db.tblBranch.Find(id);
             if (tblBranch == null)
             {
                 return HttpNotFound();
@@ -185,9 +190,9 @@ namespace CloudERP.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
-            tblBranch tblBranch = db.tblBranch.Find(id);
-            db.tblBranch.Remove(tblBranch);
-            db.SaveChanges();
+            tblBranch tblBranch = _db.tblBranch.Find(id);
+            _db.tblBranch.Remove(tblBranch);
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -195,7 +200,7 @@ namespace CloudERP.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }

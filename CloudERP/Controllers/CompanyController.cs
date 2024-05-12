@@ -10,7 +10,12 @@ namespace CloudERP.Controllers
 {
     public class CompanyController : Controller
     {
-        private readonly CloudDBEntities db = new CloudDBEntities();
+        private readonly CloudDBEntities _db;
+
+        public CompanyController(CloudDBEntities db)
+        {
+            _db = db;
+        }
 
         // GET: Company
         public ActionResult Index()
@@ -20,7 +25,7 @@ namespace CloudERP.Controllers
                 return RedirectToAction("Login", "Home");
             }
 
-            return View(db.tblCompany.ToList());
+            return View(_db.tblCompany.ToList());
         }
 
         // GET: Company/Details/5
@@ -34,7 +39,7 @@ namespace CloudERP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tblCompany tblCompany = db.tblCompany.Find(id);
+            tblCompany tblCompany = _db.tblCompany.Find(id);
             if (tblCompany == null)
             {
                 return HttpNotFound();
@@ -66,8 +71,8 @@ namespace CloudERP.Controllers
             }
             if (ModelState.IsValid)
             {
-                db.tblCompany.Add(tblCompany);
-                db.SaveChanges();
+                _db.tblCompany.Add(tblCompany);
+                _db.SaveChanges();
 
                 if (tblCompany.LogoFile != null)
                 {
@@ -78,8 +83,8 @@ namespace CloudERP.Controllers
                     {
                         var picture = string.Format("{0}/{1}", folder, file);
                         tblCompany.Logo = picture;
-                        db.Entry(tblCompany).State = EntityState.Modified;
-                        db.SaveChanges();
+                        _db.Entry(tblCompany).State = EntityState.Modified;
+                        _db.SaveChanges();
                     }
                 }
 
@@ -100,7 +105,7 @@ namespace CloudERP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tblCompany tblCompany = db.tblCompany.Find(id);
+            tblCompany tblCompany = _db.tblCompany.Find(id);
             if (tblCompany == null)
             {
                 return HttpNotFound();
@@ -133,8 +138,8 @@ namespace CloudERP.Controllers
                     }
                 }
 
-                db.Entry(tblCompany).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(tblCompany).State = EntityState.Modified;
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(tblCompany);
@@ -151,7 +156,7 @@ namespace CloudERP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tblCompany tblCompany = db.tblCompany.Find(id);
+            tblCompany tblCompany = _db.tblCompany.Find(id);
             if (tblCompany == null)
             {
                 return HttpNotFound();
@@ -168,9 +173,9 @@ namespace CloudERP.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
-            tblCompany tblCompany = db.tblCompany.Find(id);
-            db.tblCompany.Remove(tblCompany);
-            db.SaveChanges();
+            tblCompany tblCompany = _db.tblCompany.Find(id);
+            _db.tblCompany.Remove(tblCompany);
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -178,7 +183,7 @@ namespace CloudERP.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }

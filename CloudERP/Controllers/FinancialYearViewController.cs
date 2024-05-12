@@ -7,7 +7,12 @@ namespace CloudERP.Controllers
 {
     public class FinancialYearViewController : Controller
     {
-        private readonly CloudDBEntities db = new CloudDBEntities();
+        private readonly CloudDBEntities _db;
+
+        public FinancialYearViewController(CloudDBEntities db)
+        {
+            _db = db;
+        }
 
         // GET: FinancialYear
         public ActionResult Index()
@@ -18,7 +23,7 @@ namespace CloudERP.Controllers
             }
             int userID = 0;
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var tblFinancialYear = db.tblFinancialYear;
+            var tblFinancialYear = _db.tblFinancialYear;
             return View(tblFinancialYear.ToList());
         }
     }

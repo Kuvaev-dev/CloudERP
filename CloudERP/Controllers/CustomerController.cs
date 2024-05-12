@@ -13,7 +13,12 @@ namespace CloudERP.Controllers
 {
     public class CustomerController : Controller
     {
-        private readonly CloudDBEntities db = new CloudDBEntities();
+        private readonly CloudDBEntities _db;
+
+        public CustomerController(CloudDBEntities db)
+        {
+            _db = db;
+        }
 
         // GET: All Customers
         public ActionResult AllCustomers()
@@ -22,7 +27,7 @@ namespace CloudERP.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
-            var tblCustomer = db.tblCustomer.Include(t => t.tblBranch).Include(t => t.tblCompany).Include(t => t.tblUser);
+            var tblCustomer = _db.tblCustomer.Include(t => t.tblBranch).Include(t => t.tblCompany).Include(t => t.tblUser);
             return View(tblCustomer.ToList());
         }
 
@@ -39,7 +44,7 @@ namespace CloudERP.Controllers
             branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var tblCustomer = db.tblCustomer.Include(t => t.tblBranch).Include(t => t.tblCompany).Include(t => t.tblUser)
+            var tblCustomer = _db.tblCustomer.Include(t => t.tblBranch).Include(t => t.tblCompany).Include(t => t.tblUser)
                                             .Where(c => c.CompanyID == companyID && c.BranchID == branchID);
             return View(tblCustomer.ToList());
         }
@@ -55,11 +60,11 @@ namespace CloudERP.Controllers
             List<BranchsCustomersMV> branchsCustomers = new List<BranchsCustomersMV>();
             int branchID = 0;
             branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            List<int> branchIDs = BranchHelper.GetBranchsIDs(branchID, db);
+            List<int> branchIDs = BranchHelper.GetBranchsIDs(branchID, _db);
 
             foreach (var item in branchIDs)
             {
-                foreach (var customer in db.tblCustomer.Where(c => c.BranchID == item))
+                foreach (var customer in _db.tblCustomer.Where(c => c.BranchID == item))
                 {
                     var newCustomer = new BranchsCustomersMV
                     {
@@ -90,7 +95,7 @@ namespace CloudERP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tblCustomer tblCustomer = db.tblCustomer.Find(id);
+            tblCustomer tblCustomer = _db.tblCustomer.Find(id);
             if (tblCustomer == null)
             {
                 return HttpNotFound();
@@ -108,7 +113,7 @@ namespace CloudERP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tblCustomer tblCustomer = db.tblCustomer.Find(id);
+            tblCustomer tblCustomer = _db.tblCustomer.Find(id);
             if (tblCustomer == null)
             {
                 return HttpNotFound();
@@ -148,13 +153,13 @@ namespace CloudERP.Controllers
             tblCustomer.UserID = userID;
             if (ModelState.IsValid)
             {
-                var findCustomer = db.tblCustomer.Where(c => c.Customername == tblCustomer.Customername
+                var findCustomer = _db.tblCustomer.Where(c => c.Customername == tblCustomer.Customername
                                                           && c.CustomerContact == tblCustomer.CustomerContact
                                                           && c.BranchID == branchID).FirstOrDefault();
                 if (findCustomer == null)
                 {
-                    db.tblCustomer.Add(tblCustomer);
-                    db.SaveChanges();
+                    _db.tblCustomer.Add(tblCustomer);
+                    _db.SaveChanges();
                     return RedirectToAction("Index");
                 }
                 else
@@ -177,7 +182,7 @@ namespace CloudERP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tblCustomer tblCustomer = db.tblCustomer.Find(id);
+            tblCustomer tblCustomer = _db.tblCustomer.Find(id);
             if (tblCustomer == null)
             {
                 return HttpNotFound();
@@ -202,13 +207,13 @@ namespace CloudERP.Controllers
             tblCustomer.UserID = userID;
             if (ModelState.IsValid)
             {
-                var findCustomer = db.tblCustomer.Where(c => c.Customername == tblCustomer.Customername 
+                var findCustomer = _db.tblCustomer.Where(c => c.Customername == tblCustomer.Customername 
                                                           && c.CustomerContact == tblCustomer.CustomerContact
                                                           && c.CustomerID != tblCustomer.CustomerID).FirstOrDefault();
                 if (findCustomer == null)
                 {
-                    db.Entry(tblCustomer).State = EntityState.Modified;
-                    db.SaveChanges();
+                    _db.Entry(tblCustomer).State = EntityState.Modified;
+                    _db.SaveChanges();
                     return RedirectToAction("Index");
                 }
                 else
@@ -227,7 +232,7 @@ namespace CloudERP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tblCustomer tblCustomer = db.tblCustomer.Find(id);
+            tblCustomer tblCustomer = _db.tblCustomer.Find(id);
             if (tblCustomer == null)
             {
                 return HttpNotFound();
@@ -240,9 +245,9 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            tblCustomer tblCustomer = db.tblCustomer.Find(id);
-            db.tblCustomer.Remove(tblCustomer);
-            db.SaveChanges();
+            tblCustomer tblCustomer = _db.tblCustomer.Find(id);
+            _db.tblCustomer.Remove(tblCustomer);
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -250,7 +255,7 @@ namespace CloudERP.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }

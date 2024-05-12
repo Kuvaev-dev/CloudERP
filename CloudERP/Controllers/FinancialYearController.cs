@@ -10,7 +10,12 @@ namespace CloudERP.Controllers
 {
     public class FinancialYearController : Controller
     {
-        private readonly CloudDBEntities db = new CloudDBEntities();
+        private readonly CloudDBEntities _db;
+
+        public FinancialYearController(CloudDBEntities db)
+        {
+            _db = db;
+        }
 
         // GET: FinancialYear
         public ActionResult Index()
@@ -21,7 +26,7 @@ namespace CloudERP.Controllers
             }
             int userID = 0;
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var tblFinancialYear = db.tblFinancialYear.Include(t => t.tblUser);
+            var tblFinancialYear = _db.tblFinancialYear.Include(t => t.tblUser);
             return View(tblFinancialYear.ToList());
         }
 
@@ -51,11 +56,11 @@ namespace CloudERP.Controllers
             tblFinancialYear.UserID = userID;
             if (ModelState.IsValid)
             {
-                var findFinancialYear = db.tblFinancialYear.Where(f => f.FinancialYear == tblFinancialYear.FinancialYear).FirstOrDefault();
+                var findFinancialYear = _db.tblFinancialYear.Where(f => f.FinancialYear == tblFinancialYear.FinancialYear).FirstOrDefault();
                 if (findFinancialYear == null)
                 {
-                    db.tblFinancialYear.Add(tblFinancialYear);
-                    db.SaveChanges();
+                    _db.tblFinancialYear.Add(tblFinancialYear);
+                    _db.SaveChanges();
                     return RedirectToAction("Index");
                 }
                 else
@@ -78,7 +83,7 @@ namespace CloudERP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tblFinancialYear tblFinancialYear = db.tblFinancialYear.Find(id);
+            tblFinancialYear tblFinancialYear = _db.tblFinancialYear.Find(id);
             if (tblFinancialYear == null)
             {
                 return HttpNotFound();
@@ -103,12 +108,12 @@ namespace CloudERP.Controllers
             tblFinancialYear.UserID = userID;
             if (ModelState.IsValid)
             {
-                var findFinancialYear = db.tblFinancialYear.Where(f => f.FinancialYear == tblFinancialYear.FinancialYear
+                var findFinancialYear = _db.tblFinancialYear.Where(f => f.FinancialYear == tblFinancialYear.FinancialYear
                                                                     && f.FinancialYearID != tblFinancialYear.FinancialYearID).FirstOrDefault();
                 if (findFinancialYear == null)
                 {
-                    db.Entry(tblFinancialYear).State = EntityState.Modified;
-                    db.SaveChanges();
+                    _db.Entry(tblFinancialYear).State = EntityState.Modified;
+                    _db.SaveChanges();
                     return RedirectToAction("Index");
                 }
                 else
@@ -124,7 +129,7 @@ namespace CloudERP.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }

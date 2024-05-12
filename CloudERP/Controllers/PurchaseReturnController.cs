@@ -9,8 +9,13 @@ namespace CloudERP.Controllers
 {
     public class PurchaseReturnController : Controller
     {
-        private readonly CloudDBEntities db = new CloudDBEntities();
+        private readonly CloudDBEntities _db;
         private readonly PurchaseEntry purchaseEntry = new PurchaseEntry();
+
+        public PurchaseReturnController(CloudDBEntities db)
+        {
+            _db = db;
+        }
 
         // GET: PurchaseReturn
         public ActionResult FindPurchase()
@@ -26,16 +31,16 @@ namespace CloudERP.Controllers
                 var invoiceNo = Convert.ToString(Session["InvoiceNo"]);
                 if (!string.IsNullOrEmpty(invoiceNo))
                 {
-                    invoice = db.tblSupplierInvoice.Where(p => p.InvoiceNo == invoiceNo.Trim()).FirstOrDefault();
+                    invoice = _db.tblSupplierInvoice.Where(p => p.InvoiceNo == invoiceNo.Trim()).FirstOrDefault();
                 }
                 else
                 {
-                    invoice = db.tblSupplierInvoice.Find(0);
+                    invoice = _db.tblSupplierInvoice.Find(0);
                 }
             }
             else
             {
-                invoice = db.tblSupplierInvoice.Find(0);
+                invoice = _db.tblSupplierInvoice.Find(0);
             }
             return View(invoice);
         }
@@ -49,7 +54,7 @@ namespace CloudERP.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
-            var purchaseInvoice = db.tblSupplierInvoice.Where(p => p.InvoiceNo == invoiceID).FirstOrDefault();
+            var purchaseInvoice = _db.tblSupplierInvoice.Where(p => p.InvoiceNo == invoiceID).FirstOrDefault();
             return View(purchaseInvoice);
         }
 
@@ -112,7 +117,7 @@ namespace CloudERP.Controllers
             }
 
             double TotalAmount = 0;
-            var purchaseDetails = db.tblSupplierInvoiceDetail.Where(pd => pd.SupplierInvoiceID == SupplierInvoiceID).ToList();
+            var purchaseDetails = _db.tblSupplierInvoiceDetail.Where(pd => pd.SupplierInvoiceID == SupplierInvoiceID).ToList();
             for (int i = 0; i < purchaseDetails.Count; i++)
             {
                 foreach (var productID in ProductIDs)
@@ -124,7 +129,7 @@ namespace CloudERP.Controllers
                 }
             }
 
-            var supplierInvoice = db.tblSupplierInvoice.Find(SupplierInvoiceID);
+            var supplierInvoice = _db.tblSupplierInvoice.Find(SupplierInvoiceID);
             supplierID = supplierInvoice.SupplierID;
             if (TotalAmount == 0)
             {
@@ -146,10 +151,10 @@ namespace CloudERP.Controllers
                 TotalAmount = TotalAmount,
                 SupplierInvoiceID = SupplierInvoiceID
             };
-            db.tblSupplierReturnInvoice.Add(returnInvoiceHeader);
-            db.SaveChanges();
+            _db.tblSupplierReturnInvoice.Add(returnInvoiceHeader);
+            _db.SaveChanges();
 
-            var supplier = db.tblSupplier.Find(supplierID);
+            var supplier = _db.tblSupplier.Find(supplierID);
             string Message = purchaseEntry.ReturnPurchase(companyID, branchID, userID, invoiceNo, returnInvoiceHeader.SupplierInvoiceID.ToString(), returnInvoiceHeader.SupplierReturnInvoiceID, (float)TotalAmount, supplierID.ToString(), supplier.SupplierName, IsPayment);
             if (Message.Contains("Success"))
             {
@@ -170,13 +175,13 @@ namespace CloudERP.Controllers
                                     SupplierReturnInvoiceID = returnInvoiceHeader.SupplierReturnInvoiceID,
                                     SupplierInvoiceDetailID = purchaseDetails[i].SupplierInvoiceDetailID
                                 };
-                                db.tblSupplierReturnInvoiceDetail.Add(returnProductDetails);
-                                db.SaveChanges();
+                                _db.tblSupplierReturnInvoiceDetail.Add(returnProductDetails);
+                                _db.SaveChanges();
 
-                                var stock = db.tblStock.Find(productID);
+                                var stock = _db.tblStock.Find(productID);
                                 stock.Quantity -= ReturnQty[i];
-                                db.Entry(stock).State = System.Data.Entity.EntityState.Modified;
-                                db.SaveChanges();
+                                _db.Entry(stock).State = System.Data.Entity.EntityState.Modified;
+                                _db.SaveChanges();
                             }
                         }
                     }

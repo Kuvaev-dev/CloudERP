@@ -10,7 +10,12 @@ namespace CloudERP.Controllers
 {
     public class UserController : Controller
     {
-        private readonly CloudDBEntities db = new CloudDBEntities();
+        private readonly CloudDBEntities _db;
+
+        public UserController(CloudDBEntities db)
+        {
+            _db = db;
+        }
 
         // GET: User
         public ActionResult Index()
@@ -20,7 +25,7 @@ namespace CloudERP.Controllers
                 return RedirectToAction("Login", "Home");
             }
 
-            var tblUser = db.tblUser.Include(t => t.tblUserType);
+            var tblUser = _db.tblUser.Include(t => t.tblUserType);
             return View(tblUser.ToList());
         }
 
@@ -38,27 +43,27 @@ namespace CloudERP.Controllers
             brchID = Convert.ToInt32(Convert.ToString(Session["BrchID"]));
             if (branchTypeID == 1)  // Main Branch
             {
-                var tblUser = from s in db.tblUser
-                              join sa in db.tblEmployee on s.UserID equals sa.UserID
+                var tblUser = from s in _db.tblUser
+                              join sa in _db.tblEmployee on s.UserID equals sa.UserID
                               where sa.CompanyID == companyID
                               select s;
 
                 foreach (var item in tblUser)
                 {
-                    item.FullName = item.FullName + "(" + db.tblEmployee.Where(e => e.UserID == item.UserID).FirstOrDefault().tblBranch.BranchName + ")";
+                    item.FullName = item.FullName + "(" + _db.tblEmployee.Where(e => e.UserID == item.UserID).FirstOrDefault().tblBranch.BranchName + ")";
                 }
                 return View(tblUser.ToList());
             }
             else
             {
-                var tblUser = from s in db.tblUser
-                              join sa in db.tblEmployee on s.UserID equals sa.UserID
+                var tblUser = from s in _db.tblUser
+                              join sa in _db.tblEmployee on s.UserID equals sa.UserID
                               where sa.tblBranch.BrchID == brchID
                               select s;
 
                 foreach (var item in tblUser)
                 {
-                    item.FullName = item.FullName + "(" + db.tblEmployee.Where(e => e.UserID == item.UserID).FirstOrDefault().tblBranch.BranchName + ")";
+                    item.FullName = item.FullName + "(" + _db.tblEmployee.Where(e => e.UserID == item.UserID).FirstOrDefault().tblBranch.BranchName + ")";
                 }
 
                 return View(tblUser.ToList());
@@ -76,7 +81,7 @@ namespace CloudERP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tblUser tblUser = db.tblUser.Find(id);
+            tblUser tblUser = _db.tblUser.Find(id);
             if (tblUser == null)
             {
                 return HttpNotFound();
@@ -91,7 +96,7 @@ namespace CloudERP.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
-            ViewBag.UserTypeID = new SelectList(db.tblUserType, "UserTypeID", "UserType");
+            ViewBag.UserTypeID = new SelectList(_db.tblUserType, "UserTypeID", "UserType");
             return View();
         }
 
@@ -119,8 +124,8 @@ namespace CloudERP.Controllers
             }
             if (ModelState.IsValid)
             {
-                db.tblUser.Add(tblUser);
-                db.SaveChanges();
+                _db.tblUser.Add(tblUser);
+                _db.SaveChanges();
                 if (companyID == 0)
                 {
                     return RedirectToAction("Index");
@@ -131,7 +136,7 @@ namespace CloudERP.Controllers
                 }
             }
 
-            ViewBag.UserTypeID = new SelectList(db.tblUserType, "UserTypeID", "UserType", tblUser.UserTypeID);
+            ViewBag.UserTypeID = new SelectList(_db.tblUserType, "UserTypeID", "UserType", tblUser.UserTypeID);
             return View(tblUser);
         }
 
@@ -146,12 +151,12 @@ namespace CloudERP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tblUser tblUser = db.tblUser.Find(id);
+            tblUser tblUser = _db.tblUser.Find(id);
             if (tblUser == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.UserTypeID = new SelectList(db.tblUserType, "UserTypeID", "UserType", tblUser.UserTypeID);
+            ViewBag.UserTypeID = new SelectList(_db.tblUserType, "UserTypeID", "UserType", tblUser.UserTypeID);
             return View(tblUser);
         }
 
@@ -170,8 +175,8 @@ namespace CloudERP.Controllers
             }
             if (ModelState.IsValid)
             {
-                db.Entry(tblUser).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(tblUser).State = EntityState.Modified;
+                _db.SaveChanges();
                 if (companyID == 0)
                 {
                     return RedirectToAction("Index");
@@ -181,7 +186,7 @@ namespace CloudERP.Controllers
                     return RedirectToAction("SubBranchUser");
                 }
             }
-            ViewBag.UserTypeID = new SelectList(db.tblUserType, "UserTypeID", "UserType", tblUser.UserTypeID);
+            ViewBag.UserTypeID = new SelectList(_db.tblUserType, "UserTypeID", "UserType", tblUser.UserTypeID);
             return View(tblUser);
         }
 
@@ -196,7 +201,7 @@ namespace CloudERP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tblUser tblUser = db.tblUser.Find(id);
+            tblUser tblUser = _db.tblUser.Find(id);
             if (tblUser == null)
             {
                 return HttpNotFound();
@@ -213,9 +218,9 @@ namespace CloudERP.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
-            tblUser tblUser = db.tblUser.Find(id);
-            db.tblUser.Remove(tblUser);
-            db.SaveChanges();
+            tblUser tblUser = _db.tblUser.Find(id);
+            _db.tblUser.Remove(tblUser);
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -223,7 +228,7 @@ namespace CloudERP.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }

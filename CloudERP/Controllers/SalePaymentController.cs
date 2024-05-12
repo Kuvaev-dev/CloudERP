@@ -9,9 +9,14 @@ namespace CloudERP.Controllers
 {
     public class SalePaymentController : Controller
     {
-        private readonly CloudDBEntities db = new CloudDBEntities();
+        private readonly CloudDBEntities _db;
         private readonly SP_Sale sale = new SP_Sale();
         private readonly SaleEntry saleEntry = new SaleEntry();
+
+        public SalePaymentController(CloudDBEntities db)
+        {
+            _db = db;
+        }
 
         // GET: PurchasePayment
         public ActionResult RemainingPaymentList()
@@ -43,7 +48,7 @@ namespace CloudERP.Controllers
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
             var list = sale.SalePaymentHistory((int)id);
-            var returnDetails = db.tblCustomerReturnInvoice.Where(r => r.CustomerInvoiceID == id).ToList();
+            var returnDetails = _db.tblCustomerReturnInvoice.Where(r => r.CustomerInvoiceID == id).ToList();
             if (returnDetails != null)
             {
                 if (returnDetails.Count > 0)
@@ -52,8 +57,8 @@ namespace CloudERP.Controllers
                 }
             }
             double remainingAmount = 0;
-            double totalInvoiceAmount = db.tblCustomerInvoice.Find(id).TotalAmount;
-            double totalPaidAmount = db.tblCustomerPayment.Where(p => p.CustomerInvoiceID == id).Sum(p => p.PaidAmount);
+            double totalInvoiceAmount = _db.tblCustomerInvoice.Find(id).TotalAmount;
+            double totalPaidAmount = _db.tblCustomerPayment.Where(p => p.CustomerInvoiceID == id).Sum(p => p.PaidAmount);
             remainingAmount = totalInvoiceAmount - totalPaidAmount;
             ViewBag.PreviousRemainingAmount = remainingAmount;
             ViewBag.InvoiceID = id;
@@ -80,7 +85,7 @@ namespace CloudERP.Controllers
             }
             if (remainingAmount == 0)
             {
-                remainingAmount = db.tblCustomerInvoice.Find(id).TotalAmount;
+                remainingAmount = _db.tblCustomerInvoice.Find(id).TotalAmount;
             }
             ViewBag.PreviousRemainingAmount = remainingAmount;
             ViewBag.InvoiceID = id;
@@ -113,16 +118,16 @@ namespace CloudERP.Controllers
                     }
                     if (remainingAmount == 0)
                     {
-                        remainingAmount = db.tblCustomerInvoice.Find(id).TotalAmount;
+                        remainingAmount = _db.tblCustomerInvoice.Find(id).TotalAmount;
                     }
                     ViewBag.PreviousRemainingAmount = remainingAmount;
                     ViewBag.InvoiceID = id;
                     return View(list);
                 }
                 string payinvoicenno = "INP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
-                var customer = db.tblCustomer.Find(db.tblCustomerInvoice.Find(id).CustomerID);
-                var purchaseInvoice = db.tblCustomerInvoice.Find(id);
-                var purchasePaymentDetails = db.tblCustomerPayment.Where(p => p.CustomerInvoiceID == id);
+                var customer = _db.tblCustomer.Find(_db.tblCustomerInvoice.Find(id).CustomerID);
+                var purchaseInvoice = _db.tblCustomerInvoice.Find(id);
+                var purchasePaymentDetails = _db.tblCustomerPayment.Where(p => p.CustomerInvoiceID == id);
                 string message = saleEntry.SalePayment(companyID, branchID, userID, payinvoicenno, Convert.ToString(id), (float)purchaseInvoice.TotalAmount,
                     paidAmount, Convert.ToString(customer.CustomerID), customer.Customername, previousRemainingAmount - paidAmount);
                 Session["Message"] = message;
@@ -139,7 +144,7 @@ namespace CloudERP.Controllers
                 }
                 if (remainingAmount == 0)
                 {
-                    remainingAmount = db.tblCustomerInvoice.Find(id).TotalAmount;
+                    remainingAmount = _db.tblCustomerInvoice.Find(id).TotalAmount;
                 }
                 ViewBag.PreviousRemainingAmount = remainingAmount;
                 ViewBag.InvoiceID = id;
@@ -195,7 +200,7 @@ namespace CloudERP.Controllers
             branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var list = db.tblCustomerInvoiceDetail.Where(i => i.CustomerInvoiceID == id);
+            var list = _db.tblCustomerInvoiceDetail.Where(i => i.CustomerInvoiceID == id);
             return View(list.ToList());
         }
 
@@ -211,7 +216,7 @@ namespace CloudERP.Controllers
             branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var list = db.tblCustomerInvoiceDetail.Where(i => i.CustomerInvoiceID == id);
+            var list = _db.tblCustomerInvoiceDetail.Where(i => i.CustomerInvoiceID == id);
             return View(list.ToList());
         }
     }

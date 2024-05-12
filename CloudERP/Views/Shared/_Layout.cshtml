@@ -107,14 +107,14 @@
                                 <em class="fas fa-language dropdown-toggle" type="button" id="languageDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 </em>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="languageDropdown">
-                                    <a class="dropdown-item" href="@Url.Action("SetCulture", "Home", new { culture = "en" })">
-                                        <i class="flag-icon flag-icon-us"></i> English
+                                    <a class="dropdown-item" href="@Url.Action("SetCulture", "Home", new { culture = "en-US" })">
+                                        English
                                     </a>
-                                    <a class="dropdown-item" href="@Url.Action("SetCulture", "Home", new { culture = "ru" })">
-                                        <i class="flag-icon flag-icon-ru"></i> Русский
+                                    <a class="dropdown-item" href="@Url.Action("SetCulture", "Home", new { culture = "ru-RU" })">
+                                        Русский
                                     </a>
-                                    <a class="dropdown-item" href="@Url.Action("SetCulture", "Home", new { culture = "uk" })">
-                                        <i class="flag-icon flag-icon-fr"></i> Українська
+                                    <a class="dropdown-item" href="@Url.Action("SetCulture", "Home", new { culture = "uk-UA" })">
+                                        Українська
                                     </a>
                                 </div>
                             </div>
@@ -157,7 +157,7 @@
                                     </div>
                                     <!-- Name and Job-->
                                     <div class="user-block-info">
-                                        <span class="user-block-name">@HttpContext.GetGlobalResourceObject("Resources", "Hello") Hello, @Session["UserName"]</span>
+                                        <span class="user-block-name">@Resources.Resources.Hello.ToString() @Session["UserName"]</span>
                                         <span class="user-block-role">@Session["Designation"]</span>
                                     </div>
                                 </div>

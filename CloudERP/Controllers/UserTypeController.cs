@@ -9,7 +9,12 @@ namespace CloudERP.Controllers
 {
     public class UserTypeController : Controller
     {
-        private readonly CloudDBEntities db = new CloudDBEntities();
+        private readonly CloudDBEntities _db;
+
+        public UserTypeController(CloudDBEntities db)
+        {
+            _db = db;
+        }
 
         // GET: UserType
         public ActionResult Index()
@@ -19,7 +24,7 @@ namespace CloudERP.Controllers
                 return RedirectToAction("Login", "Home");
             }
 
-            return View(db.tblUserType.ToList());
+            return View(_db.tblUserType.ToList());
         }
 
         // GET: UserType/Details/5
@@ -33,7 +38,7 @@ namespace CloudERP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tblUserType tblUserType = db.tblUserType.Find(id);
+            tblUserType tblUserType = _db.tblUserType.Find(id);
             if (tblUserType == null)
             {
                 return HttpNotFound();
@@ -65,8 +70,8 @@ namespace CloudERP.Controllers
             }
             if (ModelState.IsValid)
             {
-                db.tblUserType.Add(tblUserType);
-                db.SaveChanges();
+                _db.tblUserType.Add(tblUserType);
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -84,7 +89,7 @@ namespace CloudERP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tblUserType tblUserType = db.tblUserType.Find(id);
+            tblUserType tblUserType = _db.tblUserType.Find(id);
             if (tblUserType == null)
             {
                 return HttpNotFound();
@@ -105,8 +110,8 @@ namespace CloudERP.Controllers
             }
             if (ModelState.IsValid)
             {
-                db.Entry(tblUserType).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(tblUserType).State = EntityState.Modified;
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(tblUserType);
@@ -123,7 +128,7 @@ namespace CloudERP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tblUserType tblUserType = db.tblUserType.Find(id);
+            tblUserType tblUserType = _db.tblUserType.Find(id);
             if (tblUserType == null)
             {
                 return HttpNotFound();
@@ -140,9 +145,9 @@ namespace CloudERP.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
-            tblUserType tblUserType = db.tblUserType.Find(id);
-            db.tblUserType.Remove(tblUserType);
-            db.SaveChanges();
+            tblUserType tblUserType = _db.tblUserType.Find(id);
+            _db.tblUserType.Remove(tblUserType);
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -150,7 +155,7 @@ namespace CloudERP.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }

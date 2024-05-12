@@ -1,13 +1,17 @@
 ﻿using DatabaseAccess;
 using System;
-using System.Security.Cryptography;
 using System.Web.Mvc;
 
 namespace CloudERP.Controllers
 {
     public class CompanyRegistrationController : Controller
     {
-        private readonly CloudDBEntities db = new CloudDBEntities();
+        private readonly CloudDBEntities _db;
+
+        public CompanyRegistrationController(CloudDBEntities db)
+        {
+            _db = db;
+        }
 
         // GET: CompanyRegistration
         public ActionResult RegistrationForm()
@@ -46,8 +50,8 @@ namespace CloudERP.Controllers
                         Name = CName,
                         Logo = string.Empty
                     };
-                    db.tblCompany.Add(company);
-                    db.SaveChanges();
+                    _db.tblCompany.Add(company);
+                    _db.SaveChanges();
 
                     var branch = new tblBranch()
                     {
@@ -58,8 +62,8 @@ namespace CloudERP.Controllers
                         CompanyID = company.CompanyID,
                         BrchID = null
                     };
-                    db.tblBranch.Add(branch);
-                    db.SaveChanges();
+                    _db.tblBranch.Add(branch);
+                    _db.SaveChanges();
 
                     var user = new tblUser()
                     {
@@ -71,8 +75,8 @@ namespace CloudERP.Controllers
                         UserName = UserName,
                         UserTypeID = 2
                     };
-                    db.tblUser.Add(user);
-                    db.SaveChanges();
+                    _db.tblUser.Add(user);
+                    _db.SaveChanges();
 
                     var employee = new tblEmployee()
                     {
@@ -88,8 +92,8 @@ namespace CloudERP.Controllers
                         Name = EName,
                         Description = string.Empty
                     };
-                    db.tblEmployee.Add(employee);
-                    db.SaveChanges();
+                    _db.tblEmployee.Add(employee);
+                    _db.SaveChanges();
 
                     ViewBag.Message = "Registration Successfully!";
                     return RedirectToAction("Login", "Home");

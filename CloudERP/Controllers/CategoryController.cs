@@ -10,7 +10,12 @@ namespace CloudERP.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly CloudDBEntities db = new CloudDBEntities();
+        private readonly CloudDBEntities _db;
+
+        public CategoryController(CloudDBEntities db)
+        {
+            _db = db;
+        }
 
         // GET: Category
         public ActionResult Index()
@@ -23,7 +28,7 @@ namespace CloudERP.Controllers
             int branchID = 0;
             branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            var tblCategory = db.tblCategory.Include(t => t.tblBranch).Include(t => t.tblCompany)
+            var tblCategory = _db.tblCategory.Include(t => t.tblBranch).Include(t => t.tblCompany)
                                             .Include(t => t.tblUser)
                                             .Where(c => c.CompanyID == companyID && c.BranchID == branchID);
             return View(tblCategory.ToList());
@@ -62,13 +67,13 @@ namespace CloudERP.Controllers
             tblCategory.UserID = userID;
             if (ModelState.IsValid)
             {
-                var findCategory = db.tblCategory.Where(c => c.CompanyID == companyID 
+                var findCategory = _db.tblCategory.Where(c => c.CompanyID == companyID 
                                                         && c.BranchID == branchID 
                                                         && c.CategoryName == tblCategory.CategoryName).FirstOrDefault();
                 if (findCategory == null)
                 {
-                    db.tblCategory.Add(tblCategory);
-                    db.SaveChanges();
+                    _db.tblCategory.Add(tblCategory);
+                    _db.SaveChanges();
                     return RedirectToAction("Index");
                 }
                 else
@@ -91,7 +96,7 @@ namespace CloudERP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tblCategory tblCategory = db.tblCategory.Find(id);
+            tblCategory tblCategory = _db.tblCategory.Find(id);
             if (tblCategory == null)
             {
                 return HttpNotFound();
@@ -116,14 +121,14 @@ namespace CloudERP.Controllers
             tblCategory.UserID = userID;
             if (ModelState.IsValid)
             {
-                var findCategory = db.tblCategory.Where(c => c.CompanyID == tblCategory.CompanyID
+                var findCategory = _db.tblCategory.Where(c => c.CompanyID == tblCategory.CompanyID
                                                         && c.BranchID == tblCategory.BranchID
                                                         && c.CategoryName == tblCategory.CategoryName
                                                         && c.CategoryID != tblCategory.CategoryID).FirstOrDefault();
                 if (findCategory == null)
                 {
-                    db.Entry(tblCategory).State = EntityState.Modified;
-                    db.SaveChanges();
+                    _db.Entry(tblCategory).State = EntityState.Modified;
+                    _db.SaveChanges();
                     return RedirectToAction("Index");
                 }
                 else
@@ -139,7 +144,7 @@ namespace CloudERP.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }

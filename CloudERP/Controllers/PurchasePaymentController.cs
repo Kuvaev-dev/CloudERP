@@ -9,9 +9,14 @@ namespace CloudERP.Controllers
 {
     public class PurchasePaymentController : Controller
     {
-        private readonly CloudDBEntities db = new CloudDBEntities();
+        private readonly CloudDBEntities _db;
         private readonly SP_Purchase purchase = new SP_Purchase();
         private readonly PurchaseEntry paymentEntry = new PurchaseEntry();
+
+        public PurchasePaymentController(CloudDBEntities db)
+        {
+            _db = db;
+        }
 
         // GET: PurchasePayment
         public ActionResult RemainingPaymentList()
@@ -43,7 +48,7 @@ namespace CloudERP.Controllers
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
             var list = purchase.PurchasePaymentHistory((int)id);
-            var returnDetails = db.tblSupplierReturnInvoice.Where(r => r.SupplierInvoiceID == id).ToList();
+            var returnDetails = _db.tblSupplierReturnInvoice.Where(r => r.SupplierInvoiceID == id).ToList();
             if (returnDetails != null)
             {
                 if (returnDetails.Count > 0)
@@ -52,8 +57,8 @@ namespace CloudERP.Controllers
                 }
             }
             double remainingAmount = 0;
-            double totalInvoiceAmount = db.tblSupplierInvoice.Find(id).TotalAmount;
-            double totalPaidAmount = db.tblSupplierPayment.Where(p => p.SupplierInvoiceID == id).Sum(p => p.PaymentAmount);
+            double totalInvoiceAmount = _db.tblSupplierInvoice.Find(id).TotalAmount;
+            double totalPaidAmount = _db.tblSupplierPayment.Where(p => p.SupplierInvoiceID == id).Sum(p => p.PaymentAmount);
             remainingAmount = totalInvoiceAmount - totalPaidAmount;
 
             ViewBag.PreviousRemainingAmount = remainingAmount;
@@ -74,7 +79,7 @@ namespace CloudERP.Controllers
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
             var list = purchase.PurchasePaymentHistory((int)id);
-            var returnDetails = db.tblSupplierReturnInvoice.Where(r => r.SupplierInvoiceID == id).ToList();
+            var returnDetails = _db.tblSupplierReturnInvoice.Where(r => r.SupplierInvoiceID == id).ToList();
             if (returnDetails != null)
             {
                 if (returnDetails.Count > 0)
@@ -84,10 +89,10 @@ namespace CloudERP.Controllers
             }
             double remainingAmount = 0;
             double totalPaidAmount = 0;
-            double totalInvoiceAmount = db.tblSupplierInvoice.Find(id).TotalAmount;
-            if (db.tblSupplierPayment.Where(p => p.SupplierInvoiceID == id).FirstOrDefault() != null)
+            double totalInvoiceAmount = _db.tblSupplierInvoice.Find(id).TotalAmount;
+            if (_db.tblSupplierPayment.Where(p => p.SupplierInvoiceID == id).FirstOrDefault() != null)
             {
-                totalPaidAmount = db.tblSupplierPayment.Where(p => p.SupplierInvoiceID == id).Sum(p => p.PaymentAmount);
+                totalPaidAmount = _db.tblSupplierPayment.Where(p => p.SupplierInvoiceID == id).Sum(p => p.PaymentAmount);
             }
             remainingAmount = totalInvoiceAmount - totalPaidAmount;
 
@@ -115,7 +120,7 @@ namespace CloudERP.Controllers
                 {
                     ViewBag.Message = "Payment Must be Less Then or Equal to Previous Remaining Amount!";
                     var list = purchase.PurchasePaymentHistory((int)id);
-                    var returnDetails = db.tblSupplierReturnInvoice.Where(r => r.SupplierInvoiceID == id).ToList();
+                    var returnDetails = _db.tblSupplierReturnInvoice.Where(r => r.SupplierInvoiceID == id).ToList();
                     if (returnDetails != null)
                     {
                         if (returnDetails.Count > 0)
@@ -124,8 +129,8 @@ namespace CloudERP.Controllers
                         }
                     }
                     double remainingAmount = 0;
-                    double totalInvoiceAmount = db.tblSupplierInvoice.Find(id).TotalAmount;
-                    double totalPaidAmount = db.tblSupplierPayment.Where(p => p.SupplierInvoiceID == id).Sum(p => p.PaymentAmount);
+                    double totalInvoiceAmount = _db.tblSupplierInvoice.Find(id).TotalAmount;
+                    double totalPaidAmount = _db.tblSupplierPayment.Where(p => p.SupplierInvoiceID == id).Sum(p => p.PaymentAmount);
                     remainingAmount = totalInvoiceAmount - totalPaidAmount;
 
                     ViewBag.PreviousRemainingAmount = remainingAmount;
@@ -133,9 +138,9 @@ namespace CloudERP.Controllers
                     return View(list);
                 }
                 string payinvoicenno = "PAY" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
-                var supplier = db.tblSupplier.Find(db.tblSupplierInvoice.Find(id).SupplierID);
-                var purchaseInvoice = db.tblSupplierInvoice.Find(id);
-                var purchasePaymentDetails = db.tblSupplierPayment.Where(p => p.SupplierInvoiceID == id);
+                var supplier = _db.tblSupplier.Find(_db.tblSupplierInvoice.Find(id).SupplierID);
+                var purchaseInvoice = _db.tblSupplierInvoice.Find(id);
+                var purchasePaymentDetails = _db.tblSupplierPayment.Where(p => p.SupplierInvoiceID == id);
                 string message = paymentEntry.PurchasePayment(companyID, branchID, userID, payinvoicenno, Convert.ToString(id), (float)purchaseInvoice.TotalAmount,
                     paymentAmount, Convert.ToString(supplier.SupplierID), supplier.SupplierName, previousRemainingAmount - paymentAmount);
                 Session["Message"] = message;
@@ -152,7 +157,7 @@ namespace CloudERP.Controllers
                 }
                 if (remainingAmount == 0)
                 {
-                    remainingAmount = db.tblSupplierInvoice.Find(id).TotalAmount;
+                    remainingAmount = _db.tblSupplierInvoice.Find(id).TotalAmount;
                 }
                 ViewBag.PreviousRemainingAmount = remainingAmount;
                 ViewBag.InvoiceID = id;
@@ -208,7 +213,7 @@ namespace CloudERP.Controllers
             branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var list = db.tblSupplierInvoiceDetail.Where(i => i.SupplierInvoiceID == id);
+            var list = _db.tblSupplierInvoiceDetail.Where(i => i.SupplierInvoiceID == id);
             return View(list.ToList());
         }
 
@@ -224,7 +229,7 @@ namespace CloudERP.Controllers
             branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var list = db.tblSupplierInvoiceDetail.Where(i => i.SupplierInvoiceID == id);
+            var list = _db.tblSupplierInvoiceDetail.Where(i => i.SupplierInvoiceID == id);
             return View(list.ToList());
         }
     }

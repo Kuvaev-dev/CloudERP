@@ -9,9 +9,14 @@ namespace CloudERP.Controllers
 {
     public class GeneralTransactionController : Controller
     {
-        private readonly CloudDBEntities db = new CloudDBEntities();
+        private readonly CloudDBEntities _db;
         private readonly SP_GeneralTransaction accounts = new SP_GeneralTransaction();
         private readonly GeneralTransactionEntry generalEntry = new GeneralTransactionEntry();
+
+        public GeneralTransactionController(CloudDBEntities db)
+        {
+            _db = db;
+        }
 
         // GET: GeneralTransaction
         public ActionResult GeneralTransaction(GeneralTransactionMV transaction)

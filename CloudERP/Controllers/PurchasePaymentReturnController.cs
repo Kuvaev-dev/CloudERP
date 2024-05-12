@@ -9,9 +9,14 @@ namespace CloudERP.Controllers
 {
     public class PurchasePaymentReturnController : Controller
     {
-        private readonly CloudDBEntities db = new CloudDBEntities();
+        private readonly CloudDBEntities _db;
         private readonly SP_Purchase purchase = new SP_Purchase();
         private readonly PurchaseEntry purchaseEntry = new PurchaseEntry();
+
+        public PurchasePaymentReturnController(CloudDBEntities db)
+        {
+            _db = db;
+        }
 
         // GET: PurchasePaymentReturn
         public ActionResult ReturnPurchasePendingAmount(int? id)
@@ -44,7 +49,7 @@ namespace CloudERP.Controllers
 
         public ActionResult ReturnAmount(int? id)
         {
-            var list = db.tblSupplierReturnPayment.Where(r => r.SupplierReturnInvoiceID == id);
+            var list = _db.tblSupplierReturnPayment.Where(r => r.SupplierReturnInvoiceID == id);
             double remainingAmount = 0;
             foreach (var item in list)
             {
@@ -56,7 +61,7 @@ namespace CloudERP.Controllers
             }
             if (remainingAmount == 0)
             {
-                remainingAmount = db.tblSupplierReturnInvoice.Find(id).TotalAmount;
+                remainingAmount = _db.tblSupplierReturnInvoice.Find(id).TotalAmount;
             }
             ViewBag.PreviousRemainingAmount = remainingAmount;
             ViewBag.InvoiceID = id;
@@ -81,7 +86,7 @@ namespace CloudERP.Controllers
                 if (paymentAmount > previousRemainingAmount)
                 {
                     ViewBag.Message = "Payment Must be Less Then or Equal to Previous Remaining Amount!";
-                    var list = db.tblSupplierReturnPayment.Where(r => r.SupplierReturnInvoiceID == id);
+                    var list = _db.tblSupplierReturnPayment.Where(r => r.SupplierReturnInvoiceID == id);
                     double remainingAmount = 0;
                     foreach (var item in list)
                     {
@@ -89,16 +94,16 @@ namespace CloudERP.Controllers
                     }
                     if (remainingAmount == 0)
                     {
-                        remainingAmount = db.tblSupplierReturnInvoice.Find(id).TotalAmount;
+                        remainingAmount = _db.tblSupplierReturnInvoice.Find(id).TotalAmount;
                     }
                     ViewBag.PreviousRemainingAmount = remainingAmount;
                     ViewBag.InvoiceID = id;
                     return View(list);
                 }
                 string payinvoicenno = "RPP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
-                var supplier = db.tblSupplier.Find(db.tblSupplierReturnInvoice.Find(id).SupplierID);
-                var purchaseInvoice = db.tblSupplierReturnInvoice.Find(id);
-                var purchasePaymentDetails = db.tblSupplierReturnPayment.Where(p => p.SupplierReturnInvoiceID == id);
+                var supplier = _db.tblSupplier.Find(_db.tblSupplierReturnInvoice.Find(id).SupplierID);
+                var purchaseInvoice = _db.tblSupplierReturnInvoice.Find(id);
+                var purchasePaymentDetails = _db.tblSupplierReturnPayment.Where(p => p.SupplierReturnInvoiceID == id);
                 string message = purchaseEntry.ReturnPurchasePayment(companyID, branchID, userID, payinvoicenno, purchaseInvoice.SupplierInvoiceID.ToString(), purchaseInvoice.SupplierReturnInvoiceID, (float)purchaseInvoice.TotalAmount,
                     paymentAmount, Convert.ToString(supplier.SupplierID), supplier.SupplierName, previousRemainingAmount - paymentAmount);
                 Session["Message"] = message;
@@ -106,7 +111,7 @@ namespace CloudERP.Controllers
             }
             catch
             {
-                var list = db.tblSupplierReturnPayment.Where(r => r.SupplierReturnInvoiceID == id);
+                var list = _db.tblSupplierReturnPayment.Where(r => r.SupplierReturnInvoiceID == id);
                 double remainingAmount = 0;
                 foreach (var item in list)
                 {
@@ -114,7 +119,7 @@ namespace CloudERP.Controllers
                 }
                 if (remainingAmount == 0)
                 {
-                    remainingAmount = db.tblSupplierReturnInvoice.Find(id).TotalAmount;
+                    remainingAmount = _db.tblSupplierReturnInvoice.Find(id).TotalAmount;
                 }
                 ViewBag.PreviousRemainingAmount = remainingAmount;
                 ViewBag.InvoiceID = id;

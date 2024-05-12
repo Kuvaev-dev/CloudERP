@@ -10,7 +10,12 @@ namespace CloudERP.Controllers
 {
     public class AccountSubControlController : Controller
     {
-        private readonly CloudDBEntities db = new CloudDBEntities();
+        private readonly CloudDBEntities _db;
+
+        public AccountSubControlController(CloudDBEntities db)
+        {
+            _db = db;
+        }
 
         // GET: AccountSubControl
         public ActionResult Index()
@@ -25,7 +30,7 @@ namespace CloudERP.Controllers
             branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var tblAccountSubControl = db.tblAccountSubControl.Include(t => t.tblAccountControl).Include(t => t.tblAccountHead)
+            var tblAccountSubControl = _db.tblAccountSubControl.Include(t => t.tblAccountControl).Include(t => t.tblAccountHead)
                                                               .Include(t => t.tblBranch).Include(t => t.tblUser)
                                                               .Where(t => t.CompanyID == companyID && t.BranchID == branchID);
             return View(tblAccountSubControl.ToList());
@@ -44,7 +49,7 @@ namespace CloudERP.Controllers
             branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            ViewBag.AccountControlID = new SelectList(db.tblAccountControl.Where(a => a.BranchID == branchID && a.CompanyID == companyID), "AccountControlID", "AccountControlName", "0");
+            ViewBag.AccountControlID = new SelectList(_db.tblAccountControl.Where(a => a.BranchID == branchID && a.CompanyID == companyID), "AccountControlID", "AccountControlName", "0");
             return View();
         }
 
@@ -68,16 +73,16 @@ namespace CloudERP.Controllers
             tblAccountSubControl.CompanyID = companyID;
             tblAccountSubControl.BranchID = branchID;
             tblAccountSubControl.UserID = userID;
-            tblAccountSubControl.AccountHeadID = db.tblAccountControl.Find(tblAccountSubControl.AccountControlID).AccountHeadID;
+            tblAccountSubControl.AccountHeadID = _db.tblAccountControl.Find(tblAccountSubControl.AccountControlID).AccountHeadID;
             if (ModelState.IsValid)
             {
-                var findSubControl = db.tblAccountSubControl.Where(s => s.CompanyID == tblAccountSubControl.CompanyID
+                var findSubControl = _db.tblAccountSubControl.Where(s => s.CompanyID == tblAccountSubControl.CompanyID
                                                                   && s.BranchID == tblAccountSubControl.BranchID
                                                                   && s.AccountSubControlName == tblAccountSubControl.AccountSubControlName).FirstOrDefault();
                 if (findSubControl == null)
                 {
-                    db.tblAccountSubControl.Add(tblAccountSubControl);
-                    db.SaveChanges();
+                    _db.tblAccountSubControl.Add(tblAccountSubControl);
+                    _db.SaveChanges();
                     return RedirectToAction("Index");
                 }
                 else
@@ -86,7 +91,7 @@ namespace CloudERP.Controllers
                 }
             }
 
-            ViewBag.AccountControlID = new SelectList(db.tblAccountControl.Where(a => a.BranchID == branchID && a.CompanyID == companyID), "AccountControlID", "AccountControlName", tblAccountSubControl.AccountControlID);
+            ViewBag.AccountControlID = new SelectList(_db.tblAccountControl.Where(a => a.BranchID == branchID && a.CompanyID == companyID), "AccountControlID", "AccountControlName", tblAccountSubControl.AccountControlID);
             return View(tblAccountSubControl);
         }
 
@@ -107,12 +112,12 @@ namespace CloudERP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tblAccountSubControl tblAccountSubControl = db.tblAccountSubControl.Find(id);
+            tblAccountSubControl tblAccountSubControl = _db.tblAccountSubControl.Find(id);
             if (tblAccountSubControl == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.AccountControlID = new SelectList(db.tblAccountControl.Where(a => a.BranchID == branchID && a.CompanyID == companyID), "AccountControlID", "AccountControlName", tblAccountSubControl.AccountControlID);
+            ViewBag.AccountControlID = new SelectList(_db.tblAccountControl.Where(a => a.BranchID == branchID && a.CompanyID == companyID), "AccountControlID", "AccountControlName", tblAccountSubControl.AccountControlID);
             return View(tblAccountSubControl);
         }
 
@@ -134,17 +139,17 @@ namespace CloudERP.Controllers
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
             tblAccountSubControl.UserID = userID;
-            tblAccountSubControl.AccountHeadID = db.tblAccountControl.Find(tblAccountSubControl.AccountControlID).AccountHeadID;
+            tblAccountSubControl.AccountHeadID = _db.tblAccountControl.Find(tblAccountSubControl.AccountControlID).AccountHeadID;
             if (ModelState.IsValid)
             {
-                var findSubControl = db.tblAccountSubControl.Where(s => s.CompanyID == tblAccountSubControl.CompanyID
+                var findSubControl = _db.tblAccountSubControl.Where(s => s.CompanyID == tblAccountSubControl.CompanyID
                                                                   && s.BranchID == tblAccountSubControl.BranchID
                                                                   && s.AccountSubControlName == tblAccountSubControl.AccountSubControlName
                                                                   && s.AccountSubControlID != tblAccountSubControl.AccountSubControlID).FirstOrDefault();
                 if (findSubControl == null)
                 {
-                    db.Entry(tblAccountSubControl).State = EntityState.Modified;
-                    db.SaveChanges();
+                    _db.Entry(tblAccountSubControl).State = EntityState.Modified;
+                    _db.SaveChanges();
                     return RedirectToAction("Index");
                 }
                 else
@@ -153,7 +158,7 @@ namespace CloudERP.Controllers
                 }
             }
 
-            ViewBag.AccountControlID = new SelectList(db.tblAccountControl.Where(a => a.BranchID == branchID && a.CompanyID == companyID), "AccountControlID", "AccountControlName", tblAccountSubControl.AccountControlID);
+            ViewBag.AccountControlID = new SelectList(_db.tblAccountControl.Where(a => a.BranchID == branchID && a.CompanyID == companyID), "AccountControlID", "AccountControlName", tblAccountSubControl.AccountControlID);
             return View(tblAccountSubControl);
         }
 
@@ -161,7 +166,7 @@ namespace CloudERP.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }

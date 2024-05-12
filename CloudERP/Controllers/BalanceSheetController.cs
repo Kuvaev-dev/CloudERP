@@ -9,8 +9,13 @@ namespace CloudERP.Controllers
 {
     public class BalanceSheetController : Controller
     {
-        private readonly CloudDBEntities db = new CloudDBEntities();
+        private readonly CloudDBEntities _db;
         private readonly SP_BalanceSheet bal_sheet = new SP_BalanceSheet();
+
+        public BalanceSheetController(CloudDBEntities db)
+        {
+            _db = db;
+        }
 
         // GET: BalanceSheet
         public ActionResult GetBalanceSheet()
@@ -25,7 +30,7 @@ namespace CloudERP.Controllers
             branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var FinancialYear = db.tblFinancialYear.Where(f => f.IsActive == true).FirstOrDefault();
+            var FinancialYear = _db.tblFinancialYear.Where(f => f.IsActive == true).FirstOrDefault();
             if (FinancialYear == null)
             {
                 ViewBag.Message = "Your Company Financial Year is not Set! Please Contact to Administrator!";
@@ -70,7 +75,7 @@ namespace CloudERP.Controllers
             branchID = Convert.ToInt32(Convert.ToString(Session["SubBranchID"]));
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var FinancialYear = db.tblFinancialYear.Where(f => f.IsActive == true).FirstOrDefault();
+            var FinancialYear = _db.tblFinancialYear.Where(f => f.IsActive == true).FirstOrDefault();
             if (FinancialYear == null)
             {
                 ViewBag.Message = "Your Company Financial Year is not Set! Please Contact to Administrator!";

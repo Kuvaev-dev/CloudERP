@@ -10,7 +10,12 @@ namespace CloudERP.Controllers
 {
     public class BranchEmployeeController : Controller
     {
-        private readonly CloudDBEntities db = new CloudDBEntities();
+        private readonly CloudDBEntities _db;
+
+        public BranchEmployeeController(CloudDBEntities db)
+        {
+            _db = db;            
+        }
 
         // GET: Employee
         public ActionResult Employee()
@@ -23,7 +28,7 @@ namespace CloudERP.Controllers
             int branchID = 0;
             branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            var tblEmployee = db.tblEmployee.Where(c => c.CompanyID == companyID && c.BranchID == branchID);
+            var tblEmployee = _db.tblEmployee.Where(c => c.CompanyID == companyID && c.BranchID == branchID);
             return View(tblEmployee);
         }
 
@@ -57,8 +62,8 @@ namespace CloudERP.Controllers
 
             if (ModelState.IsValid)
             {
-                db.tblEmployee.Add(employee);
-                db.SaveChanges();
+                _db.tblEmployee.Add(employee);
+                _db.SaveChanges();
 
                 if (employee.LogoFile != null)
                 {
@@ -69,8 +74,8 @@ namespace CloudERP.Controllers
                     {
                         var picture = string.Format("{0}/{1}", folder, file);
                         employee.Photo = picture;
-                        db.Entry(employee).State = EntityState.Modified;
-                        db.SaveChanges();
+                        _db.Entry(employee).State = EntityState.Modified;
+                        _db.SaveChanges();
                     }
                 }
 
@@ -91,7 +96,7 @@ namespace CloudERP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var employee = db.tblEmployee.Find(id);
+            var employee = _db.tblEmployee.Find(id);
             if (employee == null)
             {
                 return HttpNotFound();
@@ -128,8 +133,8 @@ namespace CloudERP.Controllers
                     {
                         var picture = string.Format("{0}/{1}", folder, file);
                         employee.Photo = picture;
-                        db.Entry(employee).State = EntityState.Modified;
-                        db.SaveChanges();
+                        _db.Entry(employee).State = EntityState.Modified;
+                        _db.SaveChanges();
                     }
                 }
 
@@ -153,7 +158,7 @@ namespace CloudERP.Controllers
                 }
                 int companyID = 0;
                 companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-                var employee = db.tblEmployee.Where(c => c.CompanyID == companyID && c.EmployeeID == id).FirstOrDefault();
+                var employee = _db.tblEmployee.Where(c => c.CompanyID == companyID && c.EmployeeID == id).FirstOrDefault();
                 if (employee == null)
                 {
                     return RedirectToAction("EP404", "EP");

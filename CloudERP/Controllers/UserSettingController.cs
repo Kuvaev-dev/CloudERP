@@ -7,7 +7,12 @@ namespace CloudERP.Controllers
 {
     public class UserSettingController : Controller
     {
-        private readonly CloudDBEntities db = new CloudDBEntities();
+        private readonly CloudDBEntities _db;
+
+        public UserSettingController(CloudDBEntities db)
+        {
+            _db = db;
+        }
 
         // GET: CreateUser
         public ActionResult CreateUser(int? employeeID)
@@ -17,7 +22,7 @@ namespace CloudERP.Controllers
                 return RedirectToAction("Login", "Home");
             }
             Session["CEmployeeID"] = employeeID;
-            var employee = db.tblEmployee.Find(employeeID);
+            var employee = _db.tblEmployee.Find(employeeID);
             var user = new tblUser
             {
                 Email = employee.Email,
@@ -27,7 +32,7 @@ namespace CloudERP.Controllers
                 Password = employee.ContactNo,
                 UserName = employee.Email
             };
-            ViewBag.UserTypeID = new SelectList(db.tblUserType.ToList(), "UserTypeID", "UserType");
+            ViewBag.UserTypeID = new SelectList(_db.tblUserType.ToList(), "UserTypeID", "UserType");
             return View(user);
         }
 
@@ -40,20 +45,20 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var user = db.tblUser.Where(u => u.Email == tblUser.Email && u.UserID != tblUser.UserID);
+                    var user = _db.tblUser.Where(u => u.Email == tblUser.Email && u.UserID != tblUser.UserID);
                     if (user.Count() > 0)
                     {
                         ViewBag.Message = "Email is Already Registered";
                     }
                     else
                     {
-                        db.tblUser.Add(tblUser);
-                        db.SaveChanges();
+                        _db.tblUser.Add(tblUser);
+                        _db.SaveChanges();
                         int? employeeID = Convert.ToInt32(Convert.ToString(Session["CEmployeeID"]));
-                        var employee = db.tblEmployee.Find(employeeID);
+                        var employee = _db.tblEmployee.Find(employeeID);
                         employee.UserID = tblUser.UserID;
-                        db.Entry(employee).State = System.Data.Entity.EntityState.Modified;
-                        db.SaveChanges();
+                        _db.Entry(employee).State = System.Data.Entity.EntityState.Modified;
+                        _db.SaveChanges();
                         Session["CEmployeeID"] = null;
                         return RedirectToAction("Index", "User");
                     }
@@ -61,11 +66,11 @@ namespace CloudERP.Controllers
 
                 if (tblUser == null)
                 {
-                    ViewBag.UserTypeID = new SelectList(db.tblUserType.ToList(), "UserTypeID", "UserType");
+                    ViewBag.UserTypeID = new SelectList(_db.tblUserType.ToList(), "UserTypeID", "UserType");
                 }
                 else
                 {
-                    ViewBag.UserTypeID = new SelectList(db.tblUserType.ToList(), "UserTypeID", "UserType", tblUser.UserTypeID);
+                    ViewBag.UserTypeID = new SelectList(_db.tblUserType.ToList(), "UserTypeID", "UserType", tblUser.UserTypeID);
                 }
 
                 return View(tblUser);
@@ -83,8 +88,8 @@ namespace CloudERP.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
-            var user = db.tblUser.Find(userID);
-            ViewBag.UserTypeID = new SelectList(db.tblUserType.ToList(), "UserTypeID", "UserType", user.UserTypeID);
+            var user = _db.tblUser.Find(userID);
+            ViewBag.UserTypeID = new SelectList(_db.tblUserType.ToList(), "UserTypeID", "UserType", user.UserTypeID);
             return View(user);
         }
 
@@ -100,26 +105,26 @@ namespace CloudERP.Controllers
 
             if (ModelState.IsValid)
             {
-                var user = db.tblUser.Where(u => u.Email == tblUser.Email && u.UserID != tblUser.UserID);
+                var user = _db.tblUser.Where(u => u.Email == tblUser.Email && u.UserID != tblUser.UserID);
                 if (user.Count() > 0)
                 {
                     ViewBag.Message = "Email is Already Registered";
                 }
                 else
                 {
-                    db.Entry(tblUser).State = System.Data.Entity.EntityState.Modified;
-                    db.SaveChanges();
+                    _db.Entry(tblUser).State = System.Data.Entity.EntityState.Modified;
+                    _db.SaveChanges();
                     return RedirectToAction("Index", "User");
                 }
             }
 
             if (tblUser == null)
             {
-                ViewBag.UserTypeID = new SelectList(db.tblUserType.ToList(), "UserTypeID", "UserType");
+                ViewBag.UserTypeID = new SelectList(_db.tblUserType.ToList(), "UserTypeID", "UserType");
             }
             else
             {
-                ViewBag.UserTypeID = new SelectList(db.tblUserType.ToList(), "UserTypeID", "UserType", tblUser.UserTypeID);
+                ViewBag.UserTypeID = new SelectList(_db.tblUserType.ToList(), "UserTypeID", "UserType", tblUser.UserTypeID);
             }
 
             return View(tblUser);

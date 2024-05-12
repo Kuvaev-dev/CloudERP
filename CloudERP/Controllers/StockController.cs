@@ -10,7 +10,12 @@ namespace CloudERP.Controllers
 {
     public class StockController : Controller
     {
-        private readonly CloudDBEntities db = new CloudDBEntities();
+        private readonly CloudDBEntities _db;
+
+        public StockController(CloudDBEntities db)
+        {
+            _db = db;
+        }
 
         // GET: Stock
         public ActionResult Index()
@@ -23,7 +28,7 @@ namespace CloudERP.Controllers
             int branchID = 0;
             branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            var tblStock = db.tblStock.Include(t => t.tblBranch)
+            var tblStock = _db.tblStock.Include(t => t.tblBranch)
                 .Include(t => t.tblCategory).Include(t => t.tblCompany).Include(t => t.tblUser)
                 .Where(t => t.CompanyID == companyID && t.BranchID == branchID);
             return View(tblStock.ToList());
@@ -36,7 +41,7 @@ namespace CloudERP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tblStock tblStock = db.tblStock.Find(id);
+            tblStock tblStock = _db.tblStock.Find(id);
             if (tblStock == null)
             {
                 return HttpNotFound();
@@ -55,7 +60,7 @@ namespace CloudERP.Controllers
             int branchID = 0;
             branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            ViewBag.CategoryID = new SelectList(db.tblCategory.Where(c => c.BranchID == branchID && c.CompanyID == companyID), "CategoryID", "CategoryName", "0");
+            ViewBag.CategoryID = new SelectList(_db.tblCategory.Where(c => c.BranchID == branchID && c.CompanyID == companyID), "CategoryID", "CategoryName", "0");
             return View();
         }
 
@@ -81,11 +86,11 @@ namespace CloudERP.Controllers
             tblStock.UserID = userID;
             if (ModelState.IsValid)
             {
-                var findProduct = db.tblStock.Where(p => p.CompanyID == companyID && p.BranchID == branchID && p.ProductName == tblStock.ProductName).FirstOrDefault();
+                var findProduct = _db.tblStock.Where(p => p.CompanyID == companyID && p.BranchID == branchID && p.ProductName == tblStock.ProductName).FirstOrDefault();
                 if (findProduct == null)
                 {
-                    db.tblStock.Add(tblStock);
-                    db.SaveChanges();
+                    _db.tblStock.Add(tblStock);
+                    _db.SaveChanges();
                     return RedirectToAction("Index");
                 }
                 else
@@ -95,7 +100,7 @@ namespace CloudERP.Controllers
                 
             }
 
-            ViewBag.CategoryID = new SelectList(db.tblCategory.Where(c => c.BranchID == branchID && c.CompanyID == companyID), "CategoryID", "CategoryName", tblStock.CategoryID);
+            ViewBag.CategoryID = new SelectList(_db.tblCategory.Where(c => c.BranchID == branchID && c.CompanyID == companyID), "CategoryID", "CategoryName", tblStock.CategoryID);
             return View(tblStock);
         }
 
@@ -106,13 +111,13 @@ namespace CloudERP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tblStock tblStock = db.tblStock.Find(id);
+            tblStock tblStock = _db.tblStock.Find(id);
             if (tblStock == null)
             {
                 return HttpNotFound();
             }
 
-            ViewBag.CategoryID = new SelectList(db.tblCategory.Where(c => c.BranchID == tblStock.BranchID && c.CompanyID == tblStock.CompanyID), "CategoryID", "CategoryName", tblStock.CategoryID);
+            ViewBag.CategoryID = new SelectList(_db.tblCategory.Where(c => c.BranchID == tblStock.BranchID && c.CompanyID == tblStock.CompanyID), "CategoryID", "CategoryName", tblStock.CategoryID);
             return View(tblStock);
         }
 
@@ -132,11 +137,11 @@ namespace CloudERP.Controllers
             tblStock.UserID = userID;
             if (ModelState.IsValid)
             {
-                var findProduct = db.tblStock.Where(p => p.CompanyID == tblStock.CompanyID && p.BranchID == tblStock.BranchID && p.ProductName == tblStock.ProductName && p.ProductID != tblStock.ProductID).FirstOrDefault();
+                var findProduct = _db.tblStock.Where(p => p.CompanyID == tblStock.CompanyID && p.BranchID == tblStock.BranchID && p.ProductName == tblStock.ProductName && p.ProductID != tblStock.ProductID).FirstOrDefault();
                 if (findProduct == null)
                 {
-                    db.Entry(tblStock).State = EntityState.Modified;
-                    db.SaveChanges();
+                    _db.Entry(tblStock).State = EntityState.Modified;
+                    _db.SaveChanges();
                     return RedirectToAction("Index");
                 }
                 else
@@ -145,7 +150,7 @@ namespace CloudERP.Controllers
                 }
             }
 
-            ViewBag.CategoryID = new SelectList(db.tblCategory.Where(c => c.BranchID == tblStock.BranchID && c.CompanyID == tblStock.CompanyID), "CategoryID", "CategoryName", tblStock.CategoryID);
+            ViewBag.CategoryID = new SelectList(_db.tblCategory.Where(c => c.BranchID == tblStock.BranchID && c.CompanyID == tblStock.CompanyID), "CategoryID", "CategoryName", tblStock.CategoryID);
             return View(tblStock);
         }
 
@@ -156,7 +161,7 @@ namespace CloudERP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tblStock tblStock = db.tblStock.Find(id);
+            tblStock tblStock = _db.tblStock.Find(id);
             if (tblStock == null)
             {
                 return HttpNotFound();
@@ -169,9 +174,9 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            tblStock tblStock = db.tblStock.Find(id);
-            db.tblStock.Remove(tblStock);
-            db.SaveChanges();
+            tblStock tblStock = _db.tblStock.Find(id);
+            _db.tblStock.Remove(tblStock);
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -179,7 +184,7 @@ namespace CloudERP.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }

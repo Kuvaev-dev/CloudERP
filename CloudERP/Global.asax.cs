@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Threading;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
@@ -15,23 +9,10 @@ namespace CloudERP
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
+            Helpers.UnityConfig.RegisterComponents();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-        }
-
-        protected void Application_BeginRequest(object sender, EventArgs e)
-        {
-            HttpCookie cultureCookie = Request.Cookies["_culture"];
-            string culture = cultureCookie?.Value;
-
-            // Check if culture is not null before setting it
-            if (!string.IsNullOrEmpty(culture))
-            {
-                // Set culture
-                Thread.CurrentThread.CurrentCulture = new CultureInfo(culture);
-                Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
-            }
         }
     }
 }

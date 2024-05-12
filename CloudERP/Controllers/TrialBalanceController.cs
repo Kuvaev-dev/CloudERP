@@ -11,8 +11,13 @@ namespace CloudERP.Controllers
 {
     public class TrialBalanceController : Controller
     {
-        private readonly CloudDBEntities db = new CloudDBEntities();
+        private readonly CloudDBEntities _db;
         private readonly SP_TrialBalance trialBalance = new SP_TrialBalance();
+
+        public TrialBalanceController(CloudDBEntities db)
+        {
+            _db = db;
+        }
 
         // GET: TrialBalance
         public ActionResult GetTrialBalance()
@@ -65,7 +70,7 @@ namespace CloudERP.Controllers
 
         public ActionResult GetFinancialYear()
         {
-            var getList = db.tblFinancialYear.ToList();
+            var getList = _db.tblFinancialYear.ToList();
             var list = new List<tblFinancialYear>();
             foreach (var item in getList)
             {

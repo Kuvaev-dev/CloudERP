@@ -12,8 +12,13 @@ namespace CloudERP.Controllers
 {
     public class AccountControlController : Controller
     {
-        private readonly CloudDBEntities db = new CloudDBEntities();
+        private readonly CloudDBEntities _db;
         private readonly List<AccountControlMV> accountControl = new List<AccountControlMV>();
+
+        public AccountControlController(CloudDBEntities db)
+        {
+            _db = db;
+        }
 
         // GET: AccountControl
         public ActionResult Index()
@@ -29,7 +34,7 @@ namespace CloudERP.Controllers
             branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var tblAccountControl = db.tblAccountControl.Include(t => t.tblBranch).Include(t => t.tblCompany).Include(t => t.tblUser).Where(a => a.CompanyID == companyID && a.BranchID == branchID);
+            var tblAccountControl = _db.tblAccountControl.Include(t => t.tblBranch).Include(t => t.tblCompany).Include(t => t.tblUser).Where(a => a.CompanyID == companyID && a.BranchID == branchID);
             foreach (var item in tblAccountControl)
             {
                 accountControl.Add(new AccountControlMV
@@ -37,7 +42,7 @@ namespace CloudERP.Controllers
                     AccountControlID = item.AccountControlID,
                     AccountControlName = item.AccountControlName,
                     AccountHeadID = item.AccountHeadID,
-                    AccountHeadName = db.tblAccountHead.Find(item.AccountHeadID).AccountHeadName,
+                    AccountHeadName = _db.tblAccountHead.Find(item.AccountHeadID).AccountHeadName,
                     BranchID = item.BranchID,
                     BranchName = item.tblBranch.BranchName,
                     CompanyID = item.CompanyID,
@@ -52,7 +57,7 @@ namespace CloudERP.Controllers
         // GET: AccountControl/Create
         public ActionResult Create()
         {
-            ViewBag.AccountHeadID = new SelectList(db.tblAccountHead, "AccountHeadID", "AccountHeadName");
+            ViewBag.AccountHeadID = new SelectList(_db.tblAccountHead, "AccountHeadID", "AccountHeadName");
             return View();
         }
 
@@ -79,11 +84,11 @@ namespace CloudERP.Controllers
             tblAccountControl.UserID = userID;
             if (ModelState.IsValid)
             {
-                var findControl = db.tblAccountControl.Where(a => a.CompanyID == companyID && a.BranchID == branchID && a.AccountControlName == tblAccountControl.AccountControlName).FirstOrDefault();
+                var findControl = _db.tblAccountControl.Where(a => a.CompanyID == companyID && a.BranchID == branchID && a.AccountControlName == tblAccountControl.AccountControlName).FirstOrDefault();
                 if (findControl == null)
                 {
-                    db.tblAccountControl.Add(tblAccountControl);
-                    db.SaveChanges();
+                    _db.tblAccountControl.Add(tblAccountControl);
+                    _db.SaveChanges();
                     return RedirectToAction("Index");
                 }
                 else
@@ -92,7 +97,7 @@ namespace CloudERP.Controllers
                 }
             }
 
-            ViewBag.AccountHeadID = new SelectList(db.tblAccountHead, "AccountHeadID", "AccountHeadName", tblAccountControl.AccountHeadID);
+            ViewBag.AccountHeadID = new SelectList(_db.tblAccountHead, "AccountHeadID", "AccountHeadName", tblAccountControl.AccountHeadID);
             return View(tblAccountControl);
         }
 
@@ -103,12 +108,12 @@ namespace CloudERP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tblAccountControl tblAccountControl = db.tblAccountControl.Find(id);
+            tblAccountControl tblAccountControl = _db.tblAccountControl.Find(id);
             if (tblAccountControl == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.AccountHeadID = new SelectList(db.tblAccountHead, "AccountHeadID", "AccountHeadName", tblAccountControl.AccountHeadID);
+            ViewBag.AccountHeadID = new SelectList(_db.tblAccountHead, "AccountHeadID", "AccountHeadName", tblAccountControl.AccountHeadID);
             return View(tblAccountControl);
         }
 
@@ -128,14 +133,14 @@ namespace CloudERP.Controllers
             tblAccountControl.UserID = userID;
             if (ModelState.IsValid)
             {
-                var findControl = db.tblAccountControl.Where(a => a.CompanyID == tblAccountControl.CompanyID
+                var findControl = _db.tblAccountControl.Where(a => a.CompanyID == tblAccountControl.CompanyID
                                                                && a.BranchID == tblAccountControl.BranchID
                                                                && a.AccountControlName == tblAccountControl.AccountControlName
                                                                && a.AccountControlID != tblAccountControl.AccountControlID).FirstOrDefault();
                 if (findControl == null)
                 {
-                    db.Entry(tblAccountControl).State = EntityState.Modified;
-                    db.SaveChanges();
+                    _db.Entry(tblAccountControl).State = EntityState.Modified;
+                    _db.SaveChanges();
                     return RedirectToAction("Index");
                 }
                 else
@@ -144,7 +149,7 @@ namespace CloudERP.Controllers
                 }
             }
 
-            ViewBag.AccountHeadID = new SelectList(db.tblAccountHead, "AccountHeadID", "AccountHeadName", tblAccountControl.AccountHeadID);
+            ViewBag.AccountHeadID = new SelectList(_db.tblAccountHead, "AccountHeadID", "AccountHeadName", tblAccountControl.AccountHeadID);
             return View(tblAccountControl);
         }
 
@@ -152,7 +157,7 @@ namespace CloudERP.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }
