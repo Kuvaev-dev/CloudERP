@@ -26,7 +26,7 @@ namespace CloudERP.Controllers
         [HttpPost]
         public ActionResult RegistrationForm(string UserName, string Password, string CPassword,
                                              string EName, string EContactNo, string EEmail,
-                                             string ECNIC, string EDesignation, float EMonthlySalary,
+                                             string ETIN, string EDesignation, float EMonthlySalary,
                                              string EAddress, string CName, string BranchName,
                                              string BranchContact, string BranchAddress)
         {
@@ -40,7 +40,7 @@ namespace CloudERP.Controllers
                 if (!string.IsNullOrEmpty(UserName) && !string.IsNullOrEmpty(Password) &&
                         !string.IsNullOrEmpty(CPassword) && !string.IsNullOrEmpty(EName) &&
                         !string.IsNullOrEmpty(EContactNo) && !string.IsNullOrEmpty(EEmail) &&
-                        !string.IsNullOrEmpty(ECNIC) && !string.IsNullOrEmpty(EDesignation) &&
+                        !string.IsNullOrEmpty(ETIN) && !string.IsNullOrEmpty(EDesignation) &&
                         EMonthlySalary > 0 && !string.IsNullOrEmpty(EAddress) &&
                         !string.IsNullOrEmpty(CName) && !string.IsNullOrEmpty(BranchName) &&
                         !string.IsNullOrEmpty(BranchContact) && !string.IsNullOrEmpty(BranchAddress))
@@ -82,7 +82,7 @@ namespace CloudERP.Controllers
                     {
                         Address = EAddress,
                         BranchID = branch.BranchID,
-                        CNIC = ECNIC,
+                        TIN = ETIN,
                         CompanyID = company.CompanyID,
                         ContactNo = EContactNo,
                         Designation = EDesignation,

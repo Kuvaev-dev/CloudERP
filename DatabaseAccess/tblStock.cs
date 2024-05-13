@@ -53,6 +53,7 @@ namespace DatabaseAccess
         [Required(ErrorMessage = "*Required!")]
         public Nullable<bool> IsActive { get; set; }
 
+
         public virtual tblBranch tblBranch { get; set; }
         public virtual tblCategory tblCategory { get; set; }
         public virtual tblCompany tblCompany { get; set; }

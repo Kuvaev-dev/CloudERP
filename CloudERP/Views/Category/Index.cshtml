@@ -4,12 +4,20 @@
     ViewBag.Title = "All Categories";
 }
 
+<!-- Tables Sorting-->
+<link href="https://cdn.datatables.net/1.11.6/css/jquery.dataTables.min.css" rel="stylesheet" />
 <script src="~/Scripts/jquery-3.7.1.js"></script>
+<script src="https://cdn.datatables.net/1.11.6/js/jquery.dataTables.min.js"></script>
+
+<style>
+    #dataTable_filter input[type="search"] {
+        width: 15rem;
+    }
+</style>
 
 <div class="card card-default col-md-12">
     <div class="card-header">
         @Html.ActionLink("Add Category", "Create", "Category", null, new { @style = "float:left;", @class = "btn btn-success" })
-        <input class="form-control col-md-3" style="float:right;" type="text" id="searchCategory" name="searchCategory" placeholder="Search..." />
     </div>
     <div class="card-body">
         <div class="table-responsive bootgrid">
@@ -49,11 +57,9 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#searchCategory").on("keyup", function () {
-            var value = $(this).val().toLowerCase();
-            $("#categoriesList tr").filter(function () {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-            })
-        })
-    })
+        $('#dataTable').DataTable({
+            "columnDefs": [{ "orderable": false, "targets": 2 }],
+            "lengthMenu": [[5, 10, 25, 50, 75, 100, 150, 200, -1], [5, 10, 25, 50, 75, 100, 150, 200, "All"]],
+        });
+    });
 </script>

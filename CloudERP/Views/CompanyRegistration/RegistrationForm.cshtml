@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Add New Company";
 }
 
@@ -20,12 +19,20 @@
                     <small>Enter User Details</small>
                 </h4>
                 <fieldset>
-                    <label for="userName">User name *</label>
-                    <input class="form-control required" id="UserName" name="UserName" type="text">
-                    <label for="password">Password *</label>
-                    <input class="form-control required" id="Password" name="Password" type="password">
-                    <label for="confirm">Confirm Password *</label>
-                    <input class="form-control required" id="CPassword" name="CPassword" type="password">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="userName">User name *</label>
+                            <input class="form-control required" id="UserName" name="UserName" type="text">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="password">Password *</label>
+                            <input class="form-control required" id="Password" name="Password" type="password">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="confirm">Confirm Password *</label>
+                            <input class="form-control required" id="CPassword" name="CPassword" type="password">
+                        </div>
+                    </div>
                     <p>(*) Mandatory</p>
                 </fieldset>
                 <h4>
@@ -35,31 +42,31 @@
                 </h4>
                 <fieldset>
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label for="name">Employee name *</label>
                             <input class="form-control required" id="EName" name="EName" type="text">
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label for="surname">Contact № *</label>
                             <input class="form-control required" id="EContactNo" name="EContactNo" type="text">
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label for="email">Email *</label>
                             <input class="form-control required" id="EEmail" name="EEmail" type="text">
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label>CNIC</label>
                             <input class="form-control required" id="ECNIC" name="ECNIC" type="text">
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label>Designation</label>
                             <input class="form-control required" id="EDesignation" name="EDesignation" type="text">
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label>Basic Salary</label>
                             <input class="form-control required" id="EMonthlySalary" name="EMonthlySalary" type="number">
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <label>Address</label>
                             <input class="form-control required" id="EAddress" name="EAddress" type="text">
                         </div>

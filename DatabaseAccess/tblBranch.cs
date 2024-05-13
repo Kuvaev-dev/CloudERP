@@ -27,7 +27,6 @@ namespace DatabaseAccess
             this.tblCustomerPayment = new HashSet<tblCustomerPayment>();
             this.tblCustomerReturnInvoice = new HashSet<tblCustomerReturnInvoice>();
             this.tblCustomerReturnPayment = new HashSet<tblCustomerReturnPayment>();
-            this.tblEmployee = new HashSet<tblEmployee>();
             this.tblPayroll = new HashSet<tblPayroll>();
             this.tblPurchaseCartDetail = new HashSet<tblPurchaseCartDetail>();
             this.tblPurchaseCart = new HashSet<tblPurchaseCart>();
@@ -37,6 +36,7 @@ namespace DatabaseAccess
             this.tblSupplierInvoice = new HashSet<tblSupplierInvoice>();
             this.tblSupplierReturnInvoice = new HashSet<tblSupplierReturnInvoice>();
             this.tblSupplierReturnPayment = new HashSet<tblSupplierReturnPayment>();
+            this.tblEmployee = new HashSet<tblEmployee>();
         }
 
         public int BranchID { get; set; }
@@ -73,8 +73,6 @@ namespace DatabaseAccess
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblCustomerReturnPayment> tblCustomerReturnPayment { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblEmployee> tblEmployee { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblPayroll> tblPayroll { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblPurchaseCartDetail> tblPurchaseCartDetail { get; set; }
@@ -92,5 +90,7 @@ namespace DatabaseAccess
         public virtual ICollection<tblSupplierReturnInvoice> tblSupplierReturnInvoice { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblSupplierReturnPayment> tblSupplierReturnPayment { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblEmployee> tblEmployee { get; set; }
     }
 }

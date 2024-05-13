@@ -28,7 +28,7 @@ namespace CloudERP.Models
         public string EContactNo { get; set; }
         public string EEmail { get; set; }
         public string EAddress { get; set; }
-        public string ECNIC { get; set; }
+        public string ETIN { get; set; }
         public string EDesignation { get; set; }
         public string EDescription { get; set; }
         public double EMonthlySalary { get; set; }

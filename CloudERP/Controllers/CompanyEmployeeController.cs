@@ -120,7 +120,7 @@ namespace CloudERP.Controllers
             branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var employee = _db.tblEmployee.Where(p => p.CNIC == salary.CNIC).FirstOrDefault();
+            var employee = _db.tblEmployee.Where(p => p.TIN == salary.TIN).FirstOrDefault();
             salary.SalaryMonth = DateTime.Now.AddMonths(-1).ToString("MMMM");
             salary.SalaryYear = DateTime.Now.AddMonths(-1).ToString("yyyy");
             if (employee != null)
@@ -128,7 +128,7 @@ namespace CloudERP.Controllers
                 salary.EmployeeID = employee.EmployeeID;
                 salary.EmployeeName = employee.Name;
                 salary.Designation = employee.Designation;
-                salary.CNIC = employee.CNIC;
+                salary.TIN = employee.TIN;
                 salary.TransferAmount = employee.MonthlySalary;
                 Session["SalaryMessage"] = "";
             }

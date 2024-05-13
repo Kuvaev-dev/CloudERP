@@ -35,7 +35,7 @@ namespace DatabaseAccess
         [Required(ErrorMessage = "*Required!")]
         [DataType(DataType.MultilineText)]
         public string Address { get; set; }
-        public string CNIC { get; set; }
+        public string TIN { get; set; }
         [Required(ErrorMessage = "*Required!")]
         public string Designation { get; set; }
         [Required(ErrorMessage = "*Required!")]
