@@ -13,7 +13,9 @@ public class ResourceManagerHelper
         }
         catch (CultureNotFoundException)
         {
-            SetCulture("en-US");
+            CultureInfo defaultCulture = new CultureInfo("en-US");
+            Thread.CurrentThread.CurrentCulture = defaultCulture;
+            Thread.CurrentThread.CurrentUICulture = defaultCulture;
         }
     }
 }

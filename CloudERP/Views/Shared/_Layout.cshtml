@@ -104,18 +104,11 @@
                     <li class="nav-item">
                         <div class="nav-link container">
                             <div class="dropdown">
-                                <em class="fas fa-language dropdown-toggle" type="button" id="languageDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                </em>
+                                <em class="fas fa-language dropdown-toggle" type="button" id="languageDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></em>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="languageDropdown">
-                                    <a class="dropdown-item" href="@Url.Action("SetCulture", "Home", new { culture = "en-US" })">
-                                        English
-                                    </a>
-                                    <a class="dropdown-item" href="@Url.Action("SetCulture", "Home", new { culture = "ru-RU" })">
-                                        Русский
-                                    </a>
-                                    <a class="dropdown-item" href="@Url.Action("SetCulture", "Home", new { culture = "uk-UA" })">
-                                        Українська
-                                    </a>
+                                    <a class="dropdown-item" href="@Url.Action("SetCulture", "Home", new { culture = "en-US" })">English</a>
+                                    <a class="dropdown-item" href="@Url.Action("SetCulture", "Home", new { culture = "ru-RU" })">Русский</a>
+                                    <a class="dropdown-item" href="@Url.Action("SetCulture", "Home", new { culture = "uk-UA" })">Українська</a>
                                 </div>
                             </div>
                         </div>
@@ -177,51 +170,53 @@
                                     if (userType == 1)
                                     {
                                         <li class="nav-heading ">
-                                            <span data-localize="sidebar.heading.COMPONENTS">Guide</span>
+                                            <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.Guide.ToString()</span>
                                         </li>
-                                        <li class="">
-                                            <a href="@Url.Action("AdminMenuGuide", "Guide")" title="Admin Guide">
-                                                <em class="bi bi-info-circle h4"></em>
-                                                <span data-localize="sidebar.nav.element.ELEMENTS">Admin Guide</span>
+
+                                        <li class="d-flex">
+                                            <a href="@Url.Action("AdminMenuGuide", "Guide")" title="@Resources.Resources.AdminGuide.ToString()" class="d-flex align-items-center">
+                                                <em class="bi bi-info-circle h4 mr-1"></em>
+                                                <span class="d-flex align-items-center mb-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.AdminGuide))</span>
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-heading ">
+                                            <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.UserSetting.ToString()</span>
+                                        </li>
+                                        <li class="d-flex">
+                                            <a href="@Url.Action("Index", "UserType")" title="@Resources.Resources.UserTypes.ToString()" class="d-flex align-items-center">
+                                                <em class="bi bi-person-fill-gear h4 mr-1"></em>
+                                                <span class="d-flex align-items-center mb-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.UserTypes))</span>
+                                            </a>
+                                        </li>
+                                        <li class="d-flex">
+                                            <a href="@Url.Action("Index", "User")" title="@Resources.Resources.Users.ToString()" class="d-flex align-items-center">
+                                                <em class="bi bi-person-fill h4 mr-1"></em>
+                                                <span class="d-flex align-items-center mb-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.Users))</span>
                                             </a>
                                         </li>
                                         <li class="nav-heading ">
-                                            <span data-localize="sidebar.heading.COMPONENTS">User Setting</span>
+                                            <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.Companies.ToString()</span>
                                         </li>
-                                        <li class="">
-                                            <a href="@Url.Action("Index", "UserType")" title="User Types">
-                                                <em class="bi bi-person-fill-gear h4"></em>
-                                                <span data-localize="sidebar.nav.element.ELEMENTS">User Types</span>
+                                        <li class="d-flex align-items-center">
+                                            <a href="@Url.Action("Index", "Company")" title="@Resources.Resources.Company.ToString()" class="d-flex align-items-center">
+                                                <em class="bi bi-building h4 mr-1"></em>
+                                                <span class="d-flex align-items-center mb-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.Company))</span>
                                             </a>
                                         </li>
-                                        <li class="">
-                                            <a href="@Url.Action("Index", "User")" title="Users">
-                                                <em class="bi bi-person-fill h4"></em>
-                                                <span data-localize="sidebar.nav.element.ELEMENTS">Users</span>
-                                            </a>
-                                        </li>
-                                        <li class="nav-heading ">
-                                            <span data-localize="sidebar.heading.COMPONENTS">Companies</span>
-                                        </li>
-                                        <li class="">
-                                            <a href="@Url.Action("Index", "Company")" title="Companies">
-                                                <em class="bi bi-building h4"></em>
-                                                <span data-localize="sidebar.nav.element.ELEMENTS">Companies</span>
-                                            </a>
-                                        </li>
-                                        <li class="">
-                                            <a href="@Url.Action("RegistrationForm", "CompanyRegistration")" title="Company Registration">
-                                                <em class="bi bi-building-add h4"></em>
-                                                <span data-localize="sidebar.nav.element.ELEMENTS">Company Registration</span>
+                                        <li class="d-flex align-items-center">
+                                            <a href="@Url.Action("RegistrationForm", "CompanyRegistration")" title="@Resources.Resources.CompanyRegistration.ToString()" class="d-flex align-items-center">
+                                                <em class="bi bi-building-add h4 mr-1"></em>
+                                                <span class="d-flex align-items-center mb-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.CompanyRegistration))</span>
                                             </a>
                                         </li>
                                         <li class="nav-heading ">
-                                            <span data-localize="sidebar.heading.COMPONENTS">Account Setting</span>
+                                            <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.AccountSettings.ToString()</span>
                                         </li>
-                                        <li class="">
-                                            <a href="@Url.Action("Index", "AccountHead")" title="Account Heads">
-                                                <em class="bi bi-lightbulb-fill"></em>
-                                                <span data-localize="sidebar.nav.element.ELEMENTS">Account Heads</span>
+                                        <li class="d-flex align-items-center">
+                                            <a href="@Url.Action("Index", "AccountHead")" title="@Resources.Resources.AccountHeads.ToString()" class="d-flex align-items-center">
+                                                <em class="bi bi-lightbulb-fill mr-1 mb-2"></em>
+                                                <span class="d-flex align-items-center mb-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.AccountHeads))</span>
                                             </a>
                                         </li>
                                     }
@@ -231,25 +226,25 @@
                                         <li class="nav-heading ">
                                             <span data-localize="sidebar.heading.HEADER">Home</span>
                                         </li>
-                                        <li class=" ">
-                                            <a href="@Url.Action("Index", "Home")" title="Dashboard">
-                                                <em class="bi bi-speedometer2 h4"></em>
-                                                <span data-localize="sidebar.nav.DASHBOARD">Dashboard</span>
+                                        <li class="d-flex align-items-center">
+                                            <a href="@Url.Action("Index", "Home")" title="Dashboard" class="d-flex align-items-center">
+                                                <em class="bi bi-speedometer2 h4 mr-1"></em>
+                                                <span class="d-flex align-items-center mb-2">Dashboard</span>
                                             </a>
                                         </li>
                                         <li class="nav-heading ">
                                             <span data-localize="sidebar.heading.COMPONENTS">Sub Branch`s</span>
                                         </li>
-                                        <li class="">
-                                            <a href="@Url.Action("Index", "Branch")" title="Branches">
-                                                <em class="bi bi-diagram-2 h4"></em>
-                                                <span data-localize="sidebar.nav.element.ELEMENTS">Branches</span>
+                                        <li class="d-flex align-items-center">
+                                            <a href="@Url.Action("Index", "Branch")" title="Branches" class="d-flex align-items-center">
+                                                <em class="bi bi-diagram-2 h4 mr-1"></em>
+                                                <span class="d-flex align-items-center mb-2">Branches</span>
                                             </a>
                                         </li>
-                                        <li class="">
-                                            <a href="@Url.Action("SubBranchUser", "User")" title="Sub Branch`s Users">
-                                                <em class="bi bi-person-fill h4"></em>
-                                                <span data-localize="sidebar.nav.element.ELEMENTS">Users</span>
+                                        <li class="d-flex align-items-center">
+                                            <a href="@Url.Action("SubBranchUser", "User")" title="Sub Branch`s Users" class="d-flex align-items-center">
+                                                <em class="bi bi-person-fill h4 mr-1"></em>
+                                                <span class="d-flex align-items-center mb-2">Users</span>
                                             </a>
                                         </li>
 
@@ -260,40 +255,40 @@
                                             <li class="nav-heading ">
                                                 <span data-localize="sidebar.heading.COMPONENTS">Guide</span>
                                             </li>
-                                            <li class="">
-                                                <a href="@Url.Action("MainBranchEmployeeGuide", "Guide")" title="Main Employee Guide">
-                                                    <em class="bi bi-info-circle h4"></em>
-                                                    <span data-localize="sidebar.nav.element.ELEMENTS">Main Employee Guide</span>
+                                            <li class="d-flex align-items-center">
+                                                <a href="@Url.Action("MainBranchEmployeeGuide", "Guide")" title="Main Employee Guide" class="d-flex align-items-center">
+                                                    <em class="bi bi-info-circle h4 mr-1"></em>
+                                                    <span class="d-flex align-items-center mb-2">Main Employee Guide</span>
                                                 </a>
                                             </li>
                                             <li class="nav-heading ">
                                                 <span data-localize="sidebar.heading.COMPONENTS">Branch`s</span>
                                             </li>
-                                            <li class="">
-                                                <a href="@Url.Action("Create", "Branch")" title="New Branch">
-                                                    <em class="bi bi-diagram-2 h4"></em>
-                                                    <span data-localize="sidebar.nav.element.ELEMENTS">New Branch</span>
+                                            <li class="d-flex align-items-center">
+                                                <a href="@Url.Action("Create", "Branch")" title="New Branch" class="d-flex align-items-center">
+                                                    <em class="bi bi-diagram-2 h4 mr-1"></em>
+                                                    <span class="d-flex align-items-center mb-2">New Branch</span>
                                                 </a>
                                             </li>
                                             <li class="nav-heading ">
                                                 <span data-localize="sidebar.heading.COMPONENTS">Employee`s</span>
                                             </li>
-                                            <li class="">
-                                                <a href="@Url.Action("Employees", "CompanyEmployee")" title="Employee Registration">
-                                                    <em class="bi bi-person-add h4"></em>
-                                                    <span data-localize="sidebar.nav.element.ELEMENTS">Employee Registration</span>
+                                            <li class="d-flex align-items-center">
+                                                <a href="@Url.Action("Employees", "CompanyEmployee")" title="Employee Registration" class="d-flex align-items-center">
+                                                    <em class="bi bi-person-add h4 mr-1"></em>
+                                                    <span class="d-flex align-items-center mb-2">Employee Registration</span>
                                                 </a>
                                             </li>
-                                            <li class="">
-                                                <a href="@Url.Action("EmployeeSalary", "CompanyEmployee")" title="Payroll">
-                                                    <em class="bi bi-coin h4"></em>
-                                                    <span data-localize="sidebar.nav.element.ELEMENTS">Payroll</span>
+                                            <li class="d-flex align-items-center">
+                                                <a href="@Url.Action("EmployeeSalary", "CompanyEmployee")" title="Payroll" class="d-flex align-items-center">
+                                                    <em class="bi bi-coin h4 mr-1"></em>
+                                                    <span class="d-flex align-items-center mb-2">Payroll</span>
                                                 </a>
                                             </li>
-                                            <li class="">
-                                                <a href="@Url.Action("SalaryHistory", "CompanyEmployee")" title="Paid Salaries History">
-                                                    <em class="bi bi-cash-stack h4"></em>
-                                                    <span data-localize="sidebar.nav.element.ELEMENTS">Paid Salaries History</span>
+                                            <li class="d-flex align-items-center">
+                                                <a href="@Url.Action("SalaryHistory", "CompanyEmployee")" title="Paid Salaries History" class="d-flex align-items-center">
+                                                    <em class="bi bi-cash-stack h4 mr-1"></em>
+                                                    <span class="d-flex align-items-center mb-2">Paid Salaries History</span>
                                                 </a>
                                             </li>
                                         }
@@ -302,69 +297,69 @@
                                             <li class="nav-heading ">
                                                 <span data-localize="sidebar.heading.COMPONENTS">Guide</span>
                                             </li>
-                                            <li class="">
-                                                <a href="@Url.Action("EmployeeGuide", "Guide")" title="Employee Guide">
-                                                    <em class="bi bi-info-circle h4"></em>
-                                                    <span data-localize="sidebar.nav.element.ELEMENTS">Employee Guide</span>
+                                            <li class="d-flex align-items-center">
+                                                <a href="@Url.Action("EmployeeGuide", "Guide")" title="Employee Guide" class="d-flex align-items-center">
+                                                    <em class="bi bi-info-circle h4 mr-1"></em>
+                                                    <span class="d-flex align-items-center mb-2">Employee Guide</span>
                                                 </a>
                                             </li>
                                             <li class="nav-heading ">
                                                 <span data-localize="sidebar.heading.COMPONENTS">Employee`s</span>
                                             </li>
-                                            <li class="">
-                                                <a href="@Url.Action("Employee", "BranchEmployee")" title="Employee Registration">
-                                                    <em class="bi bi-person-add h4"></em>
-                                                    <span data-localize="sidebar.nav.element.ELEMENTS">Employee Registration</span>
+                                            <li class="d-flex align-items-center">
+                                                <a href="@Url.Action("Employee", "BranchEmployee")" title="Employee Registration" class="d-flex align-items-center">
+                                                    <em class="bi bi-person-add h4 mr-1"></em>
+                                                    <span class="d-flex align-items-center mb-2">Employee Registration</span>
                                                 </a>
                                             </li>
-                                            <li class="">
-                                                <a href="@Url.Action("EmployeeSalary", "CompanyEmployee")" title="Payroll">
-                                                    <em class="bi bi-coin h4"></em>
-                                                    <span data-localize="sidebar.nav.element.ELEMENTS">Payroll</span>
+                                            <li class="d-flex align-items-center">
+                                                <a href="@Url.Action("EmployeeSalary", "CompanyEmployee")" title="Payroll" class="d-flex align-items-center">
+                                                    <em class="bi bi-coin h4 mr-1"></em>
+                                                    <span class="d-flex align-items-center mb-2">Payroll</span>
                                                 </a>
                                             </li>
-                                            <li class="">
-                                                <a href="@Url.Action("SalaryHistory", "CompanyEmployee")" title="Paid Salaries History">
-                                                    <em class="bi bi-cash-stack h4"></em>
-                                                    <span data-localize="sidebar.nav.element.ELEMENTS">Paid Salaries History</span>
+                                            <li class="d-flex align-items-center">
+                                                <a href="@Url.Action("SalaryHistory", "CompanyEmployee")" title="Paid Salaries History" class="d-flex align-items-center">
+                                                    <em class="bi bi-cash-stack h4 mr-1"></em>
+                                                    <span class="d-flex align-items-center mb-2">Paid Salaries History</span>
                                                 </a>
                                             </li>
                                         }
                                         <li class="nav-heading ">
                                             <span data-localize="sidebar.heading.COMPONENTS">Stock`s</span>
                                         </li>
-                                        <li class="">
-                                            <a href="@Url.Action("Index", "Category")" title="Stock Categories">
-                                                <em class="bi bi-inboxes-fill h4"></em>
-                                                <span data-localize="sidebar.nav.element.ELEMENTS">Stock Categories</span>
+                                        <li class="d-flex align-items-center">
+                                            <a href="@Url.Action("Index", "Category")" title="Stock Categories" class="d-flex align-items-center">
+                                                <em class="bi bi-inboxes-fill h4 mr-1"></em>
+                                                <span class="d-flex align-items-center mb-2">Stock Categories</span>
                                             </a>
                                         </li>
-                                        <li class="">
-                                            <a href="@Url.Action("Index", "Stock")" title="Stock Details">
-                                                <em class="bi bi-boxes h4"></em>
-                                                <span data-localize="sidebar.nav.element.ELEMENTS">Stock Details</span>
+                                        <li class="d-flex align-items-center">
+                                            <a href="@Url.Action("Index", "Stock")" title="Stock Details" class="d-flex align-items-center">
+                                                <em class="bi bi-boxes h4 mr-1"></em>
+                                                <span class="d-flex align-items-center mb-2">Stock Details</span>
                                             </a>
                                         </li>
                                     }
                                     <li class="nav-heading ">
-                                        <span data-localize="sidebar.heading.COMPONENTS">Account Setting`s</span>
+                                        <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.AccountSettings.ToString()</span>
                                     </li>
-                                    <li class="">
-                                        <a href="@Url.Action("Index", "AccountControl")" title="Account Controls">
-                                            <em class="bi bi-gear-wide h4"></em>
-                                            <span data-localize="sidebar.nav.element.ELEMENTS">Account Controls</span>
+                                    <li class="d-flex align-items-center">
+                                        <a href="@Url.Action("Index", "AccountControl")" title="@Resources.Resources.AccountControls.ToString()" class="d-flex align-items-center">
+                                            <em class="bi bi-gear-wide h4 mr-1"></em>
+                                            <span class="d-flex align-items-center mb-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.AccountControls))</span>
                                         </a>
                                     </li>
-                                    <li class="">
-                                        <a href="@Url.Action("Index", "AccountSubControl")" title="Account Sub Controls">
-                                            <em class="bi bi-gear-wide-connected h4"></em>
-                                            <span data-localize="sidebar.nav.element.ELEMENTS">Account Sub Controls</span>
+                                    <li class="d-flex align-items-center">
+                                        <a href="@Url.Action("Index", "AccountSubControl")" title="@Resources.Resources.AccountSubControls.ToString()" class="d-flex align-items-center">
+                                            <em class="bi bi-gear-wide-connected h4 mr-1"></em>
+                                            <span class="d-flex align-items-center mb-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.AccountSubControls))</span>
                                         </a>
                                     </li>
-                                    <li class="">
-                                        <a href="@Url.Action("Index", "AccountSetting")" title="Account Flow">
-                                            <em class="bi bi-person-lines-fill h4"></em>
-                                            <span data-localize="sidebar.nav.element.ELEMENTS">Account Flow</span>
+                                    <li class="d-flex align-items-center">
+                                        <a href="@Url.Action("Index", "AccountSetting")" title="@Resources.Resources.AccountFlow.ToString()" class="d-flex align-items-center">
+                                            <em class="bi bi-person-lines-fill h4 mr-1"></em>
+                                            <span class="d-flex align-items-center mb-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.AccountFlow))</span>
                                         </a>
                                     </li>
                                 }
@@ -372,18 +367,18 @@
                                 if (userType == 1)
                                 {
                                     <li class="nav-heading ">
-                                        <span data-localize="sidebar.heading.COMPONENTS">Financial Year Setting`s</span>
+                                        <span>@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.FinancialYearSettings))</span>
                                     </li>
-                                    <li class="">
-                                        <a href="@Url.Action("Index", "FinancialYear")" title="Financial Year">
-                                            <em class="bi bi-cash h4"></em>
-                                            <span data-localize="sidebar.nav.element.ELEMENTS">Financial Year</span>
+                                    <li class="d-flex align-items-center">
+                                        <a href="@Url.Action("Index", "FinancialYear")" title="@Resources.Resources.FinancialYear.ToString()" class="d-flex align-items-center">
+                                            <em class="bi bi-cash h4 mr-1"></em>
+                                            <span class="d-flex align-items-center mb-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.FinancialYear))</span>
                                         </a>
                                     </li>
-                                    <li class="">
-                                        <a href="@Url.Action("Create", "FinancialYear")" title="New Financial Year">
-                                            <em class="bi bi-cash-coin h4"></em>
-                                            <span data-localize="sidebar.nav.element.ELEMENTS">New Financial Year</span>
+                                    <li class="d-flex align-items-center">
+                                        <a href="@Url.Action("Create", "FinancialYear")" title="@Resources.Resources.NewFinancialYear.ToString()" class="d-flex align-items-center">
+                                            <em class="bi bi-cash-coin h4 mr-1"></em>
+                                            <span class="d-flex align-items-center mb-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.NewFinancialYear))</span>
                                         </a>
                                     </li>
                                 }
@@ -392,191 +387,191 @@
                                     <li class="nav-heading ">
                                         <span data-localize="sidebar.heading.COMPONENTS">Financial Year`s</span>
                                     </li>
-                                    <li class="">
-                                        <a href="@Url.Action("Index", "FinancialYearView")" title="All Financial Years">
-                                            <em class="bi bi-calendar3 h4"></em>
-                                            <span data-localize="sidebar.nav.element.ELEMENTS">All Financial Years</span>
+                                    <li class="d-flex align-items-center">
+                                        <a href="@Url.Action("Index", "FinancialYearView")" title="All Financial Years" class="d-flex align-items-center">
+                                            <em class="bi bi-calendar3 h4 mr-1"></em>
+                                            <span class="d-flex align-items-center mb-2">All Financial Years</span>
                                         </a>
                                     </li>
                                 }
                                 <li class="nav-heading ">
-                                    <span data-localize="sidebar.heading.COMPONENTS">Customer`s</span>
+                                    <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.Customers.ToString()</span>
                                 </li>
                                 if (userType == 2)
                                 {
-                                    <li class="">
-                                        <a href="@Url.Action("Create", "Customer")" title="New Customer">
-                                            <em class="bi bi-person-fill-add h4"></em>
-                                            <span data-localize="sidebar.nav.element.ELEMENTS">New Customer</span>
+                                    <li class="d-flex align-items-center">
+                                        <a href="@Url.Action("Create", "Customer")" title="New Customer" class="d-flex align-items-center">
+                                            <em class="bi bi-person-fill-add h4 mr-1"></em>
+                                            <span class="d-flex align-items-center mb-2">New Customer</span>
                                         </a>
                                     </li>
-                                    <li class="">
-                                        <a href="@Url.Action("Index", "Customer")" title="Branch Customers">
-                                            <em class="bi bi-cart h4"></em>
-                                            <span data-localize="sidebar.nav.element.ELEMENTS">Branch Customers</span>
+                                    <li class="d-flex align-items-center">
+                                        <a href="@Url.Action("Index", "Customer")" title="Branch Customers" class="d-flex align-items-center">
+                                            <em class="bi bi-cart h4 mr-1"></em>
+                                            <span class="d-flex align-items-center mb-2">Branch Customers</span>
                                         </a>
                                     </li>
-                                    <li class="">
-                                        <a href="@Url.Action("SubBranchCustomer", "Customer")" title="Sub Branch Customers">
-                                            <em class="bi bi-cart-check h4"></em>
-                                            <span data-localize="sidebar.nav.element.ELEMENTS">Sub Branch Customers</span>
+                                    <li class="d-flex align-items-center">
+                                        <a href="@Url.Action("SubBranchCustomer", "Customer")" title="Sub Branch Customers" class="d-flex align-items-center">
+                                            <em class="bi bi-cart-check h4 mr-1"></em>
+                                            <span class="d-flex align-items-center mb-2">Sub Branch Customers</span>
                                         </a>
                                     </li>
                                     <li class="nav-heading ">
                                         <span data-localize="sidebar.heading.COMPONENTS">Sale`s</span>
                                     </li>
-                                    <li class="">
-                                        <a href="@Url.Action("NewSale", "SaleCart")" title="New Sale">
-                                            <em class="bi bi-bag-plus h4"></em>
-                                            <span data-localize="sidebar.nav.element.ELEMENTS">New Sale</span>
+                                    <li class="d-flex align-items-center">
+                                        <a href="@Url.Action("NewSale", "SaleCart")" title="New Sale" class="d-flex align-items-center">
+                                            <em class="bi bi-bag-plus h4 mr-1"></em>
+                                            <span class="d-flex align-items-center mb-2">New Sale</span>
                                         </a>
                                     </li>
-                                    <li class="">
-                                        <a href="@Url.Action("RemainingPaymentList", "SalePayment")" title="Sale Pending Payment">
-                                            <em class="bi bi-paypal h4"></em>
-                                            <span data-localize="sidebar.nav.element.ELEMENTS">Sale Pending Payment</span>
+                                    <li class="d-flex align-items-center">
+                                        <a href="@Url.Action("RemainingPaymentList", "SalePayment")" title="Sale Pending Payment" class="d-flex align-items-center">
+                                            <em class="bi bi-paypal h4 mr-1"></em>
+                                            <span class="d-flex align-items-center mb-2">Sale Pending Payment</span>
                                         </a>
                                     </li>
-                                    <li class="">
-                                        <a href="@Url.Action("CustomSalesHistory", "SalePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now })" title="All Sales">
-                                            <em class="bi bi-card-checklist h4"></em>
-                                            <span data-localize="sidebar.nav.element.ELEMENTS">All Sales</span>
+                                    <li class="d-flex align-items-center">
+                                        <a href="@Url.Action("CustomSalesHistory", "SalePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now })" title="All Sales" class="d-flex align-items-center">
+                                            <em class="bi bi-card-checklist h4 mr-1"></em>
+                                            <span class="d-flex align-items-center mb-2">All Sales</span>
                                         </a>
                                     </li>
-                                    <li class="">
-                                        <a href="@Url.Action("FindSale", "SaleReturn")" title="Sale Return">
-                                            <em class="bi bi-bag-dash h4"></em>
-                                            <span data-localize="sidebar.nav.element.ELEMENTS">Sale Return</span>
+                                    <li class="d-flex align-items-center">
+                                        <a href="@Url.Action("FindSale", "SaleReturn")" title="Sale Return" class="d-flex align-items-center">
+                                            <em class="bi bi-bag-dash h4 mr-1"></em>
+                                            <span class="d-flex align-items-center mb-2">Sale Return</span>
                                         </a>
                                     </li>
-                                    <li class="">
-                                        <a href="@Url.Action("AllReturnSalesPendingAmount", "SalePaymentReturn")" title="Return Sales Pending Amount">
-                                            <em class="bi bi-wallet-fill h4"></em>
-                                            <span data-localize="sidebar.nav.element.ELEMENTS">Return Sales Pending Amount</span>
+                                    <li class="d-flex align-items-center">
+                                        <a href="@Url.Action("AllReturnSalesPendingAmount", "SalePaymentReturn")" title="Return Sales Pending Amount" class="d-flex align-items-center">
+                                            <em class="bi bi-wallet-fill h4 mr-1"></em>
+                                            <span class="d-flex align-items-center mb-2">Return Sales Pending Amount</span>
                                         </a>
                                     </li>
                                 }
                                 if (userType == 1)
                                 {
-                                    <li class="">
-                                        <a href="@Url.Action("AllCustomers", "Customer")" title="All Customers">
-                                            <em class="bi bi-cart h4"></em>
-                                            <span data-localize="sidebar.nav.element.ELEMENTS">All Customers</span>
+                                    <li class="d-flex align-items-center">
+                                        <a href="@Url.Action("AllCustomers", "Customer")" title="@Resources.Resources.AllCustomers.ToString()" class="d-flex align-items-center">
+                                            <em class="bi bi-cart h4 mr-1"></em>
+                                            <span class="d-flex align-items-center mb-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.AllCustomers))</span>
                                         </a>
                                     </li>
                                 }
                                 <li class="nav-heading ">
-                                    <span data-localize="sidebar.heading.COMPONENTS">Supplier`s</span>
+                                    <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.Suppliers.ToString()</span>
                                 </li>
                                 if (userType == 2)
                                 {
-                                    <li class="">
-                                        <a href="@Url.Action("Create", "Supplier")" title="New Supplier">
-                                            <em class="bi bi-umbrella h4"></em>
-                                            <span data-localize="sidebar.nav.element.ELEMENTS">New Supplier</span>
+                                    <li class="d-flex align-items-center">
+                                        <a href="@Url.Action("Create", "Supplier")" title="New Supplier" class="d-flex align-items-center">
+                                            <em class="bi bi-umbrella h4 mr-1"></em>
+                                            <span class="d-flex align-items-center mb-2">New Supplier</span>
                                         </a>
                                     </li>
-                                    <li class="">
-                                        <a href="@Url.Action("Index", "Supplier")" title="Branch Suppliers">
-                                            <em class="bi bi-truck h4"></em>
-                                            <span data-localize="sidebar.nav.element.ELEMENTS">Branch Suppliers</span>
+                                    <li class="d-flex align-items-center">
+                                        <a href="@Url.Action("Index", "Supplier")" title="Branch Suppliers" class="d-flex align-items-center">
+                                            <em class="bi bi-truck h4 mr-1"></em>
+                                            <span class="d-flex align-items-center mb-2">Branch Suppliers</span>
                                         </a>
                                     </li>
-                                    <li class="">
-                                        <a href="@Url.Action("SubBranchSupplier", "Supplier")" title="Sub Branch Suppliers">
-                                            <em class="bi bi-truck-front h4"></em>
-                                            <span data-localize="sidebar.nav.element.ELEMENTS">Sub Branch Suppliers</span>
+                                    <li class="d-flex align-items-center">
+                                        <a href="@Url.Action("SubBranchSupplier", "Supplier")" title="Sub Branch Suppliers" class="d-flex align-items-center">
+                                            <em class="bi bi-truck-front h4 mr-1"></em>
+                                            <span class="d-flex align-items-center mb-2">Sub Branch Suppliers</span>
                                         </a>
                                     </li>
                                     <li class="nav-heading ">
                                         <span data-localize="sidebar.heading.COMPONENTS">Purchase`s</span>
                                     </li>
-                                    <li class="">
-                                        <a href="@Url.Action("NewPurchase", "PurchaseCart")" title="New Purchase">
-                                            <em class="bi bi-cart-plus h4"></em>
-                                            <span data-localize="sidebar.nav.element.ELEMENTS">New Purchase</span>
+                                    <li class="d-flex align-items-center">
+                                        <a href="@Url.Action("NewPurchase", "PurchaseCart")" title="New Purchase" class="d-flex align-items-center">
+                                            <em class="bi bi-cart-plus h4 mr-1"></em>
+                                            <span class="d-flex align-items-center mb-2">New Purchase</span>
                                         </a>
                                     </li>
-                                    <li class="">
-                                        <a href="@Url.Action("RemainingPaymentList", "PurchasePayment")" title="Purchase Pending Payment">
-                                            <em class="bi bi-currency-dollar h4"></em>
-                                            <span data-localize="sidebar.nav.element.ELEMENTS">Purchase Pending Payment</span>
+                                    <li class="d-flex align-items-center">
+                                        <a href="@Url.Action("RemainingPaymentList", "PurchasePayment")" title="Purchase Pending Payment" class="d-flex align-items-center">
+                                            <em class="bi bi-currency-dollar h4 mr-1"></em>
+                                            <span class="d-flex align-items-center mb-2">Purchase Pending Payment</span>
                                         </a>
                                     </li>
-                                    <li class="">
-                                        <a href="@Url.Action("CustomPurchasesHistory", "PurchasePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now })" title="All Purchases">
-                                            <em class="bi bi-cart h4"></em>
-                                            <span data-localize="sidebar.nav.element.ELEMENTS">All Purchases</span>
+                                    <li class="d-flex align-items-center">
+                                        <a href="@Url.Action("CustomPurchasesHistory", "PurchasePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now })" title="All Purchases" class="d-flex align-items-center">
+                                            <em class="bi bi-cart h4 mr-1"></em>
+                                            <span class="d-flex align-items-center mb-2">All Purchases</span>
                                         </a>
                                     </li>
-                                    <li class="">
-                                        <a href="@Url.Action("FindPurchase", "PurchaseReturn")" title="Purchases Return">
-                                            <em class="bi bi-cart-dash h4"></em>
-                                            <span data-localize="sidebar.nav.element.ELEMENTS">Purchases Return</span>
+                                    <li class="d-flex align-items-center">
+                                        <a href="@Url.Action("FindPurchase", "PurchaseReturn")" title="Purchases Return" class="d-flex align-items-center">
+                                            <em class="bi bi-cart-dash h4 mr-1"></em>
+                                            <span class="d-flex align-items-center mb-2">Purchases Return</span>
                                         </a>
                                     </li>
-                                    <li class="">
-                                        <a href="@Url.Action("AllPurchasesPendingPayment", "PurchasePaymentReturn")" title="Return Purchases Payment Pending">
-                                            <em class="bi bi-currency-dollar h4"></em>
-                                            <span data-localize="sidebar.nav.element.ELEMENTS">Return Payment Pending</span>
+                                    <li class="d-flex align-items-center">
+                                        <a href="@Url.Action("AllPurchasesPendingPayment", "PurchasePaymentReturn")" title="Return Purchases Payment Pending" class="d-flex align-items-center">
+                                            <em class="bi bi-currency-dollar h4 mr-1"></em>
+                                            <span class="d-flex align-items-center mb-2">Return Payment Pending</span>
                                         </a>
                                     </li>
                                     <li class="nav-heading ">
                                         <span data-localize="sidebar.heading.COMPONENTS">Transaction`s</span>
                                     </li>
-                                    <li class="">
-                                        <a href="@Url.Action("GeneralTransaction", "GeneralTransaction", new { transaction = new CloudERP.Models.GeneralTransactionMV() { CreditAccountControlID = 0, DebitAccountControlID = 0, TransferAmount = 0 } })" title="General Transaction">
-                                            <em class="bi bi-briefcase h4"></em>
-                                            <span data-localize="sidebar.nav.element.ELEMENTS">General Transaction</span>
+                                    <li class="d-flex align-items-center">
+                                        <a href="@Url.Action("GeneralTransaction", "GeneralTransaction", new { transaction = new CloudERP.Models.GeneralTransactionMV() { CreditAccountControlID = 0, DebitAccountControlID = 0, TransferAmount = 0 } })" title="General Transaction" class="d-flex align-items-center">
+                                            <em class="bi bi-briefcase h4 mr-1"></em>
+                                            <span class="d-flex align-items-center mb-2">General Transaction</span>
                                         </a>
                                     </li>
-                                    <li class="">
-                                        <a href="@Url.Action("Journal", "GeneralTransaction")" title="Journal">
-                                            <em class="bi bi-journal-bookmark h4"></em>
-                                            <span data-localize="sidebar.nav.element.ELEMENTS">Journal</span>
+                                    <li class="d-flex align-items-center">
+                                        <a href="@Url.Action("Journal", "GeneralTransaction")" title="Journal" class="d-flex align-items-center">
+                                            <em class="bi bi-journal-bookmark h4 mr-1"></em>
+                                            <span class="d-flex align-items-center mb-2">Journal</span>
                                         </a>
                                     </li>
-                                    <li class="">
-                                        <a href="@Url.Action("GetLedger", "Ledger")" title="Accounts Ledger">
-                                            <em class="bi bi-book-half h4"></em>
-                                            <span data-localize="sidebar.nav.element.ELEMENTS">Accounts Ledger</span>
+                                    <li class="d-flex align-items-center">
+                                        <a href="@Url.Action("GetLedger", "Ledger")" title="Accounts Ledger" class="d-flex align-items-center">
+                                            <em class="bi bi-book-half h4 mr-1"></em>
+                                            <span class="d-flex align-items-center mb-2">Accounts Ledger</span>
                                         </a>
                                     </li>
-                                    <li class="">
-                                        <a href="@Url.Action("GetTrialBalance", "TrialBalance")" title="Trial Balance">
-                                            <em class="bi bi-currency-dollar h4"></em>
-                                            <span data-localize="sidebar.nav.element.ELEMENTS">Trial Balance</span>
+                                    <li class="d-flex align-items-center">
+                                        <a href="@Url.Action("GetTrialBalance", "TrialBalance")" title="Trial Balance" class="d-flex align-items-center">
+                                            <em class="bi bi-currency-dollar h4 mr-1"></em>
+                                            <span class="d-flex align-items-center mb-2">Trial Balance</span>
                                         </a>
                                     </li>
-                                    <li class="">
-                                        <a href="@Url.Action("GetIncomeStatement", "IncomeStatement")" title="Income Statement">
-                                            <em class="bi bi-currency-exchange h4"></em>
-                                            <span data-localize="sidebar.nav.element.ELEMENTS">Income Statement</span>
+                                    <li class="d-flex align-items-center">
+                                        <a href="@Url.Action("GetIncomeStatement", "IncomeStatement")" title="Income Statement" class="d-flex align-items-center">
+                                            <em class="bi bi-currency-exchange h4 mr-1"></em>
+                                            <span class="d-flex align-items-center mb-2">Income Statement</span>
                                         </a>
                                     </li>
-                                    <li class="">
-                                        <a href="@Url.Action("GetBalanceSheet", "BalanceSheet")" title="Balance Sheet">
-                                            <em class="bi bi-file-earmark-spreadsheet h4"></em>
-                                            <span data-localize="sidebar.nav.element.ELEMENTS">Balance Sheet</span>
+                                    <li class="d-flex align-items-center">
+                                        <a href="@Url.Action("GetBalanceSheet", "BalanceSheet")" title="Balance Sheet" class="d-flex align-items-center">
+                                            <em class="bi bi-file-earmark-spreadsheet h4 mr-1"></em>
+                                            <span class="d-flex align-items-center mb-2">Balance Sheet</span>
                                         </a>
                                     </li>
                                 }
                                 if (userType == 1)
                                 {
-                                    <li class="">
-                                        <a href="@Url.Action("AllSuppliers", "Supplier")" title="All Suppliers">
-                                            <em class="bi bi-minecart-loaded h4"></em>
-                                            <span data-localize="sidebar.nav.element.ELEMENTS">All Suppliers</span>
+                                    <li class="d-flex align-items-center">
+                                        <a href="@Url.Action("AllSuppliers", "Supplier")" title="@Resources.Resources.AllSuppliers.ToString()" class="d-flex align-items-center">
+                                            <em class="bi bi-minecart-loaded h4 mr-1"></em>
+                                            <span class="d-flex align-items-center mb-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.AllSuppliers))</span>
                                         </a>
                                     </li>
                                 }
                                 <li class="nav-heading ">
-                                    <span data-localize="sidebar.heading.COMPONENTS">License</span>
+                                    <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.License.ToString()</span>
                                 </li>
-                                <li class="">
-                                    <a href="@Url.Action("PrivacyPolicy", "Guide")" title="Privacy Policy">
-                                        <em class="bi bi-sourceforge h4"></em>
-                                        <span data-localize="sidebar.nav.element.ELEMENTS">Privacy Policy</span>
+                                <li class="d-flex align-items-center">
+                                    <a href="@Url.Action("PrivacyPolicy", "Guide")" title="@Resources.Resources.PrivacyPolicy.ToString()" class="d-flex align-items-center">
+                                        <em class="bi bi-sourceforge h4 mr-1"></em>
+                                        <span class="d-flex align-items-center mb-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.PrivacyPolicy))</span>
                                     </a>
                                 </li>
                             }

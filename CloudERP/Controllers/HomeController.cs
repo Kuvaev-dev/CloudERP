@@ -183,6 +183,7 @@ namespace CloudERP.Controllers
         public ActionResult SetCulture(string culture)
         {
             ResourceManagerHelper.SetCulture(culture);
+            Session["Culture"] = culture; // Store the selected culture in the session
             if (Session["UserTypeID"] != null)
             {
                 int userTypeID = Convert.ToInt32(Session["UserTypeID"]);
@@ -195,7 +196,6 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Index");
                 }
             }
-
             return View("Login");
         }
 

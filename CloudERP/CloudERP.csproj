@@ -219,10 +219,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.ru-RU.resx</DependentUpon>
     </Compile>
-    <Compile Include="App_GlobalResources\Resources.uk-UK.designer.cs">
+    <Compile Include="App_GlobalResources\Resources.uk-UA.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.uk-UK.resx</DependentUpon>
+      <DependentUpon>Resources.uk-UA.resx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -2821,6 +2821,7 @@
     <Content Include="App_GlobalResources\Resources.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Resources.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
     <EmbeddedResource Include="App_GlobalResources\Resources.en-US.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
@@ -2834,9 +2835,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="App_GlobalResources\Resources.uk-UK.resx">
+    <EmbeddedResource Include="App_GlobalResources\Resources.uk-UA.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Resources.uk-UK.designer.cs</LastGenOutput>
+      <LastGenOutput>Resources.uk-UA.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

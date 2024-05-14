@@ -61,11 +61,227 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Hello.
+        ///   Ищет локализованную строку, похожую на Account Controls.
+        /// </summary>
+        internal static string AccountControls {
+            get {
+                return ResourceManager.GetString("AccountControls", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Account Flow.
+        /// </summary>
+        internal static string AccountFlow {
+            get {
+                return ResourceManager.GetString("AccountFlow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Account Heads.
+        /// </summary>
+        internal static string AccountHeads {
+            get {
+                return ResourceManager.GetString("AccountHeads", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Account Setting`s.
+        /// </summary>
+        internal static string AccountSettings {
+            get {
+                return ResourceManager.GetString("AccountSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Account Sub Controls.
+        /// </summary>
+        internal static string AccountSubControls {
+            get {
+                return ResourceManager.GetString("AccountSubControls", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Admin Guide.
+        /// </summary>
+        internal static string AdminGuide {
+            get {
+                return ResourceManager.GetString("AdminGuide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Admin Menu Guide.
+        /// </summary>
+        internal static string AdminMenuGuide {
+            get {
+                return ResourceManager.GetString("AdminMenuGuide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на All Customers.
+        /// </summary>
+        internal static string AllCustomers {
+            get {
+                return ResourceManager.GetString("AllCustomers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на All Suppliers.
+        /// </summary>
+        internal static string AllSuppliers {
+            get {
+                return ResourceManager.GetString("AllSuppliers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Companie`s.
+        /// </summary>
+        internal static string Companies {
+            get {
+                return ResourceManager.GetString("Companies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Companies.
+        /// </summary>
+        internal static string Company {
+            get {
+                return ResourceManager.GetString("Company", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Company Registration.
+        /// </summary>
+        internal static string CompanyRegistration {
+            get {
+                return ResourceManager.GetString("CompanyRegistration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Customer`s.
+        /// </summary>
+        internal static string Customers {
+            get {
+                return ResourceManager.GetString("Customers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Financial Year.
+        /// </summary>
+        internal static string FinancialYear {
+            get {
+                return ResourceManager.GetString("FinancialYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Financial Year Setting`s.
+        /// </summary>
+        internal static string FinancialYearSettings {
+            get {
+                return ResourceManager.GetString("FinancialYearSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Guide.
+        /// </summary>
+        internal static string Guide {
+            get {
+                return ResourceManager.GetString("Guide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Hello,.
         /// </summary>
         internal static string Hello {
             get {
                 return ResourceManager.GetString("Hello", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на License.
+        /// </summary>
+        internal static string License {
+            get {
+                return ResourceManager.GetString("License", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на New Financial Year.
+        /// </summary>
+        internal static string NewFinancialYear {
+            get {
+                return ResourceManager.GetString("NewFinancialYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Privacy Policy.
+        /// </summary>
+        internal static string PrivacyPolicy {
+            get {
+                return ResourceManager.GetString("PrivacyPolicy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Supplier`s.
+        /// </summary>
+        internal static string Suppliers {
+            get {
+                return ResourceManager.GetString("Suppliers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Users.
+        /// </summary>
+        internal static string Users {
+            get {
+                return ResourceManager.GetString("Users", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на User Setting.
+        /// </summary>
+        internal static string UserSetting {
+            get {
+                return ResourceManager.GetString("UserSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на User Types.
+        /// </summary>
+        internal static string UserTypes {
+            get {
+                return ResourceManager.GetString("UserTypes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на --------------------------------------------------.
+        /// </summary>
+        internal static string ______________________________________ {
+            get {
+                return ResourceManager.GetString("--------------------------------------", resourceCulture);
             }
         }
     }

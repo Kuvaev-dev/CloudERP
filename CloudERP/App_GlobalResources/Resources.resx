@@ -117,7 +117,105 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="--------------------------------------" xml:space="preserve">
+    <value>--------------------------------------------------</value>
+  </data>
+  <!--Sidebar-->
+  <data name="AccountControls" xml:space="preserve">
+    <value>Account Controls</value>
+    <comment>Sidebar Option Menu String</comment>
+  </data>
+  <data name="AccountFlow" xml:space="preserve">
+    <value>Account Flow</value>
+    <comment>Sidebar Option Menu String</comment>
+  </data>
+  <data name="AccountHeads" xml:space="preserve">
+    <value>Account Heads</value>
+    <comment>Sidebar Option Menu String</comment>
+  </data>
+  <data name="AccountSettings" xml:space="preserve">
+    <value>Account Setting`s</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="AccountSubControls" xml:space="preserve">
+    <value>Account Sub Controls</value>
+    <comment>Sidebar Option Menu String</comment>
+  </data>
+  <data name="AdminGuide" xml:space="preserve">
+    <value>Admin Guide</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="AllCustomers" xml:space="preserve">
+    <value>All Customers</value>
+    <comment>Sidebar Option Menu String</comment>
+  </data>
+  <data name="AllSuppliers" xml:space="preserve">
+    <value>All Suppliers</value>
+    <comment>Sidebar Option Menu String</comment>
+  </data>
+  <data name="Companies" xml:space="preserve">
+    <value>Companie`s</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="CompanyRegistration" xml:space="preserve">
+    <value>Company Registration</value>
+    <comment>Sidebar Option Menu String</comment>
+  </data>
+  <data name="Customers" xml:space="preserve">
+    <value>Customer`s</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="FinancialYear" xml:space="preserve">
+    <value>Financial Year</value>
+    <comment>Sidebar Option Menu String</comment>
+  </data>
+  <data name="FinancialYearSettings" xml:space="preserve">
+    <value>Financial Year Setting`s</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="Guide" xml:space="preserve">
+    <value>Guide</value>
+    <comment>Sidebar Option Menu String</comment>
+  </data>
   <data name="Hello" xml:space="preserve">
-    <value>Hello</value>
+    <value>Hello,</value>
+    <comment>Profile String</comment>
+  </data>
+  <data name="License" xml:space="preserve">
+    <value>License</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="PrivacyPolicy" xml:space="preserve">
+    <value>Privacy Policy</value>
+    <comment>Sidebar Option Menu String</comment>
+  </data>
+  <data name="Suppliers" xml:space="preserve">
+    <value>Supplier`s</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Users</value>
+    <comment>Sidebar Option Menu String</comment>
+  </data>
+  <data name="UserSetting" xml:space="preserve">
+    <value>User Setting</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="UserTypes" xml:space="preserve">
+    <value>User Types</value>
+    <comment>Sidebar Option Menu String</comment>
+  </data>
+  <data name="Company" xml:space="preserve">
+    <value>Companies</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="NewFinancialYear" xml:space="preserve">
+    <value>New Financial Year</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <!--Admin Menu Guide-->
+  <data name="AdminMenuGuide" xml:space="preserve">
+    <value>Admin Menu Guide</value>
+    <comment>Admin Menu Guide Page Title</comment>
   </data>
 </root>

@@ -117,10 +117,101 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AccountControls" xml:space="preserve">
+    <value>Контроль аккаунта</value>
+    <comment>Sidebar Option Menu String</comment>
+  </data>
+  <data name="AccountFlow" xml:space="preserve">
+    <value>Управление&lt;br/&gt;аккаунтами</value>
+    <comment>Sidebar Option Menu String</comment>
+  </data>
+  <data name="AccountHeads" xml:space="preserve">
+    <value>Главная настройка</value>
+    <comment>Sidebar Option Menu String</comment>
+  </data>
+  <data name="AccountSettings" xml:space="preserve">
+    <value>Настройки аккаунтов</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="AccountSubControls" xml:space="preserve">
+    <value>Подконтроль аккаунта</value>
+    <comment>Sidebar Option Menu String</comment>
+  </data>
+  <data name="AdminGuide" xml:space="preserve">
+    <value>Инструкция&lt;br/&gt;администратора</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="AllCustomers" xml:space="preserve">
+    <value>Все покупатели</value>
+    <comment>Sidebar Option Menu String</comment>
+  </data>
+  <data name="AllSuppliers" xml:space="preserve">
+    <value>Все поставщики</value>
+    <comment>Sidebar Option Menu String</comment>
+  </data>
+  <data name="Companies" xml:space="preserve">
+    <value>Настройка компаний</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="CompanyRegistration" xml:space="preserve">
+    <value>Регистрация компании</value>
+    <comment>Sidebar Option Menu String</comment>
+  </data>
+  <data name="Customers" xml:space="preserve">
+    <value>Покупатели</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="FinancialYear" xml:space="preserve">
+    <value>Год финансирования</value>
+    <comment>Sidebar Option Menu String</comment>
+  </data>
+  <data name="FinancialYearSettings" xml:space="preserve">
+    <value>Настройки года&lt;br/&gt;финансирования</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="Guide" xml:space="preserve">
+    <value>Инструкции</value>
+    <comment>Sidebar Option Menu String</comment>
+  </data>
   <data name="Hello" xml:space="preserve">
-    <value>й</value>
+    <value>Здравствуй,</value>
+    <comment>Profile String</comment>
+  </data>
+  <data name="License" xml:space="preserve">
+    <value>Лицензия</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="PrivacyPolicy" xml:space="preserve">
+    <value>Политика&lt;br/&gt;конфиденциальности</value>
+    <comment>Sidebar Option Menu String</comment>
+  </data>
+  <data name="Suppliers" xml:space="preserve">
+    <value>Поставщики</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Пользователи</value>
+    <comment>Sidebar Option Menu String</comment>
+  </data>
+  <data name="UserSetting" xml:space="preserve">
+    <value>Настройка пользователей</value>
+    <comment>Sidebar Option String</comment>
   </data>
   <data name="UserTypes" xml:space="preserve">
     <value>Типы пользователей</value>
+    <comment>Sidebar Option Menu String</comment>
+  </data>
+  <data name="Company" xml:space="preserve">
+    <value>Компании</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="NewFinancialYear" xml:space="preserve">
+    <value>Новый год&lt;br/&gt;финансирования</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <!--Admin Menu Guide-->
+  <data name="AdminMenuGuide" xml:space="preserve">
+    <value>Инструкция для администратора</value>
+    <comment>Admin Menu Guide Page Title</comment>
   </data>
 </root>
