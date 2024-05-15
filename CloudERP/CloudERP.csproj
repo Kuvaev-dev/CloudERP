@@ -204,25 +204,65 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_GlobalResources\Resources.designer.cs">
+    <Compile Include="App_GlobalResources\RepeatingResources\Repeats.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Repeats.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\RepeatingResources\Repeats.en-US.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Repeats.en-US.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\RepeatingResources\Repeats.ru-RU.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Repeats.ru-RU.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\RepeatingResources\Repeats.uk-UA.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Repeats.uk-UA.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\Sidebar\Resources.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="App_GlobalResources\Resources.en-US.designer.cs">
+    <Compile Include="App_GlobalResources\Sidebar\Resources.en-US.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.en-US.resx</DependentUpon>
     </Compile>
-    <Compile Include="App_GlobalResources\Resources.ru-RU.designer.cs">
+    <Compile Include="App_GlobalResources\Sidebar\Resources.ru-RU.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.ru-RU.resx</DependentUpon>
     </Compile>
-    <Compile Include="App_GlobalResources\Resources.uk-UA.designer.cs">
+    <Compile Include="App_GlobalResources\Sidebar\Resources.uk-UA.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.uk-UA.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\UserTypes\UserTypes.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserTypes.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\UserTypes\UserTypes.en-US.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserTypes.en-US.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\UserTypes\UserTypes.ru-RU.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserTypes.ru-RU.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\UserTypes\UserTypes.uk-UA.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserTypes.uk-UA.resx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -2616,6 +2656,11 @@
     <Content Include="Content\fontawesome\webfonts\fa-solid-900.woff2" />
     <Content Include="Content\fontawesome\webfonts\fa-v4compatibility.ttf" />
     <Content Include="Content\fontawesome\webfonts\fa-v4compatibility.woff2" />
+    <EmbeddedResource Include="App_GlobalResources\RepeatingResources\Repeats.uk-UA.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Repeats.uk-UA.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <None Include="Properties\PublishProfiles\CloudERP20240507124545 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />
@@ -2648,7 +2693,6 @@
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\UserType\Create.cshtml" />
-    <Content Include="Views\UserType\Delete.cshtml" />
     <Content Include="Views\UserType\Details.cshtml" />
     <Content Include="Views\UserType\Edit.cshtml" />
     <Content Include="Views\UserType\Index.cshtml" />
@@ -2818,24 +2862,52 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_GlobalResources\Resources.resx">
+    <Content Include="App_GlobalResources\Sidebar\Resources.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Resources.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </Content>
-    <EmbeddedResource Include="App_GlobalResources\Resources.en-US.resx">
+    <Content Include="App_GlobalResources\RepeatingResources\Repeats.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Repeats.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\RepeatingResources\Repeats.en-US.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Repeats.en-US.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\RepeatingResources\Repeats.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Repeats.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+    <EmbeddedResource Include="App_GlobalResources\Sidebar\Resources.en-US.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Resources.en-US.designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Content Include="App_GlobalResources\UserTypes\UserTypes.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>UserTypes.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\UserTypes\UserTypes.en-US.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>UserTypes.en-US.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\UserTypes\UserTypes.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>UserTypes.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\UserTypes\UserTypes.uk-UA.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>UserTypes.uk-UA.designer.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="App_GlobalResources\Resources.ru-RU.resx">
+    <EmbeddedResource Include="App_GlobalResources\Sidebar\Resources.ru-RU.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Resources.ru-RU.designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="App_GlobalResources\Resources.uk-UA.resx">
+    <EmbeddedResource Include="App_GlobalResources\Sidebar\Resources.uk-UA.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Resources.uk-UA.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>

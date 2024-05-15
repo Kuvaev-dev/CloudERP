@@ -1,14 +1,14 @@
 ﻿@model DatabaseAccess.tblUserType
 
 @{
-    ViewBag.Title = "User Type Details";
+    ViewBag.Title = Resources.UserTypes.UserTypeDetails.ToString();
 }
 
 <div class="form-horizontal">
     <div>
         <dl class="dl-horizontal">
             <dt>
-                @Html.LabelFor(model => model.UserType, "User Type", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.UserType, Resources.UserTypes.UserType.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             </dt>
 
             <dd class="control-label col-md-2">
@@ -18,8 +18,8 @@
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            @Html.ActionLink("Edit", "Edit", new { id = Model.UserTypeID }, new { @class = "btn btn-primary" })
-            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+            @Html.ActionLink(Resources.Repeats.Edit.ToString(), "Edit", new { id = Model.UserTypeID }, new { @class = "btn btn-primary" })
+            @Html.ActionLink(Resources.Repeats.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
         </div>
     </div>
 </div>

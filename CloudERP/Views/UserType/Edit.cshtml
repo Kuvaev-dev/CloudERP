@@ -1,7 +1,7 @@
 ﻿@model DatabaseAccess.tblUserType
 
 @{
-    ViewBag.Title = "Edit User Type";
+    ViewBag.Title = Resources.UserTypes.EditUserType.ToString();
 }
 
 @using (Html.BeginForm())
@@ -13,7 +13,7 @@
         @Html.HiddenFor(model => model.UserTypeID)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.UserType, "User Type", htmlAttributes: new { @class = "control-label col-md-3" })
+            @Html.LabelFor(model => model.UserType, Resources.UserTypes.UserType.ToString(), htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.UserType, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.UserType, "", new { @class = "text-danger" })
@@ -22,8 +22,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-success" />
-                @Html.ActionLink("Back to List", "Index", null, new { @class="btn btn-default" })
+                <input type="submit" value="@Resources.Repeats.Save.ToString()" class="btn btn-success" />
+                @Html.ActionLink(Resources.Repeats.BackToList.ToString(), "Index", null, new { @class="btn btn-default" })
             </div>
         </div>
     </div>
