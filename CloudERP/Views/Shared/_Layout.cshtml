@@ -150,7 +150,7 @@
                                     </div>
                                     <!-- Name and Job-->
                                     <div class="user-block-info">
-                                        <span class="user-block-name">@Resources.Resources.Hello.ToString() @Session["UserName"]</span>
+                                        <span class="user-block-name">Hello, @Session["UserName"]</span>
                                         <span class="user-block-role">@Session["Designation"]</span>
                                     </div>
                                 </div>
@@ -170,53 +170,53 @@
                                     if (userType == 1)
                                     {
                                         <li class="nav-heading ">
-                                            <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.Guide.ToString()</span>
+                                            <span data-localize="sidebar.heading.COMPONENTS">Guide</span>
                                         </li>
 
                                         <li class="d-flex">
-                                            <a href="@Url.Action("AdminMenuGuide", "Guide")" title="@Resources.Resources.AdminGuide.ToString()" class="d-flex align-items-center">
+                                            <a href="@Url.Action("AdminMenuGuide", "Guide")" title="Admin Guide" class="d-flex align-items-center">
                                                 <em class="bi bi-info-circle h4 mr-1"></em>
-                                                <span class="d-flex align-items-center mb-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.AdminGuide))</span>
+                                                <span class="d-flex align-items-center mb-2">Admin Guide</span>
                                             </a>
                                         </li>
 
                                         <li class="nav-heading ">
-                                            <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.UserSetting.ToString()</span>
+                                            <span data-localize="sidebar.heading.COMPONENTS">User Setting</span>
                                         </li>
                                         <li class="d-flex">
-                                            <a href="@Url.Action("Index", "UserType")" title="@Resources.Resources.UserTypes.ToString()" class="d-flex align-items-center">
+                                            <a href="@Url.Action("Index", "UserType")" title="User Types" class="d-flex align-items-center">
                                                 <em class="bi bi-person-fill-gear h4 mr-1"></em>
-                                                <span class="d-flex align-items-center mb-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.UserTypes))</span>
+                                                <span class="d-flex align-items-center mb-2">User Types</span>
                                             </a>
                                         </li>
                                         <li class="d-flex">
-                                            <a href="@Url.Action("Index", "User")" title="@Resources.Resources.Users.ToString()" class="d-flex align-items-center">
+                                            <a href="@Url.Action("Index", "User")" title="Users" class="d-flex align-items-center">
                                                 <em class="bi bi-person-fill h4 mr-1"></em>
-                                                <span class="d-flex align-items-center mb-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.Users))</span>
+                                                <span class="d-flex align-items-center mb-2">Users</span>
                                             </a>
                                         </li>
                                         <li class="nav-heading ">
-                                            <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.Companies.ToString()</span>
+                                            <span data-localize="sidebar.heading.COMPONENTS">Companie`s</span>
                                         </li>
                                         <li class="d-flex align-items-center">
-                                            <a href="@Url.Action("Index", "Company")" title="@Resources.Resources.Company.ToString()" class="d-flex align-items-center">
+                                            <a href="@Url.Action("Index", "Company")" title="Companies" class="d-flex align-items-center">
                                                 <em class="bi bi-building h4 mr-1"></em>
-                                                <span class="d-flex align-items-center mb-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.Company))</span>
+                                                <span class="d-flex align-items-center mb-2">Companies</span>
                                             </a>
                                         </li>
                                         <li class="d-flex align-items-center">
-                                            <a href="@Url.Action("RegistrationForm", "CompanyRegistration")" title="@Resources.Resources.CompanyRegistration.ToString()" class="d-flex align-items-center">
+                                            <a href="@Url.Action("RegistrationForm", "CompanyRegistration")" title="Company Registration" class="d-flex align-items-center">
                                                 <em class="bi bi-building-add h4 mr-1"></em>
-                                                <span class="d-flex align-items-center mb-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.CompanyRegistration))</span>
-                                            </a>
+                                                <span class="d-flex align-items-center mb-2">Company Registration</span>
+                                            </a> 
                                         </li>
                                         <li class="nav-heading ">
-                                            <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.AccountSettings.ToString()</span>
+                                            <span data-localize="sidebar.heading.COMPONENTS">Account Settings</span>
                                         </li>
                                         <li class="d-flex align-items-center">
-                                            <a href="@Url.Action("Index", "AccountHead")" title="@Resources.Resources.AccountHeads.ToString()" class="d-flex align-items-center">
+                                            <a href="@Url.Action("Index", "AccountHead")" title="Account Heads" class="d-flex align-items-center">
                                                 <em class="bi bi-lightbulb-fill mr-1 mb-2"></em>
-                                                <span class="d-flex align-items-center mb-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.AccountHeads))</span>
+                                                <span class="d-flex align-items-center mb-2">Account Heads</span>
                                             </a>
                                         </li>
                                     }
@@ -342,24 +342,24 @@
                                         </li>
                                     }
                                     <li class="nav-heading ">
-                                        <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.AccountSettings.ToString()</span>
+                                        <span data-localize="sidebar.heading.COMPONENTS">Account Settings</span>
                                     </li>
                                     <li class="d-flex align-items-center">
-                                        <a href="@Url.Action("Index", "AccountControl")" title="@Resources.Resources.AccountControls.ToString()" class="d-flex align-items-center">
+                                        <a href="@Url.Action("Index", "AccountControl")" title="Account Controls" class="d-flex align-items-center">
                                             <em class="bi bi-gear-wide h4 mr-1"></em>
-                                            <span class="d-flex align-items-center mb-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.AccountControls))</span>
+                                            <span class="d-flex align-items-center mb-2">Account Controls</span>
                                         </a>
                                     </li>
                                     <li class="d-flex align-items-center">
-                                        <a href="@Url.Action("Index", "AccountSubControl")" title="@Resources.Resources.AccountSubControls.ToString()" class="d-flex align-items-center">
+                                        <a href="@Url.Action("Index", "AccountSubControl")" title="Account Sub Controls" class="d-flex align-items-center">
                                             <em class="bi bi-gear-wide-connected h4 mr-1"></em>
-                                            <span class="d-flex align-items-center mb-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.AccountSubControls))</span>
+                                            <span class="d-flex align-items-center mb-2">Account Sub Controls</span>
                                         </a>
                                     </li>
                                     <li class="d-flex align-items-center">
-                                        <a href="@Url.Action("Index", "AccountSetting")" title="@Resources.Resources.AccountFlow.ToString()" class="d-flex align-items-center">
+                                        <a href="@Url.Action("Index", "AccountSetting")" title="Account Flow" class="d-flex align-items-center">
                                             <em class="bi bi-person-lines-fill h4 mr-1"></em>
-                                            <span class="d-flex align-items-center mb-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.AccountFlow))</span>
+                                            <span class="d-flex align-items-center mb-2">Account Flow</span>
                                         </a>
                                     </li>
                                 }
@@ -367,18 +367,18 @@
                                 if (userType == 1)
                                 {
                                     <li class="nav-heading ">
-                                        <span>@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.FinancialYearSettings))</span>
+                                        <span>Financial Year Settings</span>
                                     </li>
                                     <li class="d-flex align-items-center">
-                                        <a href="@Url.Action("Index", "FinancialYear")" title="@Resources.Resources.FinancialYear.ToString()" class="d-flex align-items-center">
+                                        <a href="@Url.Action("Index", "FinancialYear")" title="Financial Years" class="d-flex align-items-center">
                                             <em class="bi bi-cash h4 mr-1"></em>
-                                            <span class="d-flex align-items-center mb-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.FinancialYear))</span>
+                                            <span class="d-flex align-items-center mb-2">Financial Years</span>
                                         </a>
                                     </li>
                                     <li class="d-flex align-items-center">
-                                        <a href="@Url.Action("Create", "FinancialYear")" title="@Resources.Resources.NewFinancialYear.ToString()" class="d-flex align-items-center">
+                                        <a href="@Url.Action("Create", "FinancialYear")" title="New Financial Year" class="d-flex align-items-center">
                                             <em class="bi bi-cash-coin h4 mr-1"></em>
-                                            <span class="d-flex align-items-center mb-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.NewFinancialYear))</span>
+                                            <span class="d-flex align-items-center mb-2">New Financial Year</span>
                                         </a>
                                     </li>
                                 }
@@ -395,7 +395,7 @@
                                     </li>
                                 }
                                 <li class="nav-heading ">
-                                    <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.Customers.ToString()</span>
+                                    <span data-localize="sidebar.heading.COMPONENTS">Customers</span>
                                 </li>
                                 if (userType == 2)
                                 {
@@ -454,14 +454,14 @@
                                 if (userType == 1)
                                 {
                                     <li class="d-flex align-items-center">
-                                        <a href="@Url.Action("AllCustomers", "Customer")" title="@Resources.Resources.AllCustomers.ToString()" class="d-flex align-items-center">
+                                        <a href="@Url.Action("AllCustomers", "Customer")" title="All Customers" class="d-flex align-items-center">
                                             <em class="bi bi-cart h4 mr-1"></em>
-                                            <span class="d-flex align-items-center mb-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.AllCustomers))</span>
+                                            <span class="d-flex align-items-center mb-2">All Customers</span>
                                         </a>
                                     </li>
                                 }
                                 <li class="nav-heading ">
-                                    <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.Suppliers.ToString()</span>
+                                    <span data-localize="sidebar.heading.COMPONENTS">Suppliers</span>
                                 </li>
                                 if (userType == 2)
                                 {
@@ -559,19 +559,19 @@
                                 if (userType == 1)
                                 {
                                     <li class="d-flex align-items-center">
-                                        <a href="@Url.Action("AllSuppliers", "Supplier")" title="@Resources.Resources.AllSuppliers.ToString()" class="d-flex align-items-center">
+                                        <a href="@Url.Action("AllSuppliers", "Supplier")" title="All Suppliers" class="d-flex align-items-center">
                                             <em class="bi bi-minecart-loaded h4 mr-1"></em>
-                                            <span class="d-flex align-items-center mb-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.AllSuppliers))</span>
+                                            <span class="d-flex align-items-center mb-2">All Suppliers</span>
                                         </a>
                                     </li>
                                 }
                                 <li class="nav-heading ">
-                                    <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.License.ToString()</span>
+                                    <span data-localize="sidebar.heading.COMPONENTS">License</span>
                                 </li>
                                 <li class="d-flex align-items-center">
-                                    <a href="@Url.Action("PrivacyPolicy", "Guide")" title="@Resources.Resources.PrivacyPolicy.ToString()" class="d-flex align-items-center">
+                                    <a href="@Url.Action("PrivacyPolicy", "Guide")" title="Privacy Policy" class="d-flex align-items-center">
                                         <em class="bi bi-sourceforge h4 mr-1"></em>
-                                        <span class="d-flex align-items-center mb-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.PrivacyPolicy))</span>
+                                        <span class="d-flex align-items-center mb-2">Privacy Policy</span>
                                     </a>
                                 </li>
                             }
