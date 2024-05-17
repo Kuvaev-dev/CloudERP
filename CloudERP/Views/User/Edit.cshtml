@@ -1,7 +1,8 @@
-﻿@model DatabaseAccess.tblUser
+﻿@*Localized*@
+@model DatabaseAccess.tblUser
 
 @{
-    ViewBag.Title = "Edit User";
+    ViewBag.Title = Resources.User.EditUser.ToString();
 }
 
 @using (Html.BeginForm())
@@ -14,7 +15,7 @@
         @Html.HiddenFor(model => model.UserTypeID)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.FullName, "Full Name", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.FullName, Resources.User.FullName.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
@@ -22,7 +23,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Email, "E-mail", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Email, Resources.User.EmailAddress.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
@@ -30,7 +31,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ContactNo, "Contact №", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ContactNo, Resources.User.ContactNo.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.ContactNo, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ContactNo, "", new { @class = "text-danger" })
@@ -38,7 +39,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.UserName, "Username", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.UserName, Resources.User.UserName.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
@@ -46,7 +47,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Password, "Password", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Password, Resources.User.Password.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
@@ -54,7 +55,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.IsActive, "Status / Is Active", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.IsActive, Resources.User.Status.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 <div class="checkbox">
                     @Html.EditorFor(model => model.IsActive)
@@ -65,8 +66,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-success" />
-                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+                <input type="submit" value="@Resources.Repeats.Save.ToString()" class="btn btn-success" />
+                @Html.ActionLink(Resources.Repeats.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
             </div>
         </div>
     </div>

@@ -212,9 +212,4 @@
     <value>New Financial Year</value>
     <comment>Sidebar Option String</comment>
   </data>
-  <!--Admin Menu Guide-->
-  <data name="AdminMenuGuide" xml:space="preserve">
-    <value>Admin Menu Guide</value>
-    <comment>Admin Menu Guide Page Title</comment>
-  </data>
 </root>

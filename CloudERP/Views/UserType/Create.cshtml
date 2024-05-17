@@ -1,4 +1,5 @@
-﻿@model DatabaseAccess.tblUserType
+﻿@*Localized*@
+@model DatabaseAccess.tblUserType
 
 @{
     ViewBag.Title = Resources.UserTypes.AddNewUserType.ToString();
@@ -21,7 +22,7 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-5">
                 <input type="submit" value="@Resources.Repeats.Create.ToString()" class="btn btn-success" />
-                @Html.ActionLink(@Resources.Repeats.BackToList.ToString(), "Index", null, new { @class="btn btn-default" })
+                @Html.ActionLink(@Resources.Repeats.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
             </div>
         </div>
     </div>

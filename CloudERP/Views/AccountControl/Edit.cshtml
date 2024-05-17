@@ -1,7 +1,7 @@
 ﻿@model DatabaseAccess.tblAccountControl
 
 @{
-    ViewBag.Title = "Edit Account Control";
+    ViewBag.Title = Resources.AccountControl.EditAccountControl.ToString();
 }
 
 @using (Html.BeginForm())
@@ -17,7 +17,7 @@
         @Html.HiddenFor(model => model.UserID)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.AccountHeadID, "Select Head", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.AccountHeadID, Resources.AccountControl.EnterAccountHeadID.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.AccountHeadID, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.AccountHeadID, "", new { @class = "text-danger" })
@@ -25,7 +25,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.AccountControlName, "Account Control", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.AccountControlName, Resources.AccountControl.AccountControlTitle.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.AccountControlName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.AccountControlName, "", new { @class = "text-danger" })
@@ -34,8 +34,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-success" />
-                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+                <input type="submit" value="@Resources.Repeats.Save.ToString()" class="btn btn-success" />
+                @Html.ActionLink(Resources.Repeats.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
             </div>
         </div>
     </div>

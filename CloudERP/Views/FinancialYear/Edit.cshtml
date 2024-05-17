@@ -1,7 +1,7 @@
 ﻿@model DatabaseAccess.tblFinancialYear
 
 @{
-    ViewBag.Title = "Edit Financial Year";
+    ViewBag.Title = Resources.FinancialYear.EditFinancialYear.ToString();
 }
 
 @using (Html.BeginForm())
@@ -13,7 +13,7 @@
         @Html.HiddenFor(model => model.FinancialYearID)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.FinancialYear, "Financial Year Title", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.FinancialYear, Resources.FinancialYear.FinancialYearTitle.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.FinancialYear, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.FinancialYear, "", new { @class = "text-danger" })
@@ -21,7 +21,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.StartDate, "Start Date", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.StartDate, Resources.FinancialYear.StartDate.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
@@ -29,7 +29,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.EndDate, "End Date", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.EndDate, Resources.FinancialYear.EndDate.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
@@ -37,7 +37,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.IsActive, "Status", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.IsActive, Resources.FinancialYear.Status.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 <div class="checkbox">
                     @Html.EditorFor(model => model.IsActive)
@@ -48,8 +48,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Update" class="btn btn-success" />
-                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+                <input type="submit" value="@Resources.Repeats.Save.ToString()" class="btn btn-success" />
+                @Html.ActionLink(Resources.Repeats.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
             </div>
         </div>
     </div>

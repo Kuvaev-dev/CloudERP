@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DatabaseAccess.tblCustomer>
 
 @{
-    ViewBag.Title = "All Customers";
+    ViewBag.Title = Resources.Customer.AllCustomers.ToString();
 }
 
 <!-- Tables Sorting-->
@@ -22,25 +22,25 @@
                 <thead>
                     <tr>
                         <th>
-                            Company
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Customer.CompanyTitle))
                         </th>
                         <th>
-                            Branch
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Customer.BranchTitle))
                         </th>
                         <th>
-                            Customer
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Customer.CustomerName))
                         </th>
                         <th>
-                            Contact №
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Customer.ContactNo))
                         </th>
                         <th>
-                            Area
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Customer.Area))
                         </th>
                         <th>
-                            Address
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Customer.Address))
                         </th>
                         <th>
-                            User
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Customer.User))
                         </th>
                     </tr>
                 </thead>

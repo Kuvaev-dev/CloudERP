@@ -1,7 +1,7 @@
 ﻿@model DatabaseAccess.tblCompany
 
 @{
-    ViewBag.Title = "Company Details";
+    ViewBag.Title = Resources.Company.CompanyDetails.ToString();
 }
 
 <div class="card col-md-12" style="height: 50vh; padding: 3vh;">
@@ -12,7 +12,7 @@
         <div class="col-7">
             <div clss="p-3">
                 <div class="float-right">
-                    @Html.ActionLink("Edit Profile", "Edit", new { id = Model.CompanyID }, new { @class = "btn btn-primary btn-sm" })
+                    @Html.ActionLink(Resources.Company.EditProfile.ToString(), "Edit", new { id = Model.CompanyID }, new { @class = "btn btn-primary btn-sm" })
                 </div>
                 <p>
                     <span class="text-lg col-1">@Html.DisplayFor(model => model.Name)</span>
@@ -21,17 +21,12 @@
                     <strong class="col-1">@Html.DisplayFor(model => model.Name)</strong>
                 </p>
                 <p class="col-11">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure 
-                    dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
-                    anim id est laborum.
+                    @Html.DisplayFor(model => model.Description)
                 </p>
             </div>
         </div>
     </div>
 </div>
 <p>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink(Resources.Repeats.BackToList.ToString(), "Index")
 </p>

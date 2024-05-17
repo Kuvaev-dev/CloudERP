@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DatabaseAccess.tblAccountSetting>
 
 @{
-    ViewBag.Title = "Manage Transactions";
+    ViewBag.Title = Resources.AccountSetting.SetAccountingFlow.ToString();
 }
 
 <!-- Tables Sorting-->
@@ -17,7 +17,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        @Html.ActionLink("Set Accounting Flow", "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
+        @Html.ActionLink(Resources.AccountSetting.SetAccountingFlow.ToString(), "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
     </div>
     <div class="card-body">
         <div class="table-responsive bootgrid">
@@ -25,19 +25,19 @@
                 <thead>
                     <tr>
                         <th>
-                            Activity
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.AccountSetting.Activity))
                         </th>
                         <th>
-                            Head Account
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.AccountSetting.HeadAccount))
                         </th>
                         <th>
-                            Control Account
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.AccountSetting.ControlAccount))
                         </th>
                         <th>
-                            Sub Control
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.AccountSetting.SubAccount))
                         </th>
                         <th>
-                            Actions
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Repeats.Actions))
                         </th>
                     </tr>
                 </thead>
@@ -58,7 +58,7 @@
                                 @Html.DisplayFor(modelItem => item.tblAccountSubControl.AccountSubControlName)
                             </td>
                             <td>
-                                @Html.ActionLink("Edit", "Edit", new { id = item.AccountSettingID }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink(Resources.Repeats.Edit.ToString(), "Edit", new { id = item.AccountSettingID }, new { @class = "btn btn-primary" })
                             </td>
                         </tr>
                     }

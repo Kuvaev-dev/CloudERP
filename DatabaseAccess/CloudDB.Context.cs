@@ -33,7 +33,6 @@ namespace DatabaseAccess
         public virtual DbSet<tblBranch> tblBranch { get; set; }
         public virtual DbSet<tblBranchType> tblBranchType { get; set; }
         public virtual DbSet<tblCategory> tblCategory { get; set; }
-        public virtual DbSet<tblCompany> tblCompany { get; set; }
         public virtual DbSet<tblCustomer> tblCustomer { get; set; }
         public virtual DbSet<tblCustomerInvoice> tblCustomerInvoice { get; set; }
         public virtual DbSet<tblCustomerInvoiceDetail> tblCustomerInvoiceDetail { get; set; }
@@ -58,5 +57,6 @@ namespace DatabaseAccess
         public virtual DbSet<tblUser> tblUser { get; set; }
         public virtual DbSet<tblUserType> tblUserType { get; set; }
         public virtual DbSet<tblEmployee> tblEmployee { get; set; }
+        public virtual DbSet<tblCompany> tblCompany { get; set; }
     }
 }

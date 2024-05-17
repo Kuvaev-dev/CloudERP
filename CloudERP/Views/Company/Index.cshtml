@@ -1,7 +1,8 @@
-﻿@model IEnumerable<DatabaseAccess.tblCompany>
+﻿@*Localized*@
+@model IEnumerable<DatabaseAccess.tblCompany>
 
 @{
-    ViewBag.Title = "All Companies";
+    ViewBag.Title = Resources.Company.AllCompanies.ToString();
 }
 
 <!-- Tables Sorting-->
@@ -17,7 +18,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        @Html.ActionLink("Add Company Title", "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
+        @Html.ActionLink(Resources.Company.AddCompanyTitle.ToString(), "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
     </div>
     <div class="card-body">
         <div class="table-responsive bootgrid">
@@ -25,13 +26,13 @@
                 <thead>
                     <tr>
                         <th>
-                            Company
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Company.CompanyTitle))
                         </th>
                         <th>
-                            Logo
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Company.Logo))
                         </th>
                         <th>
-                            Actions
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Repeats.Actions))
                         </th>
                     </tr>
                 </thead>
@@ -49,8 +50,8 @@
                                 }
                             </td>
                             <td>
-                                @Html.ActionLink("Update Profile", "Edit", new { id = item.CompanyID }, new { @class = "btn btn-primary" })
-                                @Html.ActionLink("Details", "Details", new { id = item.CompanyID }, new { @class = "btn btn-info" })
+                                @Html.ActionLink(Resources.Company.UpdateProfile.ToString(), "Edit", new { id = item.CompanyID }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink(Resources.Repeats.Details.ToString(), "Details", new { id = item.CompanyID }, new { @class = "btn btn-info" })
                             </td>
                         </tr>
                     }

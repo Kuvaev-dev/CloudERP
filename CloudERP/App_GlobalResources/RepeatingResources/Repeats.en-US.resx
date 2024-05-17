@@ -122,4 +122,8 @@
     <value>Save</value>
     <comment></comment>
   </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+    <comment></comment>
+  </data>
 </root>

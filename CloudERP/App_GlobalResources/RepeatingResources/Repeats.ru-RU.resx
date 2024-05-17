@@ -122,4 +122,8 @@
     <value>Сохранить</value>
     <comment></comment>
   </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Удалить</value>
+    <comment></comment>
+  </data>								 
 </root>

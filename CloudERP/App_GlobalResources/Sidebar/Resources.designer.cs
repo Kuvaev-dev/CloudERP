@@ -115,15 +115,6 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Admin Menu Guide.
-        /// </summary>
-        internal static string AdminMenuGuide {
-            get {
-                return ResourceManager.GetString("AdminMenuGuide", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Ищет локализованную строку, похожую на All Customers.
         /// </summary>
         internal static string AllCustomers {

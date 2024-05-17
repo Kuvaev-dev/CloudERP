@@ -2,7 +2,7 @@
 @using CloudERP.Models
 
 @{
-    ViewBag.Title = "All Account Controls";
+    ViewBag.Title = Resources.AccountControl.AllAccountControls.ToString();
 }
 
 <!-- Tables Sorting-->
@@ -18,7 +18,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        @Html.ActionLink("Add Account Control", "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
+        @Html.ActionLink(Resources.AccountControl.AddAccountControl.ToString(), "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
     </div>
     <div class="card-body">
         <div class="table-responsive bootgrid">
@@ -26,16 +26,16 @@
                 <thead>
                     <tr>
                         <th>
-                            Account Head
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.AccountControl.AccountHeadTitle))
                         </th>
                         <th>
-                            Account Control
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.AccountControl.AccountControlTitle))
                         </th>
                         <th>
-                            User
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.AccountControl.User))
                         </th>
                         <th>
-                            Actions
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Repeats.Actions))
                         </th>
                     </tr>
                 </thead>
@@ -53,7 +53,7 @@
                                 @Html.DisplayFor(modelItem => item.UserName)
                             </td>
                             <td>
-                                @Html.ActionLink("Edit", "Edit", new { id = item.AccountControlID }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink(Resources.Repeats.Edit.ToString(), "Edit", new { id = item.AccountControlID }, new { @class = "btn btn-primary" })
                             </td>
                         </tr>
                     }

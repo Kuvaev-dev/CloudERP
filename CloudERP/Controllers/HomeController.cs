@@ -183,20 +183,8 @@ namespace CloudERP.Controllers
         public ActionResult SetCulture(string culture)
         {
             ResourceManagerHelper.SetCulture(culture);
-            Session["Culture"] = culture; // Store the selected culture in the session
-            if (Session["UserTypeID"] != null)
-            {
-                int userTypeID = Convert.ToInt32(Session["UserTypeID"]);
-                if (userTypeID == 1) // Admin
-                {
-                    return RedirectToAction("AdminMenuGuide", "Guide");
-                }
-                else if (userTypeID == 2) // User
-                {
-                    return RedirectToAction("Index");
-                }
-            }
-            return View("Login");
+            Session["Culture"] = culture;
+            return Redirect(Request.UrlReferrer.ToString());
         }
 
         public ActionResult ForgotPassword()

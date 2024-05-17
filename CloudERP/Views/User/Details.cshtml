@@ -1,14 +1,15 @@
-﻿@model DatabaseAccess.tblUser
+﻿@*Localized*@
+@model DatabaseAccess.tblUser
 
 @{
-    ViewBag.Title = "User Details";
+    ViewBag.Title = Resources.User.UserDetails.ToString();
 }
 
 <div class="form-horizontal">
     <div class="form-group">
         <dl class="col-md-offset-2 col-md-10">
             <dt>
-                Full Name
+                @Html.Raw(HttpUtility.HtmlDecode(Resources.User.FullName))
             </dt>
 
             <dd>
@@ -16,7 +17,7 @@
             </dd>
 
             <dt>
-                E-mail
+                @Html.Raw(HttpUtility.HtmlDecode(Resources.User.EmailAddress))
             </dt>
 
             <dd>
@@ -24,7 +25,7 @@
             </dd>
 
             <dt>
-                Contact №
+                @Html.Raw(HttpUtility.HtmlDecode(Resources.User.ContactNo))
             </dt>
 
             <dd>
@@ -32,7 +33,7 @@
             </dd>
 
             <dt>
-                Username
+                @Html.Raw(HttpUtility.HtmlDecode(Resources.User.UserName))
             </dt>
 
             <dd>
@@ -40,7 +41,7 @@
             </dd>
 
             <dt>
-                Password
+                @Html.Raw(HttpUtility.HtmlDecode(Resources.User.Password))
             </dt>
 
             <dd>
@@ -48,7 +49,7 @@
             </dd>
 
             <dt>
-                Status / Is Active
+                @Html.Raw(HttpUtility.HtmlDecode(Resources.User.Status))
             </dt>
 
             <dd>
@@ -56,7 +57,7 @@
             </dd>
 
             <dt>
-                User Type
+                @Html.Raw(HttpUtility.HtmlDecode(Resources.User.UserType))
             </dt>
 
             <dd>
@@ -67,8 +68,8 @@
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            @Html.ActionLink("Edit", "Edit", new { id = Model.UserID }, new { @class = "btn btn-info" })
-            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+            @Html.ActionLink(Resources.Repeats.Edit.ToString(), "Edit", new { id = Model.UserID }, new { @class = "btn btn-info" })
+            @Html.ActionLink(Resources.Repeats.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
         </div>
     </div>
 </div>

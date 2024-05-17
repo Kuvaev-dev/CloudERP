@@ -1,10 +1,10 @@
 ﻿@{
-    ViewBag.Title = "Add New Company";
+    ViewBag.Title = Resources.CompanyRegistration.AddNewCompany.ToString();
 }
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        Registration
+        @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.Registration))
         @ViewBag.Message
     </div>
     <div class="card-body">
@@ -14,99 +14,99 @@
 
             <div>
                 <h4>
-                    User Profile
+                    @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.UserProfile))
                     <br>
-                    <small>Enter User Details</small>
+                    <small>@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.EnterUserDetails))</small>
                 </h4>
                 <fieldset>
                     <div class="row">
                         <div class="col-md-4">
-                            <label for="userName">User name *</label>
+                            <label for="userName">@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.UserName)) *</label>
                             <input class="form-control required" id="UserName" name="UserName" type="text">
                         </div>
                         <div class="col-md-4">
-                            <label for="password">Password *</label>
+                            <label for="password">@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.Password)) *</label>
                             <input class="form-control required" id="Password" name="Password" type="password">
                         </div>
                         <div class="col-md-4">
-                            <label for="confirm">Confirm Password *</label>
+                            <label for="confirm">@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.ConfirmPassword)) *</label>
                             <input class="form-control required" id="CPassword" name="CPassword" type="password">
                         </div>
                     </div>
-                    <p>(*) Mandatory</p>
+                    <p>(*) @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.Mandatory))</p>
                 </fieldset>
                 <h4>
-                    Personal Profile
+                    @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.PersonalProfile))
                     <br>
-                    <small>Enter Focal Person Details</small>
+                    <small>@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.EnterFocalPersonDetails))</small>
                 </h4>
                 <fieldset>
                     <div class="row">
                         <div class="col-md-4">
-                            <label for="name">Employee name *</label>
+                            <label for="name">@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.EmployeeName)) *</label>
                             <input class="form-control required" id="EName" name="EName" type="text">
                         </div>
                         <div class="col-md-4">
-                            <label for="surname">Contact № *</label>
+                            <label for="surname">@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.ContactNo)) *</label>
                             <input class="form-control required" id="EContactNo" name="EContactNo" type="text">
                         </div>
                         <div class="col-md-4">
-                            <label for="email">Email *</label>
+                            <label for="email">@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.Email)) *</label>
                             <input class="form-control required" id="EEmail" name="EEmail" type="text">
                         </div>
                         <div class="col-md-4">
-                            <label>CNIC</label>
+                            <label>@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.CityIndex))</label>
                             <input class="form-control required" id="ECNIC" name="ECNIC" type="text">
                         </div>
                         <div class="col-md-4">
-                            <label>Designation</label>
+                            <label>@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.Designation))</label>
                             <input class="form-control required" id="EDesignation" name="EDesignation" type="text">
                         </div>
                         <div class="col-md-4">
-                            <label>Basic Salary</label>
+                            <label>@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.BasicSalary))</label>
                             <input class="form-control required" id="EMonthlySalary" name="EMonthlySalary" type="number">
                         </div>
                         <div class="col-md-12">
-                            <label>Address</label>
+                            <label>@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.Address))</label>
                             <input class="form-control required" id="EAddress" name="EAddress" type="text">
                         </div>
                     </div>
-                    <p>(*) Mandatory</p>
+                    <p>(*) @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.Mandatory))</p>
                 </fieldset>
                 <h4>
-                    Company Profile
+                    @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.CompanyProfile))
                     <br>
-                    <small>Enter Company Details</small>
+                    <small>@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.EnterCompanyDetails))</small>
                 </h4>
                 <fieldset>
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="name">Company *</label>
+                            <label for="name">@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.Company)) *</label>
                             <input for="name" class="form-control required" id="CName" name="CName" type="text">
                         </div>
                         <div class="col-md-6">
-                            <label>Branch Title *</label>
+                            <label>@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.BranchTitle)) *</label>
                             <input class="form-control required" id="BranchName" name="BranchName">
                         </div>
                         <div class="col-md-6">
-                            <label>Branch Contact *</label>
+                            <label>@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.BranchContact)) *</label>
                             <input class="form-control required" id="BranchContact" name="BranchContact" type="text">
                         </div>
                         <div class="col-md-6">
-                            <label>Branch Address</label>
+                            <label>@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.BranchAddress))</label>
                             <input class="form-control required" id="BranchAddress" name="BranchAddress" type="text">
                         </div>
                     </div>
-                    <p>(*) Mandatory</p>
+                    <p>(*) @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.Mandatory))</p>
                 </fieldset>
                 <h4>
-                    Finish
+                    @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.Finish))
                     <br>
-                    <small>Please Check Before Submission</small>
+                    <small>@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.PleaseCheckBeforeSubmission))</small>
                 </h4>
                 <fieldset>
-                    <p class="lead">One last check</p>
-                    <input type="submit" value="Submit Registration" class="btn btn-outline-success" />
+                    <p class="lead">@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.OneLastCheck))</p>
+                    <input type="submit" value="@Resources.CompanyRegistration.SubmitRegistration" class="btn btn-outline-success" />
                 </fieldset>
             </div>
         }

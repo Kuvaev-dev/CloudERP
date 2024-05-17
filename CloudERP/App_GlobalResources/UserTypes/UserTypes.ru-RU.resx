@@ -126,4 +126,13 @@
     <value>Редактировать тип пользователей</value>
     <comment></comment>
   </data>
+  <!--Delete-->
+  <data name="Delete" xml:space="preserve">
+    <value>Удалить тип пользователя</value>
+    <comment></comment>
+  </data>
+  <data name="DeleteQuestion" xml:space="preserve">
+    <value>Вы уверены, что хотите удалить этот тип пользователя?</value>
+    <comment></comment>
+  </data>
 </root>

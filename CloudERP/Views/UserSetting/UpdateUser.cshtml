@@ -1,7 +1,7 @@
 ﻿@model DatabaseAccess.tblUser
 
 @{
-    ViewBag.Title = "Update User";
+    ViewBag.Title = Resources.UserSetting.UpdateUser.ToString();
 }
 
 @using (Html.BeginForm())
@@ -14,7 +14,7 @@
         @Html.HiddenFor(model => model.UserID)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.UserTypeID, "Enter New User Type", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.UserTypeID, Resources.UserSetting.NewUserTypeID.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.DropDownList("UserTypeID", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.UserTypeID, "", new { @class = "text-danger" })
@@ -22,7 +22,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.FullName, "Enter New Full Name", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.FullName, Resources.UserSetting.NewFullName.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
@@ -30,7 +30,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Email, "Enter New E-mail", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Email, Resources.UserSetting.NewEmail.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
@@ -38,7 +38,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ContactNo, "Enter New Contact №", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ContactNo, Resources.UserSetting.NewContactNo.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.ContactNo, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ContactNo, "", new { @class = "text-danger" })
@@ -46,7 +46,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.UserName, "Enter New Username", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.UserName, Resources.UserSetting.NewUserName.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
@@ -54,7 +54,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Password, "Enter New Password", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Password, Resources.UserSetting.NewPassword.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
@@ -62,7 +62,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.IsActive, "Select Status / Is Active", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.IsActive, Resources.UserSetting.NewStatus.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 <div class="checkbox">
                     @Html.EditorFor(model => model.IsActive)
@@ -73,8 +73,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-5">
-                <input type="submit" value="Save" class="btn btn-success" />
-                @Html.ActionLink("Back to List", "Employees", "CompanyEmployee", new { @class="btn btn-default" })
+                <input type="submit" value="@Resources.Repeats.Save.ToString()" class="btn btn-success" />
+                @Html.ActionLink(Resources.Repeats.BackToList.ToString(), "Employees", "CompanyEmployee", new { @class="btn btn-default" })
             </div>
         </div>
     </div>

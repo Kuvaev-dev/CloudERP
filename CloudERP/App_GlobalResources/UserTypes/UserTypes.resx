@@ -126,4 +126,13 @@
     <value>Edit User Type</value>
     <comment></comment>
   </data>
+  <!--Delete-->
+  <data name="Delete" xml:space="preserve">
+    <value>Delete User Type</value>
+    <comment></comment>
+  </data>
+  <data name="DeleteQuestion" xml:space="preserve">
+    <value>Are you sure you want to delete this User Type?</value>
+    <comment></comment>
+  </data>
 </root>
