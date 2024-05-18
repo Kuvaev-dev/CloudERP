@@ -1,5 +1,8 @@
 ﻿@{
     ViewBag.Title = "Dashboard";
+    DateTime currentDate = DateTime.Now;
+    string currentMonth = currentDate.ToString("MMMM");
+    string currentYear = currentDate.ToString("yyyy");
 }
 
 <body>
@@ -13,9 +16,9 @@
                     <div class="card flex-row align-items-center align-items-stretch border-0">
                         <div class="col-4 d-flex align-items-center bg-primary-dark justify-content-center rounded-left text-center">
                             <p>
-                                February
+                                @currentMonth
                                 <br />
-                                <span class="h2 mt-0">2023</span>
+                                <span class="h2 mt-0">@currentYear</span>
                             </p>
                         </div>
                         <div class="col-8 py-3 bg-primary rounded-right">
@@ -32,9 +35,9 @@
                     <div class="card flex-row align-items-center align-items-stretch border-0">
                         <div class="col-4 d-flex align-items-center bg-purple-dark justify-content-center rounded-left text-center">
                             <p>
-                                February
+                                @currentMonth
                                 <br />
-                                <span class="h2 mt-0">2023</span>
+                                <span class="h2 mt-0">@currentYear</span>
                             </p>
                         </div>
                         <div class="col-8 py-3 bg-purple rounded-right">
@@ -51,9 +54,9 @@
                     <div class="card flex-row align-items-center align-items-stretch border-0">
                         <div class="col-4 d-flex align-items-center bg-purple-light justify-content-center rounded-left text-center">
                             <p>
-                                February
+                                @currentMonth
                                 <br />
-                                <span class="h2 mt-0">2023</span>
+                                <span class="h2 mt-0">@currentYear</span>
                             </p>
                         </div>
                         <div class="col-8 py-3 bg-purple rounded-right">

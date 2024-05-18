@@ -212,4 +212,165 @@
     <value>New Financial Year</value>
     <comment>Sidebar Option String</comment>
   </data>
+
+  <data name="Home" xml:space="preserve">
+    <value>Home</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="SubBranchs" xml:space="preserve">
+    <value>Sub Branch`s</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="Branches" xml:space="preserve">
+    <value>Branches</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="MainEmployeeGuide" xml:space="preserve">
+    <value>Main Employee Guide</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="Branchs" xml:space="preserve">
+    <value>Branch`s</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="NewBranch" xml:space="preserve">
+    <value>New Branch</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="Employees" xml:space="preserve">
+    <value>Employee`s</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="EmployeeRegistration" xml:space="preserve">
+    <value>Employee Registration</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="Payroll" xml:space="preserve">
+    <value>Payroll</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="PaidSalariesHistory" xml:space="preserve">
+    <value>Paid Salaries History</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="Stocks" xml:space="preserve">
+    <value>Stock`s</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="StockCategories" xml:space="preserve">
+    <value>Stock Categories</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="StockDetails" xml:space="preserve">
+    <value>Stock Details</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="AllFinancialYears" xml:space="preserve">
+    <value>All Financial Years</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="NewCustomer" xml:space="preserve">
+    <value>New Customer</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="BranchCustomers" xml:space="preserve">
+    <value>Branch Customers</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="SubBranchCustomers" xml:space="preserve">
+    <value>Sub Branch Customers</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="Sales" xml:space="preserve">
+    <value>Sale`s</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="NewSale" xml:space="preserve">
+    <value>New Sale</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="SalePendingPayment" xml:space="preserve">
+    <value>Sale Pending Payment</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="AllSales" xml:space="preserve">
+    <value>All Sales</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="SaleReturn" xml:space="preserve">
+    <value>Sale Return</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="ReturnSalesPendingAmount" xml:space="preserve">
+    <value>Return Sales&lt;br/&gt;Pending Amount</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="NewSupplier" xml:space="preserve">
+    <value>New Supplier</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="BranchSuppliers" xml:space="preserve">
+    <value>Branch Suppliers</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="SubBranchSuppliers" xml:space="preserve">
+    <value>Sub Branch Suppliers</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="Purchases" xml:space="preserve">
+    <value>Purchase`s</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="NewPurchase" xml:space="preserve">
+    <value>New Purchase</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="PurchasePendingPayment" xml:space="preserve">
+    <value>Purchase Pending&lt;br/&gt;Payment</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="AllPurchases" xml:space="preserve">
+    <value>All Purchases</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="PurchasesReturn" xml:space="preserve">
+    <value>Purchases Return</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="ReturnPaymentPending" xml:space="preserve">
+    <value>Return Payment&lt;br/&gt;Pending</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="Transactions" xml:space="preserve">
+    <value>Transaction`s</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="GeneralTransaction" xml:space="preserve">
+    <value>General Transaction</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="Journal" xml:space="preserve">
+    <value>Journal</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="AccountsLedger" xml:space="preserve">
+    <value>Accounts Ledger</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="TrialBalance" xml:space="preserve">
+    <value>Trial Balance</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="IncomeStatement" xml:space="preserve">
+    <value>Income Statement</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="BalanceSheet" xml:space="preserve">
+    <value>Balance Sheet</value>
+    <comment>Sidebar Option String</comment>
+  </data>
 </root>

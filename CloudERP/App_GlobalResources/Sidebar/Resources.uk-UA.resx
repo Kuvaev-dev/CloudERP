@@ -213,4 +213,125 @@
     <value>Новий рік&lt;br/&gt;фінансування</value>
     <comment>Sidebar Option String</comment>
   </data>
+
+  <data name="Home" xml:space="preserve">
+    <value>Головна</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Інформаційна панель</value>
+  </data>
+  <data name="SubBranchs" xml:space="preserve">
+    <value>Підфілія</value>
+  </data>
+  <data name="Branches" xml:space="preserve">
+    <value>Філії</value>
+  </data>
+  <data name="MainEmployeeGuide" xml:space="preserve">
+    <value>Інструкція працівника&lt;br/&gt;головної філії</value>
+  </data>
+  <data name="Branchs" xml:space="preserve">
+    <value>Філія</value>
+  </data>
+  <data name="NewBranch" xml:space="preserve">
+    <value>Нова філія</value>
+  </data>
+  <data name="Employees" xml:space="preserve">
+    <value>Працівник</value>
+  </data>
+  <data name="EmployeeRegistration" xml:space="preserve">
+    <value>Реєстрація працівника</value>
+  </data>
+  <data name="Payroll" xml:space="preserve">
+    <value>Нарахування заробітної&lt;br/&gt;плати</value>
+  </data>
+  <data name="PaidSalariesHistory" xml:space="preserve">
+    <value>Історія виплат&lt;br/&gt;заробітної плати</value>
+  </data>
+  <data name="Stocks" xml:space="preserve">
+    <value>Склад</value>
+  </data>
+  <data name="StockCategories" xml:space="preserve">
+    <value>Категорії продукції&lt;br/&gt;на складі</value>
+  </data>
+  <data name="StockDetails" xml:space="preserve">
+    <value>Продукти на складі</value>
+  </data>
+  <data name="AllFinancialYears" xml:space="preserve">
+    <value>Усі роки фінансування</value>
+  </data>
+  <data name="NewCustomer" xml:space="preserve">
+    <value>Новий покупець</value>
+  </data>
+  <data name="BranchCustomers" xml:space="preserve">
+    <value>Покупці філії</value>
+  </data>
+  <data name="SubBranchCustomers" xml:space="preserve">
+    <value>Покупці підфілії</value>
+  </data>
+  <data name="Sales" xml:space="preserve">
+    <value>Продажі</value>
+  </data>
+  <data name="NewSale" xml:space="preserve">
+    <value>Нова продаж</value>
+  </data>
+  <data name="SalePendingPayment" xml:space="preserve">
+    <value>Продажі до оплати</value>
+  </data>
+  <data name="AllSales" xml:space="preserve">
+    <value>Усі продажі</value>
+  </data>
+  <data name="SaleReturn" xml:space="preserve">
+    <value>Повернення продажу</value>
+  </data>
+  <data name="ReturnSalesPendingAmount" xml:space="preserve">
+    <value>Сума продаж&lt;br/&gt;до повернення</value>
+  </data>
+  <data name="NewSupplier" xml:space="preserve">
+    <value>Новий постачальник</value>
+  </data>
+  <data name="BranchSuppliers" xml:space="preserve">
+    <value>Постачальники філії</value>
+  </data>
+  <data name="SubBranchSuppliers" xml:space="preserve">
+    <value>Постачальники підфілії</value>
+  </data>
+  <data name="Purchases" xml:space="preserve">
+    <value>Закупки</value>
+  </data>
+  <data name="NewPurchase" xml:space="preserve">
+    <value>Нова закупка</value>
+  </data>
+  <data name="PurchasePendingPayment" xml:space="preserve">
+    <value>Закупки до оплати</value>
+  </data>
+  <data name="AllPurchases" xml:space="preserve">
+    <value>Усі закупки</value>
+  </data>
+  <data name="PurchasesReturn" xml:space="preserve">
+    <value>Закупки на повернення</value>
+  </data>
+  <data name="ReturnPaymentPending" xml:space="preserve">
+    <value>Повернення до оплати</value>
+  </data>
+  <data name="Transactions" xml:space="preserve">
+    <value>Транзакції</value>
+  </data>
+  <data name="GeneralTransaction" xml:space="preserve">
+    <value>Головна транзакція</value>
+  </data>
+  <data name="Journal" xml:space="preserve">
+    <value>Журнал транзакцій</value>
+  </data>
+  <data name="AccountsLedger" xml:space="preserve">
+    <value>Бухгалтерська книга</value>
+  </data>
+  <data name="TrialBalance" xml:space="preserve">
+    <value>Оборотний звіт</value>
+  </data>
+  <data name="IncomeStatement" xml:space="preserve">
+    <value>Звіт про прибуток&lt;br/&gt;та збитки</value>
+  </data>
+  <data name="BalanceSheet" xml:space="preserve">
+    <value>Баланс</value>
+  </data>
 </root>
