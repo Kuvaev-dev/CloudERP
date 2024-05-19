@@ -1,14 +1,14 @@
 ﻿@model DatabaseAccess.tblEmployee
 
 @{
-    ViewBag.Title = "Employee Profile";
+    ViewBag.Title = Resources.CompanyEmployee.EmployeeProfile.ToString();
 }
 
 <div class="form-horizontal">
     <div class="col-md-10">
         <dl class="dl-horizontal">
             <dt>
-                Employee Name
+                @Html.Raw(HttpUtility.HtmlDecode(Resources.User.FullName))
             </dt>
 
             <dd>
@@ -16,7 +16,7 @@
             </dd>
 
             <dt>
-                Contact №
+                @Html.Raw(HttpUtility.HtmlDecode(Resources.User.ContactNo))
             </dt>
 
             <dd>
@@ -24,7 +24,7 @@
             </dd>
 
             <dt>
-                Photo
+                @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyEmployee.Photo))
             </dt>
 
             <dd>
@@ -35,7 +35,7 @@
             </dd>
 
             <dt>
-                Email
+                @Html.Raw(HttpUtility.HtmlDecode(Resources.User.EmailAddress))
             </dt>
 
             <dd>
@@ -43,7 +43,7 @@
             </dd>
 
             <dt>
-                Address
+                @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyEmployee.Address))
             </dt>
 
             <dd>
@@ -59,7 +59,7 @@
             </dd>
 
             <dt>
-                Designation
+                @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyEmployee.Designation))
             </dt>
 
             <dd>
@@ -67,7 +67,7 @@
             </dd>
 
             <dt>
-                Description
+                @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyEmployee.Description))
             </dt>
 
             <dd>
@@ -75,7 +75,7 @@
             </dd>
 
             <dt>
-                Basic Salary
+                @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyEmployee.BasicSalary))
             </dt>
 
             <dd>
@@ -83,7 +83,7 @@
             </dd>
 
             <dt>
-                Branch
+                @Html.Raw(HttpUtility.HtmlDecode(Resources.Branch.BranchTitle))
             </dt>
 
             <dt>
@@ -93,8 +93,8 @@
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            @Html.ActionLink("Edit Profile", "EmployeeUpdation", new { id = Model.EmployeeID }, new { @class = "btn btn-primary" })
-            @Html.ActionLink("Back", "Employee", null, new { @class = "btn btn-default" })
+            @Html.ActionLink(Resources.CompanyEmployee.EditProfile.ToString(), "EmployeeUpdation", new { id = Model.EmployeeID }, new { @class = "btn btn-primary" })
+            @Html.ActionLink(Resources.Repeats.BackToList.ToString(), "Employee", null, new { @class = "btn btn-default" })
         </div>
     </div>
 </div>

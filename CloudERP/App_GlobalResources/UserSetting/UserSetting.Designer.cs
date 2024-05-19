@@ -151,7 +151,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Enter New User Type ID.
+        ///   Ищет локализованную строку, похожую на Enter New User Type.
         /// </summary>
         internal static string NewUserTypeID {
             get {
@@ -196,7 +196,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на User Type ID.
+        ///   Ищет локализованную строку, похожую на User Type.
         /// </summary>
         internal static string UserTypeID {
             get {

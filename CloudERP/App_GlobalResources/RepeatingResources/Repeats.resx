@@ -126,4 +126,8 @@
     <value>Delete</value>
     <comment></comment>
   </data>
+  <data name="UAH" xml:space="preserve">
+    <value>UAH</value>
+    <comment></comment>
+  </data>
 </root>

@@ -1,7 +1,7 @@
 ﻿@model DatabaseAccess.tblBranch
 
 @{
-    ViewBag.Title = "Add Branch";
+    ViewBag.Title = Resources.Branch.AddBranch.ToString();
 }
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { @style = "width:100%;" }))
@@ -12,23 +12,23 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div class="form-group">
-            @Html.LabelFor(model => model.BrchID, "Select Top Branch", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.BrchID, Resources.Branch.SelectTopBranch.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-5">
-                @Html.DropDownList("BrchID", null, "Select Top Branch", htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("BrchID", null, Resources.Branch.TopBranch.ToString(), htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.BrchID, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.BranchTypeID, "Branch Level", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.BranchTypeID, Resources.Branch.BranchLevel.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
-                @Html.DropDownList("BranchTypeID", null, "Select Level", htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("BranchTypeID", null, Resources.Branch.BranchLevel.ToString(), htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.BranchTypeID, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.BranchName, "Branch Name", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.BranchName, Resources.Branch.BranchName.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.BranchName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.BranchName, "", new { @class = "text-danger" })
@@ -36,7 +36,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.BranchContact, "Contact №", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.BranchContact, Resources.Branch.ContactNo.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.BranchContact, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.BranchContact, "", new { @class = "text-danger" })
@@ -44,7 +44,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.BranchAddress, "Branch Address", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.BranchAddress, Resources.Branch.BranchAddress.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.BranchAddress, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.BranchAddress, "", new { @class = "text-danger" })
@@ -53,8 +53,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-success" />
-                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+                <input type="submit" value="@Resources.Repeats.Create.ToString()" class="btn btn-success" />
+                @Html.ActionLink(Resources.Repeats.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
             </div>
         </div>
     </div>

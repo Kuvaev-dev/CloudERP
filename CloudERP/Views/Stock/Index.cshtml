@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DatabaseAccess.tblStock>
 
 @{
-    ViewBag.Title = "Stock Details";
+    ViewBag.Title = Resources.Stock.StockDetails.ToString();
 }
 
 <!-- Tables Sorting-->
@@ -17,7 +17,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        @Html.ActionLink("Add Product", "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
+        @Html.ActionLink(Resources.Stock.AddProduct.ToString(), "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
     </div>
     <div class="card-body">
         <div class="table-responsive bootgrid">
@@ -25,25 +25,25 @@
                 <thead>
                     <tr>
                         <th>
-                            Category
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Category.CategoryName))
                         </th>
                         <th>
-                            Item`s
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Stock.Items))
                         </th>
                         <th>
-                            Current Qty
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Stock.CurrentQty))
                         </th>
                         <th>
-                            Expiry Date
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Stock.ExpiryDate))
                         </th>
                         <th>
-                            Manufacture Date
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Stock.ManufactureDate))
                         </th>
                         <th>
-                            Status
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Stock.Status))
                         </th>
                         <th>
-                            Actions
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Repeats.Actions))
                         </th>
                     </tr>
                 </thead>
@@ -70,8 +70,8 @@
                                 @Html.DisplayFor(modelItem => item.IsActive)
                             </td>
                             <td class="btn-group">
-                                @Html.ActionLink("Update", "Edit", new { id = item.ProductID }, new { @class = "btn btn-primary" })
-                                @Html.ActionLink("Item Detail", "Details", new { id = item.ProductID }, new { @class = "btn btn-info" })
+                                @Html.ActionLink(Resources.Stock.Update.ToString(), "Edit", new { id = item.ProductID }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink(Resources.Stock.ItemDetail.ToString(), "Details", new { id = item.ProductID }, new { @class = "btn btn-info" })
                             </td>
                         </tr>
                     }

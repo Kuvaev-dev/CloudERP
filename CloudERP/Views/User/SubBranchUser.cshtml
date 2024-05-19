@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DatabaseAccess.tblUser>
 
 @{
-    ViewBag.Title = "All Users";
+    ViewBag.Title = Resources.User.AllUsers.ToString();
 }
 
 <!-- Tables Sorting-->
@@ -22,25 +22,25 @@
                 <thead>
                     <tr>
                         <th>
-                            Full Name
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.User.FullName))
                         </th>
                         <th>
-                            Email Address
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.User.EmailAddress))
                         </th>
                         <th>
-                            Contact №
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.User.ContactNo))
                         </th>
                         <th>
-                            User Name
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.User.UserName))
                         </th>
                         <th>
-                            Status
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.User.Status))
                         </th>
                         <th>
-                            User Type
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.User.UserType))
                         </th>
                         <th>
-                            Actions
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Repeats.Actions))
                         </th>
                     </tr>
                 </thead>
@@ -67,7 +67,7 @@
                                 @Html.DisplayFor(modelItem => item.tblUserType.UserType)
                             </td>
                             <td>
-                                @Html.ActionLink("Edit", "Edit", new { id = item.UserID }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink(Resources.Repeats.Edit.ToString(), "Edit", new { id = item.UserID }, new { @class = "btn btn-primary" })
                             </td>
                         </tr>
                     }

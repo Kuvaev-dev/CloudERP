@@ -126,4 +126,8 @@
     <value>Видалити</value>
     <comment></comment>
   </data>
+  <data name="UAH" xml:space="preserve">
+    <value>ГРН</value>
+    <comment></comment>
+  </data>
 </root>

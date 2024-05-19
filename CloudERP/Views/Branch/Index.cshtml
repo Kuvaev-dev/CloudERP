@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DatabaseAccess.tblBranch>
 
 @{
-    ViewBag.Title = "All Branches";
+    ViewBag.Title = Resources.Branch.AllBranches.ToString();
 }
 
 <!-- Tables Sorting-->
@@ -17,7 +17,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        @Html.ActionLink("Add Branch", "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
+        @Html.ActionLink(Resources.Branch.AddBranch.ToString(), "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
     </div>
     <div class="card-body">
         <div class="table-responsive bootgrid">
@@ -25,19 +25,19 @@
                 <thead>
                     <tr>
                         <th>
-                            Level
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Branch.Level))
                         </th>
                         <th>
-                            Branch Title
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Branch.BranchTitle))
                         </th>
                         <th>
-                            Contact №
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Branch.ContactNo))
                         </th>
                         <th>
-                            Branch Address
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Branch.BranchAddress))
                         </th>
                         <th>
-                            Actions
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Repeats.Actions))
                         </th>
                     </tr>
                 </thead>
@@ -59,17 +59,17 @@
                             </td>
                             <td>
                                 <div class="mt-2 btn-group">
-                                    @Html.ActionLink("Edit", "Edit", new { id = item.BranchID }, new { @class = "btn btn-primary" })
-                                    @Html.ActionLink("Sales", "SubCustomSalesHistory", "SalePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now, id = item.BranchID }, new { @class = "btn btn-info" })
-                                    @Html.ActionLink("Purchases", "SubCustomPurchasesHistory", "PurchasePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now, id = item.BranchID }, new { @class = "btn btn-info" })
+                                    @Html.ActionLink(Resources.Repeats.Edit, "Edit", new { id = item.BranchID }, new { @class = "btn btn-primary" })
+                                    @Html.ActionLink(Resources.Branch.Sales, "SubCustomSalesHistory", "SalePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now, id = item.BranchID }, new { @class = "btn btn-info" })
+                                    @Html.ActionLink(Resources.Branch.Purchases, "SubCustomPurchasesHistory", "PurchasePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now, id = item.BranchID }, new { @class = "btn btn-info" })
                                 </div>
                                 <div class="mt-2 btn-group">
-                                    @Html.ActionLink("Journal", "SubJournal", "GeneralTransaction", new { id = item.BranchID }, new { @class = "btn btn-info" })
-                                    @Html.ActionLink("Accounts Ledger", "GetSubLedger", "Ledger", new { brchid = item.BranchID.ToString() }, new { @class = "btn btn-info" })
+                                    @Html.ActionLink(Resources.Resources.Journal, "SubJournal", "GeneralTransaction", new { id = item.BranchID }, new { @class = "btn btn-info" })
+                                    @Html.ActionLink(Resources.Resources.AccountsLedger, "GetSubLedger", "Ledger", new { brchid = item.BranchID.ToString() }, new { @class = "btn btn-info" })
                                 </div>
                                 <div class="mt-2 btn-group">
-                                    @Html.ActionLink("Balance Sheet", "GetSubBalanceSheet", "BalanceSheet", new { brnchid = item.BranchID.ToString() }, new { @class = "btn btn-info" })
-                                    @Html.ActionLink("Income Statement", "GetSubIncomeStatement", "IncomeStatement", new { brchid = item.BranchID.ToString() }, new { @class = "btn btn-info" })
+                                    @Html.ActionLink(Resources.Resources.BalanceSheet, "GetSubBalanceSheet", "BalanceSheet", new { brnchid = item.BranchID.ToString() }, new { @class = "btn btn-info" })
+                                    @Html.ActionLink(Resources.Branch.IncomeStatementTitle, "GetSubIncomeStatement", "IncomeStatement", new { brchid = item.BranchID.ToString() }, new { @class = "btn btn-info" })
                                 </div>
                             </td>
                         </tr>

@@ -98,4 +98,105 @@
 	<resheader name="writer">
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
+  <!--Index-->
+  <data name="DashboardTitle" xml:space="preserve">
+    <value>Dashboard</value>
+    <comment></comment>
+  </data>
+  <data name="CurrentMonthRevenue" xml:space="preserve">
+    <value>Current Month &lt;br/&gt; Revenue</value>
+    <comment></comment>
+  </data>
+  <data name="CurrentMonthExpenses" xml:space="preserve">
+    <value>Current Month &lt;br/&gt; Expenses</value>
+    <comment></comment>
+  </data>
+  <data name="CurrentMonthRecovery" xml:space="preserve">
+    <value>Current Month &lt;br/&gt; Recovery</value>
+    <comment></comment>
+  </data>
+  <data name="NetProfitLoss" xml:space="preserve">
+    <value>Net Profit / &lt;br/&gt; Loss</value>
+    <comment></comment>
+  </data>
+  <data name="CaseBankBalance" xml:space="preserve">
+    <value>Case / &lt;br/&gt; Bank Balance</value>
+    <comment></comment>
+  </data>
+  <data name="TotalReceivable" xml:space="preserve">
+    <value>Total / &lt;br/&gt; Receivable</value>
+    <comment></comment>
+  </data>
+  <data name="TotalPayable" xml:space="preserve">
+    <value>Total / &lt;br/&gt; Payable</value>
+    <comment></comment>
+  </data>
+  <!--Today Sale`s / Purchase`s-->
+  <data name="TodaySalesPurchases" xml:space="preserve">
+    <value>Today Sale`s / Purchase`s</value>
+    <comment></comment>
+  </data>
+  <data name="TotalSales" xml:space="preserve">
+    <value>Total Sales</value>
+    <comment></comment>
+  </data>
+  <data name="SalesPaymentPending" xml:space="preserve">
+    <value>Sale`s Payment Pending</value>
+    <comment></comment>
+  </data>
+  <data name="SalesPaymentPaid" xml:space="preserve">
+    <value>Sale`s Payment Paid</value>
+    <comment></comment>
+  </data>
+  <data name="TotalPurchases" xml:space="preserve">
+    <value>Total Purchases</value>
+    <comment></comment>
+  </data>
+  <data name="PurchasesPaymentPending" xml:space="preserve">
+    <value>Purchases Payment Pending</value>
+    <comment></comment>
+  </data>
+  <data name="PurchasesPaymentPaid" xml:space="preserve">
+    <value>Purchases Payment Paid</value>
+    <comment></comment>
+  </data>
+  <!--Today Return Sale`s / Return Purchase`s-->
+  <data name="TodayReturnSalesReturnPurchases" xml:space="preserve">
+    <value>Today Return Sale`s / Return Purchase`s</value>
+    <comment></comment>
+  </data>
+  <data name="TotalReturnSales" xml:space="preserve">
+    <value>Total Return Sales</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnSalesPaymentPending" xml:space="preserve">
+    <value>Return Sale`s Payment Pending</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnSalesPaymentPaid" xml:space="preserve">
+    <value>Return Sale`s Payment Paid</value>
+    <comment></comment>
+  </data>
+  <data name="TotalReturnPurchases" xml:space="preserve">
+    <value>Total Return Purchase`s</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnPurchasesPaymentPending" xml:space="preserve">
+    <value>Return Purchases Payment Pending</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnPurchasesPaymentPaid" xml:space="preserve">
+    <value>Return Purchases Payment Paid</value>
+    <comment></comment>
+  </data>
+  <!--Sale`s / Purchase`s-->
+  <data name="SalesPurchases" xml:space="preserve">
+    <value>Sale`s / Purchase`s</value>
+    <comment></comment>
+  </data>
+  <!--Return Sale`s / Return Purchase`s-->
+  <data name="ReturnSalesReturnPurchases" xml:space="preserve">
+    <value>Return Sale`s / Return Purchase`s</value>
+    <comment></comment>
+  </data>
 </root>

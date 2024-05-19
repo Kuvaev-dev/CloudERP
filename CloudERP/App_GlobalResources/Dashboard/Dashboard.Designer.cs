@@ -97,11 +97,128 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Dashboard.
+        /// </summary>
+        internal static string DashboardTitle {
+            get {
+                return ResourceManager.GetString("DashboardTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Net Profit / &lt;br/&gt; Loss.
         /// </summary>
         internal static string NetProfitLoss {
             get {
                 return ResourceManager.GetString("NetProfitLoss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Purchases Payment Paid.
+        /// </summary>
+        internal static string PurchasesPaymentPaid {
+            get {
+                return ResourceManager.GetString("PurchasesPaymentPaid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Purchases Payment Pending.
+        /// </summary>
+        internal static string PurchasesPaymentPending {
+            get {
+                return ResourceManager.GetString("PurchasesPaymentPending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Return Purchases Payment Paid.
+        /// </summary>
+        internal static string ReturnPurchasesPaymentPaid {
+            get {
+                return ResourceManager.GetString("ReturnPurchasesPaymentPaid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Return Purchases Payment Pending.
+        /// </summary>
+        internal static string ReturnPurchasesPaymentPending {
+            get {
+                return ResourceManager.GetString("ReturnPurchasesPaymentPending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Return Sale`s Payment Paid.
+        /// </summary>
+        internal static string ReturnSalesPaymentPaid {
+            get {
+                return ResourceManager.GetString("ReturnSalesPaymentPaid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Return Sale`s Payment Pending.
+        /// </summary>
+        internal static string ReturnSalesPaymentPending {
+            get {
+                return ResourceManager.GetString("ReturnSalesPaymentPending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Return Sale`s / Return Purchase`s.
+        /// </summary>
+        internal static string ReturnSalesReturnPurchases {
+            get {
+                return ResourceManager.GetString("ReturnSalesReturnPurchases", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Sale`s Payment Paid.
+        /// </summary>
+        internal static string SalesPaymentPaid {
+            get {
+                return ResourceManager.GetString("SalesPaymentPaid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Sale`s Payment Pending.
+        /// </summary>
+        internal static string SalesPaymentPending {
+            get {
+                return ResourceManager.GetString("SalesPaymentPending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Sale`s / Purchase`s.
+        /// </summary>
+        internal static string SalesPurchases {
+            get {
+                return ResourceManager.GetString("SalesPurchases", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Today Return Sale`s / Return Purchase`s.
+        /// </summary>
+        internal static string TodayReturnSalesReturnPurchases {
+            get {
+                return ResourceManager.GetString("TodayReturnSalesReturnPurchases", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Today Sale`s / Purchase`s.
+        /// </summary>
+        internal static string TodaySalesPurchases {
+            get {
+                return ResourceManager.GetString("TodaySalesPurchases", resourceCulture);
             }
         }
         
@@ -115,11 +232,47 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Total Purchases.
+        /// </summary>
+        internal static string TotalPurchases {
+            get {
+                return ResourceManager.GetString("TotalPurchases", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Total / &lt;br/&gt; Receivable.
         /// </summary>
         internal static string TotalReceivable {
             get {
                 return ResourceManager.GetString("TotalReceivable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Total Return Purchase`s.
+        /// </summary>
+        internal static string TotalReturnPurchases {
+            get {
+                return ResourceManager.GetString("TotalReturnPurchases", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Total Return Sales.
+        /// </summary>
+        internal static string TotalReturnSales {
+            get {
+                return ResourceManager.GetString("TotalReturnSales", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Total Sales.
+        /// </summary>
+        internal static string TotalSales {
+            get {
+                return ResourceManager.GetString("TotalSales", resourceCulture);
             }
         }
     }

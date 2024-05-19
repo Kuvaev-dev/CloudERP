@@ -122,5 +122,14 @@ namespace Resources {
                 return ResourceManager.GetString("Save", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на UAH.
+        /// </summary>
+        internal static string UAH {
+            get {
+                return ResourceManager.GetString("UAH", resourceCulture);
+            }
+        }
     }
 }

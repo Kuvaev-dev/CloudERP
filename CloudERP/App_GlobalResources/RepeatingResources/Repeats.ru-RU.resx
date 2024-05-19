@@ -125,5 +125,9 @@
   <data name="Delete" xml:space="preserve">
     <value>Удалить</value>
     <comment></comment>
-  </data>								 
+  </data>
+  <data name="UAH" xml:space="preserve">
+    <value>ГРН</value>
+    <comment></comment>
+  </data>
 </root>

@@ -1,14 +1,14 @@
 ﻿@model DatabaseAccess.tblStock
 
 @{
-    ViewBag.Title = "Product Details";
+    ViewBag.Title = Resources.Stock.ProductDetails.ToString();
 }
 
 <div class="form-horizontal">
     <div class="col-md-10">
         <dl class="dl-horizontal">
             <dt>
-                Product Name
+                @Html.Raw(HttpUtility.HtmlDecode(Resources.Stock.ProductName))
             </dt>
 
             <dd>
@@ -16,7 +16,7 @@
             </dd>
 
             <dt>
-                Quantity
+                @Html.Raw(HttpUtility.HtmlDecode(Resources.Stock.Quantity))
             </dt>
 
             <dd>
@@ -24,7 +24,7 @@
             </dd>
 
             <dt>
-                Sale Unit Price
+                @Html.Raw(HttpUtility.HtmlDecode(Resources.Stock.SaleUnitPrice))
             </dt>
 
             <dd>
@@ -32,7 +32,7 @@
             </dd>
 
             <dt>
-                Current Purchase Unit Price
+                @Html.Raw(HttpUtility.HtmlDecode(Resources.Stock.CurrentPurchaseUnitPrice))
             </dt>
 
             <dd>
@@ -40,7 +40,7 @@
             </dd>
 
             <dt>
-                Expiry Date
+                @Html.Raw(HttpUtility.HtmlDecode(Resources.Stock.ExpiryDate))
             </dt>
 
             <dd>
@@ -48,7 +48,7 @@
             </dd>
 
             <dt>
-                Manufacture
+                @Html.Raw(HttpUtility.HtmlDecode(Resources.Stock.ManufactureDate))
             </dt>
 
             <dd>
@@ -56,7 +56,7 @@
             </dd>
 
             <dt>
-                Stock Tresh Hold Quantity)
+                @Html.Raw(HttpUtility.HtmlDecode(Resources.Stock.TresholdQuantity))
             </dt>
 
             <dd>
@@ -64,7 +64,7 @@
             </dd>
 
             <dt>
-                Description
+                @Html.Raw(HttpUtility.HtmlDecode(Resources.Stock.Description))
             </dt>
 
             <dd>
@@ -72,7 +72,7 @@
             </dd>
 
             <dt>
-                Status / Is Active
+                @Html.Raw(HttpUtility.HtmlDecode(Resources.Stock.Status))
             </dt>
 
             <dd>
@@ -80,7 +80,7 @@
             </dd>
 
             <dt>
-                Branch
+                @Html.Raw(HttpUtility.HtmlDecode(Resources.Branch.BranchTitle))
             </dt>
 
             <dd>
@@ -88,7 +88,7 @@
             </dd>
 
             <dt>
-                Category
+                @Html.Raw(HttpUtility.HtmlDecode(Resources.Category.CategoryName))
             </dt>
 
             <dd>
@@ -96,7 +96,7 @@
             </dd>
 
             <dt>
-                Company
+                @Html.Raw(HttpUtility.HtmlDecode(Resources.Company.CompanyTitle))
             </dt>
 
             <dd>
@@ -104,7 +104,7 @@
             </dd>
 
             <dt>
-                Full Name
+                @Html.Raw(HttpUtility.HtmlDecode(Resources.User.FullName))
             </dt>
 
             <dd>
@@ -115,8 +115,8 @@
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            @Html.ActionLink("Edit", "Edit", new { id = Model.ProductID }, new { @class = "btn btn-primary" })
-            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+            @Html.ActionLink(Resources.Repeats.Edit.ToString(), "Edit", new { id = Model.ProductID }, new { @class = "btn btn-primary" })
+            @Html.ActionLink(Resources.Repeats.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
         </div>
     </div>
 </div>

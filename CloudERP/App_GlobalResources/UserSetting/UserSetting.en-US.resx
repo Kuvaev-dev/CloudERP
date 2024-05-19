@@ -104,7 +104,7 @@
     <comment></comment>
   </data>
   <data name="UserTypeID" xml:space="preserve">
-    <value>User Type ID</value>
+    <value>User Type</value>
     <comment></comment>
   </data>
   <data name="FullName" xml:space="preserve">
@@ -137,7 +137,7 @@
     <comment></comment>
   </data>
   <data name="NewUserTypeID" xml:space="preserve">
-    <value>Enter New User Type ID</value>
+    <value>Enter New User Type</value>
     <comment></comment>
   </data>
   <data name="NewFullName" xml:space="preserve">

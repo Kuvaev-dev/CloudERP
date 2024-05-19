@@ -1,7 +1,7 @@
 ﻿@model DatabaseAccess.tblStock
 
 @{
-    ViewBag.Title = "Update Item";
+    ViewBag.Title = Resources.Stock.UpdateProduct.ToString();
 }
 
 @using (Html.BeginForm())
@@ -17,7 +17,7 @@
     <h3 class="text-danger">@ViewBag.Message</h3>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.CategoryID, "Select Category", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.CategoryID, Resources.Stock.SelectCategory.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-5">
             @Html.DropDownList("CategoryID", null, "Category", htmlAttributes: new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
@@ -25,7 +25,7 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.ProductName, "Product", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.ProductName, Resources.Stock.ProductName.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-5">
             @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
@@ -33,7 +33,7 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Quantity, "Quantity", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Quantity, Resources.Stock.Quantity.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-5">
             @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
@@ -41,7 +41,7 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.SaleUnitPrice, "Sale Unit Price", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.SaleUnitPrice, Resources.Stock.SaleUnitPrice.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
         <div class="col-md-5">
             @Html.EditorFor(model => model.SaleUnitPrice, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.SaleUnitPrice, "", new { @class = "text-danger" })
@@ -49,7 +49,7 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.CurrentPurchaseUnitPrice, "Current Purchase Unit Price", htmlAttributes: new { @class = "control-label col-md-4" })
+        @Html.LabelFor(model => model.CurrentPurchaseUnitPrice, Resources.Stock.CurrentPurchaseUnitPrice.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
         <div class="col-md-5">
             @Html.EditorFor(model => model.CurrentPurchaseUnitPrice, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.CurrentPurchaseUnitPrice, "", new { @class = "text-danger" })
@@ -57,7 +57,7 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.ExpiryDate, "Expiry Date", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.ExpiryDate, Resources.Stock.ExpiryDate.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-5">
             @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.ExpiryDate, "", new { @class = "text-danger" })
@@ -65,7 +65,7 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Manufacture, "Manufacture Date", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Manufacture, Resources.Stock.ManufactureDate.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-5">
             @Html.EditorFor(model => model.Manufacture, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.Manufacture, "", new { @class = "text-danger" })
@@ -73,7 +73,7 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.StockTreshHoldQuantity, "Trashold Qty", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.StockTreshHoldQuantity, Resources.Stock.TresholdQuantity.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
         <div class="col-md-5">
             @Html.EditorFor(model => model.StockTreshHoldQuantity, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.StockTreshHoldQuantity, "", new { @class = "text-danger" })
@@ -81,7 +81,7 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.IsActive, "Status", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.IsActive, Resources.Stock.Status.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-5">
             <div class="checkbox">
                 @Html.EditorFor(model => model.IsActive)
@@ -91,7 +91,7 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Description, "Description", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Description, Resources.Stock.Description.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-5">
             @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
@@ -100,8 +100,8 @@
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="btn btn-success" />
-            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+            <input type="submit" value="@Resources.Repeats.Save.ToString()" class="btn btn-success" />
+            @Html.ActionLink(Resources.Repeats.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
         </div>
     </div>
 </div>

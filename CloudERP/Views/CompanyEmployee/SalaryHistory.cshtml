@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DatabaseAccess.tblPayroll>
 
 @{
-    ViewBag.Title = "Salaries Succeed List";
+    ViewBag.Title = Resources.CompanyEmployee.SalariesSucceedList.ToString();
 }
 
 <!-- Tables Sorting-->
@@ -22,28 +22,28 @@
                 <thead>
                     <tr>
                         <th>
-                            Employee
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyEmployee.Employee))
                         </th>
                         <th>
-                            Invoice №
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyEmployee.InvoiceNo))
                         </th>
                         <th>
-                            Date
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyEmployee.Date))
                         </th>
                         <th>
-                            Paid Salary
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyEmployee.PaidSalary))
                         </th>
                         <th>
-                            Salary Month
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyEmployee.SalaryMonth))
                         </th>
                         <th>
-                            Salary Year
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyEmployee.SalaryYear))
                         </th>
                         <th>
-                            Created By
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyEmployee.CreatedBy))
                         </th>
                         <th>
-                            Salary Invoice
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyEmployee.SalaryInvoice))
                         </th>
                     </tr>
                 </thead>
@@ -73,7 +73,7 @@
                                 @Html.DisplayFor(modelItem => item.tblUser.FullName)
                             </td>
                             <td>
-                                @Html.ActionLink("Print Payroll", "PrintSalaryInvoice", new { id = item.PayrollID }, new { @class = "btn btn-info" })
+                                @Html.ActionLink(Resources.CompanyEmployee.PrintPayroll.ToString(), "PrintSalaryInvoice", new { id = item.PayrollID }, new { @class = "btn btn-info" })
                             </td>
                         </tr>
                     }

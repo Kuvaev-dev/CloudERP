@@ -104,7 +104,7 @@
     <comment></comment>
   </data>
   <data name="UserTypeID" xml:space="preserve">
-    <value>Ідентифікатор типу користувача</value>
+    <value>Тип користувача</value>
     <comment></comment>
   </data>
   <data name="FullName" xml:space="preserve">
@@ -137,7 +137,7 @@
     <comment></comment>
   </data>
   <data name="NewUserTypeID" xml:space="preserve">
-    <value>Введіть новий ідентифікатор типу користувача</value>
+    <value>Введіть новий тип користувача</value>
     <comment></comment>
   </data>
   <data name="NewFullName" xml:space="preserve">
