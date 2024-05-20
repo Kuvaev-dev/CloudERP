@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DatabaseAccess.Models.SalePaymentModel>
 
 @{
-    ViewBag.Title = "Sale`s Payment Pending List";
+    ViewBag.Title = Resources.SalePayment.SalesPaymentPendingList.ToString();
 }
 
 <!-- Tables Sorting-->
@@ -25,25 +25,25 @@
                 <thead>
                     <tr>
                         <th>
-                            Customer
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.SalePayment.Customer))
                         </th>
                         <th>
-                            Contact №
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.SalePayment.ContactNo))
                         </th>
                         <th>
-                            Invoice №
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.SalePayment.InvoiceNo))
                         </th>
                         <th>
-                            Date
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.SalePayment.Date))
                         </th>
                         <th>
-                            Total Amount
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.SalePayment.TotalAmount))
                         </th>
                         <th>
-                            Paid Amount
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.SalePayment.PaidAmount))
                         </th>
                         <th>
-                            Remaining Balance
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.SalePayment.RemainingBalance))
                         </th>
                     </tr>
                 </thead>
@@ -76,11 +76,11 @@
                                 @{
                                     if (item.TotalAmount - 1 > item.PaymentAmount)
                                     {
-                                        Html.ActionLink("Pay Amount", "PaidAmount", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-primary" });
+                                        Html.ActionLink(Resources.SalePayment.PayAmount.ToString(), "PaidAmount", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-primary" });
                                     }
                                     if (item.PaymentAmount > 0)
                                     {
-                                        Html.ActionLink("Pay History", "PaidHistory", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-info" });
+                                        Html.ActionLink(Resources.SalePayment.PayHistory.ToString(), "PaidHistory", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-info" });
                                     }
                                 }
                             </td>

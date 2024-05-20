@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DatabaseAccess.Models.SalePaymentModel>
 
 @{
-    ViewBag.Title = "Custom Base Sale`s History";
+    ViewBag.Title = Resources.SalePayment.CustomBaseSalesHistory.ToString();
 }
 
 <!-- Tables Sorting-->
@@ -18,7 +18,7 @@
 <div class="card">
     <div class="card card-float">
         <div class="card-header">
-            <h4>Select Range (From Date and To Date)</h4>
+            <h4>@Html.Raw(HttpUtility.HtmlDecode(Resources.SalePayment.SelectRangeFromDateAndToDate))</h4>
             <h5 class="table-danger">@ViewBag.Message</h5>
         </div>
         <div class="card-body">
@@ -28,17 +28,17 @@
                 <input type="text" value="@ViewBag.InvoiceID" id="id" name="id" style="display:none;" />
                 <div class="row">
                     <div class="col-md-4">
-                        <label>Select From Date</label>
+                        <label>@Html.Raw(HttpUtility.HtmlDecode(Resources.SalePayment.SelectFromDate))</label>
                         <input type="date" id="FromDate" name="FromDate" value="@DateTime.Now" class="form-control" required>
                     </div>
                     <div class="col-md-4">
-                        <label>Select To Date</label>
+                        <label>@Html.Raw(HttpUtility.HtmlDecode(Resources.SalePayment.SelectToDate))</label>
                         <input type="date" id="ToDate" name="ToDate" value="@DateTime.Now" class="form-control" required>
                     </div>
                 </div>
                 <br />
                 <br />
-                <input type="submit" value="Retrive Sale`s Record" class="btn btn-success" style="float: right;">
+                <input type="submit" value="@Resources.SalePayment.RetriveSalesRecord.ToString()" class="btn btn-success" style="float: right;">
             }
         </div>
     </div>
@@ -54,37 +54,37 @@
                 <thead>
                     <tr>
                         <th>
-                            Customer
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.SalePayment.Customer))
                         </th>
                         <th>
-                            Contact №
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.SalePayment.ContactNo))
                         </th>
                         <th>
-                            Invoice №
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.SalePayment.InvoiceNo))
                         </th>
                         <th>
-                            Date
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.SalePayment.Date))
                         </th>
                         <th>
-                            Sale Total Amount
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.SalePayment.SaleTotalAmount))
                         </th>
                         <th>
-                            Return Products (Total Amount)
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.SalePayment.ReturnProductsTotalAmount))
                         </th>
                         <th>
-                            After Return (Sale Total Amount)
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.SalePayment.AfterReturnSaleTotalAmount))
                         </th>
                         <th>
-                            Paid Amount
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.SalePayment.PaidAmount))
                         </th>
                         <th>
-                            Payment To (Customer)
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.SalePayment.PaymentToCustomer))
                         </th>
                         <th>
-                            Remaining Balance
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.SalePayment.RemainingBalance))
                         </th>
                         <th>
-                            Actions
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Repeats.Actions))
                         </th>
                     </tr>
                 </thead>
@@ -117,7 +117,7 @@
                                 @{
                                     if (item.PaymentAmount == 0)
                                     {
-                                        @Html.ActionLink("Set Paid", "PaidAmount", new { id = item.CustomerInvoiceID }, new { @class = "text-success" })
+                                        @Html.ActionLink(Resources.SalePayment.SetPaid.ToString(), "PaidAmount", new { id = item.CustomerInvoiceID }, new { @class = "text-success" })
                                     }
                                     else
                                     {
@@ -133,7 +133,7 @@
                                     if (item.RemainingBalance == 0 && item.PaymentAmount != 0)
                                     {
                                         <em class="icon-check">
-                                            <label class="text-success">Clear</label>
+                                            <label class="text-success">@Html.Raw(HttpUtility.HtmlDecode(Resources.SalePayment.Clear))</label>
                                         </em>
                                     }
                                     else if (item.RemainingBalance < 0)
@@ -151,18 +151,18 @@
                                 @{
                                     if (item.RemainingBalance < item.TotalAmount && item.PaymentAmount != 0)
                                     {
-                                        @Html.ActionLink("Pay History", "SaleItemDetail", new { id = item.CustomerInvoiceID }, new { @class = "mt-2 btn btn-primary" });
+                                        @Html.ActionLink(Resources.SalePayment.PayHistory.ToString(), "SaleItemDetail", new { id = item.CustomerInvoiceID }, new { @class = "mt-2 btn btn-primary" });
                                     }
                                     else
                                     {
                                         <em class="icon-book-open">
-                                            <label class="text-danger"><b>No History</b></label>
+                                            <label class="text-danger"><b>@Html.Raw(HttpUtility.HtmlDecode(Resources.SalePayment.NoHistory))</b></label>
                                         </em>
                                     }
-                                    @Html.ActionLink("View Details", "SaleItemDetail", new { id = item.CustomerInvoiceID }, new { @class = "mt-2 btn btn-info" });
+                                    @Html.ActionLink(Resources.SalePayment.ViewDetails.ToString(), "SaleItemDetail", new { id = item.CustomerInvoiceID }, new { @class = "mt-2 btn btn-info" });
                                 }
 
-                                @Html.ActionLink("Print Invoice", "PrintSaleInvoice", "SalePayment", new { id = item.CustomerInvoiceID }, new { @class = "mt-2 btn btn-info" });
+                                @Html.ActionLink(Resources.SalePayment.PrintInvoice.ToString(), "PrintSaleInvoice", "SalePayment", new { id = item.CustomerInvoiceID }, new { @class = "mt-2 btn btn-info" });
                             </td>
                         </tr>
                     }

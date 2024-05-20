@@ -98,40 +98,102 @@
 	<resheader name="writer">
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
-  <data name="Actions" xml:space="preserve">
-    <value>Дії</value>
+  <!--RemainingPaymentList-->
+  <data name="SalesPaymentPendingList" xml:space="preserve">
+    <value>Список очікуваних платежів на продаж</value>
     <comment></comment>
   </data>
-  <data name="Edit" xml:space="preserve">
-    <value>Редагувати</value>
+  <data name="Customer" xml:space="preserve">
+    <value>Покупець</value>
     <comment></comment>
   </data>
-  <data name="Details" xml:space="preserve">
-    <value>Деталі</value>
+  <data name="ContactNo" xml:space="preserve">
+    <value>Номер телефону</value>
     <comment></comment>
   </data>
-  <data name="Create" xml:space="preserve">
-    <value>Створити</value>
+  <data name="InvoiceNo" xml:space="preserve">
+    <value>Номер інвойсу</value>
     <comment></comment>
   </data>
-  <data name="BackToList" xml:space="preserve">
-    <value>Назад до списку</value>
+  <data name="Date" xml:space="preserve">
+    <value>Дата</value>
     <comment></comment>
   </data>
-  <data name="Save" xml:space="preserve">
-    <value>Зберегти</value>
+  <data name="TotalAmount" xml:space="preserve">
+    <value>Загальна сума</value>
     <comment></comment>
   </data>
-  <data name="Delete" xml:space="preserve">
-    <value>Видалити</value>
+  <data name="PaidAmount" xml:space="preserve">
+    <value>Сплачена сума</value>
     <comment></comment>
   </data>
-  <data name="Update" xml:space="preserve">
-    <value>Оновити</value>
+  <data name="RemainingBalance" xml:space="preserve">
+    <value>Залишок на балансі</value>
     <comment></comment>
   </data>
-  <data name="UAH" xml:space="preserve">
-    <value>ГРН</value>
+  <data name="PayAmount" xml:space="preserve">
+    <value>Сума сплати</value>
+    <comment></comment>
+  </data>
+  <data name="PayHistory" xml:space="preserve">
+    <value>Історія сплат</value>
+    <comment></comment>
+  </data>
+  <!--CustomSalesHistory-->
+  <data name="CustomBaseSalesHistory" xml:space="preserve">
+    <value>Індивідуальна історія продажів</value>
+    <comment></comment>
+  </data>
+  <data name="SelectRangeFromDateAndToDate" xml:space="preserve">
+    <value>Оберіть проміжок (З Дати та По Дату)</value>
+    <comment></comment>
+  </data>
+  <data name="SelectFromDate" xml:space="preserve">
+    <value>Оберіть з якої дати</value>
+    <comment></comment>
+  </data>
+  <data name="SelectToDate" xml:space="preserve">
+    <value>Оберіть по яку дату</value>
+    <comment></comment>
+  </data>
+  <data name="RetriveSalesRecord" xml:space="preserve">
+    <value>Отримати запис про продаж</value>
+    <comment></comment>
+  </data>
+  <data name="SaleTotalAmount" xml:space="preserve">
+    <value>Загальна сума продажу</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnProductsTotalAmount" xml:space="preserve">
+    <value>Повернуті продукти (Загальна сума)</value>
+    <comment></comment>
+  </data>
+  <data name="AfterReturnSaleTotalAmount" xml:space="preserve">
+    <value>Після повернення (Загальна сума продажу)</value>
+    <comment></comment>
+  </data>
+  <data name="PaymentToCustomer" xml:space="preserve">
+    <value>Сплачено (Покупець)</value>
+    <comment></comment>
+  </data>
+  <data name="SetPaid" xml:space="preserve">
+    <value>Встановити оплату</value>
+    <comment></comment>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Чисто</value>
+    <comment></comment>
+  </data>
+  <data name="NoHistory" xml:space="preserve">
+    <value>Немає історії</value>
+    <comment></comment>
+  </data>
+  <data name="ViewDetails" xml:space="preserve">
+    <value>Продивитись деталі</value>
+    <comment></comment>
+  </data>
+  <data name="PrintInvoice" xml:space="preserve">
+    <value>Роздрукувати інвойс</value>
     <comment></comment>
   </data>
 </root>

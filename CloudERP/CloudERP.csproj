@@ -404,22 +404,62 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Customer.uk-UA.resx</DependentUpon>
     </Compile>
-    <Compile Include="App_GlobalResources\Dashboard\Dashboard.Designer.cs">
+    <Compile Include="App_GlobalResources\SalePayment\SalePayment.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SalePayment.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\SalePayment\SalePayment.en-US.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SalePayment.en-US.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\SalePayment\SalePayment.ru-RU.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SalePayment.ru-RU.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\SalePayment\SalePayment.uk-UA.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SalePayment.uk-UA.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\SaleReturn\SaleReturn.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaleReturn.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\SaleReturn\SaleReturn.en-US.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaleReturn.en-US.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\SaleReturn\SaleReturn.ru-RU.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaleReturn.ru-RU.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\SaleReturn\SaleReturn.uk-UA.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaleReturn.uk-UA.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\Shared\Dashboard\Dashboard.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Dashboard.resx</DependentUpon>
     </Compile>
-    <Compile Include="App_GlobalResources\Dashboard\Dashboard.en-US.designer.cs">
+    <Compile Include="App_GlobalResources\Shared\Dashboard\Dashboard.en-US.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Dashboard.en-US.resx</DependentUpon>
     </Compile>
-    <Compile Include="App_GlobalResources\Dashboard\Dashboard.ru-RU.designer.cs">
+    <Compile Include="App_GlobalResources\Shared\Dashboard\Dashboard.ru-RU.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Dashboard.ru-RU.resx</DependentUpon>
     </Compile>
-    <Compile Include="App_GlobalResources\Dashboard\Dashboard.uk-UA.designer.cs">
+    <Compile Include="App_GlobalResources\Shared\Dashboard\Dashboard.uk-UA.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Dashboard.uk-UA.resx</DependentUpon>
@@ -504,22 +544,42 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Repeats.uk-UA.resx</DependentUpon>
     </Compile>
-    <Compile Include="App_GlobalResources\Sidebar\Resources.designer.cs">
+    <Compile Include="App_GlobalResources\SaleCart\SaleCart.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaleCart.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\SaleCart\SaleCart.en-US.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaleCart.en-US.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\SaleCart\SaleCart.ru-RU.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaleCart.ru-RU.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\SaleCart\SaleCart.uk-UA.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaleCart.uk-UA.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\Shared\Sidebar\Resources.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="App_GlobalResources\Sidebar\Resources.en-US.designer.cs">
+    <Compile Include="App_GlobalResources\Shared\Sidebar\Resources.en-US.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.en-US.resx</DependentUpon>
     </Compile>
-    <Compile Include="App_GlobalResources\Sidebar\Resources.ru-RU.designer.cs">
+    <Compile Include="App_GlobalResources\Shared\Sidebar\Resources.ru-RU.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.ru-RU.resx</DependentUpon>
     </Compile>
-    <Compile Include="App_GlobalResources\Sidebar\Resources.uk-UA.designer.cs">
+    <Compile Include="App_GlobalResources\Shared\Sidebar\Resources.uk-UA.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.uk-UA.resx</DependentUpon>
@@ -544,22 +604,22 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Stock.uk-UA.resx</DependentUpon>
     </Compile>
-    <Compile Include="App_GlobalResources\Suppliers\Suppliers.Designer.cs">
+    <Compile Include="App_GlobalResources\Supplier\Suppliers.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Suppliers.resx</DependentUpon>
     </Compile>
-    <Compile Include="App_GlobalResources\Suppliers\Suppliers.en-US.designer.cs">
+    <Compile Include="App_GlobalResources\Supplier\Suppliers.en-US.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Suppliers.en-US.resx</DependentUpon>
     </Compile>
-    <Compile Include="App_GlobalResources\Suppliers\Suppliers.ru-RU.designer.cs">
+    <Compile Include="App_GlobalResources\Supplier\Suppliers.ru-RU.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Suppliers.ru-RU.resx</DependentUpon>
     </Compile>
-    <Compile Include="App_GlobalResources\Suppliers\Suppliers.uk-UA.designer.cs">
+    <Compile Include="App_GlobalResources\Supplier\Suppliers.uk-UA.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Suppliers.uk-UA.resx</DependentUpon>
@@ -584,22 +644,22 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>UserSetting.uk-UA.resx</DependentUpon>
     </Compile>
-    <Compile Include="App_GlobalResources\UserTypes\UserTypes.Designer.cs">
+    <Compile Include="App_GlobalResources\UserType\UserTypes.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>UserTypes.resx</DependentUpon>
     </Compile>
-    <Compile Include="App_GlobalResources\UserTypes\UserTypes.en-US.designer.cs">
+    <Compile Include="App_GlobalResources\UserType\UserTypes.en-US.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>UserTypes.en-US.resx</DependentUpon>
     </Compile>
-    <Compile Include="App_GlobalResources\UserTypes\UserTypes.ru-RU.designer.cs">
+    <Compile Include="App_GlobalResources\UserType\UserTypes.ru-RU.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>UserTypes.ru-RU.resx</DependentUpon>
     </Compile>
-    <Compile Include="App_GlobalResources\UserTypes\UserTypes.uk-UA.designer.cs">
+    <Compile Include="App_GlobalResources\UserType\UserTypes.uk-UA.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>UserTypes.uk-UA.resx</DependentUpon>
@@ -3131,18 +3191,22 @@
     <Content Include="App_GlobalResources\Customer\Customer.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Customer.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="App_GlobalResources\Customer\Customer.en-US.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Customer.en-US.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="App_GlobalResources\Customer\Customer.ru-RU.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Customer.ru-RU.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="App_GlobalResources\Customer\Customer.uk-UA.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Customer.uk-UA.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="App_GlobalResources\Guide\AdminGuide\AdminGuide.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
@@ -3176,22 +3240,22 @@
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>PrivacyPolicy.uk-UA.designer.cs</LastGenOutput>
     </Content>
-    <Content Include="App_GlobalResources\Dashboard\Dashboard.resx">
+    <Content Include="App_GlobalResources\Shared\Dashboard\Dashboard.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Dashboard.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="App_GlobalResources\Dashboard\Dashboard.en-US.resx">
+    <Content Include="App_GlobalResources\Shared\Dashboard\Dashboard.en-US.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Dashboard.en-US.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="App_GlobalResources\Dashboard\Dashboard.ru-RU.resx">
+    <Content Include="App_GlobalResources\Shared\Dashboard\Dashboard.ru-RU.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Dashboard.ru-RU.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="App_GlobalResources\Dashboard\Dashboard.uk-UA.resx">
+    <Content Include="App_GlobalResources\Shared\Dashboard\Dashboard.uk-UA.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Dashboard.uk-UA.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
@@ -3285,19 +3349,19 @@
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>User.uk-UA.designer.cs</LastGenOutput>
     </Content>
-    <Content Include="App_GlobalResources\Suppliers\Suppliers.resx">
+    <Content Include="App_GlobalResources\Supplier\Suppliers.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Suppliers.Designer.cs</LastGenOutput>
     </Content>
-    <Content Include="App_GlobalResources\Suppliers\Suppliers.en-US.resx">
+    <Content Include="App_GlobalResources\Supplier\Suppliers.en-US.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Suppliers.en-US.designer.cs</LastGenOutput>
     </Content>
-    <Content Include="App_GlobalResources\Suppliers\Suppliers.ru-RU.resx">
+    <Content Include="App_GlobalResources\Supplier\Suppliers.ru-RU.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Suppliers.ru-RU.designer.cs</LastGenOutput>
     </Content>
-    <Content Include="App_GlobalResources\Suppliers\Suppliers.uk-UA.resx">
+    <Content Include="App_GlobalResources\Supplier\Suppliers.uk-UA.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Suppliers.uk-UA.designer.cs</LastGenOutput>
     </Content>
@@ -3521,7 +3585,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_GlobalResources\Sidebar\Resources.resx">
+    <Content Include="App_GlobalResources\Shared\Sidebar\Resources.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Resources.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
@@ -3538,35 +3602,83 @@
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Repeats.ru-RU.designer.cs</LastGenOutput>
     </Content>
-    <EmbeddedResource Include="App_GlobalResources\Sidebar\Resources.en-US.resx">
+    <Content Include="App_GlobalResources\SaleCart\SaleCart.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>SaleCart.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\SaleCart\SaleCart.en-US.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>SaleCart.en-US.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\SaleCart\SaleCart.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>SaleCart.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\SaleCart\SaleCart.uk-UA.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>SaleCart.uk-UA.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\SalePayment\SalePayment.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>SalePayment.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\SalePayment\SalePayment.en-US.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>SalePayment.en-US.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\SalePayment\SalePayment.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>SalePayment.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\SalePayment\SalePayment.uk-UA.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>SalePayment.uk-UA.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\SaleReturn\SaleReturn.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>SaleReturn.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\SaleReturn\SaleReturn.en-US.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>SaleReturn.en-US.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\SaleReturn\SaleReturn.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>SaleReturn.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\SaleReturn\SaleReturn.uk-UA.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>SaleReturn.uk-UA.designer.cs</LastGenOutput>
+    </Content>
+    <EmbeddedResource Include="App_GlobalResources\Shared\Sidebar\Resources.en-US.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Resources.en-US.designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Content Include="App_GlobalResources\UserTypes\UserTypes.resx">
+    <Content Include="App_GlobalResources\UserType\UserTypes.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>UserTypes.Designer.cs</LastGenOutput>
     </Content>
-    <Content Include="App_GlobalResources\UserTypes\UserTypes.en-US.resx">
+    <Content Include="App_GlobalResources\UserType\UserTypes.en-US.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>UserTypes.en-US.designer.cs</LastGenOutput>
     </Content>
-    <Content Include="App_GlobalResources\UserTypes\UserTypes.ru-RU.resx">
+    <Content Include="App_GlobalResources\UserType\UserTypes.ru-RU.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>UserTypes.ru-RU.designer.cs</LastGenOutput>
     </Content>
-    <Content Include="App_GlobalResources\UserTypes\UserTypes.uk-UA.resx">
+    <Content Include="App_GlobalResources\UserType\UserTypes.uk-UA.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>UserTypes.uk-UA.designer.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="App_GlobalResources\Sidebar\Resources.ru-RU.resx">
+    <EmbeddedResource Include="App_GlobalResources\Shared\Sidebar\Resources.ru-RU.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Resources.ru-RU.designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="App_GlobalResources\Sidebar\Resources.uk-UA.resx">
+    <EmbeddedResource Include="App_GlobalResources\Shared\Sidebar\Resources.uk-UA.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Resources.uk-UA.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>

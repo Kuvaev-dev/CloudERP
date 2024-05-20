@@ -286,15 +286,6 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Financial Year Setting`s.
-        /// </summary>
-        internal static string FinancialYearSettings {
-            get {
-                return ResourceManager.GetString("FinancialYearSettings", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Ищет локализованную строку, похожую на General Transaction.
         /// </summary>
         internal static string GeneralTransaction {

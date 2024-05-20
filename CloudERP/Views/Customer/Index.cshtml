@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DatabaseAccess.tblCustomer>
 
 @{
-    ViewBag.Title = "Branch Customers";
+    ViewBag.Title = Resources.Customer.BranchCustomers.ToString();
 }
 
 <!-- Tables Sorting-->
@@ -22,28 +22,28 @@
                 <thead>
                     <tr>
                         <th>
-                            Company
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Customer.CompanyTitle))
                         </th>
                         <th>
-                            Branch
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Customer.BranchTitle))
                         </th>
                         <th>
-                            Customer
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Customer.CustomerFullName))
                         </th>
                         <th>
-                            Contact №
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Customer.ContactNo))
                         </th>
                         <th>
-                            Area
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Customer.Area))
                         </th>
                         <th>
-                            Address
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Customer.Address))
                         </th>
                         <th>
-                            User
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Customer.User))
                         </th>
                         <th>
-                            Actions
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Repeats.Actions))
                         </th>
                     </tr>
                 </thead>
@@ -73,7 +73,7 @@
                                 @Html.DisplayFor(modelItem => item.tblUser.FullName)
                             </td>
                             <td>
-                                @Html.ActionLink("Update", "Edit", new { id = item.CustomerID }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink(Resources.Repeats.Update.ToString(), "Edit", new { id = item.CustomerID }, new { @class = "btn btn-primary" })
                             </td>
                         </tr>
                     }

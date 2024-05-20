@@ -98,40 +98,102 @@
 	<resheader name="writer">
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
-  <data name="Actions" xml:space="preserve">
-    <value>Дії</value>
+  <!--RemainingPaymentList-->
+  <data name="SalesPaymentPendingList" xml:space="preserve">
+    <value>Sale`s Payment Pending List</value>
     <comment></comment>
   </data>
-  <data name="Edit" xml:space="preserve">
-    <value>Редагувати</value>
+  <data name="Customer" xml:space="preserve">
+    <value>Customer</value>
     <comment></comment>
   </data>
-  <data name="Details" xml:space="preserve">
-    <value>Деталі</value>
+  <data name="ContactNo" xml:space="preserve">
+    <value>Contact №</value>
     <comment></comment>
   </data>
-  <data name="Create" xml:space="preserve">
-    <value>Створити</value>
+  <data name="InvoiceNo" xml:space="preserve">
+    <value>Invoice №</value>
     <comment></comment>
   </data>
-  <data name="BackToList" xml:space="preserve">
-    <value>Назад до списку</value>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
     <comment></comment>
   </data>
-  <data name="Save" xml:space="preserve">
-    <value>Зберегти</value>
+  <data name="TotalAmount" xml:space="preserve">
+    <value>Total Amount</value>
     <comment></comment>
   </data>
-  <data name="Delete" xml:space="preserve">
-    <value>Видалити</value>
+  <data name="PaidAmount" xml:space="preserve">
+    <value>Paid Amount</value>
     <comment></comment>
   </data>
-  <data name="Update" xml:space="preserve">
-    <value>Оновити</value>
+  <data name="RemainingBalance" xml:space="preserve">
+    <value>Remaining Balance</value>
     <comment></comment>
   </data>
-  <data name="UAH" xml:space="preserve">
-    <value>ГРН</value>
+  <data name="PayAmount" xml:space="preserve">
+    <value>Pay Amount</value>
+    <comment></comment>
+  </data>
+  <data name="PayHistory" xml:space="preserve">
+    <value>Pay History</value>
+    <comment></comment>
+  </data>
+  <!--CustomSalesHistory-->
+  <data name="CustomBaseSalesHistory" xml:space="preserve">
+    <value>Custom Base Sale`s History</value>
+    <comment></comment>
+  </data>
+  <data name="SelectRangeFromDateAndToDate" xml:space="preserve">
+    <value>Select Range (From Date and To Date)</value>
+    <comment></comment>
+  </data>
+  <data name="SelectFromDate" xml:space="preserve">
+    <value>Select From Date</value>
+    <comment></comment>
+  </data>
+  <data name="SelectToDate" xml:space="preserve">
+    <value>Select To Date</value>
+    <comment></comment>
+  </data>
+  <data name="RetriveSalesRecord" xml:space="preserve">
+    <value>Retrive Sale`s Record</value>
+    <comment></comment>
+  </data>
+  <data name="SaleTotalAmount" xml:space="preserve">
+    <value>Sale Total Amount</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnProductsTotalAmount" xml:space="preserve">
+    <value>Return Products (Total Amount)</value>
+    <comment></comment>
+  </data>
+  <data name="AfterReturnSaleTotalAmount" xml:space="preserve">
+    <value>After Return (Sale Total Amount)</value>
+    <comment></comment>
+  </data>
+  <data name="PaymentToCustomer" xml:space="preserve">
+    <value>Payment To (Customer)</value>
+    <comment></comment>
+  </data>
+  <data name="SetPaid" xml:space="preserve">
+    <value>Set Paid</value>
+    <comment></comment>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Clear</value>
+    <comment></comment>
+  </data>
+  <data name="NoHistory" xml:space="preserve">
+    <value>No History</value>
+    <comment></comment>
+  </data>
+  <data name="ViewDetails" xml:space="preserve">
+    <value>View Details</value>
+    <comment></comment>
+  </data>
+  <data name="PrintInvoice" xml:space="preserve">
+    <value>Print Invoice</value>
     <comment></comment>
   </data>
 </root>

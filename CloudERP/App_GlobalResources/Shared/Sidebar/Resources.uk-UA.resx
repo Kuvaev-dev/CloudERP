@@ -118,256 +118,216 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccountControls" xml:space="preserve">
-    <value>Контроль аккаунта</value>
+    <value>Контроль аккаунту</value>
     <comment>Sidebar Option Menu String</comment>
   </data>
   <data name="AccountFlow" xml:space="preserve">
-    <value>Управление&lt;br/&gt;аккаунтами</value>
+    <value>Управління&lt;br/&gt;аккаунтами</value>
     <comment>Sidebar Option Menu String</comment>
   </data>
   <data name="AccountHeads" xml:space="preserve">
-    <value>Главная настройка</value>
+    <value>Головне налаштування</value>
     <comment>Sidebar Option Menu String</comment>
   </data>
   <data name="AccountSettings" xml:space="preserve">
-    <value>Настройки аккаунтов</value>
+    <value>Налаштування аккаунтів</value>
     <comment>Sidebar Option String</comment>
   </data>
   <data name="AccountSubControls" xml:space="preserve">
-    <value>Подконтроль аккаунта</value>
+    <value>Підконтроль аккаунтів</value>
     <comment>Sidebar Option Menu String</comment>
   </data>
   <data name="AdminGuide" xml:space="preserve">
-    <value>Инструкция&lt;br/&gt;администратора</value>
+    <value>Інструкція&lt;br/&gt;адміністратору</value>
     <comment>Sidebar Option String</comment>
   </data>
   <data name="AllCustomers" xml:space="preserve">
-    <value>Все покупатели</value>
+    <value>Всі покупці</value>
     <comment>Sidebar Option Menu String</comment>
   </data>
   <data name="AllSuppliers" xml:space="preserve">
-    <value>Все поставщики</value>
+    <value>Всі постачальники</value>
     <comment>Sidebar Option Menu String</comment>
   </data>
   <data name="Companies" xml:space="preserve">
-    <value>Настройка компаний</value>
+    <value>Налаштування компаній</value>
     <comment>Sidebar Option String</comment>
   </data>
   <data name="CompanyRegistration" xml:space="preserve">
-    <value>Регистрация компании</value>
+    <value>Реєстрація компанії</value>
     <comment>Sidebar Option Menu String</comment>
   </data>
   <data name="Customers" xml:space="preserve">
-    <value>Покупатели</value>
+    <value>Покупці</value>
     <comment>Sidebar Option String</comment>
   </data>
   <data name="FinancialYear" xml:space="preserve">
-    <value>Год финансирования</value>
+    <value>Рік фінансування</value>
     <comment>Sidebar Option Menu String</comment>
   </data>
-  <data name="FinancialYearSettings" xml:space="preserve">
-    <value>Настройки года&lt;br/&gt;финансирования</value>
-    <comment>Sidebar Option String</comment>
-  </data>
   <data name="Guide" xml:space="preserve">
-    <value>Инструкции</value>
+    <value>Інструкції</value>
     <comment>Sidebar Option Menu String</comment>
   </data>
   <data name="Hello" xml:space="preserve">
-    <value>Здравствуй,</value>
+    <value>Привіт,</value>
     <comment>Profile String</comment>
   </data>
   <data name="License" xml:space="preserve">
-    <value>Лицензия</value>
+    <value>Ліцензія</value>
     <comment>Sidebar Option String</comment>
   </data>
   <data name="PrivacyPolicy" xml:space="preserve">
-    <value>Политика&lt;br/&gt;конфиденциальности</value>
+    <value>Політика&lt;br/&gt;конфіденційності</value>
     <comment>Sidebar Option Menu String</comment>
   </data>
   <data name="Suppliers" xml:space="preserve">
-    <value>Поставщики</value>
+    <value>Постачальники</value>
     <comment>Sidebar Option String</comment>
   </data>
   <data name="Users" xml:space="preserve">
-    <value>Пользователи</value>
+    <value>Користувачі</value>
     <comment>Sidebar Option Menu String</comment>
   </data>
   <data name="UserSetting" xml:space="preserve">
-    <value>Настройка пользователей</value>
+    <value>Налаштування користувачів</value>
     <comment>Sidebar Option String</comment>
   </data>
   <data name="UserTypes" xml:space="preserve">
-    <value>Типы пользователей</value>
+    <value>Типи користувачів</value>
     <comment>Sidebar Option Menu String</comment>
   </data>
+  <data name="Home" xml:space="preserve">
+    <value>Головна</value>
+    <comment>Sidebar Option String</comment>
+  </data>
   <data name="Company" xml:space="preserve">
-    <value>Компании</value>
+    <value>Компанії</value>
     <comment>Sidebar Option String</comment>
   </data>
   <data name="NewFinancialYear" xml:space="preserve">
-    <value>Новый год&lt;br/&gt;финансирования</value>
+    <value>Новий рік&lt;br/&gt;фінансування</value>
     <comment>Sidebar Option String</comment>
   </data>
 
   <data name="Home" xml:space="preserve">
-    <value>Главная</value>
-    <comment>Sidebar Option String</comment>
+    <value>Головна</value>
   </data>
   <data name="Dashboard" xml:space="preserve">
-    <value>Информационная&lt;br/&gt;панель</value>
-    <comment>Sidebar Option String</comment>
+    <value>Інформаційна панель</value>
   </data>
   <data name="SubBranchs" xml:space="preserve">
-    <value>Подфилия</value>
-    <comment>Sidebar Option String</comment>
+    <value>Підфілія</value>
   </data>
   <data name="Branches" xml:space="preserve">
-    <value>Филии</value>
-    <comment>Sidebar Option String</comment>
+    <value>Філії</value>
   </data>
   <data name="MainEmployeeGuide" xml:space="preserve">
-    <value>Инструкция работника&lt;br/&gt;главной филии</value>
-    <comment>Sidebar Option String</comment>
+    <value>Інструкція працівника&lt;br/&gt;головної філії</value>
   </data>
   <data name="Branchs" xml:space="preserve">
-    <value>Филия</value>
-    <comment>Sidebar Option String</comment>
+    <value>Філія</value>
   </data>
   <data name="NewBranch" xml:space="preserve">
-    <value>Новая филия</value>
-    <comment>Sidebar Option String</comment>
+    <value>Нова філія</value>
   </data>
   <data name="Employees" xml:space="preserve">
-    <value>Работник</value>
-    <comment>Sidebar Option String</comment>
+    <value>Працівник</value>
   </data>
   <data name="EmployeeRegistration" xml:space="preserve">
-    <value>Регистрация&lt;br/&gt;работника</value>
-    <comment>Sidebar Option String</comment>
+    <value>Реєстрація працівника</value>
   </data>
   <data name="Payroll" xml:space="preserve">
-    <value>Начисление&lt;br/&gt;заработной платы</value>
-    <comment>Sidebar Option String</comment>
+    <value>Нарахування заробітної&lt;br/&gt;плати</value>
   </data>
   <data name="PaidSalariesHistory" xml:space="preserve">
-    <value>История выплат&lt;br/&gt;заработной платы</value>
-    <comment>Sidebar Option String</comment>
+    <value>Історія виплат&lt;br/&gt;заробітної плати</value>
   </data>
   <data name="Stocks" xml:space="preserve">
     <value>Склад</value>
-    <comment>Sidebar Option String</comment>
   </data>
   <data name="StockCategories" xml:space="preserve">
-    <value>Категории продукции&lt;br/&gt;на складе</value>
-    <comment>Sidebar Option String</comment>
+    <value>Категорії продукції&lt;br/&gt;на складі</value>
   </data>
   <data name="StockDetails" xml:space="preserve">
-    <value>Продукты на складе</value>
-    <comment>Sidebar Option String</comment>
+    <value>Продукти на складі</value>
   </data>
   <data name="AllFinancialYears" xml:space="preserve">
-    <value>Все годы&lt;br/&gt;финансирования</value>
-    <comment>Sidebar Option String</comment>
+    <value>Усі роки фінансування</value>
   </data>
   <data name="NewCustomer" xml:space="preserve">
-    <value>Новый покупатель</value>
-    <comment>Sidebar Option String</comment>
+    <value>Новий покупець</value>
   </data>
   <data name="BranchCustomers" xml:space="preserve">
-    <value>Покупатели филии</value>
-    <comment>Sidebar Option String</comment>
+    <value>Покупці філії</value>
   </data>
   <data name="SubBranchCustomers" xml:space="preserve">
-    <value>Покупатели подфилии</value>
-    <comment>Sidebar Option String</comment>
+    <value>Покупці підфілії</value>
   </data>
   <data name="Sales" xml:space="preserve">
-    <value>Продажи</value>
-    <comment>Sidebar Option String</comment>
+    <value>Продажі</value>
   </data>
   <data name="NewSale" xml:space="preserve">
-    <value>Новая продажа</value>
-    <comment>Sidebar Option String</comment>
+    <value>Нова продаж</value>
   </data>
   <data name="SalePendingPayment" xml:space="preserve">
-    <value>Продажи к оплате</value>
-    <comment>Sidebar Option String</comment>
+    <value>Продажі до оплати</value>
   </data>
   <data name="AllSales" xml:space="preserve">
-    <value>Все продажи</value>
-    <comment>Sidebar Option String</comment>
+    <value>Усі продажі</value>
   </data>
   <data name="SaleReturn" xml:space="preserve">
-    <value>Возврат продажи</value>
-    <comment>Sidebar Option String</comment>
+    <value>Повернення продажу</value>
   </data>
   <data name="ReturnSalesPendingAmount" xml:space="preserve">
-    <value>Сумма продаж&lt;br/&gt;на возврат</value>
-    <comment>Sidebar Option String</comment>
+    <value>Сума продаж&lt;br/&gt;до повернення</value>
   </data>
   <data name="NewSupplier" xml:space="preserve">
-    <value>Новый поставщик</value>
-    <comment>Sidebar Option String</comment>
+    <value>Новий постачальник</value>
   </data>
   <data name="BranchSuppliers" xml:space="preserve">
-    <value>Поставщики филии</value>
-    <comment>Sidebar Option String</comment>
+    <value>Постачальники філії</value>
   </data>
   <data name="SubBranchSuppliers" xml:space="preserve">
-    <value>Поставщики подфилии</value>
-    <comment>Sidebar Option String</comment>
+    <value>Постачальники підфілії</value>
   </data>
   <data name="Purchases" xml:space="preserve">
     <value>Закупки</value>
-    <comment>Sidebar Option String</comment>
   </data>
   <data name="NewPurchase" xml:space="preserve">
-    <value>Новая закупка</value>
-    <comment>Sidebar Option String</comment>
+    <value>Нова закупка</value>
   </data>
   <data name="PurchasePendingPayment" xml:space="preserve">
-    <value>Закупки к оплате</value>
-    <comment>Sidebar Option String</comment>
+    <value>Закупки до оплати</value>
   </data>
   <data name="AllPurchases" xml:space="preserve">
-    <value>Все закупки</value>
-    <comment>Sidebar Option String</comment>
+    <value>Усі закупки</value>
   </data>
   <data name="PurchasesReturn" xml:space="preserve">
-    <value>Закупки на возврат</value>
-    <comment>Sidebar Option String</comment>
+    <value>Закупки на повернення</value>
   </data>
   <data name="ReturnPaymentPending" xml:space="preserve">
-    <value>Возврат к оплате</value>
-    <comment>Sidebar Option String</comment>
+    <value>Повернення до оплати</value>
   </data>
   <data name="Transactions" xml:space="preserve">
-    <value>Транзакции</value>
-    <comment>Sidebar Option String</comment>
+    <value>Транзакції</value>
   </data>
   <data name="GeneralTransaction" xml:space="preserve">
-    <value>Главная транзакция</value>
-    <comment>Sidebar Option String</comment>
+    <value>Головна транзакція</value>
   </data>
   <data name="Journal" xml:space="preserve">
-    <value>Журнал транзакций</value>
-    <comment>Sidebar Option String</comment>
+    <value>Журнал транзакцій</value>
   </data>
   <data name="AccountsLedger" xml:space="preserve">
-    <value>Бухгалтерская книга</value>
-    <comment>Sidebar Option String</comment>
+    <value>Бухгалтерська книга</value>
   </data>
   <data name="TrialBalance" xml:space="preserve">
-    <value>Оборотная ведомость</value>
-    <comment>Sidebar Option String</comment>
+    <value>Оборотний звіт</value>
   </data>
   <data name="IncomeStatement" xml:space="preserve">
-    <value>Отчёт о прибыли&lt;br/&gt;и убытках</value>
-    <comment>Sidebar Option String</comment>
+    <value>Звіт про прибуток&lt;br/&gt;та збитки</value>
   </data>
   <data name="BalanceSheet" xml:space="preserve">
-    <value>Бухгалтерский баланс</value>
-    <comment>Sidebar Option String</comment>
+    <value>Баланс</value>
   </data>
 </root>

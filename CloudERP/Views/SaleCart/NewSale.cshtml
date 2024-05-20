@@ -1,10 +1,19 @@
 ﻿@model IEnumerable<DatabaseAccess.tblSaleCartDetail>
 
 @{
-    ViewBag.Title = "New Sale";
+    ViewBag.Title = Resources.SaleCart.NewSale.ToString();
 }
 
+<!-- Tables Sorting-->
+<link href="https://cdn.datatables.net/1.11.6/css/jquery.dataTables.min.css" rel="stylesheet" />
 <script src="~/Scripts/jquery-3.7.1.js"></script>
+<script src="https://cdn.datatables.net/1.11.6/js/jquery.dataTables.min.js"></script>
+
+<style>
+    #dataTable_filter input[type="search"] {
+        width: 15rem;
+    }
+</style>
 
 @using (Html.BeginForm("AddItem", "SaleCart", FormMethod.Post, null))
 {
@@ -14,36 +23,36 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div class="form-group">
-            <label class="control-label col-md-2">Select Product</label>
+            <label class="control-label col-md-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.SaleCart.SelectProduct))</label>
             <div class="col-md-5">
                 <select class="form-control" id="PID" name="PID" required></select>
             </div>
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2">Quantity</label>
+            <label class="control-label col-md-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.SaleCart.Quantity))</label>
             <div class="col-md-5">
-                <input type="number" class="form-control" id="Qty" name="Qty" placeholder="Enter Purchase Quantity..." required />
+                <input type="number" class="form-control" id="Qty" name="Qty" required />
             </div>
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2">Unit Price</label>
+            <label class="control-label col-md-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.SaleCart.UnitPrice))</label>
             <div class="col-md-5">
-                <input type="number" class="form-control" id="Price" step=".01" name="Price" placeholder="Enter Unit Price..." required />
+                <input type="number" class="form-control" id="Price" step=".01" name="Price" required />
             </div>
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2">Item Cost</label>
+            <label class="control-label col-md-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.SaleCart.ItemCost))</label>
             <div class="col-md-5">
-                <input type="text" readonly class="form-control" id="selectItemCost" step=".01" name="selectItemCost" placeholder="Item Cost..." required />
+                <input type="text" readonly class="form-control" id="selectItemCost" step=".01" name="selectItemCost" required />
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Add Item" class="btn btn-success" />
+                <input type="submit" value="@Resources.SaleCart.AddItem.ToString()" class="btn btn-success" />
             </div>
         </div>
     </div>
@@ -51,7 +60,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        <h3 class="text-bold">Sale Items List</h3>
+        <h3 class="text-bold">@Html.Raw(HttpUtility.HtmlDecode(Resources.SaleCart.SaleItemsList))</h3>
         <h4 class="text-success">
             @{if (ViewBag.Message != null)
                 {
@@ -62,7 +71,6 @@
                     @Session["ErrorMessageSale"];
                 } }
         </h4>
-        <input class="form-control col-md-3" style="float:right;" type="text" id="searchSale" name="searchSale" placeholder="Search..." />
     </div>
     <div class="card-body">
         <div class="table-responsive bootgrid">
@@ -70,26 +78,26 @@
                 <thead style="background-color:lightgray;">
                     <tr>
                         <th>
-                            Item`s
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.SaleCart.Items))
                         </th>
                         <th>
-                            Quantity
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.SaleCart.Quantity))
                         </th>
                         <th>
-                            Unit Price
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.SaleCart.UnitPrice))
                         </th>
                         <th>
-                            Item Cost
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.SaleCart.ItemCost))
                         </th>
                         <th>
-                            User
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.SaleCart.User))
                         </th>
                         <th>
-                            Actions
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.SaleCart.User))
                         </th>
                     </tr>
                 </thead>
-                <tbody id="saleList">
+                <tbody>
                     @foreach (var item in Model)
                     {
                         <tr>
@@ -109,7 +117,7 @@
                                 @Html.DisplayFor(modelItem => item.tblUser.UserName)
                             </td>
                             <td>
-                                @Html.ActionLink("Delete", "DeleteConfirm", new { id = item.SaleCartDetailID }, new { @class = "btn btn-danger" })
+                                @Html.ActionLink(Resources.Repeats.Delete.ToString(), "DeleteConfirm", new { id = item.SaleCartDetailID }, new { @class = "btn btn-danger" })
                             </td>
                         </tr>
                     }
@@ -119,7 +127,7 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td style="background-color:black; color:white;">Total Sale Amount</td>
+                        <td style="background-color:black; color:white;">@Html.Raw(HttpUtility.HtmlDecode(Resources.SaleCart.TotalSaleAmount))</td>
                         <td style="background-color:black; color:white;">
                             @(string.Format("{0:0.000}", Math.Truncate(ViewBag.TotalAmount * 10) / 10)) UAH
                         </td>
@@ -127,8 +135,8 @@
                 </tfoot>
             </table>
             <div style="float:right; margin-top:20px;">
-                @Html.ActionLink("Next", "SelectCustomer", null, new { @class = "btn btn-success", style = "padding:20px;" })
-                @Html.ActionLink("Cancel", "CancelSale", null, new { @class = "btn btn-danger", style = "padding:20px;" })
+                @Html.ActionLink(Resources.SaleCart.Next.ToString(), "SelectCustomer", null, new { @class = "btn btn-success", style = "padding:20px;" })
+                @Html.ActionLink(Resources.SaleCart.Cancel.ToString(), "CancelSale", null, new { @class = "btn btn-danger", style = "padding:20px;" })
             </div>
         </div>
     </div>
@@ -136,12 +144,12 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#searchSale").on("keyup", function () {
-            var value = $(this).val().toLowerCase();
-            $("#saleList tr").filter(function () {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-            })
-        })
+        $(document).ready(function () {
+            $('#dataTable').DataTable({
+                "columnDefs": [{ "orderable": false, "targets": 6 }],
+                "lengthMenu": [[5, 10, 25, 50, 75, 100, 150, 200, -1], [5, 10, 25, 50, 75, 100, 150, 200, "All"]],
+            });
+        });
 
         $("#PID").change(function () {
             $("#Price").val("0");

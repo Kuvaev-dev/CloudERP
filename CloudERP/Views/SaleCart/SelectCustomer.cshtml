@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DatabaseAccess.tblCustomer>
 
 @{
-    ViewBag.Title = "Finilize";
+    ViewBag.Title = Resources.SaleCart.Finilize.ToString();
 }
 
 <script src="~/Scripts/jquery-3.7.1.js"></script>
@@ -10,19 +10,19 @@
 {
     @Html.AntiForgeryToken()
     <div class="form-horizontal">
-        <h4>Sale Details</h4>
+        <h4>@Html.Raw(HttpUtility.HtmlDecode(Resources.SaleCart.SaleDetails))</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <h3 class="text-danger">@ViewBag.Message</h3>
 
         <div class="form-group">
-            <label class="control-label col-md-2">Sale Description</label>
+            <label class="control-label col-md-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.SaleCart.SaleDescription))</label>
             <div class="col-md-12">
-                <input type="text" class="form-control" id="item.Description" name="item.Description" placeholder="Enter Sale Description..." required />
+                <input type="text" class="form-control" id="item.Description" name="item.Description" required />
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-md-2">Is Sale Payment Paid?</label>
+            <label class="control-label col-md-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.SaleCart.IsSalePaymentPaid))</label>
             <div class="col-md-12">
                 <input type="checkbox" name="IsPayment" />
             </div>
@@ -46,16 +46,16 @@
                     <thead style="background-color:lightgray;">
                         <tr>
                             <th>
-                                Customer
+                                @Html.Raw(HttpUtility.HtmlDecode(Resources.Customer.CustomerFullName))
                             </th>
                             <th>
-                                Conatct №
+                                @Html.Raw(HttpUtility.HtmlDecode(Resources.Customer.ContactNo))
                             </th>
                             <th>
-                                Address
+                                @Html.Raw(HttpUtility.HtmlDecode(Resources.Customer.Address))
                             </th>
                             <th>
-                                Actions
+                                @Html.Raw(HttpUtility.HtmlDecode(Resources.Repeats.Actions))
                             </th>
                         </tr>
                     </thead>

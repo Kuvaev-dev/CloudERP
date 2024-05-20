@@ -131,4 +131,32 @@
     <value>Користувач</value>
     <comment></comment>
   </data>
+  <!--Create-->
+  <data name="NewCustomer" xml:space="preserve">
+    <value>Новий покупець</value>
+    <comment></comment>
+  </data>
+  <data name="CustomerFullName" xml:space="preserve">
+    <value>Повне ім'я покупця</value>
+    <comment></comment>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Опис</value>
+    <comment></comment>
+  </data>
+  <!--Index-->
+  <data name="BranchCustomers" xml:space="preserve">
+    <value>Покупці філії</value>
+    <comment></comment>
+  </data>
+  <!--Edit-->
+  <data name="UpdateCustomer" xml:space="preserve">
+    <value>Оновити покупця</value>
+    <comment></comment>
+  </data>
+  <!--SubBranchCustomer-->
+  <data name="SubBranchCustomer" xml:space="preserve">
+    <value>Покупці підфілії</value>
+    <comment></comment>
+  </data>
 </root>

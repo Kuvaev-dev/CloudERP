@@ -168,10 +168,6 @@
     <value>Financial Year</value>
     <comment>Sidebar Option Menu String</comment>
   </data>
-  <data name="FinancialYearSettings" xml:space="preserve">
-    <value>Financial Year Setting`s</value>
-    <comment>Sidebar Option String</comment>
-  </data>
   <data name="Guide" xml:space="preserve">
     <value>Guide</value>
     <comment>Sidebar Option Menu String</comment>

@@ -126,6 +126,10 @@
     <value>Удалить</value>
     <comment></comment>
   </data>
+  <data name="Update" xml:space="preserve">
+    <value>Обновить</value>
+    <comment></comment>
+  </data>
   <data name="UAH" xml:space="preserve">
     <value>ГРН</value>
     <comment></comment>

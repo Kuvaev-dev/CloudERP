@@ -98,40 +98,70 @@
 	<resheader name="writer">
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
-  <data name="Actions" xml:space="preserve">
-    <value>Дії</value>
+  <!--NewSale-->
+  <data name="NewSale" xml:space="preserve">
+    <value>Новая продажа</value>
     <comment></comment>
   </data>
-  <data name="Edit" xml:space="preserve">
-    <value>Редагувати</value>
+  <data name="SelectProduct" xml:space="preserve">
+    <value>Выберите продукт</value>
     <comment></comment>
   </data>
-  <data name="Details" xml:space="preserve">
-    <value>Деталі</value>
+  <data name="Quantity" xml:space="preserve">
+    <value>Количество</value>
     <comment></comment>
   </data>
-  <data name="Create" xml:space="preserve">
-    <value>Створити</value>
+  <data name="UnitPrice" xml:space="preserve">
+    <value>Цена за единицу</value>
     <comment></comment>
   </data>
-  <data name="BackToList" xml:space="preserve">
-    <value>Назад до списку</value>
+  <data name="ItemCost" xml:space="preserve">
+    <value>Себестоимость товара</value>
     <comment></comment>
   </data>
-  <data name="Save" xml:space="preserve">
-    <value>Зберегти</value>
+  <data name="AddItem" xml:space="preserve">
+    <value>Добавить товар</value>
     <comment></comment>
   </data>
-  <data name="Delete" xml:space="preserve">
-    <value>Видалити</value>
+  <data name="SaleItemsList" xml:space="preserve">
+    <value>Список товаров на продажу</value>
     <comment></comment>
   </data>
-  <data name="Update" xml:space="preserve">
-    <value>Оновити</value>
+  <data name="Items" xml:space="preserve">
+    <value>Товар</value>
     <comment></comment>
   </data>
-  <data name="UAH" xml:space="preserve">
-    <value>ГРН</value>
+  <data name="User" xml:space="preserve">
+    <value>Пользователь</value>
+    <comment></comment>
+  </data>
+  <data name="TotalSaleAmount" xml:space="preserve">
+    <value>Общая сумма продажи</value>
+    <comment></comment>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Далее</value>
+    <comment></comment>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Отмена</value>
+    <comment></comment>
+  </data>
+  <!--SelectCustomer-->
+  <data name="Finilize" xml:space="preserve">
+    <value>Завершение</value>
+    <comment></comment>
+  </data>
+  <data name="SaleDetails" xml:space="preserve">
+    <value>Детали продажи</value>
+    <comment></comment>
+  </data>
+  <data name="SaleDescription" xml:space="preserve">
+    <value>Описание продажи</value>
+    <comment></comment>
+  </data>
+  <data name="IsSalePaymentPaid" xml:space="preserve">
+    <value>Оплачен ли платёж за продажу?</value>
     <comment></comment>
   </data>
 </root>
