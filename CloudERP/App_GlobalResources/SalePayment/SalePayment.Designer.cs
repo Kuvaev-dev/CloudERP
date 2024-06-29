@@ -187,6 +187,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Retrive Record Sub Branch.
+        /// </summary>
+        internal static string RetriveRecordSubBranch {
+            get {
+                return ResourceManager.GetString("RetriveRecordSubBranch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Retrive Sale`s Record.
         /// </summary>
         internal static string RetriveSalesRecord {
@@ -255,6 +264,15 @@ namespace Resources {
         internal static string SetPaid {
             get {
                 return ResourceManager.GetString("SetPaid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Sub Branch Custom Base Sale`s History.
+        /// </summary>
+        internal static string SubBranchCustomBaseSalesHistory {
+            get {
+                return ResourceManager.GetString("SubBranchCustomBaseSalesHistory", resourceCulture);
             }
         }
         

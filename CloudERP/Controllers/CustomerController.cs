@@ -128,7 +128,7 @@ namespace CloudERP.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
-            return View();
+            return View(new tblCustomer());
         }
 
         // POST: Customer/Create

@@ -86,7 +86,7 @@ namespace CloudERP.Controllers
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             ViewBag.BrchID = new SelectList(_db.tblBranch.Where(c => c.CompanyID == companyID).ToList(), "BranchID", "BranchName", 0);
             ViewBag.BranchTypeID = new SelectList(_db.tblBranchType, "BranchTypeID", "BranchType", 0);
-            return View();
+            return View(new tblBranch());
         }
 
         // POST: Branch/Create

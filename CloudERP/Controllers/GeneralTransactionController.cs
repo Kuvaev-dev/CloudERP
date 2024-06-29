@@ -62,7 +62,7 @@ namespace CloudERP.Controllers
                 if (message.Contains("Succeed"))
                 {
                     Session["GNMessage"] = message;
-                    //return RedirectToAction("Journal");
+                    return RedirectToAction("Journal");
                 }
                 else
                 {
@@ -72,7 +72,7 @@ namespace CloudERP.Controllers
 
             ViewBag.CreditAccountControlID = new SelectList(accounts.GetAllAccounts(companyID, branchID), "AccountSubControlID", "AccountSubControl", "0");
             ViewBag.DebitAccountControlID = new SelectList(accounts.GetAllAccounts(companyID, branchID), "AccountSubControlID", "AccountSubControl", "0");
-            return RedirectToAction("GeneralTransactions", new { transaction = transaction });
+            return RedirectToAction("GeneralTransactions", new { transaction });
         }
 
         public ActionResult Journal()

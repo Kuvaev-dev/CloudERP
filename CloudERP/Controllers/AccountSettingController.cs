@@ -55,7 +55,7 @@ namespace CloudERP.Controllers
             ViewBag.AccountControlID = new SelectList(_db.tblAccountControl.Where(c => c.BranchID == branchID && c.CompanyID == companyID), "AccountControlID", "AccountControlName", "0");
             ViewBag.AccountHeadID = new SelectList(_db.tblAccountHead, "AccountHeadID", "AccountHeadName", "0");
             ViewBag.AccountSubControlID = new SelectList(_db.tblAccountSubControl.Where(c => c.BranchID == branchID && c.CompanyID == companyID), "AccountSubControlID", "AccountSubControlName", "0");
-            return View();
+            return View(new tblAccountSetting());
         }
 
         // POST: AccountSetting/Create

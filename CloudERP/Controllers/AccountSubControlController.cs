@@ -50,7 +50,7 @@ namespace CloudERP.Controllers
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
             ViewBag.AccountControlID = new SelectList(_db.tblAccountControl.Where(a => a.BranchID == branchID && a.CompanyID == companyID), "AccountControlID", "AccountControlName", "0");
-            return View();
+            return View(new tblAccountSubControl());
         }
 
         // POST: AccountSubControl/Create

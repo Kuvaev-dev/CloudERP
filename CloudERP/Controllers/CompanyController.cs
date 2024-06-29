@@ -55,7 +55,7 @@ namespace CloudERP.Controllers
                 return RedirectToAction("Login", "Home");
             }
 
-            return View();
+            return View(new tblCompany());
         }
 
         // POST: Company/Create

@@ -42,7 +42,7 @@ namespace CloudERP.Controllers
                 return RedirectToAction("Login", "Home");
             }
 
-            return View();
+            return View(new tblCategory());
         }
 
         // POST: Category/Create

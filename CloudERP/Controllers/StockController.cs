@@ -61,7 +61,7 @@ namespace CloudERP.Controllers
             branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
             companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
             ViewBag.CategoryID = new SelectList(_db.tblCategory.Where(c => c.BranchID == branchID && c.CompanyID == companyID), "CategoryID", "CategoryName", "0");
-            return View();
+            return View(new tblStock());
         }
 
         // POST: Stock/Create

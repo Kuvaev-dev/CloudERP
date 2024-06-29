@@ -196,4 +196,13 @@
     <value>Print Invoice</value>
     <comment></comment>
   </data>
+  <!--SubCustomSalesHistory-->
+  <data name="SubBranchCustomBaseSalesHistory" xml:space="preserve">
+    <value>Sub Branch Custom Base Sale`s History</value>
+    <comment></comment>
+  </data>
+  <data name="RetriveRecordSubBranch" xml:space="preserve">
+    <value>Retrive Record Sub Branch</value>
+    <comment></comment>
+  </data>
 </root>

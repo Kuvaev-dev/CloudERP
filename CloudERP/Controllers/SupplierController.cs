@@ -116,7 +116,7 @@ namespace CloudERP.Controllers
         // GET: Supplier/Create
         public ActionResult Create()
         {
-            return View();
+            return View(new tblSupplier());
         }
 
         // POST: Supplier/Create

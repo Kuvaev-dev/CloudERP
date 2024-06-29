@@ -404,6 +404,46 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Customer.uk-UA.resx</DependentUpon>
     </Compile>
+    <Compile Include="App_GlobalResources\GeneralTransaction\GeneralTransaction.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GeneralTransaction.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\GeneralTransaction\GeneralTransaction.en-US.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GeneralTransaction.en-US.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\GeneralTransaction\GeneralTransaction.ru-RU.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GeneralTransaction.ru-RU.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\GeneralTransaction\GeneralTransaction.uk-UA.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GeneralTransaction.uk-UA.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\PurchPayment\PurchPayment.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PurchPayment.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\PurchPayment\PurchPayment.en-US.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PurchPayment.en-US.res</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\PurchPayment\PurchPayment.ru-RU.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PurchPayment.ru-RU.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\PurchPayment\PurchPayment.uk-UA.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PurchPayment.uk-UA.resx</DependentUpon>
+    </Compile>
     <Compile Include="App_GlobalResources\SalePayment\SalePayment.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -742,6 +782,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_GlobalResources\PurchPayment\PurchPayment.en-US.res">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PurchPayment.en-US.Designer.cs</LastGenOutput>
+    </Content>
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -3307,6 +3351,34 @@
     <Content Include="App_GlobalResources\Category\Category.uk-UA.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Category.uk-UA.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\PurchPayment\PurchPayment.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>PurchPayment.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\PurchPayment\PurchPayment.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>PurchPayment.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\PurchPayment\PurchPayment.uk-UA.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>PurchPayment.uk-UA.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\GeneralTransaction\GeneralTransaction.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GeneralTransaction.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\GeneralTransaction\GeneralTransaction.en-US.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GeneralTransaction.en-US.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\GeneralTransaction\GeneralTransaction.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GeneralTransaction.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\GeneralTransaction\GeneralTransaction.uk-UA.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>GeneralTransaction.uk-UA.designer.cs</LastGenOutput>
     </Content>
     <EmbeddedResource Include="App_GlobalResources\RepeatingResources\Repeats.uk-UA.resx">
       <Generator>ResXFileCodeGenerator</Generator>

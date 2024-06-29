@@ -58,7 +58,7 @@ namespace CloudERP.Controllers
         public ActionResult Create()
         {
             ViewBag.AccountHeadID = new SelectList(_db.tblAccountHead, "AccountHeadID", "AccountHeadName");
-            return View();
+            return View(new tblAccountControl());
         }
 
         // POST: AccountControl/Create

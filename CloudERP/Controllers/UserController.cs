@@ -97,7 +97,7 @@ namespace CloudERP.Controllers
                 return RedirectToAction("Login", "Home");
             }
             ViewBag.UserTypeID = new SelectList(_db.tblUserType, "UserTypeID", "UserType");
-            return View();
+            return View(new tblUser());
         }
 
         // POST: User/Create

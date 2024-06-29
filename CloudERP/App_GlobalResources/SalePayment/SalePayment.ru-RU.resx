@@ -196,4 +196,13 @@
     <value>Распечатать инвойс</value>
     <comment></comment>
   </data>
+  <!--SubCustomSalesHistory-->
+  <data name="SubBranchCustomBaseSalesHistory" xml:space="preserve">
+    <value>История продаж подфилии</value>
+    <comment></comment>
+  </data>
+  <data name="RetriveRecordSubBranch" xml:space="preserve">
+    <value>Получить запись подфилии</value>
+    <comment></comment>
+  </data>
 </root>

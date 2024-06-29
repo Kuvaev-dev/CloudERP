@@ -52,7 +52,7 @@ namespace CloudERP.Controllers
         // GET: AccountHead/Create
         public ActionResult Create()
         {
-            return View();
+            return View(new tblAccountHead());
         }
 
         // POST: AccountHead/Create

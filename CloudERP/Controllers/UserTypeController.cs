@@ -13,7 +13,7 @@ namespace CloudERP.Controllers
 
         public UserTypeController(CloudDBEntities db)
         {
-            _db = db;
+            _db = db ?? throw new ArgumentNullException(nameof(db));
         }
 
         // GET: UserType
@@ -54,7 +54,7 @@ namespace CloudERP.Controllers
                 return RedirectToAction("Login", "Home");
             }
 
-            return View();
+            return View(new tblUserType());
         }
 
         // POST: UserType/Create
