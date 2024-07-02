@@ -4,10 +4,7 @@ using SendGrid;
 using SendGrid.Helpers.Mail;
 using System;
 using System.Data.Entity;
-using System.Globalization;
 using System.Linq;
-using System.Resources;
-using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 
@@ -45,129 +42,94 @@ namespace CloudERP.Controllers
         [HttpPost]
         public ActionResult LoginUser(string email, string password, bool? rememberMe)
         {
-            var user = _db.tblUser.Where(u => u.Email == email && u.Password == password && u.IsActive == true).FirstOrDefault();
+            var user = _db.tblUser.FirstOrDefault(u => u.Email == email && u.IsActive);
             if (user != null)
             {
-                Session["UserID"] = user.UserID;
-                Session["UserTypeID"] = user.UserTypeID;
-                Session["FullName"] = user.FullName;
-                Session["Email"] = user.Email;
-                Session["ContactNo"] = user.ContactNo;
-                Session["UserName"] = user.UserName;
-                Session["Password"] = user.Password;
-                Session["IsActive"] = user.IsActive;
-
-                var employeeDetails = _db.tblEmployee.Where(e => e.UserID == user.UserID).FirstOrDefault();
-                if (employeeDetails == null)
+                var saltBytes = Convert.FromBase64String(user.Salt);
+                if (PasswordHelper.VerifyPassword(password, user.Password, saltBytes))
                 {
-                    ViewBag.Message = "Please contact to Administrator";
+                    Session["UserID"] = user.UserID;
+                    Session["UserTypeID"] = user.UserTypeID;
+                    Session["FullName"] = user.FullName;
+                    Session["Email"] = user.Email;
+                    Session["ContactNo"] = user.ContactNo;
+                    Session["UserName"] = user.UserName;
+                    Session["IsActive"] = user.IsActive;
 
-                    Session["UserTypeID"] = string.Empty;
-                    Session["FullName"] = string.Empty;
-                    Session["Email"] = string.Empty;
-                    Session["ContactNo"] = string.Empty;
-                    Session["UserName"] = string.Empty;
-                    Session["Password"] = string.Empty;
-                    Session["IsActive"] = string.Empty;
-                    Session["EmployeeID"] = string.Empty;
-                    Session["EName"] = string.Empty;
-                    Session["EPhoto"] = string.Empty;
-                    Session["Designation"] = string.Empty;
-                    Session["BranchID"] = string.Empty;
-                    Session["CompanyID"] = string.Empty;
+                    var employeeDetails = _db.tblEmployee.FirstOrDefault(e => e.UserID == user.UserID);
+                    if (employeeDetails == null)
+                    {
+                        ViewBag.Message = "Please contact the Administrator";
+                        ClearSession();
+                        return View("Login");
+                    }
 
-                    return View("Login");
+                    Session["EmployeeID"] = employeeDetails.EmployeeID;
+                    Session["EName"] = employeeDetails.Name;
+                    Session["EPhoto"] = employeeDetails.Photo;
+                    Session["Designation"] = employeeDetails.Designation;
+                    Session["BranchID"] = employeeDetails.BranchID;
+                    Session["CompanyID"] = employeeDetails.CompanyID;
+
+                    var company = _db.tblCompany.FirstOrDefault(c => c.CompanyID == employeeDetails.CompanyID);
+                    if (company == null)
+                    {
+                        ViewBag.Message = "Please contact the Administrator";
+                        ClearSession();
+                        return View("Login");
+                    }
+
+                    Session["CName"] = company.Name;
+                    Session["CLogo"] = company.Logo;
+
+                    var branchType = _db.tblBranch.FirstOrDefault(b => b.BranchID == employeeDetails.BranchID);
+                    if (branchType == null)
+                    {
+                        ViewBag.Message = "Please contact the Administrator";
+                        return View("Login");
+                    }
+                    Session["BranchTypeID"] = branchType.BranchTypeID;
+                    Session["BrchID"] = branchType.BrchID ?? 0;
+
+                    if (Convert.ToInt32(Session["UserTypeID"]) == 1)  // Admin
+                    {
+                        return RedirectToAction("AdminMenuGuide", "Guide");
+                    }
+                    else if (Convert.ToInt32(Session["UserTypeID"]) == 2) // User
+                    {
+                        return RedirectToAction("Index");
+                    }
+
+                    if (rememberMe.HasValue && rememberMe.Value)
+                    {
+                        HttpCookie cookie = new HttpCookie("RememberMe");
+                        cookie.Values["Email"] = email;
+                        cookie.Expires = DateTime.Now.AddDays(30);
+                        Response.Cookies.Add(cookie);
+                    }
                 }
-
-                Session["EmployeeID"] = employeeDetails.EmployeeID;
-                Session["EName"] = employeeDetails.Name;
-                Session["EPhoto"] = employeeDetails.Photo;
-                Session["Designation"] = employeeDetails.Designation;
-                Session["BranchID"] = employeeDetails.BranchID;
-                Session["CompanyID"] = employeeDetails.CompanyID;
-
-                var company = _db.tblCompany.Where(c => c.CompanyID == employeeDetails.CompanyID).FirstOrDefault();
-                if (company == null)
+                else
                 {
-                    ViewBag.Message = "Please contact to Administrator";
-
-                    Session["UserTypeID"] = string.Empty;
-                    Session["FullName"] = string.Empty;
-                    Session["Email"] = string.Empty;
-                    Session["ContactNo"] = string.Empty;
-                    Session["UserName"] = string.Empty;
-                    Session["Password"] = string.Empty;
-                    Session["IsActive"] = string.Empty;
-                    Session["EmployeeID"] = string.Empty;
-                    Session["EName"] = string.Empty;
-                    Session["EPhoto"] = string.Empty;
-                    Session["Designation"] = string.Empty;
-                    Session["BranchID"] = string.Empty;
-                    Session["CompanyID"] = string.Empty;
-
-                    return View("Login");
-                }
-
-                Session["CName"] = company.Name;
-                Session["CLogo"] = company.Logo;
-
-                var branchType = _db.tblBranch.Where(b => b.BranchID == employeeDetails.BranchID).FirstOrDefault();
-                if (branchType == null)
-                {
-                    ViewBag.Message = "Please contact to Administrator";
-                    return View("Login");
-                }
-                Session["BranchTypeID"] = branchType.BranchTypeID;
-                Session["BrchID"] = branchType.BrchID == null ? 0 : branchType.BrchID;
-
-                if (Convert.ToInt32(Convert.ToString(Session["UserTypeID"])) == 1)  // Admin
-                {
-                    return RedirectToAction("AdminMenuGuide", "Guide");
-                }
-                else if (Convert.ToInt32(Convert.ToString(Session["UserTypeID"])) == 2) // User
-                {
-                    return RedirectToAction("Index");
-                }
-
-                if (rememberMe.HasValue && rememberMe.Value)
-                {
-                    HttpCookie cookie = new HttpCookie("rememberMe");
-                    cookie.Values["Email"] = email;
-                    cookie.Expires = DateTime.Now.AddDays(30);
-                    Response.Cookies.Add(cookie);
+                    ViewBag.Message = "Incorrect credentials";
+                    ClearSession();
                 }
             }
             else
             {
                 ViewBag.Message = "Incorrect credentials";
-
-                Session["UserTypeID"] = string.Empty;
-                Session["FullName"] = string.Empty;
-                Session["Email"] = string.Empty;
-                Session["ContactNo"] = string.Empty;
-                Session["UserName"] = string.Empty;
-                Session["Password"] = string.Empty;
-                Session["IsActive"] = string.Empty;
-                Session["EmployeeID"] = string.Empty;
-                Session["EName"] = string.Empty;
-                Session["EPhoto"] = string.Empty;
-                Session["Designation"] = string.Empty;
-                Session["BranchID"] = string.Empty;
-                Session["CompanyID"] = string.Empty;
-                Session["BrchID"] = string.Empty;
+                ClearSession();
             }
 
             return View("Login");
         }
 
-        public ActionResult Logout()
+        private void ClearSession()
         {
             Session["UserTypeID"] = string.Empty;
             Session["FullName"] = string.Empty;
             Session["Email"] = string.Empty;
             Session["ContactNo"] = string.Empty;
             Session["UserName"] = string.Empty;
-            Session["Password"] = string.Empty;
             Session["IsActive"] = string.Empty;
             Session["EmployeeID"] = string.Empty;
             Session["EName"] = string.Empty;
@@ -176,7 +138,11 @@ namespace CloudERP.Controllers
             Session["BranchID"] = string.Empty;
             Session["CompanyID"] = string.Empty;
             Session["BrchID"] = string.Empty;
+        }
 
+        public ActionResult Logout()
+        {
+            ClearSession();
             return View("Login");
         }
 
@@ -213,9 +179,8 @@ namespace CloudERP.Controllers
                     _db.Entry(user).State = EntityState.Modified;
                     _db.SaveChanges();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    // Обработка ошибок при сохранении в базу данных
                     ModelState.AddModelError("", "Произошла ошибка при сохранении в базу данных. Пожалуйста, попробуйте еще раз.");
                     return View("ForgotPassword");
                 }
@@ -224,7 +189,7 @@ namespace CloudERP.Controllers
                 {
                     SendPasswordResetEmail(user.Email, user.ResetPasswordCode);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     ModelState.AddModelError("", "Произошла ошибка при отправке электронной почты. Пожалуйста, попробуйте еще раз.");
                     return View("ForgotPassword");
@@ -248,50 +213,59 @@ namespace CloudERP.Controllers
             var subject = "Сброс пароля";
             var to = new EmailAddress(email);
             var plainTextContent = $"Пожалуйста, сбросьте свой пароль, перейдя по следующей ссылке: {resetLink}";
-            var htmlContent = $"<p>Пожалуйста, сбросьте свой пароль, перейдя по следующей ссылке: <a href='{resetLink}'>ссылка</a></p>";
-            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            var htmlContent = $"<strong>Пожалуйста, сбросьте свой пароль, перейдя по следующей ссылке: <a href='{resetLink}'>Сбросить пароль</a></strong>";
 
-            client.SendEmailAsync(msg);
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            var response = client.SendEmailAsync(msg).Result;
         }
 
         public ActionResult ResetPassword(string id)
         {
-            var user = _db.tblUser.FirstOrDefault(u => u.ResetPasswordCode == id);
+            var user = _db.tblUser.FirstOrDefault(u => u.ResetPasswordCode == id && u.ResetPasswordExpiration > DateTime.Now);
             if (user != null)
             {
                 return View();
             }
             else
             {
-                return HttpNotFound();
+                return View("ResetPasswordLinkExpired");
             }
         }
 
         [HttpPost]
-        public ActionResult ResetPassword(string id, string password, string confirmPassword)
+        public ActionResult ResetPassword(string id, string newPassword, string confirmPassword)
         {
-            var user = _db.tblUser.FirstOrDefault(u => u.ResetPasswordCode == id);
+            if (newPassword != confirmPassword)
+            {
+                ModelState.AddModelError("", "Пароли не совпадают.");
+                return View();
+            }
+
+            var user = _db.tblUser.FirstOrDefault(u => u.ResetPasswordCode == id && u.ResetPasswordExpiration > DateTime.Now);
             if (user != null)
             {
-                if (password == confirmPassword)
-                {
-                    user.Password = password;
-                    user.ResetPasswordCode = null;
+                byte[] salt;
+                user.Password = PasswordHelper.HashPassword(newPassword, out salt);
+                user.Salt = Convert.ToBase64String(salt);
 
+                user.ResetPasswordCode = null;
+                user.ResetPasswordExpiration = null;
+
+                try
+                {
                     _db.Entry(user).State = EntityState.Modified;
                     _db.SaveChanges();
-
-                    return RedirectToAction("Login");
+                    return View("ResetPasswordSuccess");
                 }
-                else
+                catch (Exception)
                 {
-                    ModelState.AddModelError("", "Пароли не совпадают.");
+                    ModelState.AddModelError("", "Произошла ошибка при сохранении в базу данных. Пожалуйста, попробуйте еще раз.");
                     return View();
                 }
             }
             else
             {
-                return HttpNotFound();
+                return View("ResetPasswordLinkExpired");
             }
         }
     }

@@ -769,6 +769,7 @@
     <Compile Include="Helpers\BranchHelper.cs" />
     <Compile Include="Helpers\CultureHelper.cs" />
     <Compile Include="Helpers\FileHelper.cs" />
+    <Compile Include="Helpers\PasswordHelper.cs" />
     <Compile Include="Helpers\UnityConfig.cs" />
     <Compile Include="Models\AccountControlMV.cs" />
     <Compile Include="Models\AccountControlsMV.cs" />
@@ -3379,6 +3380,7 @@
     <Content Include="App_GlobalResources\GeneralTransaction\GeneralTransaction.uk-UA.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>GeneralTransaction.uk-UA.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
     <EmbeddedResource Include="App_GlobalResources\RepeatingResources\Repeats.uk-UA.resx">
       <Generator>ResXFileCodeGenerator</Generator>

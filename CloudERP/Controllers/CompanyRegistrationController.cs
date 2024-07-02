@@ -1,4 +1,5 @@
-﻿using DatabaseAccess;
+﻿using CloudERP.Helpers;
+using DatabaseAccess;
 using System;
 using System.Web.Mvc;
 
@@ -71,7 +72,8 @@ namespace CloudERP.Controllers
                         Email = EEmail,
                         FullName = EName,
                         IsActive = true,
-                        Password = Password,
+                        Password = PasswordHelper.HashPassword(Password, out byte[] salt),
+                        Salt = salt,
                         UserName = UserName,
                         UserTypeID = 2
                     };

@@ -1,4 +1,5 @@
-﻿using DatabaseAccess;
+﻿using CloudERP.Helpers;
+using DatabaseAccess;
 using System;
 using System.Linq;
 using System.Web.Mvc;
@@ -23,13 +24,15 @@ namespace CloudERP.Controllers
             }
             Session["CEmployeeID"] = employeeID;
             var employee = _db.tblEmployee.Find(employeeID);
+            byte[] salt;
             var user = new tblUser
             {
                 Email = employee.Email,
                 ContactNo = employee.ContactNo,
                 FullName = employee.Name,
                 IsActive = true,
-                Password = employee.ContactNo,
+                Password = PasswordHelper.HashPassword(employee.ContactNo, out salt),
+                Salt = Convert.ToBase64String(salt),
                 UserName = employee.Email
             };
             ViewBag.UserTypeID = new SelectList(_db.tblUserType.ToList(), "UserTypeID", "UserType");

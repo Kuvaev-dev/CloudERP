@@ -51,7 +51,8 @@ namespace DatabaseAccess
         public Nullable<System.DateTime> LastPasswordResetRequest { get; set; }
         public Nullable<System.DateTime> ResetPasswordExpiration { get; set; }
         public bool IsActive { get; set; }
-    
+        public string Salt { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblAccountControl> tblAccountControl { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
