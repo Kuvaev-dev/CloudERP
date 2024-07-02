@@ -7,6 +7,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace CloudERP.Controllers
 {
@@ -44,63 +45,14 @@ namespace CloudERP.Controllers
         {
             try
             {
-                var user = _db.tblUser.FirstOrDefault(u => u.Email == email && u.IsActive);
+                var user = _db.tblUser.SingleOrDefault(u => u.Email == email);
                 if (user != null)
                 {
-                    var saltBytes = Convert.FromBase64String(user.Salt);
+                    byte[] saltBytes = Convert.FromBase64String(user.Salt);
+
                     if (PasswordHelper.VerifyPassword(password, user.Password, saltBytes))
                     {
-                        Session["UserID"] = user.UserID;
-                        Session["UserTypeID"] = user.UserTypeID;
-                        Session["FullName"] = user.FullName;
-                        Session["Email"] = user.Email;
-                        Session["ContactNo"] = user.ContactNo;
-                        Session["UserName"] = user.UserName;
-                        Session["IsActive"] = user.IsActive;
-
-                        var employeeDetails = _db.tblEmployee.FirstOrDefault(e => e.UserID == user.UserID);
-                        if (employeeDetails == null)
-                        {
-                            ViewBag.Message = "Please contact the Administrator";
-                            ClearSession();
-                            return View("Login");
-                        }
-
-                        Session["EmployeeID"] = employeeDetails.EmployeeID;
-                        Session["EName"] = employeeDetails.Name;
-                        Session["EPhoto"] = employeeDetails.Photo;
-                        Session["Designation"] = employeeDetails.Designation;
-                        Session["BranchID"] = employeeDetails.BranchID;
-                        Session["CompanyID"] = employeeDetails.CompanyID;
-
-                        var company = _db.tblCompany.FirstOrDefault(c => c.CompanyID == employeeDetails.CompanyID);
-                        if (company == null)
-                        {
-                            ViewBag.Message = "Please contact the Administrator";
-                            ClearSession();
-                            return View("Login");
-                        }
-
-                        Session["CName"] = company.Name;
-                        Session["CLogo"] = company.Logo;
-
-                        var branchType = _db.tblBranch.FirstOrDefault(b => b.BranchID == employeeDetails.BranchID);
-                        if (branchType == null)
-                        {
-                            ViewBag.Message = "Please contact the Administrator";
-                            return View("Login");
-                        }
-                        Session["BranchTypeID"] = branchType.BranchTypeID;
-                        Session["BrchID"] = branchType.BrchID ?? 0;
-
-                        if (Convert.ToInt32(Session["UserTypeID"]) == 1)  // Admin
-                        {
-                            return RedirectToAction("AdminMenuGuide", "Guide");
-                        }
-                        else if (Convert.ToInt32(Session["UserTypeID"]) == 2) // User
-                        {
-                            return RedirectToAction("Index");
-                        }
+                        FormsAuthentication.SetAuthCookie(user.Email, false);
 
                         if (rememberMe.HasValue && rememberMe.Value)
                         {
@@ -109,26 +61,28 @@ namespace CloudERP.Controllers
                             cookie.Expires = DateTime.Now.AddDays(30);
                             Response.Cookies.Add(cookie);
                         }
-                    }
-                    else
-                    {
-                        ViewBag.Message = "Incorrect credentials";
-                        ClearSession();
+                        else
+                        {
+                            if (Request.Cookies["RememberMe"] != null)
+                            {
+                                HttpCookie cookie = new HttpCookie("RememberMe");
+                                cookie.Expires = DateTime.Now.AddDays(-1);
+                                Response.Cookies.Add(cookie);
+                            }
+                        }
+
+                        return RedirectToAction("Index", "Home");
                     }
                 }
-                else
-                {
-                    ViewBag.Message = "Incorrect credentials";
-                    ClearSession();
-                }
+
+                ViewBag.Message = "Invalid credentials. Please try again.";
+                return View("Login");
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
-                return RedirectToAction("EP500", "EP");
+                ViewBag.ErrorMessage = "Error logging in: " + ex.Message;
+                return View("Error");
             }
-
-            return View("Login");
         }
 
         private void ClearSession()
