@@ -11,7 +11,8 @@ namespace DatabaseAccess
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class tblUser
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -39,18 +40,46 @@ namespace DatabaseAccess
             this.tblSupplierReturnPayment = new HashSet<tblSupplierReturnPayment>();
             this.tblTransaction = new HashSet<tblTransaction>();
         }
-    
+
+        [Key]
         public int UserID { get; set; }
+
+        [Required(ErrorMessage = "User Type ID is required.")]
         public int UserTypeID { get; set; }
+
+        [Required(ErrorMessage = "Full Name is required.")]
+        [StringLength(100, ErrorMessage = "Full Name cannot be longer than 100 characters.")]
         public string FullName { get; set; }
+
+        [Required(ErrorMessage = "Email is required.")]
+        [EmailAddress(ErrorMessage = "Invalid Email Address.")]
         public string Email { get; set; }
+
+        [Required(ErrorMessage = "Contact No is required.")]
+        [Phone(ErrorMessage = "Invalid Phone Number.")]
         public string ContactNo { get; set; }
+
+        [Required(ErrorMessage = "User Name is required.")]
+        [StringLength(50, ErrorMessage = "User Name cannot be longer than 50 characters.")]
         public string UserName { get; set; }
+
+        [Required(ErrorMessage = "Password is required.")]
+        [StringLength(100, ErrorMessage = "Password cannot be longer than 100 characters.")]
         public string Password { get; set; }
+
         public string ResetPasswordCode { get; set; }
+
+        [DataType(DataType.DateTime)]
         public Nullable<System.DateTime> LastPasswordResetRequest { get; set; }
+
+        [DataType(DataType.DateTime)]
         public Nullable<System.DateTime> ResetPasswordExpiration { get; set; }
+
+        [Required(ErrorMessage = "Is Active is required.")]
         public bool IsActive { get; set; }
+
+        [Required(ErrorMessage = "Salt is required.")]
+        [StringLength(50, ErrorMessage = "Salt cannot be longer than 50 characters.")]
         public string Salt { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

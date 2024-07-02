@@ -73,7 +73,7 @@ namespace CloudERP.Controllers
                         FullName = EName,
                         IsActive = true,
                         Password = PasswordHelper.HashPassword(Password, out byte[] salt),
-                        Salt = salt,
+                        Salt = Convert.ToBase64String(salt),
                         UserName = UserName,
                         UserTypeID = 2
                     };

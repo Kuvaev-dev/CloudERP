@@ -11,7 +11,8 @@ namespace DatabaseAccess
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class tblBranchType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,10 +20,14 @@ namespace DatabaseAccess
         {
             this.tblBranch = new HashSet<tblBranch>();
         }
-    
+
+        [Key]
         public int BranchTypeID { get; set; }
+
+        [Required(ErrorMessage = "Branch Type is required.")]
+        [StringLength(100, ErrorMessage = "Branch Type cannot be longer than 100 characters.")]
         public string BranchType { get; set; }
-    
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblBranch> tblBranch { get; set; }
     }

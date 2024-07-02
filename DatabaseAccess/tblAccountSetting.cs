@@ -16,12 +16,16 @@ namespace DatabaseAccess
     public partial class tblAccountSetting
     {
         public int AccountSettingID { get; set; }
-        [Required(ErrorMessage = "*Required!")]
+
+        [Required(ErrorMessage = "Account Head ID is required.")]
         public int AccountHeadID { get; set; }
-        [Required(ErrorMessage = "*Required!")]
+
+        [Required(ErrorMessage = "Account Control ID is required.")]
         public int AccountControlID { get; set; }
-        [Required(ErrorMessage = "*Required!")]
+
+        [Required(ErrorMessage = "Account Sub Control ID is required.")]
         public int AccountSubControlID { get; set; }
+
         public int AccountActivityID { get; set; }
         public int CompanyID { get; set; }
         public int BranchID { get; set; }

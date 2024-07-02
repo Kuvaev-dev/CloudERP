@@ -11,7 +11,8 @@ namespace DatabaseAccess
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class tblSupplierInvoiceDetail
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,13 +20,24 @@ namespace DatabaseAccess
         {
             this.tblSupplierReturnInvoiceDetail = new HashSet<tblSupplierReturnInvoiceDetail>();
         }
-    
+
+        [Key]
         public int SupplierInvoiceDetailID { get; set; }
+
+        [Required(ErrorMessage = "Supplier Invoice ID is required.")]
         public int SupplierInvoiceID { get; set; }
+
+        [Required(ErrorMessage = "Product ID is required.")]
         public int ProductID { get; set; }
+
+        [Required(ErrorMessage = "Purchase Quantity is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Purchase Quantity must be at least 1.")]
         public int PurchaseQuantity { get; set; }
+
+        [Required(ErrorMessage = "Purchase Unit Price is required.")]
+        [Range(0.01, double.MaxValue, ErrorMessage = "Purchase Unit Price must be greater than 0.")]
         public double PurchaseUnitPrice { get; set; }
-    
+
         public virtual tblStock tblStock { get; set; }
         public virtual tblSupplierInvoice tblSupplierInvoice { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

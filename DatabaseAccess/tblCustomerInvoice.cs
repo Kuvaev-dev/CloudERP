@@ -11,7 +11,8 @@ namespace DatabaseAccess
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class tblCustomerInvoice
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -23,18 +24,39 @@ namespace DatabaseAccess
             this.tblCustomerReturnInvoiceDetail = new HashSet<tblCustomerReturnInvoiceDetail>();
             this.tblCustomerReturnPayment = new HashSet<tblCustomerReturnPayment>();
         }
-    
+
+        [Key]
         public int CustomerInvoiceID { get; set; }
+
+        [Required(ErrorMessage = "Customer ID is required.")]
         public int CustomerID { get; set; }
+
+        [Required(ErrorMessage = "Company ID is required.")]
         public int CompanyID { get; set; }
+
+        [Required(ErrorMessage = "Branch ID is required.")]
         public int BranchID { get; set; }
+
+        [Required(ErrorMessage = "Invoice Number is required.")]
+        [StringLength(50, ErrorMessage = "Invoice Number cannot be longer than 50 characters.")]
         public string InvoiceNo { get; set; }
+
+        [Required(ErrorMessage = "Title is required.")]
+        [StringLength(100, ErrorMessage = "Title cannot be longer than 100 characters.")]
         public string Title { get; set; }
+
+        [Required(ErrorMessage = "Total Amount is required.")]
+        [Range(0.01, double.MaxValue, ErrorMessage = "Total amount must be greater than 0.")]
         public double TotalAmount { get; set; }
+
+        [Required(ErrorMessage = "Invoice Date is required.")]
         public System.DateTime InvoiceDate { get; set; }
+
         public string Description { get; set; }
+
+        [Required(ErrorMessage = "User ID is required.")]
         public int UserID { get; set; }
-    
+
         public virtual tblBranch tblBranch { get; set; }
         public virtual tblCompany tblCompany { get; set; }
         public virtual tblCustomer tblCustomer { get; set; }

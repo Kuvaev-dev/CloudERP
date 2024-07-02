@@ -11,7 +11,8 @@ namespace DatabaseAccess
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class tblSupplier
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -23,17 +24,37 @@ namespace DatabaseAccess
             this.tblSupplierReturnInvoice = new HashSet<tblSupplierReturnInvoice>();
             this.tblSupplierReturnPayment = new HashSet<tblSupplierReturnPayment>();
         }
-    
+
+        [Key]
         public int SupplierID { get; set; }
+
+        [Required(ErrorMessage = "Supplier Name is required.")]
+        [StringLength(100, ErrorMessage = "Supplier Name cannot be longer than 100 characters.")]
         public string SupplierName { get; set; }
+
+        [Required(ErrorMessage = "Supplier Contact No is required.")]
+        [Phone(ErrorMessage = "Invalid phone number format.")]
         public string SupplierConatctNo { get; set; }
+
+        [Required(ErrorMessage = "Supplier Address is required.")]
+        [DataType(DataType.MultilineText)]
         public string SupplierAddress { get; set; }
+
+        [EmailAddress(ErrorMessage = "Invalid email address format.")]
         public string SupplierEmail { get; set; }
+
+        [DataType(DataType.MultilineText)]
         public string Discription { get; set; }
+
+        [Required(ErrorMessage = "Branch ID is required.")]
         public int BranchID { get; set; }
+
+        [Required(ErrorMessage = "Company ID is required.")]
         public int CompanyID { get; set; }
+
+        [Required(ErrorMessage = "User ID is required.")]
         public int UserID { get; set; }
-    
+
         public virtual tblBranch tblBranch { get; set; }
         public virtual tblCompany tblCompany { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

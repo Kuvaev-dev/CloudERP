@@ -11,19 +11,37 @@ namespace DatabaseAccess
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class tblPurchaseCart
     {
+        [Key]
         public int PurchaseCartID { get; set; }
+
+        [Required(ErrorMessage = "Supplier ID is required.")]
         public int SupplierID { get; set; }
+
+        [Required(ErrorMessage = "Company ID is required.")]
         public int CompanyID { get; set; }
+
+        [Required(ErrorMessage = "Branch ID is required.")]
         public int BranchID { get; set; }
+
+        [Required(ErrorMessage = "Invoice No is required.")]
         public int InvoiceNo { get; set; }
+
+        [Required(ErrorMessage = "Total Amount is required.")]
+        [Range(0.01, double.MaxValue, ErrorMessage = "Total Amount must be greater than 0.")]
         public double TotalAmount { get; set; }
+
+        [Required(ErrorMessage = "Invoice Date is required.")]
         public System.DateTime InvoiceDate { get; set; }
+
         public string Description { get; set; }
+
+        [Required(ErrorMessage = "User ID is required.")]
         public int UserID { get; set; }
-    
+
         public virtual tblBranch tblBranch { get; set; }
         public virtual tblCompany tblCompany { get; set; }
         public virtual tblUser tblUser { get; set; }

@@ -21,8 +21,11 @@ namespace DatabaseAccess
             this.tblUser = new HashSet<tblUser>();
         }
 
+        [Key]
         public int UserTypeID { get; set; }
-        [Required(ErrorMessage = "*Required!")]
+
+        [Required(ErrorMessage = "User Type is required.")]
+        [StringLength(50, ErrorMessage = "User Type cannot be longer than 50 characters.")]
         public string UserType { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

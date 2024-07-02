@@ -22,16 +22,25 @@ namespace DatabaseAccess
             this.tblTransaction1 = new HashSet<tblTransaction>();
         }
 
+        [Key]
         public int FinancialYearID { get; set; }
+
+        [Required(ErrorMessage = "User ID is required.")]
         public int UserID { get; set; }
+
         [Required(ErrorMessage = "*Required!")]
+        [StringLength(50, ErrorMessage = "Financial Year cannot be longer than 50 characters.")]
         public string FinancialYear { get; set; }
+
         [Required(ErrorMessage = "*Required!")]
         [DataType(DataType.Date)]
         public System.DateTime StartDate { get; set; }
+
         [Required(ErrorMessage = "*Required!")]
         [DataType(DataType.Date)]
         public System.DateTime EndDate { get; set; }
+
+        [Required(ErrorMessage = "Is Active is required.")]
         public bool IsActive { get; set; }
 
         public virtual tblUser tblUser { get; set; }

@@ -26,31 +26,53 @@ namespace DatabaseAccess
             this.tblSupplierReturnInvoiceDetail = new HashSet<tblSupplierReturnInvoiceDetail>();
         }
 
+        [Key]
         public int ProductID { get; set; }
-        [Required(ErrorMessage = "*Required!")]
+
+        [Required(ErrorMessage = "Category ID is required.")]
         public int CategoryID { get; set; }
+
+        [Required(ErrorMessage = "Company ID is required.")]
         public int CompanyID { get; set; }
+
+        [Required(ErrorMessage = "Branch ID is required.")]
         public int BranchID { get; set; }
-        [Required(ErrorMessage = "*Required!")]
+
+        [Required(ErrorMessage = "Product Name is required.")]
+        [StringLength(100, ErrorMessage = "Product Name cannot be longer than 100 characters.")]
         public string ProductName { get; set; }
-        [Required(ErrorMessage = "*Required!")]
+
+        [Required(ErrorMessage = "Quantity is required.")]
+        [Range(0, int.MaxValue, ErrorMessage = "Quantity must be 0 or greater.")]
         public int Quantity { get; set; }
-        [Required(ErrorMessage = "*Required!")]
+
+        [Required(ErrorMessage = "Sale Unit Price is required.")]
+        [Range(0.01, double.MaxValue, ErrorMessage = "Sale Unit Price must be greater than 0.")]
         public double SaleUnitPrice { get; set; }
-        [Required(ErrorMessage = "*Required!")]
+
+        [Required(ErrorMessage = "Current Purchase Unit Price is required.")]
+        [Range(0.01, double.MaxValue, ErrorMessage = "Current Purchase Unit Price must be greater than 0.")]
         public double CurrentPurchaseUnitPrice { get; set; }
-        [Required(ErrorMessage = "*Required!")]
+
+        [Required(ErrorMessage = "Expiry Date is required.")]
         [DataType(DataType.Date)]
         public System.DateTime ExpiryDate { get; set; }
-        [Required(ErrorMessage = "*Required!")]
+
+        [Required(ErrorMessage = "Manufacture Date is required.")]
         [DataType(DataType.Date)]
         public System.DateTime Manufacture { get; set; }
-        [Required(ErrorMessage = "*Required!")]
+
+        [Required(ErrorMessage = "Stock Threshold Quantity is required.")]
+        [Range(0, int.MaxValue, ErrorMessage = "Stock Threshold Quantity must be 0 or greater.")]
         public int StockTreshHoldQuantity { get; set; }
+
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
+
+        [Required(ErrorMessage = "User ID is required.")]
         public int UserID { get; set; }
-        [Required(ErrorMessage = "*Required!")]
+
+        [Required(ErrorMessage = "Is Active is required.")]
         public Nullable<bool> IsActive { get; set; }
 
 

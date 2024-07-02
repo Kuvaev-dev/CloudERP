@@ -23,29 +23,50 @@ namespace DatabaseAccess
             this.tblPayroll = new HashSet<tblPayroll>();
         }
 
+        [Key]
         public int EmployeeID { get; set; }
+
         [Required(ErrorMessage = "*Required!")]
+        [StringLength(100, ErrorMessage = "Name cannot be longer than 100 characters.")]
         public string Name { get; set; }
+
         [Required(ErrorMessage = "*Required!")]
+        [Phone(ErrorMessage = "Invalid phone number format.")]
         public string ContactNo { get; set; }
+
         public string Photo { get; set; }
+
         [Required(ErrorMessage = "*Required!")]
-        [DataType(DataType.EmailAddress)]
+        [EmailAddress(ErrorMessage = "Invalid email address format.")]
         public string Email { get; set; }
+
         [Required(ErrorMessage = "*Required!")]
         [DataType(DataType.MultilineText)]
         public string Address { get; set; }
+
+        [StringLength(50, ErrorMessage = "TIN cannot be longer than 50 characters.")]
         public string TIN { get; set; }
+
         [Required(ErrorMessage = "*Required!")]
+        [StringLength(100, ErrorMessage = "Designation cannot be longer than 100 characters.")]
         public string Designation { get; set; }
+
         [Required(ErrorMessage = "*Required!")]
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
+
         [Required(ErrorMessage = "*Required!")]
+        [Range(0.01, double.MaxValue, ErrorMessage = "Monthly Salary must be greater than 0.")]
         public double MonthlySalary { get; set; }
+
+        [Required(ErrorMessage = "Branch ID is required.")]
         public int BranchID { get; set; }
+
+        [Required(ErrorMessage = "Company ID is required.")]
         public int CompanyID { get; set; }
+
         public Nullable<int> UserID { get; set; }
+
         [NotMapped]
         public HttpPostedFileBase LogoFile { get; set; }
 

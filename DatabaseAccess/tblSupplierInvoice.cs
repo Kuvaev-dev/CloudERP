@@ -11,7 +11,8 @@ namespace DatabaseAccess
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class tblSupplierInvoice
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,17 +23,37 @@ namespace DatabaseAccess
             this.tblSupplierReturnInvoiceDetail = new HashSet<tblSupplierReturnInvoiceDetail>();
             this.tblSupplierReturnPayment = new HashSet<tblSupplierReturnPayment>();
         }
-    
+
+        [Key]
         public int SupplierInvoiceID { get; set; }
+
+        [Required(ErrorMessage = "Supplier ID is required.")]
         public int SupplierID { get; set; }
+
+        [Required(ErrorMessage = "Company ID is required.")]
         public int CompanyID { get; set; }
+
+        [Required(ErrorMessage = "Branch ID is required.")]
         public int BranchID { get; set; }
+
+        [Required(ErrorMessage = "Invoice No is required.")]
+        [StringLength(50, ErrorMessage = "Invoice No cannot be longer than 50 characters.")]
         public string InvoiceNo { get; set; }
+
+        [Required(ErrorMessage = "Total Amount is required.")]
+        [Range(0.01, double.MaxValue, ErrorMessage = "Total Amount must be greater than 0.")]
         public double TotalAmount { get; set; }
+
+        [Required(ErrorMessage = "Invoice Date is required.")]
+        [DataType(DataType.Date)]
         public System.DateTime InvoiceDate { get; set; }
+
+        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
+
+        [Required(ErrorMessage = "User ID is required.")]
         public int UserID { get; set; }
-    
+
         public virtual tblBranch tblBranch { get; set; }
         public virtual tblCompany tblCompany { get; set; }
         public virtual tblSupplier tblSupplier { get; set; }

@@ -11,23 +11,54 @@ namespace DatabaseAccess
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class tblTransaction
     {
+        [Key]
         public int TransactionID { get; set; }
+
+        [Required(ErrorMessage = "Financial Year ID is required.")]
         public int FinancialYearID { get; set; }
+
+        [Required(ErrorMessage = "Account Head ID is required.")]
         public int AccountHeadID { get; set; }
+
+        [Required(ErrorMessage = "Account Control ID is required.")]
         public int AccountControlID { get; set; }
+
+        [Required(ErrorMessage = "Account Sub Control ID is required.")]
         public int AccountSubControlID { get; set; }
+
+        [Required(ErrorMessage = "Invoice No is required.")]
+        [StringLength(50, ErrorMessage = "Invoice No cannot be longer than 50 characters.")]
         public string InvoiceNo { get; set; }
+
+        [Required(ErrorMessage = "Company ID is required.")]
         public int CompanyID { get; set; }
+
+        [Required(ErrorMessage = "Branch ID is required.")]
         public int BranchID { get; set; }
+
+        [Required(ErrorMessage = "Credit is required.")]
+        [Range(0.0, double.MaxValue, ErrorMessage = "Credit must be non-negative.")]
         public double Credit { get; set; }
+
+        [Required(ErrorMessage = "Debit is required.")]
+        [Range(0.0, double.MaxValue, ErrorMessage = "Debit must be non-negative.")]
         public double Debit { get; set; }
+
+        [Required(ErrorMessage = "Transaction Date is required.")]
+        [DataType(DataType.Date)]
         public System.DateTime TransectionDate { get; set; }
+
+        [Required(ErrorMessage = "Transaction Title is required.")]
+        [StringLength(100, ErrorMessage = "Transaction Title cannot be longer than 100 characters.")]
         public string TransectionTitle { get; set; }
+
+        [Required(ErrorMessage = "User ID is required.")]
         public int UserID { get; set; }
-    
+
         public virtual tblAccountControl tblAccountControl { get; set; }
         public virtual tblAccountHead tblAccountHead { get; set; }
         public virtual tblAccountHead tblAccountHead1 { get; set; }

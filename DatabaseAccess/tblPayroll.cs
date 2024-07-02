@@ -11,20 +11,44 @@ namespace DatabaseAccess
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class tblPayroll
     {
+        [Key]
         public int PayrollID { get; set; }
+
+        [Required(ErrorMessage = "Employee ID is required.")]
         public int EmployeeID { get; set; }
+
+        [Required(ErrorMessage = "Branch ID is required.")]
         public int BranchID { get; set; }
+
+        [Required(ErrorMessage = "Company ID is required.")]
         public int CompanyID { get; set; }
+
+        [Required(ErrorMessage = "Transfer Amount is required.")]
+        [Range(0.01, double.MaxValue, ErrorMessage = "Transfer Amount must be greater than 0.")]
         public double TransferAmount { get; set; }
+
+        [Required(ErrorMessage = "Payroll Invoice No is required.")]
+        [StringLength(50, ErrorMessage = "Payroll Invoice No cannot be longer than 50 characters.")]
         public string PayrollInvoiceNo { get; set; }
+
+        [Required(ErrorMessage = "Payment Date is required.")]
         public System.DateTime PaymentDate { get; set; }
+
+        [Required(ErrorMessage = "Salary Month is required.")]
+        [StringLength(20, ErrorMessage = "Salary Month cannot be longer than 20 characters.")]
         public string SalaryMonth { get; set; }
+
+        [Required(ErrorMessage = "Salary Year is required.")]
+        [StringLength(4, ErrorMessage = "Salary Year cannot be longer than 4 characters.")]
         public string SalaryYear { get; set; }
+
+        [Required(ErrorMessage = "User ID is required.")]
         public int UserID { get; set; }
-    
+
         public virtual tblBranch tblBranch { get; set; }
         public virtual tblCompany tblCompany { get; set; }
         public virtual tblUser tblUser { get; set; }

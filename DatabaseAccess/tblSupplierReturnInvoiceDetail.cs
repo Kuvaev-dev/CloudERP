@@ -11,17 +11,33 @@ namespace DatabaseAccess
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class tblSupplierReturnInvoiceDetail
     {
+        [Key]
         public int SupplierReturnInvoiceDetailID { get; set; }
+
+        [Required(ErrorMessage = "Supplier Invoice ID is required.")]
         public int SupplierInvoiceID { get; set; }
+
+        [Required(ErrorMessage = "Supplier Invoice Detail ID is required.")]
         public int SupplierInvoiceDetailID { get; set; }
+
+        [Required(ErrorMessage = "Supplier Return Invoice ID is required.")]
         public int SupplierReturnInvoiceID { get; set; }
+
+        [Required(ErrorMessage = "Product ID is required.")]
         public int ProductID { get; set; }
+
+        [Required(ErrorMessage = "Purchase Return Quantity is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Purchase Return Quantity must be at least 1.")]
         public int PurchaseReturnQuantity { get; set; }
+
+        [Required(ErrorMessage = "Purchase Return Unit Price is required.")]
+        [Range(0.01, double.MaxValue, ErrorMessage = "Purchase Return Unit Price must be greater than 0.")]
         public double PurchaseReturnUnitPrice { get; set; }
-    
+
         public virtual tblStock tblStock { get; set; }
         public virtual tblSupplierInvoice tblSupplierInvoice { get; set; }
         public virtual tblSupplierInvoiceDetail tblSupplierInvoiceDetail { get; set; }

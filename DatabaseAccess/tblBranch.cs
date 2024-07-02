@@ -40,17 +40,25 @@ namespace DatabaseAccess
         }
 
         public int BranchID { get; set; }
-        [Required(ErrorMessage = "*Required!")]
+
+        [Required(ErrorMessage = "Branch Type ID is required.")]
         public int BranchTypeID { get; set; }
-        [Required(ErrorMessage = "*Required!")]
+
+        [Required(ErrorMessage = "Branch Name is required.")]
+        [StringLength(100, ErrorMessage = "Branch Name cannot be longer than 100 characters.")]
         public string BranchName { get; set; }
-        [Required(ErrorMessage = "*Required!")]
+
+        [Required(ErrorMessage = "Branch Contact is required.")]
+        [StringLength(50, ErrorMessage = "Branch Contact cannot be longer than 50 characters.")]
         public string BranchContact { get; set; }
-        [Required(ErrorMessage = "*Required!")]
+
+        [Required(ErrorMessage = "Branch Address is required.")]
+        [StringLength(200, ErrorMessage = "Branch Address cannot be longer than 200 characters.")]
         public string BranchAddress { get; set; }
-        [Required(ErrorMessage = "*Required!")]
+
+        [Required(ErrorMessage = "Company ID is required.")]
         public int CompanyID { get; set; }
-        [Required(ErrorMessage = "*Required!")]
+
         public Nullable<int> BrchID { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

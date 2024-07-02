@@ -39,12 +39,16 @@ namespace DatabaseAccess
             this.tblSupplierReturnInvoice = new HashSet<tblSupplierReturnInvoice>();
             this.tblSupplierReturnPayment = new HashSet<tblSupplierReturnPayment>();
         }
-    
+
+        [Key]
         public int CompanyID { get; set; }
-        [Required(ErrorMessage = "*Required")]
+
+        [Required(ErrorMessage = "Name is required.")]
         public string Name { get; set; }
+
         public string Logo { get; set; }
         public string Description { get; set; }
+
         [NotMapped]
         public HttpPostedFileBase LogoFile { get; set; }
 

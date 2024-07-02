@@ -11,7 +11,8 @@ namespace DatabaseAccess
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class tblAccountControl
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,14 +22,24 @@ namespace DatabaseAccess
             this.tblAccountSubControl = new HashSet<tblAccountSubControl>();
             this.tblTransaction = new HashSet<tblTransaction>();
         }
-    
+
         public int AccountControlID { get; set; }
+
+        [Required(ErrorMessage = "Company ID is required.")]
         public int CompanyID { get; set; }
+
+        [Required(ErrorMessage = "Branch ID is required.")]
         public int BranchID { get; set; }
+
+        [Required(ErrorMessage = "Account Head ID is required.")]
         public int AccountHeadID { get; set; }
+
+        [Required(ErrorMessage = "Account Control Name is required.")]
+        [StringLength(100, ErrorMessage = "Account Control Name cannot be longer than 100 characters.")]
         public string AccountControlName { get; set; }
+
         public int UserID { get; set; }
-    
+
         public virtual tblBranch tblBranch { get; set; }
         public virtual tblCompany tblCompany { get; set; }
         public virtual tblUser tblUser { get; set; }

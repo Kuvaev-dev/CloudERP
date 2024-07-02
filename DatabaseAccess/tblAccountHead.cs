@@ -11,7 +11,8 @@ namespace DatabaseAccess
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class tblAccountHead
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -24,7 +25,11 @@ namespace DatabaseAccess
         }
     
         public int AccountHeadID { get; set; }
+        [Required(ErrorMessage = "Account Head Name is required.")]
+        [StringLength(100, ErrorMessage = "Account Head Name cannot be longer than 100 characters.")]
         public string AccountHeadName { get; set; }
+        [Required(ErrorMessage = "Code is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Code must be a positive integer.")]
         public int Code { get; set; }
         public int UserID { get; set; }
     

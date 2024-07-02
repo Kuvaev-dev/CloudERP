@@ -23,18 +23,30 @@ namespace DatabaseAccess
             this.tblCustomerReturnPayment = new HashSet<tblCustomerReturnPayment>();
         }
 
+        [Key]
         public int CustomerID { get; set; }
-        [Required(ErrorMessage = "*Required!")]
+
+        [Required(ErrorMessage = "Customer Name is required.")]
         public string Customername { get; set; }
-        [Required(ErrorMessage = "*Required!")]
+
+        [Required(ErrorMessage = "Customer Contact is required.")]
         public string CustomerContact { get; set; }
-        [Required(ErrorMessage = "*Required!")]
+
+        [Required(ErrorMessage = "Customer Area is required.")]
         public string CustomerArea { get; set; }
-        [Required(ErrorMessage = "*Required!")]
+
+        [Required(ErrorMessage = "Customer Address is required.")]
         public string CustomerAddress { get; set; }
+
         public string Description { get; set; }
+
+        [Required(ErrorMessage = "Branch ID is required.")]
         public int BranchID { get; set; }
+
+        [Required(ErrorMessage = "Company ID is required.")]
         public int CompanyID { get; set; }
+
+        [Required(ErrorMessage = "User ID is required.")]
         public int UserID { get; set; }
 
         public virtual tblBranch tblBranch { get; set; }
