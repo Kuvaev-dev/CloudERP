@@ -779,6 +779,7 @@
     <Compile Include="Models\CompanyRegistrationMV.cs" />
     <Compile Include="Models\GeneralTransactionMV.cs" />
     <Compile Include="Models\ProductMV.cs" />
+    <Compile Include="Models\RegistrationMV.cs" />
     <Compile Include="Models\SalaryMV.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

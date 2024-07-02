@@ -18,139 +18,182 @@ namespace CloudERP.Controllers
             _db = db;
         }
 
-        // GET: GeneralTransaction
+        // GET: GeneralTransaction/GeneralTransaction
         public ActionResult GeneralTransaction(GeneralTransactionMV transaction)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+                ClearSessionMessages();
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
+                int branchID = Convert.ToInt32(Session["BranchID"]);
+                int userID = Convert.ToInt32(Session["UserID"]);
+                ViewBag.CreditAccountControlID = new SelectList(accounts.GetAllAccounts(companyID, branchID), "AccountSubControlID", "AccountSubControl", "0");
+                ViewBag.DebitAccountControlID = new SelectList(accounts.GetAllAccounts(companyID, branchID), "AccountSubControlID", "AccountSubControl", "0");
+                return View(transaction);
             }
-            if (Session["GNMessage"] != null)
+            catch (Exception ex)
             {
-                Session["GNMessage"] = string.Empty;
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            ViewBag.CreditAccountControlID = new SelectList(accounts.GetAllAccounts(companyID, branchID), "AccountSubControlID", "AccountSubControl", "0");
-            ViewBag.DebitAccountControlID = new SelectList(accounts.GetAllAccounts(companyID, branchID), "AccountSubControlID", "AccountSubControl", "0");
-            return View(transaction);
         }
 
+        // POST: GeneralTransaction/SaveGeneralTransaction
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult SaveGeneralTransaction(GeneralTransactionMV transaction)
         {
-            Session["GNMessage"] = string.Empty;
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
-            }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
+                ClearSessionMessages();
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
+                int branchID = Convert.ToInt32(Session["BranchID"]);
+                int userID = Convert.ToInt32(Session["UserID"]);
 
-            if (ModelState.IsValid)
+                if (ModelState.IsValid)
+                {
+                    string payinvoiceno = "GEN" + DateTime.Now.ToString("yyyyMMddHHmmssmm");
+                    var message = generalEntry.ConfirmGeneralTransaction(transaction.TransferAmount, userID, branchID, companyID, payinvoiceno, transaction.DebitAccountControlID, transaction.CreditAccountControlID, transaction.Reason);
+
+                    if (message.Contains("Succeed"))
+                    {
+                        Session["GNMessage"] = message;
+                        return RedirectToAction("Journal");
+                    }
+                    else
+                    {
+                        Session["GNMessage"] = "Some issue occurred. Please re-login and try again!";
+                    }
+                }
+
+                ViewBag.CreditAccountControlID = new SelectList(accounts.GetAllAccounts(companyID, branchID), "AccountSubControlID", "AccountSubControl", "0");
+                ViewBag.DebitAccountControlID = new SelectList(accounts.GetAllAccounts(companyID, branchID), "AccountSubControlID", "AccountSubControl", "0");
+                return RedirectToAction("GeneralTransaction", new { transaction });
+            }
+            catch (Exception ex)
             {
-                string payinvoiceno = "GEN" + DateTime.Now.ToString("yyyyMMddHHmmssmm");
-                var message = generalEntry.ConfirmGeneralTransaction(transaction.TransferAmount, userID, branchID, companyID, payinvoiceno, transaction.DebitAccountControlID, transaction.CreditAccountControlID, transaction.Reason);
-                
-                if (message.Contains("Succeed"))
-                {
-                    Session["GNMessage"] = message;
-                    return RedirectToAction("Journal");
-                }
-                else
-                {
-                    Session["GNMessage"] = "Some Issue is Occure, Re-Login and Try Again!";
-                }
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
-
-            ViewBag.CreditAccountControlID = new SelectList(accounts.GetAllAccounts(companyID, branchID), "AccountSubControlID", "AccountSubControl", "0");
-            ViewBag.DebitAccountControlID = new SelectList(accounts.GetAllAccounts(companyID, branchID), "AccountSubControlID", "AccountSubControl", "0");
-            return RedirectToAction("GeneralTransactions", new { transaction });
         }
 
+        // GET: GeneralTransaction/Journal
         public ActionResult Journal()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+                ClearSessionMessages();
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
+                int branchID = Convert.ToInt32(Session["BranchID"]);
+                int userID = Convert.ToInt32(Session["UserID"]);
+                var list = accounts.GetJournal(companyID, branchID, DateTime.Now, DateTime.Now);
+                return View(list);
             }
-            if (Session["GNMessage"] != null)
+            catch (Exception ex)
             {
-                Session["GNMessage"] = string.Empty;
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var list = accounts.GetJournal(companyID, branchID, DateTime.Now, DateTime.Now);
-            return View(list);
         }
 
+        // GET: GeneralTransaction/SubJournal
         public ActionResult SubJournal(int? id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+                ClearSessionMessages();
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
+                int branchID = (id != null) ? Convert.ToInt32(id) : Convert.ToInt32(Session["SubBranchID"]);
+                var list = accounts.GetJournal(companyID, branchID, DateTime.Now, DateTime.Now);
+                return View(list);
             }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
+        }
+
+        // POST: GeneralTransaction/Journal
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Journal(DateTime FromDate, DateTime ToDate)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+                ClearSessionMessages();
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
+                int branchID = Convert.ToInt32(Session["BranchID"]);
+                var list = accounts.GetJournal(companyID, branchID, FromDate, ToDate);
+                return View(list);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
+        }
+
+        // POST: GeneralTransaction/SubJournal
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SubJournal(DateTime FromDate, DateTime ToDate)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+                ClearSessionMessages();
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
+                int branchID = Convert.ToInt32(Session["SubBranchID"]);
+                var list = accounts.GetJournal(companyID, branchID, FromDate, ToDate);
+                return View(list);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
+        }
+
+        // Helper method to clear session messages
+        private void ClearSessionMessages()
+        {
             if (Session["GNMessage"] != null)
             {
                 Session["GNMessage"] = string.Empty;
             }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            if (id != null)
-            {
-                Session["SubBranchID"] = id;
-            }
-            branchID = Convert.ToInt32(Convert.ToString(Session["SubBranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var list = accounts.GetJournal(companyID, branchID, DateTime.Now, DateTime.Now);
-            return View(list);
         }
 
-        [HttpPost]
-        public ActionResult Journal(DateTime FromDate, DateTime ToDate)
+        protected override void Dispose(bool disposing)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (disposing)
             {
-                return RedirectToAction("Login", "Home");
+                _db.Dispose();
             }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var list = accounts.GetJournal(companyID, branchID, FromDate, ToDate);
-            return View(list);
-        }
-
-        [HttpPost]
-        public ActionResult SubJournal(DateTime FromDate, DateTime ToDate)
-        {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
-                return RedirectToAction("Login", "Home");
-            }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["SubBranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var list = accounts.GetJournal(companyID, branchID, FromDate, ToDate);
-            return View(list);
+            base.Dispose(disposing);
         }
     }
 }

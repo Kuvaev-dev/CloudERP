@@ -26,15 +26,18 @@ namespace CloudERP.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var tblAccountSetting = _db.tblAccountSetting.Include(t => t.tblAccountActivity).Include(t => t.tblAccountControl)
-                                                        .Include(t => t.tblAccountHead).Include(t => t.tblBranch)
-                                                        .Include(t => t.tblCompany).Where(t => t.CompanyID == companyID && t.BranchID == branchID);
+            int companyID = Convert.ToInt32(Session["CompanyID"]);
+            int branchID = Convert.ToInt32(Session["BranchID"]);
+            int userID = Convert.ToInt32(Session["UserID"]);
+
+            var tblAccountSetting = _db.tblAccountSetting
+                .Include(t => t.tblAccountActivity)
+                .Include(t => t.tblAccountControl)
+                .Include(t => t.tblAccountHead)
+                .Include(t => t.tblBranch)
+                .Include(t => t.tblCompany)
+                .Where(t => t.CompanyID == companyID && t.BranchID == branchID);
+
             return View(tblAccountSetting.ToList());
         }
 
@@ -45,22 +48,19 @@ namespace CloudERP.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
+
+            int companyID = Convert.ToInt32(Session["CompanyID"]);
+            int branchID = Convert.ToInt32(Session["BranchID"]);
+
             ViewBag.AccountActivityID = new SelectList(_db.tblAccountActivity, "AccountActivityID", "Name", "0");
             ViewBag.AccountControlID = new SelectList(_db.tblAccountControl.Where(c => c.BranchID == branchID && c.CompanyID == companyID), "AccountControlID", "AccountControlName", "0");
             ViewBag.AccountHeadID = new SelectList(_db.tblAccountHead, "AccountHeadID", "AccountHeadName", "0");
             ViewBag.AccountSubControlID = new SelectList(_db.tblAccountSubControl.Where(c => c.BranchID == branchID && c.CompanyID == companyID), "AccountSubControlID", "AccountSubControlName", "0");
+
             return View(new tblAccountSetting());
         }
 
         // POST: AccountSetting/Create
-        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. 
-        // Дополнительные сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(tblAccountSetting tblAccountSetting)
@@ -69,27 +69,39 @@ namespace CloudERP.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
+
+            int companyID = Convert.ToInt32(Session["CompanyID"]);
+            int branchID = Convert.ToInt32(Session["BranchID"]);
+            int userID = Convert.ToInt32(Session["UserID"]);
+
             tblAccountSetting.BranchID = branchID;
             tblAccountSetting.CompanyID = companyID;
+
             if (ModelState.IsValid)
             {
-                var findSetting = _db.tblAccountSetting.Where(c => c.CompanyID == tblAccountSetting.CompanyID && c.BranchID == tblAccountSetting.BranchID && c.AccountActivityID == tblAccountSetting.AccountActivityID).FirstOrDefault();
-                if (findSetting == null)
+                try
                 {
-                    _db.tblAccountSetting.Add(tblAccountSetting);
-                    _db.SaveChanges();
-                    ViewBag.Message = "Saved Successfully!";
-                    return RedirectToAction("Index");
+                    var findSetting = _db.tblAccountSetting
+                        .FirstOrDefault(c => c.CompanyID == tblAccountSetting.CompanyID &&
+                                             c.BranchID == tblAccountSetting.BranchID &&
+                                             c.AccountActivityID == tblAccountSetting.AccountActivityID);
+
+                    if (findSetting == null)
+                    {
+                        _db.tblAccountSetting.Add(tblAccountSetting);
+                        _db.SaveChanges();
+                        ViewBag.Message = "Saved Successfully!";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Already Exist!";
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    ViewBag.Message = "Already Exist!";
+                    ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                    return RedirectToAction("EP500", "EP");
                 }
             }
 
@@ -97,6 +109,7 @@ namespace CloudERP.Controllers
             ViewBag.AccountControlID = new SelectList(_db.tblAccountControl.Where(c => c.BranchID == branchID && c.CompanyID == companyID), "AccountControlID", "AccountControlName", tblAccountSetting.AccountControlID);
             ViewBag.AccountHeadID = new SelectList(_db.tblAccountHead, "AccountHeadID", "AccountHeadName", tblAccountSetting.AccountHeadID);
             ViewBag.AccountSubControlID = new SelectList(_db.tblAccountSubControl.Where(c => c.BranchID == branchID && c.CompanyID == companyID), "AccountSubControlID", "AccountSubControlName", tblAccountSetting.AccountSubControlID);
+
             return View(tblAccountSetting);
         }
 
@@ -107,31 +120,30 @@ namespace CloudERP.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
+
+            int companyID = Convert.ToInt32(Session["CompanyID"]);
+            int branchID = Convert.ToInt32(Session["BranchID"]);
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             tblAccountSetting tblAccountSetting = _db.tblAccountSetting.Find(id);
             if (tblAccountSetting == null)
             {
                 return HttpNotFound();
             }
+
             ViewBag.AccountActivityID = new SelectList(_db.tblAccountActivity, "AccountActivityID", "Name", tblAccountSetting.AccountActivityID);
             ViewBag.AccountControlID = new SelectList(_db.tblAccountControl.Where(c => c.BranchID == branchID && c.CompanyID == companyID), "AccountControlID", "AccountControlName", tblAccountSetting.AccountControlID);
             ViewBag.AccountHeadID = new SelectList(_db.tblAccountHead, "AccountHeadID", "AccountHeadName", tblAccountSetting.AccountHeadID);
             ViewBag.AccountSubControlID = new SelectList(_db.tblAccountSubControl.Where(c => c.BranchID == branchID && c.CompanyID == companyID), "AccountSubControlID", "AccountSubControlName", tblAccountSetting.AccountSubControlID);
+
             return View(tblAccountSetting);
         }
 
         // POST: AccountSetting/Edit/5
-        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. 
-        // Дополнительные сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(tblAccountSetting tblAccountSetting)
@@ -140,31 +152,45 @@ namespace CloudERP.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
+
+            int companyID = Convert.ToInt32(Session["CompanyID"]);
+            int branchID = Convert.ToInt32(Session["BranchID"]);
+            int userID = Convert.ToInt32(Session["UserID"]);
+
             if (ModelState.IsValid)
             {
-                var findSetting = _db.tblAccountSetting.Where(c => c.CompanyID == tblAccountSetting.CompanyID && c.BranchID == tblAccountSetting.BranchID && c.AccountActivityID == tblAccountSetting.AccountActivityID && c.AccountSettingID != tblAccountSetting.AccountSettingID).FirstOrDefault();
-                if (findSetting == null)
+                try
                 {
-                    _db.Entry(tblAccountSetting).State = EntityState.Modified;
-                    _db.SaveChanges();
-                    ViewBag.Message = "Updated Successfully!";
-                    return RedirectToAction("Index");
+                    var findSetting = _db.tblAccountSetting
+                        .FirstOrDefault(c => c.CompanyID == tblAccountSetting.CompanyID &&
+                                             c.BranchID == tblAccountSetting.BranchID &&
+                                             c.AccountActivityID == tblAccountSetting.AccountActivityID &&
+                                             c.AccountSettingID != tblAccountSetting.AccountSettingID);
+
+                    if (findSetting == null)
+                    {
+                        _db.Entry(tblAccountSetting).State = EntityState.Modified;
+                        _db.SaveChanges();
+                        ViewBag.Message = "Updated Successfully!";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Already Exist!";
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    ViewBag.Message = "Already Exist!";
+                    ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                    return RedirectToAction("EP500", "EP");
                 }
             }
+
             ViewBag.AccountActivityID = new SelectList(_db.tblAccountActivity, "AccountActivityID", "Name", tblAccountSetting.AccountActivityID);
             ViewBag.AccountControlID = new SelectList(_db.tblAccountControl.Where(c => c.BranchID == branchID && c.CompanyID == companyID), "AccountControlID", "AccountControlName", tblAccountSetting.AccountControlID);
             ViewBag.AccountHeadID = new SelectList(_db.tblAccountHead, "AccountHeadID", "AccountHeadName", tblAccountSetting.AccountHeadID);
             ViewBag.AccountSubControlID = new SelectList(_db.tblAccountSubControl.Where(c => c.BranchID == branchID && c.CompanyID == companyID), "AccountSubControlID", "AccountSubControlName", tblAccountSetting.AccountSubControlID);
+
             return View(tblAccountSetting);
         }
 
@@ -175,15 +201,15 @@ namespace CloudERP.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
+
+            int companyID = Convert.ToInt32(Session["CompanyID"]);
+            int branchID = Convert.ToInt32(Session["BranchID"]);
 
             List<AccountControlMV> controls = new List<AccountControlMV>();
-            var controlList = _db.tblAccountControl.Where(p => p.BranchID == branchID && p.CompanyID == companyID && p.AccountHeadID == id).ToList();
+            var controlList = _db.tblAccountControl
+                .Where(p => p.BranchID == branchID && p.CompanyID == companyID && p.AccountHeadID == id)
+                .ToList();
+
             foreach (var item in controlList)
             {
                 controls.Add(new AccountControlMV() { AccountControlID = item.AccountControlID, AccountControlName = item.AccountControlName });
@@ -199,15 +225,15 @@ namespace CloudERP.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
+
+            int companyID = Convert.ToInt32(Session["CompanyID"]);
+            int branchID = Convert.ToInt32(Session["BranchID"]);
 
             List<AccountSubControlMV> subControls = new List<AccountSubControlMV>();
-            var subControlList = _db.tblAccountSubControl.Where(p => p.BranchID == branchID && p.CompanyID == companyID && p.AccountControlID == id).ToList();
+            var subControlList = _db.tblAccountSubControl
+                .Where(p => p.BranchID == branchID && p.CompanyID == companyID && p.AccountControlID == id)
+                .ToList();
+
             foreach (var item in subControlList)
             {
                 subControls.Add(new AccountSubControlMV() { AccountSubControlID = item.AccountSubControlID, AccountSubControlName = item.AccountSubControlName });

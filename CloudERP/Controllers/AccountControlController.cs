@@ -23,134 +23,179 @@ namespace CloudERP.Controllers
         // GET: AccountControl
         public ActionResult Index()
         {
-            accountControl.Clear();
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
-            }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var tblAccountControl = _db.tblAccountControl.Include(t => t.tblBranch).Include(t => t.tblCompany).Include(t => t.tblUser).Where(a => a.CompanyID == companyID && a.BranchID == branchID);
-            foreach (var item in tblAccountControl)
-            {
-                accountControl.Add(new AccountControlMV
+                accountControl.Clear();
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
                 {
-                    AccountControlID = item.AccountControlID,
-                    AccountControlName = item.AccountControlName,
-                    AccountHeadID = item.AccountHeadID,
-                    AccountHeadName = _db.tblAccountHead.Find(item.AccountHeadID).AccountHeadName,
-                    BranchID = item.BranchID,
-                    BranchName = item.tblBranch.BranchName,
-                    CompanyID = item.CompanyID,
-                    Name = item.tblCompany.Name,
-                    UserID = item.UserID,
-                    UserName = item.tblUser.UserName
-                });
+                    return RedirectToAction("Login", "Home");
+                }
+
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
+                int branchID = Convert.ToInt32(Session["BranchID"]);
+                int userID = Convert.ToInt32(Session["UserID"]);
+
+                var tblAccountControl = _db.tblAccountControl
+                    .Include(t => t.tblBranch)
+                    .Include(t => t.tblCompany)
+                    .Include(t => t.tblUser)
+                    .Where(a => a.CompanyID == companyID && a.BranchID == branchID);
+
+                foreach (var item in tblAccountControl)
+                {
+                    accountControl.Add(new AccountControlMV
+                    {
+                        AccountControlID = item.AccountControlID,
+                        AccountControlName = item.AccountControlName,
+                        AccountHeadID = item.AccountHeadID,
+                        AccountHeadName = _db.tblAccountHead.Find(item.AccountHeadID)?.AccountHeadName,
+                        BranchID = item.BranchID,
+                        BranchName = item.tblBranch?.BranchName,
+                        CompanyID = item.CompanyID,
+                        Name = item.tblCompany?.Name,
+                        UserID = item.UserID,
+                        UserName = item.tblUser?.UserName
+                    });
+                }
+                return View(accountControl.ToList());
             }
-            return View(accountControl.ToList());
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // GET: AccountControl/Create
         public ActionResult Create()
         {
-            ViewBag.AccountHeadID = new SelectList(_db.tblAccountHead, "AccountHeadID", "AccountHeadName");
-            return View(new tblAccountControl());
+            try
+            {
+                ViewBag.AccountHeadID = new SelectList(_db.tblAccountHead, "AccountHeadID", "AccountHeadName");
+                return View(new tblAccountControl());
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // POST: AccountControl/Create
-        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. 
-        // Дополнительные сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(tblAccountControl tblAccountControl)
         {
-            accountControl.Clear();
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
-            }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            tblAccountControl.CompanyID = companyID;
-            tblAccountControl.BranchID = branchID;
-            tblAccountControl.UserID = userID;
-            if (ModelState.IsValid)
-            {
-                var findControl = _db.tblAccountControl.Where(a => a.CompanyID == companyID && a.BranchID == branchID && a.AccountControlName == tblAccountControl.AccountControlName).FirstOrDefault();
-                if (findControl == null)
+                accountControl.Clear();
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
                 {
-                    _db.tblAccountControl.Add(tblAccountControl);
-                    _db.SaveChanges();
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Login", "Home");
                 }
-                else
-                {
-                    ViewBag.Message = "Already Exist!";
-                }
-            }
 
-            ViewBag.AccountHeadID = new SelectList(_db.tblAccountHead, "AccountHeadID", "AccountHeadName", tblAccountControl.AccountHeadID);
-            return View(tblAccountControl);
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
+                int branchID = Convert.ToInt32(Session["BranchID"]);
+                int userID = Convert.ToInt32(Session["UserID"]);
+
+                tblAccountControl.CompanyID = companyID;
+                tblAccountControl.BranchID = branchID;
+                tblAccountControl.UserID = userID;
+
+                if (ModelState.IsValid)
+                {
+                    var findControl = _db.tblAccountControl.FirstOrDefault(a => a.CompanyID == companyID &&
+                                                                                a.BranchID == branchID &&
+                                                                                a.AccountControlName == tblAccountControl.AccountControlName);
+                    if (findControl == null)
+                    {
+                        _db.tblAccountControl.Add(tblAccountControl);
+                        _db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Already Exist!";
+                    }
+                }
+
+                ViewBag.AccountHeadID = new SelectList(_db.tblAccountHead, "AccountHeadID", "AccountHeadName", tblAccountControl.AccountHeadID);
+                return View(tblAccountControl);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // GET: AccountControl/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                tblAccountControl tblAccountControl = _db.tblAccountControl.Find(id);
+                if (tblAccountControl == null)
+                {
+                    return HttpNotFound();
+                }
+
+                ViewBag.AccountHeadID = new SelectList(_db.tblAccountHead, "AccountHeadID", "AccountHeadName", tblAccountControl.AccountHeadID);
+                return View(tblAccountControl);
             }
-            tblAccountControl tblAccountControl = _db.tblAccountControl.Find(id);
-            if (tblAccountControl == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
-            ViewBag.AccountHeadID = new SelectList(_db.tblAccountHead, "AccountHeadID", "AccountHeadName", tblAccountControl.AccountHeadID);
-            return View(tblAccountControl);
         }
 
         // POST: AccountControl/Edit/5
-        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. 
-        // Дополнительные сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(tblAccountControl tblAccountControl)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
-            }
-            int userID = 0;
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            tblAccountControl.UserID = userID;
-            if (ModelState.IsValid)
-            {
-                var findControl = _db.tblAccountControl.Where(a => a.CompanyID == tblAccountControl.CompanyID
-                                                               && a.BranchID == tblAccountControl.BranchID
-                                                               && a.AccountControlName == tblAccountControl.AccountControlName
-                                                               && a.AccountControlID != tblAccountControl.AccountControlID).FirstOrDefault();
-                if (findControl == null)
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
                 {
-                    _db.Entry(tblAccountControl).State = EntityState.Modified;
-                    _db.SaveChanges();
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Login", "Home");
                 }
-                else
-                {
-                    ViewBag.Message = "Already Exist!";
-                }
-            }
 
-            ViewBag.AccountHeadID = new SelectList(_db.tblAccountHead, "AccountHeadID", "AccountHeadName", tblAccountControl.AccountHeadID);
-            return View(tblAccountControl);
+                int userID = Convert.ToInt32(Session["UserID"]);
+                tblAccountControl.UserID = userID;
+
+                if (ModelState.IsValid)
+                {
+                    var findControl = _db.tblAccountControl.FirstOrDefault(a => a.CompanyID == tblAccountControl.CompanyID &&
+                                                                                a.BranchID == tblAccountControl.BranchID &&
+                                                                                a.AccountControlName == tblAccountControl.AccountControlName &&
+                                                                                a.AccountControlID != tblAccountControl.AccountControlID);
+                    if (findControl == null)
+                    {
+                        _db.Entry(tblAccountControl).State = EntityState.Modified;
+                        _db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Already Exist!";
+                    }
+                }
+
+                ViewBag.AccountHeadID = new SelectList(_db.tblAccountHead, "AccountHeadID", "AccountHeadName", tblAccountControl.AccountHeadID);
+                return View(tblAccountControl);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         protected override void Dispose(bool disposing)

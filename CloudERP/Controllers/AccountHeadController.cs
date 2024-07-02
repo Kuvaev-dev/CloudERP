@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -24,12 +23,9 @@ namespace CloudERP.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
+            int companyID = Convert.ToInt32(Session["CompanyID"]);
+            int branchID = Convert.ToInt32(Session["BranchID"]);
+            int userID = Convert.ToInt32(Session["UserID"]);
             var tblAccountHead = _db.tblAccountHead.Include(t => t.tblUser).ToList();
             return View(tblAccountHead.ToList());
         }
@@ -56,8 +52,6 @@ namespace CloudERP.Controllers
         }
 
         // POST: AccountHead/Create
-        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. 
-        // Дополнительные сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(tblAccountHead tblAccountHead)
@@ -66,25 +60,28 @@ namespace CloudERP.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
+            int userID = Convert.ToInt32(Session["UserID"]);
             tblAccountHead.UserID = userID;
             if (ModelState.IsValid)
             {
-                var findHead = _db.tblAccountHead.Where(a => a.AccountHeadName == tblAccountHead.AccountHeadName).FirstOrDefault();
-                if (findHead == null)
+                try
                 {
-                    _db.tblAccountHead.Add(tblAccountHead);
-                    _db.SaveChanges();
-                    return RedirectToAction("Index");
+                    var findHead = _db.tblAccountHead.FirstOrDefault(a => a.AccountHeadName == tblAccountHead.AccountHeadName);
+                    if (findHead == null)
+                    {
+                        _db.tblAccountHead.Add(tblAccountHead);
+                        _db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Already Exist!";
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    ViewBag.Message = "Already Exist!";
+                    ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                    return RedirectToAction("EP500", "EP");
                 }
             }
 
@@ -108,8 +105,6 @@ namespace CloudERP.Controllers
         }
 
         // POST: AccountHead/Edit/5
-        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. 
-        // Дополнительные сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(tblAccountHead tblAccountHead)
@@ -118,22 +113,29 @@ namespace CloudERP.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
-            int userID = 0;
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
+            int userID = Convert.ToInt32(Session["UserID"]);
             tblAccountHead.UserID = userID;
             if (ModelState.IsValid)
             {
-                var findHead = _db.tblAccountHead.Where(a => a.AccountHeadName == tblAccountHead.AccountHeadName
-                                                         && a.AccountHeadID != tblAccountHead.AccountHeadID).FirstOrDefault();
-                if (findHead == null)
+                try
                 {
-                    _db.Entry(tblAccountHead).State = EntityState.Modified;
-                    _db.SaveChanges();
-                    return RedirectToAction("Index");
+                    var findHead = _db.tblAccountHead.FirstOrDefault(a => a.AccountHeadName == tblAccountHead.AccountHeadName
+                                                                        && a.AccountHeadID != tblAccountHead.AccountHeadID);
+                    if (findHead == null)
+                    {
+                        _db.Entry(tblAccountHead).State = EntityState.Modified;
+                        _db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Already Exist!";
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    ViewBag.Message = "Already Exist!";
+                    ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                    return RedirectToAction("EP500", "EP");
                 }
             }
 
@@ -160,9 +162,21 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            tblAccountHead tblAccountHead = _db.tblAccountHead.Find(id);
-            _db.tblAccountHead.Remove(tblAccountHead);
-            _db.SaveChanges();
+            try
+            {
+                tblAccountHead tblAccountHead = _db.tblAccountHead.Find(id);
+                if (tblAccountHead == null)
+                {
+                    return HttpNotFound();
+                }
+                _db.tblAccountHead.Remove(tblAccountHead);
+                _db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
             return RedirectToAction("Index");
         }
 

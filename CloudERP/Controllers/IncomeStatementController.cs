@@ -19,88 +19,106 @@ namespace CloudERP.Controllers
         // GET: IncomeStatement
         public ActionResult GetIncomeStatement()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
-            }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var FinancialYear = _db.tblFinancialYear.Where(f => f.IsActive == true).FirstOrDefault();
-            if (FinancialYear == null)
-            {
-                ViewBag.Message = "Your Company Financial Year is not Set! Please Contact to Administrator!";
-            }
-            var incomeStatement = income.GetIncomeStatement(companyID, branchID, FinancialYear.FinancialYearID);
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
 
-            return View(incomeStatement);
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
+                int branchID = Convert.ToInt32(Session["BranchID"]);
+
+                var FinancialYear = _db.tblFinancialYear.FirstOrDefault(f => f.IsActive);
+                if (FinancialYear == null)
+                {
+                    ViewBag.ErrorMessage = "Your company's financial year is not set. Please contact the Administrator.";
+                    return View();
+                }
+
+                var incomeStatement = income.GetIncomeStatement(companyID, branchID, FinancialYear.FinancialYearID);
+                return View(incomeStatement);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         [HttpPost]
         public ActionResult GetIncomeStatement(int? id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
+                int branchID = Convert.ToInt32(Session["BranchID"]);
+
+                var incomeStatement = income.GetIncomeStatement(companyID, branchID, (int)id);
+                return View(incomeStatement);
             }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-
-            var incomeStatement = income.GetIncomeStatement(companyID, branchID, (int)id);
-
-            return View(incomeStatement);
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         public ActionResult GetSubIncomeStatement(string brchid)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
-            }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            if (brchid != null)
-            {
-                Session["SubBranchID"] = brchid;
-            }
-            branchID = Convert.ToInt32(Convert.ToString(Session["SubBranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var FinancialYear = _db.tblFinancialYear.Where(f => f.IsActive == true).FirstOrDefault();
-            if (FinancialYear == null)
-            {
-                ViewBag.Message = "Your Company Financial Year is not Set! Please Contact to Administrator!";
-            }
-            var incomeStatement = income.GetIncomeStatement(companyID, branchID, FinancialYear.FinancialYearID);
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
 
-            return View(incomeStatement);
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
+                int branchID = Convert.ToInt32(brchid); // Assuming brchid is a string representation of branch ID
+
+                var FinancialYear = _db.tblFinancialYear.FirstOrDefault(f => f.IsActive);
+                if (FinancialYear == null)
+                {
+                    ViewBag.ErrorMessage = "Your company's financial year is not set. Please contact the Administrator.";
+                    return View();
+                }
+
+                var incomeStatement = income.GetIncomeStatement(companyID, branchID, FinancialYear.FinancialYearID);
+                return View(incomeStatement);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         [HttpPost]
         public ActionResult GetSubIncomeStatement(int? id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
+                int branchID = Convert.ToInt32(Session["SubBranchID"]);
+
+                var incomeStatement = income.GetIncomeStatement(companyID, branchID, (int)id);
+                return View(incomeStatement);
             }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["SubBranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-
-            var incomeStatement = income.GetIncomeStatement(companyID, branchID, (int)id);
-
-            return View(incomeStatement);
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
     }
 }

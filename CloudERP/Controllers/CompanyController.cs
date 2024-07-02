@@ -17,10 +17,15 @@ namespace CloudERP.Controllers
             _db = db;
         }
 
+        private bool IsUserAuthenticated()
+        {
+            return !string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"]));
+        }
+
         // GET: Company
         public ActionResult Index()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!IsUserAuthenticated())
             {
                 return RedirectToAction("Login", "Home");
             }
@@ -31,26 +36,30 @@ namespace CloudERP.Controllers
         // GET: Company/Details/5
         public ActionResult Details(int? id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!IsUserAuthenticated())
             {
                 return RedirectToAction("Login", "Home");
             }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             tblCompany tblCompany = _db.tblCompany.Find(id);
+
             if (tblCompany == null)
             {
                 return HttpNotFound();
             }
+
             return View(tblCompany);
         }
 
         // GET: Company/Create
         public ActionResult Create()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!IsUserAuthenticated())
             {
                 return RedirectToAction("Login", "Home");
             }
@@ -59,16 +68,15 @@ namespace CloudERP.Controllers
         }
 
         // POST: Company/Create
-        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. 
-        // Дополнительные сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(tblCompany tblCompany)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!IsUserAuthenticated())
             {
                 return RedirectToAction("Login", "Home");
             }
+
             if (ModelState.IsValid)
             {
                 _db.tblCompany.Add(tblCompany);
@@ -79,58 +87,7 @@ namespace CloudERP.Controllers
                     var folder = "~/Content/CompanyLogo";
                     var file = string.Format("{0}.jpg", tblCompany.CompanyID);
                     var response = FileHelper.UploadPhoto(tblCompany.LogoFile, folder, file);
-                    if (response)
-                    {
-                        var picture = string.Format("{0}/{1}", folder, file);
-                        tblCompany.Logo = picture;
-                        _db.Entry(tblCompany).State = EntityState.Modified;
-                        _db.SaveChanges();
-                    }
-                }
 
-                return RedirectToAction("Index");
-            }
-
-            return View(tblCompany);
-        }
-
-        // GET: Company/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
-                return RedirectToAction("Login", "Home");
-            }
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            tblCompany tblCompany = _db.tblCompany.Find(id);
-            if (tblCompany == null)
-            {
-                return HttpNotFound();
-            }
-            return View(tblCompany);
-        }
-
-        // POST: Company/Edit/5
-        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. 
-        // Дополнительные сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(tblCompany tblCompany)
-        {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
-                return RedirectToAction("Login", "Home");
-            }
-            if (ModelState.IsValid)
-            {
-                if (tblCompany.LogoFile != null)
-                {
-                    var folder = "~/Content/CompanyLogo";
-                    var file = string.Format("{0}.jpg", tblCompany.CompanyID);
-                    var response = FileHelper.UploadPhoto(tblCompany.LogoFile, folder, file);
                     if (response)
                     {
                         var picture = string.Format("{0}/{1}", folder, file);
@@ -142,25 +99,86 @@ namespace CloudERP.Controllers
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
+            return View(tblCompany);
+        }
+
+        // GET: Company/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            if (!IsUserAuthenticated())
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            tblCompany tblCompany = _db.tblCompany.Find(id);
+
+            if (tblCompany == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(tblCompany);
+        }
+
+        // POST: Company/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(tblCompany tblCompany)
+        {
+            if (!IsUserAuthenticated())
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
+            if (ModelState.IsValid)
+            {
+                if (tblCompany.LogoFile != null)
+                {
+                    var folder = "~/Content/CompanyLogo";
+                    var file = string.Format("{0}.jpg", tblCompany.CompanyID);
+                    var response = FileHelper.UploadPhoto(tblCompany.LogoFile, folder, file);
+
+                    if (response)
+                    {
+                        var picture = string.Format("{0}/{1}", folder, file);
+                        tblCompany.Logo = picture;
+                    }
+                }
+
+                _db.Entry(tblCompany).State = EntityState.Modified;
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
             return View(tblCompany);
         }
 
         // GET: Company/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!IsUserAuthenticated())
             {
                 return RedirectToAction("Login", "Home");
             }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             tblCompany tblCompany = _db.tblCompany.Find(id);
+
             if (tblCompany == null)
             {
                 return HttpNotFound();
             }
+
             return View(tblCompany);
         }
 
@@ -169,10 +187,11 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!IsUserAuthenticated())
             {
                 return RedirectToAction("Login", "Home");
             }
+
             tblCompany tblCompany = _db.tblCompany.Find(id);
             _db.tblCompany.Remove(tblCompany);
             _db.SaveChanges();

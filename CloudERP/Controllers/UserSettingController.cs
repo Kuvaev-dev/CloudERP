@@ -18,25 +18,38 @@ namespace CloudERP.Controllers
         // GET: CreateUser
         public ActionResult CreateUser(int? employeeID)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+                Session["CEmployeeID"] = employeeID;
+                var employee = _db.tblEmployee.Find(employeeID);
+                if (employee == null)
+                {
+                    ViewBag.ErrorMessage = "Employee not found.";
+                    return View("Error");
+                }
+                byte[] salt;
+                var user = new tblUser
+                {
+                    Email = employee.Email,
+                    ContactNo = employee.ContactNo,
+                    FullName = employee.Name,
+                    IsActive = true,
+                    Password = PasswordHelper.HashPassword(employee.ContactNo, out salt),
+                    Salt = Convert.ToBase64String(salt),
+                    UserName = employee.Email
+                };
+                ViewBag.UserTypeID = new SelectList(_db.tblUserType.ToList(), "UserTypeID", "UserType");
+                return View(user);
             }
-            Session["CEmployeeID"] = employeeID;
-            var employee = _db.tblEmployee.Find(employeeID);
-            byte[] salt;
-            var user = new tblUser
+            catch (Exception ex)
             {
-                Email = employee.Email,
-                ContactNo = employee.ContactNo,
-                FullName = employee.Name,
-                IsActive = true,
-                Password = PasswordHelper.HashPassword(employee.ContactNo, out salt),
-                Salt = Convert.ToBase64String(salt),
-                UserName = employee.Email
-            };
-            ViewBag.UserTypeID = new SelectList(_db.tblUserType.ToList(), "UserTypeID", "UserType");
-            return View(user);
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // POST: CreateUser
@@ -46,10 +59,14 @@ namespace CloudERP.Controllers
         {
             try
             {
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
                 if (ModelState.IsValid)
                 {
-                    var user = _db.tblUser.Where(u => u.Email == tblUser.Email && u.UserID != tblUser.UserID);
-                    if (user.Count() > 0)
+                    var existingUser = _db.tblUser.FirstOrDefault(u => u.Email == tblUser.Email && u.UserID != tblUser.UserID);
+                    if (existingUser != null)
                     {
                         ViewBag.Message = "Email is Already Registered";
                     }
@@ -57,29 +74,25 @@ namespace CloudERP.Controllers
                     {
                         _db.tblUser.Add(tblUser);
                         _db.SaveChanges();
-                        int? employeeID = Convert.ToInt32(Convert.ToString(Session["CEmployeeID"]));
+                        int? employeeID = Convert.ToInt32(Session["CEmployeeID"]);
                         var employee = _db.tblEmployee.Find(employeeID);
-                        employee.UserID = tblUser.UserID;
-                        _db.Entry(employee).State = System.Data.Entity.EntityState.Modified;
-                        _db.SaveChanges();
+                        if (employee != null)
+                        {
+                            employee.UserID = tblUser.UserID;
+                            _db.Entry(employee).State = System.Data.Entity.EntityState.Modified;
+                            _db.SaveChanges();
+                        }
                         Session["CEmployeeID"] = null;
                         return RedirectToAction("Index", "User");
                     }
                 }
 
-                if (tblUser == null)
-                {
-                    ViewBag.UserTypeID = new SelectList(_db.tblUserType.ToList(), "UserTypeID", "UserType");
-                }
-                else
-                {
-                    ViewBag.UserTypeID = new SelectList(_db.tblUserType.ToList(), "UserTypeID", "UserType", tblUser.UserTypeID);
-                }
-
+                ViewBag.UserTypeID = new SelectList(_db.tblUserType.ToList(), "UserTypeID", "UserType", tblUser.UserTypeID);
                 return View(tblUser);
             }
-            catch
+            catch (Exception ex)
             {
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -87,50 +100,63 @@ namespace CloudERP.Controllers
         // GET: UpdateUser
         public ActionResult UpdateUser(int? userID)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+                var user = _db.tblUser.Find(userID);
+                if (user == null)
+                {
+                    ViewBag.ErrorMessage = "User not found.";
+                    return View("Error");
+                }
+                ViewBag.UserTypeID = new SelectList(_db.tblUserType.ToList(), "UserTypeID", "UserType", user.UserTypeID);
+                return View(user);
             }
-            var user = _db.tblUser.Find(userID);
-            ViewBag.UserTypeID = new SelectList(_db.tblUserType.ToList(), "UserTypeID", "UserType", user.UserTypeID);
-            return View(user);
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
-        // GET: UpdateUser
+        // POST: UpdateUser
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult UpdateUser(tblUser tblUser)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
-            }
-
-            if (ModelState.IsValid)
-            {
-                var user = _db.tblUser.Where(u => u.Email == tblUser.Email && u.UserID != tblUser.UserID);
-                if (user.Count() > 0)
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
                 {
-                    ViewBag.Message = "Email is Already Registered";
+                    return RedirectToAction("Login", "Home");
                 }
-                else
-                {
-                    _db.Entry(tblUser).State = System.Data.Entity.EntityState.Modified;
-                    _db.SaveChanges();
-                    return RedirectToAction("Index", "User");
-                }
-            }
 
-            if (tblUser == null)
-            {
-                ViewBag.UserTypeID = new SelectList(_db.tblUserType.ToList(), "UserTypeID", "UserType");
-            }
-            else
-            {
+                if (ModelState.IsValid)
+                {
+                    var existingUser = _db.tblUser.FirstOrDefault(u => u.Email == tblUser.Email && u.UserID != tblUser.UserID);
+                    if (existingUser != null)
+                    {
+                        ViewBag.Message = "Email is Already Registered";
+                    }
+                    else
+                    {
+                        _db.Entry(tblUser).State = System.Data.Entity.EntityState.Modified;
+                        _db.SaveChanges();
+                        return RedirectToAction("Index", "User");
+                    }
+                }
+
                 ViewBag.UserTypeID = new SelectList(_db.tblUserType.ToList(), "UserTypeID", "UserType", tblUser.UserTypeID);
+                return View(tblUser);
             }
-
-            return View(tblUser);
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
     }
 }

@@ -17,14 +17,31 @@ namespace CloudERP.Controllers
         // GET: FinancialYear
         public ActionResult Index()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+
+                int userID = Convert.ToInt32(Session["UserID"]);
+                var tblFinancialYear = _db.tblFinancialYear.ToList();
+                return View(tblFinancialYear);
             }
-            int userID = 0;
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var tblFinancialYear = _db.tblFinancialYear;
-            return View(tblFinancialYear.ToList());
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _db.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

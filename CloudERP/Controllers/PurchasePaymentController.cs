@@ -21,84 +21,101 @@ namespace CloudERP.Controllers
         // GET: PurchasePayment
         public ActionResult RemainingPaymentList()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
+                int branchID = Convert.ToInt32(Session["BranchID"]);
+                int userID = Convert.ToInt32(Session["UserID"]);
+
+                var list = purchase.RemainingPaymentList(companyID, branchID);
+                return View(list.ToList());
             }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var list = purchase.RemainingPaymentList(companyID, branchID);
-            return View(list.ToList());
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         public ActionResult PaidHistory(int? id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])) || string.IsNullOrEmpty(Convert.ToString(id)))
+            try
             {
-                return RedirectToAction("Login", "Home");
-            }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var list = purchase.PurchasePaymentHistory((int)id);
-            var returnDetails = _db.tblSupplierReturnInvoice.Where(r => r.SupplierInvoiceID == id).ToList();
-            if (returnDetails != null)
-            {
-                if (returnDetails.Count > 0)
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])) || string.IsNullOrEmpty(Convert.ToString(id)))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
+                int branchID = Convert.ToInt32(Session["BranchID"]);
+                int userID = Convert.ToInt32(Session["UserID"]);
+
+                var list = purchase.PurchasePaymentHistory((int)id);
+                var returnDetails = _db.tblSupplierReturnInvoice.Where(r => r.SupplierInvoiceID == id).ToList();
+                if (returnDetails != null && returnDetails.Any())
                 {
                     ViewData["ReturnPurchaseDetails"] = returnDetails;
                 }
-            }
-            double remainingAmount = 0;
-            double totalInvoiceAmount = _db.tblSupplierInvoice.Find(id).TotalAmount;
-            double totalPaidAmount = _db.tblSupplierPayment.Where(p => p.SupplierInvoiceID == id).Sum(p => p.PaymentAmount);
-            remainingAmount = totalInvoiceAmount - totalPaidAmount;
 
-            ViewBag.PreviousRemainingAmount = remainingAmount;
-            ViewBag.InvoiceID = id;
-            return View(list.ToList());
+                double remainingAmount = 0;
+                double totalInvoiceAmount = _db.tblSupplierInvoice.Find(id).TotalAmount;
+                double totalPaidAmount = _db.tblSupplierPayment.Where(p => p.SupplierInvoiceID == id).Sum(p => p.PaymentAmount);
+                remainingAmount = totalInvoiceAmount - totalPaidAmount;
+
+                ViewBag.PreviousRemainingAmount = remainingAmount;
+                ViewBag.InvoiceID = id;
+                return View(list.ToList());
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         public ActionResult PaidAmount(int? id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])) || string.IsNullOrEmpty(Convert.ToString(id)))
+            try
             {
-                return RedirectToAction("Login", "Home");
-            }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var list = purchase.PurchasePaymentHistory((int)id);
-            var returnDetails = _db.tblSupplierReturnInvoice.Where(r => r.SupplierInvoiceID == id).ToList();
-            if (returnDetails != null)
-            {
-                if (returnDetails.Count > 0)
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])) || string.IsNullOrEmpty(Convert.ToString(id)))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
+                int branchID = Convert.ToInt32(Session["BranchID"]);
+                int userID = Convert.ToInt32(Session["UserID"]);
+
+                var list = purchase.PurchasePaymentHistory((int)id);
+                var returnDetails = _db.tblSupplierReturnInvoice.Where(r => r.SupplierInvoiceID == id).ToList();
+                if (returnDetails != null && returnDetails.Any())
                 {
                     ViewData["ReturnPurchaseDetails"] = returnDetails;
                 }
-            }
-            double remainingAmount = 0;
-            double totalPaidAmount = 0;
-            double totalInvoiceAmount = _db.tblSupplierInvoice.Find(id).TotalAmount;
-            if (_db.tblSupplierPayment.Where(p => p.SupplierInvoiceID == id).FirstOrDefault() != null)
-            {
-                totalPaidAmount = _db.tblSupplierPayment.Where(p => p.SupplierInvoiceID == id).Sum(p => p.PaymentAmount);
-            }
-            remainingAmount = totalInvoiceAmount - totalPaidAmount;
 
-            ViewBag.PreviousRemainingAmount = remainingAmount;
-            ViewBag.InvoiceID = id;
-            return View(list.ToList());
+                double remainingAmount = 0;
+                double totalPaidAmount = 0;
+                double totalInvoiceAmount = _db.tblSupplierInvoice.Find(id).TotalAmount;
+                if (_db.tblSupplierPayment.Where(p => p.SupplierInvoiceID == id).FirstOrDefault() != null)
+                {
+                    totalPaidAmount = _db.tblSupplierPayment.Where(p => p.SupplierInvoiceID == id).Sum(p => p.PaymentAmount);
+                }
+                remainingAmount = totalInvoiceAmount - totalPaidAmount;
+
+                ViewBag.PreviousRemainingAmount = remainingAmount;
+                ViewBag.InvoiceID = id;
+                return View(list.ToList());
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         [HttpPost]
@@ -110,33 +127,30 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
-                int companyID = 0;
-                int branchID = 0;
-                int userID = 0;
-                branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-                companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-                userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
+
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
+                int branchID = Convert.ToInt32(Session["BranchID"]);
+                int userID = Convert.ToInt32(Session["UserID"]);
+
                 if (paymentAmount > previousRemainingAmount)
                 {
-                    ViewBag.Message = "Payment Must be Less Then or Equal to Previous Remaining Amount!";
+                    ViewBag.Message = "Payment must be less than or equal to the previous remaining amount.";
                     var list = purchase.PurchasePaymentHistory((int)id);
                     var returnDetails = _db.tblSupplierReturnInvoice.Where(r => r.SupplierInvoiceID == id).ToList();
-                    if (returnDetails != null)
+                    if (returnDetails != null && returnDetails.Any())
                     {
-                        if (returnDetails.Count > 0)
-                        {
-                            ViewData["ReturnPurchaseDetails"] = returnDetails;
-                        }
+                        ViewData["ReturnPurchaseDetails"] = returnDetails;
                     }
-                    double remainingAmount = 0;
+
                     double totalInvoiceAmount = _db.tblSupplierInvoice.Find(id).TotalAmount;
                     double totalPaidAmount = _db.tblSupplierPayment.Where(p => p.SupplierInvoiceID == id).Sum(p => p.PaymentAmount);
-                    remainingAmount = totalInvoiceAmount - totalPaidAmount;
+                    double remainingAmount = totalInvoiceAmount - totalPaidAmount;
 
                     ViewBag.PreviousRemainingAmount = remainingAmount;
                     ViewBag.InvoiceID = id;
                     return View(list);
                 }
+
                 string payinvoicenno = "PAY" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
                 var supplier = _db.tblSupplier.Find(_db.tblSupplierInvoice.Find(id).SupplierID);
                 var purchaseInvoice = _db.tblSupplierInvoice.Find(id);
@@ -148,89 +162,107 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Message = "Please Try Again!";
-                var list = purchase.PurchasePaymentHistory((int)id);
-                double remainingAmount = 0;
-                foreach (var item in list)
-                {
-                    remainingAmount = item.RemainingBalance;
-                }
-                if (remainingAmount == 0)
-                {
-                    remainingAmount = _db.tblSupplierInvoice.Find(id).TotalAmount;
-                }
-                ViewBag.PreviousRemainingAmount = remainingAmount;
-                ViewBag.InvoiceID = id;
-                return View(list);
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
         }
 
         public ActionResult CustomPurchasesHistory(DateTime FromDate, DateTime ToDate)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
+                int branchID = Convert.ToInt32(Session["BranchID"]);
+                int userID = Convert.ToInt32(Session["UserID"]);
+
+                var list = purchase.CustomPurchasesList(companyID, branchID, FromDate, ToDate);
+                return View(list.ToList());
             }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var list = purchase.CustomPurchasesList(companyID, branchID, FromDate, ToDate);
-            return View(list.ToList());
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         public ActionResult SubCustomPurchasesHistory(DateTime FromDate, DateTime ToDate, int? id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
+                int branchID = Convert.ToInt32(Session["BranchID"]);
+                int userID = Convert.ToInt32(Session["UserID"]);
+
+                if (id != null)
+                {
+                    Session["SubBranchID"] = id;
+                }
+
+                branchID = Convert.ToInt32(Session["SubBranchID"]);
+                var list = purchase.CustomPurchasesList(companyID, branchID, FromDate, ToDate);
+                return View(list.ToList());
             }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            if (id != null)
+            catch (Exception ex)
             {
-                Session["SubBranchID"] = id;
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
-            branchID = Convert.ToInt32(Convert.ToString(Session["SubBranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var list = purchase.CustomPurchasesList(companyID, branchID, FromDate, ToDate);
-            return View(list.ToList());
         }
 
         public ActionResult PurchaseItemDetail(int? id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
+                int branchID = Convert.ToInt32(Session["BranchID"]);
+                int userID = Convert.ToInt32(Session["UserID"]);
+
+                var list = _db.tblSupplierInvoiceDetail.Where(i => i.SupplierInvoiceID == id);
+                return View(list.ToList());
             }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var list = _db.tblSupplierInvoiceDetail.Where(i => i.SupplierInvoiceID == id);
-            return View(list.ToList());
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         public ActionResult PrintPurchaseInvoice(int? id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
+                int branchID = Convert.ToInt32(Session["BranchID"]);
+                int userID = Convert.ToInt32(Session["UserID"]);
+
+                var list = _db.tblSupplierInvoiceDetail.Where(i => i.SupplierInvoiceID == id);
+                return View(list.ToList());
             }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var list = _db.tblSupplierInvoiceDetail.Where(i => i.SupplierInvoiceID == id);
-            return View(list.ToList());
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
     }
 }

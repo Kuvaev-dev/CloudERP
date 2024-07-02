@@ -1,5 +1,6 @@
 ﻿using DatabaseAccess;
 using DatabaseAccess.Code.SP_Code;
+using DatabaseAccess.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,98 +11,154 @@ namespace CloudERP.Controllers
     public class BalanceSheetController : Controller
     {
         private readonly CloudDBEntities _db;
-        private readonly SP_BalanceSheet bal_sheet = new SP_BalanceSheet();
+        private readonly SP_BalanceSheet _balSheet;
 
         public BalanceSheetController(CloudDBEntities db)
         {
             _db = db;
+            _balSheet = new SP_BalanceSheet();
         }
 
         // GET: BalanceSheet
         public ActionResult GetBalanceSheet()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!IsUserLoggedIn())
             {
                 return RedirectToAction("Login", "Home");
             }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var FinancialYear = _db.tblFinancialYear.Where(f => f.IsActive == true).FirstOrDefault();
-            if (FinancialYear == null)
-            {
-                ViewBag.Message = "Your Company Financial Year is not Set! Please Contact to Administrator!";
-            }
-            var balanceSheet = bal_sheet.GetBalanceSheet(companyID, branchID, FinancialYear.FinancialYearID, new List<int> { 1, 2, 3, 4, 5 });
 
-            return View(balanceSheet);
+            int companyID = GetCompanyID();
+            int branchID = GetBranchID();
+
+            try
+            {
+                var financialYear = _db.tblFinancialYear.FirstOrDefault(f => f.IsActive);
+                if (financialYear == null)
+                {
+                    ViewBag.Message = "Your Company Financial Year is not Set! Please Contact to Administrator!";
+                    return View(new List<BalanceSheetModel>());
+                }
+
+                var balanceSheet = _balSheet.GetBalanceSheet(companyID, branchID, financialYear.FinancialYearID, new List<int> { 1, 2, 3, 4, 5 });
+                return View(balanceSheet);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         [HttpPost]
         public ActionResult GetBalanceSheet(int? id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!IsUserLoggedIn())
             {
                 return RedirectToAction("Login", "Home");
             }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
 
-            var balanceSheet = bal_sheet.GetBalanceSheet(companyID, branchID, (int)id, new List<int> { 1, 2, 3, 4, 5 });
+            if (!id.HasValue)
+            {
+                ViewBag.ErrorMessage = "Invalid Financial Year ID.";
+                return View(new List<BalanceSheetModel>());
+            }
 
-            return View(balanceSheet);
+            int companyID = GetCompanyID();
+            int branchID = GetBranchID();
+
+            try
+            {
+                var balanceSheet = _balSheet.GetBalanceSheet(companyID, branchID, id.Value, new List<int> { 1, 2, 3, 4, 5 });
+                return View(balanceSheet);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         public ActionResult GetSubBalanceSheet(string brnchid)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!IsUserLoggedIn())
             {
                 return RedirectToAction("Login", "Home");
             }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            if (brnchid != null)
+
+            if (!string.IsNullOrEmpty(brnchid))
             {
                 Session["SubBranchID"] = brnchid;
             }
-            branchID = Convert.ToInt32(Convert.ToString(Session["SubBranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var FinancialYear = _db.tblFinancialYear.Where(f => f.IsActive == true).FirstOrDefault();
-            if (FinancialYear == null)
-            {
-                ViewBag.Message = "Your Company Financial Year is not Set! Please Contact to Administrator!";
-            }
-            var balanceSheet = bal_sheet.GetBalanceSheet(companyID, branchID, FinancialYear.FinancialYearID, new List<int> { 1, 2, 3, 4, 5 });
 
-            return View(balanceSheet);
+            int companyID = GetCompanyID();
+            int branchID = GetSubBranchID();
+
+            try
+            {
+                var financialYear = _db.tblFinancialYear.FirstOrDefault(f => f.IsActive);
+                if (financialYear == null)
+                {
+                    ViewBag.Message = "Your Company Financial Year is not Set! Please Contact to Administrator!";
+                    return View(new List<BalanceSheetModel>());
+                }
+
+                var balanceSheet = _balSheet.GetBalanceSheet(companyID, branchID, financialYear.FinancialYearID, new List<int> { 1, 2, 3, 4, 5 });
+                return View(balanceSheet);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         [HttpPost]
         public ActionResult GetSubBalanceSheet(int? id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!IsUserLoggedIn())
             {
                 return RedirectToAction("Login", "Home");
             }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["SubBranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
 
-            var balanceSheet = bal_sheet.GetBalanceSheet(companyID, branchID, (int)id, new List<int> { 1, 2, 3, 4, 5 });
+            if (!id.HasValue)
+            {
+                ViewBag.ErrorMessage = "Invalid Financial Year ID.";
+                return View(new List<BalanceSheetModel>());
+            }
 
-            return View(balanceSheet);
+            int companyID = GetCompanyID();
+            int branchID = GetSubBranchID();
+
+            try
+            {
+                var balanceSheet = _balSheet.GetBalanceSheet(companyID, branchID, id.Value, new List<int> { 1, 2, 3, 4, 5 });
+                return View(balanceSheet);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
+        }
+
+        private bool IsUserLoggedIn()
+        {
+            return !string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"]));
+        }
+
+        private int GetCompanyID()
+        {
+            return Convert.ToInt32(Session["CompanyID"]);
+        }
+
+        private int GetBranchID()
+        {
+            return Convert.ToInt32(Session["BranchID"]);
+        }
+
+        private int GetSubBranchID()
+        {
+            return Convert.ToInt32(Session["SubBranchID"]);
         }
     }
 }

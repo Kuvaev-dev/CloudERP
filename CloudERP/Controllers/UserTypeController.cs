@@ -19,121 +19,173 @@ namespace CloudERP.Controllers
         // GET: UserType
         public ActionResult Index()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
-            }
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
 
-            return View(_db.tblUserType.ToList());
+                return View(_db.tblUserType.ToList());
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // GET: UserType/Details/5
         public ActionResult Details(int? id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                tblUserType tblUserType = _db.tblUserType.Find(id);
+                if (tblUserType == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(tblUserType);
             }
-            if (id == null)
+            catch (Exception ex)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
-            tblUserType tblUserType = _db.tblUserType.Find(id);
-            if (tblUserType == null)
-            {
-                return HttpNotFound();
-            }
-            return View(tblUserType);
         }
 
         // GET: UserType/Create
         public ActionResult Create()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
-            }
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
 
-            return View(new tblUserType());
+                return View(new tblUserType());
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // POST: UserType/Create
-        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. 
-        // Дополнительные сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(tblUserType tblUserType)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
-            }
-            if (ModelState.IsValid)
-            {
-                _db.tblUserType.Add(tblUserType);
-                _db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+                if (ModelState.IsValid)
+                {
+                    _db.tblUserType.Add(tblUserType);
+                    _db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
 
-            return View(tblUserType);
+                return View(tblUserType);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // GET: UserType/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                tblUserType tblUserType = _db.tblUserType.Find(id);
+                if (tblUserType == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(tblUserType);
             }
-            if (id == null)
+            catch (Exception ex)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
-            tblUserType tblUserType = _db.tblUserType.Find(id);
-            if (tblUserType == null)
-            {
-                return HttpNotFound();
-            }
-            return View(tblUserType);
         }
 
         // POST: UserType/Edit/5
-        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. 
-        // Дополнительные сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(tblUserType tblUserType)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+                if (ModelState.IsValid)
+                {
+                    _db.Entry(tblUserType).State = EntityState.Modified;
+                    _db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                return View(tblUserType);
             }
-            if (ModelState.IsValid)
+            catch (Exception ex)
             {
-                _db.Entry(tblUserType).State = EntityState.Modified;
-                _db.SaveChanges();
-                return RedirectToAction("Index");
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
-            return View(tblUserType);
         }
 
         // GET: UserType/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                tblUserType tblUserType = _db.tblUserType.Find(id);
+                if (tblUserType == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(tblUserType);
             }
-            if (id == null)
+            catch (Exception ex)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
-            tblUserType tblUserType = _db.tblUserType.Find(id);
-            if (tblUserType == null)
-            {
-                return HttpNotFound();
-            }
-            return View(tblUserType);
         }
 
         // POST: UserType/Delete/5
@@ -141,14 +193,22 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+                tblUserType tblUserType = _db.tblUserType.Find(id);
+                _db.tblUserType.Remove(tblUserType);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
             }
-            tblUserType tblUserType = _db.tblUserType.Find(id);
-            _db.tblUserType.Remove(tblUserType);
-            _db.SaveChanges();
-            return RedirectToAction("Index");
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         protected override void Dispose(bool disposing)

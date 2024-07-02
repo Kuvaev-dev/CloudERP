@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -17,27 +16,56 @@ namespace CloudERP.Controllers
             _db = db;
         }
 
+        private int GetCompanyID()
+        {
+            return Convert.ToInt32(Session["CompanyID"]);
+        }
+
+        private int GetBranchID()
+        {
+            return Convert.ToInt32(Session["BranchID"]);
+        }
+
+        private int GetUserID()
+        {
+            return Convert.ToInt32(Session["UserID"]);
+        }
+
+        private bool IsUserAuthenticated()
+        {
+            return !string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"]));
+        }
+
+        private bool CategoryExists(int companyID, int branchID, string categoryName, int categoryId)
+        {
+            return _db.tblCategory.Any(c => c.CompanyID == companyID
+                                        && c.BranchID == branchID
+                                        && c.CategoryName == categoryName
+                                        && c.CategoryID != categoryId);
+        }
+
         // GET: Category
         public ActionResult Index()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!IsUserAuthenticated())
             {
                 return RedirectToAction("Login", "Home");
             }
-            int companyID = 0;
-            int branchID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
+
+            int companyID = GetCompanyID();
+            int branchID = GetBranchID();
+
             var tblCategory = _db.tblCategory.Include(t => t.tblBranch).Include(t => t.tblCompany)
-                                            .Include(t => t.tblUser)
-                                            .Where(c => c.CompanyID == companyID && c.BranchID == branchID);
+                                             .Include(t => t.tblUser)
+                                             .Where(c => c.CompanyID == companyID && c.BranchID == branchID);
+
             return View(tblCategory.ToList());
         }
 
         // GET: Category/Create
         public ActionResult Create()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!IsUserAuthenticated())
             {
                 return RedirectToAction("Login", "Home");
             }
@@ -46,31 +74,26 @@ namespace CloudERP.Controllers
         }
 
         // POST: Category/Create
-        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. 
-        // Дополнительные сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(tblCategory tblCategory)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!IsUserAuthenticated())
             {
                 return RedirectToAction("Login", "Home");
             }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
+
+            int companyID = GetCompanyID();
+            int branchID = GetBranchID();
+            int userID = GetUserID();
+
             tblCategory.BranchID = branchID;
             tblCategory.CompanyID = companyID;
             tblCategory.UserID = userID;
+
             if (ModelState.IsValid)
             {
-                var findCategory = _db.tblCategory.Where(c => c.CompanyID == companyID 
-                                                        && c.BranchID == branchID 
-                                                        && c.CategoryName == tblCategory.CategoryName).FirstOrDefault();
-                if (findCategory == null)
+                if (!CategoryExists(companyID, branchID, tblCategory.CategoryName, tblCategory.CategoryID))
                 {
                     _db.tblCategory.Add(tblCategory);
                     _db.SaveChanges();
@@ -78,7 +101,7 @@ namespace CloudERP.Controllers
                 }
                 else
                 {
-                    ViewBag.Message = "Already Exist";
+                    ViewBag.Message = "Category already exists.";
                 }
             }
 
@@ -88,15 +111,18 @@ namespace CloudERP.Controllers
         // GET: Category/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!IsUserAuthenticated())
             {
                 return RedirectToAction("Login", "Home");
             }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             tblCategory tblCategory = _db.tblCategory.Find(id);
+
             if (tblCategory == null)
             {
                 return HttpNotFound();
@@ -106,26 +132,24 @@ namespace CloudERP.Controllers
         }
 
         // POST: Category/Edit/5
-        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. 
-        // Дополнительные сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(tblCategory tblCategory)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!IsUserAuthenticated())
             {
                 return RedirectToAction("Login", "Home");
             }
-            int userID = 0;
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
+
+            int userID = GetUserID();
             tblCategory.UserID = userID;
+
             if (ModelState.IsValid)
             {
-                var findCategory = _db.tblCategory.Where(c => c.CompanyID == tblCategory.CompanyID
-                                                        && c.BranchID == tblCategory.BranchID
-                                                        && c.CategoryName == tblCategory.CategoryName
-                                                        && c.CategoryID != tblCategory.CategoryID).FirstOrDefault();
-                if (findCategory == null)
+                int companyID = tblCategory.CompanyID;
+                int branchID = tblCategory.BranchID;
+
+                if (!CategoryExists(companyID, branchID, tblCategory.CategoryName, tblCategory.CategoryID))
                 {
                     _db.Entry(tblCategory).State = EntityState.Modified;
                     _db.SaveChanges();
@@ -133,7 +157,7 @@ namespace CloudERP.Controllers
                 }
                 else
                 {
-                    ViewBag.Message = "Already Exist";
+                    ViewBag.Message = "Category already exists.";
                 }
             }
 

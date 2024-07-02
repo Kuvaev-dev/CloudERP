@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -20,109 +19,139 @@ namespace CloudERP.Controllers
         // GET: FinancialYear
         public ActionResult Index()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+                int userID = Convert.ToInt32(Session["UserID"]);
+                var tblFinancialYear = _db.tblFinancialYear.Include(t => t.tblUser);
+                return View(tblFinancialYear.ToList());
             }
-            int userID = 0;
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var tblFinancialYear = _db.tblFinancialYear.Include(t => t.tblUser);
-            return View(tblFinancialYear.ToList());
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // GET: FinancialYear/Create
         public ActionResult Create()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+                return View(new tblFinancialYear());
             }
-            return View(new tblFinancialYear());
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // POST: FinancialYear/Create
-        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. 
-        // Дополнительные сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(tblFinancialYear tblFinancialYear)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+                int userID = Convert.ToInt32(Session["UserID"]);
+                tblFinancialYear.UserID = userID;
+                if (ModelState.IsValid)
+                {
+                    var findFinancialYear = _db.tblFinancialYear.Where(f => f.FinancialYear == tblFinancialYear.FinancialYear).FirstOrDefault();
+                    if (findFinancialYear == null)
+                    {
+                        _db.tblFinancialYear.Add(tblFinancialYear);
+                        _db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Financial year already exists!";
+                    }
+                }
+                return View(tblFinancialYear);
             }
-            int userID = 0;
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            tblFinancialYear.UserID = userID;
-            if (ModelState.IsValid)
+            catch (Exception ex)
             {
-                var findFinancialYear = _db.tblFinancialYear.Where(f => f.FinancialYear == tblFinancialYear.FinancialYear).FirstOrDefault();
-                if (findFinancialYear == null)
-                {
-                    _db.tblFinancialYear.Add(tblFinancialYear);
-                    _db.SaveChanges();
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    ViewBag.Message = "Aready Exist!";
-                }
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
-
-            return View(tblFinancialYear);
         }
 
         // GET: FinancialYear/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                tblFinancialYear tblFinancialYear = _db.tblFinancialYear.Find(id);
+                if (tblFinancialYear == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(tblFinancialYear);
             }
-            if (id == null)
+            catch (Exception ex)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
-            tblFinancialYear tblFinancialYear = _db.tblFinancialYear.Find(id);
-            if (tblFinancialYear == null)
-            {
-                return HttpNotFound();
-            }
- 
-            return View(tblFinancialYear);
         }
 
         // POST: FinancialYear/Edit/5
-        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. 
-        // Дополнительные сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(tblFinancialYear tblFinancialYear)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+                int userID = Convert.ToInt32(Session["UserID"]);
+                tblFinancialYear.UserID = userID;
+                if (ModelState.IsValid)
+                {
+                    var findFinancialYear = _db.tblFinancialYear.Where(f => f.FinancialYear == tblFinancialYear.FinancialYear
+                                                                        && f.FinancialYearID != tblFinancialYear.FinancialYearID).FirstOrDefault();
+                    if (findFinancialYear == null)
+                    {
+                        _db.Entry(tblFinancialYear).State = EntityState.Modified;
+                        _db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Financial year already exists!";
+                    }
+                }
+                return View(tblFinancialYear);
             }
-            int userID = 0;
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            tblFinancialYear.UserID = userID;
-            if (ModelState.IsValid)
+            catch (Exception ex)
             {
-                var findFinancialYear = _db.tblFinancialYear.Where(f => f.FinancialYear == tblFinancialYear.FinancialYear
-                                                                    && f.FinancialYearID != tblFinancialYear.FinancialYearID).FirstOrDefault();
-                if (findFinancialYear == null)
-                {
-                    _db.Entry(tblFinancialYear).State = EntityState.Modified;
-                    _db.SaveChanges();
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    ViewBag.Message = "Aready Exist!";
-                }
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
-
-            return View(tblFinancialYear);
         }
 
         protected override void Dispose(bool disposing)

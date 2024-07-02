@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -20,165 +19,179 @@ namespace CloudERP.Controllers
         // GET: Branch
         public ActionResult Index()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!IsUserLoggedIn())
             {
                 return RedirectToAction("Login", "Home");
             }
-            int companyID = 0;
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            int branchTypeID = 0;
-            int.TryParse(Convert.ToString(Session["BranchTypeID"]), out branchTypeID);
-            int brchID = 0;
-            brchID = Convert.ToInt32(Convert.ToString(Session["BrchID"]));
-            if (branchTypeID == 1)  // Main Branch
+
+            int companyID = GetCompanyID();
+            int branchTypeID = GetBranchTypeID();
+            int branchID = GetBranchID();
+
+            IQueryable<tblBranch> branches;
+            if (branchTypeID == 1) // Main Branch
             {
-                var tblBranch = _db.tblBranch.Include(t => t.tblBranchType).Where(c => c.CompanyID == companyID);
-                return View(tblBranch.ToList());
+                branches = _db.tblBranch.Include(t => t.tblBranchType).Where(c => c.CompanyID == companyID);
             }
             else
             {
-                var tblBranch = _db.tblBranch.Include(t => t.tblBranchType).Where(c => c.BrchID == brchID);
-                return View(tblBranch.ToList());
+                branches = _db.tblBranch.Include(t => t.tblBranchType).Where(c => c.BrchID == branchID);
             }
+
+            return View(branches.ToList());
         }
 
         public ActionResult SubBranchs()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!IsUserLoggedIn())
             {
                 return RedirectToAction("Login", "Home");
             }
-            int branchID = 0;
-            int.TryParse(Convert.ToString(Session["BranchID"]), out branchID);
-            int companyID = 0;
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            var tblBranch = _db.tblBranch.Include(t => t.tblBranchType).Where(c => c.CompanyID == companyID && c.BrchID == branchID);
-            return View(tblBranch.ToList());
+
+            int companyID = GetCompanyID();
+            int branchID = GetBranchID();
+
+            var branches = _db.tblBranch.Include(t => t.tblBranchType)
+                                        .Where(c => c.CompanyID == companyID && c.BrchID == branchID);
+
+            return View(branches.ToList());
         }
 
         // GET: Branch/Details/5
         public ActionResult Details(int? id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!IsUserLoggedIn())
             {
                 return RedirectToAction("Login", "Home");
             }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tblBranch tblBranch = _db.tblBranch.Find(id);
-            if (tblBranch == null)
+
+            tblBranch branch = _db.tblBranch.Find(id);
+            if (branch == null)
             {
                 return HttpNotFound();
             }
-            return View(tblBranch);
+
+            return View(branch);
         }
 
         // GET: Branch/Create
         public ActionResult Create()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!IsUserLoggedIn())
             {
                 return RedirectToAction("Login", "Home");
             }
-            int companyID = 0;
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            ViewBag.BrchID = new SelectList(_db.tblBranch.Where(c => c.CompanyID == companyID).ToList(), "BranchID", "BranchName", 0);
-            ViewBag.BranchTypeID = new SelectList(_db.tblBranchType, "BranchTypeID", "BranchType", 0);
+
+            int companyID = GetCompanyID();
+            ViewBag.BrchID = new SelectList(_db.tblBranch.Where(c => c.CompanyID == companyID).ToList(), "BranchID", "BranchName");
+            ViewBag.BranchTypeID = new SelectList(_db.tblBranchType, "BranchTypeID", "BranchType");
+
             return View(new tblBranch());
         }
 
         // POST: Branch/Create
-        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. 
-        // Дополнительные сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(tblBranch tblBranch)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!IsUserLoggedIn())
             {
                 return RedirectToAction("Login", "Home");
             }
-            int companyID = 0;
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
+
+            int companyID = GetCompanyID();
             tblBranch.CompanyID = companyID;
+
             if (ModelState.IsValid)
             {
                 _db.tblBranch.Add(tblBranch);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
             ViewBag.BrchID = new SelectList(_db.tblBranch.Where(c => c.CompanyID == companyID).ToList(), "BranchID", "BranchName");
             ViewBag.BranchTypeID = new SelectList(_db.tblBranchType, "BranchTypeID", "BranchType", tblBranch.BranchTypeID);
+
             return View(tblBranch);
         }
 
         // GET: Branch/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!IsUserLoggedIn())
             {
                 return RedirectToAction("Login", "Home");
             }
-            int companyID = 0;
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tblBranch tblBranch = _db.tblBranch.Find(id);
-            if (tblBranch == null)
+
+            tblBranch branch = _db.tblBranch.Find(id);
+            if (branch == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.BrchID = new SelectList(_db.tblBranch.Where(c => c.CompanyID == companyID).ToList(), "BranchID", "BranchName", tblBranch.BrchID);
-            ViewBag.BranchTypeID = new SelectList(_db.tblBranchType, "BranchTypeID", "BranchType", tblBranch.BranchTypeID);
-            return View(tblBranch);
+
+            int companyID = GetCompanyID();
+            ViewBag.BrchID = new SelectList(_db.tblBranch.Where(c => c.CompanyID == companyID).ToList(), "BranchID", "BranchName", branch.BrchID);
+            ViewBag.BranchTypeID = new SelectList(_db.tblBranchType, "BranchTypeID", "BranchType", branch.BranchTypeID);
+
+            return View(branch);
         }
 
         // POST: Branch/Edit/5
-        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. 
-        // Дополнительные сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(tblBranch tblBranch)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!IsUserLoggedIn())
             {
                 return RedirectToAction("Login", "Home");
             }
-            int companyID = 0;
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
+
+            int companyID = GetCompanyID();
             tblBranch.CompanyID = companyID;
+
             if (ModelState.IsValid)
             {
                 _db.Entry(tblBranch).State = EntityState.Modified;
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
             ViewBag.BrchID = new SelectList(_db.tblBranch.Where(c => c.CompanyID == companyID).ToList(), "BranchID", "BranchName", tblBranch.BrchID);
             ViewBag.BranchTypeID = new SelectList(_db.tblBranchType, "BranchTypeID", "BranchType", tblBranch.BranchTypeID);
+
             return View(tblBranch);
         }
 
         // GET: Branch/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!IsUserLoggedIn())
             {
                 return RedirectToAction("Login", "Home");
             }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tblBranch tblBranch = _db.tblBranch.Find(id);
-            if (tblBranch == null)
+
+            tblBranch branch = _db.tblBranch.Find(id);
+            if (branch == null)
             {
                 return HttpNotFound();
             }
-            return View(tblBranch);
+
+            return View(branch);
         }
 
         // POST: Branch/Delete/5
@@ -186,13 +199,15 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!IsUserLoggedIn())
             {
                 return RedirectToAction("Login", "Home");
             }
-            tblBranch tblBranch = _db.tblBranch.Find(id);
-            _db.tblBranch.Remove(tblBranch);
+
+            tblBranch branch = _db.tblBranch.Find(id);
+            _db.tblBranch.Remove(branch);
             _db.SaveChanges();
+
             return RedirectToAction("Index");
         }
 
@@ -203,6 +218,28 @@ namespace CloudERP.Controllers
                 _db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private bool IsUserLoggedIn()
+        {
+            return !string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"]));
+        }
+
+        private int GetCompanyID()
+        {
+            return Convert.ToInt32(Session["CompanyID"]);
+        }
+
+        private int GetBranchTypeID()
+        {
+            int branchTypeID;
+            int.TryParse(Convert.ToString(Session["BranchTypeID"]), out branchTypeID);
+            return branchTypeID;
+        }
+
+        private int GetBranchID()
+        {
+            return Convert.ToInt32(Session["BrchID"]);
         }
     }
 }

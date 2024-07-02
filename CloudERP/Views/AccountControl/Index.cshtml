@@ -19,6 +19,7 @@
 <div class="card card-default col-md-12">
     <div class="card-header">
         @Html.ActionLink(Resources.AccountControl.AddAccountControl.ToString(), "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
+        @ViewBag.ErrorMessage
     </div>
     <div class="card-body">
         <div class="table-responsive bootgrid">

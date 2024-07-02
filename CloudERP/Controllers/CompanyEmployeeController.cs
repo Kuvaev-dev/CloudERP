@@ -3,7 +3,6 @@ using CloudERP.Models;
 using DatabaseAccess;
 using DatabaseAccess.Code;
 using System;
-using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -19,44 +18,46 @@ namespace CloudERP.Controllers
             _db = db;
         }
 
+        private bool IsUserAuthenticated()
+        {
+            return !string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"]));
+        }
+
         // GET: Employees
         public ActionResult Employees()
         {
-            if(string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!IsUserAuthenticated())
             {
                 return RedirectToAction("Login", "Home");
             }
-            int companyID = 0;
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            var tblEmployee = _db.tblEmployee.Where(c => c.CompanyID == companyID);
+
+            int companyID = Convert.ToInt32(Session["CompanyID"]);
+            var tblEmployee = _db.tblEmployee.Where(c => c.CompanyID == companyID).ToList();
             return View(tblEmployee);
         }
 
         public ActionResult EmployeeRegistration()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!IsUserAuthenticated())
             {
                 return RedirectToAction("Login", "Home");
             }
-            int companyID = 0;
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
+
+            int companyID = Convert.ToInt32(Session["CompanyID"]);
             ViewBag.BranchID = new SelectList(_db.tblBranch.Where(b => b.CompanyID == companyID), "BranchID", "BranchName", 0);
             return View();
         }
 
-        // POST: Employees
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EmployeeRegistration(tblEmployee employee)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!IsUserAuthenticated())
             {
                 return RedirectToAction("Login", "Home");
             }
 
-            int companyID = 0;
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            employee.CompanyID = companyID;
+            employee.CompanyID = Convert.ToInt32(Session["CompanyID"]);
             employee.UserID = null;
 
             if (ModelState.IsValid)
@@ -67,13 +68,12 @@ namespace CloudERP.Controllers
                 if (employee.LogoFile != null)
                 {
                     var folder = "~/Content/EmployeePhoto";
-                    var file = string.Format("{0}.jpg", employee.EmployeeID);
+                    var file = $"{employee.EmployeeID}.jpg";
                     var response = FileHelper.UploadPhoto(employee.LogoFile, folder, file);
                     if (response)
                     {
-                        var picture = string.Format("{0}/{1}", folder, file);
-                        employee.Photo = picture;
-                        _db.Entry(employee).State = EntityState.Modified;
+                        employee.Photo = $"{folder}/{file}";
+                        _db.Entry(employee).State = System.Data.Entity.EntityState.Modified;
                         _db.SaveChanges();
                     }
                 }
@@ -81,48 +81,40 @@ namespace CloudERP.Controllers
                 return RedirectToAction("Employees");
             }
 
+            ViewBag.BranchID = new SelectList(_db.tblBranch.Where(b => b.CompanyID == employee.CompanyID), "BranchID", "BranchName", employee.BranchID);
             return View(employee);
         }
 
         public ActionResult EmployeeSalary()
         {
-            if (Session["SalaryMessage"] == null)
-            {
-                Session["SalaryMessage"] = string.Empty;
-            }
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!IsUserAuthenticated())
             {
                 return RedirectToAction("Login", "Home");
             }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            var salary = new SalaryMV();
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            salary.SalaryMonth = DateTime.Now.AddMonths(-1).ToString("MMMM");
-            salary.SalaryYear = DateTime.Now.AddMonths(-1).ToString("yyyy");
+
+            int companyID = Convert.ToInt32(Session["CompanyID"]);
+            var salary = new SalaryMV
+            {
+                SalaryMonth = DateTime.Now.AddMonths(-1).ToString("MMMM"),
+                SalaryYear = DateTime.Now.AddMonths(-1).ToString("yyyy")
+            };
+
             return View(salary);
         }
 
         [HttpPost]
-        public ActionResult EmployeeSalary(SalaryMV salary) // CNIC
+        public ActionResult EmployeeSalary(SalaryMV salary)
         {
             Session["SalaryMessage"] = string.Empty;
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+
+            if (!IsUserAuthenticated())
             {
                 return RedirectToAction("Login", "Home");
             }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var employee = _db.tblEmployee.Where(p => p.TIN == salary.TIN).FirstOrDefault();
-            salary.SalaryMonth = DateTime.Now.AddMonths(-1).ToString("MMMM");
-            salary.SalaryYear = DateTime.Now.AddMonths(-1).ToString("yyyy");
+
+            int companyID = Convert.ToInt32(Session["CompanyID"]);
+            var employee = _db.tblEmployee.FirstOrDefault(p => p.TIN == salary.TIN);
+
             if (employee != null)
             {
                 salary.EmployeeID = employee.EmployeeID;
@@ -130,12 +122,16 @@ namespace CloudERP.Controllers
                 salary.Designation = employee.Designation;
                 salary.TIN = employee.TIN;
                 salary.TransferAmount = employee.MonthlySalary;
-                Session["SalaryMessage"] = "";
+                Session["SalaryMessage"] = string.Empty;
             }
             else
             {
                 Session["SalaryMessage"] = "Record Not Found";
             }
+
+            salary.SalaryMonth = DateTime.Now.AddMonths(-1).ToString("MMMM");
+            salary.SalaryYear = DateTime.Now.AddMonths(-1).ToString("yyyy");
+
             return View(salary);
         }
 
@@ -144,74 +140,79 @@ namespace CloudERP.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!IsUserAuthenticated())
                 {
                     return RedirectToAction("Login", "Home");
                 }
-                int companyID = 0;
-                int branchID = 0;
-                int userID = 0;
-                branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-                companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-                userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
+
                 salary.SalaryMonth = salary.SalaryMonth.ToLower();
-                var emp = _db.tblPayroll.Where(p => p.EmployeeID == salary.EmployeeID && p.BranchID == branchID && p.CompanyID == companyID && p.SalaryMonth == salary.SalaryMonth && p.SalaryYear == salary.SalaryYear).FirstOrDefault();
+                int branchID = Convert.ToInt32(Session["BranchID"]);
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
+                int userID = Convert.ToInt32(Session["UserID"]);
+
+                var emp = _db.tblPayroll.FirstOrDefault(p => p.EmployeeID == salary.EmployeeID &&
+                                                              p.BranchID == branchID &&
+                                                              p.CompanyID == companyID &&
+                                                              p.SalaryMonth == salary.SalaryMonth &&
+                                                              p.SalaryYear == salary.SalaryYear);
+
                 if (emp != null)
                 {
-                    string invoiceNo = "ESA" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
-                    string message = string.Empty;
+                    string invoiceNo = $"ESA{DateTime.Now:yyyyMMddHHmmss}{DateTime.Now.Millisecond}";
                     if (ModelState.IsValid)
                     {
-                        message = salaryTransaction.Confirm(salary.EmployeeID, salary.TransferAmount, userID, branchID, companyID, invoiceNo, salary.SalaryMonth, salary.SalaryYear);
-                    }
-                    if (message.Contains("Succeed"))
-                    {
-                        Session["SalaryMessage"] = message;
-                        int payrollNo = _db.tblPayroll.Max(p => p.PayrollID);
-                        return RedirectToAction("PrintSalaryInvoice", new { id = payrollNo });
-                    }
-                    else
-                    {
-                        Session["SalaryMessage"] = "Salary is Already Paid";
+                        string message = salaryTransaction.Confirm(salary.EmployeeID, salary.TransferAmount, userID, branchID, companyID, invoiceNo, salary.SalaryMonth, salary.SalaryYear);
+                        if (message.Contains("Succeed"))
+                        {
+                            Session["SalaryMessage"] = message;
+                            int payrollNo = _db.tblPayroll.Max(p => p.PayrollID);
+                            return RedirectToAction("PrintSalaryInvoice", new { id = payrollNo });
+                        }
+                        else
+                        {
+                            Session["SalaryMessage"] = "Salary is Already Paid";
+                        }
                     }
                 }
                 else
                 {
                     Session["SalaryMessage"] = "Please Re-Login and Try Again";
                 }
+
                 return RedirectToAction("EmployeeSalary");
             }
             catch
             {
-                Session["SalaryMessage"] = "Some Unexpected Issue is Occure. Please Try Again";
+                Session["SalaryMessage"] = "Some Unexpected Issue is Occurred. Please Try Again";
                 return RedirectToAction("EmployeeSalary");
             }
         }
 
         public ActionResult SalaryHistory()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!IsUserAuthenticated())
             {
                 return RedirectToAction("Login", "Home");
             }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var salaryList = _db.tblPayroll.Where(p => p.BranchID == branchID && p.CompanyID == companyID).OrderByDescending(p => p.PayrollID).ToList();
+
+            int companyID = Convert.ToInt32(Session["CompanyID"]);
+            int branchID = Convert.ToInt32(Session["BranchID"]);
+
+            var salaryList = _db.tblPayroll.Where(p => p.BranchID == branchID && p.CompanyID == companyID)
+                                           .OrderByDescending(p => p.PayrollID)
+                                           .ToList();
+
             return View(salaryList);
         }
 
         public ActionResult PrintSalaryInvoice(int id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!IsUserAuthenticated())
             {
                 return RedirectToAction("Login", "Home");
             }
-            
-            var salary = _db.tblPayroll.Where(p => p.PayrollID == id).FirstOrDefault();
+
+            var salary = _db.tblPayroll.FirstOrDefault(p => p.PayrollID == id);
             return View(salary);
         }
     }

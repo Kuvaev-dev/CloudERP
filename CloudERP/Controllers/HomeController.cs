@@ -42,70 +42,78 @@ namespace CloudERP.Controllers
         [HttpPost]
         public ActionResult LoginUser(string email, string password, bool? rememberMe)
         {
-            var user = _db.tblUser.FirstOrDefault(u => u.Email == email && u.IsActive);
-            if (user != null)
+            try
             {
-                var saltBytes = Convert.FromBase64String(user.Salt);
-                if (PasswordHelper.VerifyPassword(password, user.Password, saltBytes))
+                var user = _db.tblUser.FirstOrDefault(u => u.Email == email && u.IsActive);
+                if (user != null)
                 {
-                    Session["UserID"] = user.UserID;
-                    Session["UserTypeID"] = user.UserTypeID;
-                    Session["FullName"] = user.FullName;
-                    Session["Email"] = user.Email;
-                    Session["ContactNo"] = user.ContactNo;
-                    Session["UserName"] = user.UserName;
-                    Session["IsActive"] = user.IsActive;
-
-                    var employeeDetails = _db.tblEmployee.FirstOrDefault(e => e.UserID == user.UserID);
-                    if (employeeDetails == null)
+                    var saltBytes = Convert.FromBase64String(user.Salt);
+                    if (PasswordHelper.VerifyPassword(password, user.Password, saltBytes))
                     {
-                        ViewBag.Message = "Please contact the Administrator";
+                        Session["UserID"] = user.UserID;
+                        Session["UserTypeID"] = user.UserTypeID;
+                        Session["FullName"] = user.FullName;
+                        Session["Email"] = user.Email;
+                        Session["ContactNo"] = user.ContactNo;
+                        Session["UserName"] = user.UserName;
+                        Session["IsActive"] = user.IsActive;
+
+                        var employeeDetails = _db.tblEmployee.FirstOrDefault(e => e.UserID == user.UserID);
+                        if (employeeDetails == null)
+                        {
+                            ViewBag.Message = "Please contact the Administrator";
+                            ClearSession();
+                            return View("Login");
+                        }
+
+                        Session["EmployeeID"] = employeeDetails.EmployeeID;
+                        Session["EName"] = employeeDetails.Name;
+                        Session["EPhoto"] = employeeDetails.Photo;
+                        Session["Designation"] = employeeDetails.Designation;
+                        Session["BranchID"] = employeeDetails.BranchID;
+                        Session["CompanyID"] = employeeDetails.CompanyID;
+
+                        var company = _db.tblCompany.FirstOrDefault(c => c.CompanyID == employeeDetails.CompanyID);
+                        if (company == null)
+                        {
+                            ViewBag.Message = "Please contact the Administrator";
+                            ClearSession();
+                            return View("Login");
+                        }
+
+                        Session["CName"] = company.Name;
+                        Session["CLogo"] = company.Logo;
+
+                        var branchType = _db.tblBranch.FirstOrDefault(b => b.BranchID == employeeDetails.BranchID);
+                        if (branchType == null)
+                        {
+                            ViewBag.Message = "Please contact the Administrator";
+                            return View("Login");
+                        }
+                        Session["BranchTypeID"] = branchType.BranchTypeID;
+                        Session["BrchID"] = branchType.BrchID ?? 0;
+
+                        if (Convert.ToInt32(Session["UserTypeID"]) == 1)  // Admin
+                        {
+                            return RedirectToAction("AdminMenuGuide", "Guide");
+                        }
+                        else if (Convert.ToInt32(Session["UserTypeID"]) == 2) // User
+                        {
+                            return RedirectToAction("Index");
+                        }
+
+                        if (rememberMe.HasValue && rememberMe.Value)
+                        {
+                            HttpCookie cookie = new HttpCookie("RememberMe");
+                            cookie.Values["Email"] = email;
+                            cookie.Expires = DateTime.Now.AddDays(30);
+                            Response.Cookies.Add(cookie);
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Incorrect credentials";
                         ClearSession();
-                        return View("Login");
-                    }
-
-                    Session["EmployeeID"] = employeeDetails.EmployeeID;
-                    Session["EName"] = employeeDetails.Name;
-                    Session["EPhoto"] = employeeDetails.Photo;
-                    Session["Designation"] = employeeDetails.Designation;
-                    Session["BranchID"] = employeeDetails.BranchID;
-                    Session["CompanyID"] = employeeDetails.CompanyID;
-
-                    var company = _db.tblCompany.FirstOrDefault(c => c.CompanyID == employeeDetails.CompanyID);
-                    if (company == null)
-                    {
-                        ViewBag.Message = "Please contact the Administrator";
-                        ClearSession();
-                        return View("Login");
-                    }
-
-                    Session["CName"] = company.Name;
-                    Session["CLogo"] = company.Logo;
-
-                    var branchType = _db.tblBranch.FirstOrDefault(b => b.BranchID == employeeDetails.BranchID);
-                    if (branchType == null)
-                    {
-                        ViewBag.Message = "Please contact the Administrator";
-                        return View("Login");
-                    }
-                    Session["BranchTypeID"] = branchType.BranchTypeID;
-                    Session["BrchID"] = branchType.BrchID ?? 0;
-
-                    if (Convert.ToInt32(Session["UserTypeID"]) == 1)  // Admin
-                    {
-                        return RedirectToAction("AdminMenuGuide", "Guide");
-                    }
-                    else if (Convert.ToInt32(Session["UserTypeID"]) == 2) // User
-                    {
-                        return RedirectToAction("Index");
-                    }
-
-                    if (rememberMe.HasValue && rememberMe.Value)
-                    {
-                        HttpCookie cookie = new HttpCookie("RememberMe");
-                        cookie.Values["Email"] = email;
-                        cookie.Expires = DateTime.Now.AddDays(30);
-                        Response.Cookies.Add(cookie);
                     }
                 }
                 else
@@ -114,10 +122,10 @@ namespace CloudERP.Controllers
                     ClearSession();
                 }
             }
-            else
+            catch (Exception ex)
             {
-                ViewBag.Message = "Incorrect credentials";
-                ClearSession();
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
 
             return View("Login");
@@ -148,8 +156,17 @@ namespace CloudERP.Controllers
 
         public ActionResult SetCulture(string culture)
         {
-            ResourceManagerHelper.SetCulture(culture);
-            Session["Culture"] = culture;
+            try
+            {
+                ResourceManagerHelper.SetCulture(culture);
+                Session["Culture"] = culture;
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
+
             return Redirect(Request.UrlReferrer.ToString());
         }
 
@@ -161,46 +178,54 @@ namespace CloudERP.Controllers
         [HttpPost]
         public ActionResult ForgotPassword(string email)
         {
-            var user = _db.tblUser.FirstOrDefault(u => u.Email == email);
-            if (user != null)
+            try
             {
-                if (user.LastPasswordResetRequest.HasValue && (DateTime.Now - user.LastPasswordResetRequest.Value).TotalMinutes < 5)
+                var user = _db.tblUser.FirstOrDefault(u => u.Email == email);
+                if (user != null)
                 {
-                    ModelState.AddModelError("", "Вы уже запрашивали сброс пароля. Пожалуйста, подождите некоторое время, прежде чем делать это снова.");
+                    if (user.LastPasswordResetRequest.HasValue && (DateTime.Now - user.LastPasswordResetRequest.Value).TotalMinutes < 5)
+                    {
+                        ModelState.AddModelError("", "Вы уже запрашивали сброс пароля. Пожалуйста, подождите некоторое время, прежде чем делать это снова.");
+                        return View("ForgotPassword");
+                    }
+
+                    user.ResetPasswordCode = Guid.NewGuid().ToString();
+                    user.ResetPasswordExpiration = DateTime.Now.AddHours(1);
+                    user.LastPasswordResetRequest = DateTime.Now;
+
+                    try
+                    {
+                        _db.Entry(user).State = EntityState.Modified;
+                        _db.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        ModelState.AddModelError("", "Произошла ошибка при сохранении в базу данных. Пожалуйста, попробуйте еще раз.");
+                        return View("ForgotPassword");
+                    }
+
+                    try
+                    {
+                        SendPasswordResetEmail(user.Email, user.ResetPasswordCode);
+                    }
+                    catch (Exception ex)
+                    {
+                        ModelState.AddModelError("", "Произошла ошибка при отправке электронной почты. Пожалуйста, попробуйте еще раз.");
+                        return View("ForgotPassword");
+                    }
+
+                    return View("ForgotPasswordEmailSent");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Адрес электронной почты не найден.");
                     return View("ForgotPassword");
                 }
-
-                user.ResetPasswordCode = Guid.NewGuid().ToString();
-                user.ResetPasswordExpiration = DateTime.Now.AddHours(1);
-                user.LastPasswordResetRequest = DateTime.Now;
-
-                try
-                {
-                    _db.Entry(user).State = EntityState.Modified;
-                    _db.SaveChanges();
-                }
-                catch (Exception)
-                {
-                    ModelState.AddModelError("", "Произошла ошибка при сохранении в базу данных. Пожалуйста, попробуйте еще раз.");
-                    return View("ForgotPassword");
-                }
-
-                try
-                {
-                    SendPasswordResetEmail(user.Email, user.ResetPasswordCode);
-                }
-                catch (Exception)
-                {
-                    ModelState.AddModelError("", "Произошла ошибка при отправке электронной почты. Пожалуйста, попробуйте еще раз.");
-                    return View("ForgotPassword");
-                }
-
-                return View("ForgotPasswordEmailSent");
             }
-            else
+            catch (Exception ex)
             {
-                ModelState.AddModelError("", "Адрес электронной почты не найден.");
-                return View("ForgotPassword");
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
         }
 
@@ -221,13 +246,21 @@ namespace CloudERP.Controllers
 
         public ActionResult ResetPassword(string id)
         {
-            var user = _db.tblUser.FirstOrDefault(u => u.ResetPasswordCode == id && u.ResetPasswordExpiration > DateTime.Now);
-            if (user != null)
+            try
             {
-                return View();
+                var user = _db.tblUser.FirstOrDefault(u => u.ResetPasswordCode == id && u.ResetPasswordExpiration > DateTime.Now);
+                if (user != null)
+                {
+                    return View();
+                }
+                else
+                {
+                    return View("ResetPasswordLinkExpired");
+                }
             }
-            else
+            catch (Exception ex)
             {
+                ViewBag.ErrorMessage = "An error occurred while processing your request. Please try again later.";
                 return View("ResetPasswordLinkExpired");
             }
         }
@@ -235,36 +268,44 @@ namespace CloudERP.Controllers
         [HttpPost]
         public ActionResult ResetPassword(string id, string newPassword, string confirmPassword)
         {
-            if (newPassword != confirmPassword)
+            try
             {
-                ModelState.AddModelError("", "Пароли не совпадают.");
-                return View();
-            }
-
-            var user = _db.tblUser.FirstOrDefault(u => u.ResetPasswordCode == id && u.ResetPasswordExpiration > DateTime.Now);
-            if (user != null)
-            {
-                byte[] salt;
-                user.Password = PasswordHelper.HashPassword(newPassword, out salt);
-                user.Salt = Convert.ToBase64String(salt);
-
-                user.ResetPasswordCode = null;
-                user.ResetPasswordExpiration = null;
-
-                try
+                if (newPassword != confirmPassword)
                 {
-                    _db.Entry(user).State = EntityState.Modified;
-                    _db.SaveChanges();
-                    return View("ResetPasswordSuccess");
-                }
-                catch (Exception)
-                {
-                    ModelState.AddModelError("", "Произошла ошибка при сохранении в базу данных. Пожалуйста, попробуйте еще раз.");
+                    ModelState.AddModelError("", "Пароли не совпадают.");
                     return View();
                 }
+
+                var user = _db.tblUser.FirstOrDefault(u => u.ResetPasswordCode == id && u.ResetPasswordExpiration > DateTime.Now);
+                if (user != null)
+                {
+                    byte[] salt;
+                    user.Password = PasswordHelper.HashPassword(newPassword, out salt);
+                    user.Salt = Convert.ToBase64String(salt);
+
+                    user.ResetPasswordCode = null;
+                    user.ResetPasswordExpiration = null;
+
+                    try
+                    {
+                        _db.Entry(user).State = EntityState.Modified;
+                        _db.SaveChanges();
+                        return View("ResetPasswordSuccess");
+                    }
+                    catch (Exception ex)
+                    {
+                        ModelState.AddModelError("", "Произошла ошибка при сохранении в базу данных. Пожалуйста, попробуйте еще раз.");
+                        return View();
+                    }
+                }
+                else
+                {
+                    return View("ResetPasswordLinkExpired");
+                }
             }
-            else
+            catch (Exception ex)
             {
+                ViewBag.ErrorMessage = "An error occurred while processing your request. Please try again later.";
                 return View("ResetPasswordLinkExpired");
             }
         }

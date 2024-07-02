@@ -1,4 +1,5 @@
 ﻿using CloudERP.Helpers;
+using CloudERP.Models;
 using DatabaseAccess;
 using System;
 using System.Web.Mvc;
@@ -14,103 +15,94 @@ namespace CloudERP.Controllers
             _db = db;
         }
 
-        // GET: CompanyRegistration
+        // GET: CompanyRegistration/RegistrationForm
         public ActionResult RegistrationForm()
         {
             if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
+
             return View();
         }
 
+        // POST: CompanyRegistration/RegistrationForm
         [HttpPost]
-        public ActionResult RegistrationForm(string UserName, string Password, string CPassword,
-                                             string EName, string EContactNo, string EEmail,
-                                             string ETIN, string EDesignation, float EMonthlySalary,
-                                             string EAddress, string CName, string BranchName,
-                                             string BranchContact, string BranchAddress)
+        [ValidateAntiForgeryToken]
+        public ActionResult RegistrationForm(RegistrationMV model)
         {
             if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
 
-            try
+            if (ModelState.IsValid)
             {
-                if (!string.IsNullOrEmpty(UserName) && !string.IsNullOrEmpty(Password) &&
-                        !string.IsNullOrEmpty(CPassword) && !string.IsNullOrEmpty(EName) &&
-                        !string.IsNullOrEmpty(EContactNo) && !string.IsNullOrEmpty(EEmail) &&
-                        !string.IsNullOrEmpty(ETIN) && !string.IsNullOrEmpty(EDesignation) &&
-                        EMonthlySalary > 0 && !string.IsNullOrEmpty(EAddress) &&
-                        !string.IsNullOrEmpty(CName) && !string.IsNullOrEmpty(BranchName) &&
-                        !string.IsNullOrEmpty(BranchContact) && !string.IsNullOrEmpty(BranchAddress))
+                try
                 {
                     var company = new tblCompany()
                     {
-                        Name = CName,
-                        Logo = string.Empty
+                        Name = model.CompanyName,
+                        Logo = string.Empty // Placeholder for logo
                     };
                     _db.tblCompany.Add(company);
                     _db.SaveChanges();
 
                     var branch = new tblBranch()
                     {
-                        BranchAddress = BranchAddress,
-                        BranchContact = BranchContact,
-                        BranchName = BranchName,
-                        BranchTypeID = 1,
+                        BranchAddress = model.BranchAddress,
+                        BranchContact = model.BranchContact,
+                        BranchName = model.BranchName,
+                        BranchTypeID = 1, // Assuming BranchTypeID is predefined
                         CompanyID = company.CompanyID,
-                        BrchID = null
+                        BrchID = null // Assuming BrchID is nullable
                     };
                     _db.tblBranch.Add(branch);
                     _db.SaveChanges();
 
                     var user = new tblUser()
                     {
-                        ContactNo = EContactNo,
-                        Email = EEmail,
-                        FullName = EName,
+                        ContactNo = model.EmployeeContactNo,
+                        Email = model.EmployeeEmail,
+                        FullName = model.EmployeeName,
                         IsActive = true,
-                        Password = PasswordHelper.HashPassword(Password, out byte[] salt),
+                        Password = PasswordHelper.HashPassword(model.Password, out byte[] salt),
                         Salt = Convert.ToBase64String(salt),
-                        UserName = UserName,
-                        UserTypeID = 2
+                        UserName = model.UserName,
+                        UserTypeID = 2 // Assuming UserTypeID is predefined
                     };
                     _db.tblUser.Add(user);
                     _db.SaveChanges();
 
                     var employee = new tblEmployee()
                     {
-                        Address = EAddress,
+                        Address = model.EmployeeAddress,
                         BranchID = branch.BranchID,
-                        TIN = ETIN,
+                        TIN = model.EmployeeTIN,
                         CompanyID = company.CompanyID,
-                        ContactNo = EContactNo,
-                        Designation = EDesignation,
-                        Email = EEmail,
-                        MonthlySalary = EMonthlySalary,
+                        ContactNo = model.EmployeeContactNo,
+                        Designation = model.EmployeeDesignation,
+                        Email = model.EmployeeEmail,
+                        MonthlySalary = model.EmployeeMonthlySalary,
                         UserID = user.UserID,
-                        Name = EName,
-                        Description = string.Empty
+                        Name = model.EmployeeName,
+                        Description = string.Empty // Placeholder for description
                     };
                     _db.tblEmployee.Add(employee);
                     _db.SaveChanges();
 
-                    ViewBag.Message = "Registration Successfully!";
+                    ViewBag.Message = "Registration Successful!";
                     return RedirectToAction("Login", "Home");
                 }
-                else
+                catch (Exception ex)
                 {
-                    ViewBag.Message = "Please Provide Correct Details!";
-                    return View("RegistrationForm");
+                    ViewBag.Message = $"Registration failed: {ex.Message}";
+                    return View(model);
                 }
             }
-            catch (Exception)
-            {
-                ViewBag.Message = "Please Contact to Administrator!";
-                return View();
-            }
+
+            ViewBag.Message = "Please provide correct details.";
+            return View(model);
         }
     }
 }

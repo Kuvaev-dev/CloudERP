@@ -8,26 +8,31 @@ using System.Web.Mvc;
 
 namespace CloudERP.Controllers
 {
+    [Authorize]
     public class BranchEmployeeController : Controller
     {
         private readonly CloudDBEntities _db;
 
         public BranchEmployeeController(CloudDBEntities db)
         {
-            _db = db;            
+            _db = db;
+        }
+
+        private int GetCompanyID()
+        {
+            return Convert.ToInt32(Session["CompanyID"]);
+        }
+
+        private int GetBranchID()
+        {
+            return Convert.ToInt32(Session["BranchID"]);
         }
 
         // GET: Employee
         public ActionResult Employee()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
-                return RedirectToAction("Login", "Home");
-            }
-            int companyID = 0;
-            int branchID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
+            int companyID = GetCompanyID();
+            int branchID = GetBranchID();
             var tblEmployee = _db.tblEmployee.Where(c => c.CompanyID == companyID && c.BranchID == branchID);
             return View(tblEmployee);
         }
@@ -35,10 +40,6 @@ namespace CloudERP.Controllers
         // GET: EmployeeRegistration
         public ActionResult EmployeeRegistration()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
-                return RedirectToAction("Login", "Home");
-            }
             return View();
         }
 
@@ -47,15 +48,8 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EmployeeRegistration(tblEmployee employee)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
-                return RedirectToAction("Login", "Home");
-            }
-
-            int companyID = 0;
-            int branchID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
+            int companyID = GetCompanyID();
+            int branchID = GetBranchID();
             employee.BranchID = branchID;
             employee.CompanyID = companyID;
             employee.UserID = null;
@@ -88,19 +82,17 @@ namespace CloudERP.Controllers
         // GET: EmployeeUpdation
         public ActionResult EmployeeUpdation(int? id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
-                return RedirectToAction("Login", "Home");
-            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             var employee = _db.tblEmployee.Find(id);
             if (employee == null)
             {
                 return HttpNotFound();
             }
+
             return View(employee);
         }
 
@@ -109,15 +101,8 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EmployeeUpdation(tblEmployee employee)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
-                return RedirectToAction("Login", "Home");
-            }
-
-            int companyID = 0;
-            int branchID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
+            int companyID = GetCompanyID();
+            int branchID = GetBranchID();
             employee.BranchID = branchID;
             employee.CompanyID = companyID;
             employee.UserID = null;
@@ -148,25 +133,23 @@ namespace CloudERP.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
                 if (id == null)
                 {
                     return RedirectToAction("EP500", "EP");
                 }
-                int companyID = 0;
-                companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
+
+                int companyID = GetCompanyID();
                 var employee = _db.tblEmployee.Where(c => c.CompanyID == companyID && c.EmployeeID == id).FirstOrDefault();
                 if (employee == null)
                 {
                     return RedirectToAction("EP404", "EP");
                 }
+
                 return View(employee);
             }
-            catch
+            catch (Exception ex)
             {
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

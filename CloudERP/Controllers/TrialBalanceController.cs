@@ -22,62 +22,80 @@ namespace CloudERP.Controllers
         // GET: TrialBalance
         public ActionResult GetTrialBalance()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
+                int branchID = Convert.ToInt32(Session["BranchID"]);
+                int userID = Convert.ToInt32(Session["UserID"]);
+                var financialYearCheck = DatabaseQuery.Retrive("select top 1 FinancialYearID from tblFinancialYear where IsActive = 1");
+                string FinancialYearID = (financialYearCheck != null ? Convert.ToString(financialYearCheck.Rows[0][0]) : string.Empty);
+                List<TrialBalanceModel> list = new List<TrialBalanceModel>();
+                if (string.IsNullOrEmpty(FinancialYearID))
+                {
+                    list = trialBalance.TriaBalance(branchID, companyID, 0);
+                }
+                else
+                {
+                    list = trialBalance.TriaBalance(branchID, companyID, Convert.ToInt32(FinancialYearID));
+                }
+                return View(list);
             }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var financialYearCheck = DatabaseQuery.Retrive("select top 1 FinancialYearID from tblFinancialYear where IsActive = 1");
-            string FinancialYearID = (financialYearCheck != null ? Convert.ToString(financialYearCheck.Rows[0][0]) : string.Empty);
-            List<TrialBalanceModel> list = new List<TrialBalanceModel>();
-            if (string.IsNullOrEmpty(FinancialYearID))
+            catch (Exception ex)
             {
-                list = trialBalance.TriaBalance(branchID, companyID, 0);
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
-            else
-            {
-                list = trialBalance.TriaBalance(branchID, companyID, Convert.ToInt32(FinancialYearID));
-            }
-            return View(list);
         }
 
         [HttpPost]
         public ActionResult GetTrialBalance(int? id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
+                int branchID = Convert.ToInt32(Session["BranchID"]);
+                int userID = Convert.ToInt32(Session["UserID"]);
+                var financialYearCheck = DatabaseQuery.Retrive("select top 1 FinancialYearID from tblFinancialYear where IsActive = 1");
+                string FinancialYearID = (financialYearCheck != null ? Convert.ToString(financialYearCheck.Rows[0][0]) : string.Empty);
+                List<TrialBalanceModel> list = new List<TrialBalanceModel>();
+
+                list = trialBalance.TriaBalance(branchID, companyID, (int)id);
+
+                return View(list);
             }
-            int companyID = 0;
-            int branchID = 0;
-            int userID = 0;
-            branchID = Convert.ToInt32(Convert.ToString(Session["BranchID"]));
-            companyID = Convert.ToInt32(Convert.ToString(Session["CompanyID"]));
-            userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
-            var financialYearCheck = DatabaseQuery.Retrive("select top 1 FinancialYearID from tblFinancialYear where IsActive = 1");
-            string FinancialYearID = (financialYearCheck != null ? Convert.ToString(financialYearCheck.Rows[0][0]) : string.Empty);
-            List<TrialBalanceModel> list = new List<TrialBalanceModel>();
-
-            list = trialBalance.TriaBalance(branchID, companyID, (int)id);
-
-            return View(list);
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         public ActionResult GetFinancialYear()
         {
-            var getList = _db.tblFinancialYear.ToList();
-            var list = new List<tblFinancialYear>();
-            foreach (var item in getList)
+            try
             {
-                list.Add(new tblFinancialYear() { FinancialYearID = item.FinancialYearID, FinancialYear = item.FinancialYear });
-            }
+                var getList = _db.tblFinancialYear.ToList();
+                var list = new List<tblFinancialYear>();
+                foreach (var item in getList)
+                {
+                    list.Add(new tblFinancialYear() { FinancialYearID = item.FinancialYearID, FinancialYear = item.FinancialYear });
+                }
 
-            return Json(new { data = list }, JsonRequestBehavior.AllowGet);
+                return Json(new { data = list }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
     }
 }
