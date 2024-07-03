@@ -23,10 +23,13 @@ namespace CloudERP.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
+
             int companyID = Convert.ToInt32(Session["CompanyID"]);
             int branchID = Convert.ToInt32(Session["BranchID"]);
             int userID = Convert.ToInt32(Session["UserID"]);
+
             var tblAccountHead = _db.tblAccountHead.Include(t => t.tblUser).ToList();
+
             return View(tblAccountHead.ToList());
         }
 
@@ -37,11 +40,14 @@ namespace CloudERP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             tblAccountHead tblAccountHead = _db.tblAccountHead.Find(id);
+
             if (tblAccountHead == null)
             {
                 return HttpNotFound();
             }
+
             return View(tblAccountHead);
         }
 
@@ -60,8 +66,10 @@ namespace CloudERP.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
+
             int userID = Convert.ToInt32(Session["UserID"]);
             tblAccountHead.UserID = userID;
+
             if (ModelState.IsValid)
             {
                 try
@@ -95,7 +103,9 @@ namespace CloudERP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             tblAccountHead tblAccountHead = _db.tblAccountHead.Find(id);
+
             if (tblAccountHead == null)
             {
                 return HttpNotFound();
@@ -113,8 +123,10 @@ namespace CloudERP.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
+
             int userID = Convert.ToInt32(Session["UserID"]);
             tblAccountHead.UserID = userID;
+
             if (ModelState.IsValid)
             {
                 try
@@ -149,11 +161,14 @@ namespace CloudERP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             tblAccountHead tblAccountHead = _db.tblAccountHead.Find(id);
+
             if (tblAccountHead == null)
             {
                 return HttpNotFound();
             }
+
             return View(tblAccountHead);
         }
 
@@ -169,6 +184,7 @@ namespace CloudERP.Controllers
                 {
                     return HttpNotFound();
                 }
+
                 _db.tblAccountHead.Remove(tblAccountHead);
                 _db.SaveChanges();
             }

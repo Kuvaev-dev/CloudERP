@@ -26,6 +26,7 @@ namespace CloudERP.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
+
             int companyID = Convert.ToInt32(Session["CompanyID"]);
             int branchID = Convert.ToInt32(Session["BranchID"]);
             int userID = Convert.ToInt32(Session["UserID"]);
@@ -91,6 +92,7 @@ namespace CloudERP.Controllers
                         _db.tblAccountSetting.Add(tblAccountSetting);
                         _db.SaveChanges();
                         ViewBag.Message = "Saved Successfully!";
+
                         return RedirectToAction("Index");
                     }
                     else
@@ -172,6 +174,7 @@ namespace CloudERP.Controllers
                         _db.Entry(tblAccountSetting).State = EntityState.Modified;
                         _db.SaveChanges();
                         ViewBag.Message = "Updated Successfully!";
+
                         return RedirectToAction("Index");
                     }
                     else

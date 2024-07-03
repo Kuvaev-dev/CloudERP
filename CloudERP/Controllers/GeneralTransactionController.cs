@@ -10,12 +10,14 @@ namespace CloudERP.Controllers
     public class GeneralTransactionController : Controller
     {
         private readonly CloudDBEntities _db;
-        private readonly SP_GeneralTransaction accounts = new SP_GeneralTransaction();
-        private readonly GeneralTransactionEntry generalEntry = new GeneralTransactionEntry();
+        private readonly SP_GeneralTransaction _accounts;
+        private readonly GeneralTransactionEntry _generalEntry;
 
         public GeneralTransactionController(CloudDBEntities db)
         {
             _db = db;
+            _accounts = new SP_GeneralTransaction(_db);
+            _generalEntry = new GeneralTransactionEntry(_db);
         }
 
         // GET: GeneralTransaction/GeneralTransaction
@@ -27,12 +29,16 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 ClearSessionMessages();
+
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = Convert.ToInt32(Session["BranchID"]);
                 int userID = Convert.ToInt32(Session["UserID"]);
-                ViewBag.CreditAccountControlID = new SelectList(accounts.GetAllAccounts(companyID, branchID), "AccountSubControlID", "AccountSubControl", "0");
-                ViewBag.DebitAccountControlID = new SelectList(accounts.GetAllAccounts(companyID, branchID), "AccountSubControlID", "AccountSubControl", "0");
+
+                ViewBag.CreditAccountControlID = new SelectList(_accounts.GetAllAccounts(companyID, branchID), "AccountSubControlID", "AccountSubControl", "0");
+                ViewBag.DebitAccountControlID = new SelectList(_accounts.GetAllAccounts(companyID, branchID), "AccountSubControlID", "AccountSubControl", "0");
+                
                 return View(transaction);
             }
             catch (Exception ex)
@@ -50,10 +56,12 @@ namespace CloudERP.Controllers
             try
             {
                 ClearSessionMessages();
+
                 if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = Convert.ToInt32(Session["BranchID"]);
                 int userID = Convert.ToInt32(Session["UserID"]);
@@ -61,7 +69,7 @@ namespace CloudERP.Controllers
                 if (ModelState.IsValid)
                 {
                     string payinvoiceno = "GEN" + DateTime.Now.ToString("yyyyMMddHHmmssmm");
-                    var message = generalEntry.ConfirmGeneralTransaction(transaction.TransferAmount, userID, branchID, companyID, payinvoiceno, transaction.DebitAccountControlID, transaction.CreditAccountControlID, transaction.Reason);
+                    var message = _generalEntry.ConfirmGeneralTransaction(transaction.TransferAmount, userID, branchID, companyID, payinvoiceno, transaction.DebitAccountControlID, transaction.CreditAccountControlID, transaction.Reason);
 
                     if (message.Contains("Succeed"))
                     {
@@ -74,8 +82,9 @@ namespace CloudERP.Controllers
                     }
                 }
 
-                ViewBag.CreditAccountControlID = new SelectList(accounts.GetAllAccounts(companyID, branchID), "AccountSubControlID", "AccountSubControl", "0");
-                ViewBag.DebitAccountControlID = new SelectList(accounts.GetAllAccounts(companyID, branchID), "AccountSubControlID", "AccountSubControl", "0");
+                ViewBag.CreditAccountControlID = new SelectList(_accounts.GetAllAccounts(companyID, branchID), "AccountSubControlID", "AccountSubControl", "0");
+                ViewBag.DebitAccountControlID = new SelectList(_accounts.GetAllAccounts(companyID, branchID), "AccountSubControlID", "AccountSubControl", "0");
+                
                 return RedirectToAction("GeneralTransaction", new { transaction });
             }
             catch (Exception ex)
@@ -94,11 +103,15 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 ClearSessionMessages();
+
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = Convert.ToInt32(Session["BranchID"]);
                 int userID = Convert.ToInt32(Session["UserID"]);
-                var list = accounts.GetJournal(companyID, branchID, DateTime.Now, DateTime.Now);
+
+                var list = _accounts.GetJournal(companyID, branchID, DateTime.Now, DateTime.Now);
+
                 return View(list);
             }
             catch (Exception ex)
@@ -117,10 +130,13 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 ClearSessionMessages();
+
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = (id != null) ? Convert.ToInt32(id) : Convert.ToInt32(Session["SubBranchID"]);
-                var list = accounts.GetJournal(companyID, branchID, DateTime.Now, DateTime.Now);
+                var list = _accounts.GetJournal(companyID, branchID, DateTime.Now, DateTime.Now);
+
                 return View(list);
             }
             catch (Exception ex)
@@ -141,10 +157,14 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 ClearSessionMessages();
+
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = Convert.ToInt32(Session["BranchID"]);
-                var list = accounts.GetJournal(companyID, branchID, FromDate, ToDate);
+
+                var list = _accounts.GetJournal(companyID, branchID, FromDate, ToDate);
+
                 return View(list);
             }
             catch (Exception ex)
@@ -165,10 +185,14 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 ClearSessionMessages();
+
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = Convert.ToInt32(Session["SubBranchID"]);
-                var list = accounts.GetJournal(companyID, branchID, FromDate, ToDate);
+
+                var list = _accounts.GetJournal(companyID, branchID, FromDate, ToDate);
+
                 return View(list);
             }
             catch (Exception ex)

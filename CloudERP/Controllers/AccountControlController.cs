@@ -13,11 +13,12 @@ namespace CloudERP.Controllers
     public class AccountControlController : Controller
     {
         private readonly CloudDBEntities _db;
-        private readonly List<AccountControlMV> accountControl = new List<AccountControlMV>();
+        private readonly List<AccountControlMV> _accountControl;
 
         public AccountControlController(CloudDBEntities db)
         {
             _db = db;
+            _accountControl = new List<AccountControlMV>();
         }
 
         // GET: AccountControl
@@ -25,7 +26,8 @@ namespace CloudERP.Controllers
         {
             try
             {
-                accountControl.Clear();
+                _accountControl.Clear();
+
                 if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
                 {
                     return RedirectToAction("Login", "Home");
@@ -43,7 +45,7 @@ namespace CloudERP.Controllers
 
                 foreach (var item in tblAccountControl)
                 {
-                    accountControl.Add(new AccountControlMV
+                    _accountControl.Add(new AccountControlMV
                     {
                         AccountControlID = item.AccountControlID,
                         AccountControlName = item.AccountControlName,
@@ -57,7 +59,8 @@ namespace CloudERP.Controllers
                         UserName = item.tblUser?.UserName
                     });
                 }
-                return View(accountControl.ToList());
+
+                return View(_accountControl.ToList());
             }
             catch (Exception ex)
             {
@@ -88,7 +91,8 @@ namespace CloudERP.Controllers
         {
             try
             {
-                accountControl.Clear();
+                _accountControl.Clear();
+
                 if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
                 {
                     return RedirectToAction("Login", "Home");

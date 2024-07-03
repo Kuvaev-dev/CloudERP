@@ -10,12 +10,14 @@ namespace CloudERP.Controllers
     public class SalePaymentController : Controller
     {
         private readonly CloudDBEntities _db;
-        private readonly SP_Sale sale = new SP_Sale();
-        private readonly SaleEntry saleEntry = new SaleEntry();
+        private readonly SP_Sale _sale;
+        private readonly SaleEntry _saleEntry;
 
         public SalePaymentController(CloudDBEntities db)
         {
             _db = db;
+            _sale = new SP_Sale(_db);
+            _saleEntry = new SaleEntry(_db);
         }
 
         // GET: PurchasePayment
@@ -27,9 +29,12 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = Convert.ToInt32(Session["BranchID"]);
-                var list = sale.RemainingPaymentList(companyID, branchID);
+
+                var list = _sale.RemainingPaymentList(companyID, branchID);
+
                 return View(list.ToList());
             }
             catch (Exception ex)
@@ -47,20 +52,27 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = Convert.ToInt32(Session["BranchID"]);
-                var list = sale.SalePaymentHistory((int)id);
+
+                var list = _sale.SalePaymentHistory((int)id);
                 var returnDetails = _db.tblCustomerReturnInvoice.Where(r => r.CustomerInvoiceID == id).ToList();
+               
                 if (returnDetails != null && returnDetails.Count > 0)
                 {
                     ViewData["ReturnSaleDetails"] = returnDetails;
                 }
+
                 double remainingAmount = 0;
                 double totalInvoiceAmount = _db.tblCustomerInvoice.Find(id).TotalAmount;
                 double totalPaidAmount = _db.tblCustomerPayment.Where(p => p.CustomerInvoiceID == id).Sum(p => p.PaidAmount);
+                
                 remainingAmount = totalInvoiceAmount - totalPaidAmount;
+                
                 ViewBag.PreviousRemainingAmount = remainingAmount;
                 ViewBag.InvoiceID = id;
+
                 return View(list.ToList());
             }
             catch (Exception ex)
@@ -78,20 +90,26 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = Convert.ToInt32(Session["BranchID"]);
-                var list = sale.SalePaymentHistory((int)id);
+
+                var list = _sale.SalePaymentHistory((int)id);
                 double remainingAmount = 0;
+
                 foreach (var item in list)
                 {
                     remainingAmount = item.RemainingBalance;
                 }
+
                 if (remainingAmount == 0)
                 {
                     remainingAmount = _db.tblCustomerInvoice.Find(id).TotalAmount;
                 }
+
                 ViewBag.PreviousRemainingAmount = remainingAmount;
                 ViewBag.InvoiceID = id;
+
                 return View(list.ToList());
             }
             catch (Exception ex)
@@ -110,50 +128,62 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = Convert.ToInt32(Session["BranchID"]);
                 int userID = Convert.ToInt32(Session["UserID"]);
+
                 if (paidAmount > previousRemainingAmount)
                 {
                     ViewBag.Message = "Payment must be less than or equal to previous remaining amount!";
-                    var list = sale.SalePaymentHistory((int)id);
+                    var list = _sale.SalePaymentHistory((int)id);
                     double remainingAmount = 0;
+                    
                     foreach (var item in list)
                     {
                         remainingAmount = item.RemainingBalance;
                     }
+
                     if (remainingAmount == 0)
                     {
                         remainingAmount = _db.tblCustomerInvoice.Find(id).TotalAmount;
                     }
+
                     ViewBag.PreviousRemainingAmount = remainingAmount;
                     ViewBag.InvoiceID = id;
+
                     return View(list);
                 }
+
                 string payInvoiceNo = "INP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
                 var customer = _db.tblCustomer.Find(_db.tblCustomerInvoice.Find(id).CustomerID);
                 var purchaseInvoice = _db.tblCustomerInvoice.Find(id);
                 var purchasePaymentDetails = _db.tblCustomerPayment.Where(p => p.CustomerInvoiceID == id);
-                string message = saleEntry.SalePayment(companyID, branchID, userID, payInvoiceNo, Convert.ToString(id), (float)purchaseInvoice.TotalAmount,
+                string message = _saleEntry.SalePayment(companyID, branchID, userID, payInvoiceNo, Convert.ToString(id), (float)purchaseInvoice.TotalAmount,
                     paidAmount, Convert.ToString(customer.CustomerID), customer.Customername, previousRemainingAmount - paidAmount);
                 Session["Message"] = message;
+                
                 return RedirectToAction("RemainingPaymentList");
             }
             catch (Exception ex)
             {
                 ViewBag.ErrorMessage = "Error processing payment: " + ex.Message;
-                var list = sale.SalePaymentHistory((int)id);
+                var list = _sale.SalePaymentHistory((int)id);
                 double remainingAmount = 0;
+
                 foreach (var item in list)
                 {
                     remainingAmount = item.RemainingBalance;
                 }
+
                 if (remainingAmount == 0)
                 {
                     remainingAmount = _db.tblCustomerInvoice.Find(id).TotalAmount;
                 }
+
                 ViewBag.PreviousRemainingAmount = remainingAmount;
                 ViewBag.InvoiceID = id;
+                
                 return View(list);
             }
         }
@@ -166,10 +196,13 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = Convert.ToInt32(Session["BranchID"]);
                 int userID = Convert.ToInt32(Session["UserID"]);
-                var list = sale.CustomSalesList(companyID, branchID, FromDate, ToDate);
+
+                var list = _sale.CustomSalesList(companyID, branchID, FromDate, ToDate);
+                
                 return View(list.ToList());
             }
             catch (Exception ex)
@@ -187,10 +220,12 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = (id != null) ? Convert.ToInt32(id) : Convert.ToInt32(Session["SubBranchID"]);
                 int userID = Convert.ToInt32(Session["UserID"]);
-                var list = sale.CustomSalesList(companyID, branchID, FromDate, ToDate);
+                var list = _sale.CustomSalesList(companyID, branchID, FromDate, ToDate);
+                
                 return View(list.ToList());
             }
             catch (Exception ex)
@@ -208,10 +243,13 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = Convert.ToInt32(Session["BranchID"]);
                 int userID = Convert.ToInt32(Session["UserID"]);
+
                 var list = _db.tblCustomerInvoiceDetail.Where(i => i.CustomerInvoiceID == id);
+                
                 return View(list.ToList());
             }
             catch (Exception ex)
@@ -229,10 +267,13 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = Convert.ToInt32(Session["BranchID"]);
                 int userID = Convert.ToInt32(Session["UserID"]);
+
                 var list = _db.tblCustomerInvoiceDetail.Where(i => i.CustomerInvoiceID == id);
+                
                 return View(list.ToList());
             }
             catch (Exception ex)

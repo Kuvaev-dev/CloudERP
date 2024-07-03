@@ -6,15 +6,20 @@ namespace DatabaseAccess.Code
 {
     public class PurchaseEntry
     {
-        private CloudDBEntities db = new CloudDBEntities();
+        private CloudDBEntities _db;
         public string selectsupplierid = string.Empty;
-        private DataTable dtEntries = null;
+        private DataTable _dtEntries = null;
+
+        public PurchaseEntry(CloudDBEntities db)
+        {
+            _db = db;
+        }
 
         public string ConfirmPurchase(int CompanyID, int BranchID, int UserID, string InvoiceNo, string SupplierInvoiceID, float Amount, string SupplierID, string SupplierName, bool isPayment)
         {
             try
             {
-                dtEntries = null;
+                _dtEntries = null;
 
                 string pruchasetitle = "Purchase From " + SupplierName.Trim();
 
@@ -43,7 +48,7 @@ namespace DatabaseAccess.Code
                 // Capital 4     increae(Credit)   decrese(Debit)
                 // Revenue 5     increae(Credit)   decrese(Debit)
 
-                var purchaseAccount = db.tblAccountSetting.Where(a => a.AccountActivityID == 3 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); // 3 - Purchase
+                var purchaseAccount = _db.tblAccountSetting.Where(a => a.AccountActivityID == 3 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); // 3 - Purchase
                 
                 // Debit Entry Purchase                                                                                                                                            
                 AccountHeadID = Convert.ToString(purchaseAccount.AccountHeadID);
@@ -54,7 +59,7 @@ namespace DatabaseAccess.Code
                 SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID.ToString(), "0", Convert.ToString(Amount), DateTime.Now, transectiontitle);
                 
                 // Credit Entry Purchase
-                purchaseAccount = db.tblAccountSetting.Where(a => a.AccountActivityID == 8 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); // 8 - Purchase Payment Pending
+                purchaseAccount = _db.tblAccountSetting.Where(a => a.AccountActivityID == 8 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); // 8 - Purchase Payment Pending
                 AccountHeadID = Convert.ToString(purchaseAccount.AccountHeadID);
                 AccountControlID = Convert.ToString(purchaseAccount.AccountControlID);
                 AccountSubControlID = Convert.ToString(purchaseAccount.AccountSubControlID);
@@ -64,14 +69,14 @@ namespace DatabaseAccess.Code
                 if (isPayment == true)
                 {
                     string payinvoicenno = "PAY" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
-                    purchaseAccount = db.tblAccountSetting.Where(a => a.AccountActivityID == 8 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); ; // 8 - Purchase Payment Pending
+                    purchaseAccount = _db.tblAccountSetting.Where(a => a.AccountActivityID == 8 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); ; // 8 - Purchase Payment Pending
                     AccountHeadID = Convert.ToString(purchaseAccount.AccountHeadID);
                     AccountControlID = Convert.ToString(purchaseAccount.AccountControlID);
                     AccountSubControlID = Convert.ToString(purchaseAccount.AccountSubControlID);
                     transectiontitle = "Payment Paid to " + SupplierName;
                     SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, payinvoicenno, UserID.ToString(), "0", Convert.ToString(Amount), DateTime.Now, transectiontitle);
                     
-                    purchaseAccount = db.tblAccountSetting.Where(a => a.AccountActivityID == 9 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); ; // 9 - Purchase Payment Succed
+                    purchaseAccount = _db.tblAccountSetting.Where(a => a.AccountActivityID == 9 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); ; // 9 - Purchase Payment Succed
                     AccountHeadID = Convert.ToString(purchaseAccount.AccountHeadID);
                     AccountControlID = Convert.ToString(purchaseAccount.AccountControlID);
                     AccountSubControlID = Convert.ToString(purchaseAccount.AccountSubControlID);
@@ -86,7 +91,7 @@ namespace DatabaseAccess.Code
                     successmessage += " with Payment.";
                 }
 
-                foreach (DataRow entryRow in dtEntries.Rows)
+                foreach (DataRow entryRow in _dtEntries.Rows)
                 {
                     string entryQuery = string.Format("insert into tblTransaction(FinancialYearID,AccountHeadID,AccountControlID,AccountSubControlID,InvoiceNo,UserID,Credit,Debit,TransectionDate,TransectionTitle,CompanyID,BranchID) " +
                         "values {'{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}'}",
@@ -116,7 +121,7 @@ namespace DatabaseAccess.Code
         {
             try
             {
-                dtEntries = null;
+                _dtEntries = null;
                 string pruchasetitle = "Purchase From " + SupplierName.Trim();
                 var financialYearCheck = DatabaseQuery.Retrive("select top 1 FinancialYearID from tblFinancialYear where IsActive = 1");
                 string FinancialYearID = string.Empty;
@@ -143,15 +148,15 @@ namespace DatabaseAccess.Code
 
                 string transectiontitle = string.Empty;
                 
-                var purchaseAccount = db.tblAccountSetting.Where(a => a.AccountActivityID == 3 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); // 3 - Purchase
-                purchaseAccount = db.tblAccountSetting.Where(a => a.AccountActivityID == 8 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); ; // 8 - Purchase Payment Pending
+                var purchaseAccount = _db.tblAccountSetting.Where(a => a.AccountActivityID == 3 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); // 3 - Purchase
+                purchaseAccount = _db.tblAccountSetting.Where(a => a.AccountActivityID == 8 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); ; // 8 - Purchase Payment Pending
                 AccountHeadID = Convert.ToString(purchaseAccount.AccountHeadID);
                 AccountControlID = Convert.ToString(purchaseAccount.AccountControlID);
                 AccountSubControlID = Convert.ToString(purchaseAccount.AccountSubControlID);
                 transectiontitle = "Payment Paid to " + SupplierName;
                 SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID.ToString(), "0", Convert.ToString(Amount), DateTime.Now, transectiontitle);
                 
-                purchaseAccount = db.tblAccountSetting.Where(a => a.AccountActivityID == 9 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); ; // 9 - Purchase Payment Succed
+                purchaseAccount = _db.tblAccountSetting.Where(a => a.AccountActivityID == 9 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); ; // 9 - Purchase Payment Succed
                 AccountHeadID = Convert.ToString(purchaseAccount.AccountHeadID);
                 AccountControlID = Convert.ToString(purchaseAccount.AccountControlID);
                 AccountSubControlID = Convert.ToString(purchaseAccount.AccountSubControlID);
@@ -163,7 +168,7 @@ namespace DatabaseAccess.Code
                 SupplierID, SupplierInvoiceID, UserID, InvoiceNo, TotalAmount, Amount, Convert.ToString(RemainingBalance), CompanyID, BranchID, DateTime.Now.ToString("yyyy/MM/dd"));
                 DatabaseQuery.Insert(paymentquery);
 
-                foreach (DataRow entryRow in dtEntries.Rows)
+                foreach (DataRow entryRow in _dtEntries.Rows)
                 {
                     string entryQuery = string.Format("insert into tblTransaction(FinancialYearID,AccountHeadID,AccountControlID,AccountSubControlID,InvoiceNo,UserID,Credit,Debit,TransectionDate,TransectionTitle,CompanyID,BranchID) " +
                         "values {'{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}'}",
@@ -194,7 +199,7 @@ namespace DatabaseAccess.Code
         {
             try
             {
-                dtEntries = null;
+                _dtEntries = null;
                 string returnpruchasetitle = "Return Purchase to " + SupplierName.Trim();
                 var financialYearCheck = DatabaseQuery.Retrive("select top 1 FinancialYearID from tblFinancialYear where IsActive = 1");
                 string FinancialYearID = string.Empty;
@@ -220,7 +225,7 @@ namespace DatabaseAccess.Code
                 // Capital 4     increae(Credit)   decrese(Debit)
                 // Revenue 5     increae(Credit)   decrese(Debit)
 
-                var returnPurchaseAccount = db.tblAccountSetting.Where(a => a.AccountActivityID == 4 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); // 4 - Return Purchase
+                var returnPurchaseAccount = _db.tblAccountSetting.Where(a => a.AccountActivityID == 4 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); // 4 - Return Purchase
                 
                 // Credit Entry Return Purchase                                                                                                                                            
                 AccountHeadID = Convert.ToString(returnPurchaseAccount.AccountHeadID);
@@ -231,7 +236,7 @@ namespace DatabaseAccess.Code
                 SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID.ToString(), Convert.ToString(Amount), "0", DateTime.Now, transectiontitle);
                 
                 // Debit Entry Return Purchase
-                returnPurchaseAccount = db.tblAccountSetting.Where(a => a.AccountActivityID == 12 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); // 12 - Purchase Return Payment Pending
+                returnPurchaseAccount = _db.tblAccountSetting.Where(a => a.AccountActivityID == 12 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); // 12 - Purchase Return Payment Pending
                 AccountHeadID = Convert.ToString(returnPurchaseAccount.AccountHeadID);
                 AccountControlID = Convert.ToString(returnPurchaseAccount.AccountControlID);
                 AccountSubControlID = Convert.ToString(returnPurchaseAccount.AccountSubControlID);
@@ -241,14 +246,14 @@ namespace DatabaseAccess.Code
                 if (isPayment == true)
                 {
                     string payinvoicenno = "RPP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
-                    returnPurchaseAccount = db.tblAccountSetting.Where(a => a.AccountActivityID == 12 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); ; // 12 - Purchase Return Payment Pending
+                    returnPurchaseAccount = _db.tblAccountSetting.Where(a => a.AccountActivityID == 12 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); ; // 12 - Purchase Return Payment Pending
                     AccountHeadID = Convert.ToString(returnPurchaseAccount.AccountHeadID);
                     AccountControlID = Convert.ToString(returnPurchaseAccount.AccountControlID);
                     AccountSubControlID = Convert.ToString(returnPurchaseAccount.AccountSubControlID);
                     transectiontitle = "Return Payment from " + SupplierName;
                     SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, payinvoicenno, UserID.ToString(), Convert.ToString(Amount), "0", DateTime.Now, transectiontitle);
                     
-                    returnPurchaseAccount = db.tblAccountSetting.Where(a => a.AccountActivityID == 13 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); ; // 13 - Purchase Return Payment Succeed
+                    returnPurchaseAccount = _db.tblAccountSetting.Where(a => a.AccountActivityID == 13 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); ; // 13 - Purchase Return Payment Succeed
                     AccountHeadID = Convert.ToString(returnPurchaseAccount.AccountHeadID);
                     AccountControlID = Convert.ToString(returnPurchaseAccount.AccountControlID);
                     AccountSubControlID = Convert.ToString(returnPurchaseAccount.AccountSubControlID);
@@ -263,7 +268,7 @@ namespace DatabaseAccess.Code
                     successmessage += " with Payment.";
                 }
 
-                foreach (DataRow entryRow in dtEntries.Rows)
+                foreach (DataRow entryRow in _dtEntries.Rows)
                 {
                     string entryQuery = string.Format("insert into tblTransaction(FinancialYearID,AccountHeadID,AccountControlID,AccountSubControlID,InvoiceNo,UserID,Credit,Debit,TransectionDate,TransectionTitle,CompanyID,BranchID) " +
                         "values {'{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}'}",
@@ -293,7 +298,7 @@ namespace DatabaseAccess.Code
         {
             try
             {
-                dtEntries = null;
+                _dtEntries = null;
                 string returnpruchasetitle = "Return Purchase to " + SupplierName.Trim();
                 var financialYearCheck = DatabaseQuery.Retrive("select top 1 FinancialYearID from tblFinancialYear where IsActive = 1");
                 string FinancialYearID = string.Empty;
@@ -320,14 +325,14 @@ namespace DatabaseAccess.Code
 
                 string transectiontitle = string.Empty;
 
-                var returnPurchaseAccount = db.tblAccountSetting.Where(a => a.AccountActivityID == 12 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); ; // 12 - Purchase Return Payment Pending
+                var returnPurchaseAccount = _db.tblAccountSetting.Where(a => a.AccountActivityID == 12 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); ; // 12 - Purchase Return Payment Pending
                 AccountHeadID = Convert.ToString(returnPurchaseAccount.AccountHeadID);
                 AccountControlID = Convert.ToString(returnPurchaseAccount.AccountControlID);
                 AccountSubControlID = Convert.ToString(returnPurchaseAccount.AccountSubControlID);
                 transectiontitle = "Return Payment from " + SupplierName;
                 SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID.ToString(), Convert.ToString(Amount), "0", DateTime.Now, transectiontitle);
                 
-                returnPurchaseAccount = db.tblAccountSetting.Where(a => a.AccountActivityID == 13 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); ; // 13 - Purchase Return Payment Succeed
+                returnPurchaseAccount = _db.tblAccountSetting.Where(a => a.AccountActivityID == 13 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); ; // 13 - Purchase Return Payment Succeed
                 AccountHeadID = Convert.ToString(returnPurchaseAccount.AccountHeadID);
                 AccountControlID = Convert.ToString(returnPurchaseAccount.AccountControlID);
                 AccountSubControlID = Convert.ToString(returnPurchaseAccount.AccountSubControlID);
@@ -339,7 +344,7 @@ namespace DatabaseAccess.Code
                 SupplierID, SupplierInvoiceID, UserID, InvoiceNo, TotalAmount, Amount, Convert.ToString(RemainingBalance), CompanyID, BranchID, SupplierReturnInvoiceID, DateTime.Now.ToString("yyyy/MM/dd"));
                 DatabaseQuery.Insert(paymentquery);
 
-                foreach (DataRow entryRow in dtEntries.Rows)
+                foreach (DataRow entryRow in _dtEntries.Rows)
                 {
                     string entryQuery = string.Format("insert into tblTransaction(FinancialYearID,AccountHeadID,AccountControlID,AccountSubControlID,InvoiceNo,UserID,Credit,Debit,TransectionDate,TransectionTitle,CompanyID,BranchID) " +
                         "values {'{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}'}",
@@ -378,24 +383,24 @@ namespace DatabaseAccess.Code
            DateTime TransactionDate,
            string TransectionTitle)
         {
-            if (dtEntries == null)
+            if (_dtEntries == null)
             {
-                dtEntries = new DataTable();
-                dtEntries.Columns.Add("FinancialYearID");
-                dtEntries.Columns.Add("AccountHeadID");
-                dtEntries.Columns.Add("AccountControlID");
-                dtEntries.Columns.Add("AccountSubControlID");
-                dtEntries.Columns.Add("InvoiceNo");
-                dtEntries.Columns.Add("UserID");
-                dtEntries.Columns.Add("Credit");
-                dtEntries.Columns.Add("Debit");
-                dtEntries.Columns.Add("TransactionDate");
-                dtEntries.Columns.Add("TransectionTitle");
+                _dtEntries = new DataTable();
+                _dtEntries.Columns.Add("FinancialYearID");
+                _dtEntries.Columns.Add("AccountHeadID");
+                _dtEntries.Columns.Add("AccountControlID");
+                _dtEntries.Columns.Add("AccountSubControlID");
+                _dtEntries.Columns.Add("InvoiceNo");
+                _dtEntries.Columns.Add("UserID");
+                _dtEntries.Columns.Add("Credit");
+                _dtEntries.Columns.Add("Debit");
+                _dtEntries.Columns.Add("TransactionDate");
+                _dtEntries.Columns.Add("TransectionTitle");
             }
 
-            if (dtEntries != null)
+            if (_dtEntries != null)
             {
-                dtEntries.Rows.Add(
+                _dtEntries.Rows.Add(
                 FinancialYearID,
                 AccountHeadID,
                 AccountControlID,

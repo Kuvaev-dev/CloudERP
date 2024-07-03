@@ -10,11 +10,12 @@ namespace CloudERP.Controllers
     public class SaleReturnController : Controller
     {
         private readonly CloudDBEntities _db;
-        private readonly SaleEntry saleEntry = new SaleEntry();
+        private readonly SaleEntry _saleEntry;
 
         public SaleReturnController(CloudDBEntities db)
         {
             _db = db;
+            _saleEntry = new SaleEntry(_db);
         }
 
         // GET: SaleReturn
@@ -69,6 +70,7 @@ namespace CloudERP.Controllers
                 }
 
                 var saleInvoice = _db.tblCustomerInvoice.Where(p => p.InvoiceNo == invoiceID).FirstOrDefault();
+                
                 return View(saleInvoice);
             }
             catch (Exception ex)
@@ -166,7 +168,7 @@ namespace CloudERP.Controllers
                 _db.SaveChanges();
 
                 var customer = _db.tblCustomer.Find(customerID);
-                string Message = saleEntry.ReturnSale(companyID, branchID, userID, invoiceNo, returnInvoiceHeader.CustomerInvoiceID.ToString(), returnInvoiceHeader.CustomerReturnInvoiceID, (float)TotalAmount, customerID.ToString(), customer.Customername, IsPayment);
+                string Message = _saleEntry.ReturnSale(companyID, branchID, userID, invoiceNo, returnInvoiceHeader.CustomerInvoiceID.ToString(), returnInvoiceHeader.CustomerReturnInvoiceID, (float)TotalAmount, customerID.ToString(), customer.Customername, IsPayment);
 
                 if (Message.Contains("Success"))
                 {
@@ -202,11 +204,13 @@ namespace CloudERP.Controllers
 
                     Session["SaleInvoiceNo"] = customerInvoice.InvoiceNo;
                     Session["SaleReturnMessage"] = "Return Successfully";
+
                     return RedirectToAction("FindSale");
                 }
 
                 Session["SaleInvoiceNo"] = customerInvoice.InvoiceNo;
                 Session["SaleReturnMessage"] = "Some Unexpected Issue is Occured. Please Contact to Administrator";
+                
                 return RedirectToAction("FindSale");
             }
             catch (Exception ex)

@@ -34,6 +34,7 @@ namespace CloudERP.Controllers
             int companyID = GetCompanyID();
             int branchID = GetBranchID();
             var tblEmployee = _db.tblEmployee.Where(c => c.CompanyID == companyID && c.BranchID == branchID);
+
             return View(tblEmployee);
         }
 
@@ -50,6 +51,7 @@ namespace CloudERP.Controllers
         {
             int companyID = GetCompanyID();
             int branchID = GetBranchID();
+
             employee.BranchID = branchID;
             employee.CompanyID = companyID;
             employee.UserID = null;
@@ -63,11 +65,13 @@ namespace CloudERP.Controllers
                 {
                     var folder = "~/Content/EmployeePhoto";
                     var file = string.Format("{0}.jpg", employee.EmployeeID);
+
                     var response = FileHelper.UploadPhoto(employee.LogoFile, folder, file);
                     if (response)
                     {
                         var picture = string.Format("{0}/{1}", folder, file);
                         employee.Photo = picture;
+
                         _db.Entry(employee).State = EntityState.Modified;
                         _db.SaveChanges();
                     }
@@ -113,11 +117,13 @@ namespace CloudERP.Controllers
                 {
                     var folder = "~/Content/EmployeePhoto";
                     var file = string.Format("{0}.jpg", employee.EmployeeID);
+
                     var response = FileHelper.UploadPhoto(employee.LogoFile, folder, file);
                     if (response)
                     {
                         var picture = string.Format("{0}/{1}", folder, file);
                         employee.Photo = picture;
+
                         _db.Entry(employee).State = EntityState.Modified;
                         _db.SaveChanges();
                     }
@@ -139,6 +145,7 @@ namespace CloudERP.Controllers
                 }
 
                 int companyID = GetCompanyID();
+                
                 var employee = _db.tblEmployee.Where(c => c.CompanyID == companyID && c.EmployeeID == id).FirstOrDefault();
                 if (employee == null)
                 {

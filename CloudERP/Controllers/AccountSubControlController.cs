@@ -83,6 +83,7 @@ namespace CloudERP.Controllers
                     {
                         _db.tblAccountSubControl.Add(tblAccountSubControl);
                         _db.SaveChanges();
+
                         return RedirectToAction("Index");
                     }
                     else
@@ -157,6 +158,7 @@ namespace CloudERP.Controllers
                     {
                         _db.Entry(tblAccountSubControl).State = EntityState.Modified;
                         _db.SaveChanges();
+
                         return RedirectToAction("Index");
                     }
                     else

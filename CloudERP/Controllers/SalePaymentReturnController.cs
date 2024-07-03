@@ -10,12 +10,14 @@ namespace CloudERP.Controllers
     public class SalePaymentReturnController : Controller
     {
         private readonly CloudDBEntities _db;
-        private readonly SP_Sale sale = new SP_Sale();
-        private readonly SaleEntry saleEntry = new SaleEntry();
+        private readonly SP_Sale _sale;
+        private readonly SaleEntry _saleEntry;
 
         public SalePaymentReturnController(CloudDBEntities db)
         {
             _db = db;
+            _sale = new SP_Sale(_db);
+            _saleEntry = new SaleEntry(_db);
         }
 
         // GET: SalePaymentReturn
@@ -27,7 +29,9 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
-                var list = sale.SaleReturnAmountPending(id);
+
+                var list = _sale.SaleReturnAmountPending(id);
+
                 return View(list);
             }
             catch (Exception ex)
@@ -45,10 +49,13 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = Convert.ToInt32(Session["BranchID"]);
                 int userID = Convert.ToInt32(Session["UserID"]);
-                var list = sale.GetReturnSaleAmountPending(companyID, branchID);
+
+                var list = _sale.GetReturnSaleAmountPending(companyID, branchID);
+
                 return View(list);
             }
             catch (Exception ex)
@@ -66,14 +73,18 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 var list = _db.tblCustomerReturnPayment.Where(r => r.CustomerReturnInvoiceID == id);
+
                 double remainingAmount = list.Sum(item => item.RemainingBalance);
                 if (remainingAmount == 0)
                 {
                     return RedirectToAction("AllReturnSalesPendingAmount");
                 }
+
                 ViewBag.PreviousRemainingAmount = remainingAmount;
                 ViewBag.InvoiceID = id;
+
                 return View(list);
             }
             catch (Exception ex)
@@ -92,6 +103,7 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = Convert.ToInt32(Session["BranchID"]);
                 int userID = Convert.ToInt32(Session["UserID"]);
@@ -101,12 +113,15 @@ namespace CloudERP.Controllers
                     ViewBag.Message = "Payment must be less than or equal to the previous remaining amount!";
                     var list = _db.tblCustomerReturnPayment.Where(r => r.CustomerReturnInvoiceID == id);
                     double remainingAmount = list.Sum(item => item.RemainingBalance);
+                    
                     if (remainingAmount == 0)
                     {
                         remainingAmount = _db.tblCustomerReturnInvoice.Find(id).TotalAmount;
                     }
+
                     ViewBag.PreviousRemainingAmount = remainingAmount;
                     ViewBag.InvoiceID = id;
+
                     return View(list);
                 }
 
@@ -115,11 +130,12 @@ namespace CloudERP.Controllers
                 var saleInvoice = _db.tblCustomerReturnInvoice.Find(id);
                 var salePaymentDetails = _db.tblCustomerReturnPayment.Where(p => p.CustomerReturnInvoiceID == id);
 
-                string message = saleEntry.ReturnSalePayment(companyID, branchID, userID, payInvoiceNo, saleInvoice.CustomerInvoiceID.ToString(), saleInvoice.CustomerReturnInvoiceID, (float)saleInvoice.TotalAmount,
+                string message = _saleEntry.ReturnSalePayment(companyID, branchID, userID, payInvoiceNo, saleInvoice.CustomerInvoiceID.ToString(), saleInvoice.CustomerReturnInvoiceID, (float)saleInvoice.TotalAmount,
                     paymentAmount, customer.CustomerID.ToString(), customer.Customername, previousRemainingAmount - paymentAmount);
 
                 Session["SaleMessage"] = message;
-                return RedirectToAction("PurchasePaymentReturn", new { id = id });
+
+                return RedirectToAction("PurchasePaymentReturn", new { id });
             }
             catch (Exception ex)
             {

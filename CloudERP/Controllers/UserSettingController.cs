@@ -24,6 +24,7 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 Session["CEmployeeID"] = employeeID;
                 var employee = _db.tblEmployee.Find(employeeID);
                 if (employee == null)
@@ -31,7 +32,9 @@ namespace CloudERP.Controllers
                     ViewBag.ErrorMessage = "Employee not found.";
                     return View("Error");
                 }
+
                 byte[] salt;
+
                 var user = new tblUser
                 {
                     Email = employee.Email,
@@ -42,7 +45,9 @@ namespace CloudERP.Controllers
                     Salt = Convert.ToBase64String(salt),
                     UserName = employee.Email
                 };
+
                 ViewBag.UserTypeID = new SelectList(_db.tblUserType.ToList(), "UserTypeID", "UserType");
+                
                 return View(user);
             }
             catch (Exception ex)
@@ -63,6 +68,7 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 if (ModelState.IsValid)
                 {
                     var existingUser = _db.tblUser.FirstOrDefault(u => u.Email == tblUser.Email && u.UserID != tblUser.UserID);
@@ -74,6 +80,7 @@ namespace CloudERP.Controllers
                     {
                         _db.tblUser.Add(tblUser);
                         _db.SaveChanges();
+
                         int? employeeID = Convert.ToInt32(Session["CEmployeeID"]);
                         var employee = _db.tblEmployee.Find(employeeID);
                         if (employee != null)
@@ -83,11 +90,13 @@ namespace CloudERP.Controllers
                             _db.SaveChanges();
                         }
                         Session["CEmployeeID"] = null;
+
                         return RedirectToAction("Index", "User");
                     }
                 }
 
                 ViewBag.UserTypeID = new SelectList(_db.tblUserType.ToList(), "UserTypeID", "UserType", tblUser.UserTypeID);
+                
                 return View(tblUser);
             }
             catch (Exception ex)
@@ -106,13 +115,17 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 var user = _db.tblUser.Find(userID);
                 if (user == null)
                 {
                     ViewBag.ErrorMessage = "User not found.";
-                    return View("Error");
+
+                    return RedirectToAction("EP500", "EP");
                 }
+
                 ViewBag.UserTypeID = new SelectList(_db.tblUserType.ToList(), "UserTypeID", "UserType", user.UserTypeID);
+                
                 return View(user);
             }
             catch (Exception ex)
@@ -145,11 +158,13 @@ namespace CloudERP.Controllers
                     {
                         _db.Entry(tblUser).State = System.Data.Entity.EntityState.Modified;
                         _db.SaveChanges();
+
                         return RedirectToAction("Index", "User");
                     }
                 }
 
                 ViewBag.UserTypeID = new SelectList(_db.tblUserType.ToList(), "UserTypeID", "UserType", tblUser.UserTypeID);
+                
                 return View(tblUser);
             }
             catch (Exception ex)

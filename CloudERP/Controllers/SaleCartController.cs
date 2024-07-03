@@ -11,11 +11,12 @@ namespace CloudERP.Controllers
     public class SaleCartController : Controller
     {
         private readonly CloudDBEntities _db;
-        private readonly SaleEntry saleEntry = new SaleEntry();
+        private readonly SaleEntry _saleEntry;
 
         public SaleCartController(CloudDBEntities db)
         {
             _db = db;
+            _saleEntry = new SaleEntry(_db);
         }
 
         // GET: SaleCart/NewSale
@@ -127,10 +128,12 @@ namespace CloudERP.Controllers
                     _db.Entry(product).State = System.Data.Entity.EntityState.Deleted;
                     _db.SaveChanges();
                     ViewBag.Message = "Deleted successfully.";
+
                     return RedirectToAction("NewSale");
                 }
 
                 ViewBag.Message = "Product not found.";
+
                 return RedirectToAction("NewSale");
             }
             catch (Exception ex)
@@ -222,6 +225,7 @@ namespace CloudERP.Controllers
                 _db.SaveChanges();
 
                 ViewBag.Message = "Sale canceled successfully.";
+
                 return RedirectToAction("NewSale");
             }
             catch (Exception ex)
@@ -250,6 +254,7 @@ namespace CloudERP.Controllers
                 if (saleDetails == null)
                 {
                     Session["ErrorMessageSale"] = "Sale cart is empty.";
+
                     return RedirectToAction("NewSale");
                 }
 
@@ -346,7 +351,7 @@ namespace CloudERP.Controllers
 
                 _db.SaveChanges();
 
-                string Message = saleEntry.ConfirmSale(companyID, branchID, userID, invoiceNo, invoiceHeader.CustomerInvoiceID.ToString(), (float)totalAmount, customerID.ToString(), customer.Customername, IsPayment);
+                string Message = _saleEntry.ConfirmSale(companyID, branchID, userID, invoiceNo, invoiceHeader.CustomerInvoiceID.ToString(), (float)totalAmount, customerID.ToString(), customer.Customername, IsPayment);
                 if (Message.Contains("Success"))
                 {
                     foreach (var item in saleDetails)
@@ -369,6 +374,7 @@ namespace CloudERP.Controllers
                 }
 
                 Session["Message"] = Message;
+
                 return RedirectToAction("NewSale");
             }
             catch (Exception ex)

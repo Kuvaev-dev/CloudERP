@@ -25,8 +25,10 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 int userID = Convert.ToInt32(Session["UserID"]);
                 var tblFinancialYear = _db.tblFinancialYear.Include(t => t.tblUser);
+
                 return View(tblFinancialYear.ToList());
             }
             catch (Exception ex)
@@ -45,6 +47,7 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 return View(new tblFinancialYear());
             }
             catch (Exception ex)
@@ -65,8 +68,10 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 int userID = Convert.ToInt32(Session["UserID"]);
                 tblFinancialYear.UserID = userID;
+
                 if (ModelState.IsValid)
                 {
                     var findFinancialYear = _db.tblFinancialYear.Where(f => f.FinancialYear == tblFinancialYear.FinancialYear).FirstOrDefault();
@@ -74,6 +79,7 @@ namespace CloudERP.Controllers
                     {
                         _db.tblFinancialYear.Add(tblFinancialYear);
                         _db.SaveChanges();
+
                         return RedirectToAction("Index");
                     }
                     else
@@ -99,15 +105,18 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 if (id == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
+
                 tblFinancialYear tblFinancialYear = _db.tblFinancialYear.Find(id);
                 if (tblFinancialYear == null)
                 {
                     return HttpNotFound();
                 }
+
                 return View(tblFinancialYear);
             }
             catch (Exception ex)
@@ -128,8 +137,10 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 int userID = Convert.ToInt32(Session["UserID"]);
                 tblFinancialYear.UserID = userID;
+
                 if (ModelState.IsValid)
                 {
                     var findFinancialYear = _db.tblFinancialYear.Where(f => f.FinancialYear == tblFinancialYear.FinancialYear
@@ -138,6 +149,7 @@ namespace CloudERP.Controllers
                     {
                         _db.Entry(tblFinancialYear).State = EntityState.Modified;
                         _db.SaveChanges();
+
                         return RedirectToAction("Index");
                     }
                     else

@@ -16,7 +16,7 @@ namespace CloudERP.Controllers
         public BalanceSheetController(CloudDBEntities db)
         {
             _db = db;
-            _balSheet = new SP_BalanceSheet();
+            _balSheet = new SP_BalanceSheet(_db);
         }
 
         // GET: BalanceSheet

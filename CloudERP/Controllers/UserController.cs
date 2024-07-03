@@ -28,6 +28,7 @@ namespace CloudERP.Controllers
                 }
 
                 var tblUser = _db.tblUser.Include(t => t.tblUserType);
+
                 return View(tblUser.ToList());
             }
             catch (Exception ex)
@@ -45,11 +46,13 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchTypeID = Convert.ToInt32(Session["BranchTypeID"]);
                 int brchID = Convert.ToInt32(Session["BrchID"]);
 
                 IQueryable<tblUser> tblUser;
+
                 if (branchTypeID == 1)  // Main Branch
                 {
                     tblUser = from s in _db.tblUser
@@ -93,15 +96,18 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 if (id == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
+
                 tblUser tblUser = _db.tblUser.Find(id);
                 if (tblUser == null)
                 {
                     return HttpNotFound();
                 }
+
                 return View(tblUser);
             }
             catch (Exception ex)
@@ -120,7 +126,9 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 ViewBag.UserTypeID = new SelectList(_db.tblUserType, "UserTypeID", "UserType");
+                
                 return View(new tblUser());
             }
             catch (Exception ex)
@@ -143,6 +151,7 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 if (ModelState.IsValid)
                 {
                     int companyID = Convert.ToInt32(Session["CompanyID"]);
@@ -157,6 +166,7 @@ namespace CloudERP.Controllers
 
                     _db.tblUser.Add(tblUser);
                     _db.SaveChanges();
+
                     if (companyID == 0)
                     {
                         return RedirectToAction("Index");
@@ -166,7 +176,9 @@ namespace CloudERP.Controllers
                         return RedirectToAction("SubBranchUser");
                     }
                 }
+
                 ViewBag.UserTypeID = new SelectList(_db.tblUserType, "UserTypeID", "UserType", tblUser.UserTypeID);
+                
                 return View(tblUser);
             }
             catch (Exception ex)
@@ -185,16 +197,20 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 if (id == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
+
                 tblUser tblUser = _db.tblUser.Find(id);
                 if (tblUser == null)
                 {
                     return HttpNotFound();
                 }
+
                 ViewBag.UserTypeID = new SelectList(_db.tblUserType, "UserTypeID", "UserType", tblUser.UserTypeID);
+                
                 return View(tblUser);
             }
             catch (Exception ex)
@@ -217,10 +233,12 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 if (ModelState.IsValid)
                 {
                     _db.Entry(tblUser).State = EntityState.Modified;
                     _db.SaveChanges();
+
                     int companyID = Convert.ToInt32(Session["CompanyID"]);
                     if (companyID == 0)
                     {
@@ -231,7 +249,9 @@ namespace CloudERP.Controllers
                         return RedirectToAction("SubBranchUser");
                     }
                 }
+                
                 ViewBag.UserTypeID = new SelectList(_db.tblUserType, "UserTypeID", "UserType", tblUser.UserTypeID);
+                
                 return View(tblUser);
             }
             catch (Exception ex)
@@ -250,15 +270,18 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 if (id == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
+
                 tblUser tblUser = _db.tblUser.Find(id);
                 if (tblUser == null)
                 {
                     return HttpNotFound();
                 }
+
                 return View(tblUser);
             }
             catch (Exception ex)
@@ -279,9 +302,11 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 tblUser tblUser = _db.tblUser.Find(id);
                 _db.tblUser.Remove(tblUser);
                 _db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
             catch (Exception ex)

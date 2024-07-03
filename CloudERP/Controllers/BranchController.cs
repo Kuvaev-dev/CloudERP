@@ -29,6 +29,7 @@ namespace CloudERP.Controllers
             int branchID = GetBranchID();
 
             IQueryable<tblBranch> branches;
+
             if (branchTypeID == 1) // Main Branch
             {
                 branches = _db.tblBranch.Include(t => t.tblBranchType).Where(c => c.CompanyID == companyID);
@@ -88,6 +89,7 @@ namespace CloudERP.Controllers
             }
 
             int companyID = GetCompanyID();
+
             ViewBag.BrchID = new SelectList(_db.tblBranch.Where(c => c.CompanyID == companyID).ToList(), "BranchID", "BranchName");
             ViewBag.BranchTypeID = new SelectList(_db.tblBranchType, "BranchTypeID", "BranchType");
 
@@ -140,6 +142,7 @@ namespace CloudERP.Controllers
             }
 
             int companyID = GetCompanyID();
+
             ViewBag.BrchID = new SelectList(_db.tblBranch.Where(c => c.CompanyID == companyID).ToList(), "BranchID", "BranchName", branch.BrchID);
             ViewBag.BranchTypeID = new SelectList(_db.tblBranchType, "BranchTypeID", "BranchType", branch.BranchTypeID);
 

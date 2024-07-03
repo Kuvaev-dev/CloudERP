@@ -20,6 +20,7 @@ namespace CloudERP.Helpers
                 {
                     path = Path.Combine(HttpContext.Current.Server.MapPath(folder), name);
                     file.SaveAs(path);
+
                     using (MemoryStream ms = new MemoryStream())
                     {
                         file.InputStream.CopyTo(ms);

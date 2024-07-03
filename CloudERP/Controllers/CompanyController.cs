@@ -97,6 +97,7 @@ namespace CloudERP.Controllers
 
                 _db.Entry(tblCompany).State = EntityState.Modified;
                 _db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
 
@@ -153,6 +154,7 @@ namespace CloudERP.Controllers
 
                 _db.Entry(tblCompany).State = EntityState.Modified;
                 _db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
 
@@ -195,6 +197,7 @@ namespace CloudERP.Controllers
             tblCompany tblCompany = _db.tblCompany.Find(id);
             _db.tblCompany.Remove(tblCompany);
             _db.SaveChanges();
+
             return RedirectToAction("Index");
         }
 

@@ -11,11 +11,12 @@ namespace CloudERP.Controllers
     public class PurchaseCartController : Controller
     {
         private readonly CloudDBEntities _db;
-        private readonly PurchaseEntry purchaseEntry = new PurchaseEntry();
+        private readonly PurchaseEntry _purchaseEntry;
 
         public PurchaseCartController(CloudDBEntities db)
         {
             _db = db;
+            _purchaseEntry = new PurchaseEntry(_db);
         }
 
         // GET: PurchaseCart/NewPurchase
@@ -74,6 +75,7 @@ namespace CloudERP.Controllers
                             CompanyID = companyID,
                             UserID = userID
                         };
+
                         _db.tblPurchaseCartDetail.Add(newItem);
                         _db.SaveChanges();
                         ViewBag.Message = "Item Added Successfully!";
@@ -145,6 +147,7 @@ namespace CloudERP.Controllers
 
                 ViewBag.Message = "Some unexpected issue occurred. Please contact the concerned person!";
                 var find = _db.tblPurchaseCartDetail.Where(i => i.BranchID == branchID && i.CompanyID == companyID && i.UserID == userID).ToList();
+                
                 return View(find);
             }
             catch (Exception ex)
@@ -223,6 +226,7 @@ namespace CloudERP.Controllers
                 }
 
                 var suppliers = _db.tblSupplier.Where(s => s.CompanyID == companyID && s.BranchID == branchID).ToList();
+                
                 return View(suppliers);
             }
             catch (Exception ex)
@@ -316,7 +320,7 @@ namespace CloudERP.Controllers
 
                 _db.SaveChanges();
 
-                string Message = purchaseEntry.ConfirmPurchase(companyID, branchID, userID, invoiceNo, invoiceHeader.SupplierInvoiceID.ToString(), (float)totalAmount, supplierID.ToString(), supplier.SupplierName, IsPayment);
+                string Message = _purchaseEntry.ConfirmPurchase(companyID, branchID, userID, invoiceNo, invoiceHeader.SupplierInvoiceID.ToString(), (float)totalAmount, supplierID.ToString(), supplier.SupplierName, IsPayment);
 
                 if (Message.Contains("Success"))
                 {
@@ -336,6 +340,7 @@ namespace CloudERP.Controllers
                 }
 
                 Session["Message"] = Message;
+                
                 return RedirectToAction("NewPurchase");
             }
             catch (Exception ex)

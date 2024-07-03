@@ -29,7 +29,9 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 var tblCustomer = _db.tblCustomer.Include(t => t.tblBranch).Include(t => t.tblCompany).Include(t => t.tblUser);
+                
                 return View(tblCustomer.ToList());
             }
             catch (Exception ex)
@@ -48,10 +50,12 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = Convert.ToInt32(Session["BranchID"]);
                 var tblCustomer = _db.tblCustomer.Include(t => t.tblBranch).Include(t => t.tblCompany).Include(t => t.tblUser)
                                                 .Where(c => c.CompanyID == companyID && c.BranchID == branchID);
+                
                 return View(tblCustomer.ToList());
             }
             catch (Exception ex)
@@ -112,15 +116,18 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 if (id == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
+
                 tblCustomer tblCustomer = _db.tblCustomer.Find(id);
                 if (tblCustomer == null)
                 {
                     return HttpNotFound();
                 }
+
                 return View(tblCustomer);
             }
             catch (Exception ex)
@@ -138,15 +145,18 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 if (id == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
+
                 tblCustomer tblCustomer = _db.tblCustomer.Find(id);
                 if (tblCustomer == null)
                 {
                     return HttpNotFound();
                 }
+
                 return View(tblCustomer);
             }
             catch (Exception ex)
@@ -165,6 +175,7 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 return View(new tblCustomer());
             }
             catch (Exception ex)
@@ -187,12 +198,14 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = Convert.ToInt32(Session["BranchID"]);
                 int userID = Convert.ToInt32(Session["UserID"]);
                 tblCustomer.CompanyID = companyID;
                 tblCustomer.BranchID = branchID;
                 tblCustomer.UserID = userID;
+
                 if (ModelState.IsValid)
                 {
                     var findCustomer = _db.tblCustomer.Where(c => c.Customername == tblCustomer.Customername
@@ -202,6 +215,7 @@ namespace CloudERP.Controllers
                     {
                         _db.tblCustomer.Add(tblCustomer);
                         _db.SaveChanges();
+
                         return RedirectToAction("Index");
                     }
                     else
@@ -228,10 +242,12 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 if (id == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
+
                 tblCustomer tblCustomer = _db.tblCustomer.Find(id);
                 if (tblCustomer == null)
                 {
@@ -260,8 +276,10 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 int userID = Convert.ToInt32(Convert.ToString(Session["UserID"]));
                 tblCustomer.UserID = userID;
+
                 if (ModelState.IsValid)
                 {
                     var findCustomer = _db.tblCustomer.Where(c => c.Customername == tblCustomer.Customername
@@ -271,6 +289,7 @@ namespace CloudERP.Controllers
                     {
                         _db.Entry(tblCustomer).State = EntityState.Modified;
                         _db.SaveChanges();
+
                         return RedirectToAction("Index");
                     }
                     else
@@ -297,11 +316,13 @@ namespace CloudERP.Controllers
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
+
                 tblCustomer tblCustomer = _db.tblCustomer.Find(id);
                 if (tblCustomer == null)
                 {
                     return HttpNotFound();
                 }
+
                 return View(tblCustomer);
             }
             catch (Exception ex)
@@ -321,6 +342,7 @@ namespace CloudERP.Controllers
                 tblCustomer tblCustomer = _db.tblCustomer.Find(id);
                 _db.tblCustomer.Remove(tblCustomer);
                 _db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
             catch (Exception ex)

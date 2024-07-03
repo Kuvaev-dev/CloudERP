@@ -9,11 +9,12 @@ namespace CloudERP.Controllers
     public class IncomeStatementController : Controller
     {
         private readonly CloudDBEntities _db;
-        private readonly IncomeStatement income = new IncomeStatement();
+        private readonly IncomeStatement _income;
 
         public IncomeStatementController(CloudDBEntities db)
         {
             _db = db;
+            _income = new IncomeStatement(_db);
         }
 
         // GET: IncomeStatement
@@ -36,7 +37,7 @@ namespace CloudERP.Controllers
                     return View();
                 }
 
-                var incomeStatement = income.GetIncomeStatement(companyID, branchID, FinancialYear.FinancialYearID);
+                var incomeStatement = _income.GetIncomeStatement(companyID, branchID, FinancialYear.FinancialYearID);
                 return View(incomeStatement);
             }
             catch (Exception ex)
@@ -59,7 +60,7 @@ namespace CloudERP.Controllers
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = Convert.ToInt32(Session["BranchID"]);
 
-                var incomeStatement = income.GetIncomeStatement(companyID, branchID, (int)id);
+                var incomeStatement = _income.GetIncomeStatement(companyID, branchID, (int)id);
                 return View(incomeStatement);
             }
             catch (Exception ex)
@@ -88,7 +89,7 @@ namespace CloudERP.Controllers
                     return View();
                 }
 
-                var incomeStatement = income.GetIncomeStatement(companyID, branchID, FinancialYear.FinancialYearID);
+                var incomeStatement = _income.GetIncomeStatement(companyID, branchID, FinancialYear.FinancialYearID);
                 return View(incomeStatement);
             }
             catch (Exception ex)
@@ -111,7 +112,7 @@ namespace CloudERP.Controllers
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = Convert.ToInt32(Session["SubBranchID"]);
 
-                var incomeStatement = income.GetIncomeStatement(companyID, branchID, (int)id);
+                var incomeStatement = _income.GetIncomeStatement(companyID, branchID, (int)id);
                 return View(incomeStatement);
             }
             catch (Exception ex)

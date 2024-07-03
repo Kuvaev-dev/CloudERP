@@ -26,6 +26,7 @@ namespace CloudERP.Controllers
 
                 int userID = Convert.ToInt32(Session["UserID"]);
                 var tblFinancialYear = _db.tblFinancialYear.ToList();
+
                 return View(tblFinancialYear);
             }
             catch (Exception ex)

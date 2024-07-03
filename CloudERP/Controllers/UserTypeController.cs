@@ -13,7 +13,7 @@ namespace CloudERP.Controllers
 
         public UserTypeController(CloudDBEntities db)
         {
-            _db = db ?? throw new ArgumentNullException(nameof(db));
+            _db = db;
         }
 
         // GET: UserType
@@ -44,15 +44,18 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 if (id == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
+
                 tblUserType tblUserType = _db.tblUserType.Find(id);
                 if (tblUserType == null)
                 {
                     return HttpNotFound();
                 }
+
                 return View(tblUserType);
             }
             catch (Exception ex)
@@ -92,10 +95,12 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 if (ModelState.IsValid)
                 {
                     _db.tblUserType.Add(tblUserType);
                     _db.SaveChanges();
+
                     return RedirectToAction("Index");
                 }
 
@@ -117,15 +122,18 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 if (id == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
+
                 tblUserType tblUserType = _db.tblUserType.Find(id);
                 if (tblUserType == null)
                 {
                     return HttpNotFound();
                 }
+
                 return View(tblUserType);
             }
             catch (Exception ex)
@@ -146,12 +154,15 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 if (ModelState.IsValid)
                 {
                     _db.Entry(tblUserType).State = EntityState.Modified;
                     _db.SaveChanges();
+
                     return RedirectToAction("Index");
                 }
+
                 return View(tblUserType);
             }
             catch (Exception ex)
@@ -170,15 +181,18 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 if (id == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
+
                 tblUserType tblUserType = _db.tblUserType.Find(id);
                 if (tblUserType == null)
                 {
                     return HttpNotFound();
                 }
+
                 return View(tblUserType);
             }
             catch (Exception ex)
@@ -199,9 +213,11 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 tblUserType tblUserType = _db.tblUserType.Find(id);
                 _db.tblUserType.Remove(tblUserType);
                 _db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
             catch (Exception ex)

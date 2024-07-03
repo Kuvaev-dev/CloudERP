@@ -12,6 +12,7 @@ namespace CloudERP.Helpers
             {
                 salt = hmac.Key;
                 var hashedPassword = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                
                 return Convert.ToBase64String(hashedPassword);
             }
         }
@@ -22,6 +23,7 @@ namespace CloudERP.Helpers
             {
                 var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
                 var storedHashBytes = Convert.FromBase64String(storedHash);
+                
                 return computedHash.SequenceEqual(storedHashBytes);
             }
         }

@@ -10,11 +10,12 @@ namespace CloudERP.Controllers
     public class PurchaseReturnController : Controller
     {
         private readonly CloudDBEntities _db;
-        private readonly PurchaseEntry purchaseEntry = new PurchaseEntry();
+        private readonly PurchaseEntry _purchaseEntry;
 
         public PurchaseReturnController(CloudDBEntities db)
         {
             _db = db;
+            _purchaseEntry = new PurchaseEntry(_db);
         }
 
         // GET: PurchaseReturn
@@ -45,6 +46,7 @@ namespace CloudERP.Controllers
                 {
                     invoice = _db.tblSupplierInvoice.Find(0);
                 }
+
                 return View(invoice);
             }
             catch (Exception ex)
@@ -61,11 +63,14 @@ namespace CloudERP.Controllers
             {
                 Session["InvoiceNo"] = string.Empty;
                 Session["ReturnMessage"] = string.Empty;
+
                 if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 var purchaseInvoice = _db.tblSupplierInvoice.Where(p => p.InvoiceNo == invoiceID).FirstOrDefault();
+                
                 return View(purchaseInvoice);
             }
             catch (Exception ex)
@@ -82,10 +87,12 @@ namespace CloudERP.Controllers
             {
                 Session["InvoiceNo"] = string.Empty;
                 Session["ReturnMessage"] = string.Empty;
+
                 if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
                 {
                     return RedirectToAction("Login", "Home");
                 }
+
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = Convert.ToInt32(Session["BranchID"]);
                 int userID = Convert.ToInt32(Session["UserID"]);
@@ -96,6 +103,7 @@ namespace CloudERP.Controllers
                 List<int> ProductIDs = new List<int>();
                 List<int> ReturnQty = new List<int>();
                 string[] keys = collection.AllKeys;
+
                 foreach (var name in keys)
                 {
                     if (name.Contains("ProductID "))
@@ -106,8 +114,10 @@ namespace CloudERP.Controllers
                         ReturnQty.Add(Convert.ToInt32(collection[idName].Split(',')[0]));
                     }
                 }
+
                 string Description = "Purchase Return";
                 string[] SupplierInvoiceIDs = collection["supplierInvoiceID"].Split(',');
+
                 if (SupplierInvoiceIDs != null)
                 {
                     if (SupplierInvoiceIDs[0] != null)
@@ -115,6 +125,7 @@ namespace CloudERP.Controllers
                         SupplierInvoiceID = Convert.ToInt32(SupplierInvoiceIDs[0]);
                     }
                 }
+
                 if (collection["IsPayment"] != null)
                 {
                     string[] isPaymentDirCet = collection["IsPayment"].Split(',');
@@ -171,7 +182,8 @@ namespace CloudERP.Controllers
                 _db.SaveChanges();
 
                 var supplier = _db.tblSupplier.Find(supplierID);
-                string Message = purchaseEntry.ReturnPurchase(companyID, branchID, userID, invoiceNo, returnInvoiceHeader.SupplierInvoiceID.ToString(), returnInvoiceHeader.SupplierReturnInvoiceID, (float)TotalAmount, supplierID.ToString(), supplier.SupplierName, IsPayment);
+                string Message = _purchaseEntry.ReturnPurchase(companyID, branchID, userID, invoiceNo, returnInvoiceHeader.SupplierInvoiceID.ToString(), returnInvoiceHeader.SupplierReturnInvoiceID, (float)TotalAmount, supplierID.ToString(), supplier.SupplierName, IsPayment);
+                
                 if (Message.Contains("Success"))
                 {
                     for (int i = 0; i < purchaseDetails.Count; i++)
@@ -196,6 +208,7 @@ namespace CloudERP.Controllers
 
                                     var stock = _db.tblStock.Find(productID);
                                     stock.Quantity -= ReturnQty[i];
+
                                     _db.Entry(stock).State = System.Data.Entity.EntityState.Modified;
                                     _db.SaveChanges();
                                 }
@@ -205,11 +218,13 @@ namespace CloudERP.Controllers
 
                     Session["InvoiceNo"] = supplierInvoice.InvoiceNo;
                     Session["ReturnMessage"] = "Return Successfully";
+
                     return RedirectToAction("FindPurchase");
                 }
 
                 Session["InvoiceNo"] = supplierInvoice.InvoiceNo;
                 Session["ReturnMessage"] = "Some Unexpected Issue is Occured. Please Contact to Administrator";
+                
                 return RedirectToAction("FindPurchase");
             }
             catch (Exception ex)

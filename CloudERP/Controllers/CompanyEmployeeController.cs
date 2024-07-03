@@ -11,11 +11,12 @@ namespace CloudERP.Controllers
     public class CompanyEmployeeController : Controller
     {
         private readonly CloudDBEntities _db;
-        private readonly SalaryTransaction salaryTransaction = new SalaryTransaction();
+        private readonly SalaryTransaction _salaryTransaction;
 
         public CompanyEmployeeController(CloudDBEntities db)
         {
             _db = db;
+            _salaryTransaction = new SalaryTransaction(_db);
         }
 
         private bool IsUserAuthenticated()
@@ -33,6 +34,7 @@ namespace CloudERP.Controllers
 
             int companyID = Convert.ToInt32(Session["CompanyID"]);
             var tblEmployee = _db.tblEmployee.Where(c => c.CompanyID == companyID).ToList();
+
             return View(tblEmployee);
         }
 
@@ -45,6 +47,7 @@ namespace CloudERP.Controllers
 
             int companyID = Convert.ToInt32(Session["CompanyID"]);
             ViewBag.BranchID = new SelectList(_db.tblBranch.Where(b => b.CompanyID == companyID), "BranchID", "BranchName", 0);
+            
             return View();
         }
 
@@ -69,6 +72,7 @@ namespace CloudERP.Controllers
                 {
                     var folder = "~/Content/EmployeePhoto";
                     var file = $"{employee.EmployeeID}.jpg";
+
                     var response = FileHelper.UploadPhoto(employee.LogoFile, folder, file);
                     if (response)
                     {
@@ -161,7 +165,7 @@ namespace CloudERP.Controllers
                     string invoiceNo = $"ESA{DateTime.Now:yyyyMMddHHmmss}{DateTime.Now.Millisecond}";
                     if (ModelState.IsValid)
                     {
-                        string message = salaryTransaction.Confirm(salary.EmployeeID, salary.TransferAmount, userID, branchID, companyID, invoiceNo, salary.SalaryMonth, salary.SalaryYear);
+                        string message = _salaryTransaction.Confirm(salary.EmployeeID, salary.TransferAmount, userID, branchID, companyID, invoiceNo, salary.SalaryMonth, salary.SalaryYear);
                         if (message.Contains("Succeed"))
                         {
                             Session["SalaryMessage"] = message;

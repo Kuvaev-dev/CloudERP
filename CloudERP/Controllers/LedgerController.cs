@@ -9,11 +9,12 @@ namespace CloudERP.Controllers
     public class LedgerController : Controller
     {
         private readonly CloudDBEntities _db;
-        private readonly SP_Ledger ledgersp = new SP_Ledger();
+        private readonly SP_Ledger _ledgersp;
 
         public LedgerController(CloudDBEntities db)
         {
             _db = db;
+            _ledgersp = new SP_Ledger(_db);
         }
 
         public ActionResult GetLedger()
@@ -35,7 +36,7 @@ namespace CloudERP.Controllers
                     return View();
                 }
 
-                var ledger = ledgersp.GetLedger(companyID, branchID, FinancialYear.FinancialYearID);
+                var ledger = _ledgersp.GetLedger(companyID, branchID, FinancialYear.FinancialYearID);
                 return View(ledger);
             }
             catch (Exception ex)
@@ -58,7 +59,8 @@ namespace CloudERP.Controllers
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = Convert.ToInt32(Session["BranchID"]);
 
-                var ledger = ledgersp.GetLedger(companyID, branchID, (int)id);
+                var ledger = _ledgersp.GetLedger(companyID, branchID, (int)id);
+
                 return View(ledger);
             }
             catch (Exception ex)
@@ -87,7 +89,8 @@ namespace CloudERP.Controllers
                     return View();
                 }
 
-                var ledger = ledgersp.GetLedger(companyID, branchID, FinancialYear.FinancialYearID);
+                var ledger = _ledgersp.GetLedger(companyID, branchID, FinancialYear.FinancialYearID);
+
                 return View(ledger);
             }
             catch (Exception ex)
@@ -110,7 +113,8 @@ namespace CloudERP.Controllers
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = Convert.ToInt32(Session["SubBranchID"]);
 
-                var ledger = ledgersp.GetLedger(companyID, branchID, (int)id);
+                var ledger = _ledgersp.GetLedger(companyID, branchID, (int)id);
+
                 return View(ledger);
             }
             catch (Exception ex)

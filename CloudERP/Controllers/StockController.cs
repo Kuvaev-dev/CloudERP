@@ -121,6 +121,7 @@ namespace CloudERP.Controllers
                     {
                         _db.tblStock.Add(tblStock);
                         _db.SaveChanges();
+
                         return RedirectToAction("Index");
                     }
                     else
@@ -130,6 +131,7 @@ namespace CloudERP.Controllers
                 }
 
                 ViewBag.CategoryID = new SelectList(_db.tblCategory.Where(c => c.BranchID == branchID && c.CompanyID == companyID), "CategoryID", "CategoryName", tblStock.CategoryID);
+                
                 return View(tblStock);
             }
             catch (Exception ex)
@@ -189,6 +191,7 @@ namespace CloudERP.Controllers
                     {
                         _db.Entry(tblStock).State = EntityState.Modified;
                         _db.SaveChanges();
+
                         return RedirectToAction("Index");
                     }
                     else
@@ -198,6 +201,7 @@ namespace CloudERP.Controllers
                 }
 
                 ViewBag.CategoryID = new SelectList(_db.tblCategory.Where(c => c.BranchID == tblStock.BranchID && c.CompanyID == tblStock.CompanyID), "CategoryID", "CategoryName", tblStock.CategoryID);
+                
                 return View(tblStock);
             }
             catch (Exception ex)
@@ -243,6 +247,7 @@ namespace CloudERP.Controllers
                 tblStock tblStock = _db.tblStock.Find(id);
                 _db.tblStock.Remove(tblStock);
                 _db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
