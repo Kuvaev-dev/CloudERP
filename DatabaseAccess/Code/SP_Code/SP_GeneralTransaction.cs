@@ -3,28 +3,33 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DatabaseAccess.Code.SP_Code
 {
     public class SP_GeneralTransaction
     {
-        private CloudDBEntities db = new CloudDBEntities();
+        private readonly CloudDBEntities _db;
+
+        public SP_GeneralTransaction(CloudDBEntities db)
+        {
+            _db = db;
+        }
 
         public List<AllAccountModel> GetAllAccounts(int CompanyID, int BranchID)
         {
             var accountsList = new List<AllAccountModel>();
+
             SqlCommand command = new SqlCommand("GetAllAccounts", DatabaseQuery.ConnOpen())
             {
                 CommandType = CommandType.StoredProcedure
             };
             command.Parameters.AddWithValue("@BranchID", BranchID);
             command.Parameters.AddWithValue("@CompanyID", CompanyID);
+
             var dt = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(command);
             da.Fill(dt);
+
             foreach (DataRow row in dt.Rows)
             {
                 var account = new AllAccountModel();
@@ -39,12 +44,14 @@ namespace DatabaseAccess.Code.SP_Code
 
                 accountsList.Add(account);
             }
+
             return accountsList;
         }
 
         public List<JournalModel> GetJournal(int CompanyID, int BranchID, DateTime FromDate, DateTime ToDate)
         {
             var journalEntries = new List<JournalModel>();
+
             SqlCommand command = new SqlCommand("GetJournal", DatabaseQuery.ConnOpen())
             {
                 CommandType = CommandType.StoredProcedure
@@ -53,9 +60,11 @@ namespace DatabaseAccess.Code.SP_Code
             command.Parameters.AddWithValue("@CompanyID", CompanyID);
             command.Parameters.AddWithValue("@FromDate", FromDate);
             command.Parameters.AddWithValue("@ToDate", ToDate);
+
             var dt = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(command);
             da.Fill(dt);
+
             int no = 1; // №
             foreach (DataRow row in dt.Rows)
             {
@@ -71,6 +80,7 @@ namespace DatabaseAccess.Code.SP_Code
                 journalEntries.Add(entry);
                 no += 1;
             }
+
             return journalEntries;
         }
     }

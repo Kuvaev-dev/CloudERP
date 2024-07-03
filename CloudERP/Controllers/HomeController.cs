@@ -1,5 +1,7 @@
 ﻿using CloudERP.Helpers;
 using DatabaseAccess;
+using DatabaseAccess.Models;
+using DatabaseAccess.Code.SP_Code;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using System;
@@ -14,20 +16,39 @@ namespace CloudERP.Controllers
     public class HomeController : Controller
     {
         private readonly CloudDBEntities _db;
+        private readonly SP_Dashboard _spDashboard;
 
         public HomeController(CloudDBEntities db)
         {
             _db = db;
+            _spDashboard = new SP_Dashboard(_db);
         }
 
         public ActionResult Index()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login");
-            }
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login");
+                }
 
-            return View();
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
+                int branchID = Convert.ToInt32(Session["BranchID"]);
+
+                DateTime currentDate = DateTime.Today;
+                string fromDate = new DateTime(currentDate.Year, currentDate.Month, 1).ToString("yyyy-MM-dd");
+                string toDate = new DateTime(currentDate.Year, currentDate.Month, DateTime.DaysInMonth(currentDate.Year, currentDate.Month)).ToString("yyyy-MM-dd");
+
+                DashboardModel dashboardValues = _spDashboard.GetDashboardValues(fromDate, toDate, branchID, companyID);
+
+                return View(dashboardValues);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         public ActionResult Login()

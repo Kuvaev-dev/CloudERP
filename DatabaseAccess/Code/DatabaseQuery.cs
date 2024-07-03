@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
+﻿using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DatabaseAccess.Code
 {
@@ -17,7 +12,7 @@ namespace DatabaseAccess.Code
         {
             if (conn == null)
             {
-                var costring = @"data source=localhost\SQLEXPRESS;initial catalog=CloudErpV1;integrated security=True;";
+                var costring = ConfigurationManager.ConnectionStrings["CloudDBEntities"].ConnectionString;
                 conn = new SqlConnection(costring);
             }
 
@@ -36,6 +31,7 @@ namespace DatabaseAccess.Code
                 int noofrows = 0;
                 SqlCommand cmb = new SqlCommand(query, ConnOpen());
                 noofrows = cmb.ExecuteNonQuery();
+
                 if (noofrows > 0)
                 {
                     return true;
@@ -58,6 +54,7 @@ namespace DatabaseAccess.Code
                 int noofrows = 0;
                 SqlCommand cmb = new SqlCommand(query, ConnOpen());
                 noofrows = cmb.ExecuteNonQuery();
+
                 if (noofrows > 0)
                 {
                     return true;
@@ -80,6 +77,7 @@ namespace DatabaseAccess.Code
                 int noofrows = 0;
                 SqlCommand cmb = new SqlCommand(query, ConnOpen());
                 noofrows = cmb.ExecuteNonQuery();
+
                 if (noofrows > 0)
                 {
                     return true;

@@ -1,17 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DatabaseAccess.Code
 {
     public class GeneralTransactionEntry
     {
-        private CloudDBEntities db = new CloudDBEntities();
+        private readonly CloudDBEntities _db;
         public string selectcustomerid = string.Empty;
-        DataTable dtEntries = null;
+        private DataTable dtEntries = null;
+
+        public GeneralTransactionEntry(CloudDBEntities db)
+        {
+            _db = db;
+        }
 
         public string ConfirmGeneralTransaction(
             float TransferAmount,
@@ -29,6 +31,7 @@ namespace DatabaseAccess.Code
                 string transectiontitle = Reason;
                 var financialYearCheck = DatabaseQuery.Retrive("select top 1 FinancialYearID from tblFinancialYear where IsActive = 1");
                 string FinancialYearID = (financialYearCheck != null ? Convert.ToString(financialYearCheck.Rows[0][0]) : string.Empty);
+                
                 if (string.IsNullOrEmpty(FinancialYearID))
                 {
                     return "Your Company Financial Year is not Set! Please Contact to Administrator!";
@@ -37,18 +40,20 @@ namespace DatabaseAccess.Code
                 string AccountHeadID = string.Empty;
                 string AccountControlID = string.Empty;
                 string AccountSubControlID = string.Empty;
+
                 // Assests 1      increae(Debit)   decrese(Credit)
                 // Liabilities 2     increae(Credit)   decrese(Debit)
                 // Expenses 3     increae(Debit)   decrese(Credit)
                 // Capital 4     increae(Credit)   decrese(Debit)
                 // Revenue 5     increae(Credit)   decrese(Debit)
 
-                var account = db.tblAccountSubControl.Where(a => a.AccountSubControlID == DebitAccountControlID && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); // 14 - Sale Return Payment Pending
+                var account = _db.tblAccountSubControl.Where(a => a.AccountSubControlID == DebitAccountControlID && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); // 14 - Sale Return Payment Pending
                 AccountHeadID = Convert.ToString(account.AccountHeadID);
                 AccountControlID = Convert.ToString(account.AccountControlID);
                 AccountSubControlID = Convert.ToString(account.AccountSubControlID);
                 SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID.ToString(), "0", Convert.ToString(TransferAmount), DateTime.Now, transectiontitle);
-                account = db.tblAccountSubControl.Where(a => a.AccountSubControlID == CreditAccountControlID && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); // 14 - Sale Return Payment Pending
+
+                account = _db.tblAccountSubControl.Where(a => a.AccountSubControlID == CreditAccountControlID && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); // 14 - Sale Return Payment Pending
                 AccountHeadID = Convert.ToString(account.AccountHeadID);
                 AccountControlID = Convert.ToString(account.AccountControlID);
                 AccountSubControlID = Convert.ToString(account.AccountSubControlID);
@@ -75,7 +80,7 @@ namespace DatabaseAccess.Code
 
                 return "General Transaction Succeed";
             }
-            catch (Exception ex)
+            catch
             {
                 return "Unexpected Error is Occured. Please Try Again!";
             }

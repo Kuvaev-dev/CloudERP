@@ -3,9 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DatabaseAccess.Code.SP_Code
 {
@@ -19,7 +16,12 @@ namespace DatabaseAccess.Code.SP_Code
          *  5. Revenue
          */
 
-        private CloudDBEntities db = new CloudDBEntities();
+        private CloudDBEntities _db;
+
+        public SP_BalanceSheet(CloudDBEntities db)
+        {
+            _db = db;
+        }
 
         public BalanceSheetModel GetBalanceSheet(int CompanyID, int BranchID, int FinancialYearID, List<int> HeadIDs)
         {
@@ -90,9 +92,12 @@ namespace DatabaseAccess.Code.SP_Code
             command.Parameters.AddWithValue("@CompanyID", CompanyID);
             command.Parameters.AddWithValue("@HeadID", HeadID);
             command.Parameters.AddWithValue("@FinancialYearID", FinancialYearID);
+
             var dt = new DataTable();
+
             SqlDataAdapter da = new SqlDataAdapter(command);
             da.Fill(dt);
+
             double totalAmount = 0;
             if (dt != null)
             {
@@ -101,12 +106,14 @@ namespace DatabaseAccess.Code.SP_Code
                     totalAmount = Convert.ToDouble(dt.Rows[0][0]);
                 }
             }
+
             return totalAmount;
         }
 
         public AccountHeadTotal GetHeadAccountsWithTotal(int CompanyID, int BranchID, int FinancialYearID, int HeadID)
         {
             var accountsHeadWithDetails = new AccountHeadTotal();
+
             SqlCommand command = new SqlCommand("GetAccountHeadDetails", DatabaseQuery.ConnOpen())
             {
                 CommandType = CommandType.StoredProcedure
@@ -115,24 +122,31 @@ namespace DatabaseAccess.Code.SP_Code
             command.Parameters.AddWithValue("@CompanyID", CompanyID);
             command.Parameters.AddWithValue("@HeadID", HeadID);
             command.Parameters.AddWithValue("@FinancialYearID", FinancialYearID);
+
             var dt = new DataTable();
+
             SqlDataAdapter da = new SqlDataAdapter(command);
             da.Fill(dt);
+
             var accountsList = new List<AccountHeadDetail>();
+
             double totalAmount = 0;
+
             foreach (DataRow row in dt.Rows)
             {
                 var account = new AccountHeadDetail();
                 account.AccountSubTitle = Convert.ToString(row[0].ToString());
                 account.TotalAmount = Convert.ToDouble(row[1]);
                 account.Status = Convert.ToString(row[2]);
+
                 totalAmount += account.TotalAmount;
                 if (account.TotalAmount > 0)
                 {
                     accountsList.Add(account);
                 }
             }
-            var accountHead = db.tblAccountHead.Find(HeadID);
+
+            var accountHead = _db.tblAccountHead.Find(HeadID);
             accountsHeadWithDetails.TotalAmount = totalAmount;
             accountsHeadWithDetails.AccountHeadTitle = accountHead.AccountHeadName;
             accountsHeadWithDetails.AccountHeadDetails = accountsList;

@@ -1,16 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DatabaseAccess.Code
 {
     public class SalaryTransaction
     {
-        private CloudDBEntities db = new CloudDBEntities();
-        DataTable dtEntries = null;
+        private CloudDBEntities _db;
+        private DataTable _dtEntries = null;
+
+        public SalaryTransaction(CloudDBEntities db)
+        {
+            _db = db;
+        }
 
         public string Confirm(
             int EmployeeID,
@@ -24,10 +26,12 @@ namespace DatabaseAccess.Code
         {
             try
             {
-                dtEntries = null;
+                _dtEntries = null;
                 string transectiontitle = "Salary is Pending";
-                var employee = db.tblEmployee.Find(EmployeeID);
+
+                var employee = _db.tblEmployee.Find(EmployeeID);
                 string employeename = string.Empty;
+
                 if (employee != null)
                 {
                     employeename = ", To " + employee.Name;
@@ -44,29 +48,32 @@ namespace DatabaseAccess.Code
                 string AccountHeadID = string.Empty;
                 string AccountControlID = string.Empty;
                 string AccountSubControlID = string.Empty;
+
                 // Assests 1      increae(Debit)   decrese(Credit)
                 // Liabilities 2     increae(Credit)   decrese(Debit)
                 // Expenses 3     increae(Debit)   decrese(Credit)
                 // Capital 4     increae(Credit)   decrese(Debit)
                 // Revenue 5     increae(Credit)   decrese(Debit)
 
-                var account = db.tblAccountSetting.Where(a => a.AccountActivityID == 5 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); // 14 - Sale Return Payment Pending
+                var account = _db.tblAccountSetting.Where(a => a.AccountActivityID == 5 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); // 14 - Sale Return Payment Pending
                 AccountHeadID = Convert.ToString(account.AccountHeadID);
                 AccountControlID = Convert.ToString(account.AccountControlID);
                 AccountSubControlID = Convert.ToString(account.AccountSubControlID);
                 SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID.ToString(), "0", Convert.ToString(TransferAmount), DateTime.Now, transectiontitle);
-                account = db.tblAccountSetting.Where(a => a.AccountActivityID == 5 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); // 14 - Sale Return Payment Pending
+                
+                account = _db.tblAccountSetting.Where(a => a.AccountActivityID == 5 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); // 14 - Sale Return Payment Pending
                 AccountHeadID = Convert.ToString(account.AccountHeadID);
                 AccountControlID = Convert.ToString(account.AccountControlID);
                 AccountSubControlID = Convert.ToString(account.AccountSubControlID);
                 transectiontitle = "Salary Succeed " + employee.Name;
                 SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID.ToString(), Convert.ToString(TransferAmount), "0", DateTime.Now, transectiontitle);
+               
                 string paymentquery = string.Format("insert into tblPayroll(EmployeeID,BranchID,CompanyID,TransferAmount,PayrollInvoiceNo,PaymentDate,SalaryMonth,SalaryYear,UserID) " +
                     "values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}')",
                     EmployeeID, BranchID, CompanyID, TransferAmount, InvoiceNo, DateTime.Now.ToString("yyyy/MM/dd"), SalaryMonth, SalaryYear, UserID);
                 DatabaseQuery.Insert(paymentquery);
 
-                foreach (DataRow entryRow in dtEntries.Rows)
+                foreach (DataRow entryRow in _dtEntries.Rows)
                 {
                     string entryQuery = string.Format("insert into tblTransaction(FinancialYearID,AccountHeadID,AccountControlID,AccountSubControlID,InvoiceNo,UserID,Credit,Debit,TransectionDate,TransectionTitle,CompanyID,BranchID) " +
                         "values {'{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}'}",
@@ -104,24 +111,24 @@ namespace DatabaseAccess.Code
             DateTime TransactionDate,
             string TransectionTitle)
         {
-            if (dtEntries == null)
+            if (_dtEntries == null)
             {
-                dtEntries = new DataTable();
-                dtEntries.Columns.Add("FinancialYearID");
-                dtEntries.Columns.Add("AccountHeadID");
-                dtEntries.Columns.Add("AccountControlID");
-                dtEntries.Columns.Add("AccountSubControlID");
-                dtEntries.Columns.Add("InvoiceNo");
-                dtEntries.Columns.Add("UserID");
-                dtEntries.Columns.Add("Credit");
-                dtEntries.Columns.Add("Debit");
-                dtEntries.Columns.Add("TransactionDate");
-                dtEntries.Columns.Add("TransectionTitle");
+                _dtEntries = new DataTable();
+                _dtEntries.Columns.Add("FinancialYearID");
+                _dtEntries.Columns.Add("AccountHeadID");
+                _dtEntries.Columns.Add("AccountControlID");
+                _dtEntries.Columns.Add("AccountSubControlID");
+                _dtEntries.Columns.Add("InvoiceNo");
+                _dtEntries.Columns.Add("UserID");
+                _dtEntries.Columns.Add("Credit");
+                _dtEntries.Columns.Add("Debit");
+                _dtEntries.Columns.Add("TransactionDate");
+                _dtEntries.Columns.Add("TransectionTitle");
             }
 
-            if (dtEntries != null)
+            if (_dtEntries != null)
             {
-                dtEntries.Rows.Add(
+                _dtEntries.Rows.Add(
                 FinancialYearID,
                 AccountHeadID,
                 AccountControlID,

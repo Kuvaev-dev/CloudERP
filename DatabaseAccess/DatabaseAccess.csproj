@@ -77,6 +77,7 @@
     <Compile Include="Code\SalaryTransaction.cs" />
     <Compile Include="Code\SaleEntry.cs" />
     <Compile Include="Code\SP_Code\SP_BalanceSheet.cs" />
+    <Compile Include="Code\SP_Code\SP_Dashboard.cs" />
     <Compile Include="Code\SP_Code\SP_GeneralTransaction.cs" />
     <Compile Include="Code\SP_Code\SP_Ledger.cs" />
     <Compile Include="Code\SP_Code\SP_Purchase.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="Models\AllAccountModel.cs" />
     <Compile Include="Models\BalanceSheetModel.cs" />
     <Compile Include="Models\CustomerReturnInvoiceModel.cs" />
+    <Compile Include="Models\DashboardModel.cs" />
     <Compile Include="Models\IncomeStatementModel.cs" />
     <Compile Include="Models\JournalModel.cs" />
     <Compile Include="Models\PurchasePaymentModel.cs" />
