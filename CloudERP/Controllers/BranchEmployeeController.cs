@@ -18,21 +18,11 @@ namespace CloudERP.Controllers
             _db = db;
         }
 
-        private int GetCompanyID()
-        {
-            return Convert.ToInt32(Session["CompanyID"]);
-        }
-
-        private int GetBranchID()
-        {
-            return Convert.ToInt32(Session["BranchID"]);
-        }
-
         // GET: Employee
         public ActionResult Employee()
         {
-            int companyID = GetCompanyID();
-            int branchID = GetBranchID();
+            int companyID = Convert.ToInt32(Session["CompanyID"]);
+            int branchID = Convert.ToInt32(Session["BranchID"]);
             var tblEmployee = _db.tblEmployee.Where(c => c.CompanyID == companyID && c.BranchID == branchID);
 
             return View(tblEmployee);
@@ -49,8 +39,8 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EmployeeRegistration(tblEmployee employee)
         {
-            int companyID = GetCompanyID();
-            int branchID = GetBranchID();
+            int companyID = Convert.ToInt32(Session["CompanyID"]);
+            int branchID = Convert.ToInt32(Session["BranchID"]);
 
             employee.BranchID = branchID;
             employee.CompanyID = companyID;
@@ -105,8 +95,9 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EmployeeUpdation(tblEmployee employee)
         {
-            int companyID = GetCompanyID();
-            int branchID = GetBranchID();
+            int companyID = Convert.ToInt32(Session["CompanyID"]);
+            int branchID = Convert.ToInt32(Session["BranchID"]);
+
             employee.BranchID = branchID;
             employee.CompanyID = companyID;
             employee.UserID = null;
@@ -144,7 +135,7 @@ namespace CloudERP.Controllers
                     return RedirectToAction("EP500", "EP");
                 }
 
-                int companyID = GetCompanyID();
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
                 
                 var employee = _db.tblEmployee.Where(c => c.CompanyID == companyID && c.EmployeeID == id).FirstOrDefault();
                 if (employee == null)

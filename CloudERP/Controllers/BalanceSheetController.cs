@@ -22,13 +22,13 @@ namespace CloudERP.Controllers
         // GET: BalanceSheet
         public ActionResult GetBalanceSheet()
         {
-            if (!IsUserLoggedIn())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
 
-            int companyID = GetCompanyID();
-            int branchID = GetBranchID();
+            int companyID = Convert.ToInt32(Session["CompanyID"]);
+            int branchID = Convert.ToInt32(Session["BranchID"]);
 
             try
             {
@@ -52,7 +52,7 @@ namespace CloudERP.Controllers
         [HttpPost]
         public ActionResult GetBalanceSheet(int? id)
         {
-            if (!IsUserLoggedIn())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
@@ -63,8 +63,8 @@ namespace CloudERP.Controllers
                 return View(new List<BalanceSheetModel>());
             }
 
-            int companyID = GetCompanyID();
-            int branchID = GetBranchID();
+            int companyID = Convert.ToInt32(Session["CompanyID"]);
+            int branchID = Convert.ToInt32(Session["BranchID"]);
 
             try
             {
@@ -80,18 +80,18 @@ namespace CloudERP.Controllers
 
         public ActionResult GetSubBalanceSheet(string brnchid)
         {
-            if (!IsUserLoggedIn())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
 
             if (!string.IsNullOrEmpty(brnchid))
             {
-                Session["SubBranchID"] = brnchid;
+                Session["BrchID"] = brnchid;
             }
 
-            int companyID = GetCompanyID();
-            int branchID = GetSubBranchID();
+            int companyID = Convert.ToInt32(Session["CompanyID"]);
+            int branchID = Convert.ToInt32(Session["BranchID"]);
 
             try
             {
@@ -115,7 +115,7 @@ namespace CloudERP.Controllers
         [HttpPost]
         public ActionResult GetSubBalanceSheet(int? id)
         {
-            if (!IsUserLoggedIn())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
@@ -126,8 +126,8 @@ namespace CloudERP.Controllers
                 return View(new List<BalanceSheetModel>());
             }
 
-            int companyID = GetCompanyID();
-            int branchID = GetSubBranchID();
+            int companyID = Convert.ToInt32(Session["CompanyID"]);
+            int branchID = Convert.ToInt32(Session["BranchID"]);
 
             try
             {
@@ -139,26 +139,6 @@ namespace CloudERP.Controllers
                 ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
-        }
-
-        private bool IsUserLoggedIn()
-        {
-            return !string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"]));
-        }
-
-        private int GetCompanyID()
-        {
-            return Convert.ToInt32(Session["CompanyID"]);
-        }
-
-        private int GetBranchID()
-        {
-            return Convert.ToInt32(Session["BranchID"]);
-        }
-
-        private int GetSubBranchID()
-        {
-            return Convert.ToInt32(Session["SubBranchID"]);
         }
     }
 }

@@ -20,15 +20,10 @@ namespace CloudERP.Controllers
             _salaryTransaction = new SalaryTransaction(_db);
         }
 
-        private bool IsUserAuthenticated()
-        {
-            return !string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"]));
-        }
-
         // GET: Employees
         public ActionResult Employees()
         {
-            if (!IsUserAuthenticated())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
@@ -41,7 +36,7 @@ namespace CloudERP.Controllers
 
         public ActionResult EmployeeRegistration()
         {
-            if (!IsUserAuthenticated())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
@@ -56,7 +51,7 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EmployeeRegistration(tblEmployee employee)
         {
-            if (!IsUserAuthenticated())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
@@ -94,7 +89,7 @@ namespace CloudERP.Controllers
 
         public ActionResult EmployeeSalary()
         {
-            if (!IsUserAuthenticated())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
@@ -114,7 +109,7 @@ namespace CloudERP.Controllers
         {
             Session["SalaryMessage"] = string.Empty;
 
-            if (!IsUserAuthenticated())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
@@ -147,7 +142,7 @@ namespace CloudERP.Controllers
         {
             try
             {
-                if (!IsUserAuthenticated())
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
                 {
                     return RedirectToAction("Login", "Home");
                 }
@@ -197,7 +192,7 @@ namespace CloudERP.Controllers
 
         public ActionResult SalaryHistory()
         {
-            if (!IsUserAuthenticated())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
@@ -214,7 +209,7 @@ namespace CloudERP.Controllers
 
         public ActionResult PrintSalaryInvoice(int id)
         {
-            if (!IsUserAuthenticated())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }

@@ -19,14 +19,14 @@ namespace CloudERP.Controllers
         // GET: Branch
         public ActionResult Index()
         {
-            if (!IsUserLoggedIn())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
 
-            int companyID = GetCompanyID();
-            int branchTypeID = GetBranchTypeID();
-            int branchID = GetBranchID();
+            int companyID = Convert.ToInt32(Session["CompanyID"]);
+            int branchTypeID = Convert.ToInt32(Session["BranchTypeID"]);
+            int branchID = Convert.ToInt32(Session["BranchID"]);
 
             IQueryable<tblBranch> branches;
 
@@ -44,13 +44,13 @@ namespace CloudERP.Controllers
 
         public ActionResult SubBranchs()
         {
-            if (!IsUserLoggedIn())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
 
-            int companyID = GetCompanyID();
-            int branchID = GetBranchID();
+            int companyID = Convert.ToInt32(Session["CompanyID"]);
+            int branchID = Convert.ToInt32(Session["BranchID"]);
 
             var branches = _db.tblBranch.Include(t => t.tblBranchType)
                                         .Where(c => c.CompanyID == companyID && c.BrchID == branchID);
@@ -61,7 +61,7 @@ namespace CloudERP.Controllers
         // GET: Branch/Details/5
         public ActionResult Details(int? id)
         {
-            if (!IsUserLoggedIn())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
@@ -83,12 +83,12 @@ namespace CloudERP.Controllers
         // GET: Branch/Create
         public ActionResult Create()
         {
-            if (!IsUserLoggedIn())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
 
-            int companyID = GetCompanyID();
+            int companyID = Convert.ToInt32(Session["CompanyID"]);
 
             ViewBag.BrchID = new SelectList(_db.tblBranch.Where(c => c.CompanyID == companyID).ToList(), "BranchID", "BranchName");
             ViewBag.BranchTypeID = new SelectList(_db.tblBranchType, "BranchTypeID", "BranchType");
@@ -101,12 +101,12 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(tblBranch tblBranch)
         {
-            if (!IsUserLoggedIn())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
 
-            int companyID = GetCompanyID();
+            int companyID = Convert.ToInt32(Session["CompanyID"]);
             tblBranch.CompanyID = companyID;
 
             if (ModelState.IsValid)
@@ -125,7 +125,7 @@ namespace CloudERP.Controllers
         // GET: Branch/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (!IsUserLoggedIn())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
@@ -141,7 +141,7 @@ namespace CloudERP.Controllers
                 return HttpNotFound();
             }
 
-            int companyID = GetCompanyID();
+            int companyID = Convert.ToInt32(Session["CompanyID"]);
 
             ViewBag.BrchID = new SelectList(_db.tblBranch.Where(c => c.CompanyID == companyID).ToList(), "BranchID", "BranchName", branch.BrchID);
             ViewBag.BranchTypeID = new SelectList(_db.tblBranchType, "BranchTypeID", "BranchType", branch.BranchTypeID);
@@ -154,12 +154,12 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(tblBranch tblBranch)
         {
-            if (!IsUserLoggedIn())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
 
-            int companyID = GetCompanyID();
+            int companyID = Convert.ToInt32(Session["CompanyID"]);
             tblBranch.CompanyID = companyID;
 
             if (ModelState.IsValid)
@@ -178,7 +178,7 @@ namespace CloudERP.Controllers
         // GET: Branch/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (!IsUserLoggedIn())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
@@ -202,7 +202,7 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            if (!IsUserLoggedIn())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
@@ -221,28 +221,6 @@ namespace CloudERP.Controllers
                 _db.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        private bool IsUserLoggedIn()
-        {
-            return !string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"]));
-        }
-
-        private int GetCompanyID()
-        {
-            return Convert.ToInt32(Session["CompanyID"]);
-        }
-
-        private int GetBranchTypeID()
-        {
-            int branchTypeID;
-            int.TryParse(Convert.ToString(Session["BranchTypeID"]), out branchTypeID);
-            return branchTypeID;
-        }
-
-        private int GetBranchID()
-        {
-            return Convert.ToInt32(Session["BrchID"]);
         }
     }
 }

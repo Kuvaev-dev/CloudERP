@@ -17,15 +17,10 @@ namespace CloudERP.Controllers
             _db = db;
         }
 
-        private bool IsUserAuthenticated()
-        {
-            return !string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"]));
-        }
-
         // GET: Company
         public ActionResult Index()
         {
-            if (!IsUserAuthenticated())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
@@ -36,7 +31,7 @@ namespace CloudERP.Controllers
         // GET: Company/Details/5
         public ActionResult Details(int? id)
         {
-            if (!IsUserAuthenticated())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
@@ -59,7 +54,7 @@ namespace CloudERP.Controllers
         // GET: Company/Create
         public ActionResult Create()
         {
-            if (!IsUserAuthenticated())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
@@ -72,7 +67,7 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(tblCompany tblCompany)
         {
-            if (!IsUserAuthenticated())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
@@ -107,7 +102,7 @@ namespace CloudERP.Controllers
         // GET: Company/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (!IsUserAuthenticated())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
@@ -132,7 +127,7 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(tblCompany tblCompany)
         {
-            if (!IsUserAuthenticated())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
@@ -164,7 +159,7 @@ namespace CloudERP.Controllers
         // GET: Company/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (!IsUserAuthenticated())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
@@ -189,7 +184,7 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            if (!IsUserAuthenticated())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }

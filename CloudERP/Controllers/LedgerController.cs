@@ -111,7 +111,7 @@ namespace CloudERP.Controllers
                 }
 
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["SubBranchID"]);
+                int branchID = Convert.ToInt32(Session["BrchID"]);
 
                 var ledger = _ledgersp.GetLedger(companyID, branchID, (int)id);
 

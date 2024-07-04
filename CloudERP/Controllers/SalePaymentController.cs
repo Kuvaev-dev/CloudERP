@@ -222,7 +222,7 @@ namespace CloudERP.Controllers
                 }
 
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = (id != null) ? Convert.ToInt32(id) : Convert.ToInt32(Session["SubBranchID"]);
+                int branchID = (id != null) ? Convert.ToInt32(id) : Convert.ToInt32(Session["BrchID"]);
                 int userID = Convert.ToInt32(Session["UserID"]);
                 var list = _sale.CustomSalesList(companyID, branchID, FromDate, ToDate);
                 

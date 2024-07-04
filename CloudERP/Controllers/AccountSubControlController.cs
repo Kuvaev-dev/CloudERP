@@ -19,7 +19,7 @@ namespace CloudERP.Controllers
         // GET: AccountSubControl
         public ActionResult Index()
         {
-            if (!IsUserLoggedIn())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
@@ -40,7 +40,7 @@ namespace CloudERP.Controllers
         // GET: AccountSubControl/Create
         public ActionResult Create()
         {
-            if (!IsUserLoggedIn())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
@@ -57,7 +57,7 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(tblAccountSubControl tblAccountSubControl)
         {
-            if (!IsUserLoggedIn())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
@@ -105,7 +105,7 @@ namespace CloudERP.Controllers
         // GET: AccountSubControl/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (!IsUserLoggedIn())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
@@ -133,7 +133,7 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(tblAccountSubControl tblAccountSubControl)
         {
-            if (!IsUserLoggedIn())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
@@ -175,11 +175,6 @@ namespace CloudERP.Controllers
 
             ViewBag.AccountControlID = new SelectList(_db.tblAccountControl.Where(a => a.BranchID == branchID && a.CompanyID == companyID), "AccountControlID", "AccountControlName", tblAccountSubControl.AccountControlID);
             return View(tblAccountSubControl);
-        }
-
-        private bool IsUserLoggedIn()
-        {
-            return !string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"]));
         }
 
         protected override void Dispose(bool disposing)

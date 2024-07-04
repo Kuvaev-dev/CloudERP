@@ -16,26 +16,6 @@ namespace CloudERP.Controllers
             _db = db;
         }
 
-        private int GetCompanyID()
-        {
-            return Convert.ToInt32(Session["CompanyID"]);
-        }
-
-        private int GetBranchID()
-        {
-            return Convert.ToInt32(Session["BranchID"]);
-        }
-
-        private int GetUserID()
-        {
-            return Convert.ToInt32(Session["UserID"]);
-        }
-
-        private bool IsUserAuthenticated()
-        {
-            return !string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"]));
-        }
-
         private bool CategoryExists(int companyID, int branchID, string categoryName, int categoryId)
         {
             return _db.tblCategory.Any(c => c.CompanyID == companyID
@@ -47,13 +27,13 @@ namespace CloudERP.Controllers
         // GET: Category
         public ActionResult Index()
         {
-            if (!IsUserAuthenticated())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
 
-            int companyID = GetCompanyID();
-            int branchID = GetBranchID();
+            int companyID = Convert.ToInt32(Session["CompanyID"]);
+            int branchID = Convert.ToInt32(Session["BranchID"]);
 
             var tblCategory = _db.tblCategory.Include(t => t.tblBranch).Include(t => t.tblCompany)
                                              .Include(t => t.tblUser)
@@ -65,7 +45,7 @@ namespace CloudERP.Controllers
         // GET: Category/Create
         public ActionResult Create()
         {
-            if (!IsUserAuthenticated())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
@@ -78,14 +58,14 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(tblCategory tblCategory)
         {
-            if (!IsUserAuthenticated())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
 
-            int companyID = GetCompanyID();
-            int branchID = GetBranchID();
-            int userID = GetUserID();
+            int companyID = Convert.ToInt32(Session["CompanyID"]);
+            int branchID = Convert.ToInt32(Session["BranchID"]);
+            int userID = Convert.ToInt32(Session["UserID"]);
 
             tblCategory.BranchID = branchID;
             tblCategory.CompanyID = companyID;
@@ -111,7 +91,7 @@ namespace CloudERP.Controllers
         // GET: Category/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (!IsUserAuthenticated())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
@@ -136,12 +116,12 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(tblCategory tblCategory)
         {
-            if (!IsUserAuthenticated())
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
 
-            int userID = GetUserID();
+            int userID = Convert.ToInt32(Session["UserID"]);
             tblCategory.UserID = userID;
 
             if (ModelState.IsValid)

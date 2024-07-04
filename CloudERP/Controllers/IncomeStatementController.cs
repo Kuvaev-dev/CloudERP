@@ -110,7 +110,7 @@ namespace CloudERP.Controllers
                 }
 
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["SubBranchID"]);
+                int branchID = Convert.ToInt32(Session["BranchID"]);
 
                 var incomeStatement = _income.GetIncomeStatement(companyID, branchID, (int)id);
                 return View(incomeStatement);

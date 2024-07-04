@@ -134,7 +134,7 @@ namespace CloudERP.Controllers
                 ClearSessionMessages();
 
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = (id != null) ? Convert.ToInt32(id) : Convert.ToInt32(Session["SubBranchID"]);
+                int branchID = (id != null) ? Convert.ToInt32(id) : Convert.ToInt32(Session["BrchID"]);
                 var list = _accounts.GetJournal(companyID, branchID, DateTime.Now, DateTime.Now);
 
                 return View(list);
@@ -189,7 +189,7 @@ namespace CloudERP.Controllers
                 ClearSessionMessages();
 
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["SubBranchID"]);
+                int branchID = Convert.ToInt32(Session["BranchID"]);
 
                 var list = _accounts.GetJournal(companyID, branchID, FromDate, ToDate);
 

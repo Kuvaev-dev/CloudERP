@@ -212,10 +212,10 @@ namespace CloudERP.Controllers
 
                 if (id != null)
                 {
-                    Session["SubBranchID"] = id;
+                    Session["BrchID"] = id;
                 }
 
-                branchID = Convert.ToInt32(Session["SubBranchID"]);
+                branchID = Convert.ToInt32(Session["BrchID"]);
                 var list = _purchase.CustomPurchasesList(companyID, branchID, FromDate, ToDate);
                 
                 return View(list.ToList());
