@@ -33,7 +33,8 @@ namespace CloudERP.Controllers
                     return View("Error");
                 }
 
-                byte[] salt;
+                string salt;
+                var hashedPassword = PasswordHelper.HashPassword(employee.ContactNo, out salt);
 
                 var user = new tblUser
                 {
@@ -41,13 +42,13 @@ namespace CloudERP.Controllers
                     ContactNo = employee.ContactNo,
                     FullName = employee.Name,
                     IsActive = true,
-                    Password = PasswordHelper.HashPassword(employee.ContactNo, out salt),
-                    Salt = Convert.ToBase64String(salt),
+                    Password = hashedPassword,
+                    Salt = salt,
                     UserName = employee.Email
                 };
 
                 ViewBag.UserTypeID = new SelectList(_db.tblUserType.ToList(), "UserTypeID", "UserType");
-                
+
                 return View(user);
             }
             catch (Exception ex)

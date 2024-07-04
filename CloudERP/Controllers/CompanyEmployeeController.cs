@@ -3,6 +3,7 @@ using CloudERP.Models;
 using DatabaseAccess;
 using DatabaseAccess.Code;
 using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -47,7 +48,7 @@ namespace CloudERP.Controllers
 
             int companyID = Convert.ToInt32(Session["CompanyID"]);
             ViewBag.BranchID = new SelectList(_db.tblBranch.Where(b => b.CompanyID == companyID), "BranchID", "BranchName", 0);
-            
+
             return View();
         }
 
@@ -61,13 +62,15 @@ namespace CloudERP.Controllers
             }
 
             employee.CompanyID = Convert.ToInt32(Session["CompanyID"]);
-            employee.UserID = null;
+            employee.UserID = null; // Associate with existing or new user
 
             if (ModelState.IsValid)
             {
+                // Save employee details
                 _db.tblEmployee.Add(employee);
                 _db.SaveChanges();
 
+                // Handle employee photo upload
                 if (employee.LogoFile != null)
                 {
                     var folder = "~/Content/EmployeePhoto";
@@ -77,7 +80,7 @@ namespace CloudERP.Controllers
                     if (response)
                     {
                         employee.Photo = $"{folder}/{file}";
-                        _db.Entry(employee).State = System.Data.Entity.EntityState.Modified;
+                        _db.Entry(employee).State = EntityState.Modified;
                         _db.SaveChanges();
                     }
                 }

@@ -10,6 +10,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Web.Helpers;
 
 namespace CloudERP.Controllers
 {
@@ -69,9 +70,7 @@ namespace CloudERP.Controllers
                 var user = _db.tblUser.SingleOrDefault(u => u.Email == email);
                 if (user != null)
                 {
-                    byte[] saltBytes = Convert.FromBase64String(user.Salt);
-
-                    if (PasswordHelper.VerifyPassword(password, user.Password, saltBytes))
+                    if (PasswordHelper.VerifyPassword(password, user.Password, user.Salt))
                     {
                         FormsAuthentication.SetAuthCookie(user.Email, false);
 
@@ -101,8 +100,8 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "Error logging in: " + ex.Message;
-                return View("Error");
+                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
         }
 
@@ -145,12 +144,15 @@ namespace CloudERP.Controllers
             return Redirect(Request.UrlReferrer.ToString());
         }
 
+        // GET: ForgotPassword
         public ActionResult ForgotPassword()
         {
             return View();
         }
 
+        // POST: ForgotPassword
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult ForgotPassword(string email)
         {
             try
@@ -199,7 +201,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                ViewBag.ErrorMessage = "Произошла непредвиденная ошибка: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -219,6 +221,7 @@ namespace CloudERP.Controllers
             var response = client.SendEmailAsync(msg).Result;
         }
 
+        // GET: ResetPassword
         public ActionResult ResetPassword(string id)
         {
             try
@@ -235,12 +238,14 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An error occurred while processing your request. Please try again later.";
+                ViewBag.ErrorMessage = "Произошла ошибка при обработке вашего запроса. Пожалуйста, попробуйте снова позже.";
                 return View("ResetPasswordLinkExpired");
             }
         }
 
+        // POST: ResetPassword
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult ResetPassword(string id, string newPassword, string confirmPassword)
         {
             try
@@ -254,24 +259,24 @@ namespace CloudERP.Controllers
                 var user = _db.tblUser.FirstOrDefault(u => u.ResetPasswordCode == id && u.ResetPasswordExpiration > DateTime.Now);
                 if (user != null)
                 {
-                    byte[] salt;
-                    user.Password = PasswordHelper.HashPassword(newPassword, out salt);
-                    user.Salt = Convert.ToBase64String(salt);
-
+                    user.Password = PasswordHelper.HashPassword(newPassword, out string salt);
+                    user.Salt = salt;
                     user.ResetPasswordCode = null;
                     user.ResetPasswordExpiration = null;
+                    user.LastPasswordResetRequest = null;
 
                     try
                     {
                         _db.Entry(user).State = EntityState.Modified;
                         _db.SaveChanges();
-                        return View("ResetPasswordSuccess");
                     }
                     catch (Exception ex)
                     {
                         ModelState.AddModelError("", "Произошла ошибка при сохранении в базу данных. Пожалуйста, попробуйте еще раз.");
                         return View();
                     }
+
+                    return View("ResetPasswordSuccess");
                 }
                 else
                 {
@@ -280,7 +285,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An error occurred while processing your request. Please try again later.";
+                ViewBag.ErrorMessage = "Произошла ошибка при обработке вашего запроса. Пожалуйста, попробуйте снова позже.";
                 return View("ResetPasswordLinkExpired");
             }
         }

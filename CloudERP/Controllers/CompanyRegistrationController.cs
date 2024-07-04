@@ -43,7 +43,7 @@ namespace CloudERP.Controllers
                     var company = new tblCompany()
                     {
                         Name = model.CompanyName,
-                        Logo = string.Empty // Placeholder for logo
+                        Logo = string.Empty
                     };
                     _db.tblCompany.Add(company);
                     _db.SaveChanges();
@@ -53,12 +53,15 @@ namespace CloudERP.Controllers
                         BranchAddress = model.BranchAddress,
                         BranchContact = model.BranchContact,
                         BranchName = model.BranchName,
-                        BranchTypeID = 1, // Assuming BranchTypeID is predefined
+                        BranchTypeID = 1,
                         CompanyID = company.CompanyID,
-                        BrchID = null // Assuming BrchID is nullable
+                        BrchID = null
                     };
                     _db.tblBranch.Add(branch);
                     _db.SaveChanges();
+
+                    string salt;
+                    string hashedPassword = PasswordHelper.HashPassword(model.Password, out salt);
 
                     var user = new tblUser()
                     {
@@ -66,10 +69,10 @@ namespace CloudERP.Controllers
                         Email = model.EmployeeEmail,
                         FullName = model.EmployeeName,
                         IsActive = true,
-                        Password = PasswordHelper.HashPassword(model.Password, out byte[] salt),
-                        Salt = Convert.ToBase64String(salt),
+                        Password = hashedPassword,
+                        Salt = salt,
                         UserName = model.UserName,
-                        UserTypeID = 2 // Assuming UserTypeID is predefined
+                        UserTypeID = 2
                     };
                     _db.tblUser.Add(user);
                     _db.SaveChanges();

@@ -24,14 +24,6 @@
                             <label for="userName">@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.UserName)) *</label>
                             <input class="form-control required" id="UserName" name="UserName" type="text">
                         </div>
-                        <div class="col-md-4">
-                            <label for="password">@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.Password)) *</label>
-                            <input class="form-control required" id="Password" name="Password" type="password">
-                        </div>
-                        <div class="col-md-4">
-                            <label for="confirm">@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.ConfirmPassword)) *</label>
-                            <input class="form-control required" id="CPassword" name="CPassword" type="password">
-                        </div>
                     </div>
                     <p>(*) @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.Mandatory))</p>
                 </fieldset>
