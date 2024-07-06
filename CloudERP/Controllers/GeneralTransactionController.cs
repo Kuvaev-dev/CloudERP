@@ -30,8 +30,6 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                ClearSessionMessages();
-
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = Convert.ToInt32(Session["BranchID"]);
                 int userID = Convert.ToInt32(Session["UserID"]);
@@ -55,8 +53,6 @@ namespace CloudERP.Controllers
         {
             try
             {
-                ClearSessionMessages();
-
                 if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
                 {
                     return RedirectToAction("Login", "Home");
@@ -104,8 +100,6 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                ClearSessionMessages();
-
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = Convert.ToInt32(Session["BranchID"]);
                 int userID = Convert.ToInt32(Session["UserID"]);
@@ -131,8 +125,6 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                ClearSessionMessages();
-
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = (id != null) ? Convert.ToInt32(id) : Convert.ToInt32(Session["BrchID"]);
                 var list = _accounts.GetJournal(companyID, branchID, DateTime.Now, DateTime.Now);
@@ -157,8 +149,6 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
-
-                ClearSessionMessages();
 
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = Convert.ToInt32(Session["BranchID"]);
@@ -186,8 +176,6 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                ClearSessionMessages();
-
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = Convert.ToInt32(Session["BranchID"]);
 
@@ -199,15 +187,6 @@ namespace CloudERP.Controllers
             {
                 ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
-            }
-        }
-
-        // Helper method to clear session messages
-        private void ClearSessionMessages()
-        {
-            if (Session["GNMessage"] != null)
-            {
-                Session["GNMessage"] = string.Empty;
             }
         }
 

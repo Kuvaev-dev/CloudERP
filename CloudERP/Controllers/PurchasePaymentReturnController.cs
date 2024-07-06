@@ -3,15 +3,17 @@ using DatabaseAccess.Code;
 using DatabaseAccess.Code.SP_Code;
 using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Web.Mvc;
 
+[assembly: InternalsVisibleTo("CloudERP.Tests")]
 namespace CloudERP.Controllers
 {
     public class PurchasePaymentReturnController : Controller
     {
         private readonly CloudDBEntities _db;
-        private readonly SP_Purchase _purchase;
-        private readonly PurchaseEntry _purchaseEntry;
+        internal SP_Purchase _purchase;
+        internal PurchaseEntry _purchaseEntry;
 
         public PurchasePaymentReturnController(CloudDBEntities db)
         {

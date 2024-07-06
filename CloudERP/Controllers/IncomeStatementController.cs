@@ -80,7 +80,7 @@ namespace CloudERP.Controllers
                 }
 
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(brchid); // Assuming brchid is a string representation of branch ID
+                int branchID = Convert.ToInt32(brchid);
 
                 var FinancialYear = _db.tblFinancialYear.FirstOrDefault(f => f.IsActive);
                 if (FinancialYear == null)
