@@ -38,6 +38,7 @@ namespace CloudERP.Controllers
                 }
 
                 var incomeStatement = _income.GetIncomeStatement(companyID, branchID, FinancialYear.FinancialYearID);
+                
                 return View(incomeStatement);
             }
             catch (Exception ex)
@@ -61,6 +62,7 @@ namespace CloudERP.Controllers
                 int branchID = Convert.ToInt32(Session["BranchID"]);
 
                 var incomeStatement = _income.GetIncomeStatement(companyID, branchID, (int)id);
+                
                 return View(incomeStatement);
             }
             catch (Exception ex)
@@ -90,6 +92,7 @@ namespace CloudERP.Controllers
                 }
 
                 var incomeStatement = _income.GetIncomeStatement(companyID, branchID, FinancialYear.FinancialYearID);
+                
                 return View(incomeStatement);
             }
             catch (Exception ex)
@@ -113,6 +116,7 @@ namespace CloudERP.Controllers
                 int branchID = Convert.ToInt32(Session["BranchID"]);
 
                 var incomeStatement = _income.GetIncomeStatement(companyID, branchID, (int)id);
+                
                 return View(incomeStatement);
             }
             catch (Exception ex)

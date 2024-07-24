@@ -84,6 +84,7 @@ namespace CloudERP.Controllers
             }
 
             ViewBag.BranchID = new SelectList(_db.tblBranch.Where(b => b.CompanyID == employee.CompanyID), "BranchID", "BranchName", employee.BranchID);
+            
             return View(employee);
         }
 
@@ -94,7 +95,6 @@ namespace CloudERP.Controllers
                 return RedirectToAction("Login", "Home");
             }
 
-            int companyID = Convert.ToInt32(Session["CompanyID"]);
             var salary = new SalaryMV
             {
                 SalaryMonth = DateTime.Now.AddMonths(-1).ToString("MMMM"),
@@ -215,6 +215,7 @@ namespace CloudERP.Controllers
             }
 
             var salary = _db.tblPayroll.FirstOrDefault(p => p.PayrollID == id);
+            
             return View(salary);
         }
     }

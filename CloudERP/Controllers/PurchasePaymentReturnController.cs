@@ -144,7 +144,7 @@ namespace CloudERP.Controllers
                     paymentAmount, Convert.ToString(supplier.SupplierID), supplier.SupplierName, previousRemainingAmount - paymentAmount);
                 Session["Message"] = message;
                 
-                return RedirectToAction("PurchasePaymentReturn", new { id = id });
+                return RedirectToAction("PurchasePaymentReturn", new { id });
             }
             catch (Exception ex)
             {

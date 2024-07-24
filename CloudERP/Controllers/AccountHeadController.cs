@@ -193,6 +193,7 @@ namespace CloudERP.Controllers
                 ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
+
             return RedirectToAction("Index");
         }
 

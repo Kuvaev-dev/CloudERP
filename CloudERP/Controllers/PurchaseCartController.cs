@@ -39,7 +39,7 @@ namespace CloudERP.Controllers
 
                 return View(findDetail);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ViewBag.ErrorMessage = "An error occurred while fetching the purchase details. Please try again later.";
                 return View(new List<tblPurchaseCartDetail>());
@@ -88,7 +88,7 @@ namespace CloudERP.Controllers
 
                 return RedirectToAction("NewPurchase");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ViewBag.ErrorMessage = "An error occurred while adding the item to the purchase cart. Please try again later.";
                 return RedirectToAction("NewPurchase");
@@ -150,7 +150,7 @@ namespace CloudERP.Controllers
                 
                 return View(find);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ViewBag.ErrorMessage = "An error occurred while deleting the item from the purchase cart. Please try again later.";
                 return RedirectToAction("NewPurchase");
@@ -196,7 +196,7 @@ namespace CloudERP.Controllers
 
                 return RedirectToAction("NewPurchase");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ViewBag.ErrorMessage = "An error occurred while canceling the purchase. Please try again later.";
                 return RedirectToAction("NewPurchase");
@@ -229,7 +229,7 @@ namespace CloudERP.Controllers
                 
                 return View(suppliers);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ViewBag.ErrorMessage = "An error occurred while selecting the supplier. Please try again later.";
                 return RedirectToAction("NewPurchase");
@@ -343,7 +343,7 @@ namespace CloudERP.Controllers
                 
                 return RedirectToAction("NewPurchase");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ViewBag.ErrorMessage = "An error occurred while confirming the purchase. Please try again later.";
                 return RedirectToAction("NewPurchase");

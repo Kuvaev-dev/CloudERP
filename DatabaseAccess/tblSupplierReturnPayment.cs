@@ -56,10 +56,10 @@ namespace DatabaseAccess
         public Nullable<System.DateTime> InvoiceDate { get; set; }
 
         public virtual tblBranch tblBranch { get; set; }
-        public virtual tblCompany tblCompany { get; set; }
         public virtual tblSupplier tblSupplier { get; set; }
         public virtual tblSupplierInvoice tblSupplierInvoice { get; set; }
         public virtual tblSupplierReturnInvoice tblSupplierReturnInvoice { get; set; }
         public virtual tblUser tblUser { get; set; }
+        public virtual tblCompany tblCompany { get; set; }
     }
 }

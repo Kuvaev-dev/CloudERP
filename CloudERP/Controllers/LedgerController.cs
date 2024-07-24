@@ -37,6 +37,7 @@ namespace CloudERP.Controllers
                 }
 
                 var ledger = _ledgersp.GetLedger(companyID, branchID, FinancialYear.FinancialYearID);
+                
                 return View(ledger);
             }
             catch (Exception ex)

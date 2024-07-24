@@ -7,7 +7,7 @@ namespace CloudERP.Helpers
 {
     public class MockHelper
     {
-        private Mock<HttpSessionStateBase> _mockSession;
+        private readonly Mock<HttpSessionStateBase> _mockSession;
 
         public void SetMockSessionValue(string key, object value)
         {

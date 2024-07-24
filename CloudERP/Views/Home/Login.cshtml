@@ -34,10 +34,10 @@
                 </div>
                 <div class="card-body">
                     <p class="text-center py-2">SIGN IN TO CONTINUE.</p>
-                    @using (Html.BeginForm("LoginUser", "Home", FormMethod.Post, new { @class = "mb-3", id = "loginForm" }))
+                    @using (Html.BeginForm("LoginUser", "Home", FormMethod.Post, new { id = "loginForm" }))
                     {
                         @Html.AntiForgeryToken()
-
+                        <p class="text-danger">@ViewBag.ErrorMessage</p>
                         <p class="text-danger">@ViewBag.Message</p>
                         <div class="form-group">
                             <div class="input-group with-focus">

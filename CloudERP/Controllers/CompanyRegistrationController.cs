@@ -60,8 +60,7 @@ namespace CloudERP.Controllers
                     _db.tblBranch.Add(branch);
                     _db.SaveChanges();
 
-                    string salt;
-                    string hashedPassword = PasswordHelper.HashPassword(model.Password, out salt);
+                    string hashedPassword = PasswordHelper.HashPassword(model.Password, out string salt);
 
                     var user = new tblUser()
                     {

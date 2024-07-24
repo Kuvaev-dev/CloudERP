@@ -34,7 +34,7 @@ namespace CloudERP.Controllers
                 
                 return View(tblCustomer.ToList());
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ViewBag.ErrorMessage = "An error occurred while processing your request.";
                 return View("Error");

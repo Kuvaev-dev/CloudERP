@@ -6,7 +6,7 @@ namespace DatabaseAccess.Code
 {
     public class SalaryTransaction
     {
-        private CloudDBEntities _db;
+        private readonly CloudDBEntities _db;
         private DataTable _dtEntries = null;
 
         public SalaryTransaction(CloudDBEntities db)
@@ -36,7 +36,7 @@ namespace DatabaseAccess.Code
                 {
                     employeename = ", To " + employee.Name;
                 }
-                transectiontitle = transectiontitle + employee.Name;
+                transectiontitle += employee.Name;
 
                 var financialYearCheck = DatabaseQuery.Retrive("select top 1 FinancialYearID from tblFinancialYear where IsActive = 1");
                 string FinancialYearID = (financialYearCheck != null ? Convert.ToString(financialYearCheck.Rows[0][0]) : string.Empty);
@@ -93,7 +93,7 @@ namespace DatabaseAccess.Code
 
                 return "Salary Succeed";
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return "Unexpected Error is Occured. Please Try Again!";
             }
@@ -126,9 +126,7 @@ namespace DatabaseAccess.Code
                 _dtEntries.Columns.Add("TransectionTitle");
             }
 
-            if (_dtEntries != null)
-            {
-                _dtEntries.Rows.Add(
+            _dtEntries?.Rows.Add(
                 FinancialYearID,
                 AccountHeadID,
                 AccountControlID,
@@ -139,7 +137,6 @@ namespace DatabaseAccess.Code
                 Debit,
                 TransactionDate.ToString("yyyy/MM/dd HH:mm"),
                 TransectionTitle);
-            }
         }
     }
 }

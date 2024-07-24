@@ -75,10 +75,8 @@ namespace DatabaseAccess
         [Required(ErrorMessage = "Is Active is required.")]
         public Nullable<bool> IsActive { get; set; }
 
-
         public virtual tblBranch tblBranch { get; set; }
         public virtual tblCategory tblCategory { get; set; }
-        public virtual tblCompany tblCompany { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblCustomerInvoiceDetail> tblCustomerInvoiceDetail { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -92,5 +90,6 @@ namespace DatabaseAccess
         public virtual ICollection<tblSupplierInvoiceDetail> tblSupplierInvoiceDetail { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblSupplierReturnInvoiceDetail> tblSupplierReturnInvoiceDetail { get; set; }
+        public virtual tblCompany tblCompany { get; set; }
     }
 }

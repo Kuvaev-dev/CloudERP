@@ -56,7 +56,6 @@ namespace DatabaseAccess
         public int UserID { get; set; }
 
         public virtual tblBranch tblBranch { get; set; }
-        public virtual tblCompany tblCompany { get; set; }
         public virtual tblSupplier tblSupplier { get; set; }
         public virtual tblSupplierInvoice tblSupplierInvoice { get; set; }
         public virtual tblUser tblUser { get; set; }
@@ -64,5 +63,6 @@ namespace DatabaseAccess
         public virtual ICollection<tblSupplierReturnInvoiceDetail> tblSupplierReturnInvoiceDetail { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblSupplierReturnPayment> tblSupplierReturnPayment { get; set; }
+        public virtual tblCompany tblCompany { get; set; }
     }
 }

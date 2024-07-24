@@ -59,8 +59,6 @@ namespace CloudERP.Tests
         public void GetTrialBalance_WithInvalidFinancialYearId_RedirectsToEP500()
         {
             // Arrange
-            int branchID = 1;
-            int companyID = 1;
             int financialYearID = 0; // Invalid financial year ID
             var expectedErrorMessage = "An unexpected error occurred while making changes: Financial year ID is invalid.";
 

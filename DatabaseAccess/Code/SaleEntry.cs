@@ -6,7 +6,7 @@ namespace DatabaseAccess.Code
 {
     public class SaleEntry
     {
-        private CloudDBEntities _db;
+        private readonly CloudDBEntities _db;
         public string selectcustomerid = string.Empty;
         private DataTable _dtEntries = null;
 
@@ -106,7 +106,7 @@ namespace DatabaseAccess.Code
 
                 return successmessage;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return "Unexpected Error is Occured. Please Try Again!";
             }
@@ -180,7 +180,7 @@ namespace DatabaseAccess.Code
 
                 return "Paid Successfully";
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return "Unexpected Error is Occured. Please Try Again!";
             }
@@ -279,7 +279,7 @@ namespace DatabaseAccess.Code
 
                 return successmessage;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return "Unexpected Error is Occured. Please Try Again!";
             }
@@ -353,7 +353,7 @@ namespace DatabaseAccess.Code
 
                 return "Paid Successfully";
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return "Unexpected Error is Occured. Please Try Again!";
             }
@@ -387,9 +387,7 @@ namespace DatabaseAccess.Code
                 _dtEntries.Columns.Add("TransectionTitle");
             }
 
-            if (_dtEntries != null)
-            {
-                _dtEntries.Rows.Add(
+            _dtEntries?.Rows.Add(
                 FinancialYearID,
                 AccountHeadID,
                 AccountControlID,
@@ -400,7 +398,6 @@ namespace DatabaseAccess.Code
                 Debit,
                 TransactionDate.ToString("yyyy/MM/dd HH:mm"),
                 TransectionTitle);
-            }
         }
     }
 }

@@ -23,7 +23,7 @@ namespace DatabaseAccess
             this.tblTransaction = new HashSet<tblTransaction>();
             this.tblTransaction1 = new HashSet<tblTransaction>();
         }
-    
+
         public int AccountHeadID { get; set; }
         [Required(ErrorMessage = "Account Head Name is required.")]
         [StringLength(100, ErrorMessage = "Account Head Name cannot be longer than 100 characters.")]
@@ -32,7 +32,7 @@ namespace DatabaseAccess
         [Range(1, int.MaxValue, ErrorMessage = "Code must be a positive integer.")]
         public int Code { get; set; }
         public int UserID { get; set; }
-    
+
         public virtual tblUser tblUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblAccountSetting> tblAccountSetting { get; set; }

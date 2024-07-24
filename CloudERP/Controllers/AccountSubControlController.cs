@@ -49,6 +49,7 @@ namespace CloudERP.Controllers
             int branchID = Convert.ToInt32(Session["BranchID"]);
 
             ViewBag.AccountControlID = new SelectList(_db.tblAccountControl.Where(a => a.BranchID == branchID && a.CompanyID == companyID), "AccountControlID", "AccountControlName", "0");
+            
             return View(new tblAccountSubControl());
         }
 
@@ -99,6 +100,7 @@ namespace CloudERP.Controllers
             }
 
             ViewBag.AccountControlID = new SelectList(_db.tblAccountControl.Where(a => a.BranchID == branchID && a.CompanyID == companyID), "AccountControlID", "AccountControlName", tblAccountSubControl.AccountControlID);
+            
             return View(tblAccountSubControl);
         }
 
@@ -125,6 +127,7 @@ namespace CloudERP.Controllers
             int branchID = Convert.ToInt32(Session["BranchID"]);
 
             ViewBag.AccountControlID = new SelectList(_db.tblAccountControl.Where(a => a.BranchID == branchID && a.CompanyID == companyID), "AccountControlID", "AccountControlName", tblAccountSubControl.AccountControlID);
+            
             return View(tblAccountSubControl);
         }
 
@@ -174,6 +177,7 @@ namespace CloudERP.Controllers
             }
 
             ViewBag.AccountControlID = new SelectList(_db.tblAccountControl.Where(a => a.BranchID == branchID && a.CompanyID == companyID), "AccountControlID", "AccountControlName", tblAccountSubControl.AccountControlID);
+            
             return View(tblAccountSubControl);
         }
 
