@@ -58,6 +58,10 @@ namespace CloudERP.Controllers
             {
                 ViewBag.RememberedEmail = rememberMeCookie["Email"];
             }
+            else
+            {
+                ViewBag.RememberedEmail = string.Empty;
+            }
             return View();
         }
 
@@ -76,31 +80,65 @@ namespace CloudERP.Controllers
 
                         if (rememberMe.HasValue && rememberMe.Value)
                         {
-                            HttpCookie cookie = new HttpCookie("RememberMe");
-                            cookie.Values["Email"] = email;
-                            cookie.Expires = DateTime.Now.AddDays(30);
+                            HttpCookie cookie = new HttpCookie("RememberMe")
+                            {
+                                Values = { ["Email"] = email },
+                                Expires = DateTime.Now.AddDays(30),
+                                HttpOnly = true
+                            };
                             Response.Cookies.Add(cookie);
                         }
                         else
                         {
-                            if (Request.Cookies["RememberMe"] != null)
+                            HttpCookie cookie = new HttpCookie("RememberMe")
                             {
-                                HttpCookie cookie = new HttpCookie("RememberMe")
-                                {
-                                    Expires = DateTime.Now.AddDays(-1)
-                                };
-                                Response.Cookies.Add(cookie);
-                            }
+                                Expires = DateTime.Now.AddDays(-1)
+                            };
+                            Response.Cookies.Add(cookie);
                         }
 
                         Session["UserID"] = user.UserID;
+                        Session["UserTypeID"] = user.UserTypeID;
                         Session["FullName"] = user.FullName;
                         Session["Email"] = user.Email;
                         Session["ContactNo"] = user.ContactNo;
                         Session["UserName"] = user.UserName;
+                        Session["Password"] = user.Password;
+                        Session["Salt"] = user.Salt;
                         Session["IsActive"] = user.IsActive;
 
-                        return RedirectToAction("Index", "Home");
+                        var employee = _db.tblEmployee.Where(e => e.UserID == user.UserID).FirstOrDefault();
+                        if (employee == null)
+                        {
+                            ClearSession();
+                            return RedirectToAction("Login", "Home");
+                        }
+
+                        Session["EName"] = employee.Name;
+                        Session["EPhoto"] = employee.Photo;
+                        Session["Designation"] = employee.Designation;
+                        Session["BranchID"] = employee.BranchID;
+                        Session["BranchTypeID"] = employee.tblBranch.BranchTypeID;
+                        Session["CompanyID"] = employee.CompanyID;
+
+                        var company = _db.tblCompany.Where(c => c.CompanyID == employee.CompanyID).FirstOrDefault();
+                        if (company == null)
+                        {
+                            ClearSession();
+                            return RedirectToAction("Login", "Home");
+                        }
+
+                        Session["CName"] = company.Name;
+                        Session["CLogo"] = company.Logo;
+
+                        if (user.UserTypeID == 1)
+                        {
+                            return RedirectToAction("AdminMenuGuide", "Guide");
+                        }
+                        else if (user.UserTypeID == 2)
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
                     }
                 }
 
@@ -110,13 +148,14 @@ namespace CloudERP.Controllers
             catch (Exception ex)
             {
                 ViewBag.ErrorMessage = "An unexpected error occurred: " + ex.Message;
-                return RedirectToAction("EP500", "EP");
+                return View("Login");
             }
         }
 
         private void ClearSession()
         {
             Session.Clear();
+            Session.Abandon();
         }
 
         public ActionResult Logout()

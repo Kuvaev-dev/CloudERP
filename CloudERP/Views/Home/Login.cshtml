@@ -60,7 +60,7 @@
                         <div class="clearfix">
                             <div class="checkbox c-checkbox float-left mt-0">
                                 <label>
-                                    <input type="checkbox" name="rememberMe">
+                                    <input type="checkbox" name="rememberMe" @(Request.Cookies["RememberMe"] != null ? "checked" : "")>
                                     <span class="fa fa-check"></span>Remember Me
                                 </label>
                             </div>

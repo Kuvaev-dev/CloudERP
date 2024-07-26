@@ -126,7 +126,7 @@
     <comment>Sidebar Option Menu String</comment>
   </data>
   <data name="AccountHeads" xml:space="preserve">
-    <value>Головне налаштування</value>
+    <value>Головне&lt;br/&gt;налаштування</value>
     <comment>Sidebar Option Menu String</comment>
   </data>
   <data name="AccountSettings" xml:space="preserve">
@@ -134,7 +134,7 @@
     <comment>Sidebar Option String</comment>
   </data>
   <data name="AccountSubControls" xml:space="preserve">
-    <value>Підконтроль аккаунтів</value>
+    <value>Підконтроль&lt;br/&gt;аккаунтів</value>
     <comment>Sidebar Option Menu String</comment>
   </data>
   <data name="AdminGuide" xml:space="preserve">

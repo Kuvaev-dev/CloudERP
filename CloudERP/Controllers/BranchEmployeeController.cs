@@ -8,7 +8,6 @@ using System.Web.Mvc;
 
 namespace CloudERP.Controllers
 {
-    [Authorize]
     public class BranchEmployeeController : Controller
     {
         private readonly CloudDBEntities _db;

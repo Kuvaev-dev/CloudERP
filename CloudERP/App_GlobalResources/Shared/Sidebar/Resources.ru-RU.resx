@@ -134,7 +134,7 @@
     <comment>Sidebar Option String</comment>
   </data>
   <data name="AccountSubControls" xml:space="preserve">
-    <value>Подконтроль аккаунта</value>
+    <value>Подконтроль&lt;br/&gt;аккаунта</value>
     <comment>Sidebar Option Menu String</comment>
   </data>
   <data name="AdminGuide" xml:space="preserve">
@@ -154,7 +154,7 @@
     <comment>Sidebar Option String</comment>
   </data>
   <data name="CompanyRegistration" xml:space="preserve">
-    <value>Регистрация компании</value>
+    <value>Регистрация&lt;br/&gt;компании</value>
     <comment>Sidebar Option Menu String</comment>
   </data>
   <data name="Customers" xml:space="preserve">

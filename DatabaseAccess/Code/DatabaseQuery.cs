@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -12,8 +13,8 @@ namespace DatabaseAccess.Code
         {
             if (conn == null)
             {
-                var costring = ConfigurationManager.ConnectionStrings["CloudDBEntities"].ConnectionString;
-                conn = new SqlConnection(costring);
+                var connectionStringSetting = "data source=localhost\\sqlexpress;initial catalog=CloudErpV1;integrated security=True;";
+                conn = new SqlConnection(connectionStringSetting);
             }
 
             if (conn.State != System.Data.ConnectionState.Open)
