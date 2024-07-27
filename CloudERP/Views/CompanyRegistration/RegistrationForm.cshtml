@@ -5,7 +5,7 @@
 <div class="card card-default col-md-12">
     <div class="card-header">
         @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.Registration))
-        @ViewBag.Message
+        <p class="text-danger">@ViewBag.Message</p>
     </div>
     <div class="card-body">
         @using (Html.BeginForm("RegistrationForm", "CompanyRegistration", FormMethod.Post, new { @id = "example-form" }))

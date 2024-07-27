@@ -88,7 +88,7 @@ namespace CloudERP.Controllers
                         MonthlySalary = model.EmployeeMonthlySalary,
                         UserID = user.UserID,
                         Name = model.EmployeeName,
-                        Description = string.Empty // Placeholder for description
+                        Description = string.Empty
                     };
                     _db.tblEmployee.Add(employee);
                     _db.SaveChanges();

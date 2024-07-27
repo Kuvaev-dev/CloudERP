@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -74,26 +75,40 @@ namespace CloudERP.Controllers
 
             if (ModelState.IsValid)
             {
-                _db.tblCompany.Add(tblCompany);
-                _db.SaveChanges();
-
-                if (tblCompany.LogoFile != null)
+                try
                 {
-                    var folder = "~/Content/CompanyLogo";
-                    var file = string.Format("{0}.jpg", tblCompany.CompanyID);
-                    var response = FileHelper.UploadPhoto(tblCompany.LogoFile, folder, file);
-
-                    if (response)
+                    if (tblCompany.LogoFile != null)
                     {
-                        var picture = string.Format("{0}/{1}", folder, file);
-                        tblCompany.Logo = picture;
+                        var folder = "~/Content/CompanyLogo";
+                        var file = string.Format("{0}.jpg", tblCompany.CompanyID);
+                        var response = FileHelper.UploadPhoto(tblCompany.LogoFile, folder, file);
+
+                        if (response)
+                        {
+                            var picture = string.Format("{0}/{1}", folder, file);
+                            tblCompany.Logo = picture;
+                        }
                     }
+
+                    _db.tblCompany.Add(tblCompany);
+                    _db.SaveChanges();
+
+                    return RedirectToAction("Index");
                 }
-
-                _db.Entry(tblCompany).State = EntityState.Modified;
-                _db.SaveChanges();
-
-                return RedirectToAction("Index");
+                catch (DbEntityValidationException e)
+                {
+                    foreach (var eve in e.EntityValidationErrors)
+                    {
+                        Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                            eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                ve.PropertyName, ve.ErrorMessage);
+                        }
+                    }
+                    throw;
+                }
             }
 
             return View(tblCompany);

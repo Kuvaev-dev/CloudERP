@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using CloudERP.Helpers;
 using DatabaseAccess;
 
 namespace CloudERP.Controllers
@@ -210,7 +211,7 @@ namespace CloudERP.Controllers
                 }
 
                 ViewBag.UserTypeID = new SelectList(_db.tblUserType, "UserTypeID", "UserType", tblUser.UserTypeID);
-                
+                tblUser.Password = string.Empty;
                 return View(tblUser);
             }
             catch (Exception ex)
@@ -236,22 +237,37 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    _db.Entry(tblUser).State = EntityState.Modified;
-                    _db.SaveChanges();
-
-                    int companyID = Convert.ToInt32(Session["CompanyID"]);
-                    if (companyID == 0)
+                    var currentUser = _db.tblUser.Find(tblUser.UserID);
+                    if (currentUser == null)
                     {
-                        return RedirectToAction("Index");
+                        return HttpNotFound();
+                    }
+
+                    if (!string.IsNullOrEmpty(tblUser.Password))
+                    {
+                        tblUser.Password = PasswordHelper.HashPassword(tblUser.Password, out string salt);
+                        tblUser.Salt = salt;
                     }
                     else
                     {
-                        return RedirectToAction("SubBranchUser");
+                        tblUser.Password = currentUser.Password;
+                        tblUser.Salt = currentUser.Salt;
                     }
+
+                    currentUser.FullName = tblUser.FullName;
+                    currentUser.Email = tblUser.Email;
+                    currentUser.ContactNo = tblUser.ContactNo;
+                    currentUser.UserName = tblUser.UserName;
+                    currentUser.UserTypeID = tblUser.UserTypeID;
+                    currentUser.IsActive = tblUser.IsActive;
+
+                    _db.Entry(currentUser).State = EntityState.Modified;
+                    _db.SaveChanges();
+
+                    return RedirectToAction("Index");
                 }
-                
+
                 ViewBag.UserTypeID = new SelectList(_db.tblUserType, "UserTypeID", "UserType", tblUser.UserTypeID);
-                
                 return View(tblUser);
             }
             catch (Exception ex)
