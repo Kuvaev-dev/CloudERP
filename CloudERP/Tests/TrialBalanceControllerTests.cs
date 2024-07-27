@@ -73,29 +73,6 @@ namespace CloudERP.Tests
             Assert.That(errorMessage, Is.EqualTo(expectedErrorMessage));
         }
 
-        [Test]
-        public void GetFinancialYear_ReturnsJsonResultWithFinancialYears()
-        {
-            // Arrange
-            var financialYears = new List<tblFinancialYear>
-            {
-                new tblFinancialYear { FinancialYearID = 1, FinancialYear = "2023-2024" },
-                new tblFinancialYear { FinancialYearID = 2, FinancialYear = "2024-2025" }
-            };
-
-            _mockDb.Setup(db => db.tblFinancialYear.ToList()).Returns(financialYears);
-
-            // Act
-            var result = _controller.GetFinancialYear() as JsonResult;
-            var data = result.Data as List<tblFinancialYear>;
-
-            // Assert
-            Assert.That(result, Is.Not.Null);
-            Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
-            Assert.That(data, Is.Not.Null);
-            Assert.That(data.Count, Is.EqualTo(financialYears.Count));
-        }
-
         [TearDown]
         public void TearDown()
         {

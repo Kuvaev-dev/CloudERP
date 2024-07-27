@@ -48,7 +48,7 @@ namespace CloudERP.Tests
             _mockSession.Setup(s => s["CompanyID"]).Returns(null);
 
             // Act
-            var result = _controller.GeneralTransaction(new GeneralTransactionMV()) as RedirectToRouteResult;
+            var result = _controller.GeneralTransaction() as RedirectToRouteResult;
 
             // Assert
             Assert.That(result, Is.Not.Null);
@@ -68,7 +68,7 @@ namespace CloudERP.Tests
                                      .Returns(new List<AllAccountModel>());
 
             // Act
-            var result = _controller.GeneralTransaction(new GeneralTransactionMV()) as ViewResult;
+            var result = _controller.GeneralTransaction() as ViewResult;
 
             // Assert
             Assert.That(result, Is.Not.Null);

@@ -37,6 +37,12 @@ namespace CloudERP.Controllers
                 double totalAmount = findDetail.Sum(item => item.PurchaseQuantity * item.PurchaseUnitPrice);
                 ViewBag.TotalAmount = totalAmount;
 
+                var products = _db.tblStock
+                                  .Where(p => p.CompanyID == companyID && p.BranchID == branchID)
+                                  .ToList();
+
+                ViewBag.Products = products;
+
                 return View(findDetail);
             }
             catch (Exception)

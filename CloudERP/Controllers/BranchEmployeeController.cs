@@ -20,8 +20,14 @@ namespace CloudERP.Controllers
         // GET: Employee
         public ActionResult Employee()
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
             int companyID = Convert.ToInt32(Session["CompanyID"]);
             int branchID = Convert.ToInt32(Session["BranchID"]);
+
             var tblEmployee = _db.tblEmployee.Where(c => c.CompanyID == companyID && c.BranchID == branchID);
 
             return View(tblEmployee);
@@ -38,6 +44,11 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EmployeeRegistration(tblEmployee employee)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
             int companyID = Convert.ToInt32(Session["CompanyID"]);
             int branchID = Convert.ToInt32(Session["BranchID"]);
 
@@ -75,6 +86,11 @@ namespace CloudERP.Controllers
         // GET: EmployeeUpdation
         public ActionResult EmployeeUpdation(int? id)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -94,6 +110,11 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EmployeeUpdation(tblEmployee employee)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
             int companyID = Convert.ToInt32(Session["CompanyID"]);
             int branchID = Convert.ToInt32(Session["BranchID"]);
 
@@ -127,6 +148,11 @@ namespace CloudERP.Controllers
 
         public ActionResult ViewProfile(int? id)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
             try
             {
                 if (id == null)

@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = Resources.SaleCart.NewSale.ToString();
+    var products = ViewBag.Products as List<DatabaseAccess.tblStock>;
 }
 
 <!-- Tables Sorting-->
@@ -25,7 +26,13 @@
         <div class="form-group">
             <label class="control-label col-md-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.SaleCart.SelectProduct))</label>
             <div class="col-md-5">
-                <select class="form-control" id="PID" name="PID" required></select>
+                <select class="form-control" id="PID" name="PID" required>
+                    <option value="">Select Product</option>
+                    @foreach (var product in products)
+                    {
+                        <option value="@product.ProductID">@product.ProductName</option>
+                    }
+                </select>
             </div>
         </div>
 
@@ -144,52 +151,31 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $(document).ready(function () {
-            $('#dataTable').DataTable({
-                "columnDefs": [{ "orderable": false, "targets": 6 }],
-                "lengthMenu": [[5, 10, 25, 50, 75, 100, 150, 200, -1], [5, 10, 25, 50, 75, 100, 150, 200, "All"]],
-            });
+        $('#dataTable').DataTable({
+            "columnDefs": [{ "orderable": false, "targets": 6 }],
+            "lengthMenu": [[5, 10, 25, 50, 75, 100, 150, 200, -1], [5, 10, 25, 50, 75, 100, 150, 200, "All"]],
         });
 
         $("#PID").change(function () {
             $("#Price").val("0");
             $.ajax({
-            url: '@Url.Action("GetProductDetails", "SaleCart")',
-            type: 'GET',
-            data: { id: $(this).val() },
-            dataType: 'Json',
-            success: function (response) {
-                $('#Price').val(response.data);
-            },
-            error: function () {
-                $('#Price').val("0");
-            }
+                url: '@Url.Action("GetProductDetails", "SaleCart")',
+                type: 'GET',
+                data: { id: $(this).val() },
+                dataType: 'Json',
+                success: function (response) {
+                    $('#Price').val(response.data);
+                },
+                error: function () {
+                    $('#Price').val("0");
+                }
             });
         });
 
-        $.ajax({
-            url: '@Url.Action("GetProduct", "SaleCart")',
-            type: 'GET',
-            data: "{}",
-            dataType: 'Json',
-            success: function (response) {
-                for (var i = 0; i < response.data.length; i++) {
-                    $('#PID').append("<option value=" + response.data[i].ProductID + ">" + response.data[i].Name + "</option>");
-                }
-            },
-            error: function () { }
+        $("#Qty, #Price").on("input", function () {
+            var unitPrice = parseFloat($("#Price").val()) || 0;
+            var qty = parseFloat($("#Qty").val()) || 0;
+            $("#selectItemCost").val((unitPrice * qty).toFixed(2));
         });
-
-        $("#Qty").keyup(function () {
-            var unitPrice = $("#Price").val();
-            var qty = this.value;
-            $("#selectItemCost").val(unitPrice * qty);
-        })
-
-        $("#Price").keyup(function () {
-            var qty = $("#Qty").val();
-            var unitPrice = this.value;
-            $("#selectItemCost").val(unitPrice * qty);
-        })
     });
 </script>

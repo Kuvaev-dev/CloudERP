@@ -15,8 +15,8 @@
                 <div class="row">
                     <div class="col-md-4">
                         <label>Select Financial Year</label>
-                        <select class="form-control" id="id" name="id" required />
-                        <input type="submit" value="Retrive Transactions" class="btn btn-success form-control">
+                        @Html.DropDownList("id", (SelectList)ViewBag.FinancialYears, "Select Financial Year", new { @class = "form-control", required = "required" })
+                        <input type="submit" value="Retrieve Transactions" class="btn btn-success form-control mt-2">
                     </div>
                     <div class="col-md-4">
 

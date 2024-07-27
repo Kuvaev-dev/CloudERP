@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Purchasing";
+    var products = ViewBag.Products as List<DatabaseAccess.tblStock>;
 }
 
 <script src="~/Scripts/jquery-3.7.1.js"></script>
@@ -15,9 +16,15 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div class="form-group">
-            <label class="control-label col-md-2">Select Product</label>
+            <label class="control-label col-md-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.SaleCart.SelectProduct))</label>
             <div class="col-md-5">
-                <select class="form-control" id="PID" name="PID" required></select>
+                <select class="form-control" id="PID" name="PID" required>
+                    <option value="">Select Product</option>
+                    @foreach (var product in products)
+                    {
+                        <option value="@product.ProductID">@product.ProductName</option>
+                    }
+                </select>
             </div>
         </div>
 

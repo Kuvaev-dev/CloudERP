@@ -21,7 +21,7 @@ namespace CloudERP.Controllers
         }
 
         // GET: GeneralTransaction/GeneralTransaction
-        public ActionResult GeneralTransaction(GeneralTransactionMV transaction)
+        public ActionResult GeneralTransaction()
         {
             try
             {
@@ -36,7 +36,8 @@ namespace CloudERP.Controllers
 
                 ViewBag.CreditAccountControlID = new SelectList(_accounts.GetAllAccounts(companyID, branchID), "AccountSubControlID", "AccountSubControl", "0");
                 ViewBag.DebitAccountControlID = new SelectList(_accounts.GetAllAccounts(companyID, branchID), "AccountSubControlID", "AccountSubControl", "0");
-                
+
+                var transaction = new GeneralTransactionMV();
                 return View(transaction);
             }
             catch (Exception ex)

@@ -57,15 +57,13 @@ namespace CloudERP.Controllers
             }
 
             employee.CompanyID = Convert.ToInt32(Session["CompanyID"]);
-            employee.UserID = null; // Associate with existing or new user
+            employee.UserID = null;
 
             if (ModelState.IsValid)
             {
-                // Save employee details
                 _db.tblEmployee.Add(employee);
                 _db.SaveChanges();
 
-                // Handle employee photo upload
                 if (employee.LogoFile != null)
                 {
                     var folder = "~/Content/EmployeePhoto";
@@ -148,6 +146,7 @@ namespace CloudERP.Controllers
                 }
 
                 salary.SalaryMonth = salary.SalaryMonth.ToLower();
+
                 int branchID = Convert.ToInt32(Session["BranchID"]);
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int userID = Convert.ToInt32(Session["UserID"]);

@@ -49,6 +49,9 @@ namespace CloudERP.Controllers
                     list = _trialBalance.TriaBalance(branchID, companyID, Convert.ToInt32(FinancialYearID));
                 }
 
+                var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
+                ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear");
+
                 return View(list);
             }
             catch (Exception ex)
@@ -80,29 +83,10 @@ namespace CloudERP.Controllers
 
                 list = _trialBalance.TriaBalance(branchID, companyID, (int)id);
 
+                var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
+                ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear", id);
+
                 return View(list);
-            }
-            catch (Exception ex)
-            {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
-        }
-
-        public ActionResult GetFinancialYear()
-        {
-            try
-            {
-                var getList = _db.tblFinancialYear.ToList();
-
-                var list = new List<tblFinancialYear>();
-
-                foreach (var item in getList)
-                {
-                    list.Add(new tblFinancialYear() { FinancialYearID = item.FinancialYearID, FinancialYear = item.FinancialYear });
-                }
-
-                return Json(new { data = list }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

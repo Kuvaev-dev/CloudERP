@@ -40,6 +40,12 @@ namespace CloudERP.Controllers
                 double totalAmount = findDetail.Sum(item => item.SaleQuantity * item.SaleUnitPrice);
                 ViewBag.TotalAmount = totalAmount;
 
+                var products = _db.tblStock
+                                  .Where(p => p.CompanyID == companyID && p.BranchID == branchID)
+                                  .ToList();
+
+                ViewBag.Products = products;
+
                 return View(findDetail);
             }
             catch (Exception ex)
@@ -47,6 +53,16 @@ namespace CloudERP.Controllers
                 ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
+        }
+
+        public JsonResult GetProductDetails(int id)
+        {
+            var product = _db.tblStock.Find(id);
+            if (product != null)
+            {
+                return Json(new { data = product.SaleUnitPrice }, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { data = 0 }, JsonRequestBehavior.AllowGet);
         }
 
         // POST: SaleCart/AddItem
