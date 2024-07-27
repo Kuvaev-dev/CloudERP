@@ -9,6 +9,7 @@ using System;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Threading.Tasks;
 
 namespace CloudERP.Tests
 {
@@ -136,14 +137,14 @@ namespace CloudERP.Tests
         }
 
         [Test]
-        public void ForgotPassword_ShouldReturnEmailSentViewWhenEmailExists()
+        public async Task ForgotPassword_ShouldReturnEmailSentViewWhenEmailExists()
         {
             // Arrange
             var user = new tblUser { Email = "test@example.com", LastPasswordResetRequest = DateTime.Now.AddMinutes(-10) };
             _mockDb.Setup(db => db.tblUser.FirstOrDefault(It.IsAny<Func<tblUser, bool>>())).Returns(user);
 
             // Act
-            var result = _controller.ForgotPassword("test@example.com") as ViewResult;
+            var result = await _controller.ForgotPassword("test@example.com") as ViewResult;
 
             // Assert
             Assert.That(result, Is.Not.Null);
@@ -151,13 +152,13 @@ namespace CloudERP.Tests
         }
 
         [Test]
-        public void ForgotPassword_ShouldReturnViewWithMessageWhenEmailDoesNotExist()
+        public async Task ForgotPassword_ShouldReturnViewWithMessageWhenEmailDoesNotExist()
         {
             // Arrange
             _mockDb.Setup(db => db.tblUser.FirstOrDefault(It.IsAny<Func<tblUser, bool>>())).Returns((tblUser)null);
 
             // Act
-            var result = _controller.ForgotPassword("test@example.com") as ViewResult;
+            var result = await _controller.ForgotPassword("test@example.com") as ViewResult;
 
             // Assert
             Assert.That(result, Is.Not.Null);

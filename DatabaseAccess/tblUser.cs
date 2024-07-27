@@ -79,7 +79,7 @@ namespace DatabaseAccess
         public bool IsActive { get; set; }
 
         [Required(ErrorMessage = "Salt is required.")]
-        [StringLength(50, ErrorMessage = "Salt cannot be longer than 50 characters.")]
+        [StringLength(200, ErrorMessage = "Salt cannot be longer than 200 characters.")]
         public string Salt { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

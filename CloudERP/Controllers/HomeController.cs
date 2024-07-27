@@ -10,6 +10,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Threading.Tasks;
+using System.Data.Entity.Validation;
 
 namespace CloudERP.Controllers
 {
@@ -54,7 +56,7 @@ namespace CloudERP.Controllers
         public ActionResult Login()
         {
             var rememberMeCookie = Request.Cookies["RememberMe"];
-            if (rememberMeCookie != null)
+            if (rememberMeCookie != null && !string.IsNullOrEmpty(rememberMeCookie["Email"]))
             {
                 ViewBag.RememberedEmail = rememberMeCookie["Email"];
             }
@@ -80,7 +82,7 @@ namespace CloudERP.Controllers
 
                         if (rememberMe.HasValue && rememberMe.Value)
                         {
-                            HttpCookie cookie = new HttpCookie("RememberMe")
+                            var cookie = new HttpCookie("RememberMe")
                             {
                                 Values = { ["Email"] = email },
                                 Expires = DateTime.Now.AddDays(30),
@@ -90,7 +92,7 @@ namespace CloudERP.Controllers
                         }
                         else
                         {
-                            HttpCookie cookie = new HttpCookie("RememberMe")
+                            var cookie = new HttpCookie("RememberMe")
                             {
                                 Expires = DateTime.Now.AddDays(-1)
                             };
@@ -190,7 +192,7 @@ namespace CloudERP.Controllers
         // POST: ForgotPassword
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ForgotPassword(string email)
+        public async Task<ActionResult> ForgotPassword(string email)
         {
             try
             {
@@ -200,40 +202,31 @@ namespace CloudERP.Controllers
                     if (user.LastPasswordResetRequest.HasValue && (DateTime.Now - user.LastPasswordResetRequest.Value).TotalMinutes < 5)
                     {
                         ModelState.AddModelError("", "You have already requested a password reset. Please wait a while before trying again.");
-                        return View("ForgotPassword");
+                        return View();
                     }
 
                     user.ResetPasswordCode = Guid.NewGuid().ToString();
                     user.ResetPasswordExpiration = DateTime.Now.AddHours(1);
                     user.LastPasswordResetRequest = DateTime.Now;
 
-                    try
-                    {
-                        _db.Entry(user).State = EntityState.Modified;
-                        _db.SaveChanges();
-                    }
-                    catch (Exception)
-                    {
-                        ModelState.AddModelError("", "An error occurred while saving to the database. Please try again.");
-                        return View("ForgotPassword");
-                    }
+                    _db.Entry(user).State = EntityState.Modified;
+                    await _db.SaveChangesAsync();
 
                     try
                     {
-                        SendPasswordResetEmail(user.Email, user.ResetPasswordCode);
+                        await SendPasswordResetEmail(user.Email, user.ResetPasswordCode);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         ModelState.AddModelError("", "An error occurred while sending the email. Please try again.");
-                        return View("ForgotPassword");
+                        return View();
                     }
 
                     return View("ForgotPasswordEmailSent");
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Email address not found.");
-                    return View("ForgotPassword");
+                    return View("ForgotPasswordEmailSent");
                 }
             }
             catch (Exception ex)
@@ -243,19 +236,23 @@ namespace CloudERP.Controllers
             }
         }
 
-        private void SendPasswordResetEmail(string email, string resetCode)
+        private async Task SendPasswordResetEmail(string email, string resetCode)
         {
             var resetLink = Url.Action("ResetPassword", "Home", new { id = resetCode }, protocol: Request.Url.Scheme);
 
-            var client = new SendGridClient("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");
-            var from = new EmailAddress("kuvaevtestmail@gmail.com", "Cloud ERP");
+            var apiKey = System.Configuration.ConfigurationManager.AppSettings["SendGridApiKey"];
+            var fromEmail = System.Configuration.ConfigurationManager.AppSettings["SendGridFromEmail"];
+            var fromName = System.Configuration.ConfigurationManager.AppSettings["SendGridFromName"];
+
+            var client = new SendGridClient(apiKey);
+            var from = new EmailAddress(fromEmail, fromName);
             var subject = "Password Reset";
             var to = new EmailAddress(email);
             var plainTextContent = $"Please reset your password by clicking the following link: {resetLink}";
             var htmlContent = $"<strong>Please reset your password by clicking the following link: <a href='{resetLink}'>Reset Password</a></strong>";
 
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
-            var response = client.SendEmailAsync(msg).Result;
+            var response = await client.SendEmailAsync(msg);
         }
 
         // GET: ResetPassword
