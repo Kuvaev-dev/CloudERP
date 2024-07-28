@@ -193,6 +193,12 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ForgotPassword(string email)
         {
+            if (string.IsNullOrEmpty(email))
+            {
+                ModelState.AddModelError("", "Email is required.");
+                return View();
+            }
+
             try
             {
                 var user = _db.tblUser.FirstOrDefault(u => u.Email == email);
@@ -237,21 +243,28 @@ namespace CloudERP.Controllers
 
         private async Task SendPasswordResetEmail(string email, string resetCode)
         {
-            var resetLink = Url.Action("ResetPassword", "Home", new { id = resetCode }, protocol: Request.Url.Scheme);
+            try
+            {
+                var resetLink = Url.Action("ResetPassword", "Home", new { id = resetCode }, protocol: Request.Url.Scheme);
 
-            var apiKey = System.Configuration.ConfigurationManager.AppSettings["SendGridApiKey"];
-            var fromEmail = System.Configuration.ConfigurationManager.AppSettings["SendGridFromEmail"];
-            var fromName = System.Configuration.ConfigurationManager.AppSettings["SendGridFromName"];
+                var apiKey = System.Configuration.ConfigurationManager.AppSettings["SendGridApiKey"];
+                var fromEmail = System.Configuration.ConfigurationManager.AppSettings["SendGridFromEmail"];
+                var fromName = System.Configuration.ConfigurationManager.AppSettings["SendGridFromName"];
 
-            var client = new SendGridClient(apiKey);
-            var from = new EmailAddress(fromEmail, fromName);
-            var subject = "Password Reset";
-            var to = new EmailAddress(email);
-            var plainTextContent = $"Please reset your password by clicking the following link: {resetLink}";
-            var htmlContent = $"<strong>Please reset your password by clicking the following link: <a href='{resetLink}'>Reset Password</a></strong>";
+                var client = new SendGridClient(apiKey);
+                var from = new EmailAddress(fromEmail, fromName);
+                var subject = "Password Reset";
+                var to = new EmailAddress(email);
+                var plainTextContent = $"Please reset your password by clicking the following link: {resetLink}";
+                var htmlContent = $"<strong>Please reset your password by clicking the following link: <a href='{resetLink}'>Reset Password</a></strong>";
 
-            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
-            var response = await client.SendEmailAsync(msg);
+                var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+                var response = await client.SendEmailAsync(msg);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error sending email: " + ex.Message);
+            }
         }
 
         // GET: ResetPassword
@@ -262,6 +275,7 @@ namespace CloudERP.Controllers
                 var user = _db.tblUser.FirstOrDefault(u => u.ResetPasswordCode == id && u.ResetPasswordExpiration > DateTime.Now);
                 if (user != null)
                 {
+                    ViewBag.ResetCode = id;
                     return View();
                 }
                 else
