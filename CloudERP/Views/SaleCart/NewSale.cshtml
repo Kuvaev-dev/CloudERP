@@ -53,7 +53,7 @@
         <div class="form-group">
             <label class="control-label col-md-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.SaleCart.ItemCost))</label>
             <div class="col-md-5">
-                <input type="text" readonly class="form-control" id="selectItemCost" step=".01" name="selectItemCost" required />
+                <input type="text" readonly class="form-control" id="selectItemCost" name="selectItemCost" />
             </div>
         </div>
 
@@ -100,7 +100,7 @@
                             @Html.Raw(HttpUtility.HtmlDecode(Resources.SaleCart.User))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.SaleCart.User))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Repeats.Delete))
                         </th>
                     </tr>
                 </thead>
@@ -152,7 +152,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#dataTable').DataTable({
-            "columnDefs": [{ "orderable": false, "targets": 6 }],
+            "columnDefs": [{ "orderable": false, "targets": 5 }],
             "lengthMenu": [[5, 10, 25, 50, 75, 100, 150, 200, -1], [5, 10, 25, 50, 75, 100, 150, 200, "All"]],
         });
 

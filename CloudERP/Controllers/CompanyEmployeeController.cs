@@ -157,7 +157,7 @@ namespace CloudERP.Controllers
                                                               p.SalaryMonth == salary.SalaryMonth &&
                                                               p.SalaryYear == salary.SalaryYear);
 
-                if (emp != null)
+                if (emp == null)
                 {
                     string invoiceNo = $"ESA{DateTime.Now:yyyyMMddHHmmss}{DateTime.Now.Millisecond}";
                     if (ModelState.IsValid)

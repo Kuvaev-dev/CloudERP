@@ -26,7 +26,7 @@ namespace DatabaseAccess.Code
         {
             try
             {
-                _dtEntries = null;
+                _dtEntries = new DataTable();
                 string transectiontitle = "Salary is Pending";
 
                 var employee = _db.tblEmployee.Find(EmployeeID);
@@ -35,48 +35,47 @@ namespace DatabaseAccess.Code
                 if (employee != null)
                 {
                     employeename = ", To " + employee.Name;
+                    transectiontitle += employeename;
                 }
-                transectiontitle += employee.Name;
 
                 var financialYearCheck = DatabaseQuery.Retrive("select top 1 FinancialYearID from tblFinancialYear where IsActive = 1");
                 string FinancialYearID = (financialYearCheck != null ? Convert.ToString(financialYearCheck.Rows[0][0]) : string.Empty);
                 if (string.IsNullOrEmpty(FinancialYearID))
                 {
-                    return "Your Company Financial Year is not Set! Please Contact to Administrator!";
+                    return "Your Company Financial Year is not Set! Please Contact the Administrator!";
                 }
 
-                string AccountHeadID = string.Empty;
-                string AccountControlID = string.Empty;
-                string AccountSubControlID = string.Empty;
+                var account = _db.tblAccountSetting
+                    .Where(a => a.tblAccountActivity.AccountActivityID == 2 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                    .FirstOrDefault();
+                if (account == null)
+                {
+                    return "Account settings not found for the provided CompanyID and BranchID.";
+                }
 
-                // Assests 1      increae(Debit)   decrese(Credit)
-                // Liabilities 2     increae(Credit)   decrese(Debit)
-                // Expenses 3     increae(Debit)   decrese(Credit)
-                // Capital 4     increae(Credit)   decrese(Debit)
-                // Revenue 5     increae(Credit)   decrese(Debit)
+                string AccountHeadID = Convert.ToString(account.AccountHeadID);
+                string AccountControlID = Convert.ToString(account.AccountControlID);
+                string AccountSubControlID = Convert.ToString(account.AccountSubControlID);
 
-                var account = _db.tblAccountSetting.Where(a => a.AccountActivityID == 5 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); // 14 - Sale Return Payment Pending
-                AccountHeadID = Convert.ToString(account.AccountHeadID);
-                AccountControlID = Convert.ToString(account.AccountControlID);
-                AccountSubControlID = Convert.ToString(account.AccountSubControlID);
                 SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID.ToString(), "0", Convert.ToString(TransferAmount), DateTime.Now, transectiontitle);
-                
-                account = _db.tblAccountSetting.Where(a => a.AccountActivityID == 5 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); // 14 - Sale Return Payment Pending
-                AccountHeadID = Convert.ToString(account.AccountHeadID);
-                AccountControlID = Convert.ToString(account.AccountControlID);
-                AccountSubControlID = Convert.ToString(account.AccountSubControlID);
+
                 transectiontitle = "Salary Succeed " + employee.Name;
+
                 SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID.ToString(), Convert.ToString(TransferAmount), "0", DateTime.Now, transectiontitle);
-               
-                string paymentquery = string.Format("insert into tblPayroll(EmployeeID,BranchID,CompanyID,TransferAmount,PayrollInvoiceNo,PaymentDate,SalaryMonth,SalaryYear,UserID) " +
+
+                string paymentDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                string paymentquery = string.Format(
+                    "insert into tblPayroll(EmployeeID,BranchID,CompanyID,TransferAmount,PayrollInvoiceNo,PaymentDate,SalaryMonth,SalaryYear,UserID) " +
                     "values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}')",
-                    EmployeeID, BranchID, CompanyID, TransferAmount, InvoiceNo, DateTime.Now.ToString("yyyy/MM/dd"), SalaryMonth, SalaryYear, UserID);
+                    EmployeeID, BranchID, CompanyID, TransferAmount, InvoiceNo, paymentDate, SalaryMonth, SalaryYear, UserID);
                 DatabaseQuery.Insert(paymentquery);
 
                 foreach (DataRow entryRow in _dtEntries.Rows)
                 {
-                    string entryQuery = string.Format("insert into tblTransaction(FinancialYearID,AccountHeadID,AccountControlID,AccountSubControlID,InvoiceNo,UserID,Credit,Debit,TransectionDate,TransectionTitle,CompanyID,BranchID) " +
-                        "values {'{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}'}",
+                    string entryDate = Convert.ToDateTime(entryRow["TransectionDate"]).ToString("yyyy-MM-dd HH:mm:ss");
+                    string entryQuery = string.Format(
+                        "insert into tblTransaction(FinancialYearID,AccountHeadID,AccountControlID,AccountSubControlID,InvoiceNo,UserID,Credit,Debit,TransectionDate,TransectionTitle,CompanyID,BranchID) " +
+                        "values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}')",
                         Convert.ToString(entryRow[0]),
                         Convert.ToString(entryRow[1]),
                         Convert.ToString(entryRow[2]),
@@ -85,15 +84,16 @@ namespace DatabaseAccess.Code
                         Convert.ToString(entryRow[5]),
                         Convert.ToString(entryRow[6]),
                         Convert.ToString(entryRow[7]),
-                        Convert.ToDateTime(Convert.ToString(entryRow[8])).ToString("yyyy/MM/dd HH:mm"),
+                        entryDate,
                         Convert.ToString(entryRow[9]),
-                        CompanyID, BranchID);
+                        CompanyID,
+                        BranchID);
                     DatabaseQuery.Insert(entryQuery);
                 }
 
                 return "Salary Succeed";
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return "Unexpected Error is Occured. Please Try Again!";
             }
@@ -122,11 +122,11 @@ namespace DatabaseAccess.Code
                 _dtEntries.Columns.Add("UserID");
                 _dtEntries.Columns.Add("Credit");
                 _dtEntries.Columns.Add("Debit");
-                _dtEntries.Columns.Add("TransactionDate");
+                _dtEntries.Columns.Add("TransectionDate");
                 _dtEntries.Columns.Add("TransectionTitle");
             }
 
-            _dtEntries?.Rows.Add(
+            _dtEntries.Rows.Add(
                 FinancialYearID,
                 AccountHeadID,
                 AccountControlID,
@@ -135,7 +135,7 @@ namespace DatabaseAccess.Code
                 UserID,
                 Credit,
                 Debit,
-                TransactionDate.ToString("yyyy/MM/dd HH:mm"),
+                TransactionDate.ToString("yyyy-MM-dd HH:mm:ss"),
                 TransectionTitle);
         }
     }

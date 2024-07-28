@@ -1,6 +1,4 @@
-﻿using System;
-using System.Configuration;
-using System.Data;
+﻿using System.Data;
 using System.Data.SqlClient;
 
 namespace DatabaseAccess.Code
@@ -33,14 +31,7 @@ namespace DatabaseAccess.Code
                 SqlCommand cmb = new SqlCommand(query, ConnOpen());
                 noofrows = cmb.ExecuteNonQuery();
 
-                if (noofrows > 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return noofrows > 0;
             }
             catch
             {
@@ -56,14 +47,7 @@ namespace DatabaseAccess.Code
                 SqlCommand cmb = new SqlCommand(query, ConnOpen());
                 noofrows = cmb.ExecuteNonQuery();
 
-                if (noofrows > 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return noofrows > 0;
             }
             catch
             {
@@ -79,14 +63,7 @@ namespace DatabaseAccess.Code
                 SqlCommand cmb = new SqlCommand(query, ConnOpen());
                 noofrows = cmb.ExecuteNonQuery();
 
-                if (noofrows > 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return noofrows > 0;
             }
             catch
             {
