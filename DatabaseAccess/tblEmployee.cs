@@ -51,7 +51,6 @@ namespace DatabaseAccess
         [StringLength(100, ErrorMessage = "Designation cannot be longer than 100 characters.")]
         public string Designation { get; set; }
 
-        [Required(ErrorMessage = "*Required!")]
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 

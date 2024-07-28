@@ -1,4 +1,5 @@
-﻿@{
+﻿@model CloudERP.Models.RegistrationMV
+@{
     ViewBag.Title = Resources.CompanyRegistration.AddNewCompany.ToString();
 }
 
@@ -22,7 +23,13 @@
                     <div class="row">
                         <div class="col-md-4">
                             <label for="userName">@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.UserName)) *</label>
-                            <input class="form-control required" id="UserName" name="UserName" type="text">
+                            @Html.TextBoxFor(model => model.UserName, new { @class = "form-control required", @id = "UserName" })
+                            @Html.ValidationMessageFor(model => model.UserName)
+                        </div>
+                        <div class="col-md-4">
+                            <label for="password">@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.Password)) *</label>
+                            @Html.PasswordFor(model => model.Password, new { @class = "form-control required", @id = "Password" })
+                            @Html.ValidationMessageFor(model => model.Password)
                         </div>
                     </div>
                     <p>(*) @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.Mandatory))</p>
@@ -36,31 +43,38 @@
                     <div class="row">
                         <div class="col-md-4">
                             <label for="name">@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.EmployeeName)) *</label>
-                            <input class="form-control required" id="EName" name="EName" type="text">
+                            @Html.TextBoxFor(model => model.EmployeeName, new { @class = "form-control required", @id = "EName" })
+                            @Html.ValidationMessageFor(model => model.EmployeeName)
                         </div>
                         <div class="col-md-4">
                             <label for="surname">@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.ContactNo)) *</label>
-                            <input class="form-control required" id="EContactNo" name="EContactNo" type="text">
+                            @Html.TextBoxFor(model => model.EmployeeContactNo, new { @class = "form-control required", @id = "EContactNo" })
+                            @Html.ValidationMessageFor(model => model.EmployeeContactNo)
                         </div>
                         <div class="col-md-4">
                             <label for="email">@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.Email)) *</label>
-                            <input class="form-control required" id="EEmail" name="EEmail" type="text">
+                            @Html.TextBoxFor(model => model.EmployeeEmail, new { @class = "form-control required", @id = "EEmail" })
+                            @Html.ValidationMessageFor(model => model.EmployeeEmail)
                         </div>
                         <div class="col-md-4">
                             <label>@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.CityIndex))</label>
-                            <input class="form-control required" id="ECNIC" name="ECNIC" type="text">
+                            @Html.TextBoxFor(model => model.EmployeeTIN, new { @class = "form-control required", @id = "ECNIC" })
+                            @Html.ValidationMessageFor(model => model.EmployeeTIN)
                         </div>
                         <div class="col-md-4">
                             <label>@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.Designation))</label>
-                            <input class="form-control required" id="EDesignation" name="EDesignation" type="text">
+                            @Html.TextBoxFor(model => model.EmployeeDesignation, new { @class = "form-control required", @id = "EDesignation" })
+                            @Html.ValidationMessageFor(model => model.EmployeeDesignation)
                         </div>
                         <div class="col-md-4">
                             <label>@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.BasicSalary))</label>
-                            <input class="form-control required" id="EMonthlySalary" name="EMonthlySalary" type="number">
+                            @Html.TextBoxFor(model => model.EmployeeMonthlySalary, new { @class = "form-control required", @id = "EMonthlySalary", @type = "number" })
+                            @Html.ValidationMessageFor(model => model.EmployeeMonthlySalary)
                         </div>
                         <div class="col-md-12">
                             <label>@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.Address))</label>
-                            <input class="form-control required" id="EAddress" name="EAddress" type="text">
+                            @Html.TextBoxFor(model => model.EmployeeAddress, new { @class = "form-control required", @id = "EAddress" })
+                            @Html.ValidationMessageFor(model => model.EmployeeAddress)
                         </div>
                     </div>
                     <p>(*) @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.Mandatory))</p>
@@ -74,19 +88,23 @@
                     <div class="row">
                         <div class="col-md-6">
                             <label for="name">@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.Company)) *</label>
-                            <input for="name" class="form-control required" id="CName" name="CName" type="text">
+                            @Html.TextBoxFor(model => model.CompanyName, new { @class = "form-control required", @id = "CName" })
+                            @Html.ValidationMessageFor(model => model.CompanyName)
                         </div>
                         <div class="col-md-6">
                             <label>@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.BranchTitle)) *</label>
-                            <input class="form-control required" id="BranchName" name="BranchName">
+                            @Html.TextBoxFor(model => model.BranchName, new { @class = "form-control required", @id = "BranchName" })
+                            @Html.ValidationMessageFor(model => model.BranchName)
                         </div>
                         <div class="col-md-6">
                             <label>@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.BranchContact)) *</label>
-                            <input class="form-control required" id="BranchContact" name="BranchContact" type="text">
+                            @Html.TextBoxFor(model => model.BranchContact, new { @class = "form-control required", @id = "BranchContact" })
+                            @Html.ValidationMessageFor(model => model.BranchContact)
                         </div>
                         <div class="col-md-6">
                             <label>@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.BranchAddress))</label>
-                            <input class="form-control required" id="BranchAddress" name="BranchAddress" type="text">
+                            @Html.TextBoxFor(model => model.BranchAddress, new { @class = "form-control required", @id = "BranchAddress" })
+                            @Html.ValidationMessageFor(model => model.BranchAddress)
                         </div>
                     </div>
                     <p>(*) @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.Mandatory))</p>

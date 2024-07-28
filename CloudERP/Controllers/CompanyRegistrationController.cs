@@ -2,6 +2,8 @@
 using CloudERP.Models;
 using DatabaseAccess;
 using System;
+using System.Data.Entity.Validation;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace CloudERP.Controllers
@@ -23,7 +25,7 @@ namespace CloudERP.Controllers
                 return RedirectToAction("Login", "Home");
             }
 
-            return View();
+            return View(new RegistrationMV());
         }
 
         // POST: CompanyRegistration/RegistrationForm
@@ -43,7 +45,8 @@ namespace CloudERP.Controllers
                     var company = new tblCompany()
                     {
                         Name = model.CompanyName,
-                        Logo = string.Empty
+                        Logo = string.Empty,
+                        Description = string.Empty
                     };
                     _db.tblCompany.Add(company);
                     _db.SaveChanges();
@@ -69,6 +72,9 @@ namespace CloudERP.Controllers
                         FullName = model.EmployeeName,
                         IsActive = true,
                         Password = hashedPassword,
+                        ResetPasswordCode = null,
+                        LastPasswordResetRequest = null,
+                        ResetPasswordExpiration = null,
                         Salt = salt,
                         UserName = model.UserName,
                         UserTypeID = 2
@@ -88,13 +94,28 @@ namespace CloudERP.Controllers
                         MonthlySalary = model.EmployeeMonthlySalary,
                         UserID = user.UserID,
                         Name = model.EmployeeName,
-                        Description = string.Empty
+                        Description = string.Empty,
+                        Photo = string.Empty
                     };
                     _db.tblEmployee.Add(employee);
                     _db.SaveChanges();
 
                     ViewBag.Message = "Registration Successful!";
                     return RedirectToAction("Login", "Home");
+                }
+                catch (DbEntityValidationException e)
+                {
+                    foreach (var eve in e.EntityValidationErrors)
+                    {
+                        Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                            eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                ve.PropertyName, ve.ErrorMessage);
+                        }
+                    }
+                    throw;
                 }
                 catch (Exception ex)
                 {
