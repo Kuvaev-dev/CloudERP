@@ -99,11 +99,11 @@
                             <td>
                                 @Html.ActionLink(item.RemainingBalance.ToString("F2"), "ReturnPurchasePendingAmount", "PurchasePaymentReturn", new { @id = item.SupplierInvoiceID }, new { @class = "btn btn-outline-danger btn-lg" })
                             </td>
-                            <td class="btn-group">
+                            <td class="btn-group d-flex flex-column">
                                 @{
                                     if (item.RemainingBalance < item.TotalAmount && item.PaymentAmount != 0)
                                     {
-                                        Html.ActionLink("Pay History", "PaidHistory", "PurchasePayment", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-primary" });
+                                        @Html.ActionLink("Pay History", "PaidHistory", "PurchasePayment", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-primary mb-2" });
                                     }
                                     else
                                     {
@@ -112,8 +112,7 @@
                                         </em>
                                     }
                                 }
-
-                                @Html.ActionLink("View Details", "PurchaseItemDetail", "PurchasePayment", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-info" });
+                                @Html.ActionLink("View Details", "PurchaseItemDetail", "PurchasePayment", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-info mt-2 mb-2" });
                             </td>
                         </tr>
                     }

@@ -138,8 +138,6 @@
                                     }
                                     else if (item.RemainingBalance < 0)
                                     {
-                                        @*<button class="btn btn-outline-danger btn-lg" type="button" data-toggle="modal" data-target="#myModal">@item.RemainingBalance</button>*@
-                                        @*<button class="btn btn-outline-danger btn-lg" type="button">@item.RemainingBalance</button>*@
                                         @Html.ActionLink(item.RemainingBalance.ToString("F2"), "ReturnPurchasePendingAmount", "PurchasePaymentReturn", new { @id = item.SupplierInvoiceID }, new { @class = "btn btn-outline-danger btn-lg" })
                                     }
                                     else
@@ -148,11 +146,11 @@
                                     }
                                 }
                             </td>
-                            <td class="btn-group">
+                            <td class="btn-group d-flex flex-column">
                                 @{
                                     if (item.RemainingBalance < item.TotalAmount && item.PaymentAmount != 0)
                                     {
-                                        Html.ActionLink("Pay History", "PaidHistory", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-primary" });
+                                        @Html.ActionLink("Pay History", "PaidHistory", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-primary mb-2" });
                                     }
                                     else
                                     {
@@ -162,8 +160,8 @@
                                     }
                                 }
 
-                                @Html.ActionLink("View Details", "PurchaseItemDetail", new { id = item.SupplierInvoiceID }, new { @class = "mt-2 btn btn-info" });
-                                @Html.ActionLink("Print Invoice", "PrintPurchaseInvoice", "PurchasePayment", new { id = item.SupplierInvoiceID }, new { @class = "mt-2 btn btn-info" });
+                                @Html.ActionLink("View Details", "PurchaseItemDetail", new { id = item.SupplierInvoiceID }, new { @class = "mt-2 btn btn-info mb-2" })
+                                @Html.ActionLink("Print Invoice", "PrintPurchaseInvoice", "PurchasePayment", new { id = item.SupplierInvoiceID }, new { @class = "mt-2 btn btn-info mb-2" })
                             </td>
                         </tr>
                     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 
 namespace DatabaseAccess.Code
@@ -15,373 +16,7 @@ namespace DatabaseAccess.Code
             _db = db;
         }
 
-        public string ConfirmPurchase(int CompanyID, int BranchID, int UserID, string InvoiceNo, string SupplierInvoiceID, float Amount, string SupplierID, string SupplierName, bool isPayment)
-        {
-            try
-            {
-                _dtEntries = null;
-
-                string pruchasetitle = "Purchase From " + SupplierName.Trim();
-
-                var financialYearCheck = DatabaseQuery.Retrive("select top 1 FinancialYearID from tblFinancialYear where IsActive = 1");
-                
-                string FinancialYearID = string.Empty;
-
-                if (financialYearCheck != null && financialYearCheck.Rows.Count > 0)
-                {
-                    FinancialYearID = Convert.ToString(financialYearCheck.Rows[0][0]);
-                }
-
-                if (string.IsNullOrEmpty(FinancialYearID))
-                {
-                    return "Your Company Financial Year is not Set! Please Contact to Administrator!";
-                }
-
-                string successmessage = "Purchase Success";
-                string AccountHeadID = string.Empty;
-                string AccountControlID = string.Empty;
-                string AccountSubControlID = string.Empty;
-
-                // Assests 1      increae(Debit)   decrese(Credit)
-                // Liabilities 2     increae(Credit)   decrese(Debit)
-                // Expenses 3     increae(Debit)   decrese(Credit)
-                // Capital 4     increae(Credit)   decrese(Debit)
-                // Revenue 5     increae(Credit)   decrese(Debit)
-
-                var purchaseAccount = _db.tblAccountSetting.Where(a => a.AccountActivityID == 3 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); // 3 - Purchase
-                
-                // Debit Entry Purchase                                                                                                                                            
-                AccountHeadID = Convert.ToString(purchaseAccount.AccountHeadID);
-                AccountControlID = Convert.ToString(purchaseAccount.AccountControlID);
-                AccountSubControlID = Convert.ToString(purchaseAccount.AccountSubControlID);
-                string transectiontitle = string.Empty;
-                transectiontitle = "Purchase From " + SupplierName.Trim();
-                SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID.ToString(), "0", Convert.ToString(Amount), DateTime.Now, transectiontitle);
-                
-                // Credit Entry Purchase
-                purchaseAccount = _db.tblAccountSetting.Where(a => a.AccountActivityID == 8 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); // 8 - Purchase Payment Pending
-                AccountHeadID = Convert.ToString(purchaseAccount.AccountHeadID);
-                AccountControlID = Convert.ToString(purchaseAccount.AccountControlID);
-                AccountSubControlID = Convert.ToString(purchaseAccount.AccountSubControlID);
-                transectiontitle = SupplierName + ", Purchase Payment is Pending!";
-                SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID.ToString(), Convert.ToString(Amount), "0", DateTime.Now, transectiontitle);
-
-                if (isPayment == true)
-                {
-                    string payinvoicenno = "PAY" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
-                    purchaseAccount = _db.tblAccountSetting.Where(a => a.AccountActivityID == 8 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); ; // 8 - Purchase Payment Pending
-                    AccountHeadID = Convert.ToString(purchaseAccount.AccountHeadID);
-                    AccountControlID = Convert.ToString(purchaseAccount.AccountControlID);
-                    AccountSubControlID = Convert.ToString(purchaseAccount.AccountSubControlID);
-                    transectiontitle = "Payment Paid to " + SupplierName;
-                    SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, payinvoicenno, UserID.ToString(), "0", Convert.ToString(Amount), DateTime.Now, transectiontitle);
-                    
-                    purchaseAccount = _db.tblAccountSetting.Where(a => a.AccountActivityID == 9 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); ; // 9 - Purchase Payment Succed
-                    AccountHeadID = Convert.ToString(purchaseAccount.AccountHeadID);
-                    AccountControlID = Convert.ToString(purchaseAccount.AccountControlID);
-                    AccountSubControlID = Convert.ToString(purchaseAccount.AccountSubControlID);
-                    transectiontitle = SupplierName + ", Purchase Payment is Succeed!";
-                    SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, payinvoicenno, UserID.ToString(), Convert.ToString(Amount), "0", DateTime.Now, transectiontitle);
-
-                    string paymentquery = string.Format("insert into tblSupplierPayment(SupplierID,SupplierInvoiceID,UserID,InvoiceNo,TotalAmount,PaymentAmount,RemainingBalance,CompanyID,BranchID,InvoiceDate) " +
-                    "values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}', '{9}')",
-                    SupplierID, SupplierInvoiceID, UserID, payinvoicenno, Amount, Amount, "0", CompanyID, BranchID, DateTime.Now.ToString("yyyy/MM/dd"));
-                    DatabaseQuery.Insert(paymentquery);
-
-                    successmessage += " with Payment.";
-                }
-
-                foreach (DataRow entryRow in _dtEntries.Rows)
-                {
-                    string entryQuery = string.Format("insert into tblTransaction(FinancialYearID,AccountHeadID,AccountControlID,AccountSubControlID,InvoiceNo,UserID,Credit,Debit,TransectionDate,TransectionTitle,CompanyID,BranchID) " +
-                        "values {'{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}'}",
-                        Convert.ToString(entryRow[0]),
-                        Convert.ToString(entryRow[1]),
-                        Convert.ToString(entryRow[2]),
-                        Convert.ToString(entryRow[3]),
-                        Convert.ToString(entryRow[4]),
-                        Convert.ToString(entryRow[5]),
-                        Convert.ToString(entryRow[6]),
-                        Convert.ToString(entryRow[7]),
-                        Convert.ToDateTime(Convert.ToString(entryRow[8])).ToString("yyyy/MM/dd HH:mm"),
-                        Convert.ToString(entryRow[9]),
-                        CompanyID, BranchID);
-                    DatabaseQuery.Insert(entryQuery);
-                }
-
-                return successmessage;
-            }
-            catch (Exception ex)
-            {
-                return "Unexpected Error is Occured. Please Try Again!" + ex.Message;
-            }
-        }
-
-        public string PurchasePayment(int CompanyID, int BranchID, int UserID, string InvoiceNo, string SupplierInvoiceID, float TotalAmount, float Amount, string SupplierID, string SupplierName, float RemainingBalance)
-        {
-            try
-            {
-                _dtEntries = null;
-                string pruchasetitle = "Purchase From " + SupplierName.Trim();
-                var financialYearCheck = DatabaseQuery.Retrive("select top 1 FinancialYearID from tblFinancialYear where IsActive = 1");
-                string FinancialYearID = string.Empty;
-
-                if (financialYearCheck != null && financialYearCheck.Rows.Count > 0)
-                {
-                    FinancialYearID = Convert.ToString(financialYearCheck.Rows[0][0]);
-                }
-
-                if (string.IsNullOrEmpty(FinancialYearID))
-                {
-                    return "Your Company Financial Year is not Set! Please Contact to Administrator!";
-                }
-
-                string AccountHeadID = string.Empty;
-                string AccountControlID = string.Empty;
-                string AccountSubControlID = string.Empty;
-
-                // Assests 1      increae(Debit)   decrese(Credit)
-                // Liabilities 2     increae(Credit)   decrese(Debit)
-                // Expenses 3     increae(Debit)   decrese(Credit)
-                // Capital 4     increae(Credit)   decrese(Debit)
-                // Revenue 5     increae(Credit)   decrese(Debit)
-
-                string transectiontitle = string.Empty;
-                
-                var purchaseAccount = _db.tblAccountSetting.Where(a => a.AccountActivityID == 3 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); // 3 - Purchase
-                purchaseAccount = _db.tblAccountSetting.Where(a => a.AccountActivityID == 8 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); ; // 8 - Purchase Payment Pending
-                AccountHeadID = Convert.ToString(purchaseAccount.AccountHeadID);
-                AccountControlID = Convert.ToString(purchaseAccount.AccountControlID);
-                AccountSubControlID = Convert.ToString(purchaseAccount.AccountSubControlID);
-                transectiontitle = "Payment Paid to " + SupplierName;
-                SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID.ToString(), "0", Convert.ToString(Amount), DateTime.Now, transectiontitle);
-                
-                purchaseAccount = _db.tblAccountSetting.Where(a => a.AccountActivityID == 9 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); ; // 9 - Purchase Payment Succed
-                AccountHeadID = Convert.ToString(purchaseAccount.AccountHeadID);
-                AccountControlID = Convert.ToString(purchaseAccount.AccountControlID);
-                AccountSubControlID = Convert.ToString(purchaseAccount.AccountSubControlID);
-                transectiontitle = SupplierName + ", Purchase Payment is Succeed!";
-                SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID.ToString(), Convert.ToString(Amount), "0", DateTime.Now, transectiontitle);
-
-                string paymentquery = string.Format("insert into tblSupplierPayment(SupplierID,SupplierInvoiceID,UserID,InvoiceNo,TotalAmount,PaymentAmount,RemainingBalance,CompanyID,BranchID,InvoiceDate) " +
-                "values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}')",
-                SupplierID, SupplierInvoiceID, UserID, InvoiceNo, TotalAmount, Amount, Convert.ToString(RemainingBalance), CompanyID, BranchID, DateTime.Now.ToString("yyyy/MM/dd"));
-                DatabaseQuery.Insert(paymentquery);
-
-                foreach (DataRow entryRow in _dtEntries.Rows)
-                {
-                    string entryQuery = string.Format("insert into tblTransaction(FinancialYearID,AccountHeadID,AccountControlID,AccountSubControlID,InvoiceNo,UserID,Credit,Debit,TransectionDate,TransectionTitle,CompanyID,BranchID) " +
-                        "values {'{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}'}",
-                        Convert.ToString(entryRow[0]),
-                        Convert.ToString(entryRow[1]),
-                        Convert.ToString(entryRow[2]),
-                        Convert.ToString(entryRow[3]),
-                        Convert.ToString(entryRow[4]),
-                        Convert.ToString(entryRow[5]),
-                        Convert.ToString(entryRow[6]),
-                        Convert.ToString(entryRow[7]),
-                        Convert.ToDateTime(Convert.ToString(entryRow[8])).ToString("yyyy/MM/dd HH:mm"),
-                        Convert.ToString(entryRow[9]),
-                        CompanyID, BranchID);
-                    DatabaseQuery.Insert(entryQuery);
-                }
-
-                return "Payment Is Paid";
-            }
-            catch (Exception ex)
-            {
-                return "Unexpected Error is Occured. Please Try Again!" + ex.Message;
-            }
-        }
-
-        // Purchase Return
-        public string ReturnPurchase(int CompanyID, int BranchID, int UserID, string InvoiceNo, string SupplierInvoiceID, int SupplierReturnInvoiceID, float Amount, string SupplierID, string SupplierName, bool isPayment)
-        {
-            try
-            {
-                _dtEntries = null;
-                string returnpruchasetitle = "Return Purchase to " + SupplierName.Trim();
-                var financialYearCheck = DatabaseQuery.Retrive("select top 1 FinancialYearID from tblFinancialYear where IsActive = 1");
-                string FinancialYearID = string.Empty;
-                
-                if (financialYearCheck != null && financialYearCheck.Rows.Count > 0)
-                {
-                    FinancialYearID = Convert.ToString(financialYearCheck.Rows[0][0]);
-                }
-
-                if (string.IsNullOrEmpty(FinancialYearID))
-                {
-                    return "Your Company Financial Year is not Set! Please Contact to Administrator!";
-                }
-
-                string successmessage = "Return Purchase Success";
-                string AccountHeadID = string.Empty;
-                string AccountControlID = string.Empty;
-                string AccountSubControlID = string.Empty;
-
-                // Assests 1      increae(Debit)   decrese(Credit)
-                // Liabilities 2     increae(Credit)   decrese(Debit)
-                // Expenses 3     increae(Debit)   decrese(Credit)
-                // Capital 4     increae(Credit)   decrese(Debit)
-                // Revenue 5     increae(Credit)   decrese(Debit)
-
-                var returnPurchaseAccount = _db.tblAccountSetting.Where(a => a.AccountActivityID == 4 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); // 4 - Return Purchase
-                
-                // Credit Entry Return Purchase                                                                                                                                            
-                AccountHeadID = Convert.ToString(returnPurchaseAccount.AccountHeadID);
-                AccountControlID = Convert.ToString(returnPurchaseAccount.AccountControlID);
-                AccountSubControlID = Convert.ToString(returnPurchaseAccount.AccountSubControlID);
-                string transectiontitle = string.Empty;
-                transectiontitle = "Return Purchase to " + SupplierName.Trim();
-                SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID.ToString(), Convert.ToString(Amount), "0", DateTime.Now, transectiontitle);
-                
-                // Debit Entry Return Purchase
-                returnPurchaseAccount = _db.tblAccountSetting.Where(a => a.AccountActivityID == 12 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); // 12 - Purchase Return Payment Pending
-                AccountHeadID = Convert.ToString(returnPurchaseAccount.AccountHeadID);
-                AccountControlID = Convert.ToString(returnPurchaseAccount.AccountControlID);
-                AccountSubControlID = Convert.ToString(returnPurchaseAccount.AccountSubControlID);
-                transectiontitle = SupplierName + ", Return Purchase Payment is Pending!";
-                SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID.ToString(), "0", Convert.ToString(Amount), DateTime.Now, transectiontitle);
-
-                if (isPayment == true)
-                {
-                    string payinvoicenno = "RPP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
-                    returnPurchaseAccount = _db.tblAccountSetting.Where(a => a.AccountActivityID == 12 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); ; // 12 - Purchase Return Payment Pending
-                    AccountHeadID = Convert.ToString(returnPurchaseAccount.AccountHeadID);
-                    AccountControlID = Convert.ToString(returnPurchaseAccount.AccountControlID);
-                    AccountSubControlID = Convert.ToString(returnPurchaseAccount.AccountSubControlID);
-                    transectiontitle = "Return Payment from " + SupplierName;
-                    SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, payinvoicenno, UserID.ToString(), Convert.ToString(Amount), "0", DateTime.Now, transectiontitle);
-                    
-                    returnPurchaseAccount = _db.tblAccountSetting.Where(a => a.AccountActivityID == 13 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); ; // 13 - Purchase Return Payment Succeed
-                    AccountHeadID = Convert.ToString(returnPurchaseAccount.AccountHeadID);
-                    AccountControlID = Convert.ToString(returnPurchaseAccount.AccountControlID);
-                    AccountSubControlID = Convert.ToString(returnPurchaseAccount.AccountSubControlID);
-                    transectiontitle = SupplierName + ", Return Purchase Payment is Succeed!";
-                    SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, payinvoicenno, UserID.ToString(), "0", Convert.ToString(Amount), DateTime.Now, transectiontitle);
-
-                    string paymentquery = string.Format("insert into tblSupplierReturnPayment(SupplierID,SupplierInvoiceID,UserID,InvoiceNo,TotalAmount,PaymentAmount,RemainingBalance,CompanyID,BranchID,SupplierReturnInvoiceID,InvoiceDate) " +
-                    "values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}')",
-                    SupplierID, SupplierInvoiceID, UserID, payinvoicenno, Amount, Amount, "0", CompanyID, BranchID, SupplierReturnInvoiceID, DateTime.Now.ToString("yyyy/MM/dd"));
-                    DatabaseQuery.Insert(paymentquery);
-
-                    successmessage += " with Payment.";
-                }
-
-                foreach (DataRow entryRow in _dtEntries.Rows)
-                {
-                    string entryQuery = string.Format("insert into tblTransaction(FinancialYearID,AccountHeadID,AccountControlID,AccountSubControlID,InvoiceNo,UserID,Credit,Debit,TransectionDate,TransectionTitle,CompanyID,BranchID) " +
-                        "values {'{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}'}",
-                        Convert.ToString(entryRow[0]),
-                        Convert.ToString(entryRow[1]),
-                        Convert.ToString(entryRow[2]),
-                        Convert.ToString(entryRow[3]),
-                        Convert.ToString(entryRow[4]),
-                        Convert.ToString(entryRow[5]),
-                        Convert.ToString(entryRow[6]),
-                        Convert.ToString(entryRow[7]),
-                        Convert.ToDateTime(Convert.ToString(entryRow[8])).ToString("yyyy/MM/dd HH:mm"),
-                        Convert.ToString(entryRow[9]),
-                        CompanyID, BranchID);
-                    DatabaseQuery.Insert(entryQuery);
-                }
-
-                return successmessage;
-            }
-            catch (Exception ex)
-            {
-                return "Unexpected Error is Occured. Please Try Again!" + ex.Message;
-            }
-        }
-
-        public string ReturnPurchasePayment(int CompanyID, int BranchID, int UserID, string InvoiceNo, string SupplierInvoiceID, int SupplierReturnInvoiceID, float TotalAmount, float Amount, string SupplierID, string SupplierName, float RemainingBalance)
-        {
-            try
-            {
-                _dtEntries = null;
-                string returnpruchasetitle = "Return Purchase to " + SupplierName.Trim();
-                var financialYearCheck = DatabaseQuery.Retrive("select top 1 FinancialYearID from tblFinancialYear where IsActive = 1");
-                string FinancialYearID = string.Empty;
-
-                if (financialYearCheck != null && financialYearCheck.Rows.Count > 0)
-                {
-                    FinancialYearID = Convert.ToString(financialYearCheck.Rows[0][0]);
-                }
-
-                if (string.IsNullOrEmpty(FinancialYearID))
-                {
-                    return "Your Company Financial Year is not Set! Please Contact to Administrator!";
-                }
-
-                string AccountHeadID = string.Empty;
-                string AccountControlID = string.Empty;
-                string AccountSubControlID = string.Empty;
-
-                // Assests 1      increae(Debit)   decrese(Credit)
-                // Liabilities 2     increae(Credit)   decrese(Debit)
-                // Expenses 3     increae(Debit)   decrese(Credit)
-                // Capital 4     increae(Credit)   decrese(Debit)
-                // Revenue 5     increae(Credit)   decrese(Debit)
-
-                string transectiontitle = string.Empty;
-
-                var returnPurchaseAccount = _db.tblAccountSetting.Where(a => a.AccountActivityID == 12 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); ; // 12 - Purchase Return Payment Pending
-                AccountHeadID = Convert.ToString(returnPurchaseAccount.AccountHeadID);
-                AccountControlID = Convert.ToString(returnPurchaseAccount.AccountControlID);
-                AccountSubControlID = Convert.ToString(returnPurchaseAccount.AccountSubControlID);
-                transectiontitle = "Return Payment from " + SupplierName;
-                SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID.ToString(), Convert.ToString(Amount), "0", DateTime.Now, transectiontitle);
-                
-                returnPurchaseAccount = _db.tblAccountSetting.Where(a => a.AccountActivityID == 13 && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); ; // 13 - Purchase Return Payment Succeed
-                AccountHeadID = Convert.ToString(returnPurchaseAccount.AccountHeadID);
-                AccountControlID = Convert.ToString(returnPurchaseAccount.AccountControlID);
-                AccountSubControlID = Convert.ToString(returnPurchaseAccount.AccountSubControlID);
-                transectiontitle = SupplierName + ", Return Purchase Payment is Succeed!";
-                SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID.ToString(), "0", Convert.ToString(Amount), DateTime.Now, transectiontitle);
-
-                string paymentquery = string.Format("insert into tblSupplierReturnPayment(SupplierID,SupplierInvoiceID,UserID,InvoiceNo,TotalAmount,PaymentAmount,RemainingBalance,CompanyID,BranchID,SupplierReturnInvoiceID,InvoiceDate) " +
-                "values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}')",
-                SupplierID, SupplierInvoiceID, UserID, InvoiceNo, TotalAmount, Amount, Convert.ToString(RemainingBalance), CompanyID, BranchID, SupplierReturnInvoiceID, DateTime.Now.ToString("yyyy/MM/dd"));
-                DatabaseQuery.Insert(paymentquery);
-
-                foreach (DataRow entryRow in _dtEntries.Rows)
-                {
-                    string entryQuery = string.Format("insert into tblTransaction(FinancialYearID,AccountHeadID,AccountControlID,AccountSubControlID,InvoiceNo,UserID,Credit,Debit,TransectionDate,TransectionTitle,CompanyID,BranchID) " +
-                        "values {'{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}'}",
-                        Convert.ToString(entryRow[0]),
-                        Convert.ToString(entryRow[1]),
-                        Convert.ToString(entryRow[2]),
-                        Convert.ToString(entryRow[3]),
-                        Convert.ToString(entryRow[4]),
-                        Convert.ToString(entryRow[5]),
-                        Convert.ToString(entryRow[6]),
-                        Convert.ToString(entryRow[7]),
-                        Convert.ToDateTime(Convert.ToString(entryRow[8])).ToString("yyyy/MM/dd HH:mm"),
-                        Convert.ToString(entryRow[9]),
-                        CompanyID, BranchID);
-                    DatabaseQuery.Insert(entryQuery);
-                }
-
-                return "Return Purchase Payment is Paid";
-            }
-            catch (Exception ex)
-            {
-                return "Unexpected Error is Occured. Please Try Again!" + ex.Message;
-            }
-        }
-
-
-        private void SetEntries(
-           string FinancialYearID,
-           string AccountHeadID,
-           string AccountControlID,
-           string AccountSubControlID,
-           string InvoiceNo,
-           string UserID,
-           string Credit,
-           string Debit,
-           DateTime TransactionDate,
-           string TransectionTitle)
+        private void InitializeDataTable()
         {
             if (_dtEntries == null)
             {
@@ -394,13 +29,497 @@ namespace DatabaseAccess.Code
                 _dtEntries.Columns.Add("UserID");
                 _dtEntries.Columns.Add("Credit");
                 _dtEntries.Columns.Add("Debit");
-                _dtEntries.Columns.Add("TransactionDate");
+                _dtEntries.Columns.Add("TransectionDate");
                 _dtEntries.Columns.Add("TransectionTitle");
             }
+        }
 
-            if (_dtEntries != null)
+        public string ConfirmPurchase(int CompanyID, int BranchID, int UserID, string InvoiceNo, string SupplierInvoiceID, float Amount, string SupplierID, string SupplierName, bool isPayment)
+        {
+            using (var transaction = _db.Database.BeginTransaction())
             {
-                _dtEntries.Rows.Add(
+                try
+                {
+                    InitializeDataTable();
+
+                    string purchaseTitle = "Purchase From " + SupplierName.Trim();
+
+                    // Retrieve the active financial year
+                    var financialYearCheck = DatabaseQuery.Retrive("SELECT TOP 1 FinancialYearID FROM tblFinancialYear WHERE IsActive = 1");
+                    string FinancialYearID = (financialYearCheck != null ? Convert.ToString(financialYearCheck.Rows[0][0]) : string.Empty);
+                    if (string.IsNullOrEmpty(FinancialYearID))
+                    {
+                        return "Your Company Financial Year is not Set! Please Contact to Administrator!";
+                    }
+
+                    // Debit Entry Purchase
+                    var purchaseAccount = _db.tblAccountSetting
+                        .Where(a => a.AccountActivityID == 9 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                        .FirstOrDefault();
+                    if (purchaseAccount == null)
+                    {
+                        return "Account settings for Purchase not found.";
+                    }
+                    SetEntries(FinancialYearID, purchaseAccount.AccountHeadID.ToString(), purchaseAccount.AccountControlID.ToString(), purchaseAccount.AccountSubControlID.ToString(), InvoiceNo, UserID.ToString(), "0", Amount.ToString(), DateTime.Now, purchaseTitle);
+
+                    // Credit Entry Purchase Payment Pending
+                    purchaseAccount = _db.tblAccountSetting
+                        .Where(a => a.AccountActivityID == 10 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                        .FirstOrDefault();
+                    if (purchaseAccount == null)
+                    {
+                        return "Account settings for Purchase Payment Pending not found.";
+                    }
+                    SetEntries(FinancialYearID, purchaseAccount.AccountHeadID.ToString(), purchaseAccount.AccountControlID.ToString(), purchaseAccount.AccountSubControlID.ToString(), InvoiceNo, UserID.ToString(), Amount.ToString(), "0", DateTime.Now, SupplierName + ", Purchase Payment is Pending!");
+
+                    if (isPayment)
+                    {
+                        string payInvoiceNo = "PAY" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
+
+                        // Debit Entry Purchase Payment Paid
+                        purchaseAccount = _db.tblAccountSetting
+                            .Where(a => a.AccountActivityID == 10 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                            .FirstOrDefault();
+                        if (purchaseAccount == null)
+                        {
+                            return "Account settings for Purchase Payment Paid not found.";
+                        }
+                        SetEntries(FinancialYearID, purchaseAccount.AccountHeadID.ToString(), purchaseAccount.AccountControlID.ToString(), purchaseAccount.AccountSubControlID.ToString(), payInvoiceNo, UserID.ToString(), "0", Amount.ToString(), DateTime.Now, "Payment Paid to " + SupplierName);
+
+                        // Credit Entry Purchase Payment Success
+                        purchaseAccount = _db.tblAccountSetting
+                            .Where(a => a.AccountActivityID == 11 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                            .FirstOrDefault();
+                        if (purchaseAccount == null)
+                        {
+                            return "Account settings for Purchase Payment Success not found.";
+                        }
+                        SetEntries(FinancialYearID, purchaseAccount.AccountHeadID.ToString(), purchaseAccount.AccountControlID.ToString(), purchaseAccount.AccountSubControlID.ToString(), payInvoiceNo, UserID.ToString(), Amount.ToString(), "0", DateTime.Now, SupplierName + ", Purchase Payment is Succeed!");
+
+                        // Insert payment record
+                        string paymentQuery = "INSERT INTO tblSupplierPayment (SupplierID, SupplierInvoiceID, UserID, InvoiceNo, TotalAmount, PaymentAmount, RemainingBalance, CompanyID, BranchID, InvoiceDate) " +
+                                              "VALUES (@SupplierID, @SupplierInvoiceID, @UserID, @InvoiceNo, @TotalAmount, @PaymentAmount, @RemainingBalance, @CompanyID, @BranchID, @InvoiceDate)";
+
+                        var paymentParams = new[]
+                        {
+                            new SqlParameter("@SupplierID", SupplierID),
+                            new SqlParameter("@SupplierInvoiceID", SupplierInvoiceID),
+                            new SqlParameter("@UserID", UserID),
+                            new SqlParameter("@InvoiceNo", payInvoiceNo),
+                            new SqlParameter("@TotalAmount", Amount),
+                            new SqlParameter("@PaymentAmount", Amount),
+                            new SqlParameter("@RemainingBalance", SqlDbType.Float) { Value = 0 },
+                            new SqlParameter("@CompanyID", CompanyID),
+                            new SqlParameter("@BranchID", BranchID),
+                            new SqlParameter("@InvoiceDate", DateTime.Now.Date)
+                        };
+
+                        DatabaseQuery.Insert(paymentQuery, paymentParams);
+
+                        return "Purchase Success with Payment.";
+                    }
+
+                    // Insert transaction records
+                    foreach (DataRow entryRow in _dtEntries.Rows)
+                    {
+                        string entryDate = Convert.ToDateTime(entryRow["TransectionDate"]).ToString("yyyy-MM-dd HH:mm:ss");
+                        string entryQuery = "INSERT INTO tblTransaction (FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID, Credit, Debit, TransectionDate, TransectionTitle, CompanyID, BranchID) " +
+                                            "VALUES (@FinancialYearID, @AccountHeadID, @AccountControlID, @AccountSubControlID, @InvoiceNo, @UserID, @Credit, @Debit, @TransectionDate, @TransectionTitle, @CompanyID, @BranchID)";
+
+                        var entryParams = new[]
+                        {
+                            new SqlParameter("@FinancialYearID", Convert.ToString(entryRow["FinancialYearID"])),
+                            new SqlParameter("@AccountHeadID", Convert.ToString(entryRow["AccountHeadID"])),
+                            new SqlParameter("@AccountControlID", Convert.ToString(entryRow["AccountControlID"])),
+                            new SqlParameter("@AccountSubControlID", Convert.ToString(entryRow["AccountSubControlID"])),
+                            new SqlParameter("@InvoiceNo", Convert.ToString(entryRow["InvoiceNo"])),
+                            new SqlParameter("@UserID", Convert.ToString(entryRow["UserID"])),
+                            new SqlParameter("@Credit", Convert.ToDecimal(entryRow["Credit"])),
+                            new SqlParameter("@Debit", Convert.ToDecimal(entryRow["Debit"])),
+                            new SqlParameter("@TransectionDate", DateTime.Parse(entryDate)),
+                            new SqlParameter("@TransectionTitle", Convert.ToString(entryRow["TransectionTitle"])),
+                            new SqlParameter("@CompanyID", CompanyID),
+                            new SqlParameter("@BranchID", BranchID)
+                        };
+
+                        DatabaseQuery.Insert(entryQuery, entryParams);
+                    }
+
+                    transaction.Commit();
+                    return "Purchase Success";
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
+                    return "Unexpected Error is Occurred. Please Try Again!";
+                }
+            }
+        }
+
+        public string PurchasePayment(int CompanyID, int BranchID, int UserID, string InvoiceNo, string SupplierInvoiceID, float TotalAmount, float Amount, string SupplierID, string SupplierName, float RemainingBalance)
+        {
+            using (var transaction = _db.Database.BeginTransaction())
+            {
+                try
+                {
+                    InitializeDataTable();
+
+                    string pruchaseTitle = "Purchase From " + SupplierName.Trim();
+
+                    // Retrieve the active financial year
+                    var financialYearCheck = DatabaseQuery.Retrive("SELECT TOP 1 FinancialYearID FROM tblFinancialYear WHERE IsActive = 1");
+                    string FinancialYearID = (financialYearCheck != null ? Convert.ToString(financialYearCheck.Rows[0][0]) : string.Empty);
+                    if (string.IsNullOrEmpty(FinancialYearID))
+                    {
+                        return "Your Company Financial Year is not Set! Please Contact the Administrator!";
+                    }
+
+                    // Debit Entry Purchase
+                    var purchaseAccount = _db.tblAccountSetting
+                        .Where(a => a.AccountActivityID == 9 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                        .FirstOrDefault(); // 3 - Purchase
+                    if (purchaseAccount == null)
+                    {
+                        return "Account settings for Purchase not found.";
+                    }
+                    SetEntries(FinancialYearID, purchaseAccount.AccountHeadID.ToString(), purchaseAccount.AccountControlID.ToString(), purchaseAccount.AccountSubControlID.ToString(), InvoiceNo, UserID.ToString(), "0", Amount.ToString(), DateTime.Now, pruchaseTitle);
+
+                    // Credit Entry Purchase Payment Pending
+                    purchaseAccount = _db.tblAccountSetting
+                        .Where(a => a.AccountActivityID == 10 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                        .FirstOrDefault(); // 8 - Purchase Payment Pending
+                    if (purchaseAccount == null)
+                    {
+                        return "Account settings for Purchase Payment Pending not found.";
+                    }
+                    SetEntries(FinancialYearID, purchaseAccount.AccountHeadID.ToString(), purchaseAccount.AccountControlID.ToString(), purchaseAccount.AccountSubControlID.ToString(), InvoiceNo, UserID.ToString(), Amount.ToString(), "0", DateTime.Now, SupplierName + ", Purchase Payment is Pending!");
+
+                    // Payment Process
+                    if (Amount > 0)
+                    {
+                        string payInvoiceNo = "PAY" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
+
+                        // Credit Entry Purchase Payment Paid
+                        purchaseAccount = _db.tblAccountSetting
+                            .Where(a => a.AccountActivityID == 11 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                            .FirstOrDefault(); // 9 - Purchase Payment Succeed
+                        if (purchaseAccount == null)
+                        {
+                            return "Account settings for Purchase Payment Paid not found.";
+                        }
+                        SetEntries(FinancialYearID, purchaseAccount.AccountHeadID.ToString(), purchaseAccount.AccountControlID.ToString(), purchaseAccount.AccountSubControlID.ToString(), payInvoiceNo, UserID.ToString(), "0", Amount.ToString(), DateTime.Now, "Payment Paid to " + SupplierName);
+
+                        // Debit Entry Purchase Payment Success
+                        purchaseAccount = _db.tblAccountSetting
+                            .Where(a => a.AccountActivityID == 12 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                            .FirstOrDefault(); // 10 - Purchase Payment Success
+                        if (purchaseAccount == null)
+                        {
+                            return "Account settings for Purchase Payment Success not found.";
+                        }
+                        SetEntries(FinancialYearID, purchaseAccount.AccountHeadID.ToString(), purchaseAccount.AccountControlID.ToString(), purchaseAccount.AccountSubControlID.ToString(), payInvoiceNo, UserID.ToString(), Amount.ToString(), "0", DateTime.Now, SupplierName + ", Purchase Payment is Succeed!");
+
+                        // Insert payment record
+                        string paymentQuery = "INSERT INTO tblSupplierPayment (SupplierID, SupplierInvoiceID, UserID, InvoiceNo, TotalAmount, PaymentAmount, RemainingBalance, CompanyID, BranchID, InvoiceDate) " +
+                                              "VALUES (@SupplierID, @SupplierInvoiceID, @UserID, @InvoiceNo, @TotalAmount, @PaymentAmount, @RemainingBalance, @CompanyID, @BranchID, @InvoiceDate)";
+
+                        var paymentParams = new[]
+                        {
+                            new SqlParameter("@SupplierID", SupplierID),
+                            new SqlParameter("@SupplierInvoiceID", SupplierInvoiceID),
+                            new SqlParameter("@UserID", UserID),
+                            new SqlParameter("@InvoiceNo", payInvoiceNo),
+                            new SqlParameter("@TotalAmount", TotalAmount),
+                            new SqlParameter("@PaymentAmount", Amount),
+                            new SqlParameter("@RemainingBalance", RemainingBalance),
+                            new SqlParameter("@CompanyID", CompanyID),
+                            new SqlParameter("@BranchID", BranchID),
+                            new SqlParameter("@InvoiceDate", DateTime.Now.Date)
+                        };
+
+                        DatabaseQuery.Insert(paymentQuery, paymentParams);
+
+                        return "Purchase Success with Payment.";
+                    }
+
+                    // Insert transaction records
+                    foreach (DataRow entryRow in _dtEntries.Rows)
+                    {
+                        string entryDate = Convert.ToDateTime(entryRow["TransectionDate"]).ToString("yyyy-MM-dd HH:mm:ss");
+                        string entryQuery = "INSERT INTO tblTransaction (FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID, Credit, Debit, TransectionDate, TransectionTitle, CompanyID, BranchID) " +
+                                            "VALUES (@FinancialYearID, @AccountHeadID, @AccountControlID, @AccountSubControlID, @InvoiceNo, @UserID, @Credit, @Debit, @TransectionDate, @TransectionTitle, @CompanyID, @BranchID)";
+
+                        var entryParams = new[]
+                        {
+                            new SqlParameter("@FinancialYearID", Convert.ToString(entryRow["FinancialYearID"])),
+                            new SqlParameter("@AccountHeadID", Convert.ToString(entryRow["AccountHeadID"])),
+                            new SqlParameter("@AccountControlID", Convert.ToString(entryRow["AccountControlID"])),
+                            new SqlParameter("@AccountSubControlID", Convert.ToString(entryRow["AccountSubControlID"])),
+                            new SqlParameter("@InvoiceNo", Convert.ToString(entryRow["InvoiceNo"])),
+                            new SqlParameter("@UserID", Convert.ToString(entryRow["UserID"])),
+                            new SqlParameter("@Credit", Convert.ToDecimal(entryRow["Credit"])),
+                            new SqlParameter("@Debit", Convert.ToDecimal(entryRow["Debit"])),
+                            new SqlParameter("@TransectionDate", DateTime.Parse(entryDate)),
+                            new SqlParameter("@TransectionTitle", Convert.ToString(entryRow["TransectionTitle"])),
+                            new SqlParameter("@CompanyID", CompanyID),
+                            new SqlParameter("@BranchID", BranchID)
+                        };
+
+                        DatabaseQuery.Insert(entryQuery, entryParams);
+                    }
+
+                    transaction.Commit();
+                    return "Purchase Success";
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
+                    return "Unexpected Error Occurred. Please Try Again!";
+                }
+            }
+        }
+
+        // Purchase Return
+        public string ReturnPurchase(int CompanyID, int BranchID, int UserID, string InvoiceNo, string SupplierInvoiceID, int SupplierReturnInvoiceID, float Amount, string SupplierID, string SupplierName, bool isPayment)
+        {
+            using (var transaction = _db.Database.BeginTransaction())
+            {
+                try
+                {
+                    InitializeDataTable();
+
+                    string returnPurchaseTitle = "Return Purchase to " + SupplierName.Trim();
+
+                    // Retrieve the active financial year
+                    var financialYearCheck = DatabaseQuery.Retrive("SELECT TOP 1 FinancialYearID FROM tblFinancialYear WHERE IsActive = 1");
+                    string FinancialYearID = (financialYearCheck != null ? Convert.ToString(financialYearCheck.Rows[0][0]) : string.Empty);
+                    if (string.IsNullOrEmpty(FinancialYearID))
+                    {
+                        return "Your Company Financial Year is not Set! Please Contact the Administrator!";
+                    }
+
+                    string successMessage = "Return Purchase Success";
+
+                    // Credit Entry Return Purchase
+                    var returnPurchaseAccount = _db.tblAccountSetting
+                        .Where(a => a.AccountActivityID == 12 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                        .FirstOrDefault(); // 4 - Return Purchase
+                    if (returnPurchaseAccount == null)
+                    {
+                        return "Account settings for Return Purchase not found.";
+                    }
+                    SetEntries(FinancialYearID, returnPurchaseAccount.AccountHeadID.ToString(), returnPurchaseAccount.AccountControlID.ToString(), returnPurchaseAccount.AccountSubControlID.ToString(), InvoiceNo, UserID.ToString(), Amount.ToString(), "0", DateTime.Now, returnPurchaseTitle);
+
+                    // Debit Entry Return Purchase Payment Pending
+                    returnPurchaseAccount = _db.tblAccountSetting
+                        .Where(a => a.AccountActivityID == 13 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                        .FirstOrDefault(); // 12 - Purchase Return Payment Pending
+                    if (returnPurchaseAccount == null)
+                    {
+                        return "Account settings for Purchase Return Payment Pending not found.";
+                    }
+                    string pendingPaymentTitle = SupplierName + ", Return Purchase Payment is Pending!";
+                    SetEntries(FinancialYearID, returnPurchaseAccount.AccountHeadID.ToString(), returnPurchaseAccount.AccountControlID.ToString(), returnPurchaseAccount.AccountSubControlID.ToString(), InvoiceNo, UserID.ToString(), "0", Amount.ToString(), DateTime.Now, pendingPaymentTitle);
+
+                    if (isPayment)
+                    {
+                        string payInvoiceNo = "RPP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
+
+                        // Debit Entry Return Payment from Supplier
+                        returnPurchaseAccount = _db.tblAccountSetting
+                            .Where(a => a.AccountActivityID == 13 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                            .FirstOrDefault(); // 12 - Purchase Return Payment Pending
+                        if (returnPurchaseAccount == null)
+                        {
+                            return "Account settings for Purchase Return Payment Pending not found.";
+                        }
+                        string paymentFromTitle = "Return Payment from " + SupplierName;
+                        SetEntries(FinancialYearID, returnPurchaseAccount.AccountHeadID.ToString(), returnPurchaseAccount.AccountControlID.ToString(), returnPurchaseAccount.AccountSubControlID.ToString(), payInvoiceNo, UserID.ToString(), Amount.ToString(), "0", DateTime.Now, paymentFromTitle);
+
+                        // Credit Entry Purchase Return Payment Succeed
+                        returnPurchaseAccount = _db.tblAccountSetting
+                            .Where(a => a.AccountActivityID == 14 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                            .FirstOrDefault(); // 13 - Purchase Return Payment Succeed
+                        if (returnPurchaseAccount == null)
+                        {
+                            return "Account settings for Purchase Return Payment Succeed not found.";
+                        }
+                        string paymentSuccessTitle = SupplierName + ", Return Purchase Payment is Succeed!";
+                        SetEntries(FinancialYearID, returnPurchaseAccount.AccountHeadID.ToString(), returnPurchaseAccount.AccountControlID.ToString(), returnPurchaseAccount.AccountSubControlID.ToString(), payInvoiceNo, UserID.ToString(), "0", Amount.ToString(), DateTime.Now, paymentSuccessTitle);
+
+                        string paymentQuery = "INSERT INTO tblSupplierReturnPayment (SupplierID, SupplierInvoiceID, UserID, InvoiceNo, TotalAmount, PaymentAmount, RemainingBalance, CompanyID, BranchID, SupplierReturnInvoiceID, InvoiceDate) " +
+                                              "VALUES (@SupplierID, @SupplierInvoiceID, @UserID, @InvoiceNo, @TotalAmount, @PaymentAmount, @RemainingBalance, @CompanyID, @BranchID, @SupplierReturnInvoiceID, @InvoiceDate)";
+
+                        var paymentParams = new[]
+                        {
+                            new SqlParameter("@SupplierID", SupplierID),
+                            new SqlParameter("@SupplierInvoiceID", SupplierInvoiceID),
+                            new SqlParameter("@UserID", UserID),
+                            new SqlParameter("@InvoiceNo", payInvoiceNo),
+                            new SqlParameter("@TotalAmount", Amount),
+                            new SqlParameter("@PaymentAmount", Amount),
+                            new SqlParameter("@RemainingBalance", SqlDbType.Float) { Value = 0 },
+                            new SqlParameter("@CompanyID", CompanyID),
+                            new SqlParameter("@BranchID", BranchID),
+                            new SqlParameter("@SupplierReturnInvoiceID", SupplierReturnInvoiceID),
+                            new SqlParameter("@InvoiceDate", DateTime.Now.Date)
+                        };
+
+                        DatabaseQuery.Insert(paymentQuery, paymentParams);
+
+                        successMessage += " with Payment.";
+                    }
+
+                    // Insert transaction records
+                    foreach (DataRow entryRow in _dtEntries.Rows)
+                    {
+                        string entryDate = Convert.ToDateTime(entryRow["TransectionDate"]).ToString("yyyy-MM-dd HH:mm:ss");
+                        string entryQuery = "INSERT INTO tblTransaction (FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID, Credit, Debit, TransectionDate, TransectionTitle, CompanyID, BranchID) " +
+                                            "VALUES (@FinancialYearID, @AccountHeadID, @AccountControlID, @AccountSubControlID, @InvoiceNo, @UserID, @Credit, @Debit, @TransectionDate, @TransectionTitle, @CompanyID, @BranchID)";
+
+                        var entryParams = new[]
+                        {
+                            new SqlParameter("@FinancialYearID", Convert.ToString(entryRow["FinancialYearID"])),
+                            new SqlParameter("@AccountHeadID", Convert.ToString(entryRow["AccountHeadID"])),
+                            new SqlParameter("@AccountControlID", Convert.ToString(entryRow["AccountControlID"])),
+                            new SqlParameter("@AccountSubControlID", Convert.ToString(entryRow["AccountSubControlID"])),
+                            new SqlParameter("@InvoiceNo", Convert.ToString(entryRow["InvoiceNo"])),
+                            new SqlParameter("@UserID", Convert.ToString(entryRow["UserID"])),
+                            new SqlParameter("@Credit", Convert.ToDecimal(entryRow["Credit"])),
+                            new SqlParameter("@Debit", Convert.ToDecimal(entryRow["Debit"])),
+                            new SqlParameter("@TransectionDate", DateTime.Parse(entryDate)),
+                            new SqlParameter("@TransectionTitle", Convert.ToString(entryRow["TransectionTitle"])),
+                            new SqlParameter("@CompanyID", CompanyID),
+                            new SqlParameter("@BranchID", BranchID)
+                        };
+
+                        DatabaseQuery.Insert(entryQuery, entryParams);
+                    }
+
+                    transaction.Commit();
+                    return successMessage;
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
+                    return "Unexpected Error Occurred. Please Try Again!";
+                }
+            }
+        }
+
+        public string ReturnPurchasePayment(int CompanyID, int BranchID, int UserID, string InvoiceNo, string SupplierInvoiceID, int SupplierReturnInvoiceID, float TotalAmount, float Amount, string SupplierID, string SupplierName, float RemainingBalance)
+        {
+            using (var transaction = _db.Database.BeginTransaction())
+            {
+                try
+                {
+                    InitializeDataTable();
+
+                    string returnPurchaseTitle = "Return Purchase to " + SupplierName.Trim();
+
+                    // Retrieve the active financial year
+                    var financialYearCheck = DatabaseQuery.Retrive("SELECT TOP 1 FinancialYearID FROM tblFinancialYear WHERE IsActive = 1");
+                    string FinancialYearID = (financialYearCheck != null && financialYearCheck.Rows.Count > 0) ? Convert.ToString(financialYearCheck.Rows[0][0]) : string.Empty;
+
+                    if (string.IsNullOrEmpty(FinancialYearID))
+                    {
+                        return "Your Company Financial Year is not Set! Please Contact the Administrator!";
+                    }
+
+                    string AccountHeadID = string.Empty;
+                    string AccountControlID = string.Empty;
+                    string AccountSubControlID = string.Empty;
+                    string transactionTitle = string.Empty;
+
+                    // Retrieve account settings for Purchase Return Payment Pending
+                    var returnPurchaseAccount = _db.tblAccountSetting
+                        .Where(a => a.AccountActivityID == 13 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                        .FirstOrDefault();
+                    if (returnPurchaseAccount == null)
+                    {
+                        return "Account settings for Purchase Return Payment Pending not found.";
+                    }
+                    SetEntries(FinancialYearID, returnPurchaseAccount.AccountHeadID.ToString(), returnPurchaseAccount.AccountControlID.ToString(), returnPurchaseAccount.AccountSubControlID.ToString(), InvoiceNo, UserID.ToString(), Amount.ToString(), "0", DateTime.Now, "Return Payment from " + SupplierName);
+
+                    // Retrieve account settings for Purchase Return Payment Succeed
+                    returnPurchaseAccount = _db.tblAccountSetting
+                        .Where(a => a.AccountActivityID == 14 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                        .FirstOrDefault();
+                    if (returnPurchaseAccount == null)
+                    {
+                        return "Account settings for Purchase Return Payment Succeed not found.";
+                    }
+                    SetEntries(FinancialYearID, returnPurchaseAccount.AccountHeadID.ToString(), returnPurchaseAccount.AccountControlID.ToString(), returnPurchaseAccount.AccountSubControlID.ToString(), InvoiceNo, UserID.ToString(), "0", Amount.ToString(), DateTime.Now, SupplierName + ", Return Purchase Payment is Succeed!");
+
+                    // Insert supplier return payment record
+                    string paymentQuery = "INSERT INTO tblSupplierReturnPayment (SupplierID, SupplierInvoiceID, UserID, InvoiceNo, TotalAmount, PaymentAmount, RemainingBalance, CompanyID, BranchID, SupplierReturnInvoiceID, InvoiceDate) " +
+                                          "VALUES (@SupplierID, @SupplierInvoiceID, @UserID, @InvoiceNo, @TotalAmount, @PaymentAmount, @RemainingBalance, @CompanyID, @BranchID, @SupplierReturnInvoiceID, @InvoiceDate)";
+
+                    var paymentParams = new[]
+                    {
+                        new SqlParameter("@SupplierID", SupplierID),
+                        new SqlParameter("@SupplierInvoiceID", SupplierInvoiceID),
+                        new SqlParameter("@UserID", UserID),
+                        new SqlParameter("@InvoiceNo", InvoiceNo),
+                        new SqlParameter("@TotalAmount", TotalAmount),
+                        new SqlParameter("@PaymentAmount", Amount),
+                        new SqlParameter("@RemainingBalance", RemainingBalance),
+                        new SqlParameter("@CompanyID", CompanyID),
+                        new SqlParameter("@BranchID", BranchID),
+                        new SqlParameter("@SupplierReturnInvoiceID", SupplierReturnInvoiceID),
+                        new SqlParameter("@InvoiceDate", DateTime.Now.Date)
+                    };
+
+                    DatabaseQuery.Insert(paymentQuery, paymentParams);
+
+                    // Insert transaction entries
+                    foreach (DataRow entryRow in _dtEntries.Rows)
+                    {
+                        string entryDate = Convert.ToDateTime(entryRow["TransectionDate"]).ToString("yyyy-MM-dd HH:mm:ss");
+                        string entryQuery = "INSERT INTO tblTransaction (FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID, Credit, Debit, TransectionDate, TransectionTitle, CompanyID, BranchID) " +
+                                            "VALUES (@FinancialYearID, @AccountHeadID, @AccountControlID, @AccountSubControlID, @InvoiceNo, @UserID, @Credit, @Debit, @TransectionDate, @TransectionTitle, @CompanyID, @BranchID)";
+
+                        var entryParams = new[]
+                        {
+                            new SqlParameter("@FinancialYearID", Convert.ToString(entryRow["FinancialYearID"])),
+                            new SqlParameter("@AccountHeadID", Convert.ToString(entryRow["AccountHeadID"])),
+                            new SqlParameter("@AccountControlID", Convert.ToString(entryRow["AccountControlID"])),
+                            new SqlParameter("@AccountSubControlID", Convert.ToString(entryRow["AccountSubControlID"])),
+                            new SqlParameter("@InvoiceNo", Convert.ToString(entryRow["InvoiceNo"])),
+                            new SqlParameter("@UserID", Convert.ToString(entryRow["UserID"])),
+                            new SqlParameter("@Credit", Convert.ToDecimal(entryRow["Credit"])),
+                            new SqlParameter("@Debit", Convert.ToDecimal(entryRow["Debit"])),
+                            new SqlParameter("@TransectionDate", DateTime.Parse(entryDate)),
+                            new SqlParameter("@TransectionTitle", Convert.ToString(entryRow["TransectionTitle"])),
+                            new SqlParameter("@CompanyID", CompanyID),
+                            new SqlParameter("@BranchID", BranchID)
+                        };
+
+                        DatabaseQuery.Insert(entryQuery, entryParams);
+                    }
+
+                    transaction.Commit();
+                    return "Return Purchase Payment is Paid";
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
+                    return "Unexpected Error Occurred. Please Try Again!";
+                }
+            }
+        }
+
+        private void SetEntries(string FinancialYearID, string AccountHeadID, string AccountControlID, string AccountSubControlID, string InvoiceNo, string UserID, string Credit, string Debit, DateTime TransactionDate, string TransectionTitle)
+        {
+            InitializeDataTable();
+
+            int columnCount = _dtEntries.Columns.Count;
+            int itemCount = new object[]
+            {
                 FinancialYearID,
                 AccountHeadID,
                 AccountControlID,
@@ -409,8 +528,23 @@ namespace DatabaseAccess.Code
                 UserID,
                 Credit,
                 Debit,
-                TransactionDate.ToString("yyyy/MM/dd HH:mm"),
-                TransectionTitle);
+                TransactionDate.ToString("yyyy-MM-dd HH:mm:ss"),
+                TransectionTitle
+            }.Length;
+
+            if (itemCount == columnCount)
+            {
+                _dtEntries.Rows.Add(
+                    FinancialYearID,
+                    AccountHeadID,
+                    AccountControlID,
+                    AccountSubControlID,
+                    InvoiceNo,
+                    UserID,
+                    Credit,
+                    Debit,
+                    TransactionDate.ToString("yyyy-MM-dd HH:mm:ss"),
+                    TransectionTitle);
             }
         }
     }

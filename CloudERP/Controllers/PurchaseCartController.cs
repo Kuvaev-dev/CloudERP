@@ -52,6 +52,17 @@ namespace CloudERP.Controllers
             }
         }
 
+        [HttpGet]
+        public JsonResult GetProductDetails(int id)
+        {
+            var product = _db.tblStock.Find(id);
+            if (product != null)
+            {
+                return Json(new { product.CurrentPurchaseUnitPrice }, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { CurrentPurchaseUnitPrice = 0 }, JsonRequestBehavior.AllowGet);
+        }
+
         // POST: PurchaseCart/AddItem
         [HttpPost]
         public ActionResult AddItem(int PID, int Qty, float Price)
