@@ -49,7 +49,7 @@ namespace DatabaseAccess
         public double Debit { get; set; }
 
         [Required(ErrorMessage = "Transaction Date is required.")]
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
         public System.DateTime TransectionDate { get; set; }
 
         [Required(ErrorMessage = "Transaction Title is required.")]

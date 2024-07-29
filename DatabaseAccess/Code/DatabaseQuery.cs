@@ -23,19 +23,16 @@ namespace DatabaseAccess.Code
             return conn;
         }
 
-        public static bool Insert(string query)
+        public static void Insert(string query, params SqlParameter[] parameters)
         {
-            try
+            using (var connection = new SqlConnection("data source=localhost\\sqlexpress;initial catalog=CloudErpV1;integrated security=True;"))
             {
-                int noofrows = 0;
-                SqlCommand cmb = new SqlCommand(query, ConnOpen());
-                noofrows = cmb.ExecuteNonQuery();
-
-                return noofrows > 0;
-            }
-            catch
-            {
-                return false;
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddRange(parameters);
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
             }
         }
 

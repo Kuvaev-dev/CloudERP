@@ -166,7 +166,7 @@ namespace CloudERP.Controllers
                         if (message.Contains("Succeed"))
                         {
                             Session["SalaryMessage"] = message;
-                            int payrollNo = _db.tblPayroll.Max(p => p.PayrollID);
+                            int payrollNo = _db.tblPayroll.Any() ? _db.tblPayroll.Max(p => p.PayrollID) : 0; // Check if tblPayroll has records
                             return RedirectToAction("PrintSalaryInvoice", new { id = payrollNo });
                         }
                         else
@@ -182,7 +182,7 @@ namespace CloudERP.Controllers
 
                 return RedirectToAction("EmployeeSalary");
             }
-            catch
+            catch (Exception ex)
             {
                 Session["SalaryMessage"] = "Some Unexpected Issue is Occurred. Please Try Again";
                 return RedirectToAction("EmployeeSalary");
