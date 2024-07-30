@@ -17,129 +17,148 @@ namespace DatabaseAccess.Code.SP_Code
 
         public List<AccountLedgerModel> GetLedger(int CompanyID, int BranchID, int FinancialYearID)
         {
-            int sNo = 0;
-
             var ledger = new List<AccountLedgerModel>();
+            int sNo = 1;
 
-            SqlCommand command = new SqlCommand("GetLedger", DatabaseQuery.ConnOpen())
+            try
             {
-                CommandType = CommandType.StoredProcedure
-            };
-            command.Parameters.AddWithValue("@BranchID", BranchID);
-            command.Parameters.AddWithValue("@CompanyID", CompanyID);
-            command.Parameters.AddWithValue("@FinancialYearID", FinancialYearID);
-
-            var journalDB = new DataTable();
-            SqlDataAdapter da = new SqlDataAdapter(command);
-            da.Fill(journalDB);
-
-            if (journalDB == null)
-            {
-                ledger.Clear();
-                return ledger;
-            }
-
-            if (journalDB.Rows.Count == 0)
-            {
-                ledger.Clear();
-                return ledger;
-            }
-
-            decimal debit = 0;
-            decimal credit = 0;
-            double totalRecords = 0;
-            string accountName = string.Empty;
-
-            foreach (DataRow row in journalDB.Rows)
-            {
-                decimal lDebit = 0;
-                decimal lCredit = 0;
-
-                if (accountName == Convert.ToString(row[7]).Trim()) // Check Account Title
+                using (SqlConnection connection = DatabaseQuery.ConnOpen())
                 {
-                    var createRow = new AccountLedgerModel();
-                    createRow.SNo = sNo;
-                    sNo += 1;
-
-                    createRow.Date = Convert.ToString(row[9]); // TransectionDate
-                    createRow.Description = Convert.ToString(row[10]); // TransectionTitle
-                    decimal.TryParse(Convert.ToString(row[11]), out lDebit);
-
-                    debit += lDebit;
-                    createRow.Debit = Convert.ToString(row[11]);
-                    decimal.TryParse(Convert.ToString(row[12]), out lCredit);
-
-                    credit += lCredit;
-                    createRow.Credit = Convert.ToString(row[12]);
-                    ledger.Add(createRow);
-                }
-                else
-                {
-                    if (!string.IsNullOrEmpty(accountName))
+                    using (SqlCommand command = new SqlCommand("GetLedger", connection))
                     {
-                        var totalRow = new AccountLedgerModel();
-                        totalRow.SNo = sNo;
-                        sNo += 1;
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add(new SqlParameter("@BranchID", BranchID));
+                        command.Parameters.Add(new SqlParameter("@CompanyID", CompanyID));
+                        command.Parameters.Add(new SqlParameter("@FinancialYearID", FinancialYearID));
 
-                        totalRow.Date = "Total";
-                        if (credit >= debit)
+                        var dt = new DataTable();
+                        using (SqlDataAdapter da = new SqlDataAdapter(command))
                         {
-                            totalRow.Credit = Convert.ToString(debit - credit).Replace('-', ' ');
-                        }
-                        else if (credit <= debit)
-                        {
-                            totalRow.Debit = Convert.ToString(debit - credit).Replace('-', ' ');
+                            da.Fill(dt);
                         }
 
-                        totalRow.Date = "Total Balance";
-                        ledger.Add(totalRow);
-                        debit = 0;
-                        credit = 0;
+                        if (dt.Rows.Count == 0)
+                        {
+                            return ledger;
+                        }
+
+                        decimal debit = 0;
+                        decimal credit = 0;
+                        double totalRecords = 0;
+                        string accountName = string.Empty;
+
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            decimal lDebit = 0;
+                            decimal lCredit = 0;
+
+                            if (accountName == Convert.ToString(row["AccountTitle"]).Trim())
+                            {
+                                var createRow = new AccountLedgerModel
+                                {
+                                    SNo = sNo,
+                                    Date = Convert.ToString(row["TransectionDate"]),
+                                    Description = Convert.ToString(row["TransectionTitle"]),
+                                    Debit = Convert.ToString(row["Debit"]),
+                                    Credit = Convert.ToString(row["Credit"])
+                                };
+                                sNo += 1;
+
+                                decimal.TryParse(Convert.ToString(row["Debit"]), out lDebit);
+                                debit += lDebit;
+
+                                decimal.TryParse(Convert.ToString(row["Credit"]), out lCredit);
+                                credit += lCredit;
+
+                                ledger.Add(createRow);
+                            }
+                            else
+                            {
+                                if (!string.IsNullOrEmpty(accountName))
+                                {
+                                    var totalRow = new AccountLedgerModel
+                                    {
+                                        SNo = sNo,
+                                        Date = "Total"
+                                    };
+                                    sNo += 1;
+
+                                    if (credit >= debit)
+                                    {
+                                        totalRow.Credit = (credit - debit).ToString();
+                                    }
+                                    else
+                                    {
+                                        totalRow.Debit = (debit - credit).ToString();
+                                    }
+
+                                    totalRow.Date = "Total Balance";
+                                    ledger.Add(totalRow);
+                                    debit = 0;
+                                    credit = 0;
+                                }
+
+                                var headerRow = new AccountLedgerModel
+                                {
+                                    SNo = sNo,
+                                    Account = Convert.ToString(row["AccountTitle"]),
+                                    Date = "Date",
+                                    Description = "Description",
+                                    Debit = "Debit",
+                                    Credit = "Credit"
+                                };
+                                sNo += 1;
+
+                                ledger.Add(headerRow);
+
+                                var createRow = new AccountLedgerModel
+                                {
+                                    SNo = sNo,
+                                    Date = Convert.ToString(row["TransectionDate"]),
+                                    Description = Convert.ToString(row["TransectionTitle"]),
+                                    Debit = Convert.ToString(row["Debit"]),
+                                    Credit = Convert.ToString(row["Credit"])
+                                };
+                                sNo += 1;
+
+                                decimal.TryParse(Convert.ToString(row["Debit"]), out lDebit);
+                                debit += lDebit;
+
+                                decimal.TryParse(Convert.ToString(row["Credit"]), out lCredit);
+                                credit += lCredit;
+
+                                ledger.Add(createRow);
+                                accountName = Convert.ToString(row["AccountTitle"]).Trim();
+                            }
+                            totalRecords += 1;
+                            if (totalRecords == dt.Rows.Count)
+                            {
+                                var totalRow = new AccountLedgerModel
+                                {
+                                    SNo = sNo,
+                                    Date = "Total"
+                                };
+                                sNo += 1;
+
+                                if (credit >= debit)
+                                {
+                                    totalRow.Credit = (credit - debit).ToString();
+                                }
+                                else
+                                {
+                                    totalRow.Debit = (debit - credit).ToString();
+                                }
+
+                                totalRow.Date = "Total Balance";
+                                ledger.Add(totalRow);
+                            }
+                        }
                     }
-
-                    var headerRow = new AccountLedgerModel();
-                    headerRow.SNo = sNo;
-                    sNo += 1;
-                    headerRow.Account = Convert.ToString(row[7]);
-                    headerRow.Date = "Date";
-                    headerRow.Description = "Description";
-                    headerRow.Debit = "Debit";
-                    headerRow.Credit = "Credit";
-                    ledger.Add(headerRow);
-
-                    var createRow = new AccountLedgerModel();
-                    createRow.SNo = sNo;
-                    sNo += 1;
-                    createRow.Date = Convert.ToString(row[9]);
-                    createRow.Description = Convert.ToString(row[10]);
-                    decimal.TryParse(Convert.ToString(row[11]), out lCredit);
-                    debit += lCredit;
-                    createRow.Credit = Convert.ToString(row[12]);
-                    ledger.Add(createRow);
-                    accountName = Convert.ToString(row[6]).Trim();
                 }
-                totalRecords += 1;
-                if (totalRecords == journalDB.Rows.Count)
-                {
-                    var totalRow = new AccountLedgerModel();
-                    totalRow.SNo = sNo;
-                    sNo += 1;
-
-                    totalRow.Date = "Total";
-                    if (credit >= debit)
-                    {
-                        totalRow.Credit = Convert.ToString(debit - credit).Replace('-', ' ');
-                    }
-                    else if (credit <= debit)
-                    {
-                        totalRow.Debit = Convert.ToString(debit - credit).Replace('-', ' ');
-                    }
-
-                    totalRow.Date = "Total Balance";
-                    ledger.Add(totalRow);
-                    debit = 0;
-                    credit = 0;
-                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
             }
 
             return ledger;

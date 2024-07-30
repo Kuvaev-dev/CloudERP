@@ -26,7 +26,7 @@ namespace DatabaseAccess.Code.SP_Code
         public BalanceSheetModel GetBalanceSheet(int CompanyID, int BranchID, int FinancialYearID, List<int> HeadIDs)
         {
             var BalanceSheet = new BalanceSheetModel();
-            
+
             double TotalAssets = 0;
             double TotalLiabilities = 0;
             double TotalOwnerEquity = 0;
@@ -40,10 +40,10 @@ namespace DatabaseAccess.Code.SP_Code
 
             foreach (var HeadID in HeadIDs)
             {
-                var AccountHead = new AccountHeadTotal();
-                if (HeadID == 1 || HeadID == 2 || HeadID == 4)
+                AccountHeadTotal AccountHead = GetHeadAccountsWithTotal(CompanyID, BranchID, FinancialYearID, HeadID);
+
+                if (AccountHead != null && AccountHead.AccountHeadDetails != null)
                 {
-                    AccountHead = GetHeadAccountsWithTotal(CompanyID, BranchID, FinancialYearID, HeadID);
                     if (HeadID == 1) // Total Assets
                     {
                         TotalAssets = GetAccountTotalAmount(CompanyID, BranchID, FinancialYearID, HeadID);
@@ -56,18 +56,16 @@ namespace DatabaseAccess.Code.SP_Code
                     {
                         TotalOwnerEquity = GetAccountTotalAmount(CompanyID, BranchID, FinancialYearID, HeadID);
                     }
+                    else if (HeadID == 3) // Total Expenses
+                    {
+                        TotalExpenses = AccountHead.TotalAmount;
+                    }
+                    else if (HeadID == 5) // Total Revenue
+                    {
+                        TotalRevenue = AccountHead.TotalAmount;
+                    }
 
                     AllHeads.Add(AccountHead);
-                }
-                else if (HeadID == 3) // Total Expenses
-                {
-                    AccountHead = GetHeadAccountsWithTotal(CompanyID, BranchID, FinancialYearID, HeadID);
-                    TotalExpenses = AccountHead.TotalAmount;
-                }
-                else if (HeadID == 5) // Total Revenue
-                {
-                    AccountHead = GetHeadAccountsWithTotal(CompanyID, BranchID, FinancialYearID, HeadID);
-                    TotalRevenue = AccountHead.TotalAmount;
                 }
             }
 
@@ -84,27 +82,36 @@ namespace DatabaseAccess.Code.SP_Code
 
         public double GetAccountTotalAmount(int CompanyID, int BranchID, int FinancialYearID, int HeadID)
         {
-            SqlCommand command = new SqlCommand("GetTotalByHeadAccount", DatabaseQuery.ConnOpen())
-            {
-                CommandType = CommandType.StoredProcedure
-            };
-            command.Parameters.AddWithValue("@BranchID", BranchID);
-            command.Parameters.AddWithValue("@CompanyID", CompanyID);
-            command.Parameters.AddWithValue("@HeadID", HeadID);
-            command.Parameters.AddWithValue("@FinancialYearID", FinancialYearID);
-
-            var dt = new DataTable();
-
-            SqlDataAdapter da = new SqlDataAdapter(command);
-            da.Fill(dt);
-
             double totalAmount = 0;
-            if (dt != null)
+
+            try
             {
-                if (dt.Rows.Count > 0)
+                using (SqlConnection connection = DatabaseQuery.ConnOpen())
                 {
-                    totalAmount = Convert.ToDouble(dt.Rows[0][0]);
+                    using (SqlCommand command = new SqlCommand("GetTotalByHeadAccount", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add(new SqlParameter("@BranchID", BranchID));
+                        command.Parameters.Add(new SqlParameter("@CompanyID", CompanyID));
+                        command.Parameters.Add(new SqlParameter("@HeadID", HeadID));
+                        command.Parameters.Add(new SqlParameter("@FinancialYearID", FinancialYearID));
+
+                        var dt = new DataTable();
+                        using (SqlDataAdapter da = new SqlDataAdapter(command))
+                        {
+                            da.Fill(dt);
+                        }
+
+                        if (dt.Rows.Count > 0)
+                        {
+                            totalAmount = Convert.ToDouble(dt.Rows[0][0] == DBNull.Value ? 0 : dt.Rows[0][0]);
+                        }
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
             }
 
             return totalAmount;
@@ -112,44 +119,67 @@ namespace DatabaseAccess.Code.SP_Code
 
         public AccountHeadTotal GetHeadAccountsWithTotal(int CompanyID, int BranchID, int FinancialYearID, int HeadID)
         {
-            var accountsHeadWithDetails = new AccountHeadTotal();
-
-            SqlCommand command = new SqlCommand("GetAccountHeadDetails", DatabaseQuery.ConnOpen())
+            var accountsHeadWithDetails = new AccountHeadTotal
             {
-                CommandType = CommandType.StoredProcedure
+                AccountHeadDetails = new List<AccountHeadDetail>()
             };
-            command.Parameters.AddWithValue("@BranchID", BranchID);
-            command.Parameters.AddWithValue("@CompanyID", CompanyID);
-            command.Parameters.AddWithValue("@HeadID", HeadID);
-            command.Parameters.AddWithValue("@FinancialYearID", FinancialYearID);
-
-            var dt = new DataTable();
-
-            SqlDataAdapter da = new SqlDataAdapter(command);
-            da.Fill(dt);
-
             var accountsList = new List<AccountHeadDetail>();
-
             double totalAmount = 0;
 
-            foreach (DataRow row in dt.Rows)
+            try
             {
-                var account = new AccountHeadDetail();
-                account.AccountSubTitle = Convert.ToString(row[0].ToString());
-                account.TotalAmount = Convert.ToDouble(row[1]);
-                account.Status = Convert.ToString(row[2]);
-
-                totalAmount += account.TotalAmount;
-                if (account.TotalAmount > 0)
+                using (SqlConnection connection = DatabaseQuery.ConnOpen())
                 {
-                    accountsList.Add(account);
+                    using (SqlCommand command = new SqlCommand("GetAccountHeadDetails", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add(new SqlParameter("@BranchID", BranchID));
+                        command.Parameters.Add(new SqlParameter("@CompanyID", CompanyID));
+                        command.Parameters.Add(new SqlParameter("@HeadID", HeadID));
+                        command.Parameters.Add(new SqlParameter("@FinancialYearID", FinancialYearID));
+
+                        var dt = new DataTable();
+                        using (SqlDataAdapter da = new SqlDataAdapter(command))
+                        {
+                            da.Fill(dt);
+                        }
+
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            var account = new AccountHeadDetail
+                            {
+                                AccountSubTitle = Convert.ToString(row["AccountTitle"]),
+                                TotalAmount = Convert.ToDouble(row["Total"] == DBNull.Value ? 0 : row["Total"]),
+                                Status = Convert.ToString(row["Status"])
+                            };
+
+                            totalAmount += account.TotalAmount;
+
+                            if (account.TotalAmount > 0)
+                            {
+                                accountsList.Add(account);
+                            }
+                        }
+                    }
+                }
+
+                var accountHead = _db.tblAccountHead.Find(HeadID);
+                if (accountHead != null)
+                {
+                    accountsHeadWithDetails.TotalAmount = totalAmount;
+                    accountsHeadWithDetails.AccountHeadTitle = accountHead.AccountHeadName;
+                    accountsHeadWithDetails.AccountHeadDetails = accountsList;
+                }
+                else
+                {
+                    Console.WriteLine($"Warning: Account head with ID {HeadID} not found.");
+                    accountsHeadWithDetails.AccountHeadTitle = "Unknown"; // Provide a default value to avoid null
                 }
             }
-
-            var accountHead = _db.tblAccountHead.Find(HeadID);
-            accountsHeadWithDetails.TotalAmount = totalAmount;
-            accountsHeadWithDetails.AccountHeadTitle = accountHead.AccountHeadName;
-            accountsHeadWithDetails.AccountHeadDetails = accountsList;
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
+            }
 
             return accountsHeadWithDetails;
         }

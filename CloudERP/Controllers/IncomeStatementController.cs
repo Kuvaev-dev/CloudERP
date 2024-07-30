@@ -30,6 +30,9 @@ namespace CloudERP.Controllers
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = Convert.ToInt32(Session["BranchID"]);
 
+                var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
+                ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear");
+
                 var FinancialYear = _db.tblFinancialYear.FirstOrDefault(f => f.IsActive);
                 if (FinancialYear == null)
                 {
@@ -38,7 +41,7 @@ namespace CloudERP.Controllers
                 }
 
                 var incomeStatement = _income.GetIncomeStatement(companyID, branchID, FinancialYear.FinancialYearID);
-                
+
                 return View(incomeStatement);
             }
             catch (Exception ex)
@@ -61,28 +64,8 @@ namespace CloudERP.Controllers
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = Convert.ToInt32(Session["BranchID"]);
 
-                var incomeStatement = _income.GetIncomeStatement(companyID, branchID, (int)id);
-                
-                return View(incomeStatement);
-            }
-            catch (Exception ex)
-            {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
-        }
-
-        public ActionResult GetSubIncomeStatement(string brchid)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(brchid);
+                var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
+                ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear");
 
                 var FinancialYear = _db.tblFinancialYear.FirstOrDefault(f => f.IsActive);
                 if (FinancialYear == null)
@@ -91,32 +74,8 @@ namespace CloudERP.Controllers
                     return View();
                 }
 
-                var incomeStatement = _income.GetIncomeStatement(companyID, branchID, FinancialYear.FinancialYearID);
-                
-                return View(incomeStatement);
-            }
-            catch (Exception ex)
-            {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
-        }
-
-        [HttpPost]
-        public ActionResult GetSubIncomeStatement(int? id)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-
                 var incomeStatement = _income.GetIncomeStatement(companyID, branchID, (int)id);
-                
+
                 return View(incomeStatement);
             }
             catch (Exception ex)

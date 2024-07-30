@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 
 namespace DatabaseAccess.Code
@@ -8,11 +9,29 @@ namespace DatabaseAccess.Code
     {
         private readonly CloudDBEntities _db;
         public string selectcustomerid = string.Empty;
-        private DataTable dtEntries = null;
+        private DataTable _dtEntries = null;
 
         public GeneralTransactionEntry(CloudDBEntities db)
         {
             _db = db;
+        }
+
+        private void InitializeDataTable()
+        {
+            if (_dtEntries == null)
+            {
+                _dtEntries = new DataTable();
+                _dtEntries.Columns.Add("FinancialYearID");
+                _dtEntries.Columns.Add("AccountHeadID");
+                _dtEntries.Columns.Add("AccountControlID");
+                _dtEntries.Columns.Add("AccountSubControlID");
+                _dtEntries.Columns.Add("InvoiceNo");
+                _dtEntries.Columns.Add("UserID");
+                _dtEntries.Columns.Add("Credit");
+                _dtEntries.Columns.Add("Debit");
+                _dtEntries.Columns.Add("TransectionDate");
+                _dtEntries.Columns.Add("TransectionTitle");
+            }
         }
 
         public string ConfirmGeneralTransaction(
@@ -25,97 +44,85 @@ namespace DatabaseAccess.Code
             int CreditAccountControlID,
             string Reason)
         {
-            try
+            using (var transaction = _db.Database.BeginTransaction())
             {
-                dtEntries = null;
-                string transectiontitle = Reason;
-                var financialYearCheck = DatabaseQuery.Retrive("select top 1 FinancialYearID from tblFinancialYear where IsActive = 1");
-                string FinancialYearID = (financialYearCheck != null ? Convert.ToString(financialYearCheck.Rows[0][0]) : string.Empty);
-                
-                if (string.IsNullOrEmpty(FinancialYearID))
+                try
                 {
-                    return "Your Company Financial Year is not Set! Please Contact to Administrator!";
+                    InitializeDataTable();
+
+                    string transectiontitle = Reason;
+
+                    // Retrieve the active financial year
+                    var financialYearCheck = DatabaseQuery.Retrive("SELECT TOP 1 FinancialYearID FROM tblFinancialYear WHERE IsActive = 1");
+                    string FinancialYearID = Convert.ToString(financialYearCheck.Rows[0][0]);
+
+                    if (string.IsNullOrEmpty(FinancialYearID))
+                    {
+                        return "Your Company Financial Year is not Set! Please Contact the Administrator!";
+                    }
+
+                    // Debit entry
+                    var debitAccount = _db.tblAccountSubControl.FirstOrDefault(a => a.AccountSubControlID == DebitAccountControlID && a.CompanyID == CompanyID && a.BranchID == BranchID);
+                    if (debitAccount == null)
+                    {
+                        return "Debit account not found.";
+                    }
+                    SetEntries(FinancialYearID, debitAccount.AccountHeadID.ToString(), debitAccount.AccountControlID.ToString(), debitAccount.AccountSubControlID.ToString(), InvoiceNo, UserID.ToString(), "0", TransferAmount.ToString(), DateTime.Now, transectiontitle);
+
+                    // Credit entry
+                    var creditAccount = _db.tblAccountSubControl.FirstOrDefault(a => a.AccountSubControlID == CreditAccountControlID && a.CompanyID == CompanyID && a.BranchID == BranchID);
+                    if (creditAccount == null)
+                    {
+                        return "Credit account not found.";
+                    }
+                    transectiontitle = "General Transaction Succeed!";
+                    SetEntries(FinancialYearID, creditAccount.AccountHeadID.ToString(), creditAccount.AccountControlID.ToString(), creditAccount.AccountSubControlID.ToString(), InvoiceNo, UserID.ToString(), TransferAmount.ToString(), "0", DateTime.Now, transectiontitle);
+
+                    // Insert transaction entries
+                    foreach (DataRow entryRow in _dtEntries.Rows)
+                    {
+                        string entryDate = Convert.ToDateTime(entryRow["TransectionDate"]).ToString("yyyy-MM-dd HH:mm:ss");
+                        string entryQuery = "INSERT INTO tblTransaction (FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID, Credit, Debit, TransectionDate, TransectionTitle, CompanyID, BranchID) " +
+                                            "VALUES (@FinancialYearID, @AccountHeadID, @AccountControlID, @AccountSubControlID, @InvoiceNo, @UserID, @Credit, @Debit, @TransectionDate, @TransectionTitle, @CompanyID, @BranchID)";
+
+                        var entryParams = new[]
+                        {
+                            new SqlParameter("@FinancialYearID", Convert.ToString(entryRow["FinancialYearID"])),
+                            new SqlParameter("@AccountHeadID", Convert.ToString(entryRow["AccountHeadID"])),
+                            new SqlParameter("@AccountControlID", Convert.ToString(entryRow["AccountControlID"])),
+                            new SqlParameter("@AccountSubControlID", Convert.ToString(entryRow["AccountSubControlID"])),
+                            new SqlParameter("@InvoiceNo", Convert.ToString(entryRow["InvoiceNo"])),
+                            new SqlParameter("@UserID", Convert.ToString(entryRow["UserID"])),
+                            new SqlParameter("@Credit", Convert.ToDecimal(entryRow["Credit"])),
+                            new SqlParameter("@Debit", Convert.ToDecimal(entryRow["Debit"])),
+                            new SqlParameter("@TransectionDate", DateTime.Parse(entryDate)),
+                            new SqlParameter("@TransectionTitle", Convert.ToString(entryRow["TransectionTitle"])),
+                            new SqlParameter("@CompanyID", CompanyID),
+                            new SqlParameter("@BranchID", BranchID)
+                        };
+
+                        DatabaseQuery.Insert(entryQuery, entryParams);
+                    }
+
+                    transaction.Commit();
+                    return "General Transaction Succeed";
                 }
-
-                string AccountHeadID = string.Empty;
-                string AccountControlID = string.Empty;
-                string AccountSubControlID = string.Empty;
-
-                // Assests 1      increae(Debit)   decrese(Credit)
-                // Liabilities 2     increae(Credit)   decrese(Debit)
-                // Expenses 3     increae(Debit)   decrese(Credit)
-                // Capital 4     increae(Credit)   decrese(Debit)
-                // Revenue 5     increae(Credit)   decrese(Debit)
-
-                var account = _db.tblAccountSubControl.Where(a => a.AccountSubControlID == DebitAccountControlID && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); // 14 - Sale Return Payment Pending
-                AccountHeadID = Convert.ToString(account.AccountHeadID);
-                AccountControlID = Convert.ToString(account.AccountControlID);
-                AccountSubControlID = Convert.ToString(account.AccountSubControlID);
-                SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID.ToString(), "0", Convert.ToString(TransferAmount), DateTime.Now, transectiontitle);
-
-                account = _db.tblAccountSubControl.Where(a => a.AccountSubControlID == CreditAccountControlID && a.CompanyID == CompanyID && a.BranchID == BranchID).FirstOrDefault(); // 14 - Sale Return Payment Pending
-                AccountHeadID = Convert.ToString(account.AccountHeadID);
-                AccountControlID = Convert.ToString(account.AccountControlID);
-                AccountSubControlID = Convert.ToString(account.AccountSubControlID);
-                transectiontitle = "General Transaction Succeed!";
-                SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID.ToString(), Convert.ToString(TransferAmount), "0", DateTime.Now, transectiontitle);
-
-                foreach (DataRow entryRow in dtEntries.Rows)
+                catch (Exception ex)
                 {
-                    string entryQuery = string.Format("insert into tblTransaction(FinancialYearID,AccountHeadID,AccountControlID,AccountSubControlID,InvoiceNo,UserID,Credit,Debit,TransectionDate,TransectionTitle,CompanyID,BranchID) " +
-                        "values {'{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}'}",
-                        Convert.ToString(entryRow[0]),
-                        Convert.ToString(entryRow[1]),
-                        Convert.ToString(entryRow[2]),
-                        Convert.ToString(entryRow[3]),
-                        Convert.ToString(entryRow[4]),
-                        Convert.ToString(entryRow[5]),
-                        Convert.ToString(entryRow[6]),
-                        Convert.ToString(entryRow[7]),
-                        Convert.ToDateTime(Convert.ToString(entryRow[8])).ToString("yyyy/MM/dd HH:mm"),
-                        Convert.ToString(entryRow[9]),
-                        CompanyID, BranchID);
-                    DatabaseQuery.Insert(entryQuery);
+                    transaction.Rollback();
+                    Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
+                    return "Unexpected Error Occurred. Please Try Again!";
                 }
-
-                return "General Transaction Succeed";
-            }
-            catch
-            {
-                return "Unexpected Error is Occured. Please Try Again!";
             }
         }
 
-        private void SetEntries(
-            string FinancialYearID,
-            string AccountHeadID,
-            string AccountControlID,
-            string AccountSubControlID,
-            string InvoiceNo,
-            string UserID,
-            string Credit,
-            string Debit,
-            DateTime TransactionDate,
-            string TransectionTitle)
+        private void SetEntries(string FinancialYearID, string AccountHeadID, string AccountControlID, string AccountSubControlID, string InvoiceNo, string UserID, string Credit, string Debit, DateTime TransactionDate, string TransectionTitle)
         {
-            if (dtEntries == null)
-            {
-                dtEntries = new DataTable();
-                dtEntries.Columns.Add("FinancialYearID");
-                dtEntries.Columns.Add("AccountHeadID");
-                dtEntries.Columns.Add("AccountControlID");
-                dtEntries.Columns.Add("AccountSubControlID");
-                dtEntries.Columns.Add("InvoiceNo");
-                dtEntries.Columns.Add("UserID");
-                dtEntries.Columns.Add("Credit");
-                dtEntries.Columns.Add("Debit");
-                dtEntries.Columns.Add("TransactionDate");
-                dtEntries.Columns.Add("TransectionTitle");
-            }
+            InitializeDataTable();
 
-            if (dtEntries != null)
+            int columnCount = _dtEntries.Columns.Count;
+            int itemCount = new object[]
             {
-                dtEntries.Rows.Add(
                 FinancialYearID,
                 AccountHeadID,
                 AccountControlID,
@@ -124,8 +131,23 @@ namespace DatabaseAccess.Code
                 UserID,
                 Credit,
                 Debit,
-                TransactionDate.ToString("yyyy/MM/dd HH:mm"),
-                TransectionTitle);
+                TransactionDate.ToString("yyyy-MM-dd HH:mm:ss"),
+                TransectionTitle
+            }.Length;
+
+            if (itemCount == columnCount)
+            {
+                _dtEntries.Rows.Add(
+                    FinancialYearID,
+                    AccountHeadID,
+                    AccountControlID,
+                    AccountSubControlID,
+                    InvoiceNo,
+                    UserID,
+                    Credit,
+                    Debit,
+                    TransactionDate.ToString("yyyy-MM-dd HH:mm:ss"),
+                    TransectionTitle);
             }
         }
     }

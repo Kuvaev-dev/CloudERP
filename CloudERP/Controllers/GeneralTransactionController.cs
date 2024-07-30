@@ -32,10 +32,11 @@ namespace CloudERP.Controllers
 
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = Convert.ToInt32(Session["BranchID"]);
-                int userID = Convert.ToInt32(Session["UserID"]);
 
-                ViewBag.CreditAccountControlID = new SelectList(_accounts.GetAllAccounts(companyID, branchID), "AccountSubControlID", "AccountSubControl", "0");
-                ViewBag.DebitAccountControlID = new SelectList(_accounts.GetAllAccounts(companyID, branchID), "AccountSubControlID", "AccountSubControl", "0");
+                var accounts = _accounts.GetAllAccounts(companyID, branchID);
+
+                ViewBag.CreditAccountControlID = new SelectList(accounts, "AccountSubControlID", "AccountSubControl");
+                ViewBag.DebitAccountControlID = new SelectList(accounts, "AccountSubControlID", "AccountSubControl");
 
                 var transaction = new GeneralTransactionMV();
                 return View(transaction);

@@ -19,30 +19,44 @@ namespace DatabaseAccess.Code.SP_Code
         {
             var accountsList = new List<AllAccountModel>();
 
-            SqlCommand command = new SqlCommand("GetAllAccounts", DatabaseQuery.ConnOpen())
+            try
             {
-                CommandType = CommandType.StoredProcedure
-            };
-            command.Parameters.AddWithValue("@BranchID", BranchID);
-            command.Parameters.AddWithValue("@CompanyID", CompanyID);
+                using (SqlConnection connection = DatabaseQuery.ConnOpen())
+                {
+                    using (SqlCommand command = new SqlCommand("GetAllAccounts", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add(new SqlParameter("@BranchID", BranchID));
+                        command.Parameters.Add(new SqlParameter("@CompanyID", CompanyID));
 
-            var dt = new DataTable();
-            SqlDataAdapter da = new SqlDataAdapter(command);
-            da.Fill(dt);
+                        var dt = new DataTable();
+                        using (SqlDataAdapter da = new SqlDataAdapter(command))
+                        {
+                            da.Fill(dt);
+                        }
 
-            foreach (DataRow row in dt.Rows)
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            var account = new AllAccountModel
+                            {
+                                AccountHeadID = Convert.ToInt32(row["AccountHeadID"]),
+                                AccountHeadName = Convert.ToString(row["AccountHeadName"]),
+                                AccountControlID = Convert.ToInt32(row["AccountControlID"]),
+                                AccountControlName = Convert.ToString(row["AccountControlName"]),
+                                BranchID = Convert.ToInt32(row["BranchID"]),
+                                CompanyID = Convert.ToInt32(row["CompanyID"]),
+                                AccountSubControlID = Convert.ToInt32(row["AccountSubControlID"]),
+                                AccountSubControl = Convert.ToString(row["AccountSubControl"])
+                            };
+
+                            accountsList.Add(account);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
             {
-                var account = new AllAccountModel();
-                account.AccountHeadID = Convert.ToInt32(row[0].ToString());
-                account.AccountHeadName = Convert.ToString(row[1]);
-                account.AccountControlID = Convert.ToInt32(row[2].ToString());
-                account.AccountControlName = Convert.ToString(row[3]);
-                account.BranchID = Convert.ToInt32(row[4].ToString());
-                account.CompanyID = Convert.ToInt32(row[5].ToString());
-                account.AccountSubControlID = Convert.ToInt32(row[6].ToString());
-                account.AccountSubControl = Convert.ToString(row[7]);
-
-                accountsList.Add(account);
+                Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
             }
 
             return accountsList;
@@ -52,33 +66,47 @@ namespace DatabaseAccess.Code.SP_Code
         {
             var journalEntries = new List<JournalModel>();
 
-            SqlCommand command = new SqlCommand("GetJournal", DatabaseQuery.ConnOpen())
+            try
             {
-                CommandType = CommandType.StoredProcedure
-            };
-            command.Parameters.AddWithValue("@BranchID", BranchID);
-            command.Parameters.AddWithValue("@CompanyID", CompanyID);
-            command.Parameters.AddWithValue("@FromDate", FromDate);
-            command.Parameters.AddWithValue("@ToDate", ToDate);
+                using (SqlConnection connection = DatabaseQuery.ConnOpen())
+                {
+                    using (SqlCommand command = new SqlCommand("GetJournal", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add(new SqlParameter("@BranchID", BranchID));
+                        command.Parameters.Add(new SqlParameter("@CompanyID", CompanyID));
+                        command.Parameters.Add(new SqlParameter("@FromDate", FromDate));
+                        command.Parameters.Add(new SqlParameter("@ToDate", ToDate));
 
-            var dt = new DataTable();
-            SqlDataAdapter da = new SqlDataAdapter(command);
-            da.Fill(dt);
+                        var dt = new DataTable();
+                        using (SqlDataAdapter da = new SqlDataAdapter(command))
+                        {
+                            da.Fill(dt);
+                        }
 
-            int no = 1; // №
-            foreach (DataRow row in dt.Rows)
+                        int no = 1; // №
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            var entry = new JournalModel
+                            {
+                                TransectionDate = Convert.ToDateTime(row["TransectionDate"]),
+                                AccountSubControl = Convert.ToString(row["AccountSubControl"]),
+                                TransectionTitle = Convert.ToString(row["TransectionTitle"]),
+                                AccountSubControlID = Convert.ToInt32(row["AccountSubControlID"]),
+                                InvoiceNo = Convert.ToString(row["InvoiceNo"]),
+                                Debit = Convert.ToDouble(row["Debit"]),
+                                Credit = Convert.ToDouble(row["Credit"]),
+                                SNO = no
+                            };
+                            journalEntries.Add(entry);
+                            no += 1;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
             {
-                var entry = new JournalModel();
-                entry.TransectionDate = Convert.ToDateTime(row[0].ToString());
-                entry.AccountSubControl = Convert.ToString(row[1]);
-                entry.TransectionTitle = Convert.ToString(row[2].ToString());
-                entry.AccountSubControlID = Convert.ToInt32(row[3]);
-                entry.InvoiceNo = Convert.ToString(row[4].ToString());
-                entry.Debit = Convert.ToDouble(row[5].ToString());
-                entry.Credit = Convert.ToDouble(row[6].ToString());
-                entry.SNO = no;
-                journalEntries.Add(entry);
-                no += 1;
+                Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
             }
 
             return journalEntries;

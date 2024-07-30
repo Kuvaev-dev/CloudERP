@@ -32,11 +32,14 @@ namespace CloudERP.Controllers
 
             try
             {
+                var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
+                ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear");
+
                 var financialYear = _db.tblFinancialYear.FirstOrDefault(f => f.IsActive);
                 if (financialYear == null)
                 {
                     ViewBag.Message = "Your Company Financial Year is not Set! Please Contact to Administrator!";
-                    return View(new List<BalanceSheetModel>());
+                    return View(new BalanceSheetModel());
                 }
 
                 var balanceSheet = _balSheet.GetBalanceSheet(companyID, branchID, financialYear.FinancialYearID, new List<int> { 1, 2, 3, 4, 5 });
@@ -60,7 +63,7 @@ namespace CloudERP.Controllers
             if (!id.HasValue)
             {
                 ViewBag.ErrorMessage = "Invalid Financial Year ID.";
-                return View(new List<BalanceSheetModel>());
+                return View(new BalanceSheetModel());
             }
 
             int companyID = Convert.ToInt32(Session["CompanyID"]);
@@ -68,6 +71,9 @@ namespace CloudERP.Controllers
 
             try
             {
+                var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
+                ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear");
+
                 var balanceSheet = _balSheet.GetBalanceSheet(companyID, branchID, id.Value, new List<int> { 1, 2, 3, 4, 5 });
                 return View(balanceSheet);
             }

@@ -5,32 +5,22 @@ namespace DatabaseAccess.Code
 {
     public class DatabaseQuery
     {
-        public static SqlConnection conn;
+        private static readonly string connectionString = "data source=localhost\\sqlexpress;initial catalog=CloudErpV1;integrated security=True;";
 
         public static SqlConnection ConnOpen()
         {
-            if (conn == null)
-            {
-                var connectionStringSetting = "data source=localhost\\sqlexpress;initial catalog=CloudErpV1;integrated security=True;";
-                conn = new SqlConnection(connectionStringSetting);
-            }
-
-            if (conn.State != System.Data.ConnectionState.Open)
-            {
-                conn.Open();
-            }
-
-            return conn;
+            var connection = new SqlConnection(connectionString);
+            connection.Open();
+            return connection;
         }
 
         public static void Insert(string query, params SqlParameter[] parameters)
         {
-            using (var connection = new SqlConnection("data source=localhost\\sqlexpress;initial catalog=CloudErpV1;integrated security=True;"))
+            using (var connection = ConnOpen())
             {
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddRange(parameters);
-                    connection.Open();
                     command.ExecuteNonQuery();
                 }
             }
@@ -40,11 +30,14 @@ namespace DatabaseAccess.Code
         {
             try
             {
-                int noofrows = 0;
-                SqlCommand cmb = new SqlCommand(query, ConnOpen());
-                noofrows = cmb.ExecuteNonQuery();
-
-                return noofrows > 0;
+                using (var connection = ConnOpen())
+                {
+                    using (var command = new SqlCommand(query, connection))
+                    {
+                        int noOfRows = command.ExecuteNonQuery();
+                        return noOfRows > 0;
+                    }
+                }
             }
             catch
             {
@@ -56,11 +49,14 @@ namespace DatabaseAccess.Code
         {
             try
             {
-                int noofrows = 0;
-                SqlCommand cmb = new SqlCommand(query, ConnOpen());
-                noofrows = cmb.ExecuteNonQuery();
-
-                return noofrows > 0;
+                using (var connection = ConnOpen())
+                {
+                    using (var command = new SqlCommand(query, connection))
+                    {
+                        int noOfRows = command.ExecuteNonQuery();
+                        return noOfRows > 0;
+                    }
+                }
             }
             catch
             {
@@ -70,17 +66,18 @@ namespace DatabaseAccess.Code
 
         public static DataTable Retrive(string query)
         {
-            try
+            var dt = new DataTable();
+            using (var connection = ConnOpen())
             {
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(query, ConnOpen());
-                da.Fill(dt);
-                return dt;
+                using (var cmd = new SqlCommand(query, connection))
+                {
+                    using (var da = new SqlDataAdapter(cmd))
+                    {
+                        da.Fill(dt);
+                    }
+                }
             }
-            catch
-            {
-                return null;
-            }
+            return dt;
         }
     }
 }
