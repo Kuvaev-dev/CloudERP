@@ -53,8 +53,9 @@ namespace DatabaseAccess.Code
                     }
 
                     // Credit Entry Sale
+                    // 10 - Sale
                     var saleAccount = _db.tblAccountSetting
-                        .Where(a => a.AccountActivityID == 1 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                        .Where(a => a.AccountActivityID == 10 && a.CompanyID == CompanyID && a.BranchID == BranchID)
                         .FirstOrDefault();
                     if (saleAccount == null)
                     {
@@ -63,8 +64,9 @@ namespace DatabaseAccess.Code
                     SetEntries(FinancialYearID, saleAccount.AccountHeadID.ToString(), saleAccount.AccountControlID.ToString(), saleAccount.AccountSubControlID.ToString(), InvoiceNo, UserID.ToString(), Amount.ToString(), "0", DateTime.Now, saleTitle);
 
                     // Debit Entry Sale
+                    // 11 - Sale Payment Pending
                     saleAccount = _db.tblAccountSetting
-                        .Where(a => a.AccountActivityID == 3 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                        .Where(a => a.AccountActivityID == 11 && a.CompanyID == CompanyID && a.BranchID == BranchID)
                         .FirstOrDefault();
                     if (saleAccount == null)
                     {
@@ -77,8 +79,9 @@ namespace DatabaseAccess.Code
                         string payInvoiceNo = "INP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
 
                         // Credit Entry Sale Payment Paid
+                        // 14 - Sale Payment Paid
                         saleAccount = _db.tblAccountSetting
-                            .Where(a => a.AccountActivityID == 4 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                            .Where(a => a.AccountActivityID == 14 && a.CompanyID == CompanyID && a.BranchID == BranchID)
                             .FirstOrDefault();
                         if (saleAccount == null)
                         {
@@ -87,8 +90,9 @@ namespace DatabaseAccess.Code
                         SetEntries(FinancialYearID, saleAccount.AccountHeadID.ToString(), saleAccount.AccountControlID.ToString(), saleAccount.AccountSubControlID.ToString(), payInvoiceNo, UserID.ToString(), Amount.ToString(), "0", DateTime.Now, "Sale Payment Paid By " + CustomerName);
 
                         // Debit Entry Sale Payment Success
+                        // 15 - Sale Payment Success
                         saleAccount = _db.tblAccountSetting
-                            .Where(a => a.AccountActivityID == 5 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                            .Where(a => a.AccountActivityID == 15 && a.CompanyID == CompanyID && a.BranchID == BranchID)
                             .FirstOrDefault();
                         if (saleAccount == null)
                         {
@@ -176,8 +180,9 @@ namespace DatabaseAccess.Code
                     }
 
                     // Credit Entry Sale Payment Paid
+                    // 14 - Sale Payment Paid
                     var saleAccount = _db.tblAccountSetting
-                        .Where(a => a.AccountActivityID == 4 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                        .Where(a => a.AccountActivityID == 14 && a.CompanyID == CompanyID && a.BranchID == BranchID)
                         .FirstOrDefault();
                     if (saleAccount == null)
                     {
@@ -186,8 +191,9 @@ namespace DatabaseAccess.Code
                     SetEntries(FinancialYearID, saleAccount.AccountHeadID.ToString(), saleAccount.AccountControlID.ToString(), saleAccount.AccountSubControlID.ToString(), InvoiceNo, UserID.ToString(), Amount.ToString(), "0", DateTime.Now, "Sale Payment Paid By " + CustomerName);
 
                     // Debit Entry Sale Payment Success
+                    // 15 - Sale Payment Success
                     saleAccount = _db.tblAccountSetting
-                        .Where(a => a.AccountActivityID == 5 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                        .Where(a => a.AccountActivityID == 15 && a.CompanyID == CompanyID && a.BranchID == BranchID)
                         .FirstOrDefault();
                     if (saleAccount == null)
                     {
@@ -274,9 +280,10 @@ namespace DatabaseAccess.Code
                     }
 
                     // Debit Entry Return Sale
+                    // 12 - Sale Return
                     var returnSaleAccount = _db.tblAccountSetting
-                        .Where(a => a.AccountActivityID == 6 && a.CompanyID == CompanyID && a.BranchID == BranchID)
-                        .FirstOrDefault(); // 6 - Sale Return
+                        .Where(a => a.AccountActivityID == 12 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                        .FirstOrDefault();
                     if (returnSaleAccount == null)
                     {
                         return "Account settings for Sale Return not found.";
@@ -284,9 +291,10 @@ namespace DatabaseAccess.Code
                     SetEntries(FinancialYearID, returnSaleAccount.AccountHeadID.ToString(), returnSaleAccount.AccountControlID.ToString(), returnSaleAccount.AccountSubControlID.ToString(), InvoiceNo, UserID.ToString(), "0", Amount.ToString(), DateTime.Now, returnSaleTitle);
 
                     // Credit Entry Return Sale
+                    // 9 - Sale Return Payment Pending
                     returnSaleAccount = _db.tblAccountSetting
-                        .Where(a => a.AccountActivityID == 7 && a.CompanyID == CompanyID && a.BranchID == BranchID)
-                        .FirstOrDefault(); // 7 - Sale Return Payment Pending
+                        .Where(a => a.AccountActivityID == 9 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                        .FirstOrDefault();
                     if (returnSaleAccount == null)
                     {
                         return "Account settings for Sale Return Payment Pending not found.";
@@ -298,9 +306,10 @@ namespace DatabaseAccess.Code
                         string payInvoiceNo = "RIP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
 
                         // Credit Entry Return Sale Payment Paid
+                        // 16 - Sale Return Payment Paid
                         returnSaleAccount = _db.tblAccountSetting
-                            .Where(a => a.AccountActivityID == 7 && a.CompanyID == CompanyID && a.BranchID == BranchID)
-                            .FirstOrDefault(); // 7 - Sale Return Payment Pending
+                            .Where(a => a.AccountActivityID == 16 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                            .FirstOrDefault();
                         if (returnSaleAccount == null)
                         {
                             return "Account settings for Sale Return Payment Pending not found.";
@@ -308,9 +317,10 @@ namespace DatabaseAccess.Code
                         SetEntries(FinancialYearID, returnSaleAccount.AccountHeadID.ToString(), returnSaleAccount.AccountControlID.ToString(), returnSaleAccount.AccountSubControlID.ToString(), payInvoiceNo, UserID.ToString(), "0", Amount.ToString(), DateTime.Now, "Return Sale Payment Paid to " + Customername);
 
                         // Debit Entry Return Sale Payment Success
+                        // 13 - Sale Return Payment Succeed
                         returnSaleAccount = _db.tblAccountSetting
-                            .Where(a => a.AccountActivityID == 8 && a.CompanyID == CompanyID && a.BranchID == BranchID)
-                            .FirstOrDefault(); // 8 - Sale Return Payment Succeed
+                            .Where(a => a.AccountActivityID == 13 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                            .FirstOrDefault();
                         if (returnSaleAccount == null)
                         {
                             return "Account settings for Sale Return Payment Success not found.";
@@ -398,9 +408,10 @@ namespace DatabaseAccess.Code
                     string transactionTitle;
 
                     // Credit Entry Return Sale Payment Paid
+                    // 16 - Sale Return Payment Paid
                     var returnSaleAccount = _db.tblAccountSetting
-                        .Where(a => a.AccountActivityID == 7 && a.CompanyID == CompanyID && a.BranchID == BranchID)
-                        .FirstOrDefault(); // 7 - Sale Return Payment Pending
+                        .Where(a => a.AccountActivityID == 16 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                        .FirstOrDefault();
                     if (returnSaleAccount == null)
                     {
                         return "Account settings for Sale Return Payment Pending not found.";
@@ -412,9 +423,10 @@ namespace DatabaseAccess.Code
                     SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID.ToString(), "0", Amount.ToString(), DateTime.Now, transactionTitle);
 
                     // Debit Entry Return Sale Payment Success
+                    // 13 - Sale Return Payment Succeed
                     returnSaleAccount = _db.tblAccountSetting
-                        .Where(a => a.AccountActivityID == 8 && a.CompanyID == CompanyID && a.BranchID == BranchID)
-                        .FirstOrDefault(); // 8 - Sale Return Payment Succeed
+                        .Where(a => a.AccountActivityID == 13 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                        .FirstOrDefault();
                     if (returnSaleAccount == null)
                     {
                         return "Account settings for Sale Return Payment Success not found.";

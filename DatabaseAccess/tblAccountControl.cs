@@ -23,6 +23,7 @@ namespace DatabaseAccess
             this.tblTransaction = new HashSet<tblTransaction>();
         }
 
+        [Key]
         public int AccountControlID { get; set; }
 
         [Required(ErrorMessage = "Company ID is required.")]
@@ -41,6 +42,7 @@ namespace DatabaseAccess
         public int UserID { get; set; }
 
         public virtual tblBranch tblBranch { get; set; }
+        public virtual tblCompany tblCompany { get; set; }
         public virtual tblUser tblUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblAccountSetting> tblAccountSetting { get; set; }
@@ -48,6 +50,5 @@ namespace DatabaseAccess
         public virtual ICollection<tblAccountSubControl> tblAccountSubControl { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblTransaction> tblTransaction { get; set; }
-        public virtual tblCompany tblCompany { get; set; }
     }
 }

@@ -22,6 +22,7 @@ namespace DatabaseAccess
             this.tblTransaction = new HashSet<tblTransaction>();
         }
 
+        [Key]
         public int AccountSubControlID { get; set; }
 
         [Required(ErrorMessage = "Account Head ID is required.")]

@@ -829,8 +829,14 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
-    <Content Include="Content\CompanyLogo\apple-logo.png" />
+    <Content Include="Content\CompanyLogo\apple.png" />
     <Content Include="Content\CompanyLogo\erp-logo.png" />
+    <Content Include="Content\CompanyLogo\lg.png" />
+    <Content Include="Content\CompanyLogo\nokia.png" />
+    <Content Include="Content\CompanyLogo\samsung.png" />
+    <Content Include="Content\EmployeePhoto\e1.png" />
+    <Content Include="Content\EmployeePhoto\e2.png" />
+    <Content Include="Content\EmployeePhoto\e3.png" />
     <Content Include="Content\fontawesome\css\all.css" />
     <Content Include="Content\fontawesome\css\all.min.css" />
     <Content Include="Content\fontawesome\css\brands.css" />
@@ -3651,7 +3657,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="App_GlobalResources\Guide\EmployeeGuide\" />
     <Folder Include="App_GlobalResources\Guide\MainBranchEmployeeGuide\" />
-    <Folder Include="Content\EmployeePhoto\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

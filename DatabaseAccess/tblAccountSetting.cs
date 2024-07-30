@@ -15,6 +15,7 @@ namespace DatabaseAccess
 
     public partial class tblAccountSetting
     {
+        [Key]
         public int AccountSettingID { get; set; }
 
         [Required(ErrorMessage = "Account Head ID is required.")]

@@ -9,7 +9,6 @@
 
 namespace DatabaseAccess
 {
-    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -21,7 +20,9 @@ namespace DatabaseAccess
             this.tblAccountSetting = new HashSet<tblAccountSetting>();
         }
 
+        [Key]
         public int AccountActivityID { get; set; }
+
         [Required(ErrorMessage = "Name is required.")]
         [StringLength(100, ErrorMessage = "Name cannot be longer than 100 characters.")]
         public string Name { get; set; }

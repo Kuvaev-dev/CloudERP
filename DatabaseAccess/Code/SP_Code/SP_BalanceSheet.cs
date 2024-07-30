@@ -173,7 +173,6 @@ namespace DatabaseAccess.Code.SP_Code
                 else
                 {
                     Console.WriteLine($"Warning: Account head with ID {HeadID} not found.");
-                    accountsHeadWithDetails.AccountHeadTitle = "Unknown"; // Provide a default value to avoid null
                 }
             }
             catch (Exception ex)

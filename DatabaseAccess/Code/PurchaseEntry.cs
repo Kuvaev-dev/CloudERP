@@ -53,8 +53,9 @@ namespace DatabaseAccess.Code
                     }
 
                     // Debit Entry Purchase
+                    // 1 - Purchase
                     var purchaseAccount = _db.tblAccountSetting
-                        .Where(a => a.AccountActivityID == 9 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                        .Where(a => a.AccountActivityID == 1 && a.CompanyID == CompanyID && a.BranchID == BranchID)
                         .FirstOrDefault();
                     if (purchaseAccount == null)
                     {
@@ -63,8 +64,9 @@ namespace DatabaseAccess.Code
                     SetEntries(FinancialYearID, purchaseAccount.AccountHeadID.ToString(), purchaseAccount.AccountControlID.ToString(), purchaseAccount.AccountSubControlID.ToString(), InvoiceNo, UserID.ToString(), "0", Amount.ToString(), DateTime.Now, purchaseTitle);
 
                     // Credit Entry Purchase Payment Pending
+                    // 2 - Purchase Payment Pending
                     purchaseAccount = _db.tblAccountSetting
-                        .Where(a => a.AccountActivityID == 10 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                        .Where(a => a.AccountActivityID == 2 && a.CompanyID == CompanyID && a.BranchID == BranchID)
                         .FirstOrDefault();
                     if (purchaseAccount == null)
                     {
@@ -77,8 +79,9 @@ namespace DatabaseAccess.Code
                         string payInvoiceNo = "PAY" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
 
                         // Debit Entry Purchase Payment Paid
+                        // 3 - Purchase Payment Paid
                         purchaseAccount = _db.tblAccountSetting
-                            .Where(a => a.AccountActivityID == 10 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                            .Where(a => a.AccountActivityID == 3 && a.CompanyID == CompanyID && a.BranchID == BranchID)
                             .FirstOrDefault();
                         if (purchaseAccount == null)
                         {
@@ -87,8 +90,9 @@ namespace DatabaseAccess.Code
                         SetEntries(FinancialYearID, purchaseAccount.AccountHeadID.ToString(), purchaseAccount.AccountControlID.ToString(), purchaseAccount.AccountSubControlID.ToString(), payInvoiceNo, UserID.ToString(), "0", Amount.ToString(), DateTime.Now, "Payment Paid to " + SupplierName);
 
                         // Credit Entry Purchase Payment Success
+                        // 4 - Purchase Payment Success
                         purchaseAccount = _db.tblAccountSetting
-                            .Where(a => a.AccountActivityID == 11 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                            .Where(a => a.AccountActivityID == 4 && a.CompanyID == CompanyID && a.BranchID == BranchID)
                             .FirstOrDefault();
                         if (purchaseAccount == null)
                         {
@@ -176,9 +180,10 @@ namespace DatabaseAccess.Code
                     }
 
                     // Debit Entry Purchase
+                    // 1 - Purchase
                     var purchaseAccount = _db.tblAccountSetting
-                        .Where(a => a.AccountActivityID == 9 && a.CompanyID == CompanyID && a.BranchID == BranchID)
-                        .FirstOrDefault(); // 3 - Purchase
+                        .Where(a => a.AccountActivityID == 1 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                        .FirstOrDefault();
                     if (purchaseAccount == null)
                     {
                         return "Account settings for Purchase not found.";
@@ -186,9 +191,10 @@ namespace DatabaseAccess.Code
                     SetEntries(FinancialYearID, purchaseAccount.AccountHeadID.ToString(), purchaseAccount.AccountControlID.ToString(), purchaseAccount.AccountSubControlID.ToString(), InvoiceNo, UserID.ToString(), "0", Amount.ToString(), DateTime.Now, pruchaseTitle);
 
                     // Credit Entry Purchase Payment Pending
+                    // 2 - Purchase Payment Pending
                     purchaseAccount = _db.tblAccountSetting
-                        .Where(a => a.AccountActivityID == 10 && a.CompanyID == CompanyID && a.BranchID == BranchID)
-                        .FirstOrDefault(); // 8 - Purchase Payment Pending
+                        .Where(a => a.AccountActivityID == 2 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                        .FirstOrDefault();
                     if (purchaseAccount == null)
                     {
                         return "Account settings for Purchase Payment Pending not found.";
@@ -201,9 +207,10 @@ namespace DatabaseAccess.Code
                         string payInvoiceNo = "PAY" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
 
                         // Credit Entry Purchase Payment Paid
+                        // 3 - Purchase Payment Paid
                         purchaseAccount = _db.tblAccountSetting
-                            .Where(a => a.AccountActivityID == 11 && a.CompanyID == CompanyID && a.BranchID == BranchID)
-                            .FirstOrDefault(); // 9 - Purchase Payment Succeed
+                            .Where(a => a.AccountActivityID == 3 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                            .FirstOrDefault();
                         if (purchaseAccount == null)
                         {
                             return "Account settings for Purchase Payment Paid not found.";
@@ -211,9 +218,10 @@ namespace DatabaseAccess.Code
                         SetEntries(FinancialYearID, purchaseAccount.AccountHeadID.ToString(), purchaseAccount.AccountControlID.ToString(), purchaseAccount.AccountSubControlID.ToString(), payInvoiceNo, UserID.ToString(), "0", Amount.ToString(), DateTime.Now, "Payment Paid to " + SupplierName);
 
                         // Debit Entry Purchase Payment Success
+                        // 4 - Purchase Payment Success
                         purchaseAccount = _db.tblAccountSetting
-                            .Where(a => a.AccountActivityID == 12 && a.CompanyID == CompanyID && a.BranchID == BranchID)
-                            .FirstOrDefault(); // 10 - Purchase Payment Success
+                            .Where(a => a.AccountActivityID == 4 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                            .FirstOrDefault();
                         if (purchaseAccount == null)
                         {
                             return "Account settings for Purchase Payment Success not found.";
@@ -303,9 +311,10 @@ namespace DatabaseAccess.Code
                     string successMessage = "Return Purchase Success";
 
                     // Credit Entry Return Purchase
+                    // 6 - Return Purchase
                     var returnPurchaseAccount = _db.tblAccountSetting
-                        .Where(a => a.AccountActivityID == 12 && a.CompanyID == CompanyID && a.BranchID == BranchID)
-                        .FirstOrDefault(); // 4 - Return Purchase
+                        .Where(a => a.AccountActivityID == 6 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                        .FirstOrDefault();
                     if (returnPurchaseAccount == null)
                     {
                         return "Account settings for Return Purchase not found.";
@@ -313,9 +322,10 @@ namespace DatabaseAccess.Code
                     SetEntries(FinancialYearID, returnPurchaseAccount.AccountHeadID.ToString(), returnPurchaseAccount.AccountControlID.ToString(), returnPurchaseAccount.AccountSubControlID.ToString(), InvoiceNo, UserID.ToString(), Amount.ToString(), "0", DateTime.Now, returnPurchaseTitle);
 
                     // Debit Entry Return Purchase Payment Pending
+                    // 7 - Purchase Return Payment Pending
                     returnPurchaseAccount = _db.tblAccountSetting
-                        .Where(a => a.AccountActivityID == 13 && a.CompanyID == CompanyID && a.BranchID == BranchID)
-                        .FirstOrDefault(); // 12 - Purchase Return Payment Pending
+                        .Where(a => a.AccountActivityID == 7 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                        .FirstOrDefault();
                     if (returnPurchaseAccount == null)
                     {
                         return "Account settings for Purchase Return Payment Pending not found.";
@@ -328,9 +338,10 @@ namespace DatabaseAccess.Code
                         string payInvoiceNo = "RPP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
 
                         // Debit Entry Return Payment from Supplier
+                        // 7 - Purchase Return Payment Pending
                         returnPurchaseAccount = _db.tblAccountSetting
-                            .Where(a => a.AccountActivityID == 13 && a.CompanyID == CompanyID && a.BranchID == BranchID)
-                            .FirstOrDefault(); // 12 - Purchase Return Payment Pending
+                            .Where(a => a.AccountActivityID == 7 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                            .FirstOrDefault();
                         if (returnPurchaseAccount == null)
                         {
                             return "Account settings for Purchase Return Payment Pending not found.";
@@ -339,9 +350,10 @@ namespace DatabaseAccess.Code
                         SetEntries(FinancialYearID, returnPurchaseAccount.AccountHeadID.ToString(), returnPurchaseAccount.AccountControlID.ToString(), returnPurchaseAccount.AccountSubControlID.ToString(), payInvoiceNo, UserID.ToString(), Amount.ToString(), "0", DateTime.Now, paymentFromTitle);
 
                         // Credit Entry Purchase Return Payment Succeed
+                        // 8 - Purchase Return Payment Succeed
                         returnPurchaseAccount = _db.tblAccountSetting
-                            .Where(a => a.AccountActivityID == 14 && a.CompanyID == CompanyID && a.BranchID == BranchID)
-                            .FirstOrDefault(); // 13 - Purchase Return Payment Succeed
+                            .Where(a => a.AccountActivityID == 8 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                            .FirstOrDefault();
                         if (returnPurchaseAccount == null)
                         {
                             return "Account settings for Purchase Return Payment Succeed not found.";
@@ -435,8 +447,9 @@ namespace DatabaseAccess.Code
                     string transactionTitle = string.Empty;
 
                     // Retrieve account settings for Purchase Return Payment Pending
+                    // 7 - Purchase Return Payment Pending
                     var returnPurchaseAccount = _db.tblAccountSetting
-                        .Where(a => a.AccountActivityID == 13 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                        .Where(a => a.AccountActivityID == 7 && a.CompanyID == CompanyID && a.BranchID == BranchID)
                         .FirstOrDefault();
                     if (returnPurchaseAccount == null)
                     {
@@ -445,8 +458,9 @@ namespace DatabaseAccess.Code
                     SetEntries(FinancialYearID, returnPurchaseAccount.AccountHeadID.ToString(), returnPurchaseAccount.AccountControlID.ToString(), returnPurchaseAccount.AccountSubControlID.ToString(), InvoiceNo, UserID.ToString(), Amount.ToString(), "0", DateTime.Now, "Return Payment from " + SupplierName);
 
                     // Retrieve account settings for Purchase Return Payment Succeed
+                    // 8 - Purchase Return Payment Succeed
                     returnPurchaseAccount = _db.tblAccountSetting
-                        .Where(a => a.AccountActivityID == 14 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                        .Where(a => a.AccountActivityID == 8 && a.CompanyID == CompanyID && a.BranchID == BranchID)
                         .FirstOrDefault();
                     if (returnPurchaseAccount == null)
                     {

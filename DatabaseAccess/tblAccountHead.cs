@@ -24,13 +24,17 @@ namespace DatabaseAccess
             this.tblTransaction1 = new HashSet<tblTransaction>();
         }
 
+        [Key]
         public int AccountHeadID { get; set; }
+
         [Required(ErrorMessage = "Account Head Name is required.")]
         [StringLength(100, ErrorMessage = "Account Head Name cannot be longer than 100 characters.")]
         public string AccountHeadName { get; set; }
+
         [Required(ErrorMessage = "Code is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "Code must be a positive integer.")]
         public int Code { get; set; }
+
         public int UserID { get; set; }
 
         public virtual tblUser tblUser { get; set; }

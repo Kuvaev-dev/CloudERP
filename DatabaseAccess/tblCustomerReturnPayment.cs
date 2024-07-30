@@ -57,10 +57,10 @@ namespace DatabaseAccess
         public DateTime InvoiceDate { get; set; }
 
         public virtual tblBranch tblBranch { get; set; }
+        public virtual tblCompany tblCompany { get; set; }
         public virtual tblCustomer tblCustomer { get; set; }
         public virtual tblCustomerInvoice tblCustomerInvoice { get; set; }
         public virtual tblCustomerReturnInvoice tblCustomerReturnInvoice { get; set; }
         public virtual tblUser tblUser { get; set; }
-        public virtual tblCompany tblCompany { get; set; }
     }
 }

@@ -215,6 +215,7 @@
       <DependentUpon>CloudDB.edmx</DependentUpon>
       <LastGenOutput>CloudDB.Context.cs</LastGenOutput>
     </Content>
+    <Content Include="CloudDB.edmx.sql" />
     <Content Include="CloudDB.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>CloudDB.edmx</DependentUpon>

@@ -5,7 +5,7 @@ namespace DatabaseAccess.Code
 {
     public class DatabaseQuery
     {
-        private static readonly string connectionString = "data source=localhost\\sqlexpress;initial catalog=CloudErpV1;integrated security=True;";
+        private static readonly string connectionString = "data source=localhost\\sqlexpress;initial catalog=CloudErp;integrated security=True;";
 
         public static SqlConnection ConnOpen()
         {

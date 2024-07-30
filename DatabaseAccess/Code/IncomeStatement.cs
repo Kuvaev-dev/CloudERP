@@ -22,7 +22,7 @@ namespace DatabaseAccess.Code
             incomeStatement.Title = "Net Income";
             incomeStatement.IncomeStatementHeads = new List<IncomeStatementHead>();
 
-            var revenue = _income.GetHeadAccountsWithTotal(CompanyID, BranchID, FinancialYearID, 2); // 5 - Revenue
+            var revenue = _income.GetHeadAccountsWithTotal(CompanyID, BranchID, FinancialYearID, 5); // 5 - Revenue
             var revenueDetails = new IncomeStatementHead();
             revenueDetails.Title = "Total Revenue";
             revenueDetails.TotalAmount = Math.Abs(revenue.TotalAmount);
