@@ -42,11 +42,11 @@ namespace CloudERP.Controllers
                 
                 if (string.IsNullOrEmpty(FinancialYearID))
                 {
-                    list = _trialBalance.TriaBalance(branchID, companyID, 0);
+                    list = _trialBalance.TrialBalance(branchID, companyID, 0);
                 }
                 else
                 {
-                    list = _trialBalance.TriaBalance(branchID, companyID, Convert.ToInt32(FinancialYearID));
+                    list = _trialBalance.TrialBalance(branchID, companyID, Convert.ToInt32(FinancialYearID));
                 }
 
                 var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
@@ -81,7 +81,7 @@ namespace CloudERP.Controllers
                 
                 List<TrialBalanceModel> list = new List<TrialBalanceModel>();
 
-                list = _trialBalance.TriaBalance(branchID, companyID, (int)id);
+                list = _trialBalance.TrialBalance(branchID, companyID, (int)id);
 
                 var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
                 ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear", id);

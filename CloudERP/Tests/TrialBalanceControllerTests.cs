@@ -42,7 +42,7 @@ namespace CloudERP.Tests
             int financialYearID = 2024;
             var expectedModel = new List<TrialBalanceModel>();
 
-            _mockTrialBalance.Setup(tb => tb.TriaBalance(branchID, companyID, financialYearID))
+            _mockTrialBalance.Setup(tb => tb.TrialBalance(branchID, companyID, financialYearID))
                              .Returns(expectedModel);
 
             // Act

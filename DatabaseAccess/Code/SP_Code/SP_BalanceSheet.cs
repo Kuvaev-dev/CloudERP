@@ -8,14 +8,6 @@ namespace DatabaseAccess.Code.SP_Code
 {
     public class SP_BalanceSheet
     {
-        /*  Account Heads by ID:
-         *  1. Assets
-         *  2. Liabilities
-         *  3. Expenses
-         *  4. Capital
-         *  5. Revenue
-         */
-
         private CloudDBEntities _db;
 
         public SP_BalanceSheet(CloudDBEntities db)

@@ -55,7 +55,7 @@ namespace CloudERP.Tests
             // Arrange
             _controller.Session["CompanyID"] = "1";
             var expectedList = new List<SupplierReturnInvoiceModel> { new SupplierReturnInvoiceModel() };
-            _mockPurchase.Setup(p => p.PurchaseReturnPaymenPending(It.IsAny<int?>())).Returns(expectedList);
+            _mockPurchase.Setup(p => p.PurchaseReturnPaymentPending(It.IsAny<int?>())).Returns(expectedList);
 
             // Act
             var result = _controller.ReturnPurchasePendingAmount(1) as ViewResult;

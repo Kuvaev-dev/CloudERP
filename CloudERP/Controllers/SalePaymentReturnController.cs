@@ -30,7 +30,11 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                var list = _sale.SaleReturnAmountPending(id);
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
+                int branchID = Convert.ToInt32(Session["BranchID"]);
+                int userID = Convert.ToInt32(Session["UserID"]);
+
+                var list = _sale.GetReturnSaleAmountPending(companyID, branchID);
 
                 return View(list);
             }

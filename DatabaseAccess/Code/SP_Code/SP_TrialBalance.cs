@@ -8,9 +8,9 @@ namespace DatabaseAccess.Code.SP_Code
 {
     public class SP_TrialBalance
     {
-        public List<TrialBalanceModel> TriaBalance(int BranchID, int CompanyID, int FinancialYearID)
+        public List<TrialBalanceModel> TrialBalance(int BranchID, int CompanyID, int FinancialYearID)
         {
-            var triaBalance = new List<TrialBalanceModel>();
+            var trialBalance = new List<TrialBalanceModel>();
 
             try
             {
@@ -36,13 +36,13 @@ namespace DatabaseAccess.Code.SP_Code
                         {
                             var balance = new TrialBalanceModel
                             {
-                                FinancialYearID = Convert.ToInt32(row[0]),
-                                AccountSubControl = Convert.ToString(row[1]),
-                                AccountSubControlID = Convert.ToInt32(row[2]),
-                                Debit = Convert.ToDouble(row[3] == DBNull.Value ? 0 : row[3]),
-                                Credit = Convert.ToDouble(row[4] == DBNull.Value ? 0 : row[4]),
-                                BranchID = Convert.ToInt32(row[5]),
-                                CompanyID = Convert.ToInt32(row[6])
+                                FinancialYearID = Convert.ToInt32(row["FinancialYearID"]),
+                                AccountSubControl = Convert.ToString(row["AccountSubControl"]),
+                                AccountSubControlID = Convert.ToInt32(row["AccountSubControlID"]),
+                                Debit = Convert.ToDouble(row["Debit"] == DBNull.Value ? 0 : row["Debit"]),
+                                Credit = Convert.ToDouble(row["Credit"] == DBNull.Value ? 0 : row["Credit"]),
+                                BranchID = Convert.ToInt32(row["BranchID"]),
+                                CompanyID = Convert.ToInt32(row["CompanyID"])
                             };
 
                             totalDebit += balance.Debit;
@@ -50,7 +50,7 @@ namespace DatabaseAccess.Code.SP_Code
 
                             if (balance.Debit > 0 || balance.Credit > 0)
                             {
-                                triaBalance.Add(balance);
+                                trialBalance.Add(balance);
                             }
                         }
 
@@ -60,7 +60,7 @@ namespace DatabaseAccess.Code.SP_Code
                             Debit = totalDebit,
                             AccountSubControl = "Total"
                         };
-                        triaBalance.Add(totalBalance);
+                        trialBalance.Add(totalBalance);
                     }
                 }
             }
@@ -69,7 +69,7 @@ namespace DatabaseAccess.Code.SP_Code
                 Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
             }
 
-            return triaBalance;
+            return trialBalance;
         }
     }
 }

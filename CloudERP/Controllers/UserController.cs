@@ -50,7 +50,7 @@ namespace CloudERP.Controllers
 
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchTypeID = Convert.ToInt32(Session["BranchTypeID"]);
-                int brchID = Convert.ToInt32(Session["BrchID"]);
+                int brchID = Convert.ToInt32(Session["BranchID"]);
 
                 IQueryable<tblUser> tblUser;
 

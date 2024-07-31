@@ -36,7 +36,7 @@ namespace CloudERP.Controllers
         // GET: EmployeeRegistration
         public ActionResult EmployeeRegistration()
         {
-            return View();
+            return View(new tblEmployee());
         }
 
         // POST: EmployeeRegistration

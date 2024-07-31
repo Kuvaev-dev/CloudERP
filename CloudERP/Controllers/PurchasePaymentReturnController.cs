@@ -32,7 +32,7 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                var list = _purchase.PurchaseReturnPaymenPending(id);
+                var list = _purchase.PurchaseReturnPaymentPending(id);
                 
                 return View(list);
             }
