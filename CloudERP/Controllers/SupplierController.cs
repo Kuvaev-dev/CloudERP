@@ -29,13 +29,15 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                var tblSupplier = _db.tblSupplier.Include(t => t.tblBranch).Include(t => t.tblCompany).Include(t => t.tblUser);
-                
+                var tblSupplier = _db.tblSupplier.Include(t => t.tblBranch)
+                                                 .Include(t => t.tblCompany)
+                                                 .Include(t => t.tblUser);
+
                 return View(tblSupplier.ToList());
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving suppliers: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -63,7 +65,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving suppliers: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -105,7 +107,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving sub-branch suppliers: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -130,7 +132,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving supplier details: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -162,9 +164,12 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var findSupplier = _db.tblSupplier.Where(s => s.SupplierName == tblSupplier.SupplierName
-                                                           && s.SupplierConatctNo == tblSupplier.SupplierConatctNo
-                                                           && s.BranchID == tblSupplier.BranchID).FirstOrDefault();
+                    var findSupplier = _db.tblSupplier
+                        .Where(s => s.SupplierName == tblSupplier.SupplierName
+                                && s.SupplierConatctNo == tblSupplier.SupplierConatctNo
+                                && s.BranchID == tblSupplier.BranchID)
+                        .FirstOrDefault();
+
                     if (findSupplier == null)
                     {
                         _db.tblSupplier.Add(tblSupplier);
@@ -182,7 +187,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while creating supplier: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -208,7 +213,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving supplier for editing: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -230,10 +235,13 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var findSupplier = _db.tblSupplier.Where(s => s.SupplierName == tblSupplier.SupplierName
-                                                           && s.SupplierConatctNo == tblSupplier.SupplierConatctNo
-                                                           && s.BranchID == tblSupplier.BranchID
-                                                           && s.SupplierID != tblSupplier.SupplierID).FirstOrDefault();
+                    var findSupplier = _db.tblSupplier
+                        .Where(s => s.SupplierName == tblSupplier.SupplierName
+                                && s.SupplierConatctNo == tblSupplier.SupplierConatctNo
+                                && s.BranchID == tblSupplier.BranchID
+                                && s.SupplierID != tblSupplier.SupplierID)
+                        .FirstOrDefault();
+
                     if (findSupplier == null)
                     {
                         _db.Entry(tblSupplier).State = EntityState.Modified;
@@ -251,7 +259,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while editing supplier: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

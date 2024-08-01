@@ -47,7 +47,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -120,6 +120,7 @@ namespace CloudERP.Controllers
                         Session["Designation"] = employee.Designation;
                         Session["BranchID"] = employee.BranchID;
                         Session["BranchTypeID"] = employee.tblBranch.BranchTypeID;
+                        Session["BrchID"] = employee.tblBranch.BrchID;
                         Session["CompanyID"] = employee.CompanyID;
 
                         var company = _db.tblCompany.Where(c => c.CompanyID == employee.CompanyID).FirstOrDefault();
@@ -148,7 +149,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred: " + ex.Message;
                 return View("Login");
             }
         }
@@ -175,7 +176,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
 
@@ -236,7 +237,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -285,7 +286,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception)
             {
-                ViewBag.ErrorMessage = "An error occurred while processing your request. Please try again later.";
+                TempData["ErrorMessage"] = "An error occurred while processing your request. Please try again later.";
                 return View("ResetPasswordLinkExpired");
             }
         }
@@ -332,7 +333,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception)
             {
-                ViewBag.ErrorMessage = "An error occurred while processing your request. Please try again later.";
+                TempData["ErrorMessage"] = "An error occurred while processing your request. Please try again later.";
                 return View("ResetPasswordLinkExpired");
             }
         }

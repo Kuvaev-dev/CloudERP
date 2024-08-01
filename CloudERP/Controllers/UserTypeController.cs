@@ -30,7 +30,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving user types: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -60,7 +60,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving user type details: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -79,7 +79,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while preparing to create a user type: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -108,7 +108,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while creating the user type: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -138,7 +138,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving user type for editing: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -167,7 +167,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while updating the user type: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -197,7 +197,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving user type for deletion: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -222,7 +222,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while deleting the user type: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

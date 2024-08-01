@@ -45,22 +45,30 @@ namespace CloudERP.Controllers
 
                 return View(findDetail);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An error occurred while fetching the purchase details. Please try again later.";
-                return View(new List<tblPurchaseCartDetail>());
+                TempData["ErrorMessage"] = "An error occurred while fetching the purchase details. Please try again later. " + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
         }
 
         [HttpGet]
         public JsonResult GetProductDetails(int id)
         {
-            var product = _db.tblStock.Find(id);
-            if (product != null)
+            try
             {
-                return Json(new { product.CurrentPurchaseUnitPrice }, JsonRequestBehavior.AllowGet);
+                var product = _db.tblStock.Find(id);
+                if (product != null)
+                {
+                    return Json(new { product.CurrentPurchaseUnitPrice }, JsonRequestBehavior.AllowGet);
+                }
+                return Json(new { CurrentPurchaseUnitPrice = 0 }, JsonRequestBehavior.AllowGet);
             }
-            return Json(new { CurrentPurchaseUnitPrice = 0 }, JsonRequestBehavior.AllowGet);
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "An unexpected error occurred while fetching product details: " + ex.Message;
+                return Json(new { CurrentPurchaseUnitPrice = 0 }, JsonRequestBehavior.AllowGet);
+            }
         }
 
         // POST: PurchaseCart/AddItem
@@ -105,9 +113,9 @@ namespace CloudERP.Controllers
 
                 return RedirectToAction("NewPurchase");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An error occurred while adding the item to the purchase cart. Please try again later.";
+                TempData["ErrorMessage"] = "An error occurred while adding the item to the purchase cart. Please try again later. " + ex.Message;
                 return RedirectToAction("NewPurchase");
             }
         }
@@ -134,7 +142,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while fetching products: " + ex.Message;
                 return Json(new { data = new List<ProductMV>() }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -164,12 +172,12 @@ namespace CloudERP.Controllers
 
                 ViewBag.Message = "Some unexpected issue occurred. Please contact the concerned person!";
                 var find = _db.tblPurchaseCartDetail.Where(i => i.BranchID == branchID && i.CompanyID == companyID && i.UserID == userID).ToList();
-                
+
                 return View(find);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An error occurred while deleting the item from the purchase cart. Please try again later.";
+                TempData["ErrorMessage"] = "An error occurred while deleting the item from the purchase cart. Please try again later. " + ex.Message;
                 return RedirectToAction("NewPurchase");
             }
         }
@@ -213,9 +221,9 @@ namespace CloudERP.Controllers
 
                 return RedirectToAction("NewPurchase");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An error occurred while canceling the purchase. Please try again later.";
+                TempData["ErrorMessage"] = "An error occurred while canceling the purchase. Please try again later. " + ex.Message;
                 return RedirectToAction("NewPurchase");
             }
         }
@@ -243,12 +251,12 @@ namespace CloudERP.Controllers
                 }
 
                 var suppliers = _db.tblSupplier.Where(s => s.CompanyID == companyID && s.BranchID == branchID).ToList();
-                
+
                 return View(suppliers);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An error occurred while selecting the supplier. Please try again later.";
+                TempData["ErrorMessage"] = "An error occurred while selecting the supplier. Please try again later. " + ex.Message;
                 return RedirectToAction("NewPurchase");
             }
         }
@@ -357,12 +365,12 @@ namespace CloudERP.Controllers
                 }
 
                 Session["Message"] = Message;
-                
+
                 return RedirectToAction("NewPurchase");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An error occurred while confirming the purchase. Please try again later.";
+                TempData["ErrorMessage"] = "An error occurred while confirming the purchase. Please try again later. " + ex.Message;
                 return RedirectToAction("NewPurchase");
             }
         }

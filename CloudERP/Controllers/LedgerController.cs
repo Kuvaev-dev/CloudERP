@@ -43,7 +43,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -70,12 +70,12 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
 
-        public ActionResult GetSubLedger(string brchid)
+        public ActionResult GetSubLedger()
         {
             try
             {
@@ -85,7 +85,7 @@ namespace CloudERP.Controllers
                 }
 
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(brchid);
+                int brnchID = Convert.ToInt32(Session["BrchID"]);
 
                 var FinancialYear = _db.tblFinancialYear.FirstOrDefault(f => f.IsActive);
                 if (FinancialYear == null)
@@ -94,7 +94,7 @@ namespace CloudERP.Controllers
                     return View();
                 }
 
-                var ledger = _ledgersp.GetLedger(companyID, branchID, FinancialYear.FinancialYearID);
+                var ledger = _ledgersp.GetLedger(companyID, brnchID, FinancialYear.FinancialYearID);
 
                 var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
                 ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear");
@@ -103,7 +103,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -119,9 +119,9 @@ namespace CloudERP.Controllers
                 }
 
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BrchID"]);
+                int brnchID = Convert.ToInt32(Session["BrchID"]);
 
-                var ledger = _ledgersp.GetLedger(companyID, branchID, (int)id);
+                var ledger = _ledgersp.GetLedger(companyID, brnchID, id ?? 0);
 
                 var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
                 ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear");
@@ -130,7 +130,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

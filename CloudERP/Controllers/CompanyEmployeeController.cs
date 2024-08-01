@@ -27,10 +27,17 @@ namespace CloudERP.Controllers
                 return RedirectToAction("Login", "Home");
             }
 
-            int companyID = Convert.ToInt32(Session["CompanyID"]);
-            var tblEmployee = _db.tblEmployee.Where(c => c.CompanyID == companyID).ToList();
-
-            return View(tblEmployee);
+            try
+            {
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
+                var tblEmployee = _db.tblEmployee.Where(c => c.CompanyID == companyID).ToList();
+                return View(tblEmployee);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving employees: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         public ActionResult EmployeeRegistration()
@@ -40,10 +47,17 @@ namespace CloudERP.Controllers
                 return RedirectToAction("Login", "Home");
             }
 
-            int companyID = Convert.ToInt32(Session["CompanyID"]);
-            ViewBag.BranchID = new SelectList(_db.tblBranch.Where(b => b.CompanyID == companyID), "BranchID", "BranchName", 0);
-
-            return View();
+            try
+            {
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
+                ViewBag.BranchID = new SelectList(_db.tblBranch.Where(b => b.CompanyID == companyID), "BranchID", "BranchName", 0);
+                return View();
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "An unexpected error occurred while loading the employee registration page: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         [HttpPost]
@@ -55,33 +69,41 @@ namespace CloudERP.Controllers
                 return RedirectToAction("Login", "Home");
             }
 
-            employee.CompanyID = Convert.ToInt32(Session["CompanyID"]);
-            employee.UserID = null;
-
-            if (ModelState.IsValid)
+            try
             {
-                _db.tblEmployee.Add(employee);
-                _db.SaveChanges();
+                employee.CompanyID = Convert.ToInt32(Session["CompanyID"]);
+                employee.UserID = null;
 
-                if (employee.LogoFile != null)
+                if (ModelState.IsValid)
                 {
-                    var folder = "~/Content/EmployeePhoto";
-                    var file = $"{employee.EmployeeID}.jpg";
+                    _db.tblEmployee.Add(employee);
+                    _db.SaveChanges();
 
-                    var response = FileHelper.UploadPhoto(employee.LogoFile, folder, file);
-                    if (response)
+                    if (employee.LogoFile != null)
                     {
-                        employee.Photo = $"{folder}/{file}";
-                        _db.Entry(employee).State = EntityState.Modified;
-                        _db.SaveChanges();
+                        var folder = "~/Content/EmployeePhoto";
+                        var file = $"{employee.EmployeeID}.jpg";
+
+                        var response = FileHelper.UploadPhoto(employee.LogoFile, folder, file);
+                        if (response)
+                        {
+                            employee.Photo = $"{folder}/{file}";
+                            _db.Entry(employee).State = EntityState.Modified;
+                            _db.SaveChanges();
+                        }
                     }
+
+                    return RedirectToAction("Employees");
                 }
 
-                return RedirectToAction("Employees");
+                ViewBag.BranchID = new SelectList(_db.tblBranch.Where(b => b.CompanyID == employee.CompanyID), "BranchID", "BranchName", employee.BranchID);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "An unexpected error occurred while registering the employee: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
 
-            ViewBag.BranchID = new SelectList(_db.tblBranch.Where(b => b.CompanyID == employee.CompanyID), "BranchID", "BranchName", employee.BranchID);
-            
             return View(employee);
         }
 
@@ -111,27 +133,35 @@ namespace CloudERP.Controllers
                 return RedirectToAction("Login", "Home");
             }
 
-            int companyID = Convert.ToInt32(Session["CompanyID"]);
-            var employee = _db.tblEmployee.FirstOrDefault(p => p.TIN == salary.TIN);
-
-            if (employee != null)
+            try
             {
-                salary.EmployeeID = employee.EmployeeID;
-                salary.EmployeeName = employee.Name;
-                salary.Designation = employee.Designation;
-                salary.TIN = employee.TIN;
-                salary.TransferAmount = employee.MonthlySalary;
-                Session["SalaryMessage"] = string.Empty;
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
+                var employee = _db.tblEmployee.FirstOrDefault(p => p.TIN == salary.TIN);
+
+                if (employee != null)
+                {
+                    salary.EmployeeID = employee.EmployeeID;
+                    salary.EmployeeName = employee.Name;
+                    salary.Designation = employee.Designation;
+                    salary.TIN = employee.TIN;
+                    salary.TransferAmount = employee.MonthlySalary;
+                    Session["SalaryMessage"] = string.Empty;
+                }
+                else
+                {
+                    Session["SalaryMessage"] = "Record Not Found";
+                }
+
+                salary.SalaryMonth = DateTime.Now.AddMonths(-1).ToString("MMMM");
+                salary.SalaryYear = DateTime.Now.AddMonths(-1).ToString("yyyy");
+
+                return View(salary);
             }
-            else
+            catch (Exception ex)
             {
-                Session["SalaryMessage"] = "Record Not Found";
+                TempData["ErrorMessage"] = "An unexpected error occurred while processing the salary: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
-
-            salary.SalaryMonth = DateTime.Now.AddMonths(-1).ToString("MMMM");
-            salary.SalaryYear = DateTime.Now.AddMonths(-1).ToString("yyyy");
-
-            return View(salary);
         }
 
         [HttpPost]
@@ -195,14 +225,22 @@ namespace CloudERP.Controllers
                 return RedirectToAction("Login", "Home");
             }
 
-            int companyID = Convert.ToInt32(Session["CompanyID"]);
-            int branchID = Convert.ToInt32(Session["BranchID"]);
+            try
+            {
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
+                int branchID = Convert.ToInt32(Session["BranchID"]);
 
-            var salaryList = _db.tblPayroll.Where(p => p.BranchID == branchID && p.CompanyID == companyID)
-                                           .OrderByDescending(p => p.PayrollID)
-                                           .ToList();
+                var salaryList = _db.tblPayroll.Where(p => p.BranchID == branchID && p.CompanyID == companyID)
+                                               .OrderByDescending(p => p.PayrollID)
+                                               .ToList();
 
-            return View(salaryList);
+                return View(salaryList);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving salary history: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         public ActionResult PrintSalaryInvoice(int id)
@@ -212,9 +250,16 @@ namespace CloudERP.Controllers
                 return RedirectToAction("Login", "Home");
             }
 
-            var salary = _db.tblPayroll.FirstOrDefault(p => p.PayrollID == id);
-            
-            return View(salary);
+            try
+            {
+                var salary = _db.tblPayroll.FirstOrDefault(p => p.PayrollID == id);
+                return View(salary);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "An unexpected error occurred while printing the salary invoice: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
     }
 }

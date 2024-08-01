@@ -26,14 +26,13 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                int userID = Convert.ToInt32(Session["UserID"]);
                 var tblFinancialYear = _db.tblFinancialYear.Include(t => t.tblUser);
 
                 return View(tblFinancialYear.ToList());
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -52,7 +51,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -74,7 +73,7 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var findFinancialYear = _db.tblFinancialYear.Where(f => f.FinancialYear == tblFinancialYear.FinancialYear).FirstOrDefault();
+                    var findFinancialYear = _db.tblFinancialYear.FirstOrDefault(f => f.FinancialYear == tblFinancialYear.FinancialYear);
                     if (findFinancialYear == null)
                     {
                         _db.tblFinancialYear.Add(tblFinancialYear);
@@ -92,7 +91,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -122,7 +121,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -144,8 +143,8 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var findFinancialYear = _db.tblFinancialYear.Where(f => f.FinancialYear == tblFinancialYear.FinancialYear
-                                                                        && f.FinancialYearID != tblFinancialYear.FinancialYearID).FirstOrDefault();
+                    var findFinancialYear = _db.tblFinancialYear.FirstOrDefault(f => f.FinancialYear == tblFinancialYear.FinancialYear
+                                                                        && f.FinancialYearID != tblFinancialYear.FinancialYearID);
                     if (findFinancialYear == null)
                     {
                         _db.Entry(tblFinancialYear).State = EntityState.Modified;
@@ -163,7 +162,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

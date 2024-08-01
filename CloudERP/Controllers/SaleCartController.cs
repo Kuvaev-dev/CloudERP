@@ -50,19 +50,27 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
 
         public JsonResult GetProductDetails(int id)
         {
-            var product = _db.tblStock.Find(id);
-            if (product != null)
+            try
             {
-                return Json(new { data = product.SaleUnitPrice }, JsonRequestBehavior.AllowGet);
+                var product = _db.tblStock.Find(id);
+                if (product != null)
+                {
+                    return Json(new { data = product.SaleUnitPrice }, JsonRequestBehavior.AllowGet);
+                }
+                return Json(new { data = 0 }, JsonRequestBehavior.AllowGet);
             }
-            return Json(new { data = 0 }, JsonRequestBehavior.AllowGet);
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
+                return Json(new { error = "An error occurred while retrieving product details." });
+            }
         }
 
         // POST: SaleCart/AddItem
@@ -118,7 +126,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -154,7 +162,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -186,7 +194,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return Json(new { error = "An error occurred while retrieving products." });
             }
         }
@@ -209,7 +217,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return Json(new { error = "An error occurred while retrieving product details." });
             }
         }
@@ -246,7 +254,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -282,7 +290,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -395,7 +403,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

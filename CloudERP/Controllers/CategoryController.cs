@@ -35,11 +35,19 @@ namespace CloudERP.Controllers
             int companyID = Convert.ToInt32(Session["CompanyID"]);
             int branchID = Convert.ToInt32(Session["BranchID"]);
 
-            var tblCategory = _db.tblCategory.Include(t => t.tblBranch).Include(t => t.tblCompany)
-                                             .Include(t => t.tblUser)
-                                             .Where(c => c.CompanyID == companyID && c.BranchID == branchID);
+            try
+            {
+                var tblCategory = _db.tblCategory.Include(t => t.tblBranch).Include(t => t.tblCompany)
+                                                 .Include(t => t.tblUser)
+                                                 .Where(c => c.CompanyID == companyID && c.BranchID == branchID);
 
-            return View(tblCategory.ToList());
+                return View(tblCategory.ToList());
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving categories: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // GET: Category/Create
@@ -71,21 +79,29 @@ namespace CloudERP.Controllers
             tblCategory.CompanyID = companyID;
             tblCategory.UserID = userID;
 
-            if (ModelState.IsValid)
+            try
             {
-                if (!CategoryExists(companyID, branchID, tblCategory.CategoryName, tblCategory.CategoryID))
+                if (ModelState.IsValid)
                 {
-                    _db.tblCategory.Add(tblCategory);
-                    _db.SaveChanges();
-                    return RedirectToAction("Index");
+                    if (!CategoryExists(companyID, branchID, tblCategory.CategoryName, tblCategory.CategoryID))
+                    {
+                        _db.tblCategory.Add(tblCategory);
+                        _db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Category already exists.";
+                    }
                 }
-                else
-                {
-                    ViewBag.Message = "Category already exists.";
-                }
-            }
 
-            return View(tblCategory);
+                return View(tblCategory);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "An unexpected error occurred while creating the category: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // GET: Category/Edit/5
@@ -101,14 +117,22 @@ namespace CloudERP.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            tblCategory tblCategory = _db.tblCategory.Find(id);
-
-            if (tblCategory == null)
+            try
             {
-                return HttpNotFound();
-            }
+                tblCategory tblCategory = _db.tblCategory.Find(id);
 
-            return View(tblCategory);
+                if (tblCategory == null)
+                {
+                    return HttpNotFound();
+                }
+
+                return View(tblCategory);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving the category for editing: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // POST: Category/Edit/5
@@ -124,24 +148,32 @@ namespace CloudERP.Controllers
             int userID = Convert.ToInt32(Session["UserID"]);
             tblCategory.UserID = userID;
 
-            if (ModelState.IsValid)
+            try
             {
-                int companyID = tblCategory.CompanyID;
-                int branchID = tblCategory.BranchID;
+                if (ModelState.IsValid)
+                {
+                    int companyID = tblCategory.CompanyID;
+                    int branchID = tblCategory.BranchID;
 
-                if (!CategoryExists(companyID, branchID, tblCategory.CategoryName, tblCategory.CategoryID))
-                {
-                    _db.Entry(tblCategory).State = EntityState.Modified;
-                    _db.SaveChanges();
-                    return RedirectToAction("Index");
+                    if (!CategoryExists(companyID, branchID, tblCategory.CategoryName, tblCategory.CategoryID))
+                    {
+                        _db.Entry(tblCategory).State = EntityState.Modified;
+                        _db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Category already exists.";
+                    }
                 }
-                else
-                {
-                    ViewBag.Message = "Category already exists.";
-                }
+
+                return View(tblCategory);
             }
-
-            return View(tblCategory);
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "An unexpected error occurred while updating the category: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         protected override void Dispose(bool disposing)

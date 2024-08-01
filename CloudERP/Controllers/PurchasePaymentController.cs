@@ -35,12 +35,12 @@ namespace CloudERP.Controllers
                 int userID = Convert.ToInt32(Session["UserID"]);
 
                 var list = _purchase.RemainingPaymentList(companyID, branchID);
-                
+
                 return View(list.ToList());
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -66,18 +66,18 @@ namespace CloudERP.Controllers
                 }
 
                 double remainingAmount = 0;
-                double totalInvoiceAmount = _db.tblSupplierInvoice.Find(id).TotalAmount;
+                double totalInvoiceAmount = _db.tblSupplierInvoice.Find(id)?.TotalAmount ?? 0;
                 double totalPaidAmount = _db.tblSupplierPayment.Where(p => p.SupplierInvoiceID == id).Sum(p => p.PaymentAmount);
                 remainingAmount = totalInvoiceAmount - totalPaidAmount;
 
                 ViewBag.PreviousRemainingAmount = remainingAmount;
                 ViewBag.InvoiceID = id;
-                
+
                 return View(list.ToList());
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -104,8 +104,8 @@ namespace CloudERP.Controllers
 
                 double remainingAmount = 0;
                 double totalPaidAmount = 0;
-                double totalInvoiceAmount = _db.tblSupplierInvoice.Find(id).TotalAmount;
-                if (_db.tblSupplierPayment.Where(p => p.SupplierInvoiceID == id).FirstOrDefault() != null)
+                double totalInvoiceAmount = _db.tblSupplierInvoice.Find(id)?.TotalAmount ?? 0;
+                if (_db.tblSupplierPayment.Any(p => p.SupplierInvoiceID == id))
                 {
                     totalPaidAmount = _db.tblSupplierPayment.Where(p => p.SupplierInvoiceID == id).Sum(p => p.PaymentAmount);
                 }
@@ -113,12 +113,12 @@ namespace CloudERP.Controllers
 
                 ViewBag.PreviousRemainingAmount = remainingAmount;
                 ViewBag.InvoiceID = id;
-                
+
                 return View(list.ToList());
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -147,7 +147,7 @@ namespace CloudERP.Controllers
                         ViewData["ReturnPurchaseDetails"] = returnDetails;
                     }
 
-                    double totalInvoiceAmount = _db.tblSupplierInvoice.Find(id).TotalAmount;
+                    double totalInvoiceAmount = _db.tblSupplierInvoice.Find(id)?.TotalAmount ?? 0;
                     double totalPaidAmount = _db.tblSupplierPayment.Where(p => p.SupplierInvoiceID == id).Sum(p => p.PaymentAmount);
                     double remainingAmount = totalInvoiceAmount - totalPaidAmount;
 
@@ -157,18 +157,17 @@ namespace CloudERP.Controllers
                 }
 
                 string payinvoicenno = "PAY" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
-                var supplier = _db.tblSupplier.Find(_db.tblSupplierInvoice.Find(id).SupplierID);
+                var supplier = _db.tblSupplier.Find(_db.tblSupplierInvoice.Find(id)?.SupplierID);
                 var purchaseInvoice = _db.tblSupplierInvoice.Find(id);
-                var purchasePaymentDetails = _db.tblSupplierPayment.Where(p => p.SupplierInvoiceID == id);
                 string message = _paymentEntry.PurchasePayment(companyID, branchID, userID, payinvoicenno, Convert.ToString(id), (float)purchaseInvoice.TotalAmount,
-                    paymentAmount, Convert.ToString(supplier.SupplierID), supplier.SupplierName, previousRemainingAmount - paymentAmount);
+                    paymentAmount, Convert.ToString(supplier?.SupplierID), supplier?.SupplierName, previousRemainingAmount - paymentAmount);
                 Session["Message"] = message;
-                
+
                 return RedirectToAction("RemainingPaymentList");
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -187,12 +186,12 @@ namespace CloudERP.Controllers
                 int userID = Convert.ToInt32(Session["UserID"]);
 
                 var list = _purchase.CustomPurchasesList(companyID, branchID, FromDate, ToDate);
-                
+
                 return View(list.ToList());
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -217,12 +216,12 @@ namespace CloudERP.Controllers
 
                 branchID = Convert.ToInt32(Session["BrchID"]);
                 var list = _purchase.CustomPurchasesList(companyID, branchID, FromDate, ToDate);
-                
+
                 return View(list.ToList());
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -241,12 +240,12 @@ namespace CloudERP.Controllers
                 int userID = Convert.ToInt32(Session["UserID"]);
 
                 var list = _db.tblSupplierInvoiceDetail.Where(i => i.SupplierInvoiceID == id);
-                
+
                 return View(list.ToList());
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -265,12 +264,12 @@ namespace CloudERP.Controllers
                 int userID = Convert.ToInt32(Session["UserID"]);
 
                 var list = _db.tblSupplierInvoiceDetail.Where(i => i.SupplierInvoiceID == id);
-                
+
                 return View(list.ToList());
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

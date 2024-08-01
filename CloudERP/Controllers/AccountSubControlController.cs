@@ -27,14 +27,22 @@ namespace CloudERP.Controllers
             int companyID = Convert.ToInt32(Session["CompanyID"]);
             int branchID = Convert.ToInt32(Session["BranchID"]);
 
-            var tblAccountSubControl = _db.tblAccountSubControl
-                .Include(t => t.tblAccountControl)
-                .Include(t => t.tblAccountHead)
-                .Include(t => t.tblBranch)
-                .Include(t => t.tblUser)
-                .Where(t => t.CompanyID == companyID && t.BranchID == branchID);
+            try
+            {
+                var tblAccountSubControl = _db.tblAccountSubControl
+                    .Include(t => t.tblAccountControl)
+                    .Include(t => t.tblAccountHead)
+                    .Include(t => t.tblBranch)
+                    .Include(t => t.tblUser)
+                    .Where(t => t.CompanyID == companyID && t.BranchID == branchID);
 
-            return View(tblAccountSubControl.ToList());
+                return View(tblAccountSubControl.ToList());
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "An unexpected error occurred while fetching data: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // GET: AccountSubControl/Create
@@ -48,8 +56,21 @@ namespace CloudERP.Controllers
             int companyID = Convert.ToInt32(Session["CompanyID"]);
             int branchID = Convert.ToInt32(Session["BranchID"]);
 
-            ViewBag.AccountControlID = new SelectList(_db.tblAccountControl.Where(a => a.BranchID == branchID && a.CompanyID == companyID), "AccountControlID", "AccountControlName", "0");
-            
+            try
+            {
+                ViewBag.AccountControlID = new SelectList(
+                    _db.tblAccountControl.Where(a => a.BranchID == branchID && a.CompanyID == companyID),
+                    "AccountControlID",
+                    "AccountControlName",
+                    "0"
+                );
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "An unexpected error occurred while fetching data: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
+
             return View(new tblAccountSubControl());
         }
 
@@ -94,13 +115,26 @@ namespace CloudERP.Controllers
                 }
                 catch (Exception ex)
                 {
-                    ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                    TempData["ErrorMessage"] = "An unexpected error occurred while creating the record: " + ex.Message;
                     return RedirectToAction("EP500", "EP");
                 }
             }
 
-            ViewBag.AccountControlID = new SelectList(_db.tblAccountControl.Where(a => a.BranchID == branchID && a.CompanyID == companyID), "AccountControlID", "AccountControlName", tblAccountSubControl.AccountControlID);
-            
+            try
+            {
+                ViewBag.AccountControlID = new SelectList(
+                    _db.tblAccountControl.Where(a => a.BranchID == branchID && a.CompanyID == companyID),
+                    "AccountControlID",
+                    "AccountControlName",
+                    tblAccountSubControl.AccountControlID
+                );
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "An unexpected error occurred while fetching data: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
+
             return View(tblAccountSubControl);
         }
 
@@ -117,17 +151,40 @@ namespace CloudERP.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            tblAccountSubControl tblAccountSubControl = _db.tblAccountSubControl.Find(id);
-            if (tblAccountSubControl == null)
+            tblAccountSubControl tblAccountSubControl;
+
+            try
             {
-                return HttpNotFound();
+                tblAccountSubControl = _db.tblAccountSubControl.Find(id);
+                if (tblAccountSubControl == null)
+                {
+                    return HttpNotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "An unexpected error occurred while fetching data: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
 
             int companyID = Convert.ToInt32(Session["CompanyID"]);
             int branchID = Convert.ToInt32(Session["BranchID"]);
 
-            ViewBag.AccountControlID = new SelectList(_db.tblAccountControl.Where(a => a.BranchID == branchID && a.CompanyID == companyID), "AccountControlID", "AccountControlName", tblAccountSubControl.AccountControlID);
-            
+            try
+            {
+                ViewBag.AccountControlID = new SelectList(
+                    _db.tblAccountControl.Where(a => a.BranchID == branchID && a.CompanyID == companyID),
+                    "AccountControlID",
+                    "AccountControlName",
+                    tblAccountSubControl.AccountControlID
+                );
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "An unexpected error occurred while fetching data: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
+
             return View(tblAccountSubControl);
         }
 
@@ -171,13 +228,26 @@ namespace CloudERP.Controllers
                 }
                 catch (Exception ex)
                 {
-                    ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                    TempData["ErrorMessage"] = "An unexpected error occurred while updating the record: " + ex.Message;
                     return RedirectToAction("EP500", "EP");
                 }
             }
 
-            ViewBag.AccountControlID = new SelectList(_db.tblAccountControl.Where(a => a.BranchID == branchID && a.CompanyID == companyID), "AccountControlID", "AccountControlName", tblAccountSubControl.AccountControlID);
-            
+            try
+            {
+                ViewBag.AccountControlID = new SelectList(
+                    _db.tblAccountControl.Where(a => a.BranchID == branchID && a.CompanyID == companyID),
+                    "AccountControlID",
+                    "AccountControlName",
+                    tblAccountSubControl.AccountControlID
+                );
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "An unexpected error occurred while fetching data: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
+
             return View(tblAccountSubControl);
         }
 

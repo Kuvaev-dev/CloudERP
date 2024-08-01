@@ -29,8 +29,8 @@ namespace CloudERP.Controllers
                 var employee = _db.tblEmployee.Find(employeeID);
                 if (employee == null)
                 {
-                    ViewBag.ErrorMessage = "Employee not found.";
-                    return View("Error");
+                    TempData["ErrorMessage"] = "Employee not found.";
+                    return RedirectToAction("EP500", "EP");
                 }
 
                 string salt;
@@ -56,7 +56,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while preparing user creation: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -84,7 +84,7 @@ namespace CloudERP.Controllers
                     {
                         string password = Request.Form["Password"];
                         string salt = Request.Form["Salt"];
-                        
+
                         tblUser.Password = password;
                         tblUser.Salt = salt;
 
@@ -106,12 +106,12 @@ namespace CloudERP.Controllers
                 }
 
                 ViewBag.UserTypeID = new SelectList(_db.tblUserType.ToList(), "UserTypeID", "UserType", tblUser.UserTypeID);
-                
+
                 return View(tblUser);
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while creating the user: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -129,18 +129,17 @@ namespace CloudERP.Controllers
                 var user = _db.tblUser.Find(userID);
                 if (user == null)
                 {
-                    ViewBag.ErrorMessage = "User not found.";
-
+                    TempData["ErrorMessage"] = "User not found.";
                     return RedirectToAction("EP500", "EP");
                 }
 
                 ViewBag.UserTypeID = new SelectList(_db.tblUserType.ToList(), "UserTypeID", "UserType", user.UserTypeID);
-                
+
                 return View(user);
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving user details: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -174,12 +173,12 @@ namespace CloudERP.Controllers
                 }
 
                 ViewBag.UserTypeID = new SelectList(_db.tblUserType.ToList(), "UserTypeID", "UserType", tblUser.UserTypeID);
-                
+
                 return View(tblUser);
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while updating the user: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

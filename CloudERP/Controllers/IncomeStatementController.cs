@@ -46,7 +46,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -74,13 +74,83 @@ namespace CloudERP.Controllers
                     return View();
                 }
 
-                var incomeStatement = _income.GetIncomeStatement(companyID, branchID, (int)id);
+                var incomeStatement = _income.GetIncomeStatement(companyID, branchID, id ?? FinancialYear.FinancialYearID);
 
                 return View(incomeStatement);
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
+        }
+
+        // GET: IncomeStatement
+        public ActionResult GetSubIncomeStatement()
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
+                int branchID = Convert.ToInt32(Session["BranchID"]);
+                int brchID = Convert.ToInt32(Session["BrchID"]);
+
+                var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
+                ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear");
+
+                var FinancialYear = _db.tblFinancialYear.FirstOrDefault(f => f.IsActive);
+                if (FinancialYear == null)
+                {
+                    ViewBag.ErrorMessage = "Your company's financial year is not set. Please contact the Administrator.";
+                    return View();
+                }
+
+                var incomeStatement = _income.GetIncomeStatement(companyID, brchID, FinancialYear.FinancialYearID);
+
+                return View(incomeStatement);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult GetSubIncomeStatement(int? id)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
+                int branchID = Convert.ToInt32(Session["BranchID"]);
+                int brchID = Convert.ToInt32(Session["BrchID"]);
+
+                var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
+                ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear");
+
+                var FinancialYear = _db.tblFinancialYear.FirstOrDefault(f => f.IsActive);
+                if (FinancialYear == null)
+                {
+                    ViewBag.ErrorMessage = "Your company's financial year is not set. Please contact the Administrator.";
+                    return View();
+                }
+
+                var incomeStatement = _income.GetIncomeStatement(companyID, brchID, id ?? FinancialYear.FinancialYearID);
+
+                return View(incomeStatement);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

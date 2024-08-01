@@ -34,7 +34,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving users: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -83,7 +83,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving users: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -113,7 +113,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving user details: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -129,19 +129,17 @@ namespace CloudERP.Controllers
                 }
 
                 ViewBag.UserTypeID = new SelectList(_db.tblUserType, "UserTypeID", "UserType");
-                
+
                 return View(new tblUser());
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while preparing the user creation view: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
 
         // POST: User/Create
-        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. 
-        // Дополнительные сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(tblUser tblUser)
@@ -156,14 +154,7 @@ namespace CloudERP.Controllers
                 if (ModelState.IsValid)
                 {
                     int companyID = Convert.ToInt32(Session["CompanyID"]);
-                    if (companyID == 0)
-                    {
-                        tblUser.UserTypeID = 1;
-                    }
-                    else
-                    {
-                        tblUser.UserTypeID = 2;
-                    }
+                    tblUser.UserTypeID = (companyID == 0) ? 1 : 2;
 
                     _db.tblUser.Add(tblUser);
                     _db.SaveChanges();
@@ -179,12 +170,12 @@ namespace CloudERP.Controllers
                 }
 
                 ViewBag.UserTypeID = new SelectList(_db.tblUserType, "UserTypeID", "UserType", tblUser.UserTypeID);
-                
+
                 return View(tblUser);
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while creating the user: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -216,14 +207,12 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while preparing the user edit view: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
 
         // POST: User/Edit/5
-        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. 
-        // Дополнительные сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(tblUser tblUser)
@@ -272,7 +261,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while editing the user: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -302,7 +291,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving the delete view: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -327,7 +316,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while deleting the user: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

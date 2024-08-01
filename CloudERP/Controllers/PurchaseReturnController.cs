@@ -35,7 +35,9 @@ namespace CloudERP.Controllers
                     var invoiceNo = Convert.ToString(Session["InvoiceNo"]);
                     if (!string.IsNullOrEmpty(invoiceNo))
                     {
-                        invoice = _db.tblSupplierInvoice.Where(p => p.InvoiceNo == invoiceNo.Trim()).FirstOrDefault();
+                        invoice = _db.tblSupplierInvoice
+                                      .Where(p => p.InvoiceNo == invoiceNo.Trim())
+                                      .FirstOrDefault();
                     }
                     else
                     {
@@ -51,7 +53,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -69,13 +71,15 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                var purchaseInvoice = _db.tblSupplierInvoice.Where(p => p.InvoiceNo == invoiceID).FirstOrDefault();
-                
+                var purchaseInvoice = _db.tblSupplierInvoice
+                                         .Where(p => p.InvoiceNo == invoiceID)
+                                         .FirstOrDefault();
+
                 return View(purchaseInvoice);
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -129,22 +133,13 @@ namespace CloudERP.Controllers
                 if (collection["IsPayment"] != null)
                 {
                     string[] isPaymentDirCet = collection["IsPayment"].Split(',');
-                    if (isPaymentDirCet[0] == "on")
-                    {
-                        IsPayment = true;
-                    }
-                    else
-                    {
-                        IsPayment = false;
-                    }
-                }
-                else
-                {
-                    IsPayment = false;
+                    IsPayment = isPaymentDirCet[0] == "on";
                 }
 
                 double TotalAmount = 0;
-                var purchaseDetails = _db.tblSupplierInvoiceDetail.Where(pd => pd.SupplierInvoiceID == SupplierInvoiceID).ToList();
+                var purchaseDetails = _db.tblSupplierInvoiceDetail
+                                         .Where(pd => pd.SupplierInvoiceID == SupplierInvoiceID)
+                                         .ToList();
                 for (int i = 0; i < purchaseDetails.Count; i++)
                 {
                     foreach (var productID in ProductIDs)
@@ -183,7 +178,7 @@ namespace CloudERP.Controllers
 
                 var supplier = _db.tblSupplier.Find(supplierID);
                 string Message = _purchaseEntry.ReturnPurchase(companyID, branchID, userID, invoiceNo, returnInvoiceHeader.SupplierInvoiceID.ToString(), returnInvoiceHeader.SupplierReturnInvoiceID, (float)TotalAmount, supplierID.ToString(), supplier.SupplierName, IsPayment);
-                
+
                 if (Message.Contains("Success"))
                 {
                     for (int i = 0; i < purchaseDetails.Count; i++)
@@ -207,10 +202,13 @@ namespace CloudERP.Controllers
                                     _db.SaveChanges();
 
                                     var stock = _db.tblStock.Find(productID);
-                                    stock.Quantity -= ReturnQty[i];
+                                    if (stock != null)
+                                    {
+                                        stock.Quantity -= ReturnQty[i];
 
-                                    _db.Entry(stock).State = System.Data.Entity.EntityState.Modified;
-                                    _db.SaveChanges();
+                                        _db.Entry(stock).State = System.Data.Entity.EntityState.Modified;
+                                        _db.SaveChanges();
+                                    }
                                 }
                             }
                         }
@@ -224,12 +222,12 @@ namespace CloudERP.Controllers
 
                 Session["InvoiceNo"] = supplierInvoice.InvoiceNo;
                 Session["ReturnMessage"] = "Some Unexpected Issue is Occured. Please Contact to Administrator";
-                
+
                 return RedirectToAction("FindPurchase");
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

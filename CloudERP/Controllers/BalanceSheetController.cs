@@ -47,7 +47,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -79,28 +79,27 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
 
-        public ActionResult GetSubBalanceSheet(string brnchid)
+        public ActionResult GetSubBalanceSheet()
         {
             if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
 
-            if (!string.IsNullOrEmpty(brnchid))
-            {
-                Session["BrchID"] = brnchid;
-            }
-
             int companyID = Convert.ToInt32(Session["CompanyID"]);
             int branchID = Convert.ToInt32(Session["BranchID"]);
+            int brchID = Convert.ToInt32(Session["BrchID"]);
 
             try
             {
+                var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
+                ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear");
+
                 var financialYear = _db.tblFinancialYear.FirstOrDefault(f => f.IsActive);
                 if (financialYear == null)
                 {
@@ -108,12 +107,12 @@ namespace CloudERP.Controllers
                     return View(new List<BalanceSheetModel>());
                 }
 
-                var balanceSheet = _balSheet.GetBalanceSheet(companyID, branchID, financialYear.FinancialYearID, new List<int> { 1, 2, 3, 4, 5 });
+                var balanceSheet = _balSheet.GetBalanceSheet(companyID, brchID, financialYear.FinancialYearID, new List<int> { 1, 2, 3, 4, 5 });
                 return View(balanceSheet);
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -134,15 +133,19 @@ namespace CloudERP.Controllers
 
             int companyID = Convert.ToInt32(Session["CompanyID"]);
             int branchID = Convert.ToInt32(Session["BranchID"]);
+            int brchID = Convert.ToInt32(Session["BrchID"]);
 
             try
             {
-                var balanceSheet = _balSheet.GetBalanceSheet(companyID, branchID, id.Value, new List<int> { 1, 2, 3, 4, 5 });
+                var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
+                ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear");
+
+                var balanceSheet = _balSheet.GetBalanceSheet(companyID, brchID, id.Value, new List<int> { 1, 2, 3, 4, 5 });
                 return View(balanceSheet);
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

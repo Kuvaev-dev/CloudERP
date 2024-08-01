@@ -39,7 +39,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving stock data: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -65,7 +65,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving stock details: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -89,7 +89,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while preparing stock creation: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -131,12 +131,12 @@ namespace CloudERP.Controllers
                 }
 
                 ViewBag.CategoryID = new SelectList(_db.tblCategory.Where(c => c.BranchID == branchID && c.CompanyID == companyID), "CategoryID", "CategoryName", tblStock.CategoryID);
-                
+
                 return View(tblStock);
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while creating stock: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -164,7 +164,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while preparing stock edit: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -201,12 +201,12 @@ namespace CloudERP.Controllers
                 }
 
                 ViewBag.CategoryID = new SelectList(_db.tblCategory.Where(c => c.BranchID == tblStock.BranchID && c.CompanyID == tblStock.CompanyID), "CategoryID", "CategoryName", tblStock.CategoryID);
-                
+
                 return View(tblStock);
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while editing stock: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -232,7 +232,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while preparing stock deletion: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -245,14 +245,17 @@ namespace CloudERP.Controllers
             try
             {
                 tblStock tblStock = _db.tblStock.Find(id);
-                _db.tblStock.Remove(tblStock);
-                _db.SaveChanges();
+                if (tblStock != null)
+                {
+                    _db.tblStock.Remove(tblStock);
+                    _db.SaveChanges();
+                }
 
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while deleting stock: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

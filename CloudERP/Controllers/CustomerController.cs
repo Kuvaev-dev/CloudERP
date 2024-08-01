@@ -31,13 +31,13 @@ namespace CloudERP.Controllers
                 }
 
                 var tblCustomer = _db.tblCustomer.Include(t => t.tblBranch).Include(t => t.tblCompany).Include(t => t.tblUser);
-                
+
                 return View(tblCustomer.ToList());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An error occurred while processing your request.";
-                return View("Error");
+                TempData["ErrorMessage"] = "An unexpected error occurred while processing your request: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
         }
 
@@ -55,12 +55,12 @@ namespace CloudERP.Controllers
                 int branchID = Convert.ToInt32(Session["BranchID"]);
                 var tblCustomer = _db.tblCustomer.Include(t => t.tblBranch).Include(t => t.tblCompany).Include(t => t.tblUser)
                                                 .Where(c => c.CompanyID == companyID && c.BranchID == branchID);
-                
+
                 return View(tblCustomer.ToList());
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -102,7 +102,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -132,7 +132,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -161,7 +161,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -180,14 +180,12 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
 
         // POST: Customer/Create
-        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. 
-        // Дополнительные сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(tblCustomer tblCustomer)
@@ -208,9 +206,9 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var findCustomer = _db.tblCustomer.Where(c => c.Customername == tblCustomer.Customername
+                    var findCustomer = _db.tblCustomer.FirstOrDefault(c => c.Customername == tblCustomer.Customername
                                                               && c.CustomerContact == tblCustomer.CustomerContact
-                                                              && c.BranchID == branchID).FirstOrDefault();
+                                                              && c.BranchID == branchID);
                     if (findCustomer == null)
                     {
                         _db.tblCustomer.Add(tblCustomer);
@@ -228,7 +226,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -258,14 +256,12 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
 
         // POST: Customer/Edit/5
-        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. 
-        // Дополнительные сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(tblCustomer tblCustomer)
@@ -282,9 +278,9 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var findCustomer = _db.tblCustomer.Where(c => c.Customername == tblCustomer.Customername
+                    var findCustomer = _db.tblCustomer.FirstOrDefault(c => c.Customername == tblCustomer.Customername
                                                               && c.CustomerContact == tblCustomer.CustomerContact
-                                                              && c.CustomerID != tblCustomer.CustomerID).FirstOrDefault();
+                                                              && c.CustomerID != tblCustomer.CustomerID);
                     if (findCustomer == null)
                     {
                         _db.Entry(tblCustomer).State = EntityState.Modified;
@@ -302,7 +298,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -327,7 +323,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -340,14 +336,17 @@ namespace CloudERP.Controllers
             try
             {
                 tblCustomer tblCustomer = _db.tblCustomer.Find(id);
-                _db.tblCustomer.Remove(tblCustomer);
-                _db.SaveChanges();
+                if (tblCustomer != null)
+                {
+                    _db.tblCustomer.Remove(tblCustomer);
+                    _db.SaveChanges();
+                }
 
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

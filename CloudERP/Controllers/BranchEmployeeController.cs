@@ -28,9 +28,16 @@ namespace CloudERP.Controllers
             int companyID = Convert.ToInt32(Session["CompanyID"]);
             int branchID = Convert.ToInt32(Session["BranchID"]);
 
-            var tblEmployee = _db.tblEmployee.Where(c => c.CompanyID == companyID && c.BranchID == branchID);
-
-            return View(tblEmployee);
+            try
+            {
+                var tblEmployee = _db.tblEmployee.Where(c => c.CompanyID == companyID && c.BranchID == branchID);
+                return View(tblEmployee.ToList());
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving employees: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // GET: EmployeeRegistration
@@ -56,31 +63,39 @@ namespace CloudERP.Controllers
             employee.CompanyID = companyID;
             employee.UserID = null;
 
-            if (ModelState.IsValid)
+            try
             {
-                _db.tblEmployee.Add(employee);
-                _db.SaveChanges();
-
-                if (employee.LogoFile != null)
+                if (ModelState.IsValid)
                 {
-                    var folder = "~/Content/EmployeePhoto";
-                    var file = string.Format("{0}.jpg", employee.EmployeeID);
+                    _db.tblEmployee.Add(employee);
+                    _db.SaveChanges();
 
-                    var response = FileHelper.UploadPhoto(employee.LogoFile, folder, file);
-                    if (response)
+                    if (employee.LogoFile != null)
                     {
-                        var picture = string.Format("{0}/{1}", folder, file);
-                        employee.Photo = picture;
+                        var folder = "~/Content/EmployeePhoto";
+                        var file = string.Format("{0}.jpg", employee.EmployeeID);
 
-                        _db.Entry(employee).State = EntityState.Modified;
-                        _db.SaveChanges();
+                        var response = FileHelper.UploadPhoto(employee.LogoFile, folder, file);
+                        if (response)
+                        {
+                            var picture = string.Format("{0}/{1}", folder, file);
+                            employee.Photo = picture;
+
+                            _db.Entry(employee).State = EntityState.Modified;
+                            _db.SaveChanges();
+                        }
                     }
+
+                    return RedirectToAction("Employee");
                 }
 
-                return RedirectToAction("Employee");
+                return View(employee);
             }
-
-            return View(employee);
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "An unexpected error occurred while registering the employee: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // GET: EmployeeUpdation
@@ -96,13 +111,21 @@ namespace CloudERP.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var employee = _db.tblEmployee.Find(id);
-            if (employee == null)
+            try
             {
-                return HttpNotFound();
-            }
+                var employee = _db.tblEmployee.Find(id);
+                if (employee == null)
+                {
+                    return HttpNotFound();
+                }
 
-            return View(employee);
+                return View(employee);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving employee details for updation: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // POST: EmployeeUpdation
@@ -122,28 +145,36 @@ namespace CloudERP.Controllers
             employee.CompanyID = companyID;
             employee.UserID = null;
 
-            if (ModelState.IsValid)
+            try
             {
-                if (employee.LogoFile != null)
+                if (ModelState.IsValid)
                 {
-                    var folder = "~/Content/EmployeePhoto";
-                    var file = string.Format("{0}.jpg", employee.EmployeeID);
-
-                    var response = FileHelper.UploadPhoto(employee.LogoFile, folder, file);
-                    if (response)
+                    if (employee.LogoFile != null)
                     {
-                        var picture = string.Format("{0}/{1}", folder, file);
-                        employee.Photo = picture;
+                        var folder = "~/Content/EmployeePhoto";
+                        var file = string.Format("{0}.jpg", employee.EmployeeID);
 
-                        _db.Entry(employee).State = EntityState.Modified;
-                        _db.SaveChanges();
+                        var response = FileHelper.UploadPhoto(employee.LogoFile, folder, file);
+                        if (response)
+                        {
+                            var picture = string.Format("{0}/{1}", folder, file);
+                            employee.Photo = picture;
+
+                            _db.Entry(employee).State = EntityState.Modified;
+                            _db.SaveChanges();
+                        }
                     }
+
+                    return RedirectToAction("Employee");
                 }
 
-                return RedirectToAction("Employee");
+                return View(employee);
             }
-
-            return View(employee);
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "An unexpected error occurred while updating the employee: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         public ActionResult ViewProfile(int? id)
@@ -161,7 +192,7 @@ namespace CloudERP.Controllers
                 }
 
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
-                
+
                 var employee = _db.tblEmployee.Where(c => c.CompanyID == companyID && c.EmployeeID == id).FirstOrDefault();
                 if (employee == null)
                 {
@@ -172,7 +203,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving the employee profile: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

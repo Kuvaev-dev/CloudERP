@@ -51,7 +51,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving sale information: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -70,12 +70,12 @@ namespace CloudERP.Controllers
                 }
 
                 var saleInvoice = _db.tblCustomerInvoice.Where(p => p.InvoiceNo == invoiceID).FirstOrDefault();
-                
+
                 return View(saleInvoice);
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while finding sale invoice: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -210,12 +210,12 @@ namespace CloudERP.Controllers
 
                 Session["SaleInvoiceNo"] = customerInvoice.InvoiceNo;
                 Session["SaleReturnMessage"] = "Some Unexpected Issue is Occured. Please Contact to Administrator";
-                
+
                 return RedirectToAction("FindSale");
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while processing return confirmation: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

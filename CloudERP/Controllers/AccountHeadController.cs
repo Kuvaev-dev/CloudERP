@@ -19,36 +19,52 @@ namespace CloudERP.Controllers
         // GET: AccountHead
         public ActionResult Index()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
+                int branchID = Convert.ToInt32(Session["BranchID"]);
+                int userID = Convert.ToInt32(Session["UserID"]);
+
+                var tblAccountHead = _db.tblAccountHead.Include(t => t.tblUser).ToList();
+
+                return View(tblAccountHead);
             }
-
-            int companyID = Convert.ToInt32(Session["CompanyID"]);
-            int branchID = Convert.ToInt32(Session["BranchID"]);
-            int userID = Convert.ToInt32(Session["UserID"]);
-
-            var tblAccountHead = _db.tblAccountHead.Include(t => t.tblUser).ToList();
-
-            return View(tblAccountHead.ToList());
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // GET: AccountHead/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                tblAccountHead tblAccountHead = _db.tblAccountHead.Find(id);
+
+                if (tblAccountHead == null)
+                {
+                    return HttpNotFound();
+                }
+
+                return View(tblAccountHead);
             }
-
-            tblAccountHead tblAccountHead = _db.tblAccountHead.Find(id);
-
-            if (tblAccountHead == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
-
-            return View(tblAccountHead);
         }
 
         // GET: AccountHead/Create
@@ -62,17 +78,17 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(tblAccountHead tblAccountHead)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
-            }
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
 
-            int userID = Convert.ToInt32(Session["UserID"]);
-            tblAccountHead.UserID = userID;
+                int userID = Convert.ToInt32(Session["UserID"]);
+                tblAccountHead.UserID = userID;
 
-            if (ModelState.IsValid)
-            {
-                try
+                if (ModelState.IsValid)
                 {
                     var findHead = _db.tblAccountHead.FirstOrDefault(a => a.AccountHeadName == tblAccountHead.AccountHeadName);
                     if (findHead == null)
@@ -86,32 +102,40 @@ namespace CloudERP.Controllers
                         ViewBag.Message = "Already Exist!";
                     }
                 }
-                catch (Exception ex)
-                {
-                    ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
-                    return RedirectToAction("EP500", "EP");
-                }
-            }
 
-            return View(tblAccountHead);
+                return View(tblAccountHead);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // GET: AccountHead/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                tblAccountHead tblAccountHead = _db.tblAccountHead.Find(id);
+
+                if (tblAccountHead == null)
+                {
+                    return HttpNotFound();
+                }
+
+                return View(tblAccountHead);
             }
-
-            tblAccountHead tblAccountHead = _db.tblAccountHead.Find(id);
-
-            if (tblAccountHead == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
-
-            return View(tblAccountHead);
         }
 
         // POST: AccountHead/Edit/5
@@ -119,17 +143,17 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(tblAccountHead tblAccountHead)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
-            }
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
 
-            int userID = Convert.ToInt32(Session["UserID"]);
-            tblAccountHead.UserID = userID;
+                int userID = Convert.ToInt32(Session["UserID"]);
+                tblAccountHead.UserID = userID;
 
-            if (ModelState.IsValid)
-            {
-                try
+                if (ModelState.IsValid)
                 {
                     var findHead = _db.tblAccountHead.FirstOrDefault(a => a.AccountHeadName == tblAccountHead.AccountHeadName
                                                                         && a.AccountHeadID != tblAccountHead.AccountHeadID);
@@ -144,32 +168,40 @@ namespace CloudERP.Controllers
                         ViewBag.Message = "Already Exist!";
                     }
                 }
-                catch (Exception ex)
-                {
-                    ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
-                    return RedirectToAction("EP500", "EP");
-                }
-            }
 
-            return View(tblAccountHead);
+                return View(tblAccountHead);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // GET: AccountHead/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                tblAccountHead tblAccountHead = _db.tblAccountHead.Find(id);
+
+                if (tblAccountHead == null)
+                {
+                    return HttpNotFound();
+                }
+
+                return View(tblAccountHead);
             }
-
-            tblAccountHead tblAccountHead = _db.tblAccountHead.Find(id);
-
-            if (tblAccountHead == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
-
-            return View(tblAccountHead);
         }
 
         // POST: AccountHead/Delete/5
@@ -190,7 +222,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
 

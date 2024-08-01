@@ -26,7 +26,15 @@ namespace CloudERP.Controllers
                 return RedirectToAction("Login", "Home");
             }
 
-            return View(_db.tblCompany.ToList());
+            try
+            {
+                return View(_db.tblCompany.ToList());
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving companies: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // GET: Company/Details/5
@@ -42,14 +50,22 @@ namespace CloudERP.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            tblCompany tblCompany = _db.tblCompany.Find(id);
-
-            if (tblCompany == null)
+            try
             {
-                return HttpNotFound();
-            }
+                tblCompany tblCompany = _db.tblCompany.Find(id);
 
-            return View(tblCompany);
+                if (tblCompany == null)
+                {
+                    return HttpNotFound();
+                }
+
+                return View(tblCompany);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving company details: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // GET: Company/Create
@@ -73,9 +89,9 @@ namespace CloudERP.Controllers
                 return RedirectToAction("Login", "Home");
             }
 
-            if (ModelState.IsValid)
+            try
             {
-                try
+                if (ModelState.IsValid)
                 {
                     if (tblCompany.LogoFile != null)
                     {
@@ -95,20 +111,26 @@ namespace CloudERP.Controllers
 
                     return RedirectToAction("Index");
                 }
-                catch (DbEntityValidationException e)
+            }
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
                 {
-                    foreach (var eve in e.EntityValidationErrors)
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
                     {
-                        Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                            eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                        foreach (var ve in eve.ValidationErrors)
-                        {
-                            Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-                                ve.PropertyName, ve.ErrorMessage);
-                        }
+                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
                     }
-                    throw;
                 }
+                TempData["ErrorMessage"] = "Validation errors occurred while creating the company.";
+                return RedirectToAction("EP500", "EP");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "An unexpected error occurred while creating the company: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
 
             return View(tblCompany);
@@ -127,14 +149,22 @@ namespace CloudERP.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            tblCompany tblCompany = _db.tblCompany.Find(id);
-
-            if (tblCompany == null)
+            try
             {
-                return HttpNotFound();
-            }
+                tblCompany tblCompany = _db.tblCompany.Find(id);
 
-            return View(tblCompany);
+                if (tblCompany == null)
+                {
+                    return HttpNotFound();
+                }
+
+                return View(tblCompany);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving the company for editing: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // POST: Company/Edit/5
@@ -147,25 +177,48 @@ namespace CloudERP.Controllers
                 return RedirectToAction("Login", "Home");
             }
 
-            if (ModelState.IsValid)
+            try
             {
-                if (tblCompany.LogoFile != null)
+                if (ModelState.IsValid)
                 {
-                    var folder = "~/Content/CompanyLogo";
-                    var file = string.Format("{0}.jpg", tblCompany.CompanyID);
-                    var response = FileHelper.UploadPhoto(tblCompany.LogoFile, folder, file);
-
-                    if (response)
+                    if (tblCompany.LogoFile != null)
                     {
-                        var picture = string.Format("{0}/{1}", folder, file);
-                        tblCompany.Logo = picture;
+                        var folder = "~/Content/CompanyLogo";
+                        var file = string.Format("{0}.jpg", tblCompany.CompanyID);
+                        var response = FileHelper.UploadPhoto(tblCompany.LogoFile, folder, file);
+
+                        if (response)
+                        {
+                            var picture = string.Format("{0}/{1}", folder, file);
+                            tblCompany.Logo = picture;
+                        }
+                    }
+
+                    _db.Entry(tblCompany).State = EntityState.Modified;
+                    _db.SaveChanges();
+
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
                     }
                 }
-
-                _db.Entry(tblCompany).State = EntityState.Modified;
-                _db.SaveChanges();
-
-                return RedirectToAction("Index");
+                TempData["ErrorMessage"] = "Validation errors occurred while updating the company.";
+                return RedirectToAction("EP500", "EP");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "An unexpected error occurred while updating the company: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
 
             return View(tblCompany);
@@ -184,14 +237,22 @@ namespace CloudERP.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            tblCompany tblCompany = _db.tblCompany.Find(id);
-
-            if (tblCompany == null)
+            try
             {
-                return HttpNotFound();
-            }
+                tblCompany tblCompany = _db.tblCompany.Find(id);
 
-            return View(tblCompany);
+                if (tblCompany == null)
+                {
+                    return HttpNotFound();
+                }
+
+                return View(tblCompany);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving the company for deletion: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // POST: Company/Delete/5
@@ -204,11 +265,22 @@ namespace CloudERP.Controllers
                 return RedirectToAction("Login", "Home");
             }
 
-            tblCompany tblCompany = _db.tblCompany.Find(id);
-            _db.tblCompany.Remove(tblCompany);
-            _db.SaveChanges();
+            try
+            {
+                tblCompany tblCompany = _db.tblCompany.Find(id);
+                if (tblCompany != null)
+                {
+                    _db.tblCompany.Remove(tblCompany);
+                    _db.SaveChanges();
+                }
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "An unexpected error occurred while deleting the company: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         protected override void Dispose(bool disposing)

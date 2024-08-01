@@ -40,7 +40,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving return sale pending amounts: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -64,7 +64,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving all return sales pending amounts: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -76,6 +76,11 @@ namespace CloudERP.Controllers
                 if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
                 {
                     return RedirectToAction("Login", "Home");
+                }
+
+                if (!id.HasValue)
+                {
+                    return RedirectToAction("AllReturnSalesPendingAmount");
                 }
 
                 var list = _db.tblCustomerReturnPayment.Where(r => r.CustomerReturnInvoiceID == id);
@@ -93,7 +98,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving return amount details: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -103,7 +108,7 @@ namespace CloudERP.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])) || string.IsNullOrEmpty(Convert.ToString(id)))
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])) || !id.HasValue)
                 {
                     return RedirectToAction("Login", "Home");
                 }
@@ -117,7 +122,7 @@ namespace CloudERP.Controllers
                     ViewBag.Message = "Payment must be less than or equal to the previous remaining amount!";
                     var list = _db.tblCustomerReturnPayment.Where(r => r.CustomerReturnInvoiceID == id);
                     double remainingAmount = list.Sum(item => item.RemainingBalance);
-                    
+
                     if (remainingAmount == 0)
                     {
                         remainingAmount = _db.tblCustomerReturnInvoice.Find(id).TotalAmount;
@@ -132,7 +137,6 @@ namespace CloudERP.Controllers
                 string payInvoiceNo = "RIP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
                 var customer = _db.tblCustomer.Find(_db.tblCustomerReturnInvoice.Find(id).CustomerID);
                 var saleInvoice = _db.tblCustomerReturnInvoice.Find(id);
-                var salePaymentDetails = _db.tblCustomerReturnPayment.Where(p => p.CustomerReturnInvoiceID == id);
 
                 string message = _saleEntry.ReturnSalePayment(companyID, branchID, userID, payInvoiceNo, saleInvoice.CustomerInvoiceID.ToString(), saleInvoice.CustomerReturnInvoiceID, (float)saleInvoice.TotalAmount,
                     paymentAmount, customer.CustomerID.ToString(), customer.Customername, previousRemainingAmount - paymentAmount);
@@ -143,7 +147,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while processing return amount: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

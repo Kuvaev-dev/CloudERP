@@ -39,7 +39,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "Error retrieving remaining payment list: " + ex.Message;
+                TempData["ErrorMessage"] = "Error retrieving remaining payment list: " + ex.Message;
                 return View("Error");
             }
         }
@@ -48,7 +48,7 @@ namespace CloudERP.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])) || string.IsNullOrEmpty(Convert.ToString(id)))
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])) || !id.HasValue)
                 {
                     return RedirectToAction("Login", "Home");
                 }
@@ -56,9 +56,9 @@ namespace CloudERP.Controllers
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = Convert.ToInt32(Session["BranchID"]);
 
-                var list = _sale.SalePaymentHistory((int)id);
+                var list = _sale.SalePaymentHistory(id.Value);
                 var returnDetails = _db.tblCustomerReturnInvoice.Where(r => r.CustomerInvoiceID == id).ToList();
-               
+
                 if (returnDetails != null && returnDetails.Count > 0)
                 {
                     ViewData["ReturnSaleDetails"] = returnDetails;
@@ -67,9 +67,9 @@ namespace CloudERP.Controllers
                 double remainingAmount = 0;
                 double totalInvoiceAmount = _db.tblCustomerInvoice.Find(id).TotalAmount;
                 double totalPaidAmount = _db.tblCustomerPayment.Where(p => p.CustomerInvoiceID == id).Sum(p => p.PaidAmount);
-                
+
                 remainingAmount = totalInvoiceAmount - totalPaidAmount;
-                
+
                 ViewBag.PreviousRemainingAmount = remainingAmount;
                 ViewBag.InvoiceID = id;
 
@@ -77,7 +77,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving paid history: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -86,7 +86,7 @@ namespace CloudERP.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])) || string.IsNullOrEmpty(Convert.ToString(id)))
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])) || !id.HasValue)
                 {
                     return RedirectToAction("Login", "Home");
                 }
@@ -94,7 +94,7 @@ namespace CloudERP.Controllers
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = Convert.ToInt32(Session["BranchID"]);
 
-                var list = _sale.SalePaymentHistory((int)id);
+                var list = _sale.SalePaymentHistory(id.Value);
                 double remainingAmount = 0;
 
                 foreach (var item in list)
@@ -114,7 +114,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving paid amount: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -124,7 +124,7 @@ namespace CloudERP.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])) || string.IsNullOrEmpty(Convert.ToString(id)))
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])) || !id.HasValue)
                 {
                     return RedirectToAction("Login", "Home");
                 }
@@ -136,9 +136,9 @@ namespace CloudERP.Controllers
                 if (paidAmount > previousRemainingAmount)
                 {
                     ViewBag.Message = "Payment must be less than or equal to previous remaining amount!";
-                    var list = _sale.SalePaymentHistory((int)id);
+                    var list = _sale.SalePaymentHistory(id.Value);
                     double remainingAmount = 0;
-                    
+
                     foreach (var item in list)
                     {
                         remainingAmount = item.RemainingBalance;
@@ -158,17 +158,17 @@ namespace CloudERP.Controllers
                 string payInvoiceNo = "INP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
                 var customer = _db.tblCustomer.Find(_db.tblCustomerInvoice.Find(id).CustomerID);
                 var purchaseInvoice = _db.tblCustomerInvoice.Find(id);
-                var purchasePaymentDetails = _db.tblCustomerPayment.Where(p => p.CustomerInvoiceID == id);
                 string message = _saleEntry.SalePayment(companyID, branchID, userID, payInvoiceNo, Convert.ToString(id), (float)purchaseInvoice.TotalAmount,
                     paidAmount, Convert.ToString(customer.CustomerID), customer.Customername, previousRemainingAmount - paidAmount);
-                Session["Message"] = message;
-                
+
+                TempData["Message"] = message;
+
                 return RedirectToAction("RemainingPaymentList");
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "Error processing payment: " + ex.Message;
-                var list = _sale.SalePaymentHistory((int)id);
+                TempData["ErrorMessage"] = "Error processing payment: " + ex.Message;
+                var list = _sale.SalePaymentHistory(id.Value);
                 double remainingAmount = 0;
 
                 foreach (var item in list)
@@ -183,7 +183,7 @@ namespace CloudERP.Controllers
 
                 ViewBag.PreviousRemainingAmount = remainingAmount;
                 ViewBag.InvoiceID = id;
-                
+
                 return View(list);
             }
         }
@@ -202,12 +202,12 @@ namespace CloudERP.Controllers
                 int userID = Convert.ToInt32(Session["UserID"]);
 
                 var list = _sale.CustomSalesList(companyID, branchID, FromDate, ToDate);
-                
+
                 return View(list.ToList());
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving custom sales history: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -222,15 +222,15 @@ namespace CloudERP.Controllers
                 }
 
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = (id != null) ? Convert.ToInt32(id) : Convert.ToInt32(Session["BrchID"]);
+                int branchID = (id.HasValue) ? id.Value : Convert.ToInt32(Session["BranchID"]);
                 int userID = Convert.ToInt32(Session["UserID"]);
                 var list = _sale.CustomSalesList(companyID, branchID, FromDate, ToDate);
-                
+
                 return View(list.ToList());
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving sub-custom sales history: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -249,12 +249,12 @@ namespace CloudERP.Controllers
                 int userID = Convert.ToInt32(Session["UserID"]);
 
                 var list = _db.tblCustomerInvoiceDetail.Where(i => i.CustomerInvoiceID == id);
-                
+
                 return View(list.ToList());
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving sale item details: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -273,12 +273,12 @@ namespace CloudERP.Controllers
                 int userID = Convert.ToInt32(Session["UserID"]);
 
                 var list = _db.tblCustomerInvoiceDetail.Where(i => i.CustomerInvoiceID == id);
-                
+
                 return View(list.ToList());
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while printing sale invoice: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

@@ -33,12 +33,12 @@ namespace CloudERP.Controllers
                 }
 
                 var list = _purchase.PurchaseReturnPaymentPending(id);
-                
+
                 return View(list);
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -57,12 +57,12 @@ namespace CloudERP.Controllers
                 int userID = Convert.ToInt32(Session["UserID"]);
 
                 var list = _purchase.GetReturnPurchasesPaymentPending(companyID, branchID);
-                
+
                 return View(list);
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -71,9 +71,14 @@ namespace CloudERP.Controllers
         {
             try
             {
+                if (id == null)
+                {
+                    return RedirectToAction("AllPurchasesPendingPayment");
+                }
+
                 var list = _db.tblSupplierReturnPayment.Where(r => r.SupplierReturnInvoiceID == id);
                 double remainingAmount = 0;
-                
+
                 foreach (var item in list)
                 {
                     remainingAmount = item.RemainingBalance;
@@ -85,17 +90,17 @@ namespace CloudERP.Controllers
 
                 if (remainingAmount == 0)
                 {
-                    remainingAmount = _db.tblSupplierReturnInvoice.Find(id).TotalAmount;
+                    remainingAmount = _db.tblSupplierReturnInvoice.Find(id)?.TotalAmount ?? 0;
                 }
 
                 ViewBag.PreviousRemainingAmount = remainingAmount;
                 ViewBag.InvoiceID = id;
-                
+
                 return View(list);
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -105,7 +110,7 @@ namespace CloudERP.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])) || string.IsNullOrEmpty(Convert.ToString(id)))
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])) || id == null)
                 {
                     return RedirectToAction("Login", "Home");
                 }
@@ -119,7 +124,7 @@ namespace CloudERP.Controllers
                     ViewBag.Message = "Payment must be less than or equal to the previous remaining amount.";
                     var list = _db.tblSupplierReturnPayment.Where(r => r.SupplierReturnInvoiceID == id);
                     double remainingAmount = 0;
-                    
+
                     foreach (var item in list)
                     {
                         remainingAmount = item.RemainingBalance;
@@ -127,7 +132,7 @@ namespace CloudERP.Controllers
 
                     if (remainingAmount == 0)
                     {
-                        remainingAmount = _db.tblSupplierReturnInvoice.Find(id).TotalAmount;
+                        remainingAmount = _db.tblSupplierReturnInvoice.Find(id)?.TotalAmount ?? 0;
                     }
 
                     ViewBag.PreviousRemainingAmount = remainingAmount;
@@ -137,18 +142,17 @@ namespace CloudERP.Controllers
                 }
 
                 string payinvoicenno = "RPP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
-                var supplier = _db.tblSupplier.Find(_db.tblSupplierReturnInvoice.Find(id).SupplierID);
+                var supplier = _db.tblSupplier.Find(_db.tblSupplierReturnInvoice.Find(id)?.SupplierID);
                 var purchaseInvoice = _db.tblSupplierReturnInvoice.Find(id);
-                var purchasePaymentDetails = _db.tblSupplierReturnPayment.Where(p => p.SupplierReturnInvoiceID == id);
                 string message = _purchaseEntry.ReturnPurchasePayment(companyID, branchID, userID, payinvoicenno, purchaseInvoice.SupplierInvoiceID.ToString(), purchaseInvoice.SupplierReturnInvoiceID, (float)purchaseInvoice.TotalAmount,
-                    paymentAmount, Convert.ToString(supplier.SupplierID), supplier.SupplierName, previousRemainingAmount - paymentAmount);
+                    paymentAmount, Convert.ToString(supplier?.SupplierID), supplier?.SupplierName, previousRemainingAmount - paymentAmount);
                 Session["Message"] = message;
-                
+
                 return RedirectToAction("PurchasePaymentReturn", new { id });
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

@@ -35,11 +35,11 @@ namespace CloudERP.Controllers
                 int userID = Convert.ToInt32(Session["UserID"]);
 
                 var financialYearCheck = DatabaseQuery.Retrive("select top 1 FinancialYearID from tblFinancialYear where IsActive = 1");
-                
+
                 string FinancialYearID = (financialYearCheck != null ? Convert.ToString(financialYearCheck.Rows[0][0]) : string.Empty);
-                
-                List<TrialBalanceModel> list = new List<TrialBalanceModel>();
-                
+
+                List<TrialBalanceModel> list;
+
                 if (string.IsNullOrEmpty(FinancialYearID))
                 {
                     list = _trialBalance.TrialBalance(branchID, companyID, 0);
@@ -56,7 +56,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving trial balance: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -76,12 +76,19 @@ namespace CloudERP.Controllers
                 int userID = Convert.ToInt32(Session["UserID"]);
 
                 var financialYearCheck = DatabaseQuery.Retrive("select top 1 FinancialYearID from tblFinancialYear where IsActive = 1");
-                
-                string FinancialYearID = (financialYearCheck != null ? Convert.ToString(financialYearCheck.Rows[0][0]) : string.Empty);
-                
-                List<TrialBalanceModel> list = new List<TrialBalanceModel>();
 
-                list = _trialBalance.TrialBalance(branchID, companyID, (int)id);
+                string FinancialYearID = (financialYearCheck != null ? Convert.ToString(financialYearCheck.Rows[0][0]) : string.Empty);
+
+                List<TrialBalanceModel> list;
+
+                if (id.HasValue)
+                {
+                    list = _trialBalance.TrialBalance(branchID, companyID, (int)id);
+                }
+                else
+                {
+                    list = new List<TrialBalanceModel>();
+                }
 
                 var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
                 ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear", id);
@@ -90,7 +97,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving trial balance: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

@@ -43,7 +43,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -82,12 +82,12 @@ namespace CloudERP.Controllers
 
                 ViewBag.CreditAccountControlID = new SelectList(_accounts.GetAllAccounts(companyID, branchID), "AccountSubControlID", "AccountSubControl", "0");
                 ViewBag.DebitAccountControlID = new SelectList(_accounts.GetAllAccounts(companyID, branchID), "AccountSubControlID", "AccountSubControl", "0");
-                
+
                 return RedirectToAction("GeneralTransaction", new { transaction });
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -112,30 +112,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
-        }
-
-        // GET: GeneralTransaction/SubJournal
-        public ActionResult SubJournal(int? id)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = (id != null) ? Convert.ToInt32(id) : Convert.ToInt32(Session["BrchID"]);
-                var list = _accounts.GetJournal(companyID, branchID, DateTime.Now, DateTime.Now);
-
-                return View(list);
-            }
-            catch (Exception ex)
-            {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -161,7 +138,31 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
+        }
+
+        // GET: GeneralTransaction/SubJournal
+        public ActionResult SubJournal()
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
+                int brnchID = Convert.ToInt32(Session["BrchID"]);
+
+                var list = _accounts.GetJournal(companyID, brnchID, DateTime.Now, DateTime.Now);
+
+                return View(list);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -179,15 +180,15 @@ namespace CloudERP.Controllers
                 }
 
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
+                int brnchID = Convert.ToInt32(Session["BrchID"]);
 
-                var list = _accounts.GetJournal(companyID, branchID, FromDate, ToDate);
+                var list = _accounts.GetJournal(companyID, brnchID, FromDate, ToDate);
 
                 return View(list);
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
