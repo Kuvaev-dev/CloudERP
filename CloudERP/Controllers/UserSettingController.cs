@@ -47,6 +47,9 @@ namespace CloudERP.Controllers
                     UserName = employee.Email
                 };
 
+                ViewBag.Password = hashedPassword;
+                ViewBag.Salt = salt;
+
                 ViewBag.UserTypeID = new SelectList(_db.tblUserType.ToList(), "UserTypeID", "UserType");
 
                 return View(user);
@@ -79,6 +82,12 @@ namespace CloudERP.Controllers
                     }
                     else
                     {
+                        string password = Request.Form["Password"];
+                        string salt = Request.Form["Salt"];
+                        
+                        tblUser.Password = password;
+                        tblUser.Salt = salt;
+
                         _db.tblUser.Add(tblUser);
                         _db.SaveChanges();
 
