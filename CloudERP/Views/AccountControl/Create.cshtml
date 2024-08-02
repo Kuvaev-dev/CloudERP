@@ -9,8 +9,9 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        @ViewBag.Message
-        @ViewBag.ErrorMessage
+        <h2 class="text-danger">@ViewBag.Message</h2>
+        <h2 class="text-danger">@ViewBag.ErrorMessage</h2>
+
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div class="form-group">
@@ -32,8 +33,8 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="@Resources.Repeats.Create.ToString()" class="btn btn-success" />
-                @Html.ActionLink(@Resources.Repeats.BackToList.ToString(), "Index", null, new { @class="btn btn-default" })
+                @Html.ActionLink(@Resources.Repeats.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
             </div>
         </div>
-    </div>
+</div>
 }

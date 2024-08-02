@@ -7,6 +7,10 @@
 @using (Html.BeginForm("FindSale", "SaleReturn", FormMethod.Post, null))
 {
     @Html.AntiForgeryToken()
+
+    <h3 class="text-danger">@ViewBag.Message</h3>
+    <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
+
     <div class="form-group">
         <label class="control-label col-md-2">Enter Sale Invoice №</label>
         <div class="col-md-5">

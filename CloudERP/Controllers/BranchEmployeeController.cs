@@ -73,17 +73,28 @@ namespace CloudERP.Controllers
                     if (employee.LogoFile != null)
                     {
                         var folder = "~/Content/EmployeePhoto";
-                        var file = string.Format("{0}.jpg", employee.EmployeeID);
-
+                        var file = $"{employee.EmployeeID}.jpg";
                         var response = FileHelper.UploadPhoto(employee.LogoFile, folder, file);
+
                         if (response)
                         {
-                            var picture = string.Format("{0}/{1}", folder, file);
-                            employee.Photo = picture;
-
-                            _db.Entry(employee).State = EntityState.Modified;
-                            _db.SaveChanges();
+                            var filePath = Server.MapPath($"{folder}/{file}");
+                            if (System.IO.File.Exists(filePath))
+                            {
+                                employee.Photo = $"{folder}/{file}";
+                            }
+                            else
+                            {
+                                employee.Photo = "~/Content/EmployeePhoto/Default/default.jpg";
+                            }
                         }
+                        else
+                        {
+                            employee.Photo = "~/Content/EmployeePhoto/Default/default.jpg";
+                        }
+
+                        _db.Entry(employee).State = EntityState.Modified;
+                        _db.SaveChanges();
                     }
 
                     return RedirectToAction("Employee");
@@ -152,18 +163,37 @@ namespace CloudERP.Controllers
                     if (employee.LogoFile != null)
                     {
                         var folder = "~/Content/EmployeePhoto";
-                        var file = string.Format("{0}.jpg", employee.EmployeeID);
-
+                        var file = $"{employee.EmployeeID}.jpg";
                         var response = FileHelper.UploadPhoto(employee.LogoFile, folder, file);
+
                         if (response)
                         {
-                            var picture = string.Format("{0}/{1}", folder, file);
-                            employee.Photo = picture;
-
-                            _db.Entry(employee).State = EntityState.Modified;
-                            _db.SaveChanges();
+                            var filePath = Server.MapPath($"{folder}/{file}");
+                            if (System.IO.File.Exists(filePath))
+                            {
+                                employee.Photo = $"{folder}/{file}";
+                            }
+                            else
+                            {
+                                employee.Photo = "~/Content/EmployeePhoto/Default/default.jpg";
+                            }
+                        }
+                        else
+                        {
+                            employee.Photo = "~/Content/EmployeePhoto/Default/default.jpg";
                         }
                     }
+                    else
+                    {
+                        var existingEmployee = _db.tblEmployee.AsNoTracking().FirstOrDefault(e => e.EmployeeID == employee.EmployeeID);
+                        if (existingEmployee != null)
+                        {
+                            employee.Photo = existingEmployee.Photo;
+                        }
+                    }
+
+                    _db.Entry(employee).State = EntityState.Modified;
+                    _db.SaveChanges();
 
                     return RedirectToAction("Employee");
                 }

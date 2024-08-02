@@ -9,11 +9,13 @@
 @using (Html.BeginForm("PurchaseConfirm", "PurchaseCart", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
+
     <div class="form-horizontal">
         <h4>Purchase Details</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <h3 class="text-danger">@ViewBag.Message</h3>
+        <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
 
         <div class="form-group">
             <label class="control-label col-md-2">Purchase Description</label>
@@ -24,7 +26,7 @@
         <div class="form-group">
             <label class="control-label col-md-4">Is Purchase Payment Paid?</label>
             <div class="col-md-12">
-                <input type="checkbox" name="IsPayment"/>
+                <input type="checkbox" name="IsPayment" />
             </div>
         </div>
 

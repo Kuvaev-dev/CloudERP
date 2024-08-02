@@ -52,7 +52,7 @@ namespace CloudERP.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetIncomeStatement(int? id)
+        public ActionResult GetIncomeStatement(int? FinancialYearID)
         {
             try
             {
@@ -67,20 +67,13 @@ namespace CloudERP.Controllers
                 var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
                 ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear");
 
-                var FinancialYear = _db.tblFinancialYear.FirstOrDefault(f => f.IsActive);
-                if (FinancialYear == null)
-                {
-                    ViewBag.ErrorMessage = "Your company's financial year is not set. Please contact the Administrator.";
-                    return View();
-                }
-
-                var incomeStatement = _income.GetIncomeStatement(companyID, branchID, id ?? FinancialYear.FinancialYearID);
+                var incomeStatement = _income.GetIncomeStatement(companyID, branchID, FinancialYearID ?? 0);
 
                 return View(incomeStatement);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = "An unexpected error occurred: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -121,7 +114,7 @@ namespace CloudERP.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetSubIncomeStatement(int? id)
+        public ActionResult GetSubIncomeStatement(int? FinancialYearID)
         {
             try
             {
@@ -137,14 +130,7 @@ namespace CloudERP.Controllers
                 var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
                 ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear");
 
-                var FinancialYear = _db.tblFinancialYear.FirstOrDefault(f => f.IsActive);
-                if (FinancialYear == null)
-                {
-                    ViewBag.ErrorMessage = "Your company's financial year is not set. Please contact the Administrator.";
-                    return View();
-                }
-
-                var incomeStatement = _income.GetIncomeStatement(companyID, brchID, id ?? FinancialYear.FinancialYearID);
+                var incomeStatement = _income.GetIncomeStatement(companyID, brchID, FinancialYearID ?? 0);
 
                 return View(incomeStatement);
             }

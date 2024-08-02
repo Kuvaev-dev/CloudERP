@@ -19,7 +19,8 @@
     <div class="card card-float">
         <div class="card-header">
             <h4>Select Range (From Date and To Date)</h4>
-            <h5 class="table-danger">@ViewBag.Message</h5>
+            <h3 class="text-danger">@ViewBag.Message</h3>
+            <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
         </div>
         <div class="card-body">
             @using (Html.BeginForm("CustomPurchasesHistory", "PurchasePayment", FormMethod.Post))

@@ -98,6 +98,13 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
+                    bool exists = _db.tblUserType.Any(u => u.UserType == tblUserType.UserType);
+                    if (exists)
+                    {
+                        ModelState.AddModelError("UserType", "A user type with this name already exists.");
+                        return View(tblUserType);
+                    }
+
                     _db.tblUserType.Add(tblUserType);
                     _db.SaveChanges();
 
@@ -157,6 +164,15 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
+                    bool exists = _db.tblUserType
+                        .Any(u => u.UserType == tblUserType.UserType && u.UserTypeID != tblUserType.UserTypeID);
+
+                    if (exists)
+                    {
+                        ModelState.AddModelError("UserType", "A user type with this name already exists.");
+                        return View(tblUserType);
+                    }
+
                     _db.Entry(tblUserType).State = EntityState.Modified;
                     _db.SaveChanges();
 

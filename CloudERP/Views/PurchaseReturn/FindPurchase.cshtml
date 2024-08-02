@@ -36,6 +36,8 @@
                             <div class="d-flex align-items-center">
                                 <h3 class="m-0">Invoice №: @Html.DisplayFor(model => model.InvoiceNo)</h3>
                                 <h3 class="m-0 text-danger">&nbsp;(@Session["ReturnMessage"])</h3>
+                                <h3 class="text-danger">@ViewBag.Message</h3>
+                                <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
                                 <h3 class="ml-auto">Purchase Invoice</h3>
                                 <input style="display:none;" id="supplierInvoiceID" name="supplierInvoiceID" value="@Model.SupplierInvoiceID" />
                             </div>

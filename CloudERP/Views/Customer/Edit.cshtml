@@ -15,6 +15,7 @@
         @Html.HiddenFor(model => model.CompanyID)
 
         <h3 class="text-danger">@ViewBag.Message</h3>
+        <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Customername, Resources.Customer.CustomerFullName.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })

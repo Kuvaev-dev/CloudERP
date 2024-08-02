@@ -11,6 +11,7 @@
     <div class="form-horizontal">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <h3 class="text-danger">@ViewBag.Message</h3>
+        <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Customername, Resources.Customer.CustomerFullName.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
@@ -55,7 +56,7 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="@Resources.Repeats.Create.ToString()" class="btn btn-success" />
-                @Html.ActionLink(Resources.Repeats.BackToList.ToString(), "Index", null, new { @class="btn btn-default" })
+                @Html.ActionLink(Resources.Repeats.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
             </div>
         </div>
     </div>

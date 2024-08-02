@@ -34,10 +34,17 @@ namespace CloudERP.Controllers
                 if (!financialYears.Any())
                 {
                     ViewBag.ErrorMessage = "Your company's financial years are not set. Please contact the Administrator.";
-                    return View();
+                    return View(new List<DatabaseAccess.Models.AccountLedgerModel>());
                 }
 
                 ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear");
+
+                var defaultFinancialYear = financialYears.FirstOrDefault();
+                if (defaultFinancialYear != null)
+                {
+                    var ledger = _ledgersp.GetLedger(companyID, branchID, defaultFinancialYear.FinancialYearID);
+                    return View(ledger);
+                }
 
                 return View(new List<DatabaseAccess.Models.AccountLedgerModel>());
             }
@@ -85,21 +92,25 @@ namespace CloudERP.Controllers
                 }
 
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int brnchID = Convert.ToInt32(Session["BrchID"]);
-
-                var FinancialYear = _db.tblFinancialYear.FirstOrDefault(f => f.IsActive);
-                if (FinancialYear == null)
-                {
-                    ViewBag.ErrorMessage = "Your company's financial year is not set. Please contact the Administrator.";
-                    return View();
-                }
-
-                var ledger = _ledgersp.GetLedger(companyID, brnchID, FinancialYear.FinancialYearID);
+                int branchID = Convert.ToInt32(Session["BranchID"]);
 
                 var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
+                if (!financialYears.Any())
+                {
+                    ViewBag.ErrorMessage = "Your company's financial years are not set. Please contact the Administrator.";
+                    return View(new List<DatabaseAccess.Models.AccountLedgerModel>());
+                }
+
                 ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear");
 
-                return View(ledger);
+                var defaultFinancialYear = financialYears.FirstOrDefault();
+                if (defaultFinancialYear != null)
+                {
+                    var ledger = _ledgersp.GetLedger(companyID, branchID, defaultFinancialYear.FinancialYearID);
+                    return View(ledger);
+                }
+
+                return View(new List<DatabaseAccess.Models.AccountLedgerModel>());
             }
             catch (Exception ex)
             {
@@ -119,12 +130,12 @@ namespace CloudERP.Controllers
                 }
 
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int brnchID = Convert.ToInt32(Session["BrchID"]);
+                int branchID = Convert.ToInt32(Session["BranchID"]);
 
-                var ledger = _ledgersp.GetLedger(companyID, brnchID, id ?? 0);
+                var ledger = _ledgersp.GetLedger(companyID, branchID, id ?? 0);
 
                 var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
-                ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear");
+                ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear", id);
 
                 return View(ledger);
             }

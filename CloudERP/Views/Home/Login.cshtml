@@ -37,8 +37,10 @@
                     @using (Html.BeginForm("LoginUser", "Home", FormMethod.Post, new { id = "loginForm" }))
                     {
                         @Html.AntiForgeryToken()
+
                         <p class="text-danger">@ViewBag.ErrorMessage</p>
                         <p class="text-danger">@ViewBag.Message</p>
+
                         <div class="form-group">
                             <div class="input-group with-focus">
                                 <input class="form-control border-right-0" id="email" name="email" type="email"

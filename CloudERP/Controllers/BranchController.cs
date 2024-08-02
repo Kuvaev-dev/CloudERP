@@ -145,6 +145,21 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    bool branchExists = _db.tblBranch.Any(b =>
+                        b.CompanyID == companyID &&
+                        (b.BranchName == tblBranch.BranchName ||
+                         b.BranchContact == tblBranch.BranchContact ||
+                         b.BranchAddress == tblBranch.BranchAddress)
+                    );
+
+                    if (branchExists)
+                    {
+                        ModelState.AddModelError("", "A branch with the same name, contact, or address already exists for this company.");
+                        ViewBag.BrchID = new SelectList(_db.tblBranch.Where(c => c.CompanyID == companyID).ToList(), "BranchID", "BranchName");
+                        ViewBag.BranchTypeID = new SelectList(_db.tblBranchType, "BranchTypeID", "BranchType", tblBranch.BranchTypeID);
+                        return View(tblBranch);
+                    }
+
                     _db.tblBranch.Add(tblBranch);
                     _db.SaveChanges();
                     return RedirectToAction("Index");
@@ -214,12 +229,28 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    bool branchExists = _db.tblBranch.Any(b =>
+                        b.CompanyID == companyID &&
+                        (b.BranchName == tblBranch.BranchName ||
+                         b.BranchContact == tblBranch.BranchContact ||
+                         b.BranchAddress == tblBranch.BranchAddress) &&
+                        b.BranchID != tblBranch.BranchID
+                    );
+
+                    if (branchExists)
+                    {
+                        ModelState.AddModelError("", "A branch with the same name, contact, or address already exists for this company.");
+                        ViewBag.BrchID = new SelectList(_db.tblBranch.Where(c => c.CompanyID == companyID).ToList(), "BranchID", "BranchName", tblBranch.BranchID);
+                        ViewBag.BranchTypeID = new SelectList(_db.tblBranchType, "BranchTypeID", "BranchType", tblBranch.BranchTypeID);
+                        return View(tblBranch);
+                    }
+
                     _db.Entry(tblBranch).State = EntityState.Modified;
                     _db.SaveChanges();
                     return RedirectToAction("Index");
                 }
 
-                ViewBag.BrchID = new SelectList(_db.tblBranch.Where(c => c.CompanyID == companyID).ToList(), "BranchID", "BranchName", tblBranch.BrchID);
+                ViewBag.BrchID = new SelectList(_db.tblBranch.Where(c => c.CompanyID == companyID).ToList(), "BranchID", "BranchName", tblBranch.BranchID);
                 ViewBag.BranchTypeID = new SelectList(_db.tblBranchType, "BranchTypeID", "BranchType", tblBranch.BranchTypeID);
 
                 return View(tblBranch);

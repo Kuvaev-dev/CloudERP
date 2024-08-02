@@ -21,6 +21,8 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
+        <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
+
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div class="form-group">
@@ -124,7 +126,7 @@
                                 @Html.DisplayFor(modelItem => item.tblUser.UserName)
                             </td>
                             <td>
-                                @Html.ActionLink(Resources.Repeats.Delete.ToString(), "DeleteConfirm", new { id = item.SaleCartDetailID }, new { @class = "btn btn-danger" })
+                                @Html.ActionLink(Resources.Repeats.Delete.ToString(), "DeleteConfirm", "SaleCart", new { id = item.SaleCartDetailID }, new { @class = "btn btn-danger" })
                             </td>
                         </tr>
                     }

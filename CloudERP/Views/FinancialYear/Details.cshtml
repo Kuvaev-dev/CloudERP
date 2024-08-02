@@ -1,14 +1,12 @@
 ﻿@model DatabaseAccess.tblFinancialYear
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Financial Year Details";
 }
 
-<h2>Details</h2>
+<h2>Financial Year Details</h2>
 
 <div>
-    <h4>tblFinancialYear</h4>
-    <hr />
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.FinancialYear)
@@ -49,7 +47,6 @@
         <dd>
             @Html.DisplayFor(model => model.tblUser.FullName)
         </dd>
-
     </dl>
 </div>
 <p>

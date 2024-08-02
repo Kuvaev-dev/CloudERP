@@ -834,6 +834,7 @@
     <Content Include="Content\CompanyLogo\lg.png" />
     <Content Include="Content\CompanyLogo\nokia.png" />
     <Content Include="Content\CompanyLogo\samsung.png" />
+    <Content Include="Content\EmployeePhoto\Default\default.png" />
     <Content Include="Content\EmployeePhoto\e1.png" />
     <Content Include="Content\EmployeePhoto\e2.png" />
     <Content Include="Content\EmployeePhoto\e3.png" />

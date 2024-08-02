@@ -2,6 +2,7 @@
 using CloudERP.Models;
 using DatabaseAccess;
 using System;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace CloudERP.Controllers
@@ -44,7 +45,7 @@ namespace CloudERP.Controllers
                     var company = new tblCompany()
                     {
                         Name = model.CompanyName,
-                        Logo = string.Empty,
+                        Logo = "~/Content/CompanyLogo/erp-logo.png",
                         Description = string.Empty
                     };
                     _db.tblCompany.Add(company);
@@ -62,6 +63,13 @@ namespace CloudERP.Controllers
                     };
                     _db.tblBranch.Add(branch);
                     _db.SaveChanges();
+
+                    // Check if the user already exists
+                    if (_db.tblUser.Any(u => u.UserName == model.UserName || u.Email == model.EmployeeEmail))
+                    {
+                        ModelState.AddModelError("", "A user with this username or email already exists.");
+                        return View(model);
+                    }
 
                     // Add user
                     string hashedPassword = PasswordHelper.HashPassword(model.Password, out string salt);
@@ -83,6 +91,13 @@ namespace CloudERP.Controllers
                     _db.tblUser.Add(user);
                     _db.SaveChanges();
 
+                    // Check if the employee already exists
+                    if (_db.tblEmployee.Any(e => e.Email == model.EmployeeEmail && e.CompanyID == company.CompanyID))
+                    {
+                        ModelState.AddModelError("", "An employee with this email already exists for this company.");
+                        return View(model);
+                    }
+
                     // Add employee
                     var employee = new tblEmployee()
                     {
@@ -97,7 +112,7 @@ namespace CloudERP.Controllers
                         UserID = user.UserID,
                         Name = model.EmployeeName,
                         Description = string.Empty,
-                        Photo = string.Empty
+                        Photo = "~/Content/EmployeePhoto/Default/default.png"
                     };
                     _db.tblEmployee.Add(employee);
                     _db.SaveChanges();

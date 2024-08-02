@@ -18,6 +18,8 @@
 <div class="card card-default col-md-12">
     <div class="card-header">
         @Html.ActionLink(Resources.AccountSetting.SetAccountingFlow.ToString(), "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
+        <h2 class="text-danger">@ViewBag.Message</h2>
+        <h2 class="text-danger">@ViewBag.ErrorMessage</h2>
     </div>
     <div class="card-body">
         <div class="table-responsive bootgrid">

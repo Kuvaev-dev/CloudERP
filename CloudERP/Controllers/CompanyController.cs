@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data.Entity;
-using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -96,14 +95,29 @@ namespace CloudERP.Controllers
                     if (tblCompany.LogoFile != null)
                     {
                         var folder = "~/Content/CompanyLogo";
-                        var file = string.Format("{0}.jpg", tblCompany.CompanyID);
+                        var file = $"{tblCompany.CompanyID}.jpg";
                         var response = FileHelper.UploadPhoto(tblCompany.LogoFile, folder, file);
 
                         if (response)
                         {
-                            var picture = string.Format("{0}/{1}", folder, file);
-                            tblCompany.Logo = picture;
+                            var filePath = Server.MapPath($"{folder}/{file}");
+                            if (System.IO.File.Exists(filePath))
+                            {
+                                tblCompany.Logo = $"{folder}/{file}";
+                            }
+                            else
+                            {
+                                tblCompany.Logo = "~/Content/CompanyLogo/erp-logo.png";
+                            }
                         }
+                        else
+                        {
+                            tblCompany.Logo = "~/Content/CompanyLogo/erp-logo.png";
+                        }
+                    }
+                    else
+                    {
+                        tblCompany.Logo = "~/Content/CompanyLogo/erp-logo.png";
                     }
 
                     _db.tblCompany.Add(tblCompany);
@@ -111,21 +125,6 @@ namespace CloudERP.Controllers
 
                     return RedirectToAction("Index");
                 }
-            }
-            catch (DbEntityValidationException e)
-            {
-                foreach (var eve in e.EntityValidationErrors)
-                {
-                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    foreach (var ve in eve.ValidationErrors)
-                    {
-                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-                            ve.PropertyName, ve.ErrorMessage);
-                    }
-                }
-                TempData["ErrorMessage"] = "Validation errors occurred while creating the company.";
-                return RedirectToAction("EP500", "EP");
             }
             catch (Exception ex)
             {
@@ -184,13 +183,20 @@ namespace CloudERP.Controllers
                     if (tblCompany.LogoFile != null)
                     {
                         var folder = "~/Content/CompanyLogo";
-                        var file = string.Format("{0}.jpg", tblCompany.CompanyID);
+                        var file = $"{tblCompany.CompanyID}.jpg";
                         var response = FileHelper.UploadPhoto(tblCompany.LogoFile, folder, file);
 
                         if (response)
                         {
-                            var picture = string.Format("{0}/{1}", folder, file);
-                            tblCompany.Logo = picture;
+                            tblCompany.Logo = $"{folder}/{file}";
+                        }
+                    }
+                    else
+                    {
+                        var existingCompany = _db.tblCompany.AsNoTracking().FirstOrDefault(c => c.CompanyID == tblCompany.CompanyID);
+                        if (existingCompany != null)
+                        {
+                            tblCompany.Logo = existingCompany.Logo;
                         }
                     }
 
@@ -199,21 +205,6 @@ namespace CloudERP.Controllers
 
                     return RedirectToAction("Index");
                 }
-            }
-            catch (DbEntityValidationException e)
-            {
-                foreach (var eve in e.EntityValidationErrors)
-                {
-                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    foreach (var ve in eve.ValidationErrors)
-                    {
-                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-                            ve.PropertyName, ve.ErrorMessage);
-                    }
-                }
-                TempData["ErrorMessage"] = "Validation errors occurred while updating the company.";
-                return RedirectToAction("EP500", "EP");
             }
             catch (Exception ex)
             {

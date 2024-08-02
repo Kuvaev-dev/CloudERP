@@ -87,10 +87,30 @@ namespace CloudERP.Controllers
                         var response = FileHelper.UploadPhoto(employee.LogoFile, folder, file);
                         if (response)
                         {
-                            employee.Photo = $"{folder}/{file}";
+                            var filePath = Server.MapPath($"{folder}/{file}");
+                            if (System.IO.File.Exists(filePath))
+                            {
+                                employee.Photo = $"{folder}/{file}";
+                            }
+                            else
+                            {
+                                employee.Photo = "~/Content/EmployeePhoto/Default/default.png";
+                            }
                             _db.Entry(employee).State = EntityState.Modified;
                             _db.SaveChanges();
                         }
+                        else
+                        {
+                            employee.Photo = "~/Content/EmployeePhoto/Default/default.png";
+                            _db.Entry(employee).State = EntityState.Modified;
+                            _db.SaveChanges();
+                        }
+                    }
+                    else
+                    {
+                        employee.Photo = "~/Content/EmployeePhoto/Default/default.png";
+                        _db.Entry(employee).State = EntityState.Modified;
+                        _db.SaveChanges();
                     }
 
                     return RedirectToAction("Employees");
