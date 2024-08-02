@@ -38,6 +38,7 @@ namespace DatabaseAccess
 
         [Required(ErrorMessage = "*Required!")]
         [EmailAddress(ErrorMessage = "Invalid email address format.")]
+        [AllowedDomains(new string[] { "gmail.com", "ukr.net" }, ErrorMessage = "Domain {0} isn`t allowed.")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "*Required!")]

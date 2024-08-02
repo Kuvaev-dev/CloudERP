@@ -83,6 +83,7 @@
     <Compile Include="Code\SP_Code\SP_Purchase.cs" />
     <Compile Include="Code\SP_Code\SP_Sale.cs" />
     <Compile Include="Code\SP_Code\SP_TrialBalance.cs" />
+    <Compile Include="Helpers\AllowedDomainsAttribute.cs" />
     <Compile Include="Models\AccountLedgerModel.cs" />
     <Compile Include="Models\AllAccountModel.cs" />
     <Compile Include="Models\BalanceSheetModel.cs" />

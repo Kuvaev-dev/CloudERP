@@ -40,7 +40,9 @@ namespace DatabaseAccess
         [DataType(DataType.MultilineText)]
         public string SupplierAddress { get; set; }
 
+        [Required(ErrorMessage = "Supplier Email is required.")]
         [EmailAddress(ErrorMessage = "Invalid email address format.")]
+        [AllowedDomains(new string[] { "gmail.com", "ukr.net" }, ErrorMessage = "Domain {0} isn`t allowed.")]
         public string SupplierEmail { get; set; }
 
         [DataType(DataType.MultilineText)]

@@ -38,9 +38,9 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ContactNo, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ContactNo, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.LabelFor(model => model.ContactNo, Resources.User.ContactNo.ToString(), htmlAttributes: new { @class = "col-md-2" })
+            <div class="col-md-5">
+                @Html.EditorFor(model => model.ContactNo, new { htmlAttributes = new { @class = "form-control w-100", @id = "PhoneNumber" } })
                 @Html.ValidationMessageFor(model => model.ContactNo, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -103,3 +103,27 @@
         </div>
     </div>
 }
+
+<script>
+    $(document).ready(function () {
+        var input = document.querySelector("#PhoneNumber");
+        var iti = window.intlTelInput(input, {
+            initialCountry: "@ViewBag.SelectedCountryCode",
+            separateDialCode: true,
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+        });
+
+        iti.setNumber("@Model.ContactNo");
+
+        $('form').submit(function (e) {
+            var countryCode = iti.getSelectedCountryData().dialCode;
+            var phoneNumber = iti.getNumber();
+            if (!iti.isValidNumber()) {
+                e.preventDefault();
+                alert("Please enter a valid phone number.");
+            } else {
+                $('#PhoneNumber').val(phoneNumber);
+            }
+        });
+    });
+</script>

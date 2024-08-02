@@ -53,6 +53,7 @@ namespace DatabaseAccess
 
         [Required(ErrorMessage = "Email is required.")]
         [EmailAddress(ErrorMessage = "Invalid Email Address.")]
+        [AllowedDomains(new string[] { "gmail.com", "ukr.net" }, ErrorMessage = "Domain {0} isn`t allowed.")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Contact No is required.")]

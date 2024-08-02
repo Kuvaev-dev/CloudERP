@@ -35,6 +35,7 @@ namespace DatabaseAccess
         [Range(1, int.MaxValue, ErrorMessage = "Code must be a positive integer.")]
         public int Code { get; set; }
 
+        [Required(ErrorMessage = "User ID is required.")]
         public int UserID { get; set; }
 
         public virtual tblUser tblUser { get; set; }

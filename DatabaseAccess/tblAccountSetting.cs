@@ -27,8 +27,13 @@ namespace DatabaseAccess
         [Required(ErrorMessage = "Account Sub Control ID is required.")]
         public int AccountSubControlID { get; set; }
 
+        [Required(ErrorMessage = "Account Activity ID is required.")]
         public int AccountActivityID { get; set; }
+
+        [Required(ErrorMessage = "Company ID is required.")]
         public int CompanyID { get; set; }
+
+        [Required(ErrorMessage = "Branch ID is required.")]
         public int BranchID { get; set; }
 
         public virtual tblAccountActivity tblAccountActivity { get; set; }

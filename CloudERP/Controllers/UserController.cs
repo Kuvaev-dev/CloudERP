@@ -154,8 +154,9 @@ namespace CloudERP.Controllers
                 if (ModelState.IsValid)
                 {
                     int companyID = Convert.ToInt32(Session["CompanyID"]);
+                    
                     tblUser.UserTypeID = (companyID == 0) ? 1 : 2;
-
+                    
                     _db.tblUser.Add(tblUser);
                     _db.SaveChanges();
 
@@ -202,7 +203,9 @@ namespace CloudERP.Controllers
                 }
 
                 ViewBag.UserTypeID = new SelectList(_db.tblUserType, "UserTypeID", "UserType", tblUser.UserTypeID);
+
                 tblUser.Password = string.Empty;
+
                 return View(tblUser);
             }
             catch (Exception ex)
@@ -257,6 +260,7 @@ namespace CloudERP.Controllers
                 }
 
                 ViewBag.UserTypeID = new SelectList(_db.tblUserType, "UserTypeID", "UserType", tblUser.UserTypeID);
+
                 return View(tblUser);
             }
             catch (Exception ex)

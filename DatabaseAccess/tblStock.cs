@@ -72,7 +72,6 @@ namespace DatabaseAccess
         [Required(ErrorMessage = "User ID is required.")]
         public int UserID { get; set; }
 
-        [Required(ErrorMessage = "Is Active is required.")]
         public Nullable<bool> IsActive { get; set; }
 
         public virtual tblBranch tblBranch { get; set; }

@@ -39,6 +39,7 @@ namespace DatabaseAccess
         [StringLength(100, ErrorMessage = "Account Control Name cannot be longer than 100 characters.")]
         public string AccountControlName { get; set; }
 
+        [Required(ErrorMessage = "User ID is required.")]
         public int UserID { get; set; }
 
         public virtual tblBranch tblBranch { get; set; }
