@@ -72,7 +72,7 @@ namespace CloudERP.Controllers
                     }
 
                     // Add user
-                    string hashedPassword = PasswordHelper.HashPassword(model.Password, out string salt);
+                    string hashedPassword = PasswordHelper.HashPassword(model.EmployeeContactNo, out string salt);
 
                     var user = new tblUser()
                     {

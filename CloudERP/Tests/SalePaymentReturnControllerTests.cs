@@ -34,7 +34,7 @@ namespace CloudERP.Tests
         public void ReturnSalePendingAmount_WhenSessionCompanyIDIsNull_RedirectsToLogin()
         {
             // Act
-            var result = _controller.ReturnSalePendingAmount(null) as RedirectToRouteResult;
+            var result = _controller.ReturnSalePendingAmount() as RedirectToRouteResult;
 
             // Assert
             Assert.That(result, Is.Not.Null);

@@ -45,6 +45,13 @@
         </div>
 
         <div class="form-group">
+            <label class="control-label col-md-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.SaleCart.ItemCost))</label>
+            <div class="col-md-5">
+                <input type="text" readonly class="form-control" id="selectItemCost" name="selectItemCost" />
+            </div>
+        </div>
+
+        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Add Item" class="btn btn-success" />
             </div>
@@ -178,6 +185,12 @@
             } else {
                 $('#Price').val('');
             }
+        });
+
+        $("#Qty, #Price").on("input", function () {
+            var unitPrice = parseFloat($("#Price").val()) || 0;
+            var qty = parseFloat($("#Qty").val()) || 0;
+            $("#selectItemCost").val((unitPrice * qty).toFixed(2));
         });
     });
 </script>

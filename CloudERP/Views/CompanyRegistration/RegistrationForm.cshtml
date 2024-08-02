@@ -27,11 +27,6 @@
                             @Html.TextBoxFor(model => model.UserName, new { @class = "form-control required", @id = "UserName" })
                             @Html.ValidationMessageFor(model => model.UserName)
                         </div>
-                        <div class="col-md-4">
-                            <label for="password">@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.Password)) *</label>
-                            @Html.PasswordFor(model => model.Password, new { @class = "form-control required", @id = "Password" })
-                            @Html.ValidationMessageFor(model => model.Password)
-                        </div>
                     </div>
                     <p>(*) @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.Mandatory))</p>
                 </fieldset>

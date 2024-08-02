@@ -110,23 +110,18 @@
                     @foreach (var item in Model)
                     {
                         <tr>
+                            <td>@Html.DisplayFor(modelItem => item.tblStock.ProductName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.SaleQuantity)</td>
+                            <td>@Html.DisplayFor(modelItem => item.SaleUnitPrice)</td>
+                            <td>@(string.Format("{0:0.000}", Math.Truncate(item.SaleQuantity * item.SaleUnitPrice * 10) / 10))</td>
+                            <td>@Html.DisplayFor(modelItem => item.tblUser.UserName)</td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.tblStock.ProductName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.SaleQuantity)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.SaleUnitPrice)
-                            </td>
-                            <td>
-                                @(string.Format("{0:0.000}", Math.Truncate(item.SaleQuantity * item.SaleUnitPrice * 10) / 10))
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.tblUser.UserName)
-                            </td>
-                            <td>
-                                @Html.ActionLink(Resources.Repeats.Delete.ToString(), "DeleteConfirm", "SaleCart", new { id = item.SaleCartDetailID }, new { @class = "btn btn-danger" })
+                                @using (Html.BeginForm("DeleteConfirm", "SaleCart", FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.Hidden("id", item.SaleCartDetailID)
+                                    <input type="submit" value="@Resources.Repeats.Delete" class="btn btn-danger" />
+                                }
                             </td>
                         </tr>
                     }

@@ -133,7 +133,7 @@ namespace CloudERP.Controllers
 
         // POST: SaleCart/DeleteConfirm/5
         [HttpPost]
-        public ActionResult DeleteConfirm(int? id)
+        public ActionResult DeleteConfirm(int id)
         {
             try
             {
@@ -152,12 +152,10 @@ namespace CloudERP.Controllers
                     _db.Entry(product).State = System.Data.Entity.EntityState.Deleted;
                     _db.SaveChanges();
                     ViewBag.Message = "Deleted successfully.";
-
                     return RedirectToAction("NewSale");
                 }
 
                 ViewBag.Message = "Product not found.";
-
                 return RedirectToAction("NewSale");
             }
             catch (Exception ex)

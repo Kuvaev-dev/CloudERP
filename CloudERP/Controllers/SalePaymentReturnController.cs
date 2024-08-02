@@ -21,7 +21,7 @@ namespace CloudERP.Controllers
         }
 
         // GET: SalePaymentReturn
-        public ActionResult ReturnSalePendingAmount(int? id)
+        public ActionResult ReturnSalePendingAmount()
         {
             try
             {
