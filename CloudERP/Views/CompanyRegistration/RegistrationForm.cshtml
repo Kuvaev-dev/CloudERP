@@ -43,9 +43,16 @@
                             @Html.ValidationMessageFor(model => model.EmployeeName)
                         </div>
                         <div class="col-md-4">
-                            <label for="surname">@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.ContactNo)) *</label>
-                            @Html.TextBoxFor(model => model.EmployeeContactNo, new { @class = "form-control required", @id = "EContactNo" })
-                            @Html.ValidationMessageFor(model => model.EmployeeContactNo)
+                            <div class="form-group mb-3">
+                                <label for="EmployeeContactNo" class="form-label" style="display: inline-block;">
+                                    @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.ContactNo)) *
+                                </label>
+                                <div style="display: flex;">
+                                    <input id="EmployeeContactNo" name="EmployeeContactNo" type="tel" class="form-control required" />
+                                    @Html.ValidationMessageFor(model => model.EmployeeContactNo, "", new { @class = "mb-0" })
+                                </div>
+                                @Html.HiddenFor(model => model.EmployeeContactNo, new { @id = "HiddenEmployeeContactNo" })
+                            </div>
                         </div>
                         <div class="col-md-4">
                             <label for="email">@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.Email)) *</label>
@@ -53,7 +60,7 @@
                             @Html.ValidationMessageFor(model => model.EmployeeEmail)
                         </div>
                         <div class="col-md-4">
-                            <label>@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.CityIndex))</label>
+                            <label>TIN *</label>
                             @Html.TextBoxFor(model => model.EmployeeTIN, new { @class = "form-control required", @id = "ECNIC" })
                             @Html.ValidationMessageFor(model => model.EmployeeTIN)
                         </div>
@@ -88,14 +95,16 @@
                             @Html.ValidationMessageFor(model => model.CompanyName)
                         </div>
                         <div class="col-md-6">
-                            <label>@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.BranchTitle)) *</label>
-                            @Html.TextBoxFor(model => model.BranchName, new { @class = "form-control required", @id = "BranchName" })
-                            @Html.ValidationMessageFor(model => model.BranchName)
-                        </div>
-                        <div class="col-md-6">
-                            <label>@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.BranchContact)) *</label>
-                            @Html.TextBoxFor(model => model.BranchContact, new { @class = "form-control required", @id = "BranchContact" })
-                            @Html.ValidationMessageFor(model => model.BranchContact)
+                            <div class="form-group mb-3">
+                                <label for="BranchContact" class="form-label" style="display: inline-block;">
+                                    @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.BranchContact)) *
+                                </label>
+                                <div style="display: flex;">
+                                    <input id="BranchContact" name="BranchContact" type="tel" class="form-control required" />
+                                    @Html.ValidationMessageFor(model => model.BranchContact, "", new { @class = "mb-0" })
+                                </div>
+                                @Html.HiddenFor(model => model.BranchContact, new { @id = "HiddenEmployeeContactNo" })
+                            </div>
                         </div>
                         <div class="col-md-6">
                             <label>@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.BranchAddress))</label>
@@ -118,3 +127,41 @@
         }
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        setTimeout(function () {
+            var employeeContactInput = document.querySelector("#EmployeeContactNo");
+            var hiddenEmployeeContactInput = document.querySelector("#HiddenEmployeeContactNo");
+            var employeeContactIti = window.intlTelInput(employeeContactInput, {
+                initialCountry: "auto",
+                geoIpLookup: function (callback) {
+                    fetch('https://ipinfo.io/json', { cache: 'reload' })
+                        .then(response => response.json())
+                        .then(data => callback(data.country))
+                        .catch(() => callback('us'));
+                },
+                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/utils.js"
+            });
+            employeeContactInput.addEventListener("blur", function () {
+                hiddenEmployeeContactInput.value = employeeContactIti.getNumber();
+            });
+
+            var branchContactInput = document.querySelector("#BranchContact");
+            var hiddenBranchContactInput = document.querySelector("#HiddenBranchContact");
+            var branchContactIti = window.intlTelInput(branchContactInput, {
+                initialCountry: "auto",
+                geoIpLookup: function (callback) {
+                    fetch('https://ipinfo.io/json', { cache: 'reload' })
+                        .then(response => response.json())
+                        .then(data => callback(data.country))
+                        .catch(() => callback('us'));
+                },
+                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/utils.js"
+            });
+            branchContactInput.addEventListener("blur", function () {
+                hiddenBranchContactInput.value = branchContactIti.getNumber();
+            });
+        }, 100);
+    });
+</script>
