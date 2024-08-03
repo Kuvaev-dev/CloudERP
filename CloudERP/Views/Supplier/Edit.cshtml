@@ -4,10 +4,14 @@
     ViewBag.Title = "Edit Supplier";
 }
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h3 class="text-danger">@ViewBag.Message</h3>
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
@@ -18,7 +22,7 @@
         @Html.HiddenFor(model => model.CompanyID)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.SupplierName, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.SupplierName, "New Supplier Name", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.SupplierName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.SupplierName, "", new { @class = "text-danger" })
@@ -26,15 +30,15 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.SupplierConatctNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.SupplierConatctNo, "New Contact №", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
-                @Html.EditorFor(model => model.SupplierConatctNo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.SupplierConatctNo, new { htmlAttributes = new { @class = "form-control", @id = "PhoneNumber" } })
                 @Html.ValidationMessageFor(model => model.SupplierConatctNo, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.SupplierAddress, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.SupplierAddress, "New Supplier Address", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.SupplierAddress, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.SupplierAddress, "", new { @class = "text-danger" })
@@ -42,7 +46,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.SupplierEmail, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.SupplierEmail, "New Supplier E-mail", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.SupplierEmail, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.SupplierEmail, "", new { @class = "text-danger" })
@@ -50,7 +54,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Discription, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Discription, "New Supplier Description", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Discription, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Discription, "", new { @class = "text-danger" })
@@ -65,3 +69,26 @@
         </div>
     </div>
 }
+<script>
+    $(document).ready(function () {
+        var input = document.querySelector("#PhoneNumber");
+        var iti = window.intlTelInput(input, {
+            initialCountry: "@ViewBag.SelectedCountryCode",
+            separateDialCode: true,
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+        });
+
+        iti.setNumber("@Model.SupplierConatctNo");
+
+        $('form').submit(function (e) {
+            var countryCode = iti.getSelectedCountryData().dialCode;
+            var phoneNumber = iti.getNumber();
+            if (!iti.isValidNumber()) {
+                e.preventDefault();
+                alert("Please enter a valid phone number.");
+            } else {
+                $('#PhoneNumber').val(phoneNumber);
+            }
+        });
+    });
+</script>

@@ -4,10 +4,14 @@
     ViewBag.Title = Resources.Customer.NewCustomer.ToString();
 }
 
-@using (Html.BeginForm()) 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <h3 class="text-danger">@ViewBag.Message</h3>
@@ -24,7 +28,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CustomerContact, Resources.Customer.ContactNo.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
-                @Html.EditorFor(model => model.CustomerContact, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.CustomerContact, new { htmlAttributes = new { @class = "form-control", @id = "PhoneNumber" } })
                 @Html.ValidationMessageFor(model => model.CustomerContact, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -61,3 +65,26 @@
         </div>
     </div>
 }
+<script>
+    $(document).ready(function () {
+        var input = document.querySelector("#PhoneNumber");
+        var iti = window.intlTelInput(input, {
+            initialCountry: "@ViewBag.SelectedCountryCode",
+            separateDialCode: true,
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+        });
+
+        iti.setNumber("@Model.CustomerContact");
+
+        $('form').submit(function (e) {
+            var countryCode = iti.getSelectedCountryData().dialCode;
+            var phoneNumber = iti.getNumber();
+            if (!iti.isValidNumber()) {
+                e.preventDefault();
+                alert("Please enter a valid phone number.");
+            } else {
+                $('#PhoneNumber').val(phoneNumber);
+            }
+        });
+    });
+</script>

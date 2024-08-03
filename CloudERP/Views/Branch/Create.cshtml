@@ -4,6 +4,10 @@
     ViewBag.Title = Resources.Branch.AddBranch.ToString();
 }
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+
 @using (Html.BeginForm(null, null, FormMethod.Post, new { @style = "width:100%;" }))
 {
     @Html.AntiForgeryToken()
@@ -41,7 +45,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.BranchContact, Resources.Branch.ContactNo.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
-                @Html.EditorFor(model => model.BranchContact, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.BranchContact, new { htmlAttributes = new { @class = "form-control", @id = "PhoneNumber" } })
                 @Html.ValidationMessageFor(model => model.BranchContact, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -62,3 +66,26 @@
         </div>
     </div>
 }
+<script>
+    $(document).ready(function () {
+        var input = document.querySelector("#PhoneNumber");
+        var iti = window.intlTelInput(input, {
+            initialCountry: "@ViewBag.SelectedCountryCode",
+            separateDialCode: true,
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+        });
+
+        iti.setNumber("@Model.BranchContact");
+
+        $('form').submit(function (e) {
+            var countryCode = iti.getSelectedCountryData().dialCode;
+            var phoneNumber = iti.getNumber();
+            if (!iti.isValidNumber()) {
+                e.preventDefault();
+                alert("Please enter a valid phone number.");
+            } else {
+                $('#PhoneNumber').val(phoneNumber);
+            }
+        });
+    });
+</script>
