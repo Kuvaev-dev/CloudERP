@@ -24,7 +24,7 @@
                     <option value="">Select Product</option>
                     @foreach (var product in products)
                     {
-                        <option value="@product.ProductID">@product.ProductName</option>
+                        <option value="@product.ProductID">@product.ProductName (QTY: @product.Quantity)</option>
                     }
                 </select>
             </div>
@@ -74,7 +74,6 @@
                 } 
             }
         </h4>
-        <input class="form-control col-md-3" style="float:right;" type="text" id="searchPurchase" name="searchPurchase" placeholder="Search..." />
     </div>
     <div class="card-body">
         <div class="table-responsive bootgrid">
@@ -148,12 +147,10 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#searchPurchase").on("keyup", function () {
-            var value = $(this).val().toLowerCase();
-            $("#purchaseList tr").filter(function () {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-            })
-        })
+        $('#dataTable').DataTable({
+            "columnDefs": [{ "orderable": false, "targets": 5 }],
+            "lengthMenu": [[5, 10, 25, 50, 75, 100, 150, 200, -1], [5, 10, 25, 50, 75, 100, 150, 200, "All"]],
+        });
 
         $.ajax({
             url: '@Url.Action("GetProduct", "PurchaseCart")',

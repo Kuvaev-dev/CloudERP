@@ -32,7 +32,7 @@
                     <option value="">Select Product</option>
                     @foreach (var product in products)
                     {
-                        <option value="@product.ProductID">@product.ProductName</option>
+                        <option value="@product.ProductID">@product.ProductName (QTY: @product.Quantity)</option>
                     }
                 </select>
             </div>

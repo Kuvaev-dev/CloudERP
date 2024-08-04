@@ -8,6 +8,8 @@
     string currentMonth = currentDate.ToString("MMMM", cultureInfo);
 }
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <body>
     <div class="wrapper">
         <!-- Page content-->
@@ -147,7 +149,52 @@
                     </div>
                 </div>
             </div>
-
+            <!-- START charts-->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row mt-3">
+                        <div class="h3 col-md-12">Total Sale`s Per Day</div>
+                    </div>
+                    <div class="card border-0">
+                        <div class="card-body">
+                            <canvas id="todaySalesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row mt-3">
+                        <div class="h3 col-md-12">Total Purchase`s Per Day</div>
+                    </div>
+                    <div class="card border-0">
+                        <div class="card-body">
+                            <canvas id="todayPurchasesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row mt-3">
+                        <div class="h3 col-md-12">Total Sale`s Per Month</div>
+                    </div>
+                    <div class="card border-0">
+                        <div class="card-body">
+                            <canvas id="currentMonthSalesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row mt-3">
+                        <div class="h3 col-md-12">Total Purchase`s Per Month</div>
+                    </div>
+                    <div class="card border-0">
+                        <div class="card-body">
+                            <canvas id="currentMonthPurchasesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END charts-->
             <div class="row mt-3">
                 <div class="h3 col-md-5">@Resources.Dashboard.TodaySalesPurchases.ToString()</div>
             </div>
@@ -363,3 +410,132 @@
         </div>
     </div>
 </body>
+<script>
+    // Graph for Total Sales Today
+    var salesChartCtx = document.getElementById('todaySalesChart').getContext('2d');
+    var salesTotal = @Model.TotalSalesToday;
+    var salesReturn = @Model.TotalReturnSalesToday;
+    var salesPaid = salesTotal - salesReturn;
+
+    var salesChart = new Chart(salesChartCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Total Sales', 'Return Sales', 'Paid Sales'],
+            datasets: [{
+                data: [salesTotal, salesReturn, salesPaid],
+                backgroundColor: ['#36a2eb', '#ffcd56', '#ff6384'],
+                borderColor: ['#36a2eb', '#ffcd56', '#ff6384'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Graph for Total Purchases Today
+    var purchasesChartCtx = document.getElementById('todayPurchasesChart').getContext('2d');
+    var purchasesTotal = @Model.TotalPurchasesToday;
+    var purchasesReturn = @Model.TotalReturnPurchasesToday;
+    var purchasesPaid = purchasesTotal - purchasesReturn;
+
+    var purchasesChart = new Chart(purchasesChartCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Total Purchases', 'Return Purchases', 'Paid Purchases'],
+            datasets: [{
+                data: [purchasesTotal, purchasesReturn, purchasesPaid],
+                backgroundColor: ['#36a2eb', '#ffcd56', '#ff6384'],
+                borderColor: ['#36a2eb', '#ffcd56', '#ff6384'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Graph for Total Sales Current Month
+    var salesChartMonthCtx = document.getElementById('currentMonthSalesChart').getContext('2d');
+    var salesTotalMonth = @Model.TotalSalesCurrentMonth;
+    var salesReturnMonth = @Model.TotalReturnSalesCurrentMonth;
+    var salesPaidMonth = salesTotalMonth - salesReturnMonth;
+
+    var salesChartMonth = new Chart(salesChartMonthCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Total Sales', 'Return Sales', 'Paid Sales'],
+            datasets: [{
+                data: [salesTotalMonth, salesReturnMonth, salesPaidMonth],
+                backgroundColor: ['#36a2eb', '#ffcd56', '#ff6384'],
+                borderColor: ['#36a2eb', '#ffcd56', '#ff6384'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Graph for Total Purchases Current Month
+    var purchasesChartMonthCtx = document.getElementById('currentMonthPurchasesChart').getContext('2d');
+    var purchasesTotalMonth = @Model.TotalPurchasesCurrentMonth;
+    var purchasesReturnMonth = @Model.TotalReturnPurchasesCurrentMonth;
+    var purchasesPaidMonth = purchasesTotalMonth - purchasesReturnMonth;
+
+    var purchasesChartMonth = new Chart(purchasesChartMonthCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Total Purchases', 'Return Purchases', 'Paid Purchases'],
+            datasets: [{
+                data: [purchasesTotalMonth, purchasesReturnMonth, purchasesPaidMonth],
+                backgroundColor: ['#36a2eb', '#ffcd56', '#ff6384'],
+                borderColor: ['#36a2eb', '#ffcd56', '#ff6384'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>

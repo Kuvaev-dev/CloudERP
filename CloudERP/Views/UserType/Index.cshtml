@@ -42,7 +42,7 @@
                             <td>
                                 <p>@Html.DisplayFor(modelItem => item.UserType)</p>
                             </td>
-                            <td>
+                            <td class="btn-group">
                                 @Html.ActionLink(Resources.Repeats.Edit.ToString(), "Edit", new { id = item.UserTypeID }, new { @class = "btn btn-primary" })
                                 @Html.ActionLink(Resources.Repeats.Details.ToString(), "Details", new { id = item.UserTypeID }, new { @class = "btn btn-info" })
                             </td>
