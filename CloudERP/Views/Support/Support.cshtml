@@ -1,0 +1,39 @@
+﻿@model DatabaseAccess.tblSupportTicket
+
+@{
+    ViewBag.Title = "Contact Support";
+}
+
+@using (Html.BeginForm("SubmitTicket", "Support", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <h3 class="text-danger">@ViewBag.Message</h3>
+        <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Subject, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-5">
+                @Html.TextBoxFor(m => m.Subject, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Message, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-5">
+                @Html.TextAreaFor(m => m.Message, new { @class = "form-control", rows = 5 })
+                @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="@Resources.Repeats.Create.ToString()" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}

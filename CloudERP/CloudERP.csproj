@@ -882,6 +882,7 @@
     <Compile Include="Controllers\SaleReturnController.cs" />
     <Compile Include="Controllers\StockController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
+    <Compile Include="Controllers\SupportController.cs" />
     <Compile Include="Controllers\TrialBalanceController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UserSettingController.cs" />
@@ -3763,6 +3764,8 @@
     <Content Include="Views\UserType\Delete.cshtml" />
     <Content Include="Views\Home\ResetPasswordLinkExpired.cshtml" />
     <Content Include="Views\Home\ResetPasswordSuccess.cshtml" />
+    <Content Include="Views\Support\Support.cshtml" />
+    <Content Include="Views\Support\AdminList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

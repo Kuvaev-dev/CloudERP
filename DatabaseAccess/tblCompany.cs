@@ -38,6 +38,7 @@ namespace DatabaseAccess
             this.tblSupplierInvoice = new HashSet<tblSupplierInvoice>();
             this.tblSupplierReturnInvoice = new HashSet<tblSupplierReturnInvoice>();
             this.tblSupplierReturnPayment = new HashSet<tblSupplierReturnPayment>();
+            this.tblSupportTicket = new HashSet<tblSupportTicket>();
         }
 
         [Key]
@@ -89,5 +90,7 @@ namespace DatabaseAccess
         public virtual ICollection<tblSupplierReturnInvoice> tblSupplierReturnInvoice { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblSupplierReturnPayment> tblSupplierReturnPayment { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblSupportTicket> tblSupportTicket { get; set; }
     }
 }

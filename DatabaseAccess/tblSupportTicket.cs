@@ -9,36 +9,36 @@
 
 namespace DatabaseAccess
 {
+    using System;
     using System.ComponentModel.DataAnnotations;
 
-    public partial class tblSaleCartDetail
+    public partial class tblSupportTicket
     {
-        [Key]
-        public int SaleCartDetailID { get; set; }
+        public int TicketID { get; set; }
 
-        [Required(ErrorMessage = "Product ID is required.")]
-        public int ProductID { get; set; }
+        [Required(ErrorMessage = "Name is required.")]
+        [StringLength(100, ErrorMessage = "Name cannot be longer than 100 characters.")]
+        public string Name { get; set; }
 
-        [Required(ErrorMessage = "Sale Quantity is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Sale Quantity must be at least 1.")]
-        public int SaleQuantity { get; set; }
+        [Required(ErrorMessage = "Email is required.")]
+        [EmailAddress(ErrorMessage = "Invalid Email Address.")]
+        public string Email { get; set; }
 
-        [Required(ErrorMessage = "Sale Unit Price is required.")]
-        [Range(0.01, double.MaxValue, ErrorMessage = "Sale Unit Price must be greater than 0.")]
-        public double SaleUnitPrice { get; set; }
+        [Required(ErrorMessage = "Subject is required.")]
+        [StringLength(200, ErrorMessage = "Subject cannot be longer than 200 characters.")]
+        public string Subject { get; set; }
 
-        [Required(ErrorMessage = "Company ID is required.")]
-        public int CompanyID { get; set; }
+        [Required(ErrorMessage = "Message is required.")]
+        public string Message { get; set; }
 
-        [Required(ErrorMessage = "Branch ID is required.")]
+        public DateTime DateCreated { get; set; }
+        public bool IsResolved { get; set; }
         public int BranchID { get; set; }
-
-        [Required(ErrorMessage = "User ID is required.")]
+        public int CompanyID { get; set; }
         public int UserID { get; set; }
 
         public virtual tblBranch tblBranch { get; set; }
         public virtual tblCompany tblCompany { get; set; }
-        public virtual tblStock tblStock { get; set; }
         public virtual tblUser tblUser { get; set; }
     }
 }

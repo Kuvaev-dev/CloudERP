@@ -9,7 +9,6 @@
 
 namespace DatabaseAccess
 {
-    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -52,7 +51,6 @@ namespace DatabaseAccess
 
         [Required(ErrorMessage = "User ID is required.")]
         public int UserID { get; set; }
-
 
         public virtual tblBranch tblBranch { get; set; }
         public virtual tblCompany tblCompany { get; set; }
