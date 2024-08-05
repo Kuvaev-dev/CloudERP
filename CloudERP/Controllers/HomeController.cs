@@ -18,14 +18,23 @@ namespace CloudERP.Controllers
     {
         private readonly CloudDBEntities _db;
         private readonly SP_Dashboard _spDashboard;
+        private readonly ExchangeRateService _exchangeRateService;
 
         public HomeController(CloudDBEntities db)
         {
             _db = db;
             _spDashboard = new SP_Dashboard(_db);
+            _exchangeRateService = new ExchangeRateService(System.Configuration.ConfigurationManager.AppSettings["ExchangeRateApiKey"]);
         }
 
-        public ActionResult Index()
+        [HttpGet]
+        public async Task<ActionResult> Index()
+        {
+            return await Index(System.Configuration.ConfigurationManager.AppSettings["DefaultCurrency"]);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Index(string currency)
         {
             try
             {
@@ -42,6 +51,23 @@ namespace CloudERP.Controllers
                 string toDate = new DateTime(currentDate.Year, currentDate.Month, DateTime.DaysInMonth(currentDate.Year, currentDate.Month)).ToString("yyyy-MM-dd");
 
                 DashboardModel dashboardValues = _spDashboard.GetDashboardValues(fromDate, toDate, branchID, companyID);
+
+                var rates = await _exchangeRateService.GetExchangeRatesAsync();
+                dashboardValues.CurrencyRates = rates;
+                dashboardValues.SelectedCurrency = currency;
+
+                if (rates.TryGetValue(System.Configuration.ConfigurationManager.AppSettings["DefaultCurrency"], out double defaultRate))
+                {
+                    dashboardValues.DefaultCurrencyRate = defaultRate;
+
+                    if (rates.TryGetValue(currency, out double selectedRate))
+                    {
+                        dashboardValues.SelectedCurrencyRate = selectedRate;
+                        dashboardValues.ConversionRateToDefault = selectedRate;
+                        dashboardValues.ConversionRateFromDefault = 1 / selectedRate;
+                        dashboardValues.CurrentMonthRecovery *= (selectedRate / defaultRate);
+                    }
+                }
 
                 return View(dashboardValues);
             }

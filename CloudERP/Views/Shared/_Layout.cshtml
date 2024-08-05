@@ -113,6 +113,36 @@
                             </div>
                         </li>
                         <!-- END Fullscreen Mode-->
+                        @if (Model.SelectedCurrency != System.Configuration.ConfigurationManager.AppSettings["DefaultCurrency"])
+                        {
+                            <li class="nav-item">
+                                <div class="nav-link container">
+                                    <div class="h4 d-inline">
+                                        @Model.SelectedCurrency - @System.Configuration.ConfigurationManager.AppSettings["DefaultCurrency"]: @String.Format("{0:F2}", Model.ConversionRateToDefault)
+                                    </div>
+                                    <div class="h4 d-inline">
+                                        @System.Configuration.ConfigurationManager.AppSettings["DefaultCurrency"] - @Model.SelectedCurrency: @String.Format("{0:F2}", Model.ConversionRateFromDefault)
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                        <!-- START Currency list-->
+                        <li class="nav-item">
+                            <div class="nav-link container">
+                                @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+                                {
+                                    <select name="currency" onchange="this.form.submit()">
+                                        @foreach (var rate in Model.CurrencyRates)
+                                        {
+                                            <option value="@rate.Key" @(rate.Key == Model.SelectedCurrency ? "selected" : "")>
+                                                @rate.Key
+                                            </option>
+                                        }
+                                    </select>
+                                }
+                            </div>
+                        </li>
+                        <!-- END Currency list-->
                         <!-- START Language list-->
                         <li class="nav-item">
                             <div class="nav-link container">
@@ -127,7 +157,7 @@
                             </div>
                         </li>
                         <!-- END Language list-->
-                    </ul>
+                     </ul>
                     <!-- END Right Navbar-->
                 </nav>
                 <!-- END Top Navbar-->

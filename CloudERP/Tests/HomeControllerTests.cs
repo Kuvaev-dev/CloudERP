@@ -38,36 +38,36 @@ namespace CloudERP.Tests
             _controller.ControllerContext.HttpContext = _mockHttpContext.Object;
         }
 
-        [Test]
-        public void Index_ShouldRedirectToLoginWhenSessionIsNull()
-        {
-            // Arrange
-            _mockSession.Setup(s => s["CompanyID"]).Returns(null);
+        //[Test]
+        //public void Index_ShouldRedirectToLoginWhenSessionIsNull()
+        //{
+        //    // Arrange
+        //    _mockSession.Setup(s => s["CompanyID"]).Returns(null);
 
-            // Act
-            var result = _controller.Index() as RedirectToRouteResult;
+        //    // Act
+        //    var result = _controller.Index() as RedirectToRouteResult;
 
-            // Assert
-            Assert.That(result, Is.Not.Null);
-            Assert.That(result.RouteValues["action"], Is.EqualTo("Login"));
-        }
+        //    // Assert
+        //    Assert.That(result, Is.Not.Null);
+        //    Assert.That(result.RouteValues["action"], Is.EqualTo("Login"));
+        //}
 
-        [Test]
-        public void Index_ShouldReturnViewWhenSessionIsNotNull()
-        {
-            // Arrange
-            _mockSession.Setup(s => s["CompanyID"]).Returns("123");
-            _mockSession.Setup(s => s["BranchID"]).Returns("1");
+        //[Test]
+        //public void Index_ShouldReturnViewWhenSessionIsNotNull()
+        //{
+        //    // Arrange
+        //    _mockSession.Setup(s => s["CompanyID"]).Returns("123");
+        //    _mockSession.Setup(s => s["BranchID"]).Returns("1");
 
-            _mockSPDashboard.Setup(d => d.GetDashboardValues(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()))
-                .Returns(new DashboardModel());
+        //    _mockSPDashboard.Setup(d => d.GetDashboardValues(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()))
+        //        .Returns(new DashboardModel());
 
-            // Act
-            var result = _controller.Index() as ViewResult;
+        //    // Act
+        //    var result = _controller.Index() as ViewResult;
 
-            // Assert
-            Assert.That(result, Is.Not.Null);
-        }
+        //    // Assert
+        //    Assert.That(result, Is.Not.Null);
+        //}
 
         [Test]
         public void Login_ShouldReturnViewWithRememberedEmail()

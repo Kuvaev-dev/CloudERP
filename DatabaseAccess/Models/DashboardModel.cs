@@ -1,4 +1,6 @@
-﻿namespace DatabaseAccess.Models
+﻿using System.Collections.Generic;
+
+namespace DatabaseAccess.Models
 {
     public class DashboardModel
     {
@@ -42,5 +44,13 @@
         public double TotalReturnPurchasesCurrentMonth { get; set; }
         public double ReturnPurchasesPaymentPendingCurrentMonth { get; set; }
         public double ReturnPurchasesPaymentPaidCurrentMonth { get; set; }
+
+        // Currency Convertion
+        public Dictionary<string, double> CurrencyRates { get; set; }
+        public string SelectedCurrency { get; set; }
+        public double DefaultCurrencyRate { get; set; }
+        public double SelectedCurrencyRate { get; set; }
+        public double ConversionRateToDefault { get; set; }
+        public double ConversionRateFromDefault { get; set; }
     }
 }

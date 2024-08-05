@@ -10,6 +10,21 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+<style>
+    .responsive-text-container {
+        display: inline-block;
+        width: 100%; /* Убедитесь, что контейнер имеет нужную ширину */
+        overflow: hidden; /* Скрываем текст, который не помещается */
+    }
+
+    .responsive-text {
+        white-space: nowrap; /* Предотвращает перенос текста */
+        display: inline-block;
+        font-size: 2rem; /* Базовый размер шрифта */
+        transition: font-size 0.2s; /* Плавное изменение размера шрифта */
+    }
+</style>
+
 <body>
     <div class="wrapper">
         <!-- Page content-->
@@ -66,8 +81,8 @@
                         </div>
                         <div class="col-8 py-3 bg-purple rounded-right">
                             <div class="mt-0">
-                                <div class="h3 d-inline">@Html.DisplayFor(model => Model.CurrentMonthRecovery)</div>
-                                <div class="h4 d-inline">&nbsp;@Resources.Repeats.UAH.ToString()</div>
+                                <div class="h3 d-inline">@String.Format("{0:F2}", Model.CurrentMonthRecovery)</div>
+                                <div class="h4 d-inline">&nbsp;@Model.SelectedCurrency</div>
                             </div>
                             <div class="mt-3">@Html.Raw(HttpUtility.HtmlDecode(Resources.Dashboard.CurrentMonthRecovery))</div>
                         </div>
@@ -538,4 +553,20 @@
             }
         }
     });
+
+    function adjustFontSize() {
+        const container = document.querySelectorAll('.responsive-text-container');
+        container.forEach(element => {
+            const textElement = element.querySelector('.responsive-text');
+            let fontSize = parseFloat(window.getComputedStyle(textElement).fontSize);
+
+            while (textElement.scrollWidth > element.clientWidth && fontSize > 0) {
+                fontSize -= 1;
+                textElement.style.fontSize = fontSize + 'px';
+            }
+        });
+    }
+
+    window.addEventListener('load', adjustFontSize);
+    window.addEventListener('resize', adjustFontSize);
 </script>
