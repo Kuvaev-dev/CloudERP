@@ -856,6 +856,7 @@
     <Compile Include="Controllers\AccountHeadController.cs" />
     <Compile Include="Controllers\AccountSettingController.cs" />
     <Compile Include="Controllers\AccountSubControlController.cs" />
+    <Compile Include="Controllers\AddressController.cs" />
     <Compile Include="Controllers\BalanceSheetController.cs" />
     <Compile Include="Controllers\BranchController.cs" />
     <Compile Include="Controllers\BranchEmployeeController.cs" />

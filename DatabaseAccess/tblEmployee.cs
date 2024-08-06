@@ -42,6 +42,7 @@ namespace DatabaseAccess
         public string Email { get; set; }
 
         [Required(ErrorMessage = "*Required!")]
+        [StringLength(100, ErrorMessage = "Address cannot be longer than 100 characters.")]
         [DataType(DataType.MultilineText)]
         public string Address { get; set; }
 

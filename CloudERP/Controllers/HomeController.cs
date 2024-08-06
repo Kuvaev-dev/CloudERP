@@ -11,6 +11,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace CloudERP.Controllers
 {
@@ -30,7 +31,14 @@ namespace CloudERP.Controllers
         [HttpGet]
         public async Task<ActionResult> Index()
         {
-            return await Index(System.Configuration.ConfigurationManager.AppSettings["DefaultCurrency"]);
+            string defaultCurrency = System.Configuration.ConfigurationManager.AppSettings["DefaultCurrency"];
+            string selectedCurrency = Session["SelectedCurrency"]?.ToString() ?? defaultCurrency;
+
+            var rates = await _exchangeRateService.GetExchangeRatesAsync();
+            ViewData["CurrencyRates"] = rates ?? new Dictionary<string, double>();
+            ViewData["SelectedCurrency"] = selectedCurrency;
+
+            return await Index(selectedCurrency);
         }
 
         [HttpPost]
@@ -53,21 +61,36 @@ namespace CloudERP.Controllers
                 DashboardModel dashboardValues = _spDashboard.GetDashboardValues(fromDate, toDate, branchID, companyID);
 
                 var rates = await _exchangeRateService.GetExchangeRatesAsync();
+                rates = rates ?? new Dictionary<string, double>();
                 dashboardValues.CurrencyRates = rates;
-                dashboardValues.SelectedCurrency = currency;
+
+                string selectedCurrency = currency;
+                dashboardValues.SelectedCurrency = selectedCurrency;
+
+                Session["SelectedCurrency"] = selectedCurrency;
+                Session["CurrencyRates"] = rates;
 
                 if (rates.TryGetValue(System.Configuration.ConfigurationManager.AppSettings["DefaultCurrency"], out double defaultRate))
                 {
                     dashboardValues.DefaultCurrencyRate = defaultRate;
 
-                    if (rates.TryGetValue(currency, out double selectedRate))
+                    if (rates.TryGetValue(selectedCurrency, out double selectedRate))
                     {
                         dashboardValues.SelectedCurrencyRate = selectedRate;
                         dashboardValues.ConversionRateToDefault = selectedRate;
                         dashboardValues.ConversionRateFromDefault = 1 / selectedRate;
                         dashboardValues.CurrentMonthRecovery *= (selectedRate / defaultRate);
+
+                        Session["ConversionRateToDefault"] = dashboardValues.ConversionRateToDefault;
+                        Session["ConversionRateFromDefault"] = dashboardValues.ConversionRateFromDefault;
+
+                        ViewData["ConversionRateToDefault"] = dashboardValues.ConversionRateToDefault;
+                        ViewData["ConversionRateFromDefault"] = dashboardValues.ConversionRateFromDefault;
                     }
                 }
+
+                ViewData["CurrencyRates"] = rates;
+                ViewData["SelectedCurrency"] = selectedCurrency;
 
                 return View(dashboardValues);
             }

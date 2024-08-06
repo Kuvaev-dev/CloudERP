@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Employee Registration";
+    string geoapifyApiKey = System.Configuration.ConfigurationManager.AppSettings["GeoapifyApiKey"];
 }
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
@@ -86,8 +87,9 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Address, Resources.CompanyEmployee.Address.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
-                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @id = "address" } })
                 @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                <ul id="suggestions"></ul>
             </div>
         </div>
 
@@ -112,7 +114,6 @@
         iti.setNumber("@Model.ContactNo");
 
         $('form').submit(function (e) {
-            var countryCode = iti.getSelectedCountryData().dialCode;
             var phoneNumber = iti.getNumber();
             if (!iti.isValidNumber()) {
                 e.preventDefault();
@@ -120,6 +121,25 @@
             } else {
                 $('#PhoneNumber').val(phoneNumber);
             }
+        });
+
+        $(document).ready(function () {
+            $('#address').on('input', function () {
+                var query = $(this).val();
+                if (query.length > 2) {
+                    $.ajax({
+                        url: '/Address/Autocomplete',
+                        data: { query: query },
+                        success: function (data) {
+                            var suggestions = JSON.parse(data).results;
+                            $('#suggestions').empty();
+                            suggestions.forEach(function (suggestion) {
+                                $('#suggestions').append('<li>' + suggestion.formatted + '</li>');
+                            });
+                        }
+                    });
+                }
+            });
         });
     });
 </script>

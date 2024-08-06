@@ -1,745 +1,760 @@
-﻿@{ 
+﻿@{
     DateTime currentDate = DateTime.Now;
     string currentYear = currentDate.ToString("yyyy");
+
+    string selectedCurrency = Session["SelectedCurrency"]?.ToString() ?? System.Configuration.ConfigurationManager.AppSettings["DefaultCurrency"];
+    var rates = Session["CurrencyRates"] as Dictionary<string, double>;
+    var conversionRateToDefault = Session["ConversionRateToDefault"]?.ToString();
+    var conversionRateFromDefault = Session["ConversionRateFromDefault"]?.ToString();
 }
 
 <!DOCTYPE html>
 
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-        <meta name="description" content="Bootstrap Admin App + jQuery">
-        <meta name="keywords" content="app, responsive, jquery, bootstrap, dashboard, admin">
-        <title>@ViewBag.Title</title>
-        <!-- =============== VENDOR STYLES ===============-->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/css/intlTelInput.css" />
-        <!-- FONT AWESOME-->
-        <link rel="stylesheet" href="~/Content/Template/vendor/font-awesome/css/font-awesome.css">
-        <!-- SIMPLE LINE ICONS-->
-        <link rel="stylesheet" href="~/Content/Template/vendor/simple-line-icons/css/simple-line-icons.css">
-        <!-- ANIMATE.CSS-->
-        <link rel="stylesheet" href="~/Content/Template/vendor/animate.css/animate.css">
-        <!-- WHIRL (spinners)-->
-        <link rel="stylesheet" href="~/Content/Template/vendor/whirl/dist/whirl.css">
-        <!-- =============== PAGE VENDOR STYLES ===============-->
-        <!-- Datatables-->
-        <link rel="stylesheet" href="~/Content/Template/vendor/datatables.net-bs4/css/dataTables.bootstrap4.css">
-        <link rel="stylesheet" href="~/Content/Template/vendor/datatables.net-keytable-bs/css/keyTable.bootstrap.css">
-        <link rel="stylesheet" href="~/Content/Template/vendor/datatables.net-responsive-bs/css/responsive.bootstrap.css">
-        <!-- =============== BOOTSTRAP STYLES ===============-->
-        <link rel="stylesheet" href="~/Content/Template/css/bootstrap.css" id="bscss">
-        <!-- =============== APP STYLES ===============-->
-        <link rel="stylesheet" href="~/Content/Template/css/app.css" id="maincss">
-        <!-- Bootgrid-->
-        <link rel="stylesheet" href="~/Content/Template/vendor/jquery-bootgrid/dist/jquery.bootgrid.css">
-        <!-- Icons-->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.2/font/bootstrap-icons.min.css" />
-        <!-- Themes-->
-        <link rel="stylesheet" href="~/Scripts/Theme/dark-theme.css">
-    </head>
-    <body>
-        <div class="wrapper">
-            <!-- top navbar-->
-            <header class="topnavbar-wrapper">
-                <!-- START Top Navbar-->
-                <nav class="navbar topnavbar">
-                    <!-- START navbar header-->
-                    <div class="navbar-header">
-                        <a class="navbar-brand" href="#/">
-                            <div class="brand-logo">
-                                @{
-                                    string logo = string.Empty;
-                                    if (string.IsNullOrEmpty(Convert.ToString(Session["CLogo"])))
-                                    {
-                                        logo = "~/Content/CompanyLogo/erp-logo.png";
-                                    }
-                                    else
-                                    {
-                                        logo = Convert.ToString(Session["CLogo"]);
-                                    }
-                                }
-                                <img class="img-fluid" src="@Url.Content(logo)" alt="App Logo" width="30" height="30">
-                            </div>
-                            <div class="brand-logo-collapsed">
-                                <img class="img-fluid" src="@Url.Content(logo)" alt="App Logo" width="30" height="30">
-                            </div>
-                        </a>
-                    </div>
-                    <!-- END navbar header-->
-                    <!-- START Left navbar-->
-                    <ul class="navbar-nav mr-auto flex-row">
-                        <li class="nav-item">
-                            <!-- Button used to collapse the left sidebar. Only visible on tablet and desktops-->
-                            <a class="nav-link d-none d-md-block d-lg-block d-xl-block" href="#" data-trigger-resize="" data-toggle-state="aside-collapsed">
-                                <em class="fa fa-navicon"></em>
-                            </a>
-                            <!-- Button to show/hide the sidebar on mobile. Visible on mobile only.-->
-                            <a class="nav-link sidebar-toggle d-md-none" href="#" data-toggle-state="aside-toggled" data-no-persist="true">
-                                <em class="fa fa-navicon"></em>
-                            </a>
-                        </li>
-                        <!-- START User avatar toggle-->
-                        <li class="nav-item">
-                            <!-- Button used to collapse the left sidebar. Only visible on tablet and desktops-->
-                            <a class="nav-link" id="user-block-toggle" href="#user-block" data-toggle="collapse">
-                                <em class="icon-user"></em>
-                            </a>
-                        </li>
-                        <!-- END User avatar toggle-->
-                        <!-- START lock screen-->
-                        <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Logout", "Home")" title="Lock screen">
-                                <em class="icon-lock"></em>
-                            </a>
-                        </li>
-                        <!-- END lock screen-->
-                    </ul>
-                    <!-- END Left navbar-->
-                    <!-- START Right Navbar-->
-                    <ul class="navbar-nav flex-row">
-                        <!-- START Dark theme-->
-                        <li class="nav-item">
-                            <div class="nav-link container">
-                                <i class="fas fa-moon"></i>
-                            </div>
-                        </li>
-                        <!-- END Dark theme-->
-                        <!-- START Fullscreen Mode-->
-                        <li class="nav-item">
-                            <div class="nav-link container">
-                                <i class="bi bi-fullscreen" id="fullscreenButton"></i>
-                            </div>
-                        </li>
-                        <!-- END Fullscreen Mode-->
-                        @if (Model.SelectedCurrency != System.Configuration.ConfigurationManager.AppSettings["DefaultCurrency"])
-                        {
-                            <li class="nav-item">
-                                <div class="nav-link container">
-                                    <div class="h4 d-inline">
-                                        @Model.SelectedCurrency - @System.Configuration.ConfigurationManager.AppSettings["DefaultCurrency"]: @String.Format("{0:F2}", Model.ConversionRateToDefault)
-                                    </div>
-                                    <div class="h4 d-inline">
-                                        @System.Configuration.ConfigurationManager.AppSettings["DefaultCurrency"] - @Model.SelectedCurrency: @String.Format("{0:F2}", Model.ConversionRateFromDefault)
-                                    </div>
-                                </div>
-                            </li>
-                        }
-                        <!-- START Currency list-->
-                        <li class="nav-item">
-                            <div class="nav-link container">
-                                @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Bootstrap Admin App + jQuery">
+    <meta name="keywords" content="app, responsive, jquery, bootstrap, dashboard, admin">
+    <title>@ViewBag.Title</title>
+    <!-- =============== VENDOR STYLES ===============-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/css/intlTelInput.css" />
+    <!-- FONT AWESOME-->
+    <link rel="stylesheet" href="~/Content/Template/vendor/font-awesome/css/font-awesome.css">
+    <!-- SIMPLE LINE ICONS-->
+    <link rel="stylesheet" href="~/Content/Template/vendor/simple-line-icons/css/simple-line-icons.css">
+    <!-- ANIMATE.CSS-->
+    <link rel="stylesheet" href="~/Content/Template/vendor/animate.css/animate.css">
+    <!-- WHIRL (spinners)-->
+    <link rel="stylesheet" href="~/Content/Template/vendor/whirl/dist/whirl.css">
+    <!-- =============== PAGE VENDOR STYLES ===============-->
+    <!-- Datatables-->
+    <link rel="stylesheet" href="~/Content/Template/vendor/datatables.net-bs4/css/dataTables.bootstrap4.css">
+    <link rel="stylesheet" href="~/Content/Template/vendor/datatables.net-keytable-bs/css/keyTable.bootstrap.css">
+    <link rel="stylesheet" href="~/Content/Template/vendor/datatables.net-responsive-bs/css/responsive.bootstrap.css">
+    <!-- =============== BOOTSTRAP STYLES ===============-->
+    <link rel="stylesheet" href="~/Content/Template/css/bootstrap.css" id="bscss">
+    <!-- =============== APP STYLES ===============-->
+    <link rel="stylesheet" href="~/Content/Template/css/app.css" id="maincss">
+    <!-- Bootgrid-->
+    <link rel="stylesheet" href="~/Content/Template/vendor/jquery-bootgrid/dist/jquery.bootgrid.css">
+    <!-- Icons-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.2/font/bootstrap-icons.min.css" />
+    <!-- Themes-->
+    <link rel="stylesheet" href="~/Scripts/Theme/dark-theme.css">
+</head>
+<body>
+    <div class="wrapper">
+        <!-- top navbar-->
+        <header class="topnavbar-wrapper">
+            <!-- START Top Navbar-->
+            <nav class="navbar topnavbar">
+                <!-- START navbar header-->
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#/">
+                        <div class="brand-logo">
+                            @{
+                                string logo = string.Empty;
+                                if (string.IsNullOrEmpty(Convert.ToString(Session["CLogo"])))
                                 {
-                                    <select name="currency" onchange="this.form.submit()">
-                                        @foreach (var rate in Model.CurrencyRates)
+                                    logo = "~/Content/CompanyLogo/erp-logo.png";
+                                }
+                                else
+                                {
+                                    logo = Convert.ToString(Session["CLogo"]);
+                                }
+                            }
+                            <img class="img-fluid" src="@Url.Content(logo)" alt="App Logo" width="30" height="30">
+                        </div>
+                        <div class="brand-logo-collapsed">
+                            <img class="img-fluid" src="@Url.Content(logo)" alt="App Logo" width="30" height="30">
+                        </div>
+                    </a>
+                </div>
+                <!-- END navbar header-->
+                <!-- START Left navbar-->
+                <ul class="navbar-nav mr-auto flex-row">
+                    <li class="nav-item">
+                        <!-- Button used to collapse the left sidebar. Only visible on tablet and desktops-->
+                        <a class="nav-link d-none d-md-block d-lg-block d-xl-block" href="#" data-trigger-resize="" data-toggle-state="aside-collapsed">
+                            <em class="fa fa-navicon"></em>
+                        </a>
+                        <!-- Button to show/hide the sidebar on mobile. Visible on mobile only.-->
+                        <a class="nav-link sidebar-toggle d-md-none" href="#" data-toggle-state="aside-toggled" data-no-persist="true">
+                            <em class="fa fa-navicon"></em>
+                        </a>
+                    </li>
+                    <!-- START User avatar toggle-->
+                    <li class="nav-item">
+                        <!-- Button used to collapse the left sidebar. Only visible on tablet and desktops-->
+                        <a class="nav-link" id="user-block-toggle" href="#user-block" data-toggle="collapse">
+                            <em class="icon-user"></em>
+                        </a>
+                    </li>
+                    <!-- END User avatar toggle-->
+                    <!-- START lock screen-->
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Logout", "Home")" title="Lock screen">
+                            <em class="icon-lock"></em>
+                        </a>
+                    </li>
+                    <!-- END lock screen-->
+                </ul>
+                <!-- END Left navbar-->
+                <!-- START Right Navbar-->
+                <ul class="navbar-nav flex-row">
+                    <!-- START Dark theme-->
+                    <li class="nav-item">
+                        <div class="nav-link container">
+                            <i class="fas fa-moon"></i>
+                        </div>
+                    </li>
+                    <!-- END Dark theme-->
+                    <!-- START Fullscreen Mode-->
+                    <li class="nav-item">
+                        <div class="nav-link container">
+                            <i class="bi bi-fullscreen" id="fullscreenButton"></i>
+                        </div>
+                    </li>
+                    <!-- END Fullscreen Mode-->
+                    <!-- START Currency Change-->
+                    <!-- START Currency Change-->
+                    @if (Session["SelectedCurrency"]?.ToString() != System.Configuration.ConfigurationManager.AppSettings["DefaultCurrency"])
+                    {
+                        <li class="nav-item">
+                            <div class="nav-link container">
+                                <div class="h4 d-inline">
+                                    @Session["SelectedCurrency"] - @System.Configuration.ConfigurationManager.AppSettings["DefaultCurrency"]: @(Session["ConversionRateToDefault"] != null ? Convert.ToDouble(Session["ConversionRateToDefault"]).ToString("F2") : "N/A") /
+                                </div>
+                                <div class="h4 d-inline">
+                                    @System.Configuration.ConfigurationManager.AppSettings["DefaultCurrency"] - @Session["SelectedCurrency"]: @(Session["ConversionRateFromDefault"] != null ? Convert.ToDouble(Session["ConversionRateFromDefault"]).ToString("F2") : "N/A")
+                                </div>
+                            </div>
+                        </li>
+                    }
+                    <!-- END Currency Change-->
+                    <!-- START Currency list-->
+                    <li class="nav-item">
+                        <div class="nav-link container">
+                            @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+                            {
+                                <select name="currency" onchange="this.form.submit()">
+                                    @if (Session["CurrencyRates"] is Dictionary<string, double>)
+                                    {
+                                        foreach (var rate in rates)
                                         {
-                                            <option value="@rate.Key" @(rate.Key == Model.SelectedCurrency ? "selected" : "")>
+                                            <option value="@rate.Key" @(rate.Key == Session["SelectedCurrency"]?.ToString() ? "selected" : "")>
                                                 @rate.Key
                                             </option>
                                         }
-                                    </select>
-                                }
-                            </div>
-                        </li>
-                        <!-- END Currency list-->
-                        <!-- START Language list-->
-                        <li class="nav-item">
-                            <div class="nav-link container">
-                                <div class="dropdown">
-                                    <em class="fas fa-language dropdown-toggle" type="button" id="languageDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></em>
-                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="languageDropdown">
-                                        <a class="dropdown-item" href="@Url.Action("SetCulture", "Home", new { culture = "en-US" })">English</a>
-                                        <a class="dropdown-item" href="@Url.Action("SetCulture", "Home", new { culture = "ru-RU" })">Русский</a>
-                                        <a class="dropdown-item" href="@Url.Action("SetCulture", "Home", new { culture = "uk-UA" })">Українська</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <!-- END Language list-->
-                     </ul>
-                    <!-- END Right Navbar-->
-                </nav>
-                <!-- END Top Navbar-->
-            </header>
-            <!-- sidebar-->
-            <aside class="aside-container">
-                <!-- START Sidebar (left)-->
-                <div class="aside-inner">
-                    <nav class="sidebar" data-sidebar-anyclick-close="">
-                        <!-- START sidebar nav-->
-                        <ul class="sidebar-nav">
-                            <!-- START user info-->
-                            <li class="has-user-block">
-                                <div class="collapse" id="user-block">
-                                    <div class="item user-block">
-                                        <!-- User picture-->
-                                        <div class="user-block-picture">
-                                            <div class="user-block-status">
-                                                @{
-                                                    string userImg = string.Empty;
-                                                    if (string.IsNullOrEmpty(Convert.ToString(Session["EPhoto"])))
-                                                    {
-                                                        userImg = "~/Content/Template/img/user-default-img.png";
-                                                    }
-                                                    else
-                                                    {
-                                                        userImg = Convert.ToString(Session["EPhoto"]);
-                                                    }
-                                                }
-                                                <img class="img-thumbnail rounded-circle" src="@Url.Content(userImg)" alt="Avatar" width="60" height="60">
-                                                <div class="circle bg-success circle-lg"></div>
-                                            </div>
-                                        </div>
-                                        <!-- Name and Job-->
-                                        <div class="user-block-info">
-                                            <span class="user-block-name">@Resources.Resources.Hello.ToString() @Session["UserName"]</span>
-                                            <span class="user-block-role">@Session["Designation"]</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <!-- END user info-->
-                            @{
-                                if (Session["UserTypeID"] != null)
-                                {
-                                    var userType = Convert.ToInt32(Convert.ToString(Session["UserTypeID"]));
-                                    if (Session["BranchTypeID"] != null)
+                                    }
+                                    else
                                     {
-                                        <!-- Iterates over all sidebar items-->
-
-                                        @*Configuration*@
-                                        @*Admin*@
-                                        if (userType == 1)
-                                        {
-                                            <li class="nav-heading ">
-                                                <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.Guide.ToString()</span>
-                                            </li>
-
-                                            <li>
-                                                <a href="@Url.Action("AdminMenuGuide", "Guide")" title="@Resources.Resources.AdminGuide.ToString()" class="d-flex align-items-center">
-                                                    <em class="bi bi-info-circle mr-1"></em>
-                                                    <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.AdminGuide))</span>
-                                                </a>
-                                            </li>
-
-                                            <li class="nav-heading ">
-                                                <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.UserSetting.ToString()</span>
-                                            </li>
-                                            <li>
-                                                <a href="@Url.Action("Index", "UserType")" title="@Resources.Resources.UserTypes.ToString()" class="d-flex align-items-center">
-                                                    <em class="bi bi-person-fill-gear mr-1"></em>
-                                                    <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.UserTypes))</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="@Url.Action("Index", "User")" title="@Resources.Resources.Users.ToString()" class="d-flex align-items-center">
-                                                    <em class="bi bi-person-fill mr-1"></em>
-                                                    <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.Users))</span>
-                                                </a>
-                                            </li>
-                                            <li class="nav-heading ">
-                                                <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.Companies.ToString()</span>
-                                            </li>
-                                            <li>
-                                                <a href="@Url.Action("Index", "Company")" title="@Resources.Resources.Company.ToString()" class="d-flex align-items-center">
-                                                    <em class="bi bi-building mr-1"></em>
-                                                    <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.Company))</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="@Url.Action("RegistrationForm", "CompanyRegistration")" title="@Resources.Resources.CompanyRegistration.ToString()" class="d-flex align-items-center">
-                                                    <em class="bi bi-building-add mr-1"></em>
-                                                    <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.CompanyRegistration))</span>
-                                                </a>
-                                            </li>
-                                            <li class="nav-heading ">
-                                                <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.AccountSettings.ToString()</span>
-                                            </li>
-                                            <li>
-                                                <a href="@Url.Action("Index", "AccountHead")" title="@Resources.Resources.AccountHeads.ToString()" class="d-flex align-items-center">
-                                                    <em class="bi bi-lightbulb-fill mr-1 mb-2"></em>
-                                                    <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.AccountHeads))</span>
-                                                </a>
-                                            </li>
-                                        }
-                                        @*User*@
-                                        if (userType == 2)
-                                        {
-                                            <li class="nav-heading ">
-                                                <span data-localize="sidebar.heading.HEADER">@Resources.Resources.Home.ToString()</span>
-                                            </li>
-                                            <li>
-                                                <a href="@Url.Action("Index", "Home")" title="@Resources.Resources.Dashboard.ToString()" class="d-flex align-items-center">
-                                                    <em class="bi bi-speedometer2 h4 mb-0"></em>
-                                                    <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.Dashboard))</span>
-                                                </a>
-                                            </li>
-                                            <li class="nav-heading ">
-                                                <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.SubBranchs.ToString()</span>
-                                            </li>
-                                            <li>
-                                                <a href="@Url.Action("Index", "Branch")" title="@Resources.Resources.Branches.ToString()" class="d-flex align-items-center">
-                                                    <em class="bi bi-diagram-2 h4 mb-0"></em>
-                                                    <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.Branches))</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="@Url.Action("SubBranchUser", "User")" title="@Resources.Resources.Users.ToString()" class="d-flex align-items-center">
-                                                    <em class="bi bi-person-fill h4 mb-0"></em>
-                                                    <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.Users))</span>
-                                                </a>
-                                            </li>
-
-                                            var branchTypeID = Convert.ToInt32(Convert.ToString(Session["BranchTypeID"]));
-                                            @*Main Branch*@
-                                            if (branchTypeID == 1)
-                                            {
-                                                <li class="nav-heading ">
-                                                    <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.Guide.ToString()</span>
-                                                </li>
-                                                <li>
-                                                    <a href="@Url.Action("MainBranchEmployeeGuide", "Guide")" title="@Resources.Resources.MainEmployeeGuide.ToString()" class="d-flex align-items-center">
-                                                        <em class="bi bi-info-circle h4 mb-0"></em>
-                                                        <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.MainEmployeeGuide))</span>
-                                                    </a>
-                                                </li>
-                                                <li class="nav-heading ">
-                                                    <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.Branchs.ToString()</span>
-                                                </li>
-                                                <li>
-                                                    <a href="@Url.Action("Create", "Branch")" title="@Resources.Resources.NewBranch.ToString()" class="d-flex align-items-center">
-                                                        <em class="bi bi-diagram-2 h4 mb-0"></em>
-                                                        <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.NewBranch))</span>
-                                                    </a>
-                                                </li>
-                                                <li class="nav-heading ">
-                                                    <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.Employees.ToString()</span>
-                                                </li>
-                                                <li>
-                                                    <a href="@Url.Action("Employees", "CompanyEmployee")" title="@Resources.Resources.EmployeeRegistration.ToString()" class="d-flex align-items-center">
-                                                        <em class="bi bi-person-add h4 mb-0"></em>
-                                                        <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.EmployeeRegistration))</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="@Url.Action("EmployeeSalary", "CompanyEmployee")" title="@Resources.Resources.Payroll.ToString()" class="d-flex align-items-center">
-                                                        <em class="bi bi-coin h4 mb-0"></em>
-                                                        <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.Payroll))</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="@Url.Action("SalaryHistory", "CompanyEmployee")" title="@Resources.Resources.PaidSalariesHistory.ToString()" class="d-flex align-items-center">
-                                                        <em class="bi bi-cash-stack h4 mb-0"></em>
-                                                        <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.PaidSalariesHistory))</span>
-                                                    </a>
-                                                </li>
+                                        <option disabled>No currencies available</option>
+                                    }
+                                </select>
+                            }
+                        </div>
+                    </li>
+                    <!-- END Currency list-->
+                    <!-- START Language list-->
+                    <li class="nav-item">
+                        <div class="nav-link container">
+                            <div class="dropdown">
+                                <em class="fas fa-language dropdown-toggle" type="button" id="languageDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></em>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="languageDropdown">
+                                    <a class="dropdown-item" href="@Url.Action("SetCulture", "Home", new { culture = "en-US" })">English</a>
+                                    <a class="dropdown-item" href="@Url.Action("SetCulture", "Home", new { culture = "ru-RU" })">Русский</a>
+                                    <a class="dropdown-item" href="@Url.Action("SetCulture", "Home", new { culture = "uk-UA" })">Українська</a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- END Language list-->
+                </ul>
+                <!-- END Right Navbar-->
+            </nav>
+            <!-- END Top Navbar-->
+        </header>
+        <!-- sidebar-->
+        <aside class="aside-container">
+            <!-- START Sidebar (left)-->
+            <div class="aside-inner">
+                <nav class="sidebar" data-sidebar-anyclick-close="">
+                    <!-- START sidebar nav-->
+                    <ul class="sidebar-nav">
+                        <!-- START user info-->
+                        <li class="has-user-block">
+                            <div class="collapse" id="user-block">
+                                <div class="item user-block">
+                                    <!-- User picture-->
+                                    <div class="user-block-picture">
+                                        <div class="user-block-status">
+                                            @{
+                                                string userImg = string.Empty;
+                                                if (string.IsNullOrEmpty(Convert.ToString(Session["EPhoto"])))
+                                                {
+                                                    userImg = "~/Content/Template/img/user-default-img.png";
+                                                }
+                                                else
+                                                {
+                                                    userImg = Convert.ToString(Session["EPhoto"]);
+                                                }
                                             }
-                                            if (branchTypeID > 1)
-                                            {
-                                                <li class="nav-heading ">
-                                                    <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.Guide.ToString()</span>
-                                                </li>
-                                                <li>
-                                                    <a href="@Url.Action("EmployeeGuide", "Guide")" title="Employee Guide" class="d-flex align-items-center">
-                                                        <em class="bi bi-info-circle h4 mb-0"></em>
-                                                        <span class="align-middle">Employee Guide</span>
-                                                    </a>
-                                                </li>
-                                                <li class="nav-heading ">
-                                                    <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.Employees.ToString()</span>
-                                                </li>
-                                                <li>
-                                                    <a href="@Url.Action("Employee", "BranchEmployee")" title="@Resources.Resources.EmployeeRegistration.ToString()" class="d-flex align-items-center">
-                                                        <em class="bi bi-person-add h4 mb-0"></em>
-                                                        <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.EmployeeRegistration))</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="@Url.Action("EmployeeSalary", "CompanyEmployee")" title="@Resources.Resources.Payroll.ToString()" class="d-flex align-items-center">
-                                                        <em class="bi bi-coin h4 mb-0"></em>
-                                                        <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.Payroll))</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="@Url.Action("SalaryHistory", "CompanyEmployee")" title="@Resources.Resources.PaidSalariesHistory.ToString()" class="d-flex align-items-center">
-                                                        <em class="bi bi-cash-stack h4 mb-0"></em>
-                                                        <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.PaidSalariesHistory))</span>
-                                                    </a>
-                                                </li>
-                                            }
-                                            <li class="nav-heading ">
-                                                <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.Stocks.ToString()</span>
-                                            </li>
-                                            <li>
-                                                <a href="@Url.Action("Index", "Category")" title="@Resources.Resources.StockCategories.ToString()" class="d-flex align-items-center">
-                                                    <em class="bi bi-inboxes-fill h4 mb-0"></em>
-                                                    <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.StockCategories))</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="@Url.Action("Index", "Stock")" title="@Resources.Resources.StockDetails.ToString()" class="d-flex align-items-center">
-                                                    <em class="bi bi-boxes h4 mb-0"></em>
-                                                    <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.StockDetails))</span>
-                                                </a>
-                                            </li>
-                                        }
+                                            <img class="img-thumbnail rounded-circle" src="@Url.Content(userImg)" alt="Avatar" width="60" height="60">
+                                            <div class="circle bg-success circle-lg"></div>
+                                        </div>
+                                    </div>
+                                    <!-- Name and Job-->
+                                    <div class="user-block-info">
+                                        <span class="user-block-name">@Resources.Resources.Hello.ToString() @Session["UserName"]</span>
+                                        <span class="user-block-role">@Session["Designation"]</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <!-- END user info-->
+                        @{
+                            if (Session["UserTypeID"] != null)
+                            {
+                                var userType = Convert.ToInt32(Convert.ToString(Session["UserTypeID"]));
+                                if (Session["BranchTypeID"] != null)
+                                {
+                                    <!-- Iterates over all sidebar items-->
+
+                                    @*Configuration*@
+                                    @*Admin*@
+                                    if (userType == 1)
+                                    {
+                                        <li class="nav-heading ">
+                                            <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.Guide.ToString()</span>
+                                        </li>
+
+                                        <li>
+                                            <a href="@Url.Action("AdminMenuGuide", "Guide")" title="@Resources.Resources.AdminGuide.ToString()" class="d-flex align-items-center">
+                                                <em class="bi bi-info-circle mr-1"></em>
+                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.AdminGuide))</span>
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-heading ">
+                                            <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.UserSetting.ToString()</span>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("Index", "UserType")" title="@Resources.Resources.UserTypes.ToString()" class="d-flex align-items-center">
+                                                <em class="bi bi-person-fill-gear mr-1"></em>
+                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.UserTypes))</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("Index", "User")" title="@Resources.Resources.Users.ToString()" class="d-flex align-items-center">
+                                                <em class="bi bi-person-fill mr-1"></em>
+                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.Users))</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-heading ">
+                                            <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.Companies.ToString()</span>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("Index", "Company")" title="@Resources.Resources.Company.ToString()" class="d-flex align-items-center">
+                                                <em class="bi bi-building mr-1"></em>
+                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.Company))</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("RegistrationForm", "CompanyRegistration")" title="@Resources.Resources.CompanyRegistration.ToString()" class="d-flex align-items-center">
+                                                <em class="bi bi-building-add mr-1"></em>
+                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.CompanyRegistration))</span>
+                                            </a>
+                                        </li>
                                         <li class="nav-heading ">
                                             <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.AccountSettings.ToString()</span>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Index", "AccountControl")" title="@Resources.Resources.AccountControls.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-gear-wide h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.AccountControls))</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="@Url.Action("Index", "AccountSubControl")" title="@Resources.Resources.AccountSubControls.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-gear-wide-connected h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.AccountSubControls))</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="@Url.Action("Index", "AccountSetting")" title="@Resources.Resources.AccountFlow.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-person-lines-fill h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.AccountFlow))</span>
+                                            <a href="@Url.Action("Index", "AccountHead")" title="@Resources.Resources.AccountHeads.ToString()" class="d-flex align-items-center">
+                                                <em class="bi bi-lightbulb-fill mr-1 mb-2"></em>
+                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.AccountHeads))</span>
                                             </a>
                                         </li>
                                     }
+                                    @*User*@
+                                    if (userType == 2)
+                                    {
+                                        <li class="nav-heading ">
+                                            <span data-localize="sidebar.heading.HEADER">@Resources.Resources.Home.ToString()</span>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("Index", "Home")" title="@Resources.Resources.Dashboard.ToString()" class="d-flex align-items-center">
+                                                <em class="bi bi-speedometer2 h4 mb-0"></em>
+                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.Dashboard))</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-heading ">
+                                            <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.SubBranchs.ToString()</span>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("Index", "Branch")" title="@Resources.Resources.Branches.ToString()" class="d-flex align-items-center">
+                                                <em class="bi bi-diagram-2 h4 mb-0"></em>
+                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.Branches))</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("SubBranchUser", "User")" title="@Resources.Resources.Users.ToString()" class="d-flex align-items-center">
+                                                <em class="bi bi-person-fill h4 mb-0"></em>
+                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.Users))</span>
+                                            </a>
+                                        </li>
 
-                                    if (userType == 1)
-                                    {
+                                        var branchTypeID = Convert.ToInt32(Convert.ToString(Session["BranchTypeID"]));
+                                        @*Main Branch*@
+                                        if (branchTypeID == 1)
+                                        {
+                                            <li class="nav-heading ">
+                                                <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.Guide.ToString()</span>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("MainBranchEmployeeGuide", "Guide")" title="@Resources.Resources.MainEmployeeGuide.ToString()" class="d-flex align-items-center">
+                                                    <em class="bi bi-info-circle h4 mb-0"></em>
+                                                    <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.MainEmployeeGuide))</span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-heading ">
+                                                <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.Branchs.ToString()</span>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("Create", "Branch")" title="@Resources.Resources.NewBranch.ToString()" class="d-flex align-items-center">
+                                                    <em class="bi bi-diagram-2 h4 mb-0"></em>
+                                                    <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.NewBranch))</span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-heading ">
+                                                <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.Employees.ToString()</span>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("Employees", "CompanyEmployee")" title="@Resources.Resources.EmployeeRegistration.ToString()" class="d-flex align-items-center">
+                                                    <em class="bi bi-person-add h4 mb-0"></em>
+                                                    <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.EmployeeRegistration))</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("EmployeeSalary", "CompanyEmployee")" title="@Resources.Resources.Payroll.ToString()" class="d-flex align-items-center">
+                                                    <em class="bi bi-coin h4 mb-0"></em>
+                                                    <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.Payroll))</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("SalaryHistory", "CompanyEmployee")" title="@Resources.Resources.PaidSalariesHistory.ToString()" class="d-flex align-items-center">
+                                                    <em class="bi bi-cash-stack h4 mb-0"></em>
+                                                    <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.PaidSalariesHistory))</span>
+                                                </a>
+                                            </li>
+                                        }
+                                        if (branchTypeID > 1)
+                                        {
+                                            <li class="nav-heading ">
+                                                <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.Guide.ToString()</span>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("EmployeeGuide", "Guide")" title="Employee Guide" class="d-flex align-items-center">
+                                                    <em class="bi bi-info-circle h4 mb-0"></em>
+                                                    <span class="align-middle">Employee Guide</span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-heading ">
+                                                <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.Employees.ToString()</span>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("Employee", "BranchEmployee")" title="@Resources.Resources.EmployeeRegistration.ToString()" class="d-flex align-items-center">
+                                                    <em class="bi bi-person-add h4 mb-0"></em>
+                                                    <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.EmployeeRegistration))</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("EmployeeSalary", "CompanyEmployee")" title="@Resources.Resources.Payroll.ToString()" class="d-flex align-items-center">
+                                                    <em class="bi bi-coin h4 mb-0"></em>
+                                                    <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.Payroll))</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("SalaryHistory", "CompanyEmployee")" title="@Resources.Resources.PaidSalariesHistory.ToString()" class="d-flex align-items-center">
+                                                    <em class="bi bi-cash-stack h4 mb-0"></em>
+                                                    <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.PaidSalariesHistory))</span>
+                                                </a>
+                                            </li>
+                                        }
                                         <li class="nav-heading ">
-                                            <span>@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.FinancialYear))</span>
+                                            <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.Stocks.ToString()</span>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Index", "FinancialYear")" title="@Resources.Resources.FinancialYear.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-cash h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.FinancialYear))</span>
+                                            <a href="@Url.Action("Index", "Category")" title="@Resources.Resources.StockCategories.ToString()" class="d-flex align-items-center">
+                                                <em class="bi bi-inboxes-fill h4 mb-0"></em>
+                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.StockCategories))</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Create", "FinancialYear")" title="@Resources.Resources.NewFinancialYear.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-cash-coin h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.NewFinancialYear))</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    if (userType == 2)
-                                    {
-                                        <li class="nav-heading ">
-                                            <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.FinancialYear.ToString()</span>
-                                        </li>
-                                        <li>
-                                            <a href="@Url.Action("Index", "FinancialYearView")" title="@Resources.Resources.AllFinancialYears.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-calendar3 h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.AllFinancialYears))</span>
+                                            <a href="@Url.Action("Index", "Stock")" title="@Resources.Resources.StockDetails.ToString()" class="d-flex align-items-center">
+                                                <em class="bi bi-boxes h4 mb-0"></em>
+                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.StockDetails))</span>
                                             </a>
                                         </li>
                                     }
                                     <li class="nav-heading ">
-                                        <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.Customers.ToString()</span>
+                                        <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.AccountSettings.ToString()</span>
                                     </li>
-                                    if (userType == 2)
-                                    {
-                                        <li>
-                                            <a href="@Url.Action("Create", "Customer")" title="@Resources.Resources.NewCustomer.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-person-fill-add h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.NewCustomer))</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="@Url.Action("Index", "Customer")" title="@Resources.Resources.BranchCustomers.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-cart h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.BranchCustomers))</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="@Url.Action("SubBranchCustomer", "Customer")" title="@Resources.Resources.SubBranchCustomers.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-cart-check h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.SubBranchCustomers))</span>
-                                            </a>
-                                        </li>
-                                        <li class="nav-heading ">
-                                            <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.Sales.ToString()</span>
-                                        </li>
-                                        <li>
-                                            <a href="@Url.Action("NewSale", "SaleCart")" title="@Resources.Resources.NewSale.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-bag-plus h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.NewSale))</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="@Url.Action("RemainingPaymentList", "SalePayment")" title="@Resources.Resources.SalePendingPayment.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-paypal h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.SalePendingPayment))</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="@Url.Action("CustomSalesHistory", "SalePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now })" title="@Resources.Resources.AllSales.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-card-checklist h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.AllSales))</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="@Url.Action("FindSale", "SaleReturn")" title="@Resources.Resources.SaleReturn.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-bag-dash h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.SaleReturn))</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="@Url.Action("AllReturnSalesPendingAmount", "SalePaymentReturn")" title="@Resources.Resources.ReturnSalesPendingAmount.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-wallet-fill h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.ReturnSalesPendingAmount))</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    if (userType == 1)
-                                    {
-                                        <li>
-                                            <a href="@Url.Action("AllCustomers", "Customer")" title="@Resources.Resources.AllCustomers.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-cart h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.AllCustomers))</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    <li class="nav-heading ">
-                                        <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.Suppliers.ToString()</span>
-                                    </li>
-                                    if (userType == 2)
-                                    {
-                                        <li>
-                                            <a href="@Url.Action("Create", "Supplier")" title="@Resources.Resources.NewSupplier.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-umbrella h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.NewSupplier))</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="@Url.Action("Index", "Supplier")" title="@Resources.Resources.BranchSuppliers.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-truck h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.BranchSuppliers))</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="@Url.Action("SubBranchSupplier", "Supplier")" title="@Resources.Resources.SubBranchSuppliers.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-truck-front h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.SubBranchSuppliers))</span>
-                                            </a>
-                                        </li>
-                                        <li class="nav-heading ">
-                                            <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.Purchases.ToString()</span>
-                                        </li>
-                                        <li>
-                                            <a href="@Url.Action("NewPurchase", "PurchaseCart")" title="@Resources.Resources.NewPurchase.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-cart-plus h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.NewPurchase))</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="@Url.Action("RemainingPaymentList", "PurchasePayment")" title="@Resources.Resources.PurchasePendingPayment.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-currency-dollar h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.PurchasePendingPayment))</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="@Url.Action("CustomPurchasesHistory", "PurchasePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now })" title="@Resources.Resources.AllPurchases.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-cart h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.AllPurchases))</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="@Url.Action("FindPurchase", "PurchaseReturn")" title="@Resources.Resources.PurchasesReturn.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-cart-dash h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.PurchasesReturn))</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="@Url.Action("AllPurchasesPendingPayment", "PurchasePaymentReturn")" title="@Resources.Resources.ReturnPaymentPending.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-currency-dollar h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.ReturnPaymentPending))</span>
-                                            </a>
-                                        </li>
-                                        <li class="nav-heading ">
-                                            <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.Transactions.ToString()</span>
-                                        </li>
-                                        <li>
-                                            <a href="@Url.Action("GeneralTransaction", "GeneralTransaction", new { transaction = new CloudERP.Models.GeneralTransactionMV() { CreditAccountControlID = 0, DebitAccountControlID = 0, TransferAmount = 0 } })" title="@Resources.Resources.GeneralTransaction.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-briefcase h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.GeneralTransaction))</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="@Url.Action("Journal", "GeneralTransaction")" title="@Resources.Resources.Journal.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-journal-bookmark h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.Journal))</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="@Url.Action("GetLedger", "Ledger")" title="@Resources.Resources.AccountsLedger.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-book-half h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.AccountsLedger))</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="@Url.Action("GetTrialBalance", "TrialBalance")" title="@Resources.Resources.TrialBalance.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-currency-dollar h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.TrialBalance))</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="@Url.Action("GetIncomeStatement", "IncomeStatement")" title="@Resources.Resources.IncomeStatement.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-currency-exchange h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.IncomeStatement))</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="@Url.Action("GetBalanceSheet", "BalanceSheet")" title="@Resources.Resources.BalanceSheet.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-file-earmark-spreadsheet h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.BalanceSheet))</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    if (userType == 1)
-                                    {
-                                        <li>
-                                            <a href="@Url.Action("AllSuppliers", "Supplier")" title="@Resources.Resources.AllSuppliers.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-minecart-loaded h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.AllSuppliers))</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    <li class="nav-heading ">
-                                        <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.License.ToString()</span>
-                                    </li>
-                                    if (userType == 1)
-                                    {
-                                        <li>
-                                            <a href="@Url.Action("AdminList", "Support")" title="Ticket List" class="d-flex align-items-center">
-                                                <em class="bi bi-hammer mr-1 mb-2"></em>
-                                                <span class="align-middle">Ticket List</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    if (userType == 2)
-                                    {
-                                        <li>
-                                            <a href="@Url.Action("Support", "Support")" title="Support" class="d-flex align-items-center">
-                                                <em class="bi bi-hammer mr-1 mb-2"></em>
-                                                <span class="align-middle">Support</span>
-                                            </a>
-                                        </li>
-                                    }
                                     <li>
-                                        <a href="@Url.Action("PrivacyPolicy", "Guide")" title="@Resources.Resources.PrivacyPolicy.ToString()" class="d-flex align-items-center">
-                                            <em class="bi bi-sourceforge h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.PrivacyPolicy))</span>
+                                        <a href="@Url.Action("Index", "AccountControl")" title="@Resources.Resources.AccountControls.ToString()" class="d-flex align-items-center">
+                                            <em class="bi bi-gear-wide h4 mb-0"></em>
+                                            <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.AccountControls))</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Index", "AccountSubControl")" title="@Resources.Resources.AccountSubControls.ToString()" class="d-flex align-items-center">
+                                            <em class="bi bi-gear-wide-connected h4 mb-0"></em>
+                                            <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.AccountSubControls))</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Index", "AccountSetting")" title="@Resources.Resources.AccountFlow.ToString()" class="d-flex align-items-center">
+                                            <em class="bi bi-person-lines-fill h4 mb-0"></em>
+                                            <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.AccountFlow))</span>
                                         </a>
                                     </li>
                                 }
+
+                                if (userType == 1)
+                                {
+                                    <li class="nav-heading ">
+                                        <span>@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.FinancialYear))</span>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Index", "FinancialYear")" title="@Resources.Resources.FinancialYear.ToString()" class="d-flex align-items-center">
+                                            <em class="bi bi-cash h4 mb-0"></em>
+                                            <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.FinancialYear))</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Create", "FinancialYear")" title="@Resources.Resources.NewFinancialYear.ToString()" class="d-flex align-items-center">
+                                            <em class="bi bi-cash-coin h4 mb-0"></em>
+                                            <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.NewFinancialYear))</span>
+                                        </a>
+                                    </li>
+                                }
+                                if (userType == 2)
+                                {
+                                    <li class="nav-heading ">
+                                        <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.FinancialYear.ToString()</span>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Index", "FinancialYearView")" title="@Resources.Resources.AllFinancialYears.ToString()" class="d-flex align-items-center">
+                                            <em class="bi bi-calendar3 h4 mb-0"></em>
+                                            <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.AllFinancialYears))</span>
+                                        </a>
+                                    </li>
+                                }
+                                <li class="nav-heading ">
+                                    <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.Customers.ToString()</span>
+                                </li>
+                                if (userType == 2)
+                                {
+                                    <li>
+                                        <a href="@Url.Action("Create", "Customer")" title="@Resources.Resources.NewCustomer.ToString()" class="d-flex align-items-center">
+                                            <em class="bi bi-person-fill-add h4 mb-0"></em>
+                                            <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.NewCustomer))</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Index", "Customer")" title="@Resources.Resources.BranchCustomers.ToString()" class="d-flex align-items-center">
+                                            <em class="bi bi-cart h4 mb-0"></em>
+                                            <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.BranchCustomers))</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("SubBranchCustomer", "Customer")" title="@Resources.Resources.SubBranchCustomers.ToString()" class="d-flex align-items-center">
+                                            <em class="bi bi-cart-check h4 mb-0"></em>
+                                            <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.SubBranchCustomers))</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-heading ">
+                                        <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.Sales.ToString()</span>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("NewSale", "SaleCart")" title="@Resources.Resources.NewSale.ToString()" class="d-flex align-items-center">
+                                            <em class="bi bi-bag-plus h4 mb-0"></em>
+                                            <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.NewSale))</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("RemainingPaymentList", "SalePayment")" title="@Resources.Resources.SalePendingPayment.ToString()" class="d-flex align-items-center">
+                                            <em class="bi bi-paypal h4 mb-0"></em>
+                                            <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.SalePendingPayment))</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("CustomSalesHistory", "SalePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now })" title="@Resources.Resources.AllSales.ToString()" class="d-flex align-items-center">
+                                            <em class="bi bi-card-checklist h4 mb-0"></em>
+                                            <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.AllSales))</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("FindSale", "SaleReturn")" title="@Resources.Resources.SaleReturn.ToString()" class="d-flex align-items-center">
+                                            <em class="bi bi-bag-dash h4 mb-0"></em>
+                                            <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.SaleReturn))</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("AllReturnSalesPendingAmount", "SalePaymentReturn")" title="@Resources.Resources.ReturnSalesPendingAmount.ToString()" class="d-flex align-items-center">
+                                            <em class="bi bi-wallet-fill h4 mb-0"></em>
+                                            <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.ReturnSalesPendingAmount))</span>
+                                        </a>
+                                    </li>
+                                }
+                                if (userType == 1)
+                                {
+                                    <li>
+                                        <a href="@Url.Action("AllCustomers", "Customer")" title="@Resources.Resources.AllCustomers.ToString()" class="d-flex align-items-center">
+                                            <em class="bi bi-cart h4 mb-0"></em>
+                                            <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.AllCustomers))</span>
+                                        </a>
+                                    </li>
+                                }
+                                <li class="nav-heading ">
+                                    <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.Suppliers.ToString()</span>
+                                </li>
+                                if (userType == 2)
+                                {
+                                    <li>
+                                        <a href="@Url.Action("Create", "Supplier")" title="@Resources.Resources.NewSupplier.ToString()" class="d-flex align-items-center">
+                                            <em class="bi bi-umbrella h4 mb-0"></em>
+                                            <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.NewSupplier))</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Index", "Supplier")" title="@Resources.Resources.BranchSuppliers.ToString()" class="d-flex align-items-center">
+                                            <em class="bi bi-truck h4 mb-0"></em>
+                                            <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.BranchSuppliers))</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("SubBranchSupplier", "Supplier")" title="@Resources.Resources.SubBranchSuppliers.ToString()" class="d-flex align-items-center">
+                                            <em class="bi bi-truck-front h4 mb-0"></em>
+                                            <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.SubBranchSuppliers))</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-heading ">
+                                        <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.Purchases.ToString()</span>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("NewPurchase", "PurchaseCart")" title="@Resources.Resources.NewPurchase.ToString()" class="d-flex align-items-center">
+                                            <em class="bi bi-cart-plus h4 mb-0"></em>
+                                            <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.NewPurchase))</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("RemainingPaymentList", "PurchasePayment")" title="@Resources.Resources.PurchasePendingPayment.ToString()" class="d-flex align-items-center">
+                                            <em class="bi bi-currency-dollar h4 mb-0"></em>
+                                            <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.PurchasePendingPayment))</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("CustomPurchasesHistory", "PurchasePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now })" title="@Resources.Resources.AllPurchases.ToString()" class="d-flex align-items-center">
+                                            <em class="bi bi-cart h4 mb-0"></em>
+                                            <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.AllPurchases))</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("FindPurchase", "PurchaseReturn")" title="@Resources.Resources.PurchasesReturn.ToString()" class="d-flex align-items-center">
+                                            <em class="bi bi-cart-dash h4 mb-0"></em>
+                                            <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.PurchasesReturn))</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("AllPurchasesPendingPayment", "PurchasePaymentReturn")" title="@Resources.Resources.ReturnPaymentPending.ToString()" class="d-flex align-items-center">
+                                            <em class="bi bi-currency-dollar h4 mb-0"></em>
+                                            <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.ReturnPaymentPending))</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-heading ">
+                                        <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.Transactions.ToString()</span>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("GeneralTransaction", "GeneralTransaction", new { transaction = new CloudERP.Models.GeneralTransactionMV() { CreditAccountControlID = 0, DebitAccountControlID = 0, TransferAmount = 0 } })" title="@Resources.Resources.GeneralTransaction.ToString()" class="d-flex align-items-center">
+                                            <em class="bi bi-briefcase h4 mb-0"></em>
+                                            <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.GeneralTransaction))</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Journal", "GeneralTransaction")" title="@Resources.Resources.Journal.ToString()" class="d-flex align-items-center">
+                                            <em class="bi bi-journal-bookmark h4 mb-0"></em>
+                                            <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.Journal))</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("GetLedger", "Ledger")" title="@Resources.Resources.AccountsLedger.ToString()" class="d-flex align-items-center">
+                                            <em class="bi bi-book-half h4 mb-0"></em>
+                                            <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.AccountsLedger))</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("GetTrialBalance", "TrialBalance")" title="@Resources.Resources.TrialBalance.ToString()" class="d-flex align-items-center">
+                                            <em class="bi bi-currency-dollar h4 mb-0"></em>
+                                            <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.TrialBalance))</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("GetIncomeStatement", "IncomeStatement")" title="@Resources.Resources.IncomeStatement.ToString()" class="d-flex align-items-center">
+                                            <em class="bi bi-currency-exchange h4 mb-0"></em>
+                                            <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.IncomeStatement))</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("GetBalanceSheet", "BalanceSheet")" title="@Resources.Resources.BalanceSheet.ToString()" class="d-flex align-items-center">
+                                            <em class="bi bi-file-earmark-spreadsheet h4 mb-0"></em>
+                                            <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.BalanceSheet))</span>
+                                        </a>
+                                    </li>
+                                }
+                                if (userType == 1)
+                                {
+                                    <li>
+                                        <a href="@Url.Action("AllSuppliers", "Supplier")" title="@Resources.Resources.AllSuppliers.ToString()" class="d-flex align-items-center">
+                                            <em class="bi bi-minecart-loaded h4 mb-0"></em>
+                                            <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.AllSuppliers))</span>
+                                        </a>
+                                    </li>
+                                }
+                                <li class="nav-heading ">
+                                    <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.License.ToString()</span>
+                                </li>
+                                if (userType == 1)
+                                {
+                                    <li>
+                                        <a href="@Url.Action("AdminList", "Support")" title="Ticket List" class="d-flex align-items-center">
+                                            <em class="bi bi-hammer mr-1 mb-2"></em>
+                                            <span class="align-middle">Ticket List</span>
+                                        </a>
+                                    </li>
+                                }
+                                if (userType == 2)
+                                {
+                                    <li>
+                                        <a href="@Url.Action("Support", "Support")" title="Support" class="d-flex align-items-center">
+                                            <em class="bi bi-hammer mr-1 mb-2"></em>
+                                            <span class="align-middle">Support</span>
+                                        </a>
+                                    </li>
+                                }
+                                <li>
+                                    <a href="@Url.Action("PrivacyPolicy", "Guide")" title="@Resources.Resources.PrivacyPolicy.ToString()" class="d-flex align-items-center">
+                                        <em class="bi bi-sourceforge h4 mb-0"></em>
+                                        <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.PrivacyPolicy))</span>
+                                    </a>
+                                </li>
                             }
-                            }
-                        </ul>
-                        <!-- END sidebar nav-->
-                    </nav>
-                </div>
-                <!-- END Sidebar (left)-->
-            </aside>
-            <!-- Main section-->
-            <section class="section-container">
-                <!-- Page content-->
-                <div class="content-wrapper">
-                    <div class="content-heading">
-                        <div>
-                            @ViewBag.Title
-                        </div>
-                    </div>
+                        }
+                        }
+                    </ul>
+                    <!-- END sidebar nav-->
+                </nav>
+            </div>
+            <!-- END Sidebar (left)-->
+        </aside>
+        <!-- Main section-->
+        <section class="section-container">
+            <!-- Page content-->
+            <div class="content-wrapper">
+                <div class="content-heading">
                     <div>
-                        @RenderBody()
+                        @ViewBag.Title
                     </div>
                 </div>
-            </section>
-            <!-- Page footer-->
-            <footer class="footer-container">
-                <span>&copy; @currentYear - Kuvaiev Inc</span>
-            </footer>
-        </div>
-        <!-- =============== VENDOR SCRIPTS ===============-->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/intlTelInput.min.js"></script>
-        <!-- MODERNIZR-->
-        <script src="~/Content/Template/vendor/modernizr/modernizr.custom.js"></script>
-        <!-- JQUERY-->
-        <script src="~/Content/Template/vendor/jquery/dist/jquery.js"></script>
-        <!-- BOOTSTRAP-->
-        <script src="~/Content/Template/vendor/popper.js/dist/umd/popper.js"></script>
-        <script src="~/Content/Template/vendor/bootstrap/dist/js/bootstrap.js"></script>
-        <!-- STORAGE API-->
-        <script src="~/Content/Template/vendor/js-storage/js.storage.js"></script>
-        <!-- JQUERY EASING-->
-        <script src="~/Content/Template/vendor/jquery.easing/jquery.easing.js"></script>
-        <!-- ANIMO-->
-        <script src="~/Content/Template/vendor/animo/animo.js"></script>
-        <!-- SCREENFULL-->
-        <script src="~/Content/Template/vendor/screenfull/dist/screenfull.js"></script>
-        <!-- LOCALIZE-->
-        <script src="~/Content/Template/vendor/jquery-localize/dist/jquery.localize.js"></script>
-        <!-- =============== PAGE VENDOR SCRIPTS ===============-->
-        <!-- Bootgrid-->
-        <script src="~/Content/Template/vendor/jquery-bootgrid/dist/jquery.bootgrid.js"></script>
-        <script src="~/Content/Template/vendor/jquery-bootgrid/dist/jquery.bootgrid.fa.js"></script>
-        <!-- JQUERY VALIDATE-->
-        <script src="~/Content/Template/vendor/jquery-validation/dist/jquery.validate.js"></script>
-        <script src="~/Content/Template/vendor/jquery-validation/dist/additional-methods.js"></script>
-        <!-- JQUERY STEPS-->
-        <script src="~/Content/Template/vendor/jquery-steps/build/jquery.steps.js"></script>
-        <!-- Datatables-->
-        <script src="~/Content/Template/vendor/datatables.net/js/jquery.dataTables.js"></script>
-        <script src="~/Content/Template/vendor/datatables.net-bs4/js/dataTables.bootstrap4.js"></script>
-        <script src="~/Content/Template/vendor/datatables.net-buttons/js/dataTables.buttons.js"></script>
-        <script src="~/Content/Template/vendor/datatables.net-buttons-bs/js/buttons.bootstrap.js"></script>
-        <script src="~/Content/Template/vendor/datatables.net-buttons/js/buttons.colVis.js"></script>
-        <script src="~/Content/Template/vendor/datatables.net-buttons/js/buttons.flash.js"></script>
-        <script src="~/Content/Template/vendor/datatables.net-buttons/js/buttons.html5.js"></script>
-        <script src="~/Content/Template/vendor/datatables.net-buttons/js/buttons.print.js"></script>
-        <script src="~/Content/Template/vendor/datatables.net-keytable/js/dataTables.keyTable.js"></script>
-        <script src="~/Content/Template/vendor/datatables.net-responsive/js/dataTables.responsive.js"></script>
-        <script src="~/Content/Template/vendor/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
-        <script src="~/Content/Template/vendor/jszip/dist/jszip.js"></script>
-        <script src="~/Content/Template/vendor/pdfmake/build/pdfmake.js"></script>
-        <script src="~/Content/Template/vendor/pdfmake/build/vfs_fonts.js"></script>
-        <!-- Themes-->
-        @*TODO: Dark Theme
+                <div>
+                    @RenderBody()
+                </div>
+            </div>
+        </section>
+        <!-- Page footer-->
+        <footer class="footer-container">
+            <span>&copy; @currentYear - Kuvaiev Inc</span>
+        </footer>
+    </div>
+    <!-- =============== VENDOR SCRIPTS ===============-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/intlTelInput.min.js"></script>
+    <!-- MODERNIZR-->
+    <script src="~/Content/Template/vendor/modernizr/modernizr.custom.js"></script>
+    <!-- JQUERY-->
+    <script src="~/Content/Template/vendor/jquery/dist/jquery.js"></script>
+    <!-- BOOTSTRAP-->
+    <script src="~/Content/Template/vendor/popper.js/dist/umd/popper.js"></script>
+    <script src="~/Content/Template/vendor/bootstrap/dist/js/bootstrap.js"></script>
+    <!-- STORAGE API-->
+    <script src="~/Content/Template/vendor/js-storage/js.storage.js"></script>
+    <!-- JQUERY EASING-->
+    <script src="~/Content/Template/vendor/jquery.easing/jquery.easing.js"></script>
+    <!-- ANIMO-->
+    <script src="~/Content/Template/vendor/animo/animo.js"></script>
+    <!-- SCREENFULL-->
+    <script src="~/Content/Template/vendor/screenfull/dist/screenfull.js"></script>
+    <!-- LOCALIZE-->
+    <script src="~/Content/Template/vendor/jquery-localize/dist/jquery.localize.js"></script>
+    <!-- =============== PAGE VENDOR SCRIPTS ===============-->
+    <!-- Bootgrid-->
+    <script src="~/Content/Template/vendor/jquery-bootgrid/dist/jquery.bootgrid.js"></script>
+    <script src="~/Content/Template/vendor/jquery-bootgrid/dist/jquery.bootgrid.fa.js"></script>
+    <!-- JQUERY VALIDATE-->
+    <script src="~/Content/Template/vendor/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/Content/Template/vendor/jquery-validation/dist/additional-methods.js"></script>
+    <!-- JQUERY STEPS-->
+    <script src="~/Content/Template/vendor/jquery-steps/build/jquery.steps.js"></script>
+    <!-- Datatables-->
+    <script src="~/Content/Template/vendor/datatables.net/js/jquery.dataTables.js"></script>
+    <script src="~/Content/Template/vendor/datatables.net-bs4/js/dataTables.bootstrap4.js"></script>
+    <script src="~/Content/Template/vendor/datatables.net-buttons/js/dataTables.buttons.js"></script>
+    <script src="~/Content/Template/vendor/datatables.net-buttons-bs/js/buttons.bootstrap.js"></script>
+    <script src="~/Content/Template/vendor/datatables.net-buttons/js/buttons.colVis.js"></script>
+    <script src="~/Content/Template/vendor/datatables.net-buttons/js/buttons.flash.js"></script>
+    <script src="~/Content/Template/vendor/datatables.net-buttons/js/buttons.html5.js"></script>
+    <script src="~/Content/Template/vendor/datatables.net-buttons/js/buttons.print.js"></script>
+    <script src="~/Content/Template/vendor/datatables.net-keytable/js/dataTables.keyTable.js"></script>
+    <script src="~/Content/Template/vendor/datatables.net-responsive/js/dataTables.responsive.js"></script>
+    <script src="~/Content/Template/vendor/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+    <script src="~/Content/Template/vendor/jszip/dist/jszip.js"></script>
+    <script src="~/Content/Template/vendor/pdfmake/build/pdfmake.js"></script>
+    <script src="~/Content/Template/vendor/pdfmake/build/vfs_fonts.js"></script>
+    <!-- Themes-->
+    @*TODO: Dark Theme
         <script src="~/Scripts/Theme/theme-switcher.js"></script>*@
-        <!-- =============== APP SCRIPTS ===============-->
-        <script src="~/Content/Template/js/app.js"></script>
+    <!-- =============== APP SCRIPTS ===============-->
+    <script src="~/Content/Template/js/app.js"></script>
 
-        <script>
-            $(document).ready(function () {
-                $('#fullscreenButton').on('click', function () {
-                    toggleFullScreen();
-                });
-
-                document.addEventListener('fullscreenchange', function () {
-                    updateIcon();
-                });
+    <script>
+        $(document).ready(function () {
+            $('#fullscreenButton').on('click', function () {
+                toggleFullScreen();
             });
 
-            function toggleFullScreen() {
-                if (!document.fullscreenElement) {
-                    document.documentElement.requestFullscreen();
-                } else {
-                    if (document.exitFullscreen) {
-                        document.exitFullscreen();
-                    }
-                }
-            }
+            document.addEventListener('fullscreenchange', function () {
+                updateIcon();
+            });
+        });
 
-            function updateIcon() {
-                if (document.fullscreenElement) {
-                    $('#fullscreenButton').removeClass('bi-fullscreen').addClass('bi-fullscreen-exit');
-                } else {
-                    $('#fullscreenButton').removeClass('bi-fullscreen-exit').addClass('bi-fullscreen');
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
                 }
             }
-        </script>
-    </body>
+        }
+
+        function updateIcon() {
+            if (document.fullscreenElement) {
+                $('#fullscreenButton').removeClass('bi-fullscreen').addClass('bi-fullscreen-exit');
+            } else {
+                $('#fullscreenButton').removeClass('bi-fullscreen-exit').addClass('bi-fullscreen');
+            }
+        }
+    </script>
+</body>
 </html>
