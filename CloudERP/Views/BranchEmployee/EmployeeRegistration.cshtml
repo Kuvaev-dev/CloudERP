@@ -89,8 +89,8 @@
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @id = "address" } })
                 @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
-                <h5 class="mt-3">Click here to choose a correct address</h5>
-                <ul id="suggestions" class="form-control"></ul>
+                <h5 class="mt-3">Click here to choose a correct address below</h5>
+                <ul id="suggestions"></ul>
             </div>
         </div>
 
