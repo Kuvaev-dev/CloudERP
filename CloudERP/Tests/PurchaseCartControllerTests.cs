@@ -37,7 +37,7 @@ namespace CloudERP.Tests
         }
 
         [Test]
-        public void NewPurchase_Returns_View_With_PurchaseCartDetails()
+        public async void NewPurchase_Returns_View_With_PurchaseCartDetails()
         {
             // Arrange
             _mockSession.Setup(s => s["CompanyID"]).Returns("1");
@@ -53,7 +53,7 @@ namespace CloudERP.Tests
             _mockDbContext.Setup(db => db.tblPurchaseCartDetail).Returns(MockHelper.GetQueryableMockDbSet(purchaseCartDetails).Object);
 
             // Act
-            var result = _controller.NewPurchase() as ViewResult;
+            var result = await _controller.NewPurchase() as ViewResult;
 
             // Assert
             Assert.That(result, Is.Not.Null);

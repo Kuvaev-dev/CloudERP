@@ -73,7 +73,7 @@ namespace CloudERP.Tests
         }
 
         [Test]
-        public void NewSale_ReturnsViewWithModel()
+        public async void NewSale_ReturnsViewWithModel()
         {
             // Arrange
             var data = new List<tblSaleCartDetail>
@@ -86,7 +86,7 @@ namespace CloudERP.Tests
             _mockDb.Setup(m => m.tblSaleCartDetail).Returns(mockSet.Object);
 
             // Act
-            var result = _controller.NewSale() as ViewResult;
+            var result = await _controller.NewSale() as ViewResult;
             var model = result.Model as List<tblSaleCartDetail>;
 
             // Assert

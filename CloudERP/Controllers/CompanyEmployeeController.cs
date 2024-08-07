@@ -2,8 +2,10 @@
 using CloudERP.Models;
 using DatabaseAccess;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace CloudERP.Controllers
@@ -12,11 +14,13 @@ namespace CloudERP.Controllers
     {
         private readonly CloudDBEntities _db;
         private readonly SalaryTransaction _salaryTransaction;
+        private readonly ExchangeRateService _exchangeRateService;
 
         public CompanyEmployeeController(CloudDBEntities db)
         {
             _db = db;
             _salaryTransaction = new SalaryTransaction(_db);
+            _exchangeRateService = new ExchangeRateService(System.Configuration.ConfigurationManager.AppSettings["ExchangeRateApiKey"]);
         }
 
         // GET: Employees
@@ -127,12 +131,15 @@ namespace CloudERP.Controllers
             return View(employee);
         }
 
-        public ActionResult EmployeeSalary()
+        public async Task<ActionResult> EmployeeSalary()
         {
             if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
+
+            var rates = await _exchangeRateService.GetExchangeRatesAsync();
+            ViewData["CurrencyRates"] = rates ?? new Dictionary<string, double>();
 
             var salary = new SalaryMV
             {

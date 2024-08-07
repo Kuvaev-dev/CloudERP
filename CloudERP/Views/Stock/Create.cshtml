@@ -38,6 +38,10 @@
             </div>
         </div>
 
+        <div class="col-md-5">
+            @Html.Partial("CurrencyDropdown", ViewData["CurrencyRates"] as Dictionary<string, double>)
+        </div>
+
         <div class="form-group">
             @Html.LabelFor(model => model.SaleUnitPrice, Resources.Stock.SaleUnitPrice.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-5">

@@ -3768,6 +3768,7 @@
     <Content Include="Views\Home\ResetPasswordSuccess.cshtml" />
     <Content Include="Views\Support\Support.cshtml" />
     <Content Include="Views\Support\AdminList.cshtml" />
+    <Content Include="Views\Shared\CurrencyDropdown.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using CloudERP.Models;
+using CloudERP.Helpers;
+using System.Threading.Tasks;
 
 namespace CloudERP.Controllers
 {
@@ -12,15 +14,17 @@ namespace CloudERP.Controllers
     {
         private readonly CloudDBEntities _db;
         private readonly SaleEntry _saleEntry;
+        private readonly ExchangeRateService _exchangeRateService;
 
         public SaleCartController(CloudDBEntities db)
         {
             _db = db;
             _saleEntry = new SaleEntry(_db);
+            _exchangeRateService = new ExchangeRateService(System.Configuration.ConfigurationManager.AppSettings["ExchangeRateApiKey"]);
         }
 
         // GET: SaleCart/NewSale
-        public ActionResult NewSale()
+        public async Task<ActionResult> NewSale()
         {
             try
             {
@@ -45,6 +49,9 @@ namespace CloudERP.Controllers
                                   .ToList();
 
                 ViewBag.Products = products;
+
+                var rates = await _exchangeRateService.GetExchangeRatesAsync();
+                ViewData["CurrencyRates"] = rates ?? new Dictionary<string, double>();
 
                 return View(findDetail);
             }

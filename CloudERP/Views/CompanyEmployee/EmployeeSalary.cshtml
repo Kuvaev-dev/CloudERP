@@ -1,6 +1,7 @@
 ﻿@model CloudERP.Models.SalaryMV
 @{
     ViewBag.Title = Resources.CompanyEmployee.EmployeeSalary.ToString();
+    var rates = ViewData["CurrencyRates"] as Dictionary<string, double>;
 }
 
 <div class="card card-default col-md-12">
@@ -90,6 +91,12 @@
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.SalaryYear, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                             @Html.ValidationMessageFor(model => model.SalaryYear, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @Html.Partial("CurrencyDropdown", rates)
                         </div>
                     </div>
 

@@ -101,6 +101,16 @@ namespace CloudERP.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult SetCurrency(string currency)
+        {
+            if (!string.IsNullOrEmpty(currency))
+            {
+                Session["SelectedCurrency"] = currency;
+            }
+            return Redirect(Request.UrlReferrer.ToString());
+        }
+
         public ActionResult Login()
         {
             var rememberMeCookie = Request.Cookies["RememberMe"];
