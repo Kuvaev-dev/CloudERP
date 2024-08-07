@@ -89,7 +89,8 @@
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @id = "address" } })
                 @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
-                <ul id="suggestions"></ul>
+                <h5 class="mt-3">Click here to choose a correct address</h5>
+                <ul id="suggestions" class="form-control"></ul>
             </div>
         </div>
 
@@ -123,23 +124,35 @@
             }
         });
 
-        $(document).ready(function () {
-            $('#address').on('input', function () {
-                var query = $(this).val();
-                if (query.length > 2) {
-                    $.ajax({
-                        url: '/Address/Autocomplete',
-                        data: { query: query },
-                        success: function (data) {
-                            var suggestions = JSON.parse(data).results;
+        $('#address').on('input', function () {
+            var query = $(this).val();
+            if (query.length > 2) {
+                $.ajax({
+                    url: '/Address/Autocomplete',
+                    data: { query: query },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data && data.features) {
+                            var suggestions = data.features;
                             $('#suggestions').empty();
                             suggestions.forEach(function (suggestion) {
-                                $('#suggestions').append('<li>' + suggestion.formatted + '</li>');
+                                $('#suggestions').append('<li class="suggestion-item">' + suggestion.properties.formatted + '</li>');
                             });
+                        } else {
+                            console.error("Unexpected JSON format:", data);
                         }
-                    });
-                }
-            });
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error during AJAX request:", status, error);
+                    }
+                });
+            }
+        });
+
+        $(document).on('click', '.suggestion-item', function () {
+            var selectedAddress = $(this).text();
+            $('#address').val(selectedAddress);
+            $('#suggestions').empty();
         });
     });
 </script>
