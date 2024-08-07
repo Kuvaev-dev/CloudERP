@@ -171,9 +171,16 @@
                             <i class="fas fa-globe"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="languageDropdown">
-                            <a class="dropdown-item" href="@Url.Action("SetCulture", "Home", new { culture = "en-US" })">English</a>
-                            <a class="dropdown-item" href="@Url.Action("SetCulture", "Home", new { culture = "ru-RU" })">Русский</a>
-                            <a class="dropdown-item" href="@Url.Action("SetCulture", "Home", new { culture = "uk-UA" })">Українська</a>
+                            @using (Html.BeginForm("SetCulture", "Home", FormMethod.Post, new { @id = "languageForm" }))
+                            {
+                                <div class="dropdown-item">
+                                    <select name="culture" class="custom-select" onchange="document.getElementById('languageForm').submit()">
+                                        <option value="en-US" @(Session["Culture"]?.ToString() == "en-US" ? "selected" : "")>English</option>
+                                        <option value="ru-RU" @(Session["Culture"]?.ToString() == "ru-RU" ? "selected" : "")>Русский</option>
+                                        <option value="uk-UA" @(Session["Culture"]?.ToString() == "uk-UA" ? "selected" : "")>Українська</option>
+                                    </select>
+                                </div>
+                            }
                         </div>
                     </li>
                     <!-- END Language list -->
