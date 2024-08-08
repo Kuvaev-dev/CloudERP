@@ -2,8 +2,6 @@
 using DatabaseAccess;
 using DatabaseAccess.Models;
 using DatabaseAccess.Code.SP_Code;
-using SendGrid;
-using SendGrid.Helpers.Mail;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -11,7 +9,6 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 
 namespace CloudERP.Controllers
 {
@@ -19,30 +16,14 @@ namespace CloudERP.Controllers
     {
         private readonly CloudDBEntities _db;
         private readonly SP_Dashboard _spDashboard;
-        private readonly ExchangeRateService _exchangeRateService;
 
         public HomeController(CloudDBEntities db)
         {
             _db = db;
             _spDashboard = new SP_Dashboard(_db);
-            _exchangeRateService = new ExchangeRateService(System.Configuration.ConfigurationManager.AppSettings["ExchangeRateApiKey"]);
         }
 
-        [HttpGet]
-        public async Task<ActionResult> Index()
-        {
-            string defaultCurrency = System.Configuration.ConfigurationManager.AppSettings["DefaultCurrency"];
-            string selectedCurrency = Session["SelectedCurrency"]?.ToString() ?? defaultCurrency;
-
-            var rates = await _exchangeRateService.GetExchangeRatesAsync();
-            ViewData["CurrencyRates"] = rates ?? new Dictionary<string, double>();
-            ViewData["SelectedCurrency"] = selectedCurrency;
-
-            return await Index(selectedCurrency);
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> Index(string currency)
+        public ActionResult Index()
         {
             try
             {
@@ -60,38 +41,6 @@ namespace CloudERP.Controllers
 
                 DashboardModel dashboardValues = _spDashboard.GetDashboardValues(fromDate, toDate, branchID, companyID);
 
-                var rates = await _exchangeRateService.GetExchangeRatesAsync();
-                rates = rates ?? new Dictionary<string, double>();
-                dashboardValues.CurrencyRates = rates;
-
-                string selectedCurrency = currency;
-                dashboardValues.SelectedCurrency = selectedCurrency;
-
-                Session["SelectedCurrency"] = selectedCurrency;
-                Session["CurrencyRates"] = rates;
-
-                if (rates.TryGetValue(System.Configuration.ConfigurationManager.AppSettings["DefaultCurrency"], out double defaultRate))
-                {
-                    dashboardValues.DefaultCurrencyRate = defaultRate;
-
-                    if (rates.TryGetValue(selectedCurrency, out double selectedRate))
-                    {
-                        dashboardValues.SelectedCurrencyRate = selectedRate;
-                        dashboardValues.ConversionRateToDefault = selectedRate;
-                        dashboardValues.ConversionRateFromDefault = 1 / selectedRate;
-                        dashboardValues.CurrentMonthRecovery *= (selectedRate / defaultRate);
-
-                        Session["ConversionRateToDefault"] = dashboardValues.ConversionRateToDefault;
-                        Session["ConversionRateFromDefault"] = dashboardValues.ConversionRateFromDefault;
-
-                        ViewData["ConversionRateToDefault"] = dashboardValues.ConversionRateToDefault;
-                        ViewData["ConversionRateFromDefault"] = dashboardValues.ConversionRateFromDefault;
-                    }
-                }
-
-                ViewData["CurrencyRates"] = rates;
-                ViewData["SelectedCurrency"] = selectedCurrency;
-
                 return View(dashboardValues);
             }
             catch (Exception ex)
@@ -99,16 +48,6 @@ namespace CloudERP.Controllers
                 TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
-        }
-
-        [HttpPost]
-        public ActionResult SetCurrency(string currency)
-        {
-            if (!string.IsNullOrEmpty(currency))
-            {
-                Session["SelectedCurrency"] = currency;
-            }
-            return Redirect(Request.UrlReferrer.ToString());
         }
 
         public ActionResult Login()
@@ -279,9 +218,9 @@ namespace CloudERP.Controllers
 
                     try
                     {
-                        await SendPasswordResetEmail(user.Email, user.ResetPasswordCode);
+                        SendPasswordResetEmail(user.Email, user.ResetPasswordCode);
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         ModelState.AddModelError("", "An error occurred while sending the email. Please try again.");
                         return View();
@@ -301,25 +240,16 @@ namespace CloudERP.Controllers
             }
         }
 
-        private async Task SendPasswordResetEmail(string email, string resetCode)
+        private void SendPasswordResetEmail(string email, string resetCode)
         {
             try
             {
                 var resetLink = Url.Action("ResetPassword", "Home", new { id = resetCode }, protocol: Request.Url.Scheme);
-
-                var apiKey = System.Configuration.ConfigurationManager.AppSettings["SendGridApiKey"];
-                var fromEmail = System.Configuration.ConfigurationManager.AppSettings["SendGridFromEmail"];
-                var fromName = System.Configuration.ConfigurationManager.AppSettings["SendGridFromName"];
-
-                var client = new SendGridClient(apiKey);
-                var from = new EmailAddress(fromEmail, fromName);
                 var subject = "Password Reset";
-                var to = new EmailAddress(email);
-                var plainTextContent = $"Please reset your password by clicking the following link: {resetLink}";
-                var htmlContent = $"<strong>Please reset your password by clicking the following link: <a href='{resetLink}'>Reset Password</a></strong>";
+                var body = $"<strong>Please reset your password by clicking the following link: <a href='{resetLink}'>Reset Password</a></strong>";
 
-                var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
-                var response = await client.SendEmailAsync(msg);
+                var emailService = new EmailService();
+                emailService.SendEmail(email, subject, body);
             }
             catch (Exception ex)
             {

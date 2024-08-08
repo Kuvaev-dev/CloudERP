@@ -2,10 +2,8 @@
 using CloudERP.Models;
 using DatabaseAccess;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace CloudERP.Controllers
@@ -14,13 +12,11 @@ namespace CloudERP.Controllers
     {
         private readonly CloudDBEntities _db;
         private readonly SalaryTransaction _salaryTransaction;
-        private readonly ExchangeRateService _exchangeRateService;
 
         public CompanyEmployeeController(CloudDBEntities db)
         {
             _db = db;
             _salaryTransaction = new SalaryTransaction(_db);
-            _exchangeRateService = new ExchangeRateService(System.Configuration.ConfigurationManager.AppSettings["ExchangeRateApiKey"]);
         }
 
         // GET: Employees
@@ -117,6 +113,18 @@ namespace CloudERP.Controllers
                         _db.SaveChanges();
                     }
 
+                    // Send email
+                    var emailService = new EmailService();
+                    var subject = "Employee Registration Successful";
+                    var body = $"<strong>Dear {employee.Name},</strong><br/><br/>" +
+                               $"Your registration is successful. Here are your details:<br/>" +
+                               $"Name: {employee.Name}<br/>" +
+                               $"Email: {employee.Email}<br/>" +
+                               $"Contact No: {employee.ContactNo}<br/>" +
+                               $"Designation: {employee.Designation}<br/><br/>" +
+                               $"Best regards,<br/>Company Team";
+                    emailService.SendEmail(employee.Email, subject, body);
+
                     return RedirectToAction("Employees");
                 }
 
@@ -131,15 +139,12 @@ namespace CloudERP.Controllers
             return View(employee);
         }
 
-        public async Task<ActionResult> EmployeeSalary()
+        public ActionResult EmployeeSalary()
         {
             if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
                 return RedirectToAction("Login", "Home");
             }
-
-            var rates = await _exchangeRateService.GetExchangeRatesAsync();
-            ViewData["CurrencyRates"] = rates ?? new Dictionary<string, double>();
 
             var salary = new SalaryMV
             {
@@ -238,7 +243,7 @@ namespace CloudERP.Controllers
 
                 return RedirectToAction("EmployeeSalary");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Session["SalaryMessage"] = "Some Unexpected Issue is Occurred. Please Try Again";
                 return RedirectToAction("EmployeeSalary");

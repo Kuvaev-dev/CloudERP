@@ -14,6 +14,9 @@
         {
             @Html.AntiForgeryToken()
 
+            @Html.HiddenFor(model => model.BranchContact, new { @id = "HiddenBranchContact" })
+            @Html.HiddenFor(model => model.EmployeeContactNo, new { @id = "HiddenEmployeeContactNo" })
+
             <div>
                 <h4>
                     @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.UserProfile))
@@ -51,7 +54,6 @@
                                     <input id="EmployeeContactNo" name="EmployeeContactNo" type="tel" class="form-control required" />
                                     @Html.ValidationMessageFor(model => model.EmployeeContactNo, "", new { @class = "mb-0" })
                                 </div>
-                                @Html.HiddenFor(model => model.EmployeeContactNo, new { @id = "HiddenEmployeeContactNo" })
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -95,6 +97,11 @@
                             @Html.ValidationMessageFor(model => model.CompanyName)
                         </div>
                         <div class="col-md-6">
+                            <label for="name">@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.BranchTitle)) *</label>
+                            @Html.TextBoxFor(model => model.BranchName, new { @class = "form-control required", @id = "BranchName" })
+                            @Html.ValidationMessageFor(model => model.BranchName)
+                        </div>
+                        <div class="col-md-6">
                             <div class="form-group mb-3">
                                 <label for="BranchContact" class="form-label" style="display: inline-block;">
                                     @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.BranchContact)) *
@@ -103,7 +110,6 @@
                                     <input id="BranchContact" name="BranchContact" type="tel" class="form-control required" />
                                     @Html.ValidationMessageFor(model => model.BranchContact, "", new { @class = "mb-0" })
                                 </div>
-                                @Html.HiddenFor(model => model.BranchContact, new { @id = "HiddenEmployeeContactNo" })
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -133,35 +139,54 @@
         setTimeout(function () {
             var employeeContactInput = document.querySelector("#EmployeeContactNo");
             var hiddenEmployeeContactInput = document.querySelector("#HiddenEmployeeContactNo");
-            var employeeContactIti = window.intlTelInput(employeeContactInput, {
-                initialCountry: "auto",
-                geoIpLookup: function (callback) {
-                    fetch('https://ipinfo.io/json', { cache: 'reload' })
-                        .then(response => response.json())
-                        .then(data => callback(data.country))
-                        .catch(() => callback('us'));
-                },
-                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/utils.js"
-            });
-            employeeContactInput.addEventListener("blur", function () {
-                hiddenEmployeeContactInput.value = employeeContactIti.getNumber();
-            });
+
+            if (employeeContactInput) {
+                var employeeContactIti = window.intlTelInput(employeeContactInput, {
+                    initialCountry: "auto",
+                    geoIpLookup: function (callback) {
+                        fetch('https://ipinfo.io/json', { cache: 'reload' })
+                            .then(response => response.json())
+                            .then(data => callback(data.country))
+                            .catch(() => callback('us'));
+                    },
+                    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/utils.js"
+                });
+
+                // Log the initialization and updates
+                console.log("Employee Contact initialized with country: ", employeeContactIti.getSelectedCountryData());
+
+                employeeContactInput.addEventListener("blur", function () {
+                    var fullNumber = employeeContactIti.getNumber();
+                    console.log("Full number captured for EmployeeContactNo: ", fullNumber);
+                    hiddenEmployeeContactInput.value = fullNumber;
+                });
+            }
 
             var branchContactInput = document.querySelector("#BranchContact");
             var hiddenBranchContactInput = document.querySelector("#HiddenBranchContact");
-            var branchContactIti = window.intlTelInput(branchContactInput, {
-                initialCountry: "auto",
-                geoIpLookup: function (callback) {
-                    fetch('https://ipinfo.io/json', { cache: 'reload' })
-                        .then(response => response.json())
-                        .then(data => callback(data.country))
-                        .catch(() => callback('us'));
-                },
-                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/utils.js"
-            });
-            branchContactInput.addEventListener("blur", function () {
-                hiddenBranchContactInput.value = branchContactIti.getNumber();
-            });
+
+            if (branchContactInput) {
+                var branchContactIti = window.intlTelInput(branchContactInput, {
+                    initialCountry: "auto",
+                    geoIpLookup: function (callback) {
+                        fetch('https://ipinfo.io/json', { cache: 'reload' })
+                            .then(response => response.json())
+                            .then(data => callback(data.country))
+                            .catch(() => callback('us'));
+                    },
+                    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/utils.js"
+                });
+
+                // Log the initialization and updates
+                console.log("Branch Contact initialized with country: ", branchContactIti.getSelectedCountryData());
+
+                branchContactInput.addEventListener("blur", function () {
+                    var fullNumber = branchContactIti.getNumber();
+                    console.log("Full number captured for BranchContact: ", fullNumber);
+                    hiddenBranchContactInput.value = fullNumber;
+                });
+            }
         }, 100);
     });
+
 </script>

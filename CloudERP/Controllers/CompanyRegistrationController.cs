@@ -117,6 +117,17 @@ namespace CloudERP.Controllers
                     _db.tblEmployee.Add(employee);
                     _db.SaveChanges();
 
+                    // Send email
+                    var emailService = new EmailService();
+                    var subject = "Welcome to the Company";
+                    var body = $"Hello {employee.Name},\n\n" +
+                               $"Your registration is successful. Here are your details:\n" +
+                               $"Name: {employee.Name}\n" +
+                               $"Email: {employee.Email}\n" +
+                               $"Contact No: {employee.ContactNo}\n\n" +
+                               $"Best regards,\nCompany Team";
+                    emailService.SendEmail(employee.Email, subject, body);
+
                     ViewBag.Message = "Registration Successful!";
                     return RedirectToAction("Login", "Home");
                 }

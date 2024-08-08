@@ -1,11 +1,8 @@
-﻿using CloudERP.Helpers;
-using CloudERP.Models;
+﻿using CloudERP.Models;
 using DatabaseAccess;
 using DatabaseAccess.Code;
 using DatabaseAccess.Code.SP_Code;
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace CloudERP.Controllers
@@ -15,18 +12,16 @@ namespace CloudERP.Controllers
         private readonly CloudDBEntities _db;
         private readonly SP_GeneralTransaction _accounts;
         private readonly GeneralTransactionEntry _generalEntry;
-        private readonly ExchangeRateService _exchangeRateService;
 
         public GeneralTransactionController(CloudDBEntities db)
         {
             _db = db;
             _accounts = new SP_GeneralTransaction(_db);
             _generalEntry = new GeneralTransactionEntry(_db);
-            _exchangeRateService = new ExchangeRateService(System.Configuration.ConfigurationManager.AppSettings["ExchangeRateApiKey"]);
         }
 
         // GET: GeneralTransaction/GeneralTransaction
-        public async Task<ActionResult> GeneralTransaction()
+        public ActionResult GeneralTransaction()
         {
             try
             {
@@ -42,9 +37,6 @@ namespace CloudERP.Controllers
 
                 ViewBag.CreditAccountControlID = new SelectList(accounts, "AccountSubControlID", "AccountSubControl");
                 ViewBag.DebitAccountControlID = new SelectList(accounts, "AccountSubControlID", "AccountSubControl");
-
-                var rates = await _exchangeRateService.GetExchangeRatesAsync();
-                ViewData["CurrencyRates"] = rates ?? new Dictionary<string, double>();
 
                 var transaction = new GeneralTransactionMV();
                 return View(transaction);

@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using CloudERP.Helpers;
 using DatabaseAccess;
 
 namespace CloudERP.Controllers
@@ -14,12 +12,10 @@ namespace CloudERP.Controllers
     public class StockController : Controller
     {
         private readonly CloudDBEntities _db;
-        private readonly ExchangeRateService _exchangeRateService;
 
         public StockController(CloudDBEntities db)
         {
             _db = db;
-            _exchangeRateService = new ExchangeRateService(System.Configuration.ConfigurationManager.AppSettings["ExchangeRateApiKey"]);
         }
 
         // GET: Stock
@@ -76,7 +72,7 @@ namespace CloudERP.Controllers
         }
 
         // GET: Stock/Create
-        public async Task<ActionResult> Create()
+        public ActionResult Create()
         {
             try
             {
@@ -87,9 +83,6 @@ namespace CloudERP.Controllers
 
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = Convert.ToInt32(Session["BranchID"]);
-
-                var rates = await _exchangeRateService.GetExchangeRatesAsync();
-                ViewData["CurrencyRates"] = rates ?? new Dictionary<string, double>();
 
                 ViewBag.CategoryID = new SelectList(_db.tblCategory.Where(c => c.BranchID == branchID && c.CompanyID == companyID), "CategoryID", "CategoryName", "0");
 

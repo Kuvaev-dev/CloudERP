@@ -42,13 +42,13 @@ namespace CloudERP.Tests
         }
 
         [Test]
-        public async void GeneralTransaction_Get_ShouldRedirectToLoginWhenSessionIsNull()
+        public void GeneralTransaction_Get_ShouldRedirectToLoginWhenSessionIsNull()
         {
             // Arrange
             _mockSession.Setup(s => s["CompanyID"]).Returns(null);
 
             // Act
-            var result = await _controller.GeneralTransaction() as RedirectToRouteResult;
+            var result = _controller.GeneralTransaction() as RedirectToRouteResult;
 
             // Assert
             Assert.That(result, Is.Not.Null);
@@ -57,7 +57,7 @@ namespace CloudERP.Tests
         }
 
         [Test]
-        public async void GeneralTransaction_Get_ShouldReturnViewWhenSessionIsNotNull()
+        public void GeneralTransaction_Get_ShouldReturnViewWhenSessionIsNotNull()
         {
             // Arrange
             _mockSession.Setup(s => s["CompanyID"]).Returns("123");
@@ -68,7 +68,7 @@ namespace CloudERP.Tests
                                      .Returns(new List<AllAccountModel>());
 
             // Act
-            var result = await _controller.GeneralTransaction() as ViewResult;
+            var result = _controller.GeneralTransaction() as ViewResult;
 
             // Assert
             Assert.That(result, Is.Not.Null);
