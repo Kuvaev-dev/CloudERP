@@ -189,6 +189,9 @@
     <Compile Include="tblSupportTicket.cs">
       <DependentUpon>CloudDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="tblTask.cs">
+      <DependentUpon>CloudDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="tblTransaction.cs">
       <DependentUpon>CloudDB.tt</DependentUpon>
     </Compile>

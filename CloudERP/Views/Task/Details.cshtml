@@ -1,0 +1,49 @@
+﻿@model DatabaseAccess.tblTask
+
+@{
+    ViewBag.Title = "Task Details";
+}
+
+<div class="form-horizontal">
+    <div class="col-md-10">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DueDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DueDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ReminderDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ReminderDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.IsCompleted)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.IsCompleted)
+            </dd>
+        </dl>
+        <div class="form-group">
+            <div class="col-md-offset-2">
+                @Html.ActionLink(Resources.Repeats.Edit.ToString(), "Edit", new { id = Model.TaskID }, new { @class = "btn btn-primary" })
+                @Html.ActionLink(Resources.Repeats.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+</div>

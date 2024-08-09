@@ -407,6 +407,20 @@
           <Property Name="CompanyID" Type="int" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="tblTask">
+          <Key>
+            <PropertyRef Name="TaskID" />
+          </Key>
+          <Property Name="TaskID" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DueDate" Type="date" Nullable="false" />
+          <Property Name="ReminderDate" Type="date" />
+          <Property Name="IsCompleted" Type="bit" Nullable="false" />
+          <Property Name="CompanyID" Type="int" Nullable="false" />
+          <Property Name="BranchID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="tblTransaction">
           <Key>
             <PropertyRef Name="TransactionID" />
@@ -1653,6 +1667,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tblTask_tblBranch">
+          <End Role="tblBranch" Type="Self.tblBranch" Multiplicity="1" />
+          <End Role="tblTask" Type="Self.tblTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblBranch">
+              <PropertyRef Name="BranchID" />
+            </Principal>
+            <Dependent Role="tblTask">
+              <PropertyRef Name="BranchID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblTask_tblCompany">
+          <End Role="tblCompany" Type="Self.tblCompany" Multiplicity="1" />
+          <End Role="tblTask" Type="Self.tblTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCompany">
+              <PropertyRef Name="CompanyID" />
+            </Principal>
+            <Dependent Role="tblTask">
+              <PropertyRef Name="CompanyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblTask_tblUser">
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="1" />
+          <End Role="tblTask" Type="Self.tblTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="tblTask">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tblTransaction_tblAccountControl">
           <End Role="tblAccountControl" Type="Self.tblAccountControl" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -1787,6 +1837,7 @@
           <EntitySet Name="tblSupplierReturnInvoiceDetail" EntityType="Self.tblSupplierReturnInvoiceDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblSupplierReturnPayment" EntityType="Self.tblSupplierReturnPayment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblSupportTicket" EntityType="Self.tblSupportTicket" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblTask" EntityType="Self.tblTask" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblTransaction" EntityType="Self.tblTransaction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblUser" EntityType="Self.tblUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblUserType" EntityType="Self.tblUserType" Schema="dbo" store:Type="Tables" />
@@ -2182,6 +2233,18 @@
             <End Role="tblUser" EntitySet="tblUser" />
             <End Role="tblSupportTicket" EntitySet="tblSupportTicket" />
           </AssociationSet>
+          <AssociationSet Name="FK_tblTask_tblBranch" Association="Self.FK_tblTask_tblBranch">
+            <End Role="tblBranch" EntitySet="tblBranch" />
+            <End Role="tblTask" EntitySet="tblTask" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblTask_tblCompany" Association="Self.FK_tblTask_tblCompany">
+            <End Role="tblCompany" EntitySet="tblCompany" />
+            <End Role="tblTask" EntitySet="tblTask" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblTask_tblUser" Association="Self.FK_tblTask_tblUser">
+            <End Role="tblUser" EntitySet="tblUser" />
+            <End Role="tblTask" EntitySet="tblTask" />
+          </AssociationSet>
           <AssociationSet Name="FK_tblTransaction_tblAccountControl" Association="Self.FK_tblTransaction_tblAccountControl">
             <End Role="tblAccountControl" EntitySet="tblAccountControl" />
             <End Role="tblTransaction" EntitySet="tblTransaction" />
@@ -2251,6 +2314,7 @@
           <EntitySet Name="tblSupplierReturnInvoiceDetail" EntityType="CloudDBModel.tblSupplierReturnInvoiceDetail" />
           <EntitySet Name="tblSupplierReturnPayment" EntityType="CloudDBModel.tblSupplierReturnPayment" />
           <EntitySet Name="tblSupportTicket" EntityType="CloudDBModel.tblSupportTicket" />
+          <EntitySet Name="tblTask" EntityType="CloudDBModel.tblTask" />
           <EntitySet Name="tblTransaction" EntityType="CloudDBModel.tblTransaction" />
           <EntitySet Name="tblUser" EntityType="CloudDBModel.tblUser" />
           <EntitySet Name="tblUserType" EntityType="CloudDBModel.tblUserType" />
@@ -2398,6 +2462,10 @@
             <End Role="tblBranch" EntitySet="tblBranch" />
             <End Role="tblSupportTicket" EntitySet="tblSupportTicket" />
           </AssociationSet>
+          <AssociationSet Name="FK_tblTask_tblBranch" Association="CloudDBModel.FK_tblTask_tblBranch">
+            <End Role="tblBranch" EntitySet="tblBranch" />
+            <End Role="tblTask" EntitySet="tblTask" />
+          </AssociationSet>
           <AssociationSet Name="FK_tblCategory_tblCompany" Association="CloudDBModel.FK_tblCategory_tblCompany">
             <End Role="tblCompany" EntitySet="tblCompany" />
             <End Role="tblCategory" EntitySet="tblCategory" />
@@ -2473,6 +2541,10 @@
           <AssociationSet Name="FK_tblSupportTicket_tblCompany" Association="CloudDBModel.FK_tblSupportTicket_tblCompany">
             <End Role="tblCompany" EntitySet="tblCompany" />
             <End Role="tblSupportTicket" EntitySet="tblSupportTicket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblTask_tblCompany" Association="CloudDBModel.FK_tblTask_tblCompany">
+            <End Role="tblCompany" EntitySet="tblCompany" />
+            <End Role="tblTask" EntitySet="tblTask" />
           </AssociationSet>
           <AssociationSet Name="FK_tblCustomer_tblUser" Association="CloudDBModel.FK_tblCustomer_tblUser">
             <End Role="tblUser" EntitySet="tblUser" />
@@ -2670,6 +2742,10 @@
             <End Role="tblUser" EntitySet="tblUser" />
             <End Role="tblSupportTicket" EntitySet="tblSupportTicket" />
           </AssociationSet>
+          <AssociationSet Name="FK_tblTask_tblUser" Association="CloudDBModel.FK_tblTask_tblUser">
+            <End Role="tblUser" EntitySet="tblUser" />
+            <End Role="tblTask" EntitySet="tblTask" />
+          </AssociationSet>
           <AssociationSet Name="FK_tblTransaction_tblUser" Association="CloudDBModel.FK_tblTransaction_tblUser">
             <End Role="tblUser" EntitySet="tblUser" />
             <End Role="tblTransaction" EntitySet="tblTransaction" />
@@ -2786,6 +2862,7 @@
           <NavigationProperty Name="tblSupplierReturnInvoice" Relationship="CloudDBModel.FK_tblSupplierReturnInvoice_tblBranch" FromRole="tblBranch" ToRole="tblSupplierReturnInvoice" />
           <NavigationProperty Name="tblSupplierReturnPayment" Relationship="CloudDBModel.FK_tblSupplierReturnPayment_tblBranch" FromRole="tblBranch" ToRole="tblSupplierReturnPayment" />
           <NavigationProperty Name="tblSupportTicket" Relationship="CloudDBModel.FK_tblSupportTicket_tblBranch" FromRole="tblBranch" ToRole="tblSupportTicket" />
+          <NavigationProperty Name="tblTask" Relationship="CloudDBModel.FK_tblTask_tblBranch" FromRole="tblBranch" ToRole="tblTask" />
         </EntityType>
         <EntityType Name="tblBranchType">
           <Key>
@@ -2836,6 +2913,7 @@
           <NavigationProperty Name="tblSupplierReturnInvoice" Relationship="CloudDBModel.FK_tblSupplierReturnInvoice_tblCompany" FromRole="tblCompany" ToRole="tblSupplierReturnInvoice" />
           <NavigationProperty Name="tblSupplierReturnPayment" Relationship="CloudDBModel.FK_tblSupplierReturnPayment_tblCompany" FromRole="tblCompany" ToRole="tblSupplierReturnPayment" />
           <NavigationProperty Name="tblSupportTicket" Relationship="CloudDBModel.FK_tblSupportTicket_tblCompany" FromRole="tblCompany" ToRole="tblSupportTicket" />
+          <NavigationProperty Name="tblTask" Relationship="CloudDBModel.FK_tblTask_tblCompany" FromRole="tblCompany" ToRole="tblTask" />
         </EntityType>
         <EntityType Name="tblCustomer">
           <Key>
@@ -3262,6 +3340,23 @@
           <NavigationProperty Name="tblCompany" Relationship="CloudDBModel.FK_tblSupportTicket_tblCompany" FromRole="tblSupportTicket" ToRole="tblCompany" />
           <NavigationProperty Name="tblUser" Relationship="CloudDBModel.FK_tblSupportTicket_tblUser" FromRole="tblSupportTicket" ToRole="tblUser" />
         </EntityType>
+        <EntityType Name="tblTask">
+          <Key>
+            <PropertyRef Name="TaskID" />
+          </Key>
+          <Property Name="TaskID" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DueDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ReminderDate" Type="DateTime" Precision="0" />
+          <Property Name="IsCompleted" Type="Boolean" Nullable="false" />
+          <Property Name="CompanyID" Type="Int32" Nullable="false" />
+          <Property Name="BranchID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tblBranch" Relationship="CloudDBModel.FK_tblTask_tblBranch" FromRole="tblTask" ToRole="tblBranch" />
+          <NavigationProperty Name="tblCompany" Relationship="CloudDBModel.FK_tblTask_tblCompany" FromRole="tblTask" ToRole="tblCompany" />
+          <NavigationProperty Name="tblUser" Relationship="CloudDBModel.FK_tblTask_tblUser" FromRole="tblTask" ToRole="tblUser" />
+        </EntityType>
         <EntityType Name="tblTransaction">
           <Key>
             <PropertyRef Name="TransactionID" />
@@ -3324,6 +3419,7 @@
           <NavigationProperty Name="tblSupplierReturnInvoice" Relationship="CloudDBModel.FK_tblSupplierReturnInvoice_tblUser" FromRole="tblUser" ToRole="tblSupplierReturnInvoice" />
           <NavigationProperty Name="tblSupplierReturnPayment" Relationship="CloudDBModel.FK_tblSupplierReturnPayment_tblUser" FromRole="tblUser" ToRole="tblSupplierReturnPayment" />
           <NavigationProperty Name="tblSupportTicket" Relationship="CloudDBModel.FK_tblSupportTicket_tblUser" FromRole="tblUser" ToRole="tblSupportTicket" />
+          <NavigationProperty Name="tblTask" Relationship="CloudDBModel.FK_tblTask_tblUser" FromRole="tblUser" ToRole="tblTask" />
           <NavigationProperty Name="tblTransaction" Relationship="CloudDBModel.FK_tblTransaction_tblUser" FromRole="tblUser" ToRole="tblTransaction" />
           <NavigationProperty Name="tblUserType" Relationship="CloudDBModel.FK_tblUser_tblUserType" FromRole="tblUser" ToRole="tblUserType" />
         </EntityType>
@@ -3777,6 +3873,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tblTask_tblBranch">
+          <End Type="CloudDBModel.tblBranch" Role="tblBranch" Multiplicity="1" />
+          <End Type="CloudDBModel.tblTask" Role="tblTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblBranch">
+              <PropertyRef Name="BranchID" />
+            </Principal>
+            <Dependent Role="tblTask">
+              <PropertyRef Name="BranchID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tblCategory_tblCompany">
           <End Type="CloudDBModel.tblCompany" Role="tblCompany" Multiplicity="1" />
           <End Type="CloudDBModel.tblCategory" Role="tblCategory" Multiplicity="*" />
@@ -4003,6 +4111,18 @@
               <PropertyRef Name="CompanyID" />
             </Principal>
             <Dependent Role="tblSupportTicket">
+              <PropertyRef Name="CompanyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblTask_tblCompany">
+          <End Type="CloudDBModel.tblCompany" Role="tblCompany" Multiplicity="1" />
+          <End Type="CloudDBModel.tblTask" Role="tblTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCompany">
+              <PropertyRef Name="CompanyID" />
+            </Principal>
+            <Dependent Role="tblTask">
               <PropertyRef Name="CompanyID" />
             </Dependent>
           </ReferentialConstraint>
@@ -4617,6 +4737,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tblTask_tblUser">
+          <End Type="CloudDBModel.tblUser" Role="tblUser" Multiplicity="1" />
+          <End Type="CloudDBModel.tblTask" Role="tblTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="tblTask">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tblTransaction_tblUser">
           <End Type="CloudDBModel.tblUser" Role="tblUser" Multiplicity="1" />
           <End Type="CloudDBModel.tblTransaction" Role="tblTransaction" Multiplicity="*" />
@@ -5077,6 +5209,21 @@
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="TicketID" ColumnName="TicketID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblTask">
+            <EntityTypeMapping TypeName="CloudDBModel.tblTask">
+              <MappingFragment StoreEntitySet="tblTask">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="BranchID" ColumnName="BranchID" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="IsCompleted" ColumnName="IsCompleted" />
+                <ScalarProperty Name="ReminderDate" ColumnName="ReminderDate" />
+                <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

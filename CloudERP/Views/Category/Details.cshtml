@@ -6,43 +6,46 @@
 
 <h2>Category Details</h2>
 
-<div>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.CategoryName)
-        </dt>
+<div class="form-horizontal">
+    <div class="col-md-10">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.CategoryName)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.CategoryName)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.CategoryName)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.tblBranch.BranchName)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.tblBranch.BranchName)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.tblBranch.BranchName)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.tblBranch.BranchName)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.tblCompany.Name)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.tblCompany.Name)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.tblCompany.Name)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.tblCompany.Name)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.tblUser.FullName)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.tblUser.FullName)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.tblUser.FullName)
-        </dd>
-
-    </dl>
+            <dd>
+                @Html.DisplayFor(model => model.tblUser.FullName)
+            </dd>
+        </dl>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @Html.ActionLink(Resources.Repeats.Edit.ToString(), "Edit", new { id = Model.CategoryID }, new { @class = "btn btn-primary" })
+                @Html.ActionLink(Resources.Repeats.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.CategoryID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

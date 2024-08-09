@@ -197,6 +197,12 @@
                                                 <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.AdminGuide))</span>
                                             </a>
                                         </li>
+                                        <li>
+                                            <a href="@Url.Action("Index", "Task")" title="Tasks List" class="d-flex align-items-center">
+                                                <em class="bi bi-list-task mr-1"></em>
+                                                <span class="align-middle">Tasks List</span>
+                                            </a>
+                                        </li>
 
                                         <li class="nav-heading ">
                                             <span data-localize="sidebar.heading.COMPONENTS">@Resources.Resources.UserSetting.ToString()</span>
@@ -248,6 +254,12 @@
                                             <a href="@Url.Action("Index", "Home")" title="@Resources.Resources.Dashboard.ToString()" class="d-flex align-items-center">
                                                 <em class="bi bi-speedometer2 h4 mb-0"></em>
                                                 <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.Dashboard))</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("Index", "Task")" title="Tasks List" class="d-flex align-items-center">
+                                                <em class="bi bi-list-task mr-1"></em>
+                                                <span class="align-middle">Tasks List</span>
                                             </a>
                                         </li>
                                         <li class="nav-heading ">

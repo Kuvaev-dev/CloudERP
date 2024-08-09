@@ -1,0 +1,48 @@
+﻿@model DatabaseAccess.tblTask
+
+@{
+    ViewBag.Title = "Delete Task";
+}
+
+@using (Html.BeginForm("Delete", "Task", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.TaskID)
+
+    <div class="form-horizontal">
+        <div class="col-md-10">
+            <h2>Are you sure you want to delete this task?</h2>
+
+            <dl class="dl-horizontal">
+                <div class="form-group">
+                    <dt>Title</dt>
+                    <dd class="form-control-static">@Model.Title</dd>
+                </div>
+
+                <div class="form-group">
+                    <dt>Description</dt>
+                    <dd class="form-control-static">@Model.Description</dd>
+                </div>
+
+                <div class="form-group">
+                    <dt>Due Date</dt>
+                    <dd class="form-control-static">@Model.DueDate.ToString("g")</dd>
+                </div>
+
+                <div class="form-group">
+                    <dt>Reminder Date</dt>
+                    <dd class="form-control-static">@Model.ReminderDate</dd>
+                </div>
+
+                <div class="form-group">
+                    <dt>Is Completed</dt>
+                    <dd class="form-control-static">@Model.IsCompleted</dd>
+                </div>
+            </dl>
+            <div class="form-group">
+                <input type="submit" value="Delete" class="btn btn-danger" />
+                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+}

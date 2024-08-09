@@ -993,6 +993,7 @@
     <Compile Include="Controllers\StockController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\SupportController.cs" />
+    <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\TrialBalanceController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UserSettingController.cs" />
@@ -1006,6 +1007,7 @@
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Helpers\MockHelper.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
+    <Compile Include="Helpers\ReminderService.cs" />
     <Compile Include="Helpers\UnityConfig.cs" />
     <Compile Include="Models\AccountControlMV.cs" />
     <Compile Include="Models\AccountControlsMV.cs" />
@@ -3877,6 +3879,11 @@
     <Content Include="Views\Home\ResetPasswordSuccess.cshtml" />
     <Content Include="Views\Support\Support.cshtml" />
     <Content Include="Views\Support\AdminList.cshtml" />
+    <Content Include="Views\Task\Index.cshtml" />
+    <Content Include="Views\Task\Create.cshtml" />
+    <Content Include="Views\Task\Edit.cshtml" />
+    <Content Include="Views\Task\Details.cshtml" />
+    <Content Include="Views\Task\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
