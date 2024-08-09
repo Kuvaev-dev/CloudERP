@@ -51,7 +51,7 @@
                                     <img src="@Url.Content(item.Logo)" alt="image" style="width:50px;height:50px;max-width:100%;height:auto;" />
                                 }
                             </td>
-                            <td>
+                            <td class="btn-group">
                                 @Html.ActionLink(Resources.Company.UpdateProfile.ToString(), "Edit", new { id = item.CompanyID }, new { @class = "btn btn-primary" })
                                 @Html.ActionLink(Resources.Repeats.Details.ToString(), "Details", new { id = item.CompanyID }, new { @class = "btn btn-info" })
                             </td>

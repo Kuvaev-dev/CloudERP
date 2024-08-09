@@ -87,8 +87,10 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Address, "New Address", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
-                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @id = "address" } })
                 @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                <h5 class="mt-3">Click here to choose a correct address below</h5>
+                <ul id="suggestions"></ul>
             </div>
         </div>
 
@@ -120,6 +122,37 @@
             } else {
                 $('#PhoneNumber').val(phoneNumber);
             }
+        });
+
+        $('#address').on('input', function () {
+            var query = $(this).val();
+            if (query.length > 2) {
+                $.ajax({
+                    url: '/Address/Autocomplete',
+                    data: { query: query },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data && data.features) {
+                            var suggestions = data.features;
+                            $('#suggestions').empty();
+                            suggestions.forEach(function (suggestion) {
+                                $('#suggestions').append('<li class="suggestion-item">' + suggestion.properties.formatted + '</li>');
+                            });
+                        } else {
+                            console.error("Unexpected JSON format:", data);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error during AJAX request:", status, error);
+                    }
+                });
+            }
+        });
+
+        $(document).on('click', '.suggestion-item', function () {
+            var selectedAddress = $(this).text();
+            $('#address').val(selectedAddress);
+            $('#suggestions').empty();
         });
     });
 </script>
