@@ -5,39 +5,39 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="41873b2bc2ab4bab80c976f711b24650" Name="Diagram1" ZoomLevel="63">
-        <EntityTypeShape EntityType="CloudDBModel.tblAccountActivity" Width="1.5" PointX="10.5" PointY="55.125" />
-        <EntityTypeShape EntityType="CloudDBModel.tblAccountControl" Width="1.5" PointX="8.25" PointY="31.625" />
-        <EntityTypeShape EntityType="CloudDBModel.tblAccountHead" Width="1.5" PointX="5.25" PointY="69.5" />
-        <EntityTypeShape EntityType="CloudDBModel.tblAccountSetting" Width="1.5" PointX="12.75" PointY="50.125" />
-        <EntityTypeShape EntityType="CloudDBModel.tblAccountSubControl" Width="1.5" PointX="10.5" PointY="50.125" />
-        <EntityTypeShape EntityType="CloudDBModel.tblBranch" Width="1.5" PointX="6" PointY="24.75" />
-        <EntityTypeShape EntityType="CloudDBModel.tblBranchType" Width="1.5" PointX="3.75" PointY="27.25" />
-        <EntityTypeShape EntityType="CloudDBModel.tblCategory" Width="1.5" PointX="5.25" PointY="36.875" />
-        <EntityTypeShape EntityType="CloudDBModel.tblCompany" Width="1.5" PointX="6" PointY="18.125" />
-        <EntityTypeShape EntityType="CloudDBModel.tblCustomer" Width="1.5" PointX="11.25" PointY="31.375" />
-        <EntityTypeShape EntityType="CloudDBModel.tblCustomerInvoice" Width="1.5" PointX="13.5" PointY="34.5" />
-        <EntityTypeShape EntityType="CloudDBModel.tblCustomerInvoiceDetail" Width="1.5" PointX="18.75" PointY="44.5" />
-        <EntityTypeShape EntityType="CloudDBModel.tblCustomerPayment" Width="1.5" PointX="15.75" PointY="36.375" />
-        <EntityTypeShape EntityType="CloudDBModel.tblCustomerReturnInvoice" Width="1.5" PointX="18.75" PointY="34.625" />
-        <EntityTypeShape EntityType="CloudDBModel.tblCustomerReturnInvoiceDetail" Width="1.5" PointX="24" PointY="39.25" />
-        <EntityTypeShape EntityType="CloudDBModel.tblCustomerReturnPayment" Width="1.5" PointX="21" PointY="31.625" />
-        <EntityTypeShape EntityType="CloudDBModel.tblEmployee" Width="1.5" PointX="3" PointY="22.25" />
+        <EntityTypeShape EntityType="CloudDBModel.tblAccountActivity" Width="1.5" PointX="5.25" PointY="51.625" />
+        <EntityTypeShape EntityType="CloudDBModel.tblAccountControl" Width="1.5" PointX="5.25" PointY="36.625" />
+        <EntityTypeShape EntityType="CloudDBModel.tblAccountHead" Width="1.5" PointX="5.25" PointY="47.375" />
+        <EntityTypeShape EntityType="CloudDBModel.tblAccountSetting" Width="1.5" PointX="7.5" PointY="46.625" />
+        <EntityTypeShape EntityType="CloudDBModel.tblAccountSubControl" Width="1.5" PointX="13.5" PointY="40.5" />
+        <EntityTypeShape EntityType="CloudDBModel.tblBranch" Width="1.5" PointX="9" PointY="51.75" />
+        <EntityTypeShape EntityType="CloudDBModel.tblBranchType" Width="1.5" PointX="6.75" PointY="54.25" />
+        <EntityTypeShape EntityType="CloudDBModel.tblCategory" Width="1.5" PointX="5.25" PointY="32.875" />
+        <EntityTypeShape EntityType="CloudDBModel.tblCompany" Width="1.5" PointX="9" PointY="24.25" />
+        <EntityTypeShape EntityType="CloudDBModel.tblCustomer" Width="1.5" PointX="8.25" PointY="36.375" />
+        <EntityTypeShape EntityType="CloudDBModel.tblCustomerInvoice" Width="1.5" PointX="16.5" PointY="36" />
+        <EntityTypeShape EntityType="CloudDBModel.tblCustomerInvoiceDetail" Width="1.5" PointX="18.75" PointY="39.875" />
+        <EntityTypeShape EntityType="CloudDBModel.tblCustomerPayment" Width="1.5" PointX="21.75" PointY="31.375" />
+        <EntityTypeShape EntityType="CloudDBModel.tblCustomerReturnInvoice" Width="1.5" PointX="21.75" PointY="36.125" />
+        <EntityTypeShape EntityType="CloudDBModel.tblCustomerReturnInvoiceDetail" Width="1.5" PointX="24" PointY="39.625" />
+        <EntityTypeShape EntityType="CloudDBModel.tblCustomerReturnPayment" Width="1.5" PointX="27" PointY="36" />
+        <EntityTypeShape EntityType="CloudDBModel.tblEmployee" Width="1.5" PointX="9" PointY="18.625" />
         <EntityTypeShape EntityType="CloudDBModel.tblFinancialYear" Width="1.5" PointX="5.25" PointY="73" />
-        <EntityTypeShape EntityType="CloudDBModel.tblPayroll" Width="1.5" PointX="5.25" PointY="32.5" />
-        <EntityTypeShape EntityType="CloudDBModel.tblPurchaseCart" Width="1.5" PointX="8.25" PointY="36.5" />
-        <EntityTypeShape EntityType="CloudDBModel.tblPurchaseCartDetail" Width="1.5" PointX="18.75" PointY="40.125" />
-        <EntityTypeShape EntityType="CloudDBModel.tblSaleCartDetail" Width="1.5" PointX="15.75" PointY="41.125" />
-        <EntityTypeShape EntityType="CloudDBModel.tblStock" Width="1.5" PointX="10.5" PointY="41.5" />
-        <EntityTypeShape EntityType="CloudDBModel.tblSupplier" Width="1.5" PointX="5.25" PointY="41.125" />
-        <EntityTypeShape EntityType="CloudDBModel.tblSupplierInvoice" Width="1.5" PointX="13.5" PointY="40.75" />
-        <EntityTypeShape EntityType="CloudDBModel.tblSupplierInvoiceDetail" Width="1.5" PointX="15.75" PointY="45.625" />
-        <EntityTypeShape EntityType="CloudDBModel.tblSupplierPayment" Width="1.5" PointX="7.5" PointY="46.125" />
-        <EntityTypeShape EntityType="CloudDBModel.tblSupplierReturnInvoice" Width="1.5" PointX="21.75" PointY="37.75" />
-        <EntityTypeShape EntityType="CloudDBModel.tblSupplierReturnInvoiceDetail" Width="1.5" PointX="24" PointY="43.375" />
-        <EntityTypeShape EntityType="CloudDBModel.tblSupplierReturnPayment" Width="1.5" PointX="27" PointY="37.625" />
+        <EntityTypeShape EntityType="CloudDBModel.tblPayroll" Width="1.5" PointX="11.25" PointY="31.5" />
+        <EntityTypeShape EntityType="CloudDBModel.tblPurchaseCart" Width="1.5" PointX="5.25" PointY="41.5" />
+        <EntityTypeShape EntityType="CloudDBModel.tblPurchaseCartDetail" Width="1.5" PointX="12.75" PointY="44.75" />
+        <EntityTypeShape EntityType="CloudDBModel.tblSaleCartDetail" Width="1.5" PointX="15.75" PointY="41.75" />
+        <EntityTypeShape EntityType="CloudDBModel.tblStock" Width="1.5" PointX="10.5" PointY="40.75" />
+        <EntityTypeShape EntityType="CloudDBModel.tblSupplier" Width="1.5" PointX="8.25" PointY="31.125" />
+        <EntityTypeShape EntityType="CloudDBModel.tblSupplierInvoice" Width="1.5" PointX="13.5" PointY="29.625" />
+        <EntityTypeShape EntityType="CloudDBModel.tblSupplierInvoiceDetail" Width="1.5" PointX="18.75" PointY="35.75" />
+        <EntityTypeShape EntityType="CloudDBModel.tblSupplierPayment" Width="1.5" PointX="13.5" PointY="35" />
+        <EntityTypeShape EntityType="CloudDBModel.tblSupplierReturnInvoice" Width="1.5" PointX="15.75" PointY="30.75" />
+        <EntityTypeShape EntityType="CloudDBModel.tblSupplierReturnInvoiceDetail" Width="1.5" PointX="24" PointY="35.375" />
+        <EntityTypeShape EntityType="CloudDBModel.tblSupplierReturnPayment" Width="1.5" PointX="18" PointY="29.625" />
         <EntityTypeShape EntityType="CloudDBModel.tblSupportTicket" Width="1.5" PointX="11.25" PointY="36.5" />
         <EntityTypeShape EntityType="CloudDBModel.tblTask" Width="1.5" PointX="8.25" PointY="41.625" />
-        <EntityTypeShape EntityType="CloudDBModel.tblTransaction" Width="1.5" PointX="15.75" PointY="51.25" />
+        <EntityTypeShape EntityType="CloudDBModel.tblTransaction" Width="1.5" PointX="15.75" PointY="52.625" />
         <EntityTypeShape EntityType="CloudDBModel.tblUser" Width="1.5" PointX="3" PointY="34.375" />
         <EntityTypeShape EntityType="CloudDBModel.tblUserType" Width="1.5" PointX="0.75" PointY="37.5" />
         <AssociationConnector Association="CloudDBModel.FK_tblAccountSetting_tblAccountActivity" />

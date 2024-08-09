@@ -60,6 +60,10 @@ namespace DatabaseAccess
         [Range(0.01, double.MaxValue, ErrorMessage = "Monthly Salary must be greater than 0.")]
         public double MonthlySalary { get; set; }
 
+        [Required(ErrorMessage = "*Required!")]
+        [DataType(DataType.DateTime)]
+        public Nullable<System.DateTime> RegistrationDate { get; set; }
+
         [Required(ErrorMessage = "Branch ID is required.")]
         public int BranchID { get; set; }
 

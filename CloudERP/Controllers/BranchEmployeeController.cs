@@ -59,6 +59,7 @@ namespace CloudERP.Controllers
             int companyID = Convert.ToInt32(Session["CompanyID"]);
             int branchID = Convert.ToInt32(Session["BranchID"]);
 
+            employee.RegistrationDate = DateTime.Now;
             employee.BranchID = branchID;
             employee.CompanyID = companyID;
             employee.UserID = null;

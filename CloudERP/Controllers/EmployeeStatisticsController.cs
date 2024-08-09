@@ -1,0 +1,56 @@
+﻿using CloudERP.Models;
+using DatabaseAccess;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
+
+public class EmployeeStatisticsController : Controller
+{
+    private readonly CloudDBEntities _db;
+
+    public EmployeeStatisticsController(CloudDBEntities db)
+    {
+        _db = db;
+    }
+
+    // GET: EmployeeStatistics
+    public ActionResult Index(DateTime? startDate, DateTime? endDate)
+    {
+        if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+        {
+            return RedirectToAction("Login", "Home");
+        }
+
+        int companyID = Convert.ToInt32(Session["CompanyID"]);
+        int branchID = Convert.ToInt32(Session["BranchID"]);
+
+        DateTime start = startDate ?? DateTime.Now.AddMonths(-1);
+        DateTime end = endDate ?? DateTime.Now;
+
+        var statistics = GetEmployeeStatistics(start, end, branchID, companyID);
+        return View(statistics);
+    }
+
+    private List<EmployeeStatisticsMV> GetEmployeeStatistics(DateTime startDate, DateTime endDate, int branchID, int companyID)
+    {
+        var employeeData = _db.tblEmployee
+            .Where(e => e.RegistrationDate.HasValue
+                   && e.RegistrationDate.Value >= startDate
+                   && e.RegistrationDate.Value <= endDate
+                   && e.CompanyID == companyID
+                   && e.BranchID == branchID)
+            .ToList();
+
+        var statistics = employeeData
+            .GroupBy(e => e.RegistrationDate.Value.Date)
+            .Select(g => new EmployeeStatisticsMV
+            {
+                Date = g.Key,
+                NumberOfRegistrations = g.Count()
+            })
+            .ToList();
+
+        return statistics;
+    }
+}

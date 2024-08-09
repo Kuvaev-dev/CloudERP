@@ -207,6 +207,7 @@
           <Property Name="Designation" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="300" Nullable="false" />
           <Property Name="MonthlySalary" Type="float" Nullable="false" />
+          <Property Name="RegistrationDate" Type="datetime" />
           <Property Name="BranchID" Type="int" Nullable="false" />
           <Property Name="CompanyID" Type="int" Nullable="false" />
           <Property Name="UserID" Type="int" />
@@ -3067,6 +3068,7 @@
           <Property Name="Designation" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
           <Property Name="MonthlySalary" Type="Double" Nullable="false" />
+          <Property Name="RegistrationDate" Type="DateTime" Precision="3" />
           <Property Name="BranchID" Type="Int32" Nullable="false" />
           <Property Name="CompanyID" Type="Int32" Nullable="false" />
           <Property Name="UserID" Type="Int32" />
@@ -4989,6 +4991,7 @@
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
                 <ScalarProperty Name="BranchID" ColumnName="BranchID" />
+                <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
                 <ScalarProperty Name="MonthlySalary" ColumnName="MonthlySalary" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Designation" ColumnName="Designation" />

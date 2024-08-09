@@ -974,6 +974,7 @@
     <Compile Include="Controllers\CompanyEmployeeController.cs" />
     <Compile Include="Controllers\CompanyRegistrationController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\EmployeeStatisticsController.cs" />
     <Compile Include="Controllers\EPController.cs" />
     <Compile Include="Controllers\FinancialYearController.cs" />
     <Compile Include="Controllers\FinancialYearViewController.cs" />
@@ -1015,6 +1016,7 @@
     <Compile Include="Models\BranchsCustomersMV.cs" />
     <Compile Include="Models\BranchsSuppliersMV.cs" />
     <Compile Include="Models\CompanyRegistrationMV.cs" />
+    <Compile Include="Models\EmployeeStatisticsMV.cs" />
     <Compile Include="Models\GeneralTransactionMV.cs" />
     <Compile Include="Models\ProductMV.cs" />
     <Compile Include="Models\RegistrationMV.cs" />
@@ -3884,6 +3886,7 @@
     <Content Include="Views\Task\Edit.cshtml" />
     <Content Include="Views\Task\Details.cshtml" />
     <Content Include="Views\Task\Delete.cshtml" />
+    <Content Include="Views\EmployeeStatistics\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,83 @@
+﻿@model IEnumerable<CloudERP.Models.EmployeeStatisticsMV>
+
+@{
+    ViewBag.Title = "Employee Registration Statistics";
+}
+
+<!-- Date Selection Form -->
+<div class="card">
+    <div class="card card-float">
+        <div class="card-header">
+            <h4>@Html.Raw(HttpUtility.HtmlDecode(Resources.SalePayment.SelectRangeFromDateAndToDate))</h4>
+            <h3 class="text-danger">@ViewBag.Message</h3>
+            <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm("Index", "EmployeeStatistics", FormMethod.Get))
+            {
+                @Html.AntiForgeryToken()
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>@Html.Raw(HttpUtility.HtmlDecode(Resources.SalePayment.SelectFromDate))</label>
+                        <input type="date" id="startDate" name="startDate" value="@Request.QueryString["startDate"]" class="form-control" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label>@Html.Raw(HttpUtility.HtmlDecode(Resources.SalePayment.SelectToDate))</label>
+                        <input type="date" id="endDate" name="endDate" value="@Request.QueryString["endDate"]" class="form-control" required>
+                    </div>
+                </div>
+                <br />
+                <input type="submit" value="Retrieve" class="btn btn-success" style="float: right;">
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Chart -->
+<div class="card card-default col-md-12">
+    <div class="card-header">
+        <h5>Statistics</h5>
+        <h5 style="float:left;">@Session["Message"]</h5>
+    </div>
+    <div class="card-body">
+        <canvas id="chartContainer" style="height: 400px; width: 100%;"></canvas>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var canvas = document.getElementById('chartContainer');
+        if (canvas) {
+            var ctx = canvas.getContext('2d');
+            if (ctx) {
+                var chartData = {
+                    labels: @Html.Raw(Json.Encode(Model.Select(m => m.Date.ToString("yyyy-MM-dd")))),
+                    datasets: [{
+                        label: 'Number of Registrations',
+                        data: @Html.Raw(Json.Encode(Model.Select(m => m.NumberOfRegistrations))),
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                };
+                console.log('Chart Data:', chartData);
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: chartData,
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            } else {
+                console.error('Canvas context not found.');
+            }
+        } else {
+            console.error('Canvas element with id "chartContainer" not found.');
+        }
+    });
+</script>
