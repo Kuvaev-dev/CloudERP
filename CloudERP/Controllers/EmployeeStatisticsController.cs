@@ -34,12 +34,19 @@ public class EmployeeStatisticsController : Controller
 
     private List<EmployeeStatisticsMV> GetEmployeeStatistics(DateTime startDate, DateTime endDate, int branchID, int companyID)
     {
+        var branchIDs = _db.tblBranch
+            .Where(b => b.BrchID == branchID || b.BranchID == branchID)
+            .Select(b => b.BrchID)
+            .ToList();
+
+        branchIDs.Add(branchID);
+
         var employeeData = _db.tblEmployee
             .Where(e => e.RegistrationDate.HasValue
                    && e.RegistrationDate.Value >= startDate
                    && e.RegistrationDate.Value <= endDate
                    && e.CompanyID == companyID
-                   && e.BranchID == branchID)
+                   && branchIDs.Contains(e.BranchID))
             .ToList();
 
         var statistics = employeeData
