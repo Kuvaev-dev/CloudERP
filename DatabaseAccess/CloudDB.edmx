@@ -101,7 +101,6 @@
           <Property Name="CustomerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Customername" Type="varchar" MaxLength="150" Nullable="false" />
           <Property Name="CustomerContact" Type="nvarchar" MaxLength="150" Nullable="false" />
-          <Property Name="CustomerArea" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="CustomerAddress" Type="varchar" MaxLength="300" Nullable="false" />
           <Property Name="Description" Type="varchar" MaxLength="300" Nullable="false" />
           <Property Name="BranchID" Type="int" Nullable="false" />
@@ -2923,7 +2922,6 @@
           <Property Name="CustomerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Customername" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
           <Property Name="CustomerContact" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="CustomerArea" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CustomerAddress" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
           <Property Name="BranchID" Type="Int32" Nullable="false" />
@@ -4887,7 +4885,6 @@
                 <ScalarProperty Name="BranchID" ColumnName="BranchID" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="CustomerAddress" ColumnName="CustomerAddress" />
-                <ScalarProperty Name="CustomerArea" ColumnName="CustomerArea" />
                 <ScalarProperty Name="CustomerContact" ColumnName="CustomerContact" />
                 <ScalarProperty Name="Customername" ColumnName="Customername" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />

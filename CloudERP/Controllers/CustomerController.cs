@@ -88,7 +88,6 @@ namespace CloudERP.Controllers
                             BranchName = customer.tblBranch.BranchName,
                             CompanyName = customer.tblCompany.Name,
                             CustomerAddress = customer.CustomerAddress,
-                            CustomerArea = customer.CustomerArea,
                             CustomerContact = customer.CustomerContact,
                             Customername = customer.Customername,
                             Description = customer.Description,

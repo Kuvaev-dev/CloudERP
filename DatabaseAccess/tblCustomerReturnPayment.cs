@@ -53,8 +53,8 @@ namespace DatabaseAccess
 
         [DataType(DataType.DateTime)]
         [Required(ErrorMessage = "Invoice Date is required.")]
-        public DateTime InvoiceDate { get; set; }
-
+        public Nullable<System.DateTime> InvoiceDate { get; set; }
+    
         public virtual tblBranch tblBranch { get; set; }
         public virtual tblCompany tblCompany { get; set; }
         public virtual tblCustomer tblCustomer { get; set; }

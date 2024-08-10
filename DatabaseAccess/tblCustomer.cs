@@ -32,9 +32,6 @@ namespace DatabaseAccess
         [Phone(ErrorMessage = "Invalid phone number format.")]
         public string CustomerContact { get; set; }
 
-        [Required(ErrorMessage = "Customer Area is required.")]
-        public string CustomerArea { get; set; }
-
         [Required(ErrorMessage = "Customer Address is required.")]
         public string CustomerAddress { get; set; }
 

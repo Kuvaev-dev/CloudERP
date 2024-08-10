@@ -31,10 +31,18 @@ namespace DatabaseAccess
         [Required(ErrorMessage = "Message is required.")]
         public string Message { get; set; }
 
+        [DataType(DataType.Date)]
         public DateTime DateCreated { get; set; }
+
         public bool IsResolved { get; set; }
-        public int BranchID { get; set; }
+
+        [Required(ErrorMessage = "CompanyID is required")]
         public int CompanyID { get; set; }
+
+        [Required(ErrorMessage = "BranchID is required")]
+        public int BranchID { get; set; }
+
+        [Required(ErrorMessage = "UserID is required")]
         public int UserID { get; set; }
 
         public virtual tblBranch tblBranch { get; set; }
