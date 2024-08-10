@@ -4,6 +4,11 @@
     ViewBag.Title = "Create Task";
 }
 
+<script>
+    window.Culture = '@Session["Culture"]';
+</script>
+<script src="~/Scripts/CustomScripts/VoiceRecognition.js"></script>
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -55,79 +60,3 @@
         </div>
     </div>
 }
-<script>
-    let activeElement = null;
-    let recognition = null;
-    let isListening = false;
-
-    document.addEventListener('DOMContentLoaded', (event) => {
-        document.addEventListener('focusin', (event) => {
-            activeElement = event.target;
-        });
-
-        function initializeRecognition() {
-            if (!('webkitSpeechRecognition' in window)) {
-                alert('Ваш браузер не поддерживает голосовой ввод.');
-                return;
-            }
-
-            recognition = new webkitSpeechRecognition();
-            recognition.continuous = false;
-            recognition.interimResults = false;
-            recognition.lang = '@Session["Culture"]';
-
-            recognition.onstart = function () {
-                console.log('Голосовой ввод начался.');
-                isListening = true;
-                updateButtonState();
-            };
-
-            recognition.onresult = function (event) {
-                if (activeElement) {
-                    const transcript = event.results[0][0].transcript;
-                    if (activeElement.tagName === 'TEXTAREA' || activeElement.type === 'text') {
-                        activeElement.value = transcript;
-                    }
-                }
-            };
-
-            recognition.onerror = function (event) {
-                if (event.error === 'no-speech') {
-                    console.log('Ошибка: Никакая речь не была обнаружена.');
-                } else {
-                    alert('Ошибка голосового ввода: ' + event.error);
-                }
-            };
-
-            recognition.onend = function () {
-                console.log('Голосовой ввод завершен.');
-                isListening = false;
-                updateButtonState();
-            };
-        }
-
-        function updateButtonState() {
-            const buttonIcon = document.getElementById('voiceRecognitionButton').querySelector('i');
-            if (isListening) {
-                buttonIcon.style.color = 'red';
-            } else {
-                buttonIcon.style.color = 'gray';
-            }
-        }
-
-        function toggleVoiceRecognition() {
-            if (isListening) {
-                recognition.stop();
-            } else {
-                recognition.start();
-            }
-            isListening = !isListening;
-            updateButtonState();
-        }
-
-        initializeRecognition();
-
-        const voiceRecognitionButton = document.getElementById('voiceRecognitionButton');
-        voiceRecognitionButton.addEventListener('click', toggleVoiceRecognition);
-    });
-</script>

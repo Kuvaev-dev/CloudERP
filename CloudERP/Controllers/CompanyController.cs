@@ -78,7 +78,6 @@ namespace CloudERP.Controllers
             return View(new tblCompany());
         }
 
-        // POST: Company/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(tblCompany tblCompany)
@@ -92,6 +91,15 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    var existingCompany = _db.tblCompany
+                        .FirstOrDefault(c => c.Name == tblCompany.Name);
+
+                    if (existingCompany != null)
+                    {
+                        ModelState.AddModelError("Name", "Компания с таким именем уже существует.");
+                        return View(tblCompany);
+                    }
+
                     if (tblCompany.LogoFile != null)
                     {
                         var folder = "~/Content/CompanyLogo";

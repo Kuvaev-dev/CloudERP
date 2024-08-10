@@ -5,8 +5,14 @@
 }
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+
+<script>
+    window.Culture = '@Session["Culture"]';
+</script>
+<script src="~/Scripts/CustomScripts/VoiceRecognition.js"></script>
 
 @using (Html.BeginForm())
 {
@@ -67,6 +73,9 @@
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Update" class="btn btn-success" />
                 @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+                <button id="voiceRecognitionButton" class="btn btn-link" type="button">
+                    <i class="fas fa-microphone" style="font-size: 1.5em; color: gray;"></i>
+                </button>
             </div>
         </div>
     </div>

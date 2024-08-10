@@ -5,6 +5,11 @@
     ViewBag.Title = Resources.UserTypes.AddNewUserType.ToString();
 }
 
+<script>
+    window.Culture = '@Session["Culture"]';
+</script>
+<script src="~/Scripts/CustomScripts/VoiceRecognition.js"></script>
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -26,6 +31,9 @@
             <div class="col-md-offset-2 col-md-5">
                 <input type="submit" value="@Resources.Repeats.Create.ToString()" class="btn btn-success" />
                 @Html.ActionLink(@Resources.Repeats.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
+                <button id="voiceRecognitionButton" class="btn btn-link" type="button">
+                    <i class="fas fa-microphone" style="font-size: 1.5em; color: gray;"></i>
+                </button>
             </div>
         </div>
     </div>

@@ -51,7 +51,7 @@ namespace CloudERP.Controllers
             {
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 ViewBag.BranchID = new SelectList(_db.tblBranch.Where(b => b.CompanyID == companyID), "BranchID", "BranchName", 0);
-                return View();
+                return View(new tblEmployee());
             }
             catch (Exception ex)
             {

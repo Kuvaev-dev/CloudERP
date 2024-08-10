@@ -19,7 +19,7 @@ namespace CloudERP.Controllers
         {
             if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
-                return RedirectToAction("Login");
+                return RedirectToAction("Login", "Home");
             }
 
             int companyID = Convert.ToInt32(Session["CompanyID"]);
@@ -34,6 +34,11 @@ namespace CloudERP.Controllers
         // GET: Task/Details/5
         public ActionResult Details(int id)
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
             var task = _db.tblTask.Find(id);
             if (task == null)
             {
@@ -46,6 +51,11 @@ namespace CloudERP.Controllers
         // GET: Task/Create
         public ActionResult Create()
         {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
             return View(new tblTask());
         }
 
