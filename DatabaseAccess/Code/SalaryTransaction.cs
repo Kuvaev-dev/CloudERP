@@ -68,9 +68,9 @@ public class SalaryTransaction
                     return "Your Company Financial Year is not Set! Please Contact the Administrator!";
                 }
 
-                // 9 - Sale Return Payment Pending
+                // 8 - Sale Return Payment Pending
                 var account = _db.tblAccountSetting
-                    .Where(a => a.tblAccountActivity.AccountActivityID == 9 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                    .Where(a => a.tblAccountActivity.AccountActivityID == 8 && a.CompanyID == CompanyID && a.BranchID == BranchID)
                     .FirstOrDefault();
                 if (account == null)
                 {

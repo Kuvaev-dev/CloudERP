@@ -311,9 +311,9 @@ namespace DatabaseAccess.Code
                     string successMessage = "Return Purchase Success";
 
                     // Credit Entry Return Purchase
-                    // 6 - Return Purchase
+                    // 5 - Return Purchase
                     var returnPurchaseAccount = _db.tblAccountSetting
-                        .Where(a => a.AccountActivityID == 6 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                        .Where(a => a.AccountActivityID == 5 && a.CompanyID == CompanyID && a.BranchID == BranchID)
                         .FirstOrDefault();
                     if (returnPurchaseAccount == null)
                     {
@@ -322,9 +322,9 @@ namespace DatabaseAccess.Code
                     SetEntries(FinancialYearID, returnPurchaseAccount.AccountHeadID.ToString(), returnPurchaseAccount.AccountControlID.ToString(), returnPurchaseAccount.AccountSubControlID.ToString(), InvoiceNo, UserID.ToString(), Amount.ToString(), "0", DateTime.Now, returnPurchaseTitle);
 
                     // Debit Entry Return Purchase Payment Pending
-                    // 7 - Purchase Return Payment Pending
+                    // 6 - Purchase Return Payment Pending
                     returnPurchaseAccount = _db.tblAccountSetting
-                        .Where(a => a.AccountActivityID == 7 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                        .Where(a => a.AccountActivityID == 6 && a.CompanyID == CompanyID && a.BranchID == BranchID)
                         .FirstOrDefault();
                     if (returnPurchaseAccount == null)
                     {
@@ -338,9 +338,9 @@ namespace DatabaseAccess.Code
                         string payInvoiceNo = "RPP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
 
                         // Debit Entry Return Payment from Supplier
-                        // 7 - Purchase Return Payment Pending
+                        // 6 - Purchase Return Payment Pending
                         returnPurchaseAccount = _db.tblAccountSetting
-                            .Where(a => a.AccountActivityID == 7 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                            .Where(a => a.AccountActivityID == 6 && a.CompanyID == CompanyID && a.BranchID == BranchID)
                             .FirstOrDefault();
                         if (returnPurchaseAccount == null)
                         {
@@ -350,9 +350,9 @@ namespace DatabaseAccess.Code
                         SetEntries(FinancialYearID, returnPurchaseAccount.AccountHeadID.ToString(), returnPurchaseAccount.AccountControlID.ToString(), returnPurchaseAccount.AccountSubControlID.ToString(), payInvoiceNo, UserID.ToString(), Amount.ToString(), "0", DateTime.Now, paymentFromTitle);
 
                         // Credit Entry Purchase Return Payment Succeed
-                        // 8 - Purchase Return Payment Succeed
+                        // 7 - Purchase Return Payment Succeed
                         returnPurchaseAccount = _db.tblAccountSetting
-                            .Where(a => a.AccountActivityID == 8 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                            .Where(a => a.AccountActivityID == 7 && a.CompanyID == CompanyID && a.BranchID == BranchID)
                             .FirstOrDefault();
                         if (returnPurchaseAccount == null)
                         {
@@ -447,9 +447,9 @@ namespace DatabaseAccess.Code
                     string transactionTitle = string.Empty;
 
                     // Retrieve account settings for Purchase Return Payment Pending
-                    // 7 - Purchase Return Payment Pending
+                    // 6 - Purchase Return Payment Pending
                     var returnPurchaseAccount = _db.tblAccountSetting
-                        .Where(a => a.AccountActivityID == 7 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                        .Where(a => a.AccountActivityID == 6 && a.CompanyID == CompanyID && a.BranchID == BranchID)
                         .FirstOrDefault();
                     if (returnPurchaseAccount == null)
                     {
@@ -458,9 +458,9 @@ namespace DatabaseAccess.Code
                     SetEntries(FinancialYearID, returnPurchaseAccount.AccountHeadID.ToString(), returnPurchaseAccount.AccountControlID.ToString(), returnPurchaseAccount.AccountSubControlID.ToString(), InvoiceNo, UserID.ToString(), Amount.ToString(), "0", DateTime.Now, "Return Payment from " + SupplierName);
 
                     // Retrieve account settings for Purchase Return Payment Succeed
-                    // 8 - Purchase Return Payment Succeed
+                    // 7 - Purchase Return Payment Succeed
                     returnPurchaseAccount = _db.tblAccountSetting
-                        .Where(a => a.AccountActivityID == 8 && a.CompanyID == CompanyID && a.BranchID == BranchID)
+                        .Where(a => a.AccountActivityID == 7 && a.CompanyID == CompanyID && a.BranchID == BranchID)
                         .FirstOrDefault();
                     if (returnPurchaseAccount == null)
                     {

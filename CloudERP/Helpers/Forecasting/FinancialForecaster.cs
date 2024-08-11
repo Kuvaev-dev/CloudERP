@@ -1,5 +1,6 @@
 ﻿using CloudERP.Models.Forecasting;
 using Microsoft.ML;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -17,12 +18,19 @@ namespace CloudERP.Helpers
         public ITransformer TrainModel(IEnumerable<ForecastData> data)
         {
             var dataView = _mlContext.Data.LoadFromEnumerable(data);
-            var pipeline = _mlContext.Transforms.Concatenate("Features", "Date")
+
+            if (dataView.GetRowCount() == 0)
+            {
+                throw new InvalidOperationException("Training set has 0 instances, aborting training.");
+            }
+
+            var pipeline = _mlContext.Transforms.Concatenate("Features", "DateAsNumber")
                 .Append(_mlContext.Regression.Trainers.Sdca(labelColumnName: "Value", maximumNumberOfIterations: 100));
+
             return pipeline.Fit(dataView);
         }
 
-        public float Predict(ITransformer model, ForecastData data)
+        public double Predict(ITransformer model, ForecastData data)
         {
             var predictionEngine = _mlContext.Model.CreatePredictionEngine<ForecastData, ForecastPrediction>(model);
             var prediction = predictionEngine.Predict(data);

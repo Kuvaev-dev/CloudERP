@@ -1,5 +1,8 @@
 ﻿using CloudERP.Helpers.Forecasting;
+using CloudERP.Models;
+using CloudERP.Models.Forecasting;
 using System;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace CloudERP.Controllers
@@ -20,16 +23,17 @@ namespace CloudERP.Controllers
                 return RedirectToAction("Login", "Home");
             }
 
-            int companyID = Convert.ToInt32(Session["CompanyID"]);
-            int branchID = Convert.ToInt32(Session["BranchID"]);
-
-            var model = _forecastingService.GetForecastData(companyID, branchID);
+            var model = new ForecastInputModel
+            {
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now.AddMonths(-1)
+            };
 
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult GenerateForecast()
+        public ActionResult GenerateForecast(ForecastInputModel inputModel)
         {
             if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
@@ -39,12 +43,24 @@ namespace CloudERP.Controllers
             int companyID = Convert.ToInt32(Session["CompanyID"]);
             int branchID = Convert.ToInt32(Session["BranchID"]);
 
-            _forecastingService.GenerateForecast(companyID, branchID);
-            var model = _forecastingService.GetForecastData(companyID, branchID);
+            try
+            {
+                // Set StartDate to current date
+                inputModel.StartDate = DateTime.Now;
 
-            TempData["Message"] = "Forecast has been generated.";
+                var forecastData = _forecastingService.GetForecastData(companyID, branchID, inputModel.StartDate, inputModel.EndDate);
+                var forecastValue = _forecastingService.GenerateForecast(companyID, branchID, inputModel.StartDate, inputModel.EndDate);
 
-            return View("Index", model);
+                TempData["Message"] = $"Forecast has been generated: {forecastValue}";
+                inputModel.ForecastData = forecastData;
+                return View("Index", inputModel);
+            }
+            catch (InvalidOperationException ex)
+            {
+                TempData["Message"] = ex.Message;
+                inputModel.ForecastData = Enumerable.Empty<ForecastData>();
+                return View("Index", inputModel);
+            }
         }
     }
 }

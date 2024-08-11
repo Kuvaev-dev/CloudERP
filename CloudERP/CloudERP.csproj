@@ -1065,6 +1065,7 @@
     <Compile Include="Models\CompanyRegistrationMV.cs" />
     <Compile Include="Models\EmployeeStatisticsMV.cs" />
     <Compile Include="Models\Forecasting\ForecastData.cs" />
+    <Compile Include="Models\Forecasting\ForecastInputModel.cs" />
     <Compile Include="Models\Forecasting\ForecastPrediction.cs" />
     <Compile Include="Models\GeneralTransactionMV.cs" />
     <Compile Include="Models\ProductMV.cs" />

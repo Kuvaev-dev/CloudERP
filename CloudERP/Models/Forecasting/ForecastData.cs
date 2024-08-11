@@ -4,7 +4,8 @@ namespace CloudERP.Models.Forecasting
 {
     public class ForecastData
     {
-        public double Value { get; set; }
+        public float Value { get; set; }
         public DateTime Date { get; set; }
+        public float DateAsNumber { get; set; }
     }
 }
