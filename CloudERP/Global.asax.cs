@@ -1,7 +1,10 @@
+using CloudERP.Helpers.Forecasting;
 using System;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Unity;
+using Unity.AspNet.Mvc;
 
 namespace CloudERP
 {
@@ -14,16 +17,25 @@ namespace CloudERP
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            var container = new UnityContainer();
+            RegisterTypes(container);
+            DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
 
         protected void Application_AcquireRequestState(Object sender, EventArgs e)
         {
-            string culture = "en-US"; // Default culture
+            string culture = "en-US";
             if (Session["Culture"] != null)
             {
                 culture = Session["Culture"].ToString();
             }
             ResourceManagerHelper.SetCulture(culture);
+        }
+
+        private void RegisterTypes(IUnityContainer container)
+        {
+            container.RegisterType<ForecastingService>();
         }
     }
 }
