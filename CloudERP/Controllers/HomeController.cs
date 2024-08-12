@@ -115,6 +115,7 @@ namespace CloudERP.Controllers
 
                         Session["EName"] = employee.Name;
                         Session["EPhoto"] = employee.Photo;
+                        Session["ERegistrationDate"] = employee.RegistrationDate;
                         Session["Designation"] = employee.Designation;
                         Session["BranchID"] = employee.BranchID;
                         Session["BranchTypeID"] = employee.tblBranch.BranchTypeID;
@@ -130,6 +131,13 @@ namespace CloudERP.Controllers
 
                         Session["CName"] = company.Name;
                         Session["CLogo"] = company.Logo;
+
+                        if ((bool)employee.IsFirstLogin)
+                        {
+                            Session["StartTour"] = true;
+                            employee.IsFirstLogin = false;
+                            _db.SaveChanges();
+                        }
 
                         if (user.UserTypeID == 1)
                         {

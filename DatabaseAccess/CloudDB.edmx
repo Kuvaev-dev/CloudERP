@@ -207,6 +207,7 @@
           <Property Name="Description" Type="nvarchar" MaxLength="300" Nullable="false" />
           <Property Name="MonthlySalary" Type="float" Nullable="false" />
           <Property Name="RegistrationDate" Type="datetime" />
+          <Property Name="IsFirstLogin" Type="bit" />
           <Property Name="BranchID" Type="int" Nullable="false" />
           <Property Name="CompanyID" Type="int" Nullable="false" />
           <Property Name="UserID" Type="int" />
@@ -411,7 +412,7 @@
           <Key>
             <PropertyRef Name="TaskID" />
           </Key>
-          <Property Name="TaskID" Type="int" Nullable="false" />
+          <Property Name="TaskID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
           <Property Name="DueDate" Type="date" Nullable="false" />
@@ -3067,6 +3068,7 @@
           <Property Name="Description" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
           <Property Name="MonthlySalary" Type="Double" Nullable="false" />
           <Property Name="RegistrationDate" Type="DateTime" Precision="3" />
+          <Property Name="IsFirstLogin" Type="Boolean" />
           <Property Name="BranchID" Type="Int32" Nullable="false" />
           <Property Name="CompanyID" Type="Int32" Nullable="false" />
           <Property Name="UserID" Type="Int32" />
@@ -3344,7 +3346,7 @@
           <Key>
             <PropertyRef Name="TaskID" />
           </Key>
-          <Property Name="TaskID" Type="Int32" Nullable="false" />
+          <Property Name="TaskID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="DueDate" Type="DateTime" Nullable="false" Precision="0" />
@@ -4988,6 +4990,7 @@
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
                 <ScalarProperty Name="BranchID" ColumnName="BranchID" />
+                <ScalarProperty Name="IsFirstLogin" ColumnName="IsFirstLogin" />
                 <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
                 <ScalarProperty Name="MonthlySalary" ColumnName="MonthlySalary" />
                 <ScalarProperty Name="Description" ColumnName="Description" />

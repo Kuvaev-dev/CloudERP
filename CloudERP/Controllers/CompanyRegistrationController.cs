@@ -112,6 +112,7 @@ namespace CloudERP.Controllers
                         UserID = user.UserID,
                         Name = model.EmployeeName,
                         Description = string.Empty,
+                        IsFirstLogin = true,
                         Photo = "~/Content/EmployeePhoto/Default/default.png"
                     };
                     _db.tblEmployee.Add(employee);

@@ -74,6 +74,7 @@ namespace CloudERP.Controllers
                 employee.CompanyID = Convert.ToInt32(Session["CompanyID"]);
                 employee.UserID = null;
                 employee.RegistrationDate = DateTime.Now;
+                employee.IsFirstLogin = true;
 
                 if (ModelState.IsValid)
                 {

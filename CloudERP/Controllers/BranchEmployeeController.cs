@@ -60,6 +60,7 @@ namespace CloudERP.Controllers
             int branchID = Convert.ToInt32(Session["BranchID"]);
 
             employee.RegistrationDate = DateTime.Now;
+            employee.IsFirstLogin = true;
             employee.BranchID = branchID;
             employee.CompanyID = companyID;
             employee.UserID = null;
@@ -193,6 +194,7 @@ namespace CloudERP.Controllers
                         }
                     }
 
+                    _db.Entry(employee).Property(e => e.IsFirstLogin).IsModified = false;
                     _db.Entry(employee).State = EntityState.Modified;
                     _db.SaveChanges();
 

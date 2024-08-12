@@ -64,6 +64,8 @@ namespace DatabaseAccess
         [DataType(DataType.DateTime)]
         public Nullable<System.DateTime> RegistrationDate { get; set; }
 
+        public Nullable<bool> IsFirstLogin { get; set; }
+
         [Required(ErrorMessage = "Branch ID is required.")]
         public int BranchID { get; set; }
 

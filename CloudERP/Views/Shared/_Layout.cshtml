@@ -122,19 +122,19 @@
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="languageDropdown">
                             @using (Html.BeginForm("SetCulture", "Home", FormMethod.Post, new { @id = "languageForm" }))
                             {
-                                <div class="dropdown-item">
-                                    <select name="culture" class="custom-select" onchange="document.getElementById('languageForm').submit()">
-                                        <option value="en-US" @(Session["Culture"]?.ToString() == "en-US" ? "selected" : "")>English</option>
-                                        <option value="ru-RU" @(Session["Culture"]?.ToString() == "ru-RU" ? "selected" : "")>Русский</option>
-                                        <option value="uk-UA" @(Session["Culture"]?.ToString() == "uk-UA" ? "selected" : "")>Українська</option>
-                                    </select>
-                                </div>
+                            <div class="dropdown-item">
+                                <select name="culture" class="custom-select" onchange="document.getElementById('languageForm').submit()">
+                                    <option value="en-US" @(Session["Culture"]?.ToString() == "en-US" ? "selected" : "")>English</option>
+                                    <option value="ru-RU" @(Session["Culture"]?.ToString() == "ru-RU" ? "selected" : "")>Русский</option>
+                                    <option value="uk-UA" @(Session["Culture"]?.ToString() == "uk-UA" ? "selected" : "")>Українська</option>
+                                </select>
+                            </div>
                             }
                         </div>
                     </li>
                     <li class="nav-item" id="step7">
                         <div class="nav-link container">
-                            <i class="bi bi-person-walking" id="start-tour"></i>
+                            <i class="bi bi-person-walking" onclick="startTour()"></i>
                         </div>
                     </li>
                     <!-- END Language list -->
@@ -719,5 +719,13 @@
     <script src="~/Content/Template/js/app.js"></script>
     <script src="~/Scripts/CustomScripts/FullscreenMode.js"></script>
     <script src="~/Scripts/CustomScripts/Tour.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (@(Session["StartTour"] != null && (bool)Session["StartTour"] ? "true" : "false")) {
+                startTour();
+                @Session["StartTour"] = false;
+            }
+        });
+    </script>
 </body>
 </html>

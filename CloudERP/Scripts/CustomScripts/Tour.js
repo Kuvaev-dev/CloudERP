@@ -227,6 +227,6 @@ tour.addStep({
     ]
 });
 
-document.querySelector('#start-tour').addEventListener('click', () => {
+function startTour() {
     tour.start();
-});
+}
