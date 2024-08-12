@@ -10,7 +10,7 @@
 
 tour.addStep({
     id: 'step1',
-    text: 'This is the first step of the tour.',
+    text: 'Use this button to show/hide side navigation',
     attachTo: {
         element: '#step1',
         on: 'bottom'
@@ -19,14 +19,14 @@ tour.addStep({
         {
             text: 'Next',
             action: tour.next,
-            classes: 'btn btn-info'
+            classes: 'shepherd-button shepherd-button-primary'
         }
     ]
 });
 
 tour.addStep({
     id: 'step2',
-    text: 'This is the second step of the tour.',
+    text: 'Use this button to view/hide your profile information',
     attachTo: {
         element: '#step2',
         on: 'bottom'
@@ -35,12 +35,194 @@ tour.addStep({
         {
             text: 'Back',
             action: tour.back,
-            classes: 'btn btn-info'
+            classes: 'shepherd-button shepherd-button-secondary'
+        },
+        {
+            text: 'Next',
+            action: tour.next,
+            classes: 'shepherd-button shepherd-button-primary'
         },
         {
             text: 'Finish',
             action: tour.complete,
-            classes: 'btn btn-info'
+            classes: 'shepherd-button shepherd-button-primary'
+        }
+    ]
+});
+
+tour.addStep({
+    id: 'step3',
+    text: 'Use this button to log out',
+    attachTo: {
+        element: '#step3',
+        on: 'bottom'
+    },
+    buttons: [
+        {
+            text: 'Back',
+            action: tour.back,
+            classes: 'shepherd-button shepherd-button-secondary'
+        },
+        {
+            text: 'Next',
+            action: tour.next,
+            classes: 'shepherd-button shepherd-button-primary'
+        },
+        {
+            text: 'Finish',
+            action: tour.complete,
+            classes: 'shepherd-button shepherd-button-primary'
+        }
+    ]
+});
+
+tour.addStep({
+    id: 'step4',
+    text: 'Use this button to change light/dark theme',
+    attachTo: {
+        element: '#step4',
+        on: 'bottom'
+    },
+    buttons: [
+        {
+            text: 'Back',
+            action: tour.back,
+            classes: 'shepherd-button shepherd-button-secondary'
+        },
+        {
+            text: 'Next',
+            action: tour.next,
+            classes: 'shepherd-button shepherd-button-primary'
+        },
+        {
+            text: 'Finish',
+            action: tour.complete,
+            classes: 'shepherd-button shepherd-button-primary'
+        }
+    ]
+});
+
+tour.addStep({
+    id: 'step5',
+    text: 'Use this button to enable/disable full screen mode',
+    attachTo: {
+        element: '#step5',
+        on: 'bottom'
+    },
+    buttons: [
+        {
+            text: 'Back',
+            action: tour.back,
+            classes: 'shepherd-button shepherd-button-secondary'
+        },
+        {
+            text: 'Next',
+            action: tour.next,
+            classes: 'shepherd-button shepherd-button-primary'
+        },
+        {
+            text: 'Finish',
+            action: tour.complete,
+            classes: 'shepherd-button shepherd-button-primary'
+        }
+    ]
+});
+
+tour.addStep({
+    id: 'step6',
+    text: 'Use this dropdown to switch language',
+    attachTo: {
+        element: '#step6',
+        on: 'bottom'
+    },
+    buttons: [
+        {
+            text: 'Back',
+            action: tour.back,
+            classes: 'shepherd-button shepherd-button-secondary'
+        },
+        {
+            text: 'Next',
+            action: tour.next,
+            classes: 'shepherd-button shepherd-button-primary'
+        },
+        {
+            text: 'Finish',
+            action: tour.complete,
+            classes: 'shepherd-button shepherd-button-primary'
+        }
+    ]
+});
+
+tour.addStep({
+    id: 'step7',
+    text: 'Use this button to restart the tour',
+    attachTo: {
+        element: '#step7',
+        on: 'bottom'
+    },
+    buttons: [
+        {
+            text: 'Back',
+            action: tour.back,
+            classes: 'shepherd-button shepherd-button-secondary'
+        },
+        {
+            text: 'Next',
+            action: tour.next,
+            classes: 'shepherd-button shepherd-button-primary'
+        },
+        {
+            text: 'Finish',
+            action: tour.complete,
+            classes: 'shepherd-button shepherd-button-primary'
+        }
+    ]
+});
+
+tour.addStep({
+    id: 'step8',
+    text: 'Use the sidebar for quick navigation around the work panel',
+    attachTo: {
+        element: '#step8',
+        on: 'bottom'
+    },
+    buttons: [
+        {
+            text: 'Back',
+            action: tour.back,
+            classes: 'shepherd-button shepherd-button-secondary'
+        },
+        {
+            text: 'Next',
+            action: tour.next,
+            classes: 'shepherd-button shepherd-button-primary'
+        },
+        {
+            text: 'Finish',
+            action: tour.complete,
+            classes: 'shepherd-button shepherd-button-primary'
+        }
+    ]
+});
+
+tour.addStep({
+    id: 'step9',
+    text: 'Have fun!',
+    attachTo: {
+        element: '#step9',
+        on: 'bottom'
+    },
+    buttons: [
+        {
+            text: 'Back',
+            action: tour.back,
+            classes: 'shepherd-button shepherd-button-secondary'
+        },
+        {
+            text: 'Finish',
+            action: tour.complete,
+            classes: 'shepherd-button shepherd-button-primary'
         }
     ]
 });

@@ -43,7 +43,7 @@
 <body>
     <div class="wrapper">
         <!-- top navbar-->
-        <header class="topnavbar-wrapper">
+        <header class="topnavbar-wrapper" id="step9">
             <!-- START Top Navbar-->
             <nav class="navbar topnavbar">
                 <!-- START navbar header-->
@@ -71,7 +71,7 @@
                 <!-- END navbar header-->
                 <!-- START Left navbar-->
                 <ul class="navbar-nav mr-auto flex-row">
-                    <li class="nav-item">
+                    <li class="nav-item" id="step1">
                         <!-- Button used to collapse the left sidebar. Only visible on tablet and desktops-->
                         <a class="nav-link d-none d-md-block d-lg-block d-xl-block" href="#" data-trigger-resize="" data-toggle-state="aside-collapsed">
                             <em class="fa fa-navicon"></em>
@@ -90,7 +90,7 @@
                     </li>
                     <!-- END User avatar toggle-->
                     <!-- START lock screen-->
-                    <li class="nav-item" id="step1">
+                    <li class="nav-item" id="step3">
                         <a class="nav-link" href="@Url.Action("Logout", "Home")" title="Lock screen">
                             <em class="icon-lock"></em>
                         </a>
@@ -101,21 +101,21 @@
                 <!-- START Right Navbar-->
                 <ul class="navbar-nav flex-row">
                     <!-- START Dark theme-->
-                    <li class="nav-item">
+                    <li class="nav-item" id="step4">
                         <div class="nav-link container">
                             <i class="fas fa-moon"></i>
                         </div>
                     </li>
                     <!-- END Dark theme-->
                     <!-- START Fullscreen Mode-->
-                    <li class="nav-item">
+                    <li class="nav-item" id="step5">
                         <div class="nav-link container">
                             <i class="bi bi-fullscreen" id="fullscreenButton"></i>
                         </div>
                     </li>
                     <!-- END Fullscreen Mode-->
                     <!-- START Language list -->
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown" id="step6">
                         <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-globe"></i>
                         </a>
@@ -132,7 +132,7 @@
                             }
                         </div>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" id="step7">
                         <div class="nav-link container">
                             <i class="bi bi-person-walking" id="start-tour"></i>
                         </div>
@@ -149,7 +149,7 @@
             <div class="aside-inner">
                 <nav class="sidebar" data-sidebar-anyclick-close="">
                     <!-- START sidebar nav-->
-                    <ul class="sidebar-nav">
+                    <ul class="sidebar-nav" id="step8">
                         <!-- START user info-->
                         <li class="has-user-block">
                             <div class="collapse" id="user-block">
@@ -641,7 +641,6 @@
                                     </a>
                                 </li>
                             }
-                        }
                         }
                     </ul>
                     <!-- END sidebar nav-->
