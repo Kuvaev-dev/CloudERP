@@ -55,10 +55,10 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group mb-3">
-                                <label for="EmployeeContactNo" class="form-label" style="display: inline-block;">
+                                <label for="EmployeeContactNo" class="form-label">
                                     @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.ContactNo)) *
                                 </label>
-                                <div style="display: flex;">
+                                <div class="input-group">
                                     <input id="EmployeeContactNo" name="EmployeeContactNo" type="tel" class="form-control required" />
                                     @Html.ValidationMessageFor(model => model.EmployeeContactNo, "", new { @class = "mb-0" })
                                 </div>
@@ -111,10 +111,10 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group mb-3">
-                                <label for="BranchContact" class="form-label" style="display: inline-block;">
+                                <label for="BranchContact" class="form-label">
                                     @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.BranchContact)) *
                                 </label>
-                                <div style="display: flex;">
+                                <div class="input-group">
                                     <input id="BranchContact" name="BranchContact" type="tel" class="form-control required" />
                                     @Html.ValidationMessageFor(model => model.BranchContact, "", new { @class = "mb-0" })
                                 </div>
