@@ -1,6 +1,62 @@
-﻿@*Localized*@
-@{
+﻿@{
     ViewBag.Title = Resources.AdminGuide.AdminMenuGuide.ToString();
 }
 
-<h1>Soon...</h1>
+<head>
+    <!-- jQuery -->
+    <script src="~/Content/Template/vendor/jquery/dist/jquery.js"></script>
+    <link rel="stylesheet" href="~/Scripts/CustomScripts/chapters.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <!-- Оглавление -->
+            <nav class="col-md-2">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-chapter="1">Chapter 1</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-chapter="2">Chapter 2</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-chapter="3">Chapter 3</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-chapter="4">Chapter 4</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Контент глав -->
+            <div class="col-md-9">
+                <div id="chapter1" class="chapter active">
+                    <h2>Chapter 1</h2>
+                    <p>Content for chapter 1...</p>
+                </div>
+                <div id="chapter2" class="chapter">
+                    <h2>Chapter 2</h2>
+                    <p>Content for chapter 2...</p>
+                </div>
+                <div id="chapter3" class="chapter">
+                    <h2>Chapter 3</h2>
+                    <p>Content for chapter 3...</p>
+                </div>
+                <div id="chapter4" class="chapter">
+                    <h2>Chapter 4</h2>
+                    <p>Content for chapter 4...</p>
+                </div>
+
+                <!-- Навигация -->
+                <div class="nav-buttons btn-group">
+                    <button id="prev-btn" class="btn btn-primary" disabled>Previous</button>
+                    <button id="next-btn" class="btn btn-info">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/CustomScripts/ChapterSwitch.js"></script>
+</body>

@@ -3766,6 +3766,8 @@
     </Content>
     <None Include="Properties\PublishProfiles\CloudERP20240507124545 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
+    <Content Include="Scripts\CustomScripts\chapters.css" />
+    <Content Include="Scripts\CustomScripts\ChapterSwitch.js" />
     <Content Include="Scripts\CustomScripts\FullscreenMode.js" />
     <Content Include="Scripts\CustomScripts\Tour.js" />
     <Content Include="Scripts\CustomScripts\VoiceRecognition.js" />
@@ -3946,6 +3948,9 @@
     <Folder Include="App_Data\" />
     <Folder Include="App_GlobalResources\Guide\EmployeeGuide\" />
     <Folder Include="App_GlobalResources\Guide\MainBranchEmployeeGuide\" />
+    <Folder Include="Content\Guide\AdminGuide\" />
+    <Folder Include="Content\Guide\EmployeeGuide\" />
+    <Folder Include="Content\Guide\MainBranchEmployeeGuide\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
