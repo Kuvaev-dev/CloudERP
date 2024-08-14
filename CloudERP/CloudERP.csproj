@@ -940,6 +940,46 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Suppliers.uk-UA.resx</DependentUpon>
     </Compile>
+    <Compile Include="App_GlobalResources\Support\Support.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Support.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\Support\Support.en-US.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Support.en-US.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\Support\Support.ru-RU.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Support.ru-RU.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\Support\Support.uk-UA.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Support.uk-UA.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\Task\Task.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Task.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\Task\Task.en-US.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Task.en-US.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\Task\Task.ru-RU.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Task.ru-RU.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\Task\Task.uk-UA.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Task.uk-UA.resx</DependentUpon>
+    </Compile>
     <Compile Include="App_GlobalResources\UserSetting\UserSetting.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -3763,6 +3803,38 @@
     <Content Include="App_GlobalResources\Stock\Stock.uk-UA.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Stock.uk-UA.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\Task\Task.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Task.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\Task\Task.en-US.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Task.en-US.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\Task\Task.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Task.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\Task\Task.uk-UA.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Task.uk-UA.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\Support\Support.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Support.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\Support\Support.en-US.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Support.en-US.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\Support\Support.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Support.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\Support\Support.uk-UA.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Support.uk-UA.designer.cs</LastGenOutput>
     </Content>
     <None Include="Properties\PublishProfiles\CloudERP20240507124545 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />

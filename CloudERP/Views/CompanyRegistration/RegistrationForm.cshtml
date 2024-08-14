@@ -75,17 +75,17 @@
                             @Html.ValidationMessageFor(model => model.EmployeeTIN)
                         </div>
                         <div class="col-md-4">
-                            <label>@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.Designation))</label>
+                            <label>@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.Designation)) *</label>
                             @Html.TextBoxFor(model => model.EmployeeDesignation, new { @class = "form-control required", @id = "EDesignation" })
                             @Html.ValidationMessageFor(model => model.EmployeeDesignation)
                         </div>
                         <div class="col-md-4">
-                            <label>@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.BasicSalary))</label>
+                            <label>@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.BasicSalary)) *</label>
                             @Html.TextBoxFor(model => model.EmployeeMonthlySalary, new { @class = "form-control required", @id = "EMonthlySalary", @type = "number" })
                             @Html.ValidationMessageFor(model => model.EmployeeMonthlySalary)
                         </div>
                         <div class="col-md-12">
-                            <label>@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.Address))</label>
+                            <label>@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.Address)) *</label>
                             @Html.TextBoxFor(model => model.EmployeeAddress, new { @class = "form-control required", @id = "EAddress" })
                             @Html.ValidationMessageFor(model => model.EmployeeAddress)
                         </div>
@@ -121,7 +121,7 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label>@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.BranchAddress))</label>
+                            <label>@Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyRegistration.BranchAddress)) *</label>
                             @Html.TextBoxFor(model => model.BranchAddress, new { @class = "form-control required", @id = "BranchAddress" })
                             @Html.ValidationMessageFor(model => model.BranchAddress)
                         </div>

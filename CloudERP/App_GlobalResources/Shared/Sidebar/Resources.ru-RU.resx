@@ -366,4 +366,16 @@
     <value>Бухгалтерский баланс</value>
     <comment>Sidebar Option String</comment>
   </data>
+  <data name="TasksList" xml:space="preserve">
+    <value>Список задач</value>
+    <comment></comment>
+  </data>
+  <data name="TicketList" xml:space="preserve">
+    <value>Список обращений</value>
+    <comment></comment>
+  </data>
+  <data name="Support" xml:space="preserve">
+    <value>Поддержка</value>
+    <comment></comment>
+  </data>
 </root>

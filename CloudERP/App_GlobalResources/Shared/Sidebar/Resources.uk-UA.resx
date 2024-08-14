@@ -330,4 +330,16 @@
   <data name="BalanceSheet" xml:space="preserve">
     <value>Баланс</value>
   </data>
+  <data name="TasksList" xml:space="preserve">
+    <value>Список завдань</value>
+    <comment></comment>
+  </data>
+  <data name="TicketList" xml:space="preserve">
+    <value>Список звернень</value>
+    <comment></comment>
+  </data>
+  <data name="Support" xml:space="preserve">
+    <value>Підтримка</value>
+    <comment></comment>
+  </data>
 </root>

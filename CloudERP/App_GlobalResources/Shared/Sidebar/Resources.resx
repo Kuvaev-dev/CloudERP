@@ -370,4 +370,16 @@
     <value>Balance Sheet</value>
     <comment>Sidebar Option String</comment>
   </data>
+  <data name="TasksList" xml:space="preserve">
+    <value>Tasks List</value>
+    <comment></comment>
+  </data>
+  <data name="TicketList" xml:space="preserve">
+    <value>Ticket List</value>
+    <comment></comment>
+  </data>
+  <data name="Support" xml:space="preserve">
+    <value>Support</value>
+    <comment></comment>
+  </data>
 </root>

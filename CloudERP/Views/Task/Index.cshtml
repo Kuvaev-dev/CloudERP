@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DatabaseAccess.tblTask>
 
 @{
-    ViewBag.Title = "Tasks List";
+    ViewBag.Title = Resources.Task.TasksList.ToString();
 }
 
 <!-- Tables Sorting-->
@@ -17,7 +17,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        @Html.ActionLink("Add Task", "Create", "Task", null, new { @style = "float:left;", @class = "btn btn-success" })
+        @Html.ActionLink(Resources.Task.AddTask.ToString(), "Create", "Task", null, new { @style = "float:left;", @class = "btn btn-success" })
         <h3 class="text-danger">@ViewBag.Message</h3>
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
     </div>
@@ -26,12 +26,12 @@
             <table class="table table-striped table-bordered table-hover" id="dataTable">
                 <thead>
                     <tr>
-                        <th>Title</th>
-                        <th>Description</th>
-                        <th>Due Date</th>
-                        <th>Reminder Date</th>
-                        <th>Is Completed</th>
-                        <th>Actions</th>
+                        <th>@Resources.Task.TaskTitle.ToString()</th>
+                        <th>@Resources.Task.Description.ToString()</th>
+                        <th>@Resources.Task.DueDate.ToString()</th>
+                        <th>@Resources.Task.ReminderDate.ToString()</th>
+                        <th>@Resources.Task.IsCompleted.ToString()</th>
+                        <th>@Resources.Repeats.Actions.ToString()</th>
                     </tr>
                 </thead>
                 <tbody id="tasksList">
@@ -44,10 +44,10 @@
                             <td>@task.ReminderDate</td>
                             <td>@task.IsCompleted</td>
                             <td class="btn-group">
-                                <a href="@Url.Action("Edit", new { id = task.TaskID })" class="btn btn-primary btn-sm">Edit</a>
-                                <a href="@Url.Action("Details", new { id = task.TaskID })" class="btn btn-info btn-sm">Details</a>
-                                <a href="@Url.Action("Delete", new { id = task.TaskID })" class="btn btn-danger btn-sm">Delete</a>
-                                <a href="@Url.Action("Complete", new { id = task.TaskID })" class="btn btn-success btn-sm">Complete</a>
+                                <a href="@Url.Action("Edit", new { id = task.TaskID })" class="btn btn-primary btn-sm">@Resources.Repeats.Edit.ToString()</a>
+                                <a href="@Url.Action("Details", new { id = task.TaskID })" class="btn btn-info btn-sm">@Resources.Repeats.Details.ToString()</a>
+                                <a href="@Url.Action("Delete", new { id = task.TaskID })" class="btn btn-danger btn-sm">@Resources.Repeats.Delete.ToString()</a>
+                                <a href="@Url.Action("Complete", new { id = task.TaskID })" class="btn btn-success btn-sm">@Resources.Task.Complete.ToString()</a>
                             </td>
                         </tr>
                     }

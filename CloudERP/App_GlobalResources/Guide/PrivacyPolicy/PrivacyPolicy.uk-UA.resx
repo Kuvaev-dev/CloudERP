@@ -98,9 +98,229 @@
 	<resheader name="writer">
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
-  <!--PrivacyPolicy-->
+  <!-- Privacy Policy Title -->
   <data name="PrivacyPolicyTitle" xml:space="preserve">
     <value>Політика конфіденційності</value>
-    <comment></comment>
+  </data>
+
+  <!-- Effective Date -->
+  <data name="EffectiveDate" xml:space="preserve">
+    <value>Дата набрання чинності:</value>
+  </data>
+
+  <!-- Introduction -->
+  <data name="IntroductionTitle" xml:space="preserve">
+    <value>1. Вступ</value>
+  </data>
+  <data name="IntroductionText" xml:space="preserve">
+    <value>Ми прагнемо захистити вашу конфіденційність. Ця Політика конфіденційності описує наші практики збору, використання та розкриття вашої інформації.</value>
+  </data>
+
+  <!-- Information We Collect -->
+  <data name="InformationWeCollectTitle" xml:space="preserve">
+    <value>2. Інформація, яку ми збираємо</value>
+  </data>
+  <data name="InformationWeCollectText" xml:space="preserve">
+    <value>Ми збираємо різні типи інформації, щоб надавати та покращувати наші послуги.</value>
+  </data>
+
+  <!-- Personal Information -->
+  <data name="PersonalInformationTitle" xml:space="preserve">
+    <value>Персональна інформація</value>
+  </data>
+  <data name="PersonalInformationText" xml:space="preserve">
+    <value>Інформація, яку ви надаєте і яка дозволяє вас ідентифікувати, така як ваше ім'я, адреса електронної пошти та номер телефону.</value>
+  </data>
+
+  <!-- Account Information -->
+  <data name="AccountInformationTitle" xml:space="preserve">
+    <value>Інформація про акаунт</value>
+  </data>
+  <data name="AccountInformationText" xml:space="preserve">
+    <value>Деталі вашого акаунту, включаючи облікові дані та налаштування.</value>
+  </data>
+
+  <!-- Financial Information -->
+  <data name="FinancialInformationTitle" xml:space="preserve">
+    <value>Фінансова інформація</value>
+  </data>
+  <data name="FinancialInformationText" xml:space="preserve">
+    <value>Дані про платежі та історію транзакцій.</value>
+  </data>
+
+  <!-- Usage Data -->
+  <data name="UsageDataTitle" xml:space="preserve">
+    <value>Дані про використання</value>
+  </data>
+  <data name="UsageDataText" xml:space="preserve">
+    <value>Інформація про те, як ви взаємодієте з нашими послугами, така як IP-адреса, тип браузера та відвідані сторінки.</value>
+  </data>
+
+  <!-- Cookies -->
+  <data name="CookiesTitle" xml:space="preserve">
+    <value>Cookies</value>
+  </data>
+  <data name="CookiesText" xml:space="preserve">
+    <value>Маленькі файли, які зберігаються на вашому пристрої для покращення вашого досвіду та надання персоналізованих послуг.</value>
+  </data>
+
+  <!-- How We Use Information -->
+  <data name="HowWeUseInformationTitle" xml:space="preserve">
+    <value>3. Як ми використовуємо вашу інформацію</value>
+  </data>
+  <data name="HowWeUseInformationText" xml:space="preserve">
+    <value>Ми використовуємо зібрану інформацію для різних цілей, щоб надавати та покращувати наші послуги для вас.</value>
+  </data>
+
+  <!-- Provide Services -->
+  <data name="ProvideServicesTitle" xml:space="preserve">
+    <value>Для надання послуг</value>
+  </data>
+  <data name="ProvideServicesText" xml:space="preserve">
+    <value>Ми використовуємо вашу інформацію для надання та доставки запитуваних вами послуг.</value>
+  </data>
+
+  <!-- Improve Services -->
+  <data name="ImproveServicesTitle" xml:space="preserve">
+    <value>Для покращення послуг</value>
+  </data>
+  <data name="ImproveServicesText" xml:space="preserve">
+    <value>Ми аналізуємо ваші дані для покращення наших послуг та розробки нових функцій.</value>
+  </data>
+
+  <!-- Communicate -->
+  <data name="CommunicateTitle" xml:space="preserve">
+    <value>Для зв'язку з вами</value>
+  </data>
+  <data name="CommunicateText" xml:space="preserve">
+    <value>Ми можемо використовувати вашу інформацію для зв'язку з вами щодо оновлень, акцій або обслуговування клієнтів.</value>
+  </data>
+
+  <!-- Security -->
+  <data name="SecurityTitle" xml:space="preserve">
+    <value>Для забезпечення безпеки</value>
+  </data>
+  <data name="SecurityText" xml:space="preserve">
+    <value>Ми вживаємо заходів безпеки для захисту вашої інформації від несанкціонованого доступу або розкриття.</value>
+  </data>
+
+  <!-- Legal Obligations -->
+  <data name="LegalObligationsTitle" xml:space="preserve">
+    <value>Для дотримання юридичних зобов'язань</value>
+  </data>
+  <data name="LegalObligationsText" xml:space="preserve">
+    <value>Ми можемо обробляти вашу інформацію для дотримання застосовних законів і нормативних вимог.</value>
+  </data>
+
+  <!-- Sharing Information -->
+  <data name="SharingInformationTitle" xml:space="preserve">
+    <value>4. Передача вашої інформації</value>
+  </data>
+  <data name="SharingInformationText" xml:space="preserve">
+    <value>Ми можемо передавати вашу інформацію третім особам у певних обставинах.</value>
+  </data>
+
+  <!-- Service Providers -->
+  <data name="ServiceProvidersTitle" xml:space="preserve">
+    <value>Постачальники послуг</value>
+  </data>
+  <data name="ServiceProvidersText" xml:space="preserve">
+    <value>Ми можемо передавати вашу інформацію стороннім постачальникам послуг, які допомагають нам у роботі наших сервісів.</value>
+  </data>
+
+  <!-- Affiliates -->
+  <data name="AffiliatesTitle" xml:space="preserve">
+    <value>Афілійовані особи</value>
+  </data>
+  <data name="AffiliatesText" xml:space="preserve">
+    <value>Ми можемо передавати вашу інформацію нашим афілійованим особам для бізнес-цілей.</value>
+  </data>
+
+  <!-- Legal Reasons -->
+  <data name="LegalReasonsTitle" xml:space="preserve">
+    <value>Юридичні причини</value>
+  </data>
+  <data name="LegalReasonsText" xml:space="preserve">
+    <value>Ми можемо розкривати вашу інформацію, якщо це вимагається законом або у відповідь на дійсні юридичні запити.</value>
+  </data>
+
+  <!-- Data Security -->
+  <data name="DataSecurityTitle" xml:space="preserve">
+    <value>5. Безпека даних</value>
+  </data>
+  <data name="DataSecurityText" xml:space="preserve">
+    <value>Ми вживаємо розумних заходів для захисту вашої інформації від втрати, крадіжки, неналежного використання та несанкціонованого доступу.</value>
+  </data>
+
+  <!-- Data Retention -->
+  <data name="DataRetentionTitle" xml:space="preserve">
+    <value>6. Зберігання даних</value>
+  </data>
+  <data name="DataRetentionText" xml:space="preserve">
+    <value>Ми зберігаємо вашу інформацію стільки, скільки необхідно для виконання цілей, викладених у цій Політиці конфіденційності.</value>
+  </data>
+
+  <!-- Your Rights -->
+  <data name="YourRightsTitle" xml:space="preserve">
+    <value>7. Ваші права</value>
+  </data>
+  <data name="YourRightsText" xml:space="preserve">
+    <value>Ви маєте право на доступ, виправлення або видалення вашої особистої інформації.</value>
+  </data>
+
+  <!-- Access -->
+  <data name="AccessTitle" xml:space="preserve">
+    <value>Доступ</value>
+  </data>
+  <data name="AccessText" xml:space="preserve">
+    <value>Ви маєте право запитати доступ до особистої інформації, яку ми зберігаємо про вас.</value>
+  </data>
+
+  <!-- Correction -->
+  <data name="CorrectionTitle" xml:space="preserve">
+    <value>Виправлення</value>
+  </data>
+  <data name="CorrectionText" xml:space="preserve">
+    <value>Ви маєте право запитати, щоб ми виправили будь-які неточності у вашій особистій інформації.</value>
+  </data>
+
+  <!-- Deletion -->
+  <data name="DeletionTitle" xml:space="preserve">
+    <value>Видалення</value>
+  </data>
+  <data name="DeletionText" xml:space="preserve">
+    <value>Ви маєте право запитати видалення вашої особистої інформації, за винятком певних винятків.</value>
+  </data>
+
+  <!-- Objection -->
+  <data name="ObjectionTitle" xml:space="preserve">
+    <value>Заперечення</value>
+  </data>
+  <data name="ObjectionText" xml:space="preserve">
+    <value>Ви маєте право заперечувати проти обробки вашої особистої інформації у певних обставинах.</value>
+  </data>
+
+  <!-- Data Portability -->
+  <data name="DataPortabilityTitle" xml:space="preserve">
+    <value>Переносимість даних</value>
+  </data>
+  <data name="DataPortabilityText" xml:space="preserve">
+    <value>Ви маєте право запитати, щоб ми передали вашу особисту інформацію іншій організації.</value>
+  </data>
+
+  <!-- Changes to this Privacy Policy -->
+  <data name="ChangesTitle" xml:space="preserve">
+    <value>8. Зміни в цій Політиці конфіденційності</value>
+  </data>
+  <data name="ChangesText" xml:space="preserve">
+    <value>Ми можемо час від часу оновлювати цю Політику конфіденційності. Будь-які зміни будуть опубліковані на цій сторінці.</value>
+  </data>
+
+  <!-- Contact Us -->
+  <data name="ContactUsTitle" xml:space="preserve">
+    <value>9. Зв'яжіться з нами</value>
+  </data>
+  <data name="ContactUsText" xml:space="preserve">
+    <value>Якщо у вас є будь-які питання чи занепокоєння щодо цієї Політики конфіденційності, будь ласка, зв'яжіться з нами, використовуючи інформацію нижче:</value>
   </data>
 </root>

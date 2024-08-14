@@ -1,7 +1,7 @@
 ﻿@model DatabaseAccess.tblTask
 
 @{
-    ViewBag.Title = "Delete Task";
+    ViewBag.Title = Resources.Task.DeleteTask.ToString();
 }
 
 @using (Html.BeginForm("Delete", "Task", FormMethod.Post))
@@ -11,37 +11,37 @@
 
     <div class="form-horizontal">
         <div class="col-md-10">
-            <h2>Are you sure you want to delete this task?</h2>
+            <h2>@Resources.Task.AreYouSureYouWantToDeleteThisTask.ToString()</h2>
 
             <dl class="dl-horizontal">
                 <div class="form-group">
-                    <dt>Title</dt>
+                    <dt>@Resources.Task.TaskTitle.ToString()</dt>
                     <dd class="form-control-static">@Model.Title</dd>
                 </div>
 
                 <div class="form-group">
-                    <dt>Description</dt>
+                    <dt>@Resources.Task.Description.ToString()</dt>
                     <dd class="form-control-static">@Model.Description</dd>
                 </div>
 
                 <div class="form-group">
-                    <dt>Due Date</dt>
+                    <dt>@Resources.Task.DueDate.ToString()</dt>
                     <dd class="form-control-static">@Model.DueDate.ToString("g")</dd>
                 </div>
 
                 <div class="form-group">
-                    <dt>Reminder Date</dt>
+                    <dt>@Resources.Task.ReminderDate.ToString()</dt>
                     <dd class="form-control-static">@Model.ReminderDate</dd>
                 </div>
 
                 <div class="form-group">
-                    <dt>Is Completed</dt>
+                    <dt>@Resources.Task.IsCompleted.ToString()</dt>
                     <dd class="form-control-static">@Model.IsCompleted</dd>
                 </div>
             </dl>
             <div class="form-group">
-                <input type="submit" value="Delete" class="btn btn-danger" />
-                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+                <input type="submit" value="@Resources.Repeats.Delete.ToString()" class="btn btn-danger" />
+                @Html.ActionLink(Resources.Repeats.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
             </div>
         </div>
     </div>

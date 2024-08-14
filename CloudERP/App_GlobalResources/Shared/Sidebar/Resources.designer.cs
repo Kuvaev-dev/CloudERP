@@ -574,6 +574,33 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Support.
+        /// </summary>
+        internal static string Support {
+            get {
+                return ResourceManager.GetString("Support", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Tasks List.
+        /// </summary>
+        internal static string TasksList {
+            get {
+                return ResourceManager.GetString("TasksList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Ticket List.
+        /// </summary>
+        internal static string TicketList {
+            get {
+                return ResourceManager.GetString("TicketList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Transaction`s.
         /// </summary>
         internal static string Transactions {

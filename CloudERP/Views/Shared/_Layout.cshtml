@@ -204,9 +204,9 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Index", "Task")" title="Tasks List" class="d-flex align-items-center">
+                                            <a href="@Url.Action("Index", "Task")" title="@Resources.Resources.TasksList.ToString()" class="d-flex align-items-center">
                                                 <em class="bi bi-list-task mr-1"></em>
-                                                <span class="align-middle">Tasks List</span>
+                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.TasksList))</span>
                                             </a>
                                         </li>
 
@@ -619,18 +619,18 @@
                                 if (userType == 1)
                                 {
                                     <li>
-                                        <a href="@Url.Action("AdminList", "Support")" title="Ticket List" class="d-flex align-items-center">
+                                        <a href="@Url.Action("AdminList", "Support")" title="@Resources.Resources.TicketList.ToString()" class="d-flex align-items-center">
                                             <em class="bi bi-hammer mr-1 mb-2"></em>
-                                            <span class="align-middle">Ticket List</span>
+                                            <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.TicketList))</span>
                                         </a>
                                     </li>
                                 }
                                 if (userType == 2)
                                 {
                                     <li>
-                                        <a href="@Url.Action("Support", "Support")" title="Support" class="d-flex align-items-center">
+                                        <a href="@Url.Action("Support", "Support")" title="@Resources.Resources.Support.ToString()" class="d-flex align-items-center">
                                             <em class="bi bi-hammer mr-1 mb-2"></em>
-                                            <span class="align-middle">Support</span>
+                                            <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.Support))</span>
                                         </a>
                                     </li>
                                 }

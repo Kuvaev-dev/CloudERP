@@ -1,14 +1,14 @@
 ﻿@model DatabaseAccess.tblTask
 
 @{
-    ViewBag.Title = "Task Details";
+    ViewBag.Title = Resources.Task.TaskDetails.ToString();
 }
 
 <div class="form-horizontal">
     <div class="col-md-10">
         <dl class="dl-horizontal">
             <dt>
-                @Html.DisplayNameFor(model => model.Title)
+                @Resources.Task.TaskTitle.ToString()
             </dt>
 
             <dd>
@@ -16,7 +16,7 @@
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.DueDate)
+                @Resources.Task.DueDate.ToString()
             </dt>
 
             <dd>
@@ -24,7 +24,7 @@
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.ReminderDate)
+                @Resources.Task.ReminderDate.ToString()
             </dt>
 
             <dd>
@@ -32,7 +32,7 @@
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.IsCompleted)
+                @Resources.Task.IsCompleted.ToString()
             </dt>
 
             <dd>
