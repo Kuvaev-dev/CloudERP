@@ -98,4 +98,57 @@
 	<resheader name="writer">
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
+  <!--SubJournal-->
+  <data name="SubBranchJournalByTransactionsDate" xml:space="preserve">
+    <value>Sub Branch Journal (By Transaction`s Date)</value>
+    <comment></comment>
+  </data>
+  <data name="SelectRangeFromDateAndToDate" xml:space="preserve">
+    <value>Select Range (From Date and To Date)</value>
+    <comment></comment>
+  </data>
+  <data name="SelectFromDate" xml:space="preserve">
+    <value>Select From Date</value>
+    <comment></comment>
+  </data>
+  <data name="SelectToDate" xml:space="preserve">
+    <value>Select To Date</value>
+    <comment></comment>
+  </data>
+  <data name="RetriveTransactions" xml:space="preserve">
+    <value>Retrive Transactions</value>
+    <comment></comment>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Export</value>
+    <comment></comment>
+  </data>
+  <data name="Transactions" xml:space="preserve">
+    <value>Transactions</value>
+    <comment></comment>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+    <comment></comment>
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value>Account</value>
+    <comment></comment>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Title</value>
+    <comment></comment>
+  </data>
+  <data name="InvoiceNo" xml:space="preserve">
+    <value>Invoice №</value>
+    <comment></comment>
+  </data>
+  <data name="Debit" xml:space="preserve">
+    <value>Debit</value>
+    <comment></comment>
+  </data>
+  <data name="Credit" xml:space="preserve">
+    <value>Credit</value>
+    <comment></comment>
+  </data>
 </root>

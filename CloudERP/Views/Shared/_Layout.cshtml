@@ -263,15 +263,15 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Index", "Forecasting")" title="Forecasting" class="d-flex align-items-center">
+                                            <a href="@Url.Action("Index", "Forecasting")" title="@Resources.Resources.Forecasting.ToString()" class="d-flex align-items-center">
                                                 <em class="bi bi-clipboard-data mr-1"></em>
-                                                <span class="align-middle">Forecasting</span>
+                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.Forecasting))</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Index", "Task")" title="Tasks List" class="d-flex align-items-center">
+                                            <a href="@Url.Action("Index", "Task")" title="@Resources.Resources.TasksList.ToString()" class="d-flex align-items-center">
                                                 <em class="bi bi-list-task mr-1"></em>
-                                                <span class="align-middle">Tasks List</span>
+                                                <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.TasksList))</span>
                                             </a>
                                         </li>
                                         <li class="nav-heading ">
@@ -295,9 +295,9 @@
                                         if (branchTypeID == 1)
                                         {
                                             <li>
-                                                <a href="@Url.Action("Index", "EmployeeStatistics")" title="Employee Statistics" class="d-flex align-items-center">
+                                                <a href="@Url.Action("Index", "EmployeeStatistics")" title="@Resources.Resources.EmployeeStatistics.ToString()" class="d-flex align-items-center">
                                                     <em class="bi bi-bar-chart-fill mr-1"></em>
-                                                    <span class="align-middle">Employee Statistics</span>
+                                                    <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Resources.EmployeeStatistics))</span>
                                                 </a>
                                             </li>
                                             <li class="nav-heading ">

@@ -2,7 +2,7 @@
 
 @{
     string invoiceNo = string.Empty;
-    ViewBag.Title = "Sub Branch Journal (By Transaction`s Date";
+    ViewBag.Title = Resources.GeneralTransaction.SubBranchJournalByTransactionsDate.ToString();
 }
 
 <script src="~/Scripts/jquery-3.7.1.js"></script>
@@ -10,7 +10,7 @@
 <div class="card">
     <div class="card card-float">
         <div class="card-header">
-            <h4>Select Range (From Date and To Date)</h4>
+            <h4>@Resources.GeneralTransaction.SelectRangeFromDateAndToDate.ToString()</h4>
             <h5 class="text-danger">@ViewBag.JournalMessage</h5>
             <h3 class="text-danger">@ViewBag.Message</h3>
             <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
@@ -21,17 +21,17 @@
                 @Html.AntiForgeryToken()
                 <div class="row">
                     <div class="col-md-4">
-                        <label>Select From Date</label>
+                        <label>@Resources.GeneralTransaction.SelectFromDate.ToString()</label>
                         <input type="date" id="FromDate" name="FromDate" value="@DateTime.Now" class="form-control" required>
                     </div>
                     <div class="col-md-4">
-                        <label>Select To Date</label>
+                        <label>@Resources.GeneralTransaction.SelectToDate.ToString()</label>
                         <input type="date" id="ToDate" name="ToDate" value="@DateTime.Now" class="form-control" required>
                     </div>
                 </div>
                 <br />
                 <hr />
-                <input type="submit" value="Retrive Transactions" class="btn btn-success" style="float: right;">
+                <input type="submit" value="@Resources.GeneralTransaction.RetriveTransactions.ToString()" class="btn btn-success" style="float: right;">
             }
         </div>
     </div>
@@ -39,9 +39,9 @@
 
 <div class="card">
     <div class="card-header">
-        <div class="card-title">Export</div>
+        <div class="card-title">@Resources.GeneralTransaction.Export.ToString()</div>
         <div class="text-sm">
-            Transactions
+            @Resources.GeneralTransaction.Transactions.ToString()
         </div>
     </div>
     <div class="card-body">
@@ -52,22 +52,22 @@
                         №
                     </th>
                     <th>
-                        Date
+                        @Resources.GeneralTransaction.Date.ToString()
                     </th>
                     <th>
-                        Account
+                        @Resources.GeneralTransaction.Account.ToString()
                     </th>
                     <th>
-                        Title
+                        @Resources.GeneralTransaction.Title.ToString()
                     </th>
                     <th>
-                        Invoice №
+                        @Resources.GeneralTransaction.InvoiceNo.ToString()
                     </th>
                     <th>
-                        Debit
+                        @Resources.GeneralTransaction.Debit.ToString()
                     </th>
                     <th>
-                        Credit
+                        @Resources.GeneralTransaction.Credit.ToString()
                     </th>
                 </tr>
             </thead>

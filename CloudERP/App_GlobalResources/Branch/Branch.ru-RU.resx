@@ -156,4 +156,13 @@
     <value>Название филии</value>
     <comment></comment>
   </data>
+  <data name="ClickHereToChooseACorrectAddressBelow" xml:space="preserve">
+    <value>Нажмите внизу, чтобы выбрать правильный адресс</value>
+    <comment></comment>
+  </data>
+  <!--Edit-->
+  <data name="EditBranch" xml:space="preserve">
+    <value>Редактировать филиал</value>
+    <comment></comment>
+  </data>
 </root>

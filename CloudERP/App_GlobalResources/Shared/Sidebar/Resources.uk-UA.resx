@@ -342,4 +342,12 @@
     <value>Підтримка</value>
     <comment></comment>
   </data>
+  <data name="Forecasting" xml:space="preserve">
+    <value>Прогнозування</value>
+    <comment></comment>
+  </data>
+  <data name="EmployeeStatistics" xml:space="preserve">
+    <value>Статистика робітників</value>
+    <comment></comment>
+  </data>
 </root>

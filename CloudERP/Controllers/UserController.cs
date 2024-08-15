@@ -63,7 +63,7 @@ namespace CloudERP.Controllers
 
                     foreach (var item in tblUser)
                     {
-                        item.FullName = item.FullName + "(" + _db.tblEmployee.FirstOrDefault(e => e.UserID == item.UserID)?.tblBranch.BranchName + ")";
+                        item.FullName = item.FullName + " (" + _db.tblEmployee.FirstOrDefault(e => e.UserID == item.UserID)?.tblBranch.BranchName + ")";
                     }
                 }
                 else
@@ -75,7 +75,7 @@ namespace CloudERP.Controllers
 
                     foreach (var item in tblUser)
                     {
-                        item.FullName = item.FullName + "(" + _db.tblEmployee.FirstOrDefault(e => e.UserID == item.UserID)?.tblBranch.BranchName + ")";
+                        item.FullName = item.FullName + " (" + _db.tblEmployee.FirstOrDefault(e => e.UserID == item.UserID)?.tblBranch.BranchName + ")";
                     }
                 }
 

@@ -156,4 +156,13 @@
     <value>Branch Name</value>
     <comment></comment>
   </data>
+  <data name="ClickHereToChooseACorrectAddressBelow" xml:space="preserve">
+    <value>Click here to choose a correct address below</value>
+    <comment></comment>
+  </data>
+  <!--Edit-->
+  <data name="EditBranch" xml:space="preserve">
+    <value>Edit Branch</value>
+    <comment></comment>
+  </data>
 </root>

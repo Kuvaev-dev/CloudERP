@@ -378,4 +378,12 @@
     <value>Поддержка</value>
     <comment></comment>
   </data>
+  <data name="Forecasting" xml:space="preserve">
+    <value>Прогнозирование</value>
+    <comment></comment>
+  </data>
+  <data name="EmployeeStatistics" xml:space="preserve">
+    <value>Статистика работников</value>
+    <comment></comment>
+  </data>
 </root>

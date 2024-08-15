@@ -98,4 +98,80 @@
 	<resheader name="writer">
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
+  <data name="SearchSaleByInvoiceNo" xml:space="preserve">
+    <value>Search Sale By Invoice №</value>
+    <comment></comment>
+  </data>
+  <data name="EnterSaleInvoice" xml:space="preserve">
+    <value>Enter Sale Invoice</value>
+    <comment></comment>
+  </data>
+  <data name="FindSale" xml:space="preserve">
+    <value>Find Sale</value>
+    <comment></comment>
+  </data>
+  <data name="Invoice" xml:space="preserve">
+    <value>Invoice</value>
+    <comment></comment>
+  </data>
+  <data name="SaleInvoice" xml:space="preserve">
+    <value>Sale Invoice</value>
+    <comment></comment>
+  </data>
+  <data name="Company" xml:space="preserve">
+    <value>Company</value>
+    <comment></comment>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Address</value>
+    <comment></comment>
+  </data>
+  <data name="ContactNo" xml:space="preserve">
+    <value>Contact №</value>
+    <comment></comment>
+  </data>
+  <data name="Customer" xml:space="preserve">
+    <value>Customer</value>
+    <comment></comment>
+  </data>
+  <data name="InvoiceDate" xml:space="preserve">
+    <value>Invoice Date</value>
+    <comment></comment>
+  </data>
+  <data name="CreatedBy" xml:space="preserve">
+    <value>Created By</value>
+    <comment></comment>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>Product</value>
+    <comment></comment>
+  </data>
+  <data name="SaleQty" xml:space="preserve">
+    <value>Sale Qty</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnQty" xml:space="preserve">
+    <value>Return Qty</value>
+    <comment></comment>
+  </data>
+  <data name="UnitPrice" xml:space="preserve">
+    <value>Unit Price</value>
+    <comment></comment>
+  </data>
+  <data name="ItemCost" xml:space="preserve">
+    <value>Item Cost</value>
+    <comment></comment>
+  </data>
+  <data name="IsReturnSalePaymentPaid" xml:space="preserve">
+    <value>Is Return Sale Payment Paid?</value>
+    <comment></comment>
+  </data>
+  <data name="GRANDTOTAL" xml:space="preserve">
+    <value>GRAND TOTAL</value>
+    <comment></comment>
+  </data>
+  <data name="SubmitReturn" xml:space="preserve">
+    <value>Submit Return</value>
+    <comment></comment>
+  </data>
 </root>

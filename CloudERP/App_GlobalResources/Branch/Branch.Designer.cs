@@ -115,11 +115,29 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Click here to choose a correct address below.
+        /// </summary>
+        internal static string ClickHereToChooseACorrectAddressBelow {
+            get {
+                return ResourceManager.GetString("ClickHereToChooseACorrectAddressBelow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Contact №.
         /// </summary>
         internal static string ContactNo {
             get {
                 return ResourceManager.GetString("ContactNo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Edit Branch.
+        /// </summary>
+        internal static string EditBranch {
+            get {
+                return ResourceManager.GetString("EditBranch", resourceCulture);
             }
         }
         

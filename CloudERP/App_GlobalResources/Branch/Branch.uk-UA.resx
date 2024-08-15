@@ -156,4 +156,13 @@
     <value>Назва філії</value>
     <comment></comment>
   </data>
+  <data name="ClickHereToChooseACorrectAddressBelow" xml:space="preserve">
+    <value>Натисніть внизу, щоб обрати коректну адресу</value>
+    <comment></comment>
+  </data>
+  <!--Edit-->
+  <data name="EditBranch" xml:space="preserve">
+    <value>Редагувати філію</value>
+    <comment></comment>
+  </data>
 </root>

@@ -1,6 +1,6 @@
 ﻿@model DatabaseAccess.Models.IncomeStatementModel
 @{
-    ViewBag.Title = "Sub Branch Income Statement";
+    ViewBag.Title = Resources.IncomeStatement.SubBranchIncomeStatement.ToString();
 }
 
 <script src="~/Scripts/jquery-3.7.1.js"></script>
@@ -13,9 +13,9 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">
-                        <label>Select Financial Year</label>
-                        @Html.DropDownList("id", (SelectList)ViewBag.FinancialYears, "Select Financial Year", new { @class = "form-control", required = "required" })
-                        <input type="submit" value="Retrive Income Statement" class="btn btn-success form-control">
+                        <label>@Resources.IncomeStatement.SelectFinancialYear.ToString()</label>
+                        @Html.DropDownList("id", (SelectList)ViewBag.FinancialYears, Resources.IncomeStatement.SelectFinancialYear.ToString(), new { @class = "form-control", required = "required" })
+                        <input type="submit" value="@Resources.IncomeStatement.RetriveIncomeStatement.ToString()" class="btn btn-success form-control">
                     </div>
                 </div>
             </div>
@@ -26,7 +26,7 @@
 @{
     <div class="card card-default col-md-12">
         <div class="card-header">
-            <h3 class="text-primary">Income Statement</h3>
+            <h3 class="text-primary">@Resources.IncomeStatement.IncomeStatementStr.ToString()</h3>
             <h3 class="text-danger">@ViewBag.Message</h3>
             <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
         </div>
@@ -36,13 +36,13 @@
                     <thead>
                         <tr>
                             <th>
-                                Account Title
+                                @Resources.IncomeStatement.AccountTitle.ToString()
                             </th>
                             <th>
-                                Amount
+                                @Resources.IncomeStatement.Amount.ToString()
                             </th>
                             <th>
-                                Total
+                                @Resources.IncomeStatement.Total.ToString()
                             </th>
                         </tr>
                         @foreach (var accountHead in Model.IncomeStatementHeads)
@@ -98,7 +98,7 @@
                             {
                                 <tr style="background-color:black;color:white;">
                                     <td>
-                                        Total Revenue:
+                                        @Resources.IncomeStatement.TotalRevenue.ToString():
                                     </td>
                                     <td></td>
                                     <td>
@@ -110,7 +110,7 @@
                             {
                                 <tr style="background-color:black;color:white;">
                                     <td>
-                                        Total Expenses:
+                                        @Resources.IncomeStatement.TotalExpenses.ToString():
                                     </td>
                                     <td></td>
                                     <td>
@@ -123,7 +123,7 @@
 
                         <tr style="background-color:black;color:white;">
                             <td>
-                                Net Income
+                                @Resources.IncomeStatement.NetIncome.ToString():
                             </td>
                             <td></td>
                             <td>

@@ -59,5 +59,176 @@ namespace Resources {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Address.
+        /// </summary>
+        internal static string Address {
+            get {
+                return ResourceManager.GetString("Address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Company.
+        /// </summary>
+        internal static string Company {
+            get {
+                return ResourceManager.GetString("Company", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Contact №.
+        /// </summary>
+        internal static string ContactNo {
+            get {
+                return ResourceManager.GetString("ContactNo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Created By.
+        /// </summary>
+        internal static string CreatedBy {
+            get {
+                return ResourceManager.GetString("CreatedBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Customer.
+        /// </summary>
+        internal static string Customer {
+            get {
+                return ResourceManager.GetString("Customer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Enter Sale Invoice.
+        /// </summary>
+        internal static string EnterSaleInvoice {
+            get {
+                return ResourceManager.GetString("EnterSaleInvoice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Find Sale.
+        /// </summary>
+        internal static string FindSale {
+            get {
+                return ResourceManager.GetString("FindSale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на GRAND TOTAL.
+        /// </summary>
+        internal static string GRANDTOTAL {
+            get {
+                return ResourceManager.GetString("GRANDTOTAL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Invoice.
+        /// </summary>
+        internal static string Invoice {
+            get {
+                return ResourceManager.GetString("Invoice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Invoice Date.
+        /// </summary>
+        internal static string InvoiceDate {
+            get {
+                return ResourceManager.GetString("InvoiceDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Is Return Sale Payment Paid?.
+        /// </summary>
+        internal static string IsReturnSalePaymentPaid {
+            get {
+                return ResourceManager.GetString("IsReturnSalePaymentPaid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Item Cost.
+        /// </summary>
+        internal static string ItemCost {
+            get {
+                return ResourceManager.GetString("ItemCost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Product.
+        /// </summary>
+        internal static string Product {
+            get {
+                return ResourceManager.GetString("Product", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Return Qty.
+        /// </summary>
+        internal static string ReturnQty {
+            get {
+                return ResourceManager.GetString("ReturnQty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Sale Invoice.
+        /// </summary>
+        internal static string SaleInvoice {
+            get {
+                return ResourceManager.GetString("SaleInvoice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Sale Qty.
+        /// </summary>
+        internal static string SaleQty {
+            get {
+                return ResourceManager.GetString("SaleQty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Search Sale By Invoice №.
+        /// </summary>
+        internal static string SearchSaleByInvoiceNo {
+            get {
+                return ResourceManager.GetString("SearchSaleByInvoiceNo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Submit Return.
+        /// </summary>
+        internal static string SubmitReturn {
+            get {
+                return ResourceManager.GetString("SubmitReturn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Unit Price.
+        /// </summary>
+        internal static string UnitPrice {
+            get {
+                return ResourceManager.GetString("UnitPrice", resourceCulture);
+            }
+        }
     }
 }

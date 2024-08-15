@@ -277,11 +277,29 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Employee Statistics.
+        /// </summary>
+        internal static string EmployeeStatistics {
+            get {
+                return ResourceManager.GetString("EmployeeStatistics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Financial Year.
         /// </summary>
         internal static string FinancialYear {
             get {
                 return ResourceManager.GetString("FinancialYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Forecasting.
+        /// </summary>
+        internal static string Forecasting {
+            get {
+                return ResourceManager.GetString("Forecasting", resourceCulture);
             }
         }
         

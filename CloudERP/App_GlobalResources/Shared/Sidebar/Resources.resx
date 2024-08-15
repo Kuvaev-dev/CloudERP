@@ -382,4 +382,12 @@
     <value>Support</value>
     <comment></comment>
   </data>
+  <data name="Forecasting" xml:space="preserve">
+    <value>Forecasting</value>
+    <comment></comment>
+  </data>
+  <data name="EmployeeStatistics" xml:space="preserve">
+    <value>Employee Statistics</value>
+    <comment></comment>
+  </data>
 </root>
