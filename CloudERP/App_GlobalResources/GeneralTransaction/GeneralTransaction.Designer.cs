@@ -97,6 +97,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Enter Amount.
+        /// </summary>
+        internal static string EnterAmount {
+            get {
+                return ResourceManager.GetString("EnterAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Enter Reason.
+        /// </summary>
+        internal static string EnterReason {
+            get {
+                return ResourceManager.GetString("EnterReason", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Export.
         /// </summary>
         internal static string Export {
@@ -115,11 +133,47 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Journal (By Transaction`s Date).
+        /// </summary>
+        internal static string JournalByTransactionsDate {
+            get {
+                return ResourceManager.GetString("JournalByTransactionsDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на New General Transaction.
+        /// </summary>
+        internal static string NewGeneralTransaction {
+            get {
+                return ResourceManager.GetString("NewGeneralTransaction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Retrive Transactions.
         /// </summary>
         internal static string RetriveTransactions {
             get {
                 return ResourceManager.GetString("RetriveTransactions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Select Credit Account.
+        /// </summary>
+        internal static string SelectAccountCredit {
+            get {
+                return ResourceManager.GetString("SelectAccountCredit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Select Debit Account.
+        /// </summary>
+        internal static string SelectAccountDebit {
+            get {
+                return ResourceManager.GetString("SelectAccountDebit", resourceCulture);
             }
         }
         
@@ -156,6 +210,15 @@ namespace Resources {
         internal static string SubBranchJournalByTransactionsDate {
             get {
                 return ResourceManager.GetString("SubBranchJournalByTransactionsDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Submit Transaction.
+        /// </summary>
+        internal static string SubmitTransaction {
+            get {
+                return ResourceManager.GetString("SubmitTransaction", resourceCulture);
             }
         }
         

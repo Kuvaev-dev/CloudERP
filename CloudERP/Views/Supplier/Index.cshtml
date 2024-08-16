@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DatabaseAccess.tblSupplier>
 
 @{
-    ViewBag.Title = "Branch Suppliers";
+    ViewBag.Title = Resources.Suppliers.BranchSuppliers.ToString();
 }
 
 <!-- Tables Sorting-->
@@ -22,28 +22,28 @@
                 <thead>
                     <tr>
                         <th>
-                            Company
+                            @Resources.Suppliers.CompanyTitle.ToString()
                         </th>
                         <th>
-                            Branch
+                            @Resources.Suppliers.BranchTitle.ToString()
                         </th>
                         <th>
-                            Supplier Name
+                            @Resources.Suppliers.SupplierName.ToString()
                         </th>
                         <th>
-                            Conatct №
+                            @Resources.Suppliers.ConatctNo.ToString()
                         </th>
                         <th>
-                            Email
+                            @Resources.Suppliers.Email.ToString()
                         </th>
                         <th>
-                            Address
+                            @Resources.Suppliers.Address.ToString()
                         </th>
                         <th>
-                            User
+                            @Resources.Suppliers.User.ToString()
                         </th>
                         <th>
-                            Actions
+                            @Resources.Repeats.Actions.ToString()
                         </th>
                     </tr>
                 </thead>
@@ -73,8 +73,8 @@
                                 @Html.DisplayFor(modelItem => item.tblUser.UserName)
                             </td>
                             <td class="btn-group">
-                                @Html.ActionLink("Edit", "Edit", new { id = item.SupplierID }, new { @class = "btn btn-primary" })
-                                @Html.ActionLink("Details", "Details", new { id = item.SupplierID }, new { @class = "btn btn-default" })
+                                @Html.ActionLink(Resources.Repeats.Edit.ToString(), "Edit", new { id = item.SupplierID }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink(Resources.Repeats.Details.ToString(), "Details", new { id = item.SupplierID }, new { @class = "btn btn-default" })
                             </td>
                         </tr>
                     }

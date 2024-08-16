@@ -144,6 +144,10 @@
     <value>Description</value>
     <comment></comment>
   </data>
+  <data name="ClickHereToChooseACorrectAddressBelow" xml:space="preserve">
+    <value>Click here to choose a correct address below</value>
+    <comment></comment>
+  </data>
   <!--Index-->
   <data name="BranchCustomers" xml:space="preserve">
     <value>Branch Customers</value>

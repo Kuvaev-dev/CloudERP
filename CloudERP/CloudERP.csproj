@@ -800,6 +800,26 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Ledger.uk-UA.resx</DependentUpon>
     </Compile>
+    <Compile Include="App_GlobalResources\PurchCart\PurchCart.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PurchCart.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\PurchCart\PurchCart.en-US.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PurchCart.en-US.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\PurchCart\PurchCart.ru-RU.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PurchCart.ru-RU.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\PurchCart\PurchCart.uk-UA.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PurchCart.uk-UA.resx</DependentUpon>
+    </Compile>
     <Compile Include="App_GlobalResources\PurchPayment\PurchPayment.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -819,6 +839,26 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>PurchPayment.uk-UA.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\SalePaymentReturnStr\SalePaymentReturnStr.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SalePaymentReturnStr.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\SalePaymentReturnStr\SalePaymentReturnStr.en-US.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SalePaymentReturnStr.en-US.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\SalePaymentReturnStr\SalePaymentReturnStr.ru-RU.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SalePaymentReturnStr.ru-RU.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\SalePaymentReturnStr\SalePaymentReturnStr.uk-UA.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SalePaymentReturnStr.uk-UA.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\SalePayment\SalePayment.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -1079,6 +1119,26 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Task.uk-UA.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\TrialBalance\TrialBalanceStr.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TrialBalanceStr.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\TrialBalance\TrialBalanceStr.en-US.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TrialBalanceStr.en-US.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\TrialBalance\TrialBalanceStr.ru-RU.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TrialBalanceStr.ru-RU.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\TrialBalance\TrialBalanceStr.uk-UA.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TrialBalanceStr.uk-UA.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\UserSetting\UserSetting.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -3915,6 +3975,22 @@
       <LastGenOutput>EmployeeStatistics.ru-RU.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="App_GlobalResources\PurchCart\PurchCart.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>PurchCart.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\PurchCart\PurchCart.en-US.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>PurchCart.en-US.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\PurchCart\PurchCart.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>PurchCart.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\PurchCart\PurchCart.uk-UA.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>PurchCart.uk-UA.designer.cs</LastGenOutput>
+    </Content>
     <EmbeddedResource Include="App_GlobalResources\RepeatingResources\Repeats.uk-UA.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Repeats.uk-UA.Designer.cs</LastGenOutput>
@@ -4019,6 +4095,22 @@
     <Content Include="App_GlobalResources\Support\Support.uk-UA.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Support.uk-UA.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\TrialBalance\TrialBalanceStr.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>TrialBalanceStr.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\TrialBalance\TrialBalanceStr.en-US.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>TrialBalanceStr.en-US.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\TrialBalance\TrialBalanceStr.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>TrialBalanceStr.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\TrialBalance\TrialBalanceStr.uk-UA.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>TrialBalanceStr.uk-UA.designer.cs</LastGenOutput>
     </Content>
     <None Include="Properties\PublishProfiles\CloudERP20240507124545 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
@@ -4298,6 +4390,7 @@
     <Content Include="App_GlobalResources\SaleReturn\SaleReturn.en-US.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>SaleReturn.en-US.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="App_GlobalResources\SaleReturn\SaleReturn.ru-RU.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
@@ -4306,6 +4399,22 @@
     <Content Include="App_GlobalResources\SaleReturn\SaleReturn.uk-UA.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>SaleReturn.uk-UA.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\SalePaymentReturnStr\SalePaymentReturnStr.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>SalePaymentReturnStr.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\SalePaymentReturnStr\SalePaymentReturnStr.en-US.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>SalePaymentReturnStr.en-US.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\SalePaymentReturnStr\SalePaymentReturnStr.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>SalePaymentReturnStr.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\SalePaymentReturnStr\SalePaymentReturnStr.uk-UA.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>SalePaymentReturnStr.uk-UA.designer.cs</LastGenOutput>
     </Content>
     <EmbeddedResource Include="App_GlobalResources\Shared\Sidebar\Resources.en-US.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>

@@ -135,4 +135,39 @@
     <value>Описание</value>
     <comment></comment>
   </data>
+  <data name="BranchSuppliers" xml:space="preserve">
+    <value>Поставщики филиала</value>
+    <comment></comment>
+  </data>
+  <data name="SubBranchSuppliers" xml:space="preserve">
+    <value>Поставщики подфилиала</value>
+    <comment></comment>
+  </data>
+  <!--Create-->
+  <data name="NewSupplier" xml:space="preserve">
+    <value>Новый поставщик</value>
+    <comment></comment>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Зарегистрировать</value>
+    <comment></comment>
+  </data>
+  <data name="PleaseEnterAValidPhoneNumber" xml:space="preserve">
+    <value>Пожалуйста, введите правильный номер телефона</value>
+    <comment></comment>
+  </data>
+  <data name="ClickHereToChooseACorrectAddressBelow" xml:space="preserve">
+    <value>Нажмите здесь чтобы выбрать корректный адресс</value>
+    <comment></comment>
+  </data>
+  <!--Edit-->
+  <data name="EditSupplier" xml:space="preserve">
+    <value>Редактировать поставщика</value>
+    <comment></comment>
+  </data>
+  <!--Details-->
+  <data name="SupplierDetails" xml:space="preserve">
+    <value>Детали поставщика</value>
+    <comment></comment>
+  </data>
 </root>

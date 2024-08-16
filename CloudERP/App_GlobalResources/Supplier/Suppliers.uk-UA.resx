@@ -135,4 +135,39 @@
     <value>Опис</value>
     <comment></comment>
   </data>
+  <data name="BranchSuppliers" xml:space="preserve">
+    <value>Постаальники філії</value>
+    <comment></comment>
+  </data>
+  <data name="SubBranchSuppliers" xml:space="preserve">
+    <value>Постачальники підфілії</value>
+    <comment></comment>
+  </data>
+  <!--Create-->
+  <data name="NewSupplier" xml:space="preserve">
+    <value>Новий постачальник</value>
+    <comment></comment>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Зареєструвати</value>
+    <comment></comment>
+  </data>
+  <data name="PleaseEnterAValidPhoneNumber" xml:space="preserve">
+    <value>Будь ласка, введіть правильний номер телефону</value>
+    <comment></comment>
+  </data>
+  <data name="ClickHereToChooseACorrectAddressBelow" xml:space="preserve">
+    <value>Натисніть, щоб обрати коректну адресу</value>
+    <comment></comment>
+  </data>
+  <!--Edit-->
+  <data name="EditSupplier" xml:space="preserve">
+    <value>Редагувати постачальника</value>
+    <comment></comment>
+  </data>
+  <!--Details-->
+  <data name="SupplierDetails" xml:space="preserve">
+    <value>Деталі постачальника</value>
+    <comment></comment>
+  </data>
 </root>

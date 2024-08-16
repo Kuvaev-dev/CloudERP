@@ -164,4 +164,73 @@
     <value>Оплачен ли платёж за продажу?</value>
     <comment></comment>
   </data>
+  <data name="FinilizeSale" xml:space="preserve">
+    <value>Завершить продажу</value>
+    <comment></comment>
+  </data>
+  <!--PrintSaleInvoice-->
+  <data name="SaleInvoice" xml:space="preserve">
+    <value>Счет на продажу</value>
+    <comment></comment>
+  </data>
+  <data name="Customer" xml:space="preserve">
+    <value>Клиент</value>
+    <comment></comment>
+  </data>
+  <data name="ContactNo" xml:space="preserve">
+    <value>Контакт №</value>
+    <comment></comment>
+  </data>
+  <data name="InvoiceNo" xml:space="preserve">
+    <value>Счет №</value>
+    <comment></comment>
+  </data>
+  <data name="InvoiceDate" xml:space="preserve">
+    <value>Дата счета</value>
+    <comment></comment>
+  </data>
+  <data name="PrintDate" xml:space="preserve">
+    <value>Дата печати</value>
+    <comment></comment>
+  </data>
+  <data name="ItemNo" xml:space="preserve">
+    <value>Товар №</value>
+    <comment></comment>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Количество</value>
+    <comment></comment>
+  </data>
+  <data name="UnitPrice" xml:space="preserve">
+    <value>Цена за единицу</value>
+    <comment></comment>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Итого</value>
+    <comment></comment>
+  </data>
+  <data name="GRANDTOTAL" xml:space="preserve">
+    <value>ОБЩАЯ СУММА</value>
+    <comment></comment>
+  </data>
+  <data name="SaleReturnInvoice" xml:space="preserve">
+    <value>Счет на возврат</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnInvoiceNo" xml:space="preserve">
+    <value>Счет на возврат №</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnInvoiceDate" xml:space="preserve">
+    <value>Дата счета на возврат</value>
+    <comment></comment>
+  </data>
+  <data name="RETURNTOTAL" xml:space="preserve">
+    <value>СУММА ВОЗВРАТА</value>
+    <comment></comment>
+  </data>
+  <data name="Print" xml:space="preserve">
+    <value>Печать</value>
+    <comment></comment>
+  </data>
 </root>

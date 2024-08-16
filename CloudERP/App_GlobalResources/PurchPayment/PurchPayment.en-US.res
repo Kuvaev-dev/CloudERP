@@ -179,4 +179,140 @@
     <value>View Details</value>
     <comment></comment>
   </data>
+
+  <data name="PurchasesPaymentPending" xml:space="preserve">
+    <value>Purchase`s Payment Pending</value>
+    <comment></comment>
+  </data>
+  <data name="Supplier" xml:space="preserve">
+    <value>Supplier</value>
+    <comment></comment>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+    <comment></comment>
+  </data>
+  <data name="TotalAmount" xml:space="preserve">
+    <value>Total Amount</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnProductsTotalAmount" xml:space="preserve">
+    <value>Return Products (Total Amount)</value>
+    <comment></comment>
+  </data>
+  <data name="AmountAfterReturn" xml:space="preserve">
+    <value>Amount After Return</value>
+    <comment></comment>
+  </data>
+  <data name="PaidAmount" xml:space="preserve">
+    <value>Paid Amount</value>
+    <comment></comment>
+  </data>
+  <data name="PaymentAmount" xml:space="preserve">
+    <value>Payment Amount</value>
+    <comment></comment>
+  </data>
+  <data name="RemainingBalance" xml:space="preserve">
+    <value>Remaining Balance</value>
+    <comment></comment>
+  </data>
+  <data name="PayAmount" xml:space="preserve">
+    <value>Pay Amount</value>
+    <comment></comment>
+  </data>
+  <data name="PayHistory" xml:space="preserve">
+    <value>Pay History</value>
+    <comment></comment>
+  </data>
+
+  <data name="PurchasePayment" xml:space="preserve">
+    <value>Purchase Payment</value>
+    <comment></comment>
+  </data>
+  <data name="EnterPaymentsDetails" xml:space="preserve">
+    <value>Enter Payment`s Details</value>
+    <comment></comment>
+  </data>
+  <data name="PreviousRemainingAmount" xml:space="preserve">
+    <value>Previous Remaining Amount</value>
+    <comment></comment>
+  </data>
+  <data name="PaymentAmount" xml:space="preserve">
+    <value>Payment Amount</value>
+    <comment></comment>
+  </data>
+  <data name="CurrentRemainingAmount" xml:space="preserve">
+    <value>Current Remaining Amount</value>
+    <comment></comment>
+  </data>
+  <data name="SubmitPayment" xml:space="preserve">
+    <value>Submit Payment</value>
+    <comment></comment>
+  </data>
+  <data name="PurchaseInvoicePaymentDetail" xml:space="preserve">
+    <value>Purchase Invoice Payment Detail</value>
+    <comment></comment>
+  </data>
+  <data name="PurchaseReturnDetails" xml:space="preserve">
+    <value>Purchase Return Details</value>
+    <comment></comment>
+  </data>
+  <data name="InvoiceDate" xml:space="preserve">
+    <value>Invoice Date</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnTotal" xml:space="preserve">
+    <value>Return Total</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnPayment" xml:space="preserve">
+    <value>Return Payment</value>
+    <comment></comment>
+  </data>
+  <data name="RemainingReturn" xml:space="preserve">
+    <value>Remaining Return</value>
+    <comment></comment>
+  </data>
+  <data name="PaymentDate" xml:space="preserve">
+    <value>Payment Date</value>
+    <comment></comment>
+  </data>
+  <data name="NoPaymentRecord" xml:space="preserve">
+    <value>No Payment Record</value>
+    <comment></comment>
+  </data>
+  <data name="RemainingTotalBalance" xml:space="preserve">
+    <value>Remaining Total Balance</value>
+    <comment></comment>
+  </data>
+
+  <data name="PurchasePaidDetails" xml:space="preserve">
+    <value>Purchase Paid Details</value>
+    <comment></comment>
+  </data>
+  <data name="PurchaseInvoicePaymentDetail" xml:space="preserve">
+    <value>Purchase Invoice Payment Detail</value>
+    <comment></comment>
+  </data>
+
+  <data name="AllReturnPurchasesPendingReturnPayment" xml:space="preserve">
+    <value>All Return Purchases (Pending Return Payment)</value>
+    <comment></comment>
+  </data>
+  <data name="SetPayment" xml:space="preserve">
+    <value>Set Payment</value>
+    <comment></comment>
+  </data>
+  <data name="PayHistory" xml:space="preserve">
+    <value>Pay History</value>
+    <comment></comment>
+  </data>
+  <data name="NoHistory" xml:space="preserve">
+    <value>No History</value>
+    <comment></comment>
+  </data>
+  <data name="ViewDetails" xml:space="preserve">
+    <value>View Details</value>
+    <comment></comment>
+  </data>
 </root>

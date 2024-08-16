@@ -1,14 +1,14 @@
 ﻿@model DatabaseAccess.tblSupplier
 
 @{
-    ViewBag.Title = "Supplier Details";
+    ViewBag.Title = Resources.Suppliers.SupplierDetails;
 }
 
 <div class="form-horizontal">
     <div class="col-md-10">
         <dl class="dl-horizontal">
             <dt>
-                Supplier Name
+                @Resources.Suppliers.SupplierName
             </dt>
 
             <dd>
@@ -16,7 +16,7 @@
             </dd>
 
             <dt>
-                Contact №
+                @Resources.Suppliers.ConatctNo
             </dt>
 
             <dd>
@@ -24,7 +24,7 @@
             </dd>
 
             <dt>
-                Address
+                @Resources.Suppliers.Address
             </dt>
 
             <dd>
@@ -32,7 +32,7 @@
             </dd>
 
             <dt>
-                E-mail
+                @Resources.Suppliers.Email
             </dt>
 
             <dd>
@@ -40,7 +40,7 @@
             </dd>
 
             <dt>
-                Description
+                @Resources.Suppliers.Description
             </dt>
 
             <dd>
@@ -48,7 +48,7 @@
             </dd>
 
             <dt>
-                Branch
+                @Resources.Suppliers.BranchTitle
             </dt>
 
             <dd>
@@ -56,7 +56,7 @@
             </dd>
 
             <dt>
-                Company
+                @Resources.Suppliers.CompanyTitle
             </dt>
 
             <dd>
@@ -64,7 +64,7 @@
             </dd>
 
             <dt>
-                Full Name
+                @Resources.Suppliers.SupplierName
             </dt>
 
             <dd>
@@ -75,8 +75,8 @@
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            @Html.ActionLink("Edit", "Edit", new { id = Model.SupplierID }, new { @class="btn btn-primary" })
-            @Html.ActionLink("Back to List", "Index", null, new { @class="btn btn-default" })
+            @Html.ActionLink(Resources.Repeats.Edit, "Edit", new { id = Model.SupplierID }, new { @class="btn btn-primary" })
+            @Html.ActionLink(Resources.Repeats.BackToList, "Index", null, new { @class="btn btn-default" })
         </div>
     </div>
 </div>

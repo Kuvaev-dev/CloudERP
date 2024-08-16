@@ -164,4 +164,73 @@
     <value>Is Sale Payment Paid?</value>
     <comment></comment>
   </data>
+  <data name="FinilizeSale" xml:space="preserve">
+    <value>Finilize Sale</value>
+    <comment></comment>
+  </data>
+  <!--PrintSaleInvoice-->
+  <data name="SaleInvoice" xml:space="preserve">
+    <value>Sale Invoice</value>
+    <comment></comment>
+  </data>
+  <data name="Customer" xml:space="preserve">
+    <value>Customer</value>
+    <comment></comment>
+  </data>
+  <data name="ContactNo" xml:space="preserve">
+    <value>Contact №</value>
+    <comment></comment>
+  </data>
+  <data name="InvoiceNo" xml:space="preserve">
+    <value>Invoice №</value>
+    <comment></comment>
+  </data>
+  <data name="InvoiceDate" xml:space="preserve">
+    <value>Invoice Date</value>
+    <comment></comment>
+  </data>
+  <data name="PrintDate" xml:space="preserve">
+    <value>Print Date</value>
+    <comment></comment>
+  </data>
+  <data name="ItemNo" xml:space="preserve">
+    <value>Item №</value>
+    <comment></comment>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Quantity</value>
+    <comment></comment>
+  </data>
+  <data name="UnitPrice" xml:space="preserve">
+    <value>Unit Price</value>
+    <comment></comment>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+    <comment></comment>
+  </data>
+  <data name="GRANDTOTAL" xml:space="preserve">
+    <value>GRAND TOTAL</value>
+    <comment></comment>
+  </data>
+  <data name="SaleReturnInvoice" xml:space="preserve">
+    <value>Sale Return Invoice</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnInvoiceNo" xml:space="preserve">
+    <value>Return Invoice №</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnInvoiceDate" xml:space="preserve">
+    <value>Return Invoice Date</value>
+    <comment></comment>
+  </data>
+  <data name="RETURNTOTAL" xml:space="preserve">
+    <value>RETURN TOTAL</value>
+    <comment></comment>
+  </data>
+  <data name="Print" xml:space="preserve">
+    <value>Print</value>
+    <comment></comment>
+  </data>
 </root>

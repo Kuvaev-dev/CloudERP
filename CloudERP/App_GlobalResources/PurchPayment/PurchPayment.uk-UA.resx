@@ -179,4 +179,140 @@
     <value>Переглянути деталі</value>
     <comment></comment>
   </data>
+
+  <data name="PurchasesPaymentPending" xml:space="preserve">
+    <value>Очікування оплати покупки</value>
+    <comment></comment>
+  </data>
+  <data name="Supplier" xml:space="preserve">
+    <value>Постачальник</value>
+    <comment></comment>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Дата</value>
+    <comment></comment>
+  </data>
+  <data name="TotalAmount" xml:space="preserve">
+    <value>Загальна сума</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnProductsTotalAmount" xml:space="preserve">
+    <value>Повернення товарів (загальна сума)</value>
+    <comment></comment>
+  </data>
+  <data name="AmountAfterReturn" xml:space="preserve">
+    <value>Сума після повернення</value>
+    <comment></comment>
+  </data>
+  <data name="PaidAmount" xml:space="preserve">
+    <value>Сплачена сума</value>
+    <comment></comment>
+  </data>
+  <data name="PaymentAmount" xml:space="preserve">
+    <value>Сума оплати</value>
+    <comment></comment>
+  </data>
+  <data name="RemainingBalance" xml:space="preserve">
+    <value>Залишок балансу</value>
+    <comment></comment>
+  </data>
+  <data name="PayAmount" xml:space="preserve">
+    <value>Сплатити суму</value>
+    <comment></comment>
+  </data>
+  <data name="PayHistory" xml:space="preserve">
+    <value>Історія оплат</value>
+    <comment></comment>
+  </data>
+
+  <data name="PurchasePayment" xml:space="preserve">
+    <value>Оплата покупки</value>
+    <comment></comment>
+  </data>
+  <data name="EnterPaymentsDetails" xml:space="preserve">
+    <value>Введіть деталі оплати</value>
+    <comment></comment>
+  </data>
+  <data name="PreviousRemainingAmount" xml:space="preserve">
+    <value>Попередня залишкова сума</value>
+    <comment></comment>
+  </data>
+  <data name="PaymentAmount" xml:space="preserve">
+    <value>Сума оплати</value>
+    <comment></comment>
+  </data>
+  <data name="CurrentRemainingAmount" xml:space="preserve">
+    <value>Поточна залишкова сума</value>
+    <comment></comment>
+  </data>
+  <data name="SubmitPayment" xml:space="preserve">
+    <value>Надіслати оплату</value>
+    <comment></comment>
+  </data>
+  <data name="PurchaseInvoicePaymentDetail" xml:space="preserve">
+    <value>Деталі оплати рахунку-фактури на покупку</value>
+    <comment></comment>
+  </data>
+  <data name="PurchaseReturnDetails" xml:space="preserve">
+    <value>Деталі повернення покупки</value>
+    <comment></comment>
+  </data>
+  <data name="InvoiceDate" xml:space="preserve">
+    <value>Дата рахунку-фактури</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnTotal" xml:space="preserve">
+    <value>Підсумок повернення</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnPayment" xml:space="preserve">
+    <value>Повернення оплати</value>
+    <comment></comment>
+  </data>
+  <data name="RemainingReturn" xml:space="preserve">
+    <value>Залишок повернення</value>
+    <comment></comment>
+  </data>
+  <data name="PaymentDate" xml:space="preserve">
+    <value>Дата оплати</value>
+    <comment></comment>
+  </data>
+  <data name="NoPaymentRecord" xml:space="preserve">
+    <value>Запис про оплату відсутній</value>
+    <comment></comment>
+  </data>
+  <data name="RemainingTotalBalance" xml:space="preserve">
+    <value>Залишковий загальний баланс</value>
+    <comment></comment>
+  </data>
+
+  <data name="PurchasePaidDetails" xml:space="preserve">
+    <value>Деталі оплаченого придбання</value>
+    <comment></comment>
+  </data>
+  <data name="PurchaseInvoicePaymentDetail" xml:space="preserve">
+    <value>Деталі оплати рахунку-фактури на покупку</value>
+    <comment></comment>
+  </data>
+
+  <data name="AllReturnPurchasesPendingReturnPayment" xml:space="preserve">
+    <value>Всі повернення покупок (очікує оплати повернення)</value>
+    <comment></comment>
+  </data>
+  <data name="SetPayment" xml:space="preserve">
+    <value>Встановити оплату</value>
+    <comment></comment>
+  </data>
+  <data name="PayHistory" xml:space="preserve">
+    <value>Історія платежів</value>
+    <comment></comment>
+  </data>
+  <data name="NoHistory" xml:space="preserve">
+    <value>Немає історії</value>
+    <comment></comment>
+  </data>
+  <data name="ViewDetails" xml:space="preserve">
+    <value>Перегляд деталей</value>
+    <comment></comment>
+  </data>
 </root>

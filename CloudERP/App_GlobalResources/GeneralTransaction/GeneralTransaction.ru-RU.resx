@@ -98,6 +98,10 @@
 	<resheader name="writer">
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
+  <data name="JournalByTransactionsDate" xml:space="preserve">
+    <value>Журнал (по дате транзакции)</value>
+    <comment></comment>
+  </data>
   <data name="SubBranchJournalByTransactionsDate" xml:space="preserve">
     <value>Журнал подфилиала (по дате транзакции)</value>
     <comment></comment>
@@ -150,4 +154,29 @@
     <value>Кредит</value>
     <comment></comment>
 	</data>
+
+  <data name="NewGeneralTransaction" xml:space="preserve">
+    <value>Новая общая транзакция</value>
+    <comment></comment>
+  </data>
+  <data name="SelectAccountCredit" xml:space="preserve">
+    <value>Выберите кредитовый счет</value>
+    <comment></comment>
+  </data>
+  <data name="SelectAccountDebit" xml:space="preserve">
+    <value>Выберите дебетовый счет</value>
+    <comment></comment>
+  </data>
+  <data name="EnterAmount" xml:space="preserve">
+    <value>Введите сумму</value>
+    <comment></comment>
+  </data>
+  <data name="EnterReason" xml:space="preserve">
+    <value>Введите причину</value>
+    <comment></comment>
+  </data>
+  <data name="SubmitTransaction" xml:space="preserve">
+    <value>Отправить транзакцию</value>
+    <comment></comment>
+  </data>
 </root>

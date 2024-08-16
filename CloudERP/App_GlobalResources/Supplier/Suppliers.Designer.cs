@@ -79,11 +79,29 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Branch Suppliers.
+        /// </summary>
+        internal static string BranchSuppliers {
+            get {
+                return ResourceManager.GetString("BranchSuppliers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Branch.
         /// </summary>
         internal static string BranchTitle {
             get {
                 return ResourceManager.GetString("BranchTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Click here to choose a correct address below.
+        /// </summary>
+        internal static string ClickHereToChooseACorrectAddressBelow {
+            get {
+                return ResourceManager.GetString("ClickHereToChooseACorrectAddressBelow", resourceCulture);
             }
         }
         
@@ -115,11 +133,65 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Edit Supplier.
+        /// </summary>
+        internal static string EditSupplier {
+            get {
+                return ResourceManager.GetString("EditSupplier", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Email.
         /// </summary>
         internal static string Email {
             get {
                 return ResourceManager.GetString("Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на New Supplier.
+        /// </summary>
+        internal static string NewSupplier {
+            get {
+                return ResourceManager.GetString("NewSupplier", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Please enter a valid phone number.
+        /// </summary>
+        internal static string PleaseEnterAValidPhoneNumber {
+            get {
+                return ResourceManager.GetString("PleaseEnterAValidPhoneNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Register.
+        /// </summary>
+        internal static string Register {
+            get {
+                return ResourceManager.GetString("Register", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Sub Branch Suppliers.
+        /// </summary>
+        internal static string SubBranchSuppliers {
+            get {
+                return ResourceManager.GetString("SubBranchSuppliers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Supplier Details.
+        /// </summary>
+        internal static string SupplierDetails {
+            get {
+                return ResourceManager.GetString("SupplierDetails", resourceCulture);
             }
         }
         

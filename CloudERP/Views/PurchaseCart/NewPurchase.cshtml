@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DatabaseAccess.tblPurchaseCartDetail>
 
 @{
-    ViewBag.Title = "Purchasing";
+    ViewBag.Title = Resources.PurchCart.Purchasing.ToString();
     var products = ViewBag.Products as List<DatabaseAccess.tblStock>;
 }
 
@@ -21,7 +21,7 @@
             <label class="control-label col-md-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.SaleCart.SelectProduct))</label>
             <div class="col-md-5">
                 <select class="form-control" id="PID" name="PID" required>
-                    <option value="">Select Product</option>
+                    <option value="">@Resources.PurchCart.SelectProduct.ToString()</option>
                     @foreach (var product in products)
                     {
                         <option value="@product.ProductID">@product.ProductName (QTY: @product.Quantity)</option>
@@ -31,14 +31,14 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2">Quantity</label>
+            <label class="control-label col-md-2">@Resources.PurchCart.Quantity.ToString()</label>
             <div class="col-md-5">
                 <input type="number" class="form-control" id="Qty" name="Qty" placeholder="Enter Purchase Quantity..." required />
             </div>
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2">Unit Price</label>
+            <label class="control-label col-md-2">@Resources.PurchCart.UnitPrice.ToString()</label>
             <div class="col-md-5">
                 <input type="number" class="form-control" id="Price" step=".01" name="Price" placeholder="Enter Unit Price..." required />
             </div>
@@ -53,7 +53,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Add Item" class="btn btn-success" />
+                <input type="submit" value="@Resources.PurchCart.AddItem.ToString()" class="btn btn-success" />
             </div>
         </div>
     </div>
@@ -61,7 +61,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        <h3 class="text-bold">Items List</h3>
+        <h3 class="text-bold">@Resources.PurchCart.ItemsList.ToString()</h3>
         <h4 class="text-success">
             @{
                 if (ViewBag.Message != null) 
@@ -81,22 +81,22 @@
                 <thead style="background-color:lightgray;">
                     <tr>
                         <th>
-                            Item`s
+                            @Resources.PurchCart.Items.ToString()
                         </th>
                         <th>
-                            Quantity
+                            @Resources.PurchCart.Quantity.ToString()
                         </th>
                         <th>
-                            Unit Price
+                            @Resources.PurchCart.UnitPrice.ToString()
                         </th>
                         <th>
-                            Item Cost
+                            @Resources.PurchCart.ItemCost.ToString()
                         </th>
                         <th>
-                            User
+                            @Resources.PurchCart.User.ToString()
                         </th>
                         <th>
-                            Actions
+                            @Resources.Repeats.Actions.ToString()
                         </th>
                     </tr>
                 </thead>
@@ -120,7 +120,7 @@
                                 @Html.DisplayFor(modelItem => item.tblUser.UserName)
                             </td>
                             <td>
-                                @Html.ActionLink("Delete", "DeleteConfirm", new { id = item.PurchaseCartDetailID }, new { @class = "btn btn-danger" })
+                                @Html.ActionLink(Resources.Repeats.Delete.ToString(), "DeleteConfirm", new { id = item.PurchaseCartDetailID }, new { @class = "btn btn-danger" })
                             </td>
                         </tr>
                     }
@@ -130,16 +130,16 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td style="background-color:black; color:white;">Total Purchase Amount</td>
+                        <td style="background-color:black; color:white;">@Resources.PurchCart.TotalPurchaseAmount.ToString()</td>
                         <td style="background-color:black; color:white;">
-                            @(string.Format("{0:0.000}", Math.Truncate(ViewBag.TotalAmount * 10) / 10)) UAH
+                            @(string.Format("{0:0.000}", Math.Truncate(ViewBag.TotalAmount * 10) / 10)) @Resources.Repeats.UAH.ToString()
                         </td>
                     </tr>
                 </tfoot>
             </table>
             <div style="float:right; margin-top:20px;">
-                @Html.ActionLink("Next", "SelectSupplier", null, new { @class = "btn btn-success", style="padding:20px;" })
-                @Html.ActionLink("Cancel", "CancelPurchase", null, new { @class = "btn btn-danger", style = "padding:20px;" })
+                @Html.ActionLink(Resources.PurchCart.Next.ToString(), "SelectSupplier", null, new { @class = "btn btn-success", style="padding:20px;" })
+                @Html.ActionLink(Resources.PurchCart.Cancel.ToString(), "CancelPurchase", null, new { @class = "btn btn-danger", style = "padding:20px;" })
             </div>
         </div>
     </div>

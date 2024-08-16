@@ -205,4 +205,102 @@
     <value>Retrive Record Sub Branch</value>
     <comment></comment>
   </data>
+  <!--PaidAmount-->
+  <data name="SalePaidAmount" xml:space="preserve">
+    <value>Sale Paid Amount</value>
+    <comment></comment>
+  </data>
+  <data name="EnterPaymentsDetails" xml:space="preserve">
+    <value>Enter Payment`s Details</value>
+    <comment></comment>
+  </data>
+  <data name="SaleRemainingAmount" xml:space="preserve">
+    <value>Sale Remaining Amount</value>
+    <comment></comment>
+  </data>
+  <data name="PaidAmount" xml:space="preserve">
+    <value>Paid Amount</value>
+    <comment></comment>
+  </data>
+  <data name="CurrentRemainingAmount" xml:space="preserve">
+    <value>Current Remaining Amount</value>
+    <comment></comment>
+  </data>
+  <data name="SaleInvoicePaidDetail" xml:space="preserve">
+    <value>Sale Invoice Paid Detail</value>
+    <comment></comment>
+  </data>
+  <data name="Supplier" xml:space="preserve">
+    <value>Supplier</value>
+    <comment></comment>
+  </data>
+  <data name="ContactNo" xml:space="preserve">
+    <value>Contact №</value>
+    <comment></comment>
+  </data>
+  <data name="InvoiceNo" xml:space="preserve">
+    <value>Invoice №</value>
+    <comment></comment>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+    <comment></comment>
+  </data>
+  <data name="TotalAmount" xml:space="preserve">
+    <value>Total Amount</value>
+    <comment></comment>
+  </data>
+  <data name="PaidAmount" xml:space="preserve">
+    <value>Paid Amount</value>
+    <comment></comment>
+  </data>
+  <data name="RemainingBalance" xml:space="preserve">
+    <value>Remaining Balance</value>
+    <comment></comment>
+  </data>
+  <data name="RemainingBalance" xml:space="preserve">
+    <value>Remaining Balance</value>
+    <comment></comment>
+  </data>
+  <!--PaidHistory-->
+  <data name="SalePaymentDetails" xml:space="preserve">
+    <value>Sale Payment Details</value>
+    <comment></comment>
+  </data>
+  <data name="SaleReturnDetails" xml:space="preserve">
+    <value>Sale Return Details</value>
+    <comment></comment>
+  </data>
+  <data name="InvoiceDate" xml:space="preserve">
+    <value>Invoice Date</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnTotal" xml:space="preserve">
+    <value>Return Total</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnPayment" xml:space="preserve">
+    <value>Return Payment</value>
+    <comment></comment>
+  </data>
+  <data name="RemainingReturn" xml:space="preserve">
+    <value>Remaining Return</value>
+    <comment></comment>
+  </data>
+  <data name="PaymentDate" xml:space="preserve">
+    <value>Payment Date</value>
+    <comment></comment>
+  </data>
+  <data name="PaymentAmount" xml:space="preserve">
+    <value>Payment Amount</value>
+    <comment></comment>
+  </data>
+  <data name="NoPaymentRecord" xml:space="preserve">
+    <value>No Payment Record</value>
+    <comment></comment>
+  </data>
+  <data name="RemainingTotalBalance" xml:space="preserve">
+    <value>Remaining Total Balance</value>
+    <comment></comment>
+  </data>
 </root>

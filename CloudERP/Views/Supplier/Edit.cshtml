@@ -1,7 +1,7 @@
 ﻿@model DatabaseAccess.tblSupplier
 
 @{
-    ViewBag.Title = "Edit Supplier";
+    ViewBag.Title = Resources.Suppliers.EditSupplier.ToString();
 }
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
@@ -28,7 +28,7 @@
         @Html.HiddenFor(model => model.CompanyID)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.SupplierName, "New Supplier Name", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.SupplierName, Resources.Suppliers.SupplierName.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.SupplierName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.SupplierName, "", new { @class = "text-danger" })
@@ -36,7 +36,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.SupplierConatctNo, "New Contact №", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.SupplierConatctNo, Resources.Suppliers.ConatctNo.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.SupplierConatctNo, new { htmlAttributes = new { @class = "form-control", @id = "PhoneNumber" } })
                 @Html.ValidationMessageFor(model => model.SupplierConatctNo, "", new { @class = "text-danger" })
@@ -44,17 +44,17 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.SupplierAddress, "New Supplier Address", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.SupplierAddress, Resources.Suppliers.Address.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.SupplierAddress, new { htmlAttributes = new { @class = "form-control", @id = "address" } })
                 @Html.ValidationMessageFor(model => model.SupplierAddress, "", new { @class = "text-danger" })
-                <h5 class="mt-3">Click here to choose a correct address below</h5>
+                <h5 class="mt-3">@Resources.Suppliers.ClickHereToChooseACorrectAddressBelow.ToString()</h5>
                 <ul id="suggestions"></ul>
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.SupplierEmail, "New Supplier E-mail", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.SupplierEmail, Resources.Suppliers.Email.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.SupplierEmail, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.SupplierEmail, "", new { @class = "text-danger" })
@@ -62,7 +62,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Discription, "New Supplier Description", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Discription, Resources.Suppliers.Description.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Discription, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Discription, "", new { @class = "text-danger" })
@@ -71,8 +71,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Update" class="btn btn-success" />
-                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+                <input type="submit" value="@Resources.Repeats.Update.ToString()" class="btn btn-success" />
+                @Html.ActionLink(Resources.Repeats.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
                 <button id="voiceRecognitionButton" class="btn btn-link" type="button">
                     <i class="fas fa-microphone" style="font-size: 1.5em; color: gray;"></i>
                 </button>

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DatabaseAccess.Models.TrialBalanceModel>
 
 @{
-    ViewBag.Title = "Trial Balance";
+    ViewBag.Title = Resources.TrialBalanceStr.TrialBalance.ToString();
 }
 
 <script src="~/Scripts/jquery-3.7.1.js"></script>
@@ -14,9 +14,9 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">
-                        <label>Select Financial Year</label>
-                        @Html.DropDownList("id", (SelectList)ViewBag.FinancialYears, "Select Financial Year", new { @class = "form-control", required = "required" })
-                        <input type="submit" value="Retrieve Transactions" class="btn btn-success form-control mt-2">
+                        <label>@Resources.TrialBalanceStr.SelectFinancialYear.ToString()</label>
+                        @Html.DropDownList("id", (SelectList)ViewBag.FinancialYears, Resources.TrialBalanceStr.SelectFinancialYear.ToString(), new { @class = "form-control", required = "required" })
+                        <input type="submit" value="@Resources.TrialBalanceStr.RetrieveTransactions.ToString()" class="btn btn-success form-control mt-2">
                     </div>
                     <div class="col-md-4">
                         <h3 class="text-danger">@ViewBag.Message</h3>
@@ -30,20 +30,20 @@
 
 <div class="card">
     <div class="card-header">
-        <div class="card-title">Export</div>
+        <div class="card-title">@Resources.TrialBalanceStr.Export.ToString()</div>
     </div>
     <div class="card-body">
-        <table class="table my-4 w-100" id="datatable">
+        <table class="table my-4 w-100" id="dataTable">
             <thead>
                 <tr>
                     <th>
-                        Account Title
+                        @Resources.TrialBalanceStr.AccountTitle.ToString()
                     </th>
                     <th>
-                        Debit
+                        @Resources.TrialBalanceStr.Debit.ToString()
                     </th>
                     <th>
-                        Credit
+                        @Resources.TrialBalanceStr.Credit.ToString()
                     </th>
                 </tr>
             </thead>
@@ -105,11 +105,9 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $(document).ready(function () {
-            $('#dataTable').DataTable({
-                "columnDefs": [{ "orderable": false, "targets": 3 }],
-                "lengthMenu": [[5, 10, 25, 50, 75, 100, 150, 200, -1], [5, 10, 25, 50, 75, 100, 150, 200, "All"]],
-            });
+        $('#dataTable').DataTable({
+            "columnDefs": [{ "orderable": false, "targets": 3 }],
+            "lengthMenu": [[5, 10, 25, 50, 75, 100, 150, 200, -1], [5, 10, 25, 50, 75, 100, 150, 200, "All"]],
         });
 
         $.ajax({

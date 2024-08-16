@@ -99,6 +99,10 @@
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
   <!--SubJournal-->
+  <data name="JournalByTransactionsDate" xml:space="preserve">
+    <value>Journal (By Transaction`s Date)</value>
+    <comment></comment>
+  </data>
   <data name="SubBranchJournalByTransactionsDate" xml:space="preserve">
     <value>Sub Branch Journal (By Transaction`s Date)</value>
     <comment></comment>
@@ -149,6 +153,31 @@
   </data>
   <data name="Credit" xml:space="preserve">
     <value>Credit</value>
+    <comment></comment>
+  </data>
+
+  <data name="NewGeneralTransaction" xml:space="preserve">
+    <value>New General Transaction</value>
+    <comment></comment>
+  </data>
+  <data name="SelectAccountCredit" xml:space="preserve">
+    <value>Select Credit Account</value>
+    <comment></comment>
+  </data>
+  <data name="SelectAccountDebit" xml:space="preserve">
+    <value>Select Debit Account</value>
+    <comment></comment>
+  </data>
+  <data name="EnterAmount" xml:space="preserve">
+    <value>Enter Amount</value>
+    <comment></comment>
+  </data>
+  <data name="EnterReason" xml:space="preserve">
+    <value>Enter Reason</value>
+    <comment></comment>
+  </data>
+  <data name="SubmitTransaction" xml:space="preserve">
+    <value>Submit Transaction</value>
     <comment></comment>
   </data>
 </root>

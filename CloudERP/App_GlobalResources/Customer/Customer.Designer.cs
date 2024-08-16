@@ -106,6 +106,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Click here to choose a correct address below.
+        /// </summary>
+        internal static string ClickHereToChooseACorrectAddressBelow {
+            get {
+                return ResourceManager.GetString("ClickHereToChooseACorrectAddressBelow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Company.
         /// </summary>
         internal static string CompanyTitle {

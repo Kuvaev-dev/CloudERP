@@ -164,4 +164,73 @@
     <value>Чи оплачено платіж за продаж?</value>
     <comment></comment>
   </data>
+  <data name="FinilizeSale" xml:space="preserve">
+    <value>Завершити продаж</value>
+    <comment></comment>
+  </data>
+  <!--PrintSaleInvoice-->
+  <data name="SaleInvoice" xml:space="preserve">
+    <value>Рахунок на продаж</value>
+    <comment></comment>
+  </data>
+  <data name="Customer" xml:space="preserve">
+    <value>Клієнт</value>
+    <comment></comment>
+  </data>
+  <data name="ContactNo" xml:space="preserve">
+    <value>Контакт №</value>
+    <comment></comment>
+  </data>
+  <data name="InvoiceNo" xml:space="preserve">
+    <value>Рахунок №</value>
+    <comment></comment>
+  </data>
+  <data name="InvoiceDate" xml:space="preserve">
+    <value>Дата рахунку</value>
+    <comment></comment>
+  </data>
+  <data name="PrintDate" xml:space="preserve">
+    <value>Дата друку</value>
+    <comment></comment>
+  </data>
+  <data name="ItemNo" xml:space="preserve">
+    <value>Товар №</value>
+    <comment></comment>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Кількість</value>
+    <comment></comment>
+  </data>
+  <data name="UnitPrice" xml:space="preserve">
+    <value>Ціна за одиницю</value>
+    <comment></comment>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Разом</value>
+    <comment></comment>
+  </data>
+  <data name="GRANDTOTAL" xml:space="preserve">
+    <value>ЗАГАЛЬНА СУМА</value>
+    <comment></comment>
+  </data>
+  <data name="SaleReturnInvoice" xml:space="preserve">
+    <value>Рахунок на повернення</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnInvoiceNo" xml:space="preserve">
+    <value>Рахунок на повернення №</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnInvoiceDate" xml:space="preserve">
+    <value>Дата рахунку на повернення</value>
+    <comment></comment>
+  </data>
+  <data name="RETURNTOTAL" xml:space="preserve">
+    <value>СУМА ПОВЕРНЕННЯ</value>
+    <comment></comment>
+  </data>
+  <data name="Print" xml:space="preserve">
+    <value>Друк</value>
+    <comment></comment>
+  </data>
 </root>

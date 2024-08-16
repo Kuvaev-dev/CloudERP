@@ -144,6 +144,10 @@
     <value>Опис</value>
     <comment></comment>
   </data>
+  <data name="ClickHereToChooseACorrectAddressBelow" xml:space="preserve">
+    <value>Натисніть тут, щоб обрати коректну адресу</value>
+    <comment></comment>
+  </data>
   <!--Index-->
   <data name="BranchCustomers" xml:space="preserve">
     <value>Покупці філії</value>

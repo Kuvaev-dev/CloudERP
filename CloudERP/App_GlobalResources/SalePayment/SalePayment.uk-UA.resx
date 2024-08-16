@@ -205,4 +205,94 @@
     <value>Отримати запис підфілії</value>
     <comment></comment>
   </data>
+  <!--PaidAmount-->
+  <data name="SalePaidAmount" xml:space="preserve">
+    <value>Сума оплати за продаж</value>
+    <comment></comment>
+  </data>
+  <data name="EnterPaymentsDetails" xml:space="preserve">
+    <value>Введіть деталі оплати</value>
+    <comment></comment>
+  </data>
+  <data name="SaleRemainingAmount" xml:space="preserve">
+    <value>Залишкова сума за продаж</value>
+    <comment></comment>
+  </data>
+  <data name="PaidAmount" xml:space="preserve">
+    <value>Оплачена сума</value>
+    <comment></comment>
+  </data>
+  <data name="CurrentRemainingAmount" xml:space="preserve">
+    <value>Поточна залишкова сума</value>
+    <comment></comment>
+  </data>
+  <data name="SaleInvoicePaidDetail" xml:space="preserve">
+    <value>Деталі оплати за рахунком продажу</value>
+    <comment></comment>
+  </data>
+  <data name="Supplier" xml:space="preserve">
+    <value>Постачальник</value>
+    <comment></comment>
+  </data>
+  <data name="ContactNo" xml:space="preserve">
+    <value>Контакт №</value>
+    <comment></comment>
+  </data>
+  <data name="InvoiceNo" xml:space="preserve">
+    <value>Рахунок №</value>
+    <comment></comment>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Дата</value>
+    <comment></comment>
+  </data>
+  <data name="TotalAmount" xml:space="preserve">
+    <value>Загальна сума</value>
+    <comment></comment>
+  </data>
+  <data name="RemainingBalance" xml:space="preserve">
+    <value>Залишок</value>
+    <comment></comment>
+  </data>
+  <!--PaidHistory-->
+  <data name="SalePaymentDetails" xml:space="preserve">
+    <value>Деталі оплати за продаж</value>
+    <comment></comment>
+  </data>
+  <data name="SaleReturnDetails" xml:space="preserve">
+    <value>Деталі повернення продажу</value>
+    <comment></comment>
+  </data>
+  <data name="InvoiceDate" xml:space="preserve">
+    <value>Дата рахунку</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnTotal" xml:space="preserve">
+    <value>Загальна сума повернення</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnPayment" xml:space="preserve">
+    <value>Оплата повернення</value>
+    <comment></comment>
+  </data>
+  <data name="RemainingReturn" xml:space="preserve">
+    <value>Залишок повернення</value>
+    <comment></comment>
+  </data>
+  <data name="PaymentDate" xml:space="preserve">
+    <value>Дата оплати</value>
+    <comment></comment>
+  </data>
+  <data name="PaymentAmount" xml:space="preserve">
+    <value>Сума оплати</value>
+    <comment></comment>
+  </data>
+  <data name="NoPaymentRecord" xml:space="preserve">
+    <value>Запис про оплату відсутній</value>
+    <comment></comment>
+  </data>
+  <data name="RemainingTotalBalance" xml:space="preserve">
+    <value>Залишок загального балансу</value>
+    <comment></comment>
+  </data>
 </root>

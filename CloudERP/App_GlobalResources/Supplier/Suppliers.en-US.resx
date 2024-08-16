@@ -135,4 +135,39 @@
     <value>Description</value>
     <comment></comment>
   </data>
+  <data name="BranchSuppliers" xml:space="preserve">
+    <value>Branch Suppliers</value>
+    <comment></comment>
+  </data>
+  <data name="SubBranchSuppliers" xml:space="preserve">
+    <value>Sub Branch Suppliers</value>
+    <comment></comment>
+  </data>
+  <!--Create-->
+  <data name="NewSupplier" xml:space="preserve">
+    <value>New Supplier</value>
+    <comment></comment>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Register</value>
+    <comment></comment>
+  </data>
+  <data name="PleaseEnterAValidPhoneNumber" xml:space="preserve">
+    <value>Please enter a valid phone number</value>
+    <comment></comment>
+  </data>
+  <data name="ClickHereToChooseACorrectAddressBelow" xml:space="preserve">
+    <value>Click here to choose a correct address below</value>
+    <comment></comment>
+  </data>
+  <!--Edit-->
+  <data name="EditSupplier" xml:space="preserve">
+    <value>Edit Supplier</value>
+    <comment></comment>
+  </data>
+  <!--Details-->
+  <data name="SupplierDetails" xml:space="preserve">
+    <value>Supplier Details</value>
+    <comment></comment>
+  </data>
 </root>

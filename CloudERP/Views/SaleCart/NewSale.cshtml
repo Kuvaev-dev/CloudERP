@@ -29,7 +29,7 @@
             <label class="control-label col-md-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.SaleCart.SelectProduct))</label>
             <div class="col-md-5">
                 <select class="form-control" id="PID" name="PID" required>
-                    <option value="">Select Product</option>
+                    <option value="">@Resources.SaleCart.SelectProduct</option>
                     @foreach (var product in products)
                     {
                         <option value="@product.ProductID">@product.ProductName (QTY: @product.Quantity)</option>
@@ -134,7 +134,7 @@
                         <td></td>
                         <td style="background-color:black; color:white;">@Html.Raw(HttpUtility.HtmlDecode(Resources.SaleCart.TotalSaleAmount))</td>
                         <td style="background-color:black; color:white;">
-                            @(string.Format("{0:0.000}", Math.Truncate(ViewBag.TotalAmount * 10) / 10)) UAH
+                            @(string.Format("{0:0.000}", Math.Truncate(ViewBag.TotalAmount * 10) / 10)) @Resources.Repeats.UAH
                         </td>
                     </tr>
                 </tfoot>

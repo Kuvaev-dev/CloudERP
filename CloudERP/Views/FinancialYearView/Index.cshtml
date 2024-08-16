@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DatabaseAccess.tblFinancialYear>
 
 @{
-    ViewBag.Title = "Financial Year";
+    ViewBag.Title = Resources.FinancialYear.FinancialYearTitle;
 }
 
 <!-- Tables Sorting-->
@@ -22,19 +22,19 @@
                 <thead>
                     <tr>
                         <th>
-                            Financial Year
+                            @Resources.FinancialYear.FinancialYearTitle
                         </th>
                         <th>
-                            Start Date
+                            @Resources.FinancialYear.StartDate
                         </th>
                         <th>
-                            End Date
+                            @Resources.FinancialYear.EndDate
                         </th>
                         <th>
-                            Status
+                            @Resources.FinancialYear.Status
                         </th>
                         <th>
-                            User
+                            @Resources.FinancialYear.User
                         </th>
                     </tr>
                 </thead>

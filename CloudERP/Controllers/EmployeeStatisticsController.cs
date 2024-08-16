@@ -5,59 +5,62 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
-public class EmployeeStatisticsController : Controller
+namespace CloudERP.Controllers
 {
-    private readonly CloudDBEntities _db;
-
-    public EmployeeStatisticsController(CloudDBEntities db)
+    public class EmployeeStatisticsController : Controller
     {
-        _db = db;
-    }
+        private readonly CloudDBEntities _db;
 
-    // GET: EmployeeStatistics
-    public ActionResult Index(DateTime? startDate, DateTime? endDate)
-    {
-        if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+        public EmployeeStatisticsController(CloudDBEntities db)
         {
-            return RedirectToAction("Login", "Home");
+            _db = db;
         }
 
-        int companyID = Convert.ToInt32(Session["CompanyID"]);
-        int branchID = Convert.ToInt32(Session["BranchID"]);
-
-        DateTime start = startDate ?? DateTime.Now.AddMonths(-1);
-        DateTime end = endDate ?? DateTime.Now;
-
-        var statistics = GetEmployeeStatistics(start, end, branchID, companyID);
-        return View(statistics);
-    }
-
-    private List<EmployeeStatisticsMV> GetEmployeeStatistics(DateTime startDate, DateTime endDate, int branchID, int companyID)
-    {
-        var branchIDs = _db.tblBranch
-            .Where(b => b.BrchID == branchID || b.BranchID == branchID)
-            .Select(b => b.BrchID)
-            .ToList();
-
-        branchIDs.Add(branchID);
-
-        var employeeData = _db.tblEmployee
-            .Where(e => e.RegistrationDate.HasValue
-                   && e.RegistrationDate.Value >= startDate
-                   && e.RegistrationDate.Value <= endDate
-                   && e.CompanyID == companyID
-                   && branchIDs.Contains(e.BranchID))
-            .ToList();
-
-        var statistics = employeeData
-            .GroupBy(e => e.RegistrationDate.Value.Date)
-            .Select(g => new EmployeeStatisticsMV
+        // GET: EmployeeStatistics
+        public ActionResult Index(DateTime? startDate, DateTime? endDate)
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
-                Date = g.Key,
-                NumberOfRegistrations = g.Count()
-            })
-            .ToList();
+                return RedirectToAction("Login", "Home");
+            }
 
-        return statistics;
+            int companyID = Convert.ToInt32(Session["CompanyID"]);
+            int branchID = Convert.ToInt32(Session["BranchID"]);
+
+            DateTime start = startDate ?? DateTime.Now.AddMonths(-1);
+            DateTime end = endDate ?? DateTime.Now;
+
+            var statistics = GetEmployeeStatistics(start, end, branchID, companyID);
+            return View(statistics);
+        }
+
+        private List<EmployeeStatisticsMV> GetEmployeeStatistics(DateTime startDate, DateTime endDate, int branchID, int companyID)
+        {
+            var branchIDs = _db.tblBranch
+                .Where(b => b.BrchID == branchID || b.BranchID == branchID)
+                .Select(b => b.BrchID)
+                .ToList();
+
+            branchIDs.Add(branchID);
+
+            var employeeData = _db.tblEmployee
+                .Where(e => e.RegistrationDate.HasValue
+                       && e.RegistrationDate.Value >= startDate
+                       && e.RegistrationDate.Value <= endDate
+                       && e.CompanyID == companyID
+                       && branchIDs.Contains(e.BranchID))
+                .ToList();
+
+            var statistics = employeeData
+                .GroupBy(e => e.RegistrationDate.Value.Date)
+                .Select(g => new EmployeeStatisticsMV
+                {
+                    Date = g.Key,
+                    NumberOfRegistrations = g.Count()
+                })
+                .ToList();
+
+            return statistics;
+        }
     }
 }

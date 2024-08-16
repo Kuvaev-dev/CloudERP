@@ -1,30 +1,39 @@
 ﻿@model IEnumerable<DatabaseAccess.tblSupplier>
 
 @{
-    ViewBag.Title = "Finilize Purchasing";
+    ViewBag.Title = Resources.PurchCart.FinilizePurchasing.ToString();
 }
 
+<!-- Tables Sorting-->
+<link href="https://cdn.datatables.net/1.11.6/css/jquery.dataTables.min.css" rel="stylesheet" />
 <script src="~/Scripts/jquery-3.7.1.js"></script>
+<script src="https://cdn.datatables.net/1.11.6/js/jquery.dataTables.min.js"></script>
+
+<style>
+    #dataTable_filter input[type="search"] {
+        width: 15rem;
+    }
+</style>
 
 @using (Html.BeginForm("PurchaseConfirm", "PurchaseCart", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Purchase Details</h4>
+        <h4>@Resources.PurchCart.PurchaseDetails.ToString()</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <h3 class="text-danger">@ViewBag.Message</h3>
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
 
         <div class="form-group">
-            <label class="control-label col-md-2">Purchase Description</label>
+            <label class="control-label col-md-2">@Resources.PurchCart.PurchaseDescription.ToString()</label>
             <div class="col-md-12">
                 <input type="text" class="form-control" id="item.Description" name="item.Description" placeholder="Enter Purchase Description..." required />
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-md-4">Is Purchase Payment Paid?</label>
+            <label class="control-label col-md-4">@Resources.PurchCart.IsPurchasePaymentPaid.ToString()</label>
             <div class="col-md-12">
                 <input type="checkbox" name="IsPayment" />
             </div>
@@ -39,8 +48,7 @@
 
     <div class="card card-default col-md-12">
         <div class="card-header">
-            <input type="submit" style="float:right;" value="Finilize Purchase" class="btn btn-success" />
-            <input class="form-control col-md-3" style="float:left;" type="text" id="searchSupplier" name="searchSupplier" placeholder="Search..." />
+            <input type="submit" style="float:right;" value="@Resources.PurchCart.FinilizePurchase.ToString()" class="btn btn-success" />
         </div>
         <div class="card-body">
             <div class="table-responsive bootgrid">
@@ -48,16 +56,16 @@
                     <thead style="background-color:lightgray;">
                         <tr>
                             <th>
-                                Supplier
+                                @Resources.PurchCart.Supplier.ToString()
                             </th>
                             <th>
-                                Conatct №
+                                @Resources.PurchCart.ConatctNo.ToString()
                             </th>
                             <th>
-                                Email
+                                @Resources.PurchCart.Email.ToString()
                             </th>
                             <th>
-                                Actions
+                                @Resources.Repeats.Actions.ToString()
                             </th>
                         </tr>
                     </thead>
@@ -88,12 +96,11 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#searchSupplier").on("keyup", function () {
-            var value = $(this).val().toLowerCase();
-            $("#supplierList tr").filter(function () {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-            });
+        $('#dataTable').DataTable({
+            "columnDefs": [{ "orderable": false, "targets": [1, 2] }],
+            "lengthMenu": [[5, 10, 25, 50, 75, 100, 150, 200, -1], [5, 10, 25, 50, 75, 100, 150, 200, "All"]],
         });
+
         $(".chb").change(function (event) {
             $(".chb").prop('checked', false);
             $(this).prop('checked', true);

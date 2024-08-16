@@ -255,7 +255,7 @@
     <comment>Sidebar Option String</comment>
   </data>
   <data name="StockCategories" xml:space="preserve">
-    <value>Категории продукции&lt;br/&gt;на складе</value>
+    <value>Категории&lt;br/&gt;продукции на складе</value>
     <comment>Sidebar Option String</comment>
   </data>
   <data name="StockDetails" xml:space="preserve">
@@ -275,7 +275,7 @@
     <comment>Sidebar Option String</comment>
   </data>
   <data name="SubBranchCustomers" xml:space="preserve">
-    <value>Покупатели подфилии</value>
+    <value>Покупатели&lt;br/&gt;подфилии</value>
     <comment>Sidebar Option String</comment>
   </data>
   <data name="Sales" xml:space="preserve">
@@ -311,7 +311,7 @@
     <comment>Sidebar Option String</comment>
   </data>
   <data name="SubBranchSuppliers" xml:space="preserve">
-    <value>Поставщики подфилии</value>
+    <value>Поставщики&lt;br/&gt;подфилии</value>
     <comment>Sidebar Option String</comment>
   </data>
   <data name="Purchases" xml:space="preserve">
@@ -355,7 +355,7 @@
     <comment>Sidebar Option String</comment>
   </data>
   <data name="TrialBalance" xml:space="preserve">
-    <value>Оборотная ведомость</value>
+    <value>Оборотная&lt;br/&gt;ведомость</value>
     <comment>Sidebar Option String</comment>
   </data>
   <data name="IncomeStatement" xml:space="preserve">
@@ -383,7 +383,7 @@
     <comment></comment>
   </data>
   <data name="EmployeeStatistics" xml:space="preserve">
-    <value>Статистика работников</value>
+    <value>Статистика&lt;br/&gt;работников</value>
     <comment></comment>
   </data>
 </root>
