@@ -51,7 +51,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving sale information: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -75,7 +75,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while finding sale invoice: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -146,7 +146,7 @@ namespace CloudERP.Controllers
                 if (TotalAmount == 0)
                 {
                     Session["SaleInvoiceNo"] = customerInvoice.InvoiceNo;
-                    Session["SaleReturnMessage"] = "Must be at least One Product Return Qty";
+                    Session["SaleReturnMessage"] = Resources.Messages.OneProductReturnQtyError;
                     return RedirectToAction("FindSale");
                 }
 
@@ -203,19 +203,19 @@ namespace CloudERP.Controllers
                     }
 
                     Session["SaleInvoiceNo"] = customerInvoice.InvoiceNo;
-                    Session["SaleReturnMessage"] = "Return Successfully";
+                    Session["SaleReturnMessage"] = Resources.Messages.ReturnSuccessfully;
 
                     return RedirectToAction("FindSale");
                 }
 
                 Session["SaleInvoiceNo"] = customerInvoice.InvoiceNo;
-                Session["SaleReturnMessage"] = "Some Unexpected Issue is Occured. Please Contact to Administrator";
+                Session["SaleReturnMessage"] = Resources.Messages.UnexpectedIssue;
 
                 return RedirectToAction("FindSale");
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while processing return confirmation: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

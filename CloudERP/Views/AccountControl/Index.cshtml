@@ -2,7 +2,7 @@
 @using CloudERP.Models
 
 @{
-    ViewBag.Title = Resources.AccountControl.AllAccountControls.ToString();
+    ViewBag.Title = Resources.Account.AllAccountControls.ToString();
 }
 
 <!-- Tables Sorting-->
@@ -18,7 +18,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        @Html.ActionLink(Resources.AccountControl.AddAccountControl.ToString(), "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
+        @Html.ActionLink(Resources.Account.AddAccountControl.ToString(), "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
         <h2 class="text-danger">@ViewBag.Message</h2>
         <h2 class="text-danger">@ViewBag.ErrorMessage</h2>
     </div>
@@ -28,16 +28,16 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.AccountControl.AccountHeadTitle))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Account.AccountHeadTitle))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.AccountControl.AccountControlTitle))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Account.AccountControlTitle))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.AccountControl.User))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Account.User))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Repeats.Actions))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Common.Actions))
                         </th>
                     </tr>
                 </thead>
@@ -55,7 +55,7 @@
                                 @Html.DisplayFor(modelItem => item.UserName)
                             </td>
                             <td>
-                                @Html.ActionLink(Resources.Repeats.Edit.ToString(), "Edit", new { id = item.AccountControlID }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink(Resources.Common.Edit.ToString(), "Edit", new { id = item.AccountControlID }, new { @class = "btn btn-primary" })
                             </td>
                         </tr>
                     }

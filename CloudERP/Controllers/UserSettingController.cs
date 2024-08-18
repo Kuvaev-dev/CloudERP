@@ -29,7 +29,7 @@ namespace CloudERP.Controllers
                 var employee = _db.tblEmployee.Find(employeeID);
                 if (employee == null)
                 {
-                    TempData["ErrorMessage"] = "Employee not found.";
+                    TempData["ErrorMessage"] = Resources.Messages.EmployeeNotFound;
                     return RedirectToAction("EP500", "EP");
                 }
 
@@ -56,7 +56,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while preparing user creation: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -78,7 +78,7 @@ namespace CloudERP.Controllers
                     var existingUser = _db.tblUser.FirstOrDefault(u => u.Email == tblUser.Email && u.UserID != tblUser.UserID);
                     if (existingUser != null)
                     {
-                        ViewBag.Message = "Email is Already Registered";
+                        ViewBag.Message = Resources.Messages.EmailIsAlreadyRegistered;
                     }
                     else
                     {
@@ -111,7 +111,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while creating the user: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -129,7 +129,7 @@ namespace CloudERP.Controllers
                 var user = _db.tblUser.Find(userID);
                 if (user == null)
                 {
-                    TempData["ErrorMessage"] = "User not found.";
+                    TempData["ErrorMessage"] = Resources.Messages.UserNotFound;
                     return RedirectToAction("EP500", "EP");
                 }
 
@@ -139,7 +139,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving user details: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -161,7 +161,7 @@ namespace CloudERP.Controllers
                     var existingUser = _db.tblUser.FirstOrDefault(u => u.Email == tblUser.Email && u.UserID != tblUser.UserID);
                     if (existingUser != null)
                     {
-                        ViewBag.Message = "Email is Already Registered";
+                        ViewBag.Message = Resources.Messages.EmailIsAlreadyRegistered;
                     }
                     else
                     {
@@ -178,7 +178,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while updating the user: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

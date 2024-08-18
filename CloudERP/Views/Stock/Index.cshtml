@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DatabaseAccess.tblStock>
 
 @{
-    ViewBag.Title = Resources.Stock.StockDetails.ToString();
+    ViewBag.Title = Resources.Miscellaneous.StockDetails.ToString();
 }
 
 <!-- Tables Sorting-->
@@ -17,7 +17,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        @Html.ActionLink(Resources.Stock.AddProduct.ToString(), "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
+        @Html.ActionLink(Resources.Miscellaneous.AddProduct.ToString(), "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
         <h3 class="text-danger">@ViewBag.Message</h3>
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
     </div>
@@ -30,19 +30,19 @@
                             @Html.Raw(HttpUtility.HtmlDecode(Resources.Category.CategoryName))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Stock.Items))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.Items))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Stock.CurrentQty))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.CurrentQty))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Stock.ExpiryDate))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.ExpiryDate))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Stock.ManufactureDate))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.ManufactureDate))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Stock.Status))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.Status))
                         </th>
                         <th>
                             @Html.Raw(HttpUtility.HtmlDecode(Resources.Repeats.Actions))
@@ -72,8 +72,8 @@
                                 @Html.DisplayFor(modelItem => item.IsActive)
                             </td>
                             <td class="btn-group">
-                                @Html.ActionLink(Resources.Stock.Update.ToString(), "Edit", new { id = item.ProductID }, new { @class = "btn btn-primary" })
-                                @Html.ActionLink(Resources.Stock.ItemDetail.ToString(), "Details", new { id = item.ProductID }, new { @class = "btn btn-info" })
+                                @Html.ActionLink(Resources.Miscellaneous.Update.ToString(), "Edit", new { id = item.ProductID }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink(Resources.Miscellaneous.ItemDetail.ToString(), "Details", new { id = item.ProductID }, new { @class = "btn btn-info" })
                             </td>
                         </tr>
                     }

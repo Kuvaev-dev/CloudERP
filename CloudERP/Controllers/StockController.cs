@@ -40,7 +40,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving stock data: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -66,7 +66,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving stock details: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -90,7 +90,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while preparing stock creation: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -127,7 +127,7 @@ namespace CloudERP.Controllers
                     }
                     else
                     {
-                        ViewBag.Message = "Already In Stock";
+                        ViewBag.Message = Resources.Messages.AlreadyExists;
                     }
                 }
 
@@ -137,7 +137,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while creating stock: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -165,7 +165,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while preparing stock edit: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -197,7 +197,7 @@ namespace CloudERP.Controllers
                     }
                     else
                     {
-                        ViewBag.Message = "Already In Stock";
+                        ViewBag.Message = Resources.Messages.AlreadyExists;
                     }
                 }
 
@@ -207,7 +207,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while editing stock: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -233,7 +233,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while preparing stock deletion: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -256,7 +256,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while deleting stock: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

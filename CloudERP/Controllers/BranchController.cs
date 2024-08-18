@@ -45,7 +45,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving branches: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -69,7 +69,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving sub-branches: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -99,7 +99,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving branch details: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -123,7 +123,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while preparing the create view: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -154,7 +154,7 @@ namespace CloudERP.Controllers
 
                     if (branchExists)
                     {
-                        ModelState.AddModelError("", "A branch with the same name, contact, or address already exists for this company.");
+                        ModelState.AddModelError("", Resources.Messages.BranchEists);
                         ViewBag.BrchID = new SelectList(_db.tblBranch.Where(c => c.CompanyID == companyID).ToList(), "BranchID", "BranchName");
                         ViewBag.BranchTypeID = new SelectList(_db.tblBranchType, "BranchTypeID", "BranchType", tblBranch.BranchTypeID);
                         return View(tblBranch);
@@ -172,7 +172,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while creating the branch: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -207,7 +207,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving branch details for editing: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -239,7 +239,7 @@ namespace CloudERP.Controllers
 
                     if (branchExists)
                     {
-                        ModelState.AddModelError("", "A branch with the same name, contact, or address already exists for this company.");
+                        ModelState.AddModelError("", Resources.Messages.BranchEists);
                         ViewBag.BrchID = new SelectList(_db.tblBranch.Where(c => c.CompanyID == companyID).ToList(), "BranchID", "BranchName", tblBranch.BranchID);
                         ViewBag.BranchTypeID = new SelectList(_db.tblBranchType, "BranchTypeID", "BranchType", tblBranch.BranchTypeID);
                         return View(tblBranch);
@@ -257,7 +257,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while editing the branch: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -287,7 +287,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving branch details for deletion: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -312,7 +312,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while deleting the branch: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

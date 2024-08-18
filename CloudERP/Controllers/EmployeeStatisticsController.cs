@@ -19,48 +19,64 @@ namespace CloudERP.Controllers
         // GET: EmployeeStatistics
         public ActionResult Index(DateTime? startDate, DateTime? endDate)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
+                int branchID = Convert.ToInt32(Session["BranchID"]);
+
+                DateTime start = startDate ?? DateTime.Now.AddMonths(-1);
+                DateTime end = endDate ?? DateTime.Now;
+
+                var statistics = GetEmployeeStatistics(start, end, branchID, companyID);
+                return View(statistics);
             }
-
-            int companyID = Convert.ToInt32(Session["CompanyID"]);
-            int branchID = Convert.ToInt32(Session["BranchID"]);
-
-            DateTime start = startDate ?? DateTime.Now.AddMonths(-1);
-            DateTime end = endDate ?? DateTime.Now;
-
-            var statistics = GetEmployeeStatistics(start, end, branchID, companyID);
-            return View(statistics);
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         private List<EmployeeStatisticsMV> GetEmployeeStatistics(DateTime startDate, DateTime endDate, int branchID, int companyID)
         {
-            var branchIDs = _db.tblBranch
+            try
+            {
+                var branchIDs = _db.tblBranch
                 .Where(b => b.BrchID == branchID || b.BranchID == branchID)
                 .Select(b => b.BrchID)
                 .ToList();
 
-            branchIDs.Add(branchID);
+                branchIDs.Add(branchID);
 
-            var employeeData = _db.tblEmployee
-                .Where(e => e.RegistrationDate.HasValue
-                       && e.RegistrationDate.Value >= startDate
-                       && e.RegistrationDate.Value <= endDate
-                       && e.CompanyID == companyID
-                       && branchIDs.Contains(e.BranchID))
-                .ToList();
+                var employeeData = _db.tblEmployee
+                    .Where(e => e.RegistrationDate.HasValue
+                           && e.RegistrationDate.Value >= startDate
+                           && e.RegistrationDate.Value <= endDate
+                           && e.CompanyID == companyID
+                           && branchIDs.Contains(e.BranchID))
+                    .ToList();
 
-            var statistics = employeeData
-                .GroupBy(e => e.RegistrationDate.Value.Date)
-                .Select(g => new EmployeeStatisticsMV
-                {
-                    Date = g.Key,
-                    NumberOfRegistrations = g.Count()
-                })
-                .ToList();
+                var statistics = employeeData
+                    .GroupBy(e => e.RegistrationDate.Value.Date)
+                    .Select(g => new EmployeeStatisticsMV
+                    {
+                        Date = g.Key,
+                        NumberOfRegistrations = g.Count()
+                    })
+                    .ToList();
 
-            return statistics;
+                return statistics;
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return null;
+            }
         }
     }
 }

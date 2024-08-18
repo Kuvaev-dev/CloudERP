@@ -53,7 +53,7 @@ namespace CloudERP.Helpers.Forecasting
             var forecastData = GetForecastData(companyID, branchID, startDate, endDate);
             if (!forecastData.Any())
             {
-                throw new InvalidOperationException("No data available for forecasting.");
+                throw new InvalidOperationException(Resources.Messages.NoDataAvailableForForecasting);
             }
 
             var forecaster = new FinancialForecaster();

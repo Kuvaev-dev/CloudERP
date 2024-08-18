@@ -45,7 +45,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving categories: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -91,7 +91,7 @@ namespace CloudERP.Controllers
                     }
                     else
                     {
-                        ViewBag.Message = "Category already exists.";
+                        ViewBag.Message = Resources.Messages.AlreadyExists;
                     }
                 }
 
@@ -99,7 +99,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while creating the category: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -130,7 +130,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving the category for editing: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -163,7 +163,7 @@ namespace CloudERP.Controllers
                     }
                     else
                     {
-                        ViewBag.Message = "Category already exists.";
+                        ViewBag.Message = Resources.Messages.AlreadyExists;
                     }
                 }
 
@@ -171,7 +171,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while updating the category: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DatabaseAccess.Models.SalePaymentModel>
 
 @{
-    ViewBag.Title = Resources.SalePayment.SalesPaymentPendingList.ToString();
+    ViewBag.Title = Resources.Sale.SalesPaymentPendingList.ToString();
 }
 
 <!-- Tables Sorting-->
@@ -27,25 +27,25 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.SalePayment.Customer))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Sale.Customer))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.SalePayment.ContactNo))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Sale.ContactNo))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.SalePayment.InvoiceNo))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Sale.InvoiceNo))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.SalePayment.Date))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Sale.Date))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.SalePayment.TotalAmount))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Sale.TotalAmount))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.SalePayment.PaidAmount))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Sale.PaidAmount))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.SalePayment.RemainingBalance))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Sale.RemainingBalance))
                         </th>
                         <th>
                             @Html.Raw(HttpUtility.HtmlDecode(Resources.Repeats.Actions))
@@ -80,11 +80,11 @@
                             <td class="btn-group">
                                 @if (item.TotalAmount - 1 > item.PaymentAmount)
                                 {
-                                    @Html.ActionLink(Resources.SalePayment.PayAmount.ToString(), "PaidAmount", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-primary" });
+                                    @Html.ActionLink(Resources.Sale.PayAmount.ToString(), "PaidAmount", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-primary" });
                                 }
                                 @if (item.PaymentAmount > 0)
                                 {
-                                    @Html.ActionLink(Resources.SalePayment.PayHistory.ToString(), "PaidHistory", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-info" });
+                                    @Html.ActionLink(Resources.Sale.PayHistory.ToString(), "PaidHistory", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-info" });
                                 }
                             </td>
                         </tr>

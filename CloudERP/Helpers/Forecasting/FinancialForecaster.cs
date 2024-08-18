@@ -21,7 +21,7 @@ namespace CloudERP.Helpers
 
             if (dataView.GetRowCount() == 0)
             {
-                throw new InvalidOperationException("Training set has 0 instances, aborting training.");
+                throw new InvalidOperationException(Resources.Messages.TrainingSetHasZeroInstances);
             }
 
             var pipeline = _mlContext.Transforms.Concatenate("Features", "DateAsNumber")

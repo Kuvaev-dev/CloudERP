@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DatabaseAccess.tblEmployee>
 
 @{
-    ViewBag.Title = Resources.CompanyEmployee.AllEmployees.ToString();
+    ViewBag.Title = Resources.Company.AllEmployees.ToString();
 }
 
 <!-- Tables Sorting-->
@@ -17,7 +17,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        @Html.ActionLink(Resources.CompanyEmployee.AddEmployee.ToString(), "EmployeeRegistration", "CompanyEmployee", null, new { @style = "float:left;", @class = "btn btn-success" })
+        @Html.ActionLink(Resources.Company.AddEmployee.ToString(), "EmployeeRegistration", "CompanyEmployee", null, new { @style = "float:left;", @class = "btn btn-success" })
         <h3 class="text-danger">@ViewBag.Message</h3>
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
     </div>
@@ -36,13 +36,13 @@
                             @Html.Raw(HttpUtility.HtmlDecode(Resources.User.ContactNo))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyEmployee.Photo))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Company.Photo))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyEmployee.Designation))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Company.Designation))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Repeats.Actions))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Common.Actions))
                         </th>
                     </tr>
                 </thead>
@@ -69,15 +69,15 @@
                                 @Html.DisplayFor(modelItem => item.Designation)
                             </td>
                             <td class="btn-group">
-                                @Html.ActionLink(Resources.CompanyEmployee.Profile.ToString(), "ViewProfile", "BranchEmployee", new { id = item.EmployeeID }, new { @class = "btn btn-info" })
+                                @Html.ActionLink(Resources.Company.Profile.ToString(), "ViewProfile", "BranchEmployee", new { id = item.EmployeeID }, new { @class = "btn btn-info" })
 
                                 @if (item.UserID == null)
                                 {
-                                    @Html.ActionLink(Resources.CompanyEmployee.CreateUser.ToString(), "CreateUser", "UserSetting", new { employeeID = item.EmployeeID }, new { @class = "btn btn-primary" })
+                                    @Html.ActionLink(Resources.Company.CreateUser.ToString(), "CreateUser", "UserSetting", new { employeeID = item.EmployeeID }, new { @class = "btn btn-primary" })
                                 }
                                 else
                                 {
-                                    @Html.ActionLink(Resources.CompanyEmployee.UpdateUser.ToString(), "UpdateUser", "UserSetting", new { userID = item.UserID }, new { @class = "btn btn-primary" })
+                                    @Html.ActionLink(Resources.Company.UpdateUser.ToString(), "UpdateUser", "UserSetting", new { userID = item.UserID }, new { @class = "btn btn-primary" })
                                 }
                             </td>
                         </tr>

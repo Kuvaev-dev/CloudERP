@@ -2,7 +2,7 @@
 
 @{
     string invoiceNo = string.Empty;
-    ViewBag.Title = Resources.GeneralTransaction.SubBranchJournalByTransactionsDate.ToString();
+    ViewBag.Title = Resources.Miscellaneous.SubBranchJournalByTransactionsDate.ToString();
 }
 
 <script src="~/Scripts/jquery-3.7.1.js"></script>
@@ -10,7 +10,7 @@
 <div class="card">
     <div class="card card-float">
         <div class="card-header">
-            <h4>@Resources.GeneralTransaction.SelectRangeFromDateAndToDate.ToString()</h4>
+            <h4>@Resources.Miscellaneous.SelectRangeFromDateAndToDate.ToString()</h4>
             <h5 class="text-danger">@ViewBag.JournalMessage</h5>
             <h3 class="text-danger">@ViewBag.Message</h3>
             <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
@@ -21,17 +21,17 @@
                 @Html.AntiForgeryToken()
                 <div class="row">
                     <div class="col-md-4">
-                        <label>@Resources.GeneralTransaction.SelectFromDate.ToString()</label>
+                        <label>@Resources.Miscellaneous.SelectFromDate.ToString()</label>
                         <input type="date" id="FromDate" name="FromDate" value="@DateTime.Now" class="form-control" required>
                     </div>
                     <div class="col-md-4">
-                        <label>@Resources.GeneralTransaction.SelectToDate.ToString()</label>
+                        <label>@Resources.Miscellaneous.SelectToDate.ToString()</label>
                         <input type="date" id="ToDate" name="ToDate" value="@DateTime.Now" class="form-control" required>
                     </div>
                 </div>
                 <br />
                 <hr />
-                <input type="submit" value="@Resources.GeneralTransaction.RetriveTransactions.ToString()" class="btn btn-success" style="float: right;">
+                <input type="submit" value="@Resources.Miscellaneous.RetriveTransactions.ToString()" class="btn btn-success" style="float: right;">
             }
         </div>
     </div>
@@ -39,9 +39,9 @@
 
 <div class="card">
     <div class="card-header">
-        <div class="card-title">@Resources.GeneralTransaction.Export.ToString()</div>
+        <div class="card-title">@Resources.Miscellaneous.Export.ToString()</div>
         <div class="text-sm">
-            @Resources.GeneralTransaction.Transactions.ToString()
+            @Resources.Miscellaneous.Transactions.ToString()
         </div>
     </div>
     <div class="card-body">
@@ -52,22 +52,22 @@
                         №
                     </th>
                     <th>
-                        @Resources.GeneralTransaction.Date.ToString()
+                        @Resources.Miscellaneous.Date.ToString()
                     </th>
                     <th>
-                        @Resources.GeneralTransaction.Account.ToString()
+                        @Resources.Miscellaneous.Account.ToString()
                     </th>
                     <th>
-                        @Resources.GeneralTransaction.Title.ToString()
+                        @Resources.Miscellaneous.Title.ToString()
                     </th>
                     <th>
-                        @Resources.GeneralTransaction.InvoiceNo.ToString()
+                        @Resources.Miscellaneous.InvoiceNo.ToString()
                     </th>
                     <th>
-                        @Resources.GeneralTransaction.Debit.ToString()
+                        @Resources.Miscellaneous.Debit.ToString()
                     </th>
                     <th>
-                        @Resources.GeneralTransaction.Credit.ToString()
+                        @Resources.Miscellaneous.Credit.ToString()
                     </th>
                 </tr>
             </thead>

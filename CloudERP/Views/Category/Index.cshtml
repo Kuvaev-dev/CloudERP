@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DatabaseAccess.tblCategory>
 
 @{
-    ViewBag.Title = Resources.Category.AllCategories.ToString();
+    ViewBag.Title = Resources.Miscellaneous.AllCategories.ToString();
 }
 
 <!-- Tables Sorting-->
@@ -17,7 +17,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        @Html.ActionLink(Resources.Category.AddCategory.ToString(), "Create", "Category", null, new { @style = "float:left;", @class = "btn btn-success" })
+        @Html.ActionLink(Resources.Miscellaneous.AddCategory.ToString(), "Create", "Category", null, new { @style = "float:left;", @class = "btn btn-success" })
         <h3 class="text-danger">@ViewBag.Message</h3>
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
     </div>
@@ -27,10 +27,10 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Category.CategoryTitle))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.CategoryTitle))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Category.User))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.User))
                         </th>
                         <th>
                             @Html.Raw(HttpUtility.HtmlDecode(Resources.Repeats.Actions))
@@ -48,7 +48,7 @@
                                 @Html.DisplayFor(modelItem => item.tblUser.FullName)
                             </td>
                             <td>
-                                @Html.ActionLink(Resources.Repeats.Edit, "Edit", new { id = item.CategoryID }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink(Resources.Common.Edit, "Edit", new { id = item.CategoryID }, new { @class = "btn btn-primary" })
                             </td>
                         </tr>
                     }

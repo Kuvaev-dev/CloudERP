@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DatabaseAccess.tblSupplier>
 
 @{
-    ViewBag.Title = Resources.Suppliers.AllSuppliers.ToString();
+    ViewBag.Title = Resources.Supplier.AllSuppliers.ToString();
 }
 
 <!-- Tables Sorting-->
@@ -22,28 +22,28 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Suppliers.CompanyTitle))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Supplier.CompanyTitle))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Suppliers.BranchTitle))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Supplier.BranchTitle))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Suppliers.SupplierName))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Supplier.SupplierName))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Suppliers.ConatctNo))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Supplier.ConatctNo))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Suppliers.Email))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Supplier.Email))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Suppliers.Address))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Supplier.Address))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Suppliers.User))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Supplier.User))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Suppliers.Description))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Supplier.Description))
                         </th>
                     </tr>
                 </thead>

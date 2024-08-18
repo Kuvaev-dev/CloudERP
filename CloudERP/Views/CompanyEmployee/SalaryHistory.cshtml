@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DatabaseAccess.tblPayroll>
 
 @{
-    ViewBag.Title = Resources.CompanyEmployee.SalariesSucceedList.ToString();
+    ViewBag.Title = Resources.Company.SalariesSucceedList.ToString();
 }
 
 <!-- Tables Sorting-->
@@ -22,28 +22,28 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyEmployee.Employee))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Company.Employee))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyEmployee.InvoiceNo))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Company.InvoiceNo))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyEmployee.Date))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Company.Date))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyEmployee.PaidSalary))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Company.PaidSalary))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyEmployee.SalaryMonth))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Company.SalaryMonth))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyEmployee.SalaryYear))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Company.SalaryYear))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyEmployee.CreatedBy))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Company.CreatedBy))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.CompanyEmployee.SalaryInvoice))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Company.SalaryInvoice))
                         </th>
                     </tr>
                 </thead>
@@ -73,7 +73,7 @@
                                 @Html.DisplayFor(modelItem => item.tblUser.FullName)
                             </td>
                             <td>
-                                @Html.ActionLink(Resources.CompanyEmployee.PrintPayroll.ToString(), "PrintSalaryInvoice", new { id = item.PayrollID }, new { @class = "btn btn-info" })
+                                @Html.ActionLink(Resources.Company.PrintPayroll.ToString(), "PrintSalaryInvoice", new { id = item.PayrollID }, new { @class = "btn btn-info" })
                             </td>
                         </tr>
                     }

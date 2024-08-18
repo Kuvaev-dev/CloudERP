@@ -35,7 +35,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving employees: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -55,7 +55,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while loading the employee registration page: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -134,7 +134,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while registering the employee: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
 
@@ -183,7 +183,7 @@ namespace CloudERP.Controllers
                 }
                 else
                 {
-                    Session["SalaryMessage"] = "Record Not Found";
+                    Session["SalaryMessage"] = Resources.Messages.RecordNotFound;
                 }
 
                 salary.SalaryMonth = DateTime.Now.AddMonths(-1).ToString("MMMM");
@@ -193,7 +193,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while processing the salary: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -234,21 +234,21 @@ namespace CloudERP.Controllers
                         }
                         else
                         {
-                            Session["SalaryMessage"] = "Salary is Already Paid";
+                            Session["SalaryMessage"] = Resources.Messages.SalaryIsAlreadyPaid;
                         }
                     }
                 }
                 else
                 {
-                    Session["SalaryMessage"] = "Please Re-Login and Try Again";
+                    Session["SalaryMessage"] = Resources.Messages.PleaseReLoginAndTryAgain;
                 }
 
                 return RedirectToAction("EmployeeSalary");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                Session["SalaryMessage"] = "Some Unexpected Issue is Occurred. Please Try Again";
-                return RedirectToAction("EmployeeSalary");
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
         }
 
@@ -272,7 +272,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving salary history: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -291,7 +291,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while printing the salary invoice: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

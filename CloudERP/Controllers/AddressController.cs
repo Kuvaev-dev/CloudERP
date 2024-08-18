@@ -21,7 +21,7 @@ namespace CloudERP.Controllers
                 else
                 {
                     var errorContent = await response.Content.ReadAsStringAsync();
-                    return new HttpStatusCodeResult(response.StatusCode, $"Error fetching data from Geoapify API: {errorContent}");
+                    return new HttpStatusCodeResult(response.StatusCode, $"{Resources.Messages.ErrorFetchingDataFromGeoapifyAPI} {errorContent}");
                 }
             }
         }

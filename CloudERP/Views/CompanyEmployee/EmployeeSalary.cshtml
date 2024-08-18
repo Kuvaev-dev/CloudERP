@@ -1,6 +1,6 @@
 ﻿@model CloudERP.Models.SalaryMV
 @{
-    ViewBag.Title = Resources.CompanyEmployee.EmployeeSalary.ToString();
+    ViewBag.Title = Resources.Company.EmployeeSalary.ToString();
     var rates = ViewData["CurrencyRates"] as Dictionary<string, double>;
 }
 
@@ -16,7 +16,7 @@
                 @Html.AntiForgeryToken()
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.TIN, Resources.CompanyEmployee.EnterEmployeeTIN.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
+                    @Html.LabelFor(model => model.TIN, Resources.Company.EnterEmployeeTIN.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.TIN, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.TIN, "", new { @class = "text-danger" })
@@ -25,7 +25,7 @@
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="@Resources.CompanyEmployee.Search.ToString()" class="btn btn-info" />
+                        <input type="submit" value="@Resources.Company.Search.ToString()" class="btn btn-info" />
                     </div>
                 </div>
             }
@@ -47,7 +47,7 @@
 
                 <div class="form-horizontal">
                     <div class="form-group">
-                        @Html.LabelFor(model => model.EmployeeName, Resources.CompanyEmployee.EmployeeName, htmlAttributes: new { @class = "control-label col-md-4" })
+                        @Html.LabelFor(model => model.EmployeeName, Resources.Company.EmployeeName, htmlAttributes: new { @class = "control-label col-md-4" })
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.EmployeeName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                             @Html.ValidationMessageFor(model => model.EmployeeName, "", new { @class = "text-danger" })
@@ -63,7 +63,7 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.Designation, Resources.CompanyEmployee.Designation.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
+                        @Html.LabelFor(model => model.Designation, Resources.Company.Designation.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.Designation, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                             @Html.ValidationMessageFor(model => model.Designation, "", new { @class = "text-danger" })
@@ -71,7 +71,7 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.TransferAmount, Resources.CompanyEmployee.MonthlySalaryAmount.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
+                        @Html.LabelFor(model => model.TransferAmount, Resources.Company.MonthlySalaryAmount.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.TransferAmount, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                             @Html.ValidationMessageFor(model => model.TransferAmount, "", new { @class = "text-danger" })
@@ -79,7 +79,7 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.SalaryMonth, Resources.CompanyEmployee.SalaryOfTheMonth.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
+                        @Html.LabelFor(model => model.SalaryMonth, Resources.Company.SalaryOfTheMonth.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.SalaryMonth, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                             @Html.ValidationMessageFor(model => model.SalaryMonth, "", new { @class = "text-danger" })
@@ -87,7 +87,7 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.SalaryYear, Resources.CompanyEmployee.SalaryYear.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
+                        @Html.LabelFor(model => model.SalaryYear, Resources.Company.SalaryYear.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.SalaryYear, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                             @Html.ValidationMessageFor(model => model.SalaryYear, "", new { @class = "text-danger" })
@@ -96,7 +96,7 @@
 
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="@Resources.CompanyEmployee.ProcessSalary.ToString()" class="btn btn-success" />
+                            <input type="submit" value="@Resources.Company.ProcessSalary.ToString()" class="btn btn-success" />
                         </div>
                     </div>
                 </div>

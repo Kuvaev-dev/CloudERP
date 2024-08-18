@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DatabaseAccess.tblAccountSetting>
 
 @{
-    ViewBag.Title = Resources.AccountSetting.SetAccountingFlow.ToString();
+    ViewBag.Title = Resources.Account.SetAccountingFlow.ToString();
 }
 
 <!-- Tables Sorting-->
@@ -17,7 +17,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        @Html.ActionLink(Resources.AccountSetting.SetAccountingFlow.ToString(), "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
+        @Html.ActionLink(Resources.Account.SetAccountingFlow.ToString(), "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
         <h2 class="text-danger">@ViewBag.Message</h2>
         <h2 class="text-danger">@ViewBag.ErrorMessage</h2>
     </div>
@@ -27,19 +27,19 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.AccountSetting.Activity))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Account.Activity))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.AccountSetting.HeadAccount))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Account.HeadAccount))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.AccountSetting.ControlAccount))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Account.ControlAccount))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.AccountSetting.SubAccount))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Account.SubAccount))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Repeats.Actions))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Common.Actions))
                         </th>
                     </tr>
                 </thead>
@@ -60,7 +60,7 @@
                                 @Html.DisplayFor(modelItem => item.tblAccountSubControl.AccountSubControlName)
                             </td>
                             <td>
-                                @Html.ActionLink(Resources.Repeats.Edit.ToString(), "Edit", new { id = item.AccountSettingID }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink(Resources.Common.Edit.ToString(), "Edit", new { id = item.AccountSettingID }, new { @class = "btn btn-primary" })
                             </td>
                         </tr>
                     }

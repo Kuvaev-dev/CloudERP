@@ -1,7 +1,7 @@
 ﻿@model DatabaseAccess.tblStock
 
 @{
-    ViewBag.Title = Resources.Stock.UpdateProduct.ToString();
+    ViewBag.Title = Resources.Miscellaneous.UpdateProduct.ToString();
 }
 
 <script>
@@ -24,7 +24,7 @@
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CategoryID, Resources.Stock.SelectCategory.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CategoryID, Resources.Miscellaneous.SelectCategory.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.DropDownList("CategoryID", null, "Category", htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
@@ -32,7 +32,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ProductName, Resources.Stock.ProductName.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ProductName, Resources.Miscellaneous.ProductName.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
@@ -40,7 +40,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Quantity, Resources.Stock.Quantity.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Quantity, Resources.Miscellaneous.Quantity.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
@@ -48,7 +48,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.SaleUnitPrice, Resources.Stock.SaleUnitPrice.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
+            @Html.LabelFor(model => model.SaleUnitPrice, Resources.Miscellaneous.SaleUnitPrice.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.SaleUnitPrice, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.SaleUnitPrice, "", new { @class = "text-danger" })
@@ -56,7 +56,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CurrentPurchaseUnitPrice, Resources.Stock.CurrentPurchaseUnitPrice.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
+            @Html.LabelFor(model => model.CurrentPurchaseUnitPrice, Resources.Miscellaneous.CurrentPurchaseUnitPrice.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.CurrentPurchaseUnitPrice, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.CurrentPurchaseUnitPrice, "", new { @class = "text-danger" })
@@ -64,7 +64,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ExpiryDate, Resources.Stock.ExpiryDate.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ExpiryDate, Resources.Miscellaneous.ExpiryDate.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ExpiryDate, "", new { @class = "text-danger" })
@@ -72,7 +72,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Manufacture, Resources.Stock.ManufactureDate.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Manufacture, Resources.Miscellaneous.ManufactureDate.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Manufacture, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Manufacture, "", new { @class = "text-danger" })
@@ -80,7 +80,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.StockTreshHoldQuantity, Resources.Stock.TresholdQuantity.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
+            @Html.LabelFor(model => model.StockTreshHoldQuantity, Resources.Miscellaneous.TresholdQuantity.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.StockTreshHoldQuantity, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.StockTreshHoldQuantity, "", new { @class = "text-danger" })
@@ -88,7 +88,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.IsActive, Resources.Stock.Status.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.IsActive, Resources.Miscellaneous.Status.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 <div class="checkbox">
                     @Html.EditorFor(model => model.IsActive, new { htmlAttributes = new { @class = "form-control" } })
@@ -98,7 +98,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Description, Resources.Stock.Description.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Description, Resources.Miscellaneous.Description.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })

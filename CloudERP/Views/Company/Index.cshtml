@@ -34,7 +34,7 @@
                             @Html.Raw(HttpUtility.HtmlDecode(Resources.Company.Logo))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Repeats.Actions))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Common.Actions))
                         </th>
                     </tr>
                 </thead>
@@ -53,7 +53,7 @@
                             </td>
                             <td class="btn-group d-flex align-items-center">
                                 @Html.ActionLink(Resources.Company.UpdateProfile.ToString(), "Edit", new { id = item.CompanyID }, new { @class = "btn btn-primary" })
-                                @Html.ActionLink(Resources.Repeats.Details.ToString(), "Details", new { id = item.CompanyID }, new { @class = "btn btn-info" })
+                                @Html.ActionLink(Resources.Common.Details.ToString(), "Details", new { id = item.CompanyID }, new { @class = "btn btn-info" })
                             </td>
                         </tr>
                     }

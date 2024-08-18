@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DatabaseAccess.tblCustomer>
 
 @{
-    ViewBag.Title = Resources.SaleCart.Finilize.ToString();
+    ViewBag.Title = Resources.Sale.Finilize.ToString();
 }
 
 <script src="~/Scripts/jquery-3.7.1.js"></script>
@@ -21,20 +21,20 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>@Html.Raw(HttpUtility.HtmlDecode(Resources.SaleCart.SaleDetails))</h4>
+        <h4>@Html.Raw(HttpUtility.HtmlDecode(Resources.Sale.SaleDetails))</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <h3 class="text-danger">@ViewBag.Message</h3>
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
 
         <div class="form-group">
-            <label class="control-label col-md-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.SaleCart.SaleDescription))</label>
+            <label class="control-label col-md-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.Sale.SaleDescription))</label>
             <div class="col-md-12">
                 <input type="text" class="form-control" id="item.Description" name="item.Description" required />
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-md-4">@Html.Raw(HttpUtility.HtmlDecode(Resources.SaleCart.IsSalePaymentPaid))</label>
+            <label class="control-label col-md-4">@Html.Raw(HttpUtility.HtmlDecode(Resources.Sale.IsSalePaymentPaid))</label>
             <div class="col-md-12">
                 <input type="checkbox" name="IsPayment" />
             </div>
@@ -49,7 +49,7 @@
 
     <div class="card card-default col-md-12">
         <div class="card-header">
-            <input type="submit" style="float:right;" value="@Resources.SaleCart.FinilizeSale" class="btn btn-success" />
+            <input type="submit" style="float:right;" value="@Resources.Sale.FinilizeSale" class="btn btn-success" />
         </div>
         <div class="card-body">
             <div class="table-responsive bootgrid">

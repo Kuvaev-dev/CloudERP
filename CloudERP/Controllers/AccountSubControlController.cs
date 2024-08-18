@@ -40,7 +40,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while fetching data: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -67,7 +67,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while fetching data: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
 
@@ -110,7 +110,7 @@ namespace CloudERP.Controllers
                     }
                     else
                     {
-                        ViewBag.Message = "Already Exist!";
+                        ViewBag.Message = Resources.Messages.AlreadyExists;
                     }
                 }
                 catch (Exception ex)
@@ -163,7 +163,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while fetching data: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
 
@@ -181,7 +181,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while fetching data: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
 
@@ -223,12 +223,12 @@ namespace CloudERP.Controllers
                     }
                     else
                     {
-                        ViewBag.Message = "Already Exist!";
+                        ViewBag.Message = Resources.Messages.AlreadyExists;
                     }
                 }
                 catch (Exception ex)
                 {
-                    TempData["ErrorMessage"] = "An unexpected error occurred while updating the record: " + ex.Message;
+                    TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                     return RedirectToAction("EP500", "EP");
                 }
             }
@@ -244,7 +244,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while fetching data: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
 

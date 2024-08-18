@@ -1,14 +1,14 @@
 ﻿@model DatabaseAccess.tblUserType
 
 @{
-    ViewBag.Title = Resources.UserTypes.Delete.ToString();
+    ViewBag.Title = Resources.Account.Delete.ToString();
 }
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
     <dl class="dl-horizontal">
         <dt>
-            @Resources.UserTypes.UserType.ToString()
+            @Resources.Account.UserType.ToString()
         </dt>
 
         <dd>
@@ -21,8 +21,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="@Resources.Repeats.Delete.ToString()" class="btn btn-default" /> |
-            @Html.ActionLink(Resources.Repeats.BackToList.ToString(), "Index")
+            <input type="submit" value="@Resources.Common.Delete.ToString()" class="btn btn-default" /> |
+            @Html.ActionLink(Resources.Common.BackToList.ToString(), "Index")
         </div>
     }
 </div>

@@ -33,7 +33,7 @@ namespace CloudERP.Controllers
                 var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
                 if (!financialYears.Any())
                 {
-                    ViewBag.ErrorMessage = "Your company's financial years are not set. Please contact the Administrator.";
+                    ViewBag.ErrorMessage = Resources.Messages.CompanyFinancialYearNotSet;
                     return View(new List<DatabaseAccess.Models.AccountLedgerModel>());
                 }
 
@@ -50,7 +50,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -77,7 +77,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -97,7 +97,7 @@ namespace CloudERP.Controllers
                 var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
                 if (!financialYears.Any())
                 {
-                    ViewBag.ErrorMessage = "Your company's financial years are not set. Please contact the Administrator.";
+                    ViewBag.ErrorMessage = Resources.Messages.CompanyFinancialYearNotSet;
                     return View(new List<DatabaseAccess.Models.AccountLedgerModel>());
                 }
 
@@ -114,7 +114,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -141,7 +141,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

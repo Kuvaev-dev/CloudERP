@@ -2,7 +2,7 @@
 
 @{
     string invoiceNo = string.Empty;
-    ViewBag.Title = Resources.GeneralTransaction.JournalByTransactionsDate;
+    ViewBag.Title = Resources.Miscellaneous.JournalByTransactionsDate;
 }
 
 <!-- Tables Sorting-->
@@ -19,7 +19,7 @@
 <div class="card">
     <div class="card card-float">
         <div class="card-header">
-            <h4>@Resources.GeneralTransaction.SelectRangeFromDateAndToDate</h4>
+            <h4>@Resources.Miscellaneous.SelectRangeFromDateAndToDate</h4>
             <h5 class="text-danger">@ViewBag.JournalMessage</h5>
             <h3 class="text-danger">@ViewBag.Message</h3>
             <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
@@ -30,17 +30,17 @@
                 @Html.AntiForgeryToken()
                 <div class="row">
                     <div class="col-md-4">
-                        <label>@Resources.GeneralTransaction.SelectFromDate</label>
+                        <label>@Resources.Miscellaneous.SelectFromDate</label>
                         <input type="date" id="FromDate" name="FromDate" value="@DateTime.Now" class="form-control" required>
                     </div>
                     <div class="col-md-4">
-                        <label>@Resources.GeneralTransaction.SelectToDate</label>
+                        <label>@Resources.Miscellaneous.SelectToDate</label>
                         <input type="date" id="ToDate" name="ToDate" value="@DateTime.Now" class="form-control" required>
                     </div>
                 </div>
                 <br />
                 <hr />
-                <input type="submit" value="@Resources.GeneralTransaction.RetriveTransactions" class="btn btn-success" style="float: right;">
+                <input type="submit" value="@Resources.Miscellaneous.RetriveTransactions" class="btn btn-success" style="float: right;">
             }
         </div>
     </div>
@@ -48,9 +48,9 @@
 
 <div class="card">
     <div class="card-header">
-        <div class="card-title">@Resources.GeneralTransaction.Export</div>
+        <div class="card-title">@Resources.Miscellaneous.Export</div>
         <div class="text-sm">
-            @Resources.GeneralTransaction.Transactions
+            @Resources.Miscellaneous.Transactions
         </div>
     </div>
     <div class="card-body">
@@ -61,22 +61,22 @@
                         №
                     </th>
                     <th>
-                        @Resources.GeneralTransaction.Date
+                        @Resources.Miscellaneous.Date
                     </th>
                     <th>
-                        @Resources.GeneralTransaction.Account
+                        @Resources.Miscellaneous.Account
                     </th>
                     <th>
-                        @Resources.GeneralTransaction.Title
+                        @Resources.Miscellaneous.Title
                     </th>
                     <th>
-                        @Resources.GeneralTransaction.InvoiceNo
+                        @Resources.Miscellaneous.InvoiceNo
                     </th>
                     <th>
-                        @Resources.GeneralTransaction.Debit
+                        @Resources.Miscellaneous.Debit
                     </th>
                     <th>
-                        @Resources.GeneralTransaction.Credit
+                        @Resources.Miscellaneous.Credit
                     </th>
                 </tr>
             </thead>

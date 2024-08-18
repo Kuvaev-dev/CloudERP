@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DatabaseAccess.Models.SalePaymentModel>
 
 @{
-    ViewBag.Title = Resources.SalePayment.SalePaidAmount.ToString();
+    ViewBag.Title = Resources.Sale.SalePaidAmount.ToString();
 }
 
 <script src="~/Scripts/jquery-3.7.1.js"></script>
@@ -9,7 +9,7 @@
 <div class="card">
     <div class="card card-float">
         <div class="card-header">
-            <h4>@Resources.SalePayment.EnterPaymentsDetails.ToString()</h4>
+            <h4>@Resources.Sale.EnterPaymentsDetails.ToString()</h4>
             <h3 class="text-danger">@ViewBag.Message</h3>
             <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
         </div>
@@ -20,21 +20,21 @@
                 <input type="text" value="@ViewBag.InvoiceID" id="id" name="id" style="display:none;" />
                 <div class="row">
                     <div class="col-md-4">
-                        <label>@Resources.SalePayment.SaleRemainingAmount.ToString()</label>
+                        <label>@Resources.Sale.SaleRemainingAmount.ToString()</label>
                         <input type="text" id="previousRemainingAmount" name="previousRemainingAmount" value="@ViewBag.PreviousRemainingAmount" readonly="readonly" class="form-control" required>
                     </div>
                     <div class="col-md-4">
-                        <label>@Resources.SalePayment.PaidAmount.ToString()</label>
+                        <label>@Resources.Sale.PaidAmount.ToString()</label>
                         <input type="text" id="paidAmount" name="paidAmount" value="10" class="form-control" required>
                     </div>
                     <div class="col-md-4">
-                        <label>@Resources.SalePayment.CurrentRemainingAmount.ToString()</label>
+                        <label>@Resources.Sale.CurrentRemainingAmount.ToString()</label>
                         <input type="text" id="remainingAmount" name="remainingAmount" value="10" readonly="readonly" class="form-control" required>
                     </div>
                 </div>
                 <br />
                 <br />
-                <input type="submit" value="@Resources.SalePayment.PaidAmount.ToString()" class="btn btn-success" style="float: right;">
+                <input type="submit" value="@Resources.Sale.PaidAmount.ToString()" class="btn btn-success" style="float: right;">
             }
         </div>
     </div>
@@ -42,7 +42,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        <h4 style="float:left;">@Resources.SalePayment.SaleInvoicePaidDetail.ToString()</h4>
+        <h4 style="float:left;">@Resources.Sale.SaleInvoicePaidDetail.ToString()</h4>
     </div>
     <div class="card-body">
         <div class="table-responsive bootgrid">
@@ -50,25 +50,25 @@
                 <thead>
                     <tr>
                         <th>
-                            @Resources.SalePayment.Supplier.ToString()
+                            @Resources.Sale.Supplier.ToString()
                         </th>
                         <th>
-                            @Resources.SalePayment.ContactNo.ToString()
+                            @Resources.Sale.ContactNo.ToString()
                         </th>
                         <th>
-                            @Resources.SalePayment.InvoiceNo.ToString()
+                            @Resources.Sale.InvoiceNo.ToString()
                         </th>
                         <th>
-                            @Resources.SalePayment.Date.ToString()
+                            @Resources.Sale.Date.ToString()
                         </th>
                         <th>
-                            @Resources.SalePayment.TotalAmount.ToString()
+                            @Resources.Sale.TotalAmount.ToString()
                         </th>
                         <th>
-                            @Resources.SalePayment.PaidAmount.ToString()
+                            @Resources.Sale.PaidAmount.ToString()
                         </th>
                         <th>
-                            @Resources.SalePayment.RemainingBalance.ToString()
+                            @Resources.Sale.RemainingBalance.ToString()
                         </th>
                     </tr>
                 </thead>

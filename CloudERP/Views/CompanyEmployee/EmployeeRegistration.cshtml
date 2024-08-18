@@ -1,7 +1,7 @@
 ﻿@model DatabaseAccess.tblEmployee
 
 @{
-    ViewBag.Title = Resources.CompanyEmployee.EmployeeRegistration.ToString();
+    ViewBag.Title = Resources.Company.EmployeeRegistration.ToString();
 }
 
 <script>
@@ -35,7 +35,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.LogoFile, Resources.CompanyEmployee.Photo.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.LogoFile, Resources.Company.Photo.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 <span class="btn btn-default btn-file">
                     @Html.TextBoxFor(model => model.LogoFile, new { type = "file" })
@@ -52,7 +52,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Address, Resources.CompanyEmployee.Address.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Address, Resources.Company.Address.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
@@ -68,7 +68,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Designation, Resources.CompanyEmployee.Designation.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Designation, Resources.Company.Designation.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Designation, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Designation, "", new { @class = "text-danger" })
@@ -76,7 +76,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Description, Resources.CompanyEmployee.Description.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Description, Resources.Company.Description.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
@@ -84,7 +84,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.LogoFile, Resources.CompanyEmployee.Photo.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.LogoFile, Resources.Company.Photo.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 <span class="btn btn-default btn-file">
                     @Html.TextBoxFor(model => model.LogoFile, new { type = "file" })
@@ -93,17 +93,17 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.BranchID, Resources.CompanyEmployee.SelectBranch.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.BranchID, Resources.Company.SelectBranch.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
-                @Html.DropDownList("BranchID", null, Resources.CompanyEmployee.SelectBranch.ToString(), htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("BranchID", null, Resources.Company.SelectBranch.ToString(), htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.BranchID, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-5">
-                <input type="submit" value="@Resources.CompanyEmployee.Register.ToString()" class="btn btn-success" />
-                @Html.ActionLink(Resources.CompanyEmployee.AllEmployees.ToString(), "Employees", null, new { @class = "btn btn-default" })
+                <input type="submit" value="@Resources.Company.Register.ToString()" class="btn btn-success" />
+                @Html.ActionLink(Resources.Company.AllEmployees.ToString(), "Employees", null, new { @class = "btn btn-default" })
                 <button id="voiceRecognitionButton" class="btn btn-link" type="button">
                     <i class="fas fa-microphone" style="font-size: 1.5em; color: gray;"></i>
                 </button>

@@ -17,46 +17,70 @@ namespace CloudERP.Controllers
         // GET: Task
         public ActionResult Index()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
+                int branchID = Convert.ToInt32(Session["BranchID"]);
+                int userID = Convert.ToInt32(Session["UserID"]);
+
+                var tasks = _db.tblTask.Where(t => t.CompanyID == companyID && t.BranchID == branchID && t.UserID == userID).ToList();
+
+                return View(tasks);
             }
-
-            int companyID = Convert.ToInt32(Session["CompanyID"]);
-            int branchID = Convert.ToInt32(Session["BranchID"]);
-            int userID = Convert.ToInt32(Session["UserID"]);
-
-            var tasks = _db.tblTask.Where(t => t.CompanyID == companyID && t.BranchID == branchID && t.UserID == userID).ToList();
-
-            return View(tasks);
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // GET: Task/Details/5
         public ActionResult Details(int id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
-            }
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
 
-            var task = _db.tblTask.Find(id);
-            if (task == null)
+                var task = _db.tblTask.Find(id);
+                if (task == null)
+                {
+                    return HttpNotFound();
+                }
+
+                return View(task);
+            }
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
-
-            return View(task);
         }
 
         // GET: Task/Create
         public ActionResult Create()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            try
             {
-                return RedirectToAction("Login", "Home");
-            }
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
 
-            return View(new tblTask());
+                return View(new tblTask());
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // POST: Task/Create
@@ -64,44 +88,60 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(tblTask task)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
-                return RedirectToAction("Login", "Home");
+            try 
+            { 
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
+                int branchID = Convert.ToInt32(Session["BranchID"]);
+                int userID = Convert.ToInt32(Session["UserID"]);
+
+                task.BranchID = branchID;
+                task.CompanyID = companyID;
+                task.UserID = userID;
+
+                if (ModelState.IsValid)
+                {
+                    _db.tblTask.Add(task);
+                    _db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
+                return View(task);
             }
-
-            int companyID = Convert.ToInt32(Session["CompanyID"]);
-            int branchID = Convert.ToInt32(Session["BranchID"]);
-            int userID = Convert.ToInt32(Session["UserID"]);
-
-            task.BranchID = branchID;
-            task.CompanyID = companyID;
-            task.UserID = userID;
-
-            if (ModelState.IsValid)
+            catch (Exception ex)
             {
-                _db.tblTask.Add(task);
-                _db.SaveChanges();
-                return RedirectToAction("Index");
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
-
-            return View(task);
         }
 
         // GET: Task/Edit/5
         public ActionResult Edit(int id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
-                return RedirectToAction("Login", "Home");
-            }
+            try 
+            { 
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
 
-            var task = _db.tblTask.Find(id);
-            if (task == null)
-            {
-                return HttpNotFound();
-            }
+                var task = _db.tblTask.Find(id);
+                if (task == null)
+                {
+                    return HttpNotFound();
+                }
 
-            return View(task);
+                return View(task);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // POST: Task/Edit/5
@@ -109,44 +149,60 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(tblTask task)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
-                return RedirectToAction("Login", "Home");
+            try 
+            { 
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+
+                int companyID = Convert.ToInt32(Session["CompanyID"]);
+                int branchID = Convert.ToInt32(Session["BranchID"]);
+                int userID = Convert.ToInt32(Session["UserID"]);
+
+                task.BranchID = branchID;
+                task.CompanyID = companyID;
+                task.UserID = userID;
+
+                if (ModelState.IsValid)
+                {
+                    _db.Entry(task).State = System.Data.Entity.EntityState.Modified;
+                    _db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
+                return View(task);
             }
-
-            int companyID = Convert.ToInt32(Session["CompanyID"]);
-            int branchID = Convert.ToInt32(Session["BranchID"]);
-            int userID = Convert.ToInt32(Session["UserID"]);
-
-            task.BranchID = branchID;
-            task.CompanyID = companyID;
-            task.UserID = userID;
-
-            if (ModelState.IsValid)
+            catch (Exception ex)
             {
-                _db.Entry(task).State = System.Data.Entity.EntityState.Modified;
-                _db.SaveChanges();
-                return RedirectToAction("Index");
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
-
-            return View(task);
         }
 
         // GET: Task/Delete/5
         public ActionResult Delete(int id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
-                return RedirectToAction("Login", "Home");
-            }
+            try 
+            { 
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
 
-            var task = _db.tblTask.Find(id);
-            if (task == null)
-            {
-                return HttpNotFound();
-            }
+                var task = _db.tblTask.Find(id);
+                if (task == null)
+                {
+                    return HttpNotFound();
+                }
 
-            return View(task);
+                return View(task);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // POST: Task/Delete/5
@@ -154,40 +210,56 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
-                return RedirectToAction("Login", "Home");
-            }
+            try
+            { 
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
 
-            var task = _db.tblTask.Find(id);
-            if (task != null)
-            {
-                _db.tblTask.Remove(task);
-                _db.SaveChanges();
-            }
+                var task = _db.tblTask.Find(id);
+                if (task != null)
+                {
+                    _db.tblTask.Remove(task);
+                    _db.SaveChanges();
+                }
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // GET: Task/Complete/5
         public ActionResult Complete(int id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
-                return RedirectToAction("Login", "Home");
+            try 
+            { 
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+
+                var task = _db.tblTask.Find(id);
+                if (task == null)
+                {
+                    return HttpNotFound();
+                }
+                task.IsCompleted = true;
+
+                _db.Entry(task).State = System.Data.Entity.EntityState.Modified;
+                _db.SaveChanges();
+
+                return RedirectToAction("Index");
             }
-
-            var task = _db.tblTask.Find(id);
-            if (task == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
-            task.IsCompleted = true;
-
-            _db.Entry(task).State = System.Data.Entity.EntityState.Modified;
-            _db.SaveChanges();
-
-            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

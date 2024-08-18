@@ -38,7 +38,7 @@ namespace CloudERP.Controllers
                 var financialYear = _db.tblFinancialYear.FirstOrDefault(f => f.IsActive);
                 if (financialYear == null)
                 {
-                    ViewBag.Message = "Your Company Financial Year is not Set! Please Contact to Administrator!";
+                    ViewBag.Message = Resources.Messages.CompanyFinancialYearNotSet;
                     return View(new BalanceSheetModel());
                 }
 
@@ -47,7 +47,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -79,7 +79,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -103,7 +103,7 @@ namespace CloudERP.Controllers
                 var financialYear = _db.tblFinancialYear.FirstOrDefault(f => f.IsActive);
                 if (financialYear == null)
                 {
-                    ViewBag.Message = "Your Company Financial Year is not Set! Please Contact to Administrator!";
+                    ViewBag.Message = Resources.Messages.CompanyFinancialYearNotSet;
                     return View(new List<BalanceSheetModel>());
                 }
 
@@ -112,7 +112,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -127,7 +127,7 @@ namespace CloudERP.Controllers
 
             if (!id.HasValue)
             {
-                ViewBag.ErrorMessage = "Invalid Financial Year ID.";
+                ViewBag.ErrorMessage = Resources.Messages.InvalidFinancialYearID;
                 return View(new List<BalanceSheetModel>());
             }
 
@@ -145,7 +145,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

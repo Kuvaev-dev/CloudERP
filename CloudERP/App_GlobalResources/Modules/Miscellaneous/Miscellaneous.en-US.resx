@@ -1,0 +1,873 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<!-- 
+		Microsoft ResX Schema
+
+		Version 1.3
+
+		The primary goals of this format is to allow a simple XML format 
+		that is mostly human readable. The generation and parsing of the 
+		various data types are done through the TypeConverter classes 
+		associated with the data types.
+
+		Example:
+
+		... ado.net/XML headers & schema ...
+		<resheader name="resmimetype">text/microsoft-resx</resheader>
+		<resheader name="version">1.3</resheader>
+		<resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+		<resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+		<data name="Name1">this is my long string</data>
+		<data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+		<data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+			[base64 mime encoded serialized .NET Framework object]
+		</data>
+		<data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+			[base64 mime encoded string representing a byte array form of the .NET Framework object]
+		</data>
+
+		There are any number of "resheader" rows that contain simple 
+		name/value pairs.
+
+		Each data row contains a name, and value. The row also contains a 
+		type or mimetype. Type corresponds to a .NET class that support 
+		text/value conversion through the TypeConverter architecture. 
+		Classes that don't support this are serialized and stored with the 
+		mimetype set.
+
+		The mimetype is used for serialized objects, and tells the 
+		ResXResourceReader how to depersist the object. This is currently not 
+		extensible. For a given mimetype the value must be set accordingly:
+
+		Note - application/x-microsoft.net.object.binary.base64 is the format 
+		that the ResXResourceWriter will generate, however the reader can 
+		read any of the formats listed below.
+
+		mimetype: application/x-microsoft.net.object.binary.base64
+		value   : The object must be serialized with 
+			: System.Serialization.Formatters.Binary.BinaryFormatter
+			: and then encoded with base64 encoding.
+
+		mimetype: application/x-microsoft.net.object.soap.base64
+		value   : The object must be serialized with 
+			: System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+			: and then encoded with base64 encoding.
+
+		mimetype: application/x-microsoft.net.object.bytearray.base64
+		value   : The object must be serialized into a byte array 
+			: using a System.ComponentModel.TypeConverter
+			: and then encoded with base64 encoding.
+	-->
+	
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+							<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+							<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="resmimetype">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="version">
+		<value>1.3</value>
+	</resheader>
+	<resheader name="reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+
+  <!--Address
+
+  Guide
+
+  Home
+  Dashboard-->
+
+  <!--Index-->
+  <data name="DashboardTitle" xml:space="preserve">
+    <value>Dashboard</value>
+    <comment></comment>
+  </data>
+  <data name="CurrentMonthRevenue" xml:space="preserve">
+    <value>Current Month &lt;br/&gt; Revenue</value>
+    <comment></comment>
+  </data>
+  <data name="CurrentMonthExpenses" xml:space="preserve">
+    <value>Current Month &lt;br/&gt; Expenses</value>
+    <comment></comment>
+  </data>
+  <data name="CurrentMonthRecovery" xml:space="preserve">
+    <value>Current Month &lt;br/&gt; Recovery</value>
+    <comment></comment>
+  </data>
+  <data name="NetProfitLoss" xml:space="preserve">
+    <value>Net Profit / &lt;br/&gt; Loss</value>
+    <comment></comment>
+  </data>
+  <data name="CaseBankBalance" xml:space="preserve">
+    <value>Case / &lt;br/&gt; Bank Balance</value>
+    <comment></comment>
+  </data>
+  <data name="TotalReceivable" xml:space="preserve">
+    <value>Total / &lt;br/&gt; Receivable</value>
+    <comment></comment>
+  </data>
+  <data name="TotalPayable" xml:space="preserve">
+    <value>Total / &lt;br/&gt; Payable</value>
+    <comment></comment>
+  </data>
+  <data name="TotalSalesPerDay" xml:space="preserve">
+    <value>Total Sale's Per Day</value>
+    <comment></comment>
+  </data>
+  <data name="TotalPurchasesPerDay" xml:space="preserve">
+    <value>Total Purchase's Per Day</value>
+    <comment></comment>
+  </data>
+  <data name="TotalSalesPerMonth" xml:space="preserve">
+    <value>Total Sale's Per Month</value>
+    <comment></comment>
+  </data>
+  <data name="TotalPurchasesPerMonth" xml:space="preserve">
+    <value>Total Purchase's Per Month</value>
+    <comment></comment>
+  </data>
+  <!--Today Sales / Purchases-->
+  <data name="TodaySalesPurchases" xml:space="preserve">
+    <value>Today Sales / Purchases</value>
+    <comment></comment>
+  </data>
+  <data name="TotalSales" xml:space="preserve">
+    <value>Total Sales</value>
+    <comment></comment>
+  </data>
+  <data name="PurchasesPaymentPending" xml:space="preserve">
+    <value>Purchases Payment Pending</value>
+    <comment></comment>
+  </data>
+  <!--Today Return Sales / Return Purchases-->
+  <data name="TodayReturnSalesReturnPurchases" xml:space="preserve">
+    <value>Today Return Sales / Return Purchases</value>
+    <comment></comment>
+  </data>
+  <data name="TotalReturnPurchases" xml:space="preserve">
+    <value>Total Return Purchases</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnPurchasesPaymentPending" xml:space="preserve">
+    <value>Return Purchases Payment Pending</value>
+    <comment></comment>
+  </data>
+  <!--Sales / Purchases-->
+  <data name="SalesPurchases" xml:space="preserve">
+    <value>Sales / Purchases</value>
+    <comment></comment>
+  </data>
+  <data name="SalesPaymentPending" xml:space="preserve">
+    <value>Sales Payment Pending</value>
+    <comment></comment>
+  </data>
+  <data name="SalesPaymentPaid" xml:space="preserve">
+    <value>Sales Payment Paid</value>
+    <comment></comment>
+  </data>
+  <data name="TotalPurchases" xml:space="preserve">
+    <value>Total Purchases</value>
+    <comment></comment>
+  </data>
+  <data name="PurchasesPaymentPaid" xml:space="preserve">
+    <value>Purchases Payment Paid</value>
+    <comment></comment>
+  </data>
+  <!--Return Sales / Return Purchases-->
+  <data name="ReturnSalesReturnPurchases" xml:space="preserve">
+    <value>Return Sales / Return Purchases</value>
+    <comment></comment>
+  </data>
+  <data name="TotalReturnSales" xml:space="preserve">
+    <value>Total Return Sales</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnSalesPaymentPending" xml:space="preserve">
+    <value>Return Sales Payment Pending</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnSalesPaymentPaid" xml:space="preserve">
+    <value>Return Sales Payment Paid</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnPurchasesPaymentPaid" xml:space="preserve">
+    <value>Return Purchases Payment Paid</value>
+    <comment></comment>
+  </data>
+
+  <!--Sidebar-->
+
+  <!--Sidebar-->
+  <data name="AccountControls" xml:space="preserve">
+    <value>Account Controls</value>
+    <comment>Sidebar Option Menu String</comment>
+  </data>
+  <data name="AccountFlow" xml:space="preserve">
+    <value>Account Flow</value>
+    <comment>Sidebar Option Menu String</comment>
+  </data>
+  <data name="AccountHeads" xml:space="preserve">
+    <value>Account Heads</value>
+    <comment>Sidebar Option Menu String</comment>
+  </data>
+  <data name="AccountSettings" xml:space="preserve">
+    <value>Account Settings</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="AccountSubControls" xml:space="preserve">
+    <value>Account Sub Controls</value>
+    <comment>Sidebar Option Menu String</comment>
+  </data>
+  <data name="AdminGuide" xml:space="preserve">
+    <value>Admin Guide</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="AllCustomers" xml:space="preserve">
+    <value>All Customers</value>
+    <comment>Sidebar Option Menu String</comment>
+  </data>
+  <data name="AllSuppliers" xml:space="preserve">
+    <value>All Suppliers</value>
+    <comment>Sidebar Option Menu String</comment>
+  </data>
+  <data name="Companies" xml:space="preserve">
+    <value>Companies</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="CompanyRegistration" xml:space="preserve">
+    <value>Company Registration</value>
+    <comment>Sidebar Option Menu String</comment>
+  </data>
+  <data name="Customers" xml:space="preserve">
+    <value>Customers</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="FinancialYear" xml:space="preserve">
+    <value>Financial Year</value>
+    <comment>Sidebar Option Menu String</comment>
+  </data>
+  <data name="Guide" xml:space="preserve">
+    <value>Guide</value>
+    <comment>Sidebar Option Menu String</comment>
+  </data>
+  <data name="Hello" xml:space="preserve">
+    <value>Hello,</value>
+    <comment>Profile String</comment>
+  </data>
+  <data name="License" xml:space="preserve">
+    <value>License</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="PrivacyPolicy" xml:space="preserve">
+    <value>Privacy Policy</value>
+    <comment>Sidebar Option Menu String</comment>
+  </data>
+  <data name="Suppliers" xml:space="preserve">
+    <value>Suppliers</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Users</value>
+    <comment>Sidebar Option Menu String</comment>
+  </data>
+  <data name="UserSetting" xml:space="preserve">
+    <value>User Setting</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="UserTypes" xml:space="preserve">
+    <value>User Types</value>
+    <comment>Sidebar Option Menu String</comment>
+  </data>
+  <data name="Company" xml:space="preserve">
+    <value>Companies</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="NewFinancialYear" xml:space="preserve">
+    <value>New Financial Year</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+
+  <data name="Home" xml:space="preserve">
+    <value>Home</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="SubBranchs" xml:space="preserve">
+    <value>Sub Branches</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="Branches" xml:space="preserve">
+    <value>Branches</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="MainEmployeeGuide" xml:space="preserve">
+    <value>Main Employee Guide</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="Branchs" xml:space="preserve">
+    <value>Branch`s</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="NewBranch" xml:space="preserve">
+    <value>New Branch</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="Employees" xml:space="preserve">
+    <value>Employees</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="EmployeeRegistration" xml:space="preserve">
+    <value>Employee Registration</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="Payroll" xml:space="preserve">
+    <value>Payroll</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="PaidSalariesHistory" xml:space="preserve">
+    <value>Paid Salaries History</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="Stocks" xml:space="preserve">
+    <value>Stocks</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="StockCategories" xml:space="preserve">
+    <value>Stock Categories</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="StockDetails" xml:space="preserve">
+    <value>Stock Details</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="AllFinancialYears" xml:space="preserve">
+    <value>All Financial Years</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="NewCustomer" xml:space="preserve">
+    <value>New Customer</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="BranchCustomers" xml:space="preserve">
+    <value>Branch Customers</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="SubBranchCustomers" xml:space="preserve">
+    <value>Sub Branch Customers</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="Sales" xml:space="preserve">
+    <value>Sales</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="NewSale" xml:space="preserve">
+    <value>New Sale</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="SalePendingPayment" xml:space="preserve">
+    <value>Sale Pending Payment</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="AllSales" xml:space="preserve">
+    <value>All Sales</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="SaleReturn" xml:space="preserve">
+    <value>Sale Return</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="ReturnSalesPendingAmount" xml:space="preserve">
+    <value>Return Sales&lt;br/&gt;Pending Amount</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="NewSupplier" xml:space="preserve">
+    <value>New Supplier</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="BranchSuppliers" xml:space="preserve">
+    <value>Branch Suppliers</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="SubBranchSuppliers" xml:space="preserve">
+    <value>Sub Branch Suppliers</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="Purchases" xml:space="preserve">
+    <value>Purchases</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="NewPurchase" xml:space="preserve">
+    <value>New Purchase</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="PurchasePendingPayment" xml:space="preserve">
+    <value>Purchase Pending&lt;br/&gt;Payment</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="AllPurchases" xml:space="preserve">
+    <value>All Purchases</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="PurchasesReturn" xml:space="preserve">
+    <value>Purchases Return</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="ReturnPaymentPending" xml:space="preserve">
+    <value>Return Payment&lt;br/&gt;Pending</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="Transactions" xml:space="preserve">
+    <value>Transactions</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="GeneralTransaction" xml:space="preserve">
+    <value>General Transaction</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="Journal" xml:space="preserve">
+    <value>Journal</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="AccountsLedger" xml:space="preserve">
+    <value>Accounts Ledger</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="TrialBalance" xml:space="preserve">
+    <value>Trial Balance</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="IncomeStatement" xml:space="preserve">
+    <value>Income Statement</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="BalanceSheet" xml:space="preserve">
+    <value>Balance Sheet</value>
+    <comment>Sidebar Option String</comment>
+  </data>
+  <data name="TasksList" xml:space="preserve">
+    <value>Tasks List</value>
+    <comment></comment>
+  </data>
+  <data name="TicketList" xml:space="preserve">
+    <value>Ticket List</value>
+    <comment></comment>
+  </data>
+  <data name="Support" xml:space="preserve">
+    <value>Support</value>
+    <comment></comment>
+  </data>
+  <data name="Forecasting" xml:space="preserve">
+    <value>Forecasting</value>
+    <comment></comment>
+  </data>
+  <data name="EmployeeStatistics" xml:space="preserve">
+    <value>Employee Statistics</value>
+    <comment></comment>
+  </data>
+
+  <!--Category-->
+
+  <!--Index-->
+  <data name="AllCategories" xml:space="preserve">
+    <value>All Categories</value>
+    <comment></comment>
+  </data>
+  <data name="CategoryTitle" xml:space="preserve">
+    <value>Category</value>
+    <comment></comment>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>User</value>
+    <comment></comment>
+  </data>
+  <!--Create-->
+  <data name="AddCategory" xml:space="preserve">
+    <value>Add Category</value>
+    <comment></comment>
+  </data>
+  <data name="CategoryName" xml:space="preserve">
+    <value>Category Name</value>
+    <comment></comment>
+  </data>
+  <!--Edit-->
+  <data name="EditCategory" xml:space="preserve">
+    <value>Edit Category</value>
+    <comment></comment>
+  </data>
+  <data name="EnterNewCategoryName" xml:space="preserve">
+    <value>Enter New Category Name</value>
+    <comment></comment>
+  </data>
+
+  <!--Customer-->
+
+  <!--AllCustomers-->
+  <data name="CompanyTitle" xml:space="preserve">
+    <value>Company</value>
+    <comment></comment>
+  </data>
+  <data name="BranchTitle" xml:space="preserve">
+    <value>Branch</value>
+    <comment></comment>
+  </data>
+  <data name="CustomerName" xml:space="preserve">
+    <value>Customer</value>
+    <comment></comment>
+  </data>
+  <data name="ContactNo" xml:space="preserve">
+    <value>Contact №</value>
+    <comment></comment>
+  </data>
+  <data name="Area" xml:space="preserve">
+    <value>Area</value>
+    <comment></comment>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Address</value>
+    <comment></comment>
+  </data>
+  <!--Create-->
+  <data name="NewCustomer" xml:space="preserve">
+    <value>New Customer</value>
+    <comment></comment>
+  </data>
+  <data name="CustomerFullName" xml:space="preserve">
+    <value>Customer Full Name</value>
+    <comment></comment>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+    <comment></comment>
+  </data>
+  <data name="ClickHereToChooseACorrectAddressBelow" xml:space="preserve">
+    <value>Click here to choose a correct address below</value>
+    <comment></comment>
+  </data>
+  <!--Index-->
+  <data name="BranchCustomers" xml:space="preserve">
+    <value>Branch Customers</value>
+    <comment></comment>
+  </data>
+  <!--Edit-->
+  <data name="UpdateCustomer" xml:space="preserve">
+    <value>Update Customer</value>
+    <comment></comment>
+  </data>
+  <!--SubBranchCustomer-->
+  <data name="SubBranchCustomer" xml:space="preserve">
+    <value>Sub Branch Customer</value>
+    <comment></comment>
+  </data>
+
+  <!--EP
+
+  Forecasting-->
+
+  <data name="SelectToDate" xml:space="preserve">
+    <value>Select Range (To Date)</value>
+    <comment></comment>
+  </data>
+  <data name="SubmitForecast" xml:space="preserve">
+    <value>Get Forecast</value>
+    <comment></comment>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+    <comment></comment>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Value</value>
+    <comment></comment>
+  </data>
+  <data name="NoForecastDataAvailable." xml:space="preserve">
+    <value>No forecast data available.</value>
+    <comment></comment>
+  </data>
+
+  <!--GeneralTransaction-->
+
+  <!--SubJournal-->
+  <data name="JournalByTransactionsDate" xml:space="preserve">
+    <value>Journal (By Transactions Date)</value>
+    <comment></comment>
+  </data>
+  <data name="SubBranchJournalByTransactionsDate" xml:space="preserve">
+    <value>Sub Branch Journal (By Transactions Date)</value>
+    <comment></comment>
+  </data>
+  <data name="SelectRangeFromDateAndToDate" xml:space="preserve">
+    <value>Select Range (From Date and To Date)</value>
+    <comment></comment>
+  </data>
+  <data name="SelectFromDate" xml:space="preserve">
+    <value>Select From Date</value>
+    <comment></comment>
+  </data>
+  <data name="SelectToDate" xml:space="preserve">
+    <value>Select To Date</value>
+    <comment></comment>
+  </data>
+  <data name="RetrieveTransactions" xml:space="preserve">
+    <value>Retrieve Transactions</value>
+    <comment></comment>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Export</value>
+    <comment></comment>
+  </data>
+  <data name="Transactions" xml:space="preserve">
+    <value>Transactions</value>
+    <comment></comment>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+    <comment></comment>
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value>Account</value>
+    <comment></comment>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Title</value>
+    <comment></comment>
+  </data>
+  <data name="InvoiceNo" xml:space="preserve">
+    <value>Invoice №</value>
+    <comment></comment>
+  </data>
+  <data name="Debit" xml:space="preserve">
+    <value>Debit</value>
+    <comment></comment>
+  </data>
+  <data name="Credit" xml:space="preserve">
+    <value>Credit</value>
+    <comment></comment>
+  </data>
+
+  <data name="NewGeneralTransaction" xml:space="preserve">
+    <value>New General Transaction</value>
+    <comment></comment>
+  </data>
+  <data name="SelectAccountCredit" xml:space="preserve">
+    <value>Select Credit Account</value>
+    <comment></comment>
+  </data>
+  <data name="SelectAccountDebit" xml:space="preserve">
+    <value>Select Debit Account</value>
+    <comment></comment>
+  </data>
+  <data name="EnterAmount" xml:space="preserve">
+    <value>Enter Amount</value>
+    <comment></comment>
+  </data>
+  <data name="EnterReason" xml:space="preserve">
+    <value>Enter Reason</value>
+    <comment></comment>
+  </data>
+  <data name="SubmitTransaction" xml:space="preserve">
+    <value>Submit Transaction</value>
+    <comment></comment>
+  </data>
+
+  <!--IncomeStatement-->
+
+  <data name="SubBranchIncomeStatement" xml:space="preserve">
+    <value>Sub Branch Income Statement</value>
+    <comment></comment>
+	</data>
+  <data name="SelectFinancialYear" xml:space="preserve">
+    <value>Select Financial Year</value>
+    <comment></comment>
+	</data>
+  <data name="RetrieveIncomeStatement" xml:space="preserve">
+    <value>Retrieve Income Statement</value>
+    <comment></comment>
+	</data>
+  <data name="IncomeStatementStr" xml:space="preserve">
+    <value>Income Statement</value>
+    <comment></comment>
+	</data>
+  <data name="AccountTitle" xml:space="preserve">
+    <value>Account Title</value>
+    <comment></comment>
+	</data>
+  <data name="Amount" xml:space="preserve">
+    <value>Amount</value>
+    <comment></comment>
+	</data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+    <comment></comment>
+	</data>
+  <data name="TotalRevenue" xml:space="preserve">
+    <value>Total Revenue</value>
+    <comment></comment>
+	</data>
+  <data name="TotalExpenses" xml:space="preserve">
+    <value>Total Expenses</value>
+    <comment></comment>
+	</data>
+  <data name="NetIncome" xml:space="preserve">
+    <value>Net Income</value>
+    <comment></comment>
+	</data>
+
+  <!--Ledger-->
+
+  <!--GetSubLedger-->
+  <data name="SubBranchAccountsLedger" xml:space="preserve">
+    <value>Sub Branch Accounts Ledger</value>
+    <comment></comment>
+  </data>
+  <data name="SelectFinancialYear" xml:space="preserve">
+    <value>Select Financial Year</value>
+    <comment></comment>
+  </data>
+  <data name="RetrieveLedger" xml:space="preserve">
+    <value>Retrieve Ledger</value>
+    <comment></comment>
+  </data>
+  <data name="RetrieveLedger" xml:space="preserve">
+    <value>Retrieve Ledger</value>
+    <comment></comment>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Export</value>
+    <comment></comment>
+  </data>
+  <data name="AccountsLedger" xml:space="preserve">
+    <value>Accounts Ledger</value>
+    <comment></comment>
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value>Account</value>
+    <comment></comment>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+    <comment></comment>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+    <comment></comment>
+  </data>
+  <data name="Debit" xml:space="preserve">
+    <value>Debit</value>
+    <comment></comment>
+  </data>
+  <data name="Credit" xml:space="preserve">
+    <value>Credit</value>
+    <comment></comment>
+  </data>
+
+  <!--Stock-->
+
+  <!--Index-->
+  <data name="StockDetails" xml:space="preserve">
+    <value>Stock Details</value>
+    <comment></comment>
+  </data>
+  <data name="AddProduct" xml:space="preserve">
+    <value>AddProduct</value>
+    <comment></comment>
+  </data>
+  <data name="Items" xml:space="preserve">
+    <value>Items</value>
+    <comment></comment>
+  </data>
+  <data name="CurrentQty" xml:space="preserve">
+    <value>Current Qty</value>
+    <comment></comment>
+  </data>
+  <data name="ExpiryDate" xml:space="preserve">
+    <value>Expiry Date</value>
+    <comment></comment>
+  </data>
+  <data name="ManufactureDate" xml:space="preserve">
+    <value>Manufacture Date</value>
+    <comment></comment>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+    <comment></comment>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+    <comment></comment>
+  </data>
+  <data name="ItemDetail" xml:space="preserve">
+    <value>Item Detail</value>
+    <comment></comment>
+  </data>
+  <!--Create-->
+  <data name="AddProduct" xml:space="preserve">
+    <value>Add Product</value>
+    <comment></comment>
+  </data>
+  <data name="SelectCategory" xml:space="preserve">
+    <value>Select Category</value>
+    <comment></comment>
+  </data>
+  <data name="ProductName" xml:space="preserve">
+    <value>Product Name</value>
+    <comment></comment>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Quantity</value>
+    <comment></comment>
+  </data>
+  <data name="SaleUnitPrice" xml:space="preserve">
+    <value>Sale Unit Price</value>
+    <comment></comment>
+  </data>
+  <data name="CurrentPurchaseUnitPrice" xml:space="preserve">
+    <value>Current Purchase Unit Price</value>
+    <comment></comment>
+  </data>
+  <data name="TresholdQuantity" xml:space="preserve">
+    <value>Treshold Quantity</value>
+    <comment></comment>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+    <comment></comment>
+  </data>
+  <!--Edit-->
+  <data name="UpdateProduct" xml:space="preserve">
+    <value>Update Product</value>
+    <comment></comment>
+  </data>
+  <!--Details-->
+  <data name="ProductDetails" xml:space="preserve">
+    <value>Product Details</value>
+    <comment></comment>
+  </data>
+</root>

@@ -53,7 +53,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -79,7 +79,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -119,7 +119,7 @@ namespace CloudERP.Controllers
                     }
                 }
 
-                string Description = "Purchase Return";
+                string Description = Resources.Messages.PurchaseReturn;
                 string[] SupplierInvoiceIDs = collection["supplierInvoiceID"].Split(',');
 
                 if (SupplierInvoiceIDs != null)
@@ -156,7 +156,7 @@ namespace CloudERP.Controllers
                 if (TotalAmount == 0)
                 {
                     Session["InvoiceNo"] = supplierInvoice.InvoiceNo;
-                    Session["ReturnMessage"] = "Must be at least One Product Return Qty";
+                    Session["ReturnMessage"] = Resources.Messages.OneProductReturnQtyError;
                     return RedirectToAction("FindPurchase");
                 }
 
@@ -215,19 +215,19 @@ namespace CloudERP.Controllers
                     }
 
                     Session["InvoiceNo"] = supplierInvoice.InvoiceNo;
-                    Session["ReturnMessage"] = "Return Successfully";
+                    Session["ReturnMessage"] = Resources.Messages.ReturnSuccessfully;
 
                     return RedirectToAction("FindPurchase");
                 }
 
                 Session["InvoiceNo"] = supplierInvoice.InvoiceNo;
-                Session["ReturnMessage"] = "Some Unexpected Issue is Occured. Please Contact to Administrator";
+                Session["ReturnMessage"] = Resources.Messages.UnexpectedIssue;
 
                 return RedirectToAction("FindPurchase");
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

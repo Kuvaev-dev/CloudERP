@@ -40,7 +40,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving return sale pending amounts: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -64,7 +64,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving all return sales pending amounts: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -98,7 +98,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while retrieving return amount details: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -119,7 +119,7 @@ namespace CloudERP.Controllers
 
                 if (paymentAmount > previousRemainingAmount)
                 {
-                    ViewBag.Message = "Payment must be less than or equal to the previous remaining amount!";
+                    ViewBag.Message = Resources.Messages.PurchasePaymentRemainingAmountError;
                     var list = _db.tblCustomerReturnPayment.Where(r => r.CustomerReturnInvoiceID == id);
                     double remainingAmount = list.Sum(item => item.RemainingBalance);
 
@@ -147,7 +147,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while processing return amount: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

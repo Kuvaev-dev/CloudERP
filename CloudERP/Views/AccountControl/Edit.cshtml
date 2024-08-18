@@ -1,7 +1,7 @@
 ﻿@model DatabaseAccess.tblAccountControl
 
 @{
-    ViewBag.Title = Resources.AccountControl.EditAccountControl.ToString();
+    ViewBag.Title = Resources.Account.EditAccountControl.ToString();
 }
 
 <script>
@@ -24,15 +24,15 @@
         @Html.HiddenFor(model => model.UserID)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.AccountHeadID, Resources.AccountControl.EnterAccountHeadID.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
+            @Html.LabelFor(model => model.AccountHeadID, Resources.Account.EnterAccountHeadID.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-5">
-                @Html.DropDownList("AccountHeadID", null, Resources.AccountControl.AccountHeadTitle.ToString(), htmlAttributes: new { @class = "form-control", @id = "AccountControlID" })
+                @Html.DropDownList("AccountHeadID", null, Resources.Account.AccountHeadTitle.ToString(), htmlAttributes: new { @class = "form-control", @id = "AccountControlID" })
                 @Html.ValidationMessageFor(model => model.AccountHeadID, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.AccountControlName, Resources.AccountControl.AccountControlTitle.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.AccountControlName, Resources.Account.AccountControlTitle.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.AccountControlName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.AccountControlName, "", new { @class = "text-danger" })
@@ -41,8 +41,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="@Resources.Repeats.Save.ToString()" class="btn btn-success" />
-                @Html.ActionLink(Resources.Repeats.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
+                <input type="submit" value="@Resources.Common.Save.ToString()" class="btn btn-success" />
+                @Html.ActionLink(Resources.Common.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
                 <button id="voiceRecognitionButton" class="btn btn-link" type="button">
                     <i class="fas fa-microphone" style="font-size: 1.5em; color: gray;"></i>
                 </button>

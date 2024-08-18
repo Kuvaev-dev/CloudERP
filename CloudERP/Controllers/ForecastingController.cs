@@ -45,7 +45,6 @@ namespace CloudERP.Controllers
 
             try
             {
-                // Set StartDate to current date
                 inputModel.StartDate = DateTime.Now;
 
                 var forecastData = _forecastingService.GetForecastData(companyID, branchID, inputModel.StartDate, inputModel.EndDate);

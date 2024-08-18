@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DatabaseAccess.tblSupplier>
 
 @{
-    ViewBag.Title = Resources.PurchCart.FinilizePurchasing.ToString();
+    ViewBag.Title = Resources.Miscellaneous.FinilizePurchasing.ToString();
 }
 
 <!-- Tables Sorting-->
@@ -20,20 +20,20 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>@Resources.PurchCart.PurchaseDetails.ToString()</h4>
+        <h4>@Resources.Miscellaneous.PurchaseDetails.ToString()</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <h3 class="text-danger">@ViewBag.Message</h3>
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
 
         <div class="form-group">
-            <label class="control-label col-md-2">@Resources.PurchCart.PurchaseDescription.ToString()</label>
+            <label class="control-label col-md-2">@Resources.Miscellaneous.PurchaseDescription.ToString()</label>
             <div class="col-md-12">
                 <input type="text" class="form-control" id="item.Description" name="item.Description" placeholder="Enter Purchase Description..." required />
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-md-4">@Resources.PurchCart.IsPurchasePaymentPaid.ToString()</label>
+            <label class="control-label col-md-4">@Resources.Miscellaneous.IsPurchasePaymentPaid.ToString()</label>
             <div class="col-md-12">
                 <input type="checkbox" name="IsPayment" />
             </div>
@@ -48,7 +48,7 @@
 
     <div class="card card-default col-md-12">
         <div class="card-header">
-            <input type="submit" style="float:right;" value="@Resources.PurchCart.FinilizePurchase.ToString()" class="btn btn-success" />
+            <input type="submit" style="float:right;" value="@Resources.Miscellaneous.FinilizePurchase.ToString()" class="btn btn-success" />
         </div>
         <div class="card-body">
             <div class="table-responsive bootgrid">
@@ -56,13 +56,13 @@
                     <thead style="background-color:lightgray;">
                         <tr>
                             <th>
-                                @Resources.PurchCart.Supplier.ToString()
+                                @Resources.Miscellaneous.Supplier.ToString()
                             </th>
                             <th>
-                                @Resources.PurchCart.ConatctNo.ToString()
+                                @Resources.Miscellaneous.ConatctNo.ToString()
                             </th>
                             <th>
-                                @Resources.PurchCart.Email.ToString()
+                                @Resources.Miscellaneous.Email.ToString()
                             </th>
                             <th>
                                 @Resources.Repeats.Actions.ToString()

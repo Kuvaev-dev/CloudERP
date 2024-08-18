@@ -1,7 +1,7 @@
 ﻿@model DatabaseAccess.tblCustomer
 
 @{
-    ViewBag.Title = Resources.Customer.NewCustomer.ToString();
+    ViewBag.Title = Resources.Miscellaneous.NewCustomer.ToString();
 }
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
@@ -24,7 +24,7 @@
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Customername, Resources.Customer.CustomerFullName.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Customername, Resources.Miscellaneous.CustomerFullName.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Customername, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Customername, "", new { @class = "text-danger" })
@@ -32,7 +32,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CustomerContact, Resources.Customer.ContactNo.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CustomerContact, Resources.Miscellaneous.ContactNo.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.CustomerContact, new { htmlAttributes = new { @class = "form-control", @id = "PhoneNumber" } })
                 @Html.ValidationMessageFor(model => model.CustomerContact, "", new { @class = "text-danger" })
@@ -40,17 +40,17 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CustomerAddress, Resources.Customer.Address.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CustomerAddress, Resources.Miscellaneous.Address.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.CustomerAddress, new { htmlAttributes = new { @class = "form-control", @id = "address" } })
                 @Html.ValidationMessageFor(model => model.CustomerAddress, "", new { @class = "text-danger" })
-                <h5 class="mt-3">@Resources.Customer.ClickHereToChooseACorrectAddressBelow.ToString()</h5>
+                <h5 class="mt-3">@Resources.Miscellaneous.ClickHereToChooseACorrectAddressBelow.ToString()</h5>
                 <ul id="suggestions"></ul>
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Description, Resources.Customer.Description.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Description, Resources.Miscellaneous.Description.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })

@@ -52,7 +52,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -70,8 +70,8 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
-                return Json(new { error = "An error occurred while retrieving product details." });
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return Json(new { error = Resources.Messages.ProductDetailsFetchingError });
             }
         }
 
@@ -93,7 +93,7 @@ namespace CloudERP.Controllers
                 var checkQty = _db.tblStock.Find(PID);
                 if (Qty > checkQty.Quantity)
                 {
-                    ViewBag.Message = "Sale Quantity must be less than or equal to available quantity.";
+                    ViewBag.Message = Resources.Messages.SaleQuantityError;
                     return RedirectToAction("NewSale");
                 }
 
@@ -116,19 +116,19 @@ namespace CloudERP.Controllers
 
                         _db.tblSaleCartDetail.Add(newItem);
                         _db.SaveChanges();
-                        ViewBag.Message = "Item added successfully!";
+                        ViewBag.Message = Resources.Messages.ItemAddedSuccessfully;
                     }
                 }
                 else
                 {
-                    ViewBag.Message = "Item already exists!";
+                    ViewBag.Message = Resources.Messages.AlreadyExists;
                 }
 
                 return RedirectToAction("NewSale");
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -153,16 +153,16 @@ namespace CloudERP.Controllers
                 {
                     _db.Entry(product).State = System.Data.Entity.EntityState.Deleted;
                     _db.SaveChanges();
-                    ViewBag.Message = "Deleted successfully.";
+                    ViewBag.Message = Resources.Messages.DeletedSuccessfully;
                     return RedirectToAction("NewSale");
                 }
 
-                ViewBag.Message = "Product not found.";
+                ViewBag.Message = Resources.Messages.ProductNotFound;
                 return RedirectToAction("NewSale");
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -194,8 +194,8 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
-                return Json(new { error = "An error occurred while retrieving products." });
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return Json(new { error = Resources.Messages.UnexpectedErrorMessage + ex.Message });
             }
         }
 
@@ -212,13 +212,13 @@ namespace CloudERP.Controllers
                 }
                 else
                 {
-                    return Json(new { error = "Product not found." });
+                    return Json(new { error = Resources.Messages.ProductNotFound });
                 }
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
-                return Json(new { error = "An error occurred while retrieving product details." });
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return Json(new { error = Resources.Messages.UnexpectedErrorMessage + ex.Message });
             }
         }
 
@@ -248,13 +248,13 @@ namespace CloudERP.Controllers
 
                 _db.SaveChanges();
 
-                ViewBag.Message = "Sale canceled successfully.";
+                ViewBag.Message = Resources.Messages.SaleCanceledSuccessfully;
 
                 return RedirectToAction("NewSale");
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -277,7 +277,7 @@ namespace CloudERP.Controllers
                 var saleDetails = _db.tblSaleCartDetail.FirstOrDefault(pd => pd.CompanyID == companyID && pd.BranchID == branchID);
                 if (saleDetails == null)
                 {
-                    Session["ErrorMessageSale"] = "Sale cart is empty.";
+                    Session["ErrorMessageSale"] = Resources.Messages.SaleCartEmpty;
 
                     return RedirectToAction("NewSale");
                 }
@@ -290,7 +290,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -339,7 +339,7 @@ namespace CloudERP.Controllers
 
                 if (totalAmount == 0)
                 {
-                    ViewBag.Message = "Sale cart is empty.";
+                    ViewBag.Message = Resources.Messages.SaleCartEmpty;
                     return RedirectToAction("NewSale");
                 }
 
@@ -403,7 +403,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

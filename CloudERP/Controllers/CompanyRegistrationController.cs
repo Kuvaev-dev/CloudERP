@@ -67,7 +67,7 @@ namespace CloudERP.Controllers
                     // Check if the user already exists
                     if (_db.tblUser.Any(u => u.UserName == model.UserName || u.Email == model.EmployeeEmail))
                     {
-                        ModelState.AddModelError("", "A user with this username or email already exists.");
+                        ModelState.AddModelError("", Resources.Messages.UsernameAlreadyExists);
                         return View(model);
                     }
 
@@ -94,7 +94,7 @@ namespace CloudERP.Controllers
                     // Check if the employee already exists
                     if (_db.tblEmployee.Any(e => e.Email == model.EmployeeEmail && e.CompanyID == company.CompanyID))
                     {
-                        ModelState.AddModelError("", "An employee with this email already exists for this company.");
+                        ModelState.AddModelError("", Resources.Messages.EmployeeEmailAlreadyExists);
                         return View(model);
                     }
 
@@ -129,17 +129,17 @@ namespace CloudERP.Controllers
                                $"Best regards,\nCompany Team";
                     emailService.SendEmail(employee.Email, subject, body);
 
-                    ViewBag.Message = "Registration Successful!";
+                    ViewBag.Message = Resources.Messages.RegistrationSuccessful;
                     return RedirectToAction("Login", "Home");
                 }
                 catch (Exception ex)
                 {
-                    TempData["ErrorMessage"] = "An unexpected error occurred during registration: " + ex.Message;
+                    TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                     return RedirectToAction("EP500", "EP");
                 }
             }
 
-            ViewBag.Message = "Please provide correct details.";
+            ViewBag.Message = Resources.Messages.PleaseProvideCorrectDetails;
             return View(model);
         }
     }

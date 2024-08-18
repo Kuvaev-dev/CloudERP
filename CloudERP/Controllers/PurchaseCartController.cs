@@ -49,7 +49,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An error occurred while fetching the purchase details. Please try again later. " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -68,7 +68,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while fetching product details: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return Json(new { CurrentPurchaseUnitPrice = 0 }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -105,19 +105,19 @@ namespace CloudERP.Controllers
 
                         _db.tblPurchaseCartDetail.Add(newItem);
                         _db.SaveChanges();
-                        ViewBag.Message = "Item Added Successfully!";
+                        ViewBag.Message = Resources.Messages.ItemAddedSuccessfully;
                     }
                 }
                 else
                 {
-                    ViewBag.Message = "Item already exists!";
+                    ViewBag.Message = Resources.Messages.AlreadyExists;
                 }
 
                 return RedirectToAction("NewPurchase");
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An error occurred while adding the item to the purchase cart. Please try again later. " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("NewPurchase");
             }
         }
@@ -144,7 +144,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while fetching products: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return Json(new { data = new List<ProductMV>() }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -168,18 +168,18 @@ namespace CloudERP.Controllers
                 {
                     _db.Entry(product).State = System.Data.Entity.EntityState.Deleted;
                     _db.SaveChanges();
-                    ViewBag.Message = "Deleted Successfully.";
+                    ViewBag.Message = Resources.Messages.DeletedSuccessfully;
                     return RedirectToAction("NewPurchase");
                 }
 
-                ViewBag.Message = "Some unexpected issue occurred. Please contact the concerned person!";
+                ViewBag.Message = Resources.Messages.UnexpectedIssue;
                 var find = _db.tblPurchaseCartDetail.Where(i => i.BranchID == branchID && i.CompanyID == companyID && i.UserID == userID).ToList();
 
                 return View(find);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An error occurred while deleting the item from the purchase cart. Please try again later. " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("NewPurchase");
             }
         }
@@ -214,18 +214,18 @@ namespace CloudERP.Controllers
 
                 if (cancelstatus)
                 {
-                    ViewBag.Message = "Purchase is canceled.";
+                    ViewBag.Message = Resources.Messages.PurchaseIsCanceled;
                 }
                 else
                 {
-                    ViewBag.Message = "Some unexpected issue occurred. Please contact the concerned person!";
+                    ViewBag.Message = Resources.Messages.UnexpectedIssue;
                 }
 
                 return RedirectToAction("NewPurchase");
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An error occurred while canceling the purchase. Please try again later. " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("NewPurchase");
             }
         }
@@ -248,7 +248,7 @@ namespace CloudERP.Controllers
                 var checkPurchaseCart = _db.tblPurchaseCartDetail.FirstOrDefault(pd => pd.BranchID == branchID && pd.CompanyID == companyID);
                 if (checkPurchaseCart == null)
                 {
-                    Session["ErrorMessagePurchase"] = "Purchase Cart is empty";
+                    Session["ErrorMessagePurchase"] = Resources.Messages.PurchaseCartIsEmpty;
                     return RedirectToAction("NewPurchase");
                 }
 
@@ -258,7 +258,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An error occurred while selecting the supplier. Please try again later. " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("NewPurchase");
             }
         }
@@ -313,7 +313,7 @@ namespace CloudERP.Controllers
 
                 if (totalAmount == 0)
                 {
-                    ViewBag.Message = "Purchase Cart is empty";
+                    ViewBag.Message = Resources.Messages.PurchaseCartIsEmpty;
                     return RedirectToAction("NewPurchase");
                 }
 
@@ -372,7 +372,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An error occurred while confirming the purchase. Please try again later. " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("NewPurchase");
             }
         }

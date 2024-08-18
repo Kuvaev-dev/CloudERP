@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<DatabaseAccess.Models.AccountLedgerModel>
 @{
-    ViewBag.Title = Resources.Ledger.SubBranchAccountsLedger.ToString();
+    ViewBag.Title = Resources.Miscellaneous.SubBranchAccountsLedger.ToString();
 }
 
 <script src="~/Scripts/jquery-3.7.1.js"></script>
@@ -13,9 +13,9 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">
-                        <label>@Resources.Ledger.SelectFinancialYear.ToString()</label>
+                        <label>@Resources.Miscellaneous.SelectFinancialYear.ToString()</label>
                         @Html.DropDownList("id", (SelectList)ViewBag.FinancialYears, "Select Financial Year", new { @class = "form-control", required = "required" })
-                        <input type="submit" value="@Resources.Ledger.RetrieveLedger.ToString()" class="btn btn-success form-control mt-2">
+                        <input type="submit" value="@Resources.Miscellaneous.RetrieveLedger.ToString()" class="btn btn-success form-control mt-2">
                     </div>
                     <div class="col-md-4">
                         <h3 class="text-danger">@ViewBag.Message</h3>
@@ -29,9 +29,9 @@
 
 <div class="card">
     <div class="card-header">
-        <div class="card-title">@Resources.Ledger.Export.ToString()</div>
+        <div class="card-title">@Resources.Miscellaneous.Export.ToString()</div>
         <div class="text-sm">
-            @Resources.Ledger.AccountsLedger.ToString()
+            @Resources.Miscellaneous.AccountsLedger.ToString()
         </div>
     </div>
     <div class="card-body">
@@ -42,19 +42,19 @@
                         %
                     </th>
                     <th>
-                        @Resources.Ledger.Account.ToString()
+                        @Resources.Miscellaneous.Account.ToString()
                     </th>
                     <th>
-                        @Resources.Ledger.Date.ToString()
+                        @Resources.Miscellaneous.Date.ToString()
                     </th>
                     <th>
-                        @Resources.Ledger.Description.ToString()
+                        @Resources.Miscellaneous.Description.ToString()
                     </th>
                     <th>
-                        @Resources.Ledger.Debit.ToString()
+                        @Resources.Miscellaneous.Debit.ToString()
                     </th>
                     <th>
-                        @Resources.Ledger.Credit.ToString()
+                        @Resources.Miscellaneous.Credit.ToString()
                     </th>
                 </tr>
             </thead>

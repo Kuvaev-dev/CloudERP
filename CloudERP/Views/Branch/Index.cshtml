@@ -39,7 +39,7 @@
                             @Html.Raw(HttpUtility.HtmlDecode(Resources.Branch.BranchAddress))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Repeats.Actions))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Common.Actions))
                         </th>
                     </tr>
                 </thead>
@@ -61,7 +61,7 @@
                             </td>
                             <td>
                                 <div class="mt-2 btn-group">
-                                    @Html.ActionLink(Resources.Repeats.Edit, "Edit", new { id = item.BranchID }, new { @class = "btn btn-primary" })
+                                    @Html.ActionLink(Resources.Common.Edit, "Edit", new { id = item.BranchID }, new { @class = "btn btn-primary" })
                                     @Html.ActionLink(Resources.Branch.Sales, "SubCustomSalesHistory", "SalePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now, id = item.BranchID }, new { @class = "btn btn-info" })
                                     @Html.ActionLink(Resources.Branch.Purchases, "SubCustomPurchasesHistory", "PurchasePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now, id = item.BranchID }, new { @class = "btn btn-info" })
                                 </div>

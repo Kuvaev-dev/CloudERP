@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DatabaseAccess.Models.SalePaymentModel>
 
 @{
-    ViewBag.Title = Resources.SalePaymentReturnStr.AllReturnSalesAmountPending.ToString();
+    ViewBag.Title = Resources.Sale.AllReturnSalesAmountPending.ToString();
 }
 
 <!-- Tables Sorting-->
@@ -27,34 +27,34 @@
                 <thead>
                     <tr>
                         <th>
-                            @Resources.SalePaymentReturnStr.Customer.ToString()
+                            @Resources.Sale.Customer.ToString()
                         </th>
                         <th>
-                            @Resources.SalePaymentReturnStr.ContactNo.ToString()
+                            @Resources.Sale.ContactNo.ToString()
                         </th>
                         <th>
-                            @Resources.SalePaymentReturnStr.InvoiceNo.ToString()
+                            @Resources.Sale.InvoiceNo.ToString()
                         </th>
                         <th>
-                            @Resources.SalePaymentReturnStr.Date.ToString()
+                            @Resources.Sale.Date.ToString()
                         </th>
                         <th>
-                            @Resources.SalePaymentReturnStr.SaleTotalAmount.ToString()
+                            @Resources.Sale.SaleTotalAmount.ToString()
                         </th>
                         <th>
-                            @Resources.SalePaymentReturnStr.ReturnProductsTotalAmount.ToString()
+                            @Resources.Sale.ReturnProductsTotalAmount.ToString()
                         </th>
                         <th>
-                            @Resources.SalePaymentReturnStr.AfterReturnSaleTotalAmount.ToString()
+                            @Resources.Sale.AfterReturnSaleTotalAmount.ToString()
                         </th>
                         <th>
-                            @Resources.SalePaymentReturnStr.PaidAmount.ToString()
+                            @Resources.Sale.PaidAmount.ToString()
                         </th>
                         <th>
-                            @Resources.SalePaymentReturnStr.PaymentToCustomer.ToString()
+                            @Resources.Sale.PaymentToCustomer.ToString()
                         </th>
                         <th>
-                            @Resources.SalePaymentReturnStr.RemainingBalance.ToString()
+                            @Resources.Sale.RemainingBalance.ToString()
                         </th>
                         <th>
                             @Resources.Repeats.Actions.ToString()
@@ -90,7 +90,7 @@
                                 @{
                                     if (item.PaymentAmount == 0)
                                     {
-                                        @Html.ActionLink(Resources.SalePaymentReturnStr.SetPaid.ToString(), "PaidAmount", "SalePayment", new { id = item.CustomerInvoiceID }, new { @class = "text-success" })
+                                        @Html.ActionLink(Resources.Sale.SetPaid.ToString(), "PaidAmount", "SalePayment", new { id = item.CustomerInvoiceID }, new { @class = "text-success" })
                                     }
                                     else
                                     {
@@ -106,7 +106,7 @@
                                     if (item.RemainingBalance == 0 && item.PaymentAmount != 0)
                                     {
                                         <em class="icon-check">
-                                            <label class="text-success">@Resources.SalePaymentReturnStr.Clear.ToString()</label>
+                                            <label class="text-success">@Resources.Sale.Clear.ToString()</label>
                                         </em>
                                     }
                                     else if (item.RemainingBalance < 0)
@@ -124,15 +124,15 @@
                                 @{
                                     if (item.RemainingBalance < item.TotalAmount && item.PaymentAmount != 0)
                                     {
-                                        @Html.ActionLink(Resources.SalePaymentReturnStr.PayHistory.ToString(), "PaidHistory", "SalePayment", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-primary" });
+                                        @Html.ActionLink(Resources.Sale.PayHistory.ToString(), "PaidHistory", "SalePayment", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-primary" });
                                     }
                                     else
                                     {
                                         <em class="icon-book-open">
-                                            <label class="text-danger"><b>@Resources.SalePaymentReturnStr.NoHistory.ToString()</b></label>
+                                            <label class="text-danger"><b>@Resources.Sale.NoHistory.ToString()</b></label>
                                         </em>
                                     }
-                                    @Html.ActionLink(Resources.SalePaymentReturnStr.ViewDetails.ToString(), "SaleItemDetail", "SalePayment", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-info" });
+                                    @Html.ActionLink(Resources.Sale.ViewDetails.ToString(), "SaleItemDetail", "SalePayment", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-info" });
                                 }
                             </td>
                         </tr>

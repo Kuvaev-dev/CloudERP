@@ -45,7 +45,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -150,12 +150,12 @@ namespace CloudERP.Controllers
                     }
                 }
 
-                ViewBag.Message = "Invalid credentials. Please try again.";
+                ViewBag.Message = Resources.Messages.PleaseProvideCorrectDetails;
                 return View("Login");
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return View("Login");
             }
         }
@@ -182,7 +182,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred while making changes: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
 
@@ -202,7 +202,7 @@ namespace CloudERP.Controllers
         {
             if (string.IsNullOrEmpty(email))
             {
-                ModelState.AddModelError("", "Email is required.");
+                ModelState.AddModelError("", Resources.Messages.EmailIsRequired);
                 return View();
             }
 
@@ -213,7 +213,7 @@ namespace CloudERP.Controllers
                 {
                     if (user.LastPasswordResetRequest.HasValue && (DateTime.Now - user.LastPasswordResetRequest.Value).TotalMinutes < 5)
                     {
-                        ModelState.AddModelError("", "You have already requested a password reset. Please wait a while before trying again.");
+                        ModelState.AddModelError("", Resources.Messages.PasswordResetAlreadyRequested);
                         return View();
                     }
 
@@ -228,10 +228,10 @@ namespace CloudERP.Controllers
                     {
                         SendPasswordResetEmail(user.Email, user.ResetPasswordCode);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        ModelState.AddModelError("", "An error occurred while sending the email. Please try again.");
-                        return View();
+                        TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                        return RedirectToAction("EP500", "EP");
                     }
 
                     return View("ForgotPasswordEmailSent");
@@ -243,7 +243,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An unexpected error occurred: " + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -261,7 +261,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                throw new Exception("Error sending email: " + ex.Message);
+                throw new Exception(Resources.Messages.UnexpectedErrorMessage + ex.Message);
             }
         }
 
@@ -281,10 +281,10 @@ namespace CloudERP.Controllers
                     return View("ResetPasswordLinkExpired");
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An error occurred while processing your request. Please try again later.";
-                return View("ResetPasswordLinkExpired");
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
         }
 
@@ -315,10 +315,10 @@ namespace CloudERP.Controllers
                         _db.Entry(user).State = EntityState.Modified;
                         _db.SaveChanges();
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        ModelState.AddModelError("", "An error occurred while saving to the database. Please try again.");
-                        return View();
+                        TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                        return RedirectToAction("EP500", "EP");
                     }
 
                     return View("ResetPasswordSuccess");
@@ -328,10 +328,10 @@ namespace CloudERP.Controllers
                     return View("ResetPasswordLinkExpired");
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An error occurred while processing your request. Please try again later.";
-                return View("ResetPasswordLinkExpired");
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
         }
     }
