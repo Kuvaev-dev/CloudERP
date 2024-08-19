@@ -388,10 +388,6 @@
     <value>Enter Company Details</value>
     <comment></comment>
   </data>
-  <data name="Company" xml:space="preserve">
-    <value>Company</value>
-    <comment></comment>
-  </data>
   <data name="BranchTitle" xml:space="preserve">
     <value>Branch Title</value>
     <comment></comment>

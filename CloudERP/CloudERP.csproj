@@ -640,6 +640,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Purchase.uk-UA.resx</DependentUpon>
     </Compile>
+    <Compile Include="App_GlobalResources\Modules\Sale\Sale.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Sale.resx</DependentUpon>
+    </Compile>
     <Compile Include="App_GlobalResources\Modules\Sale\Sale.en-US.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -820,21 +825,6 @@
     <Compile Include="Tests\TrialBalanceControllerTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_GlobalResources\Modules\Sale\Sale.en-US.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Sale.en-US.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Sale\Sale.ru-RU.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Sale.ru-RU.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Sale\Sale.uk-UA.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Sale.uk-UA.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Sale\Sale.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-    </Content>
     <Content Include="App_GlobalResources\Messages\Messages.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Messages.Designer.cs</LastGenOutput>
@@ -850,6 +840,22 @@
     <Content Include="App_GlobalResources\Messages\Messages.uk-UA.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Messages.uk-UA.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\Modules\Sale\Sale.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Sale.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\Modules\Sale\Sale.en-US.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Sale.en-US.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\Modules\Sale\Sale.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Sale.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\Modules\Sale\Sale.uk-UA.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Sale.uk-UA.designer.cs</LastGenOutput>
     </Content>
     <EmbeddedResource Include="App_GlobalResources\Modules\Task\Task.en-US.resx">
       <Generator>ResXFileCodeGenerator</Generator>
