@@ -6,28 +6,28 @@
     <div class="card">
         <div class="card card-float">
             <div class="card-header">
-                <h3 class="text-success">Purchase Products Detail</h3>
+                <h3 class="text-success">@Resources.Purchase.PurchaseProductsDetail</h3>
             </div>
             <div class="card-body">
                 <table class="table table-hover">
                     <tr>
                         <th>
-                            Product
+                            @Resources.Miscellaneous.ProductName
                         </th>
                         <th>
-                            Quantity
+                            @Resources.Miscellaneous.Quantity
                         </th>
                         <th>
-                            Unit Price
+                            @Resources.Purchase.UnitPrice
                         </th>
                         <th>
-                            Item Cost
+                            @Resources.Purchase.ItemCost
                         </th>
                     </tr>
 
                     @foreach (var item in Model)
                     {
-                        ViewBag.Title = "Purchase Invoice №: " + item.tblSupplierInvoice.InvoiceNo;
+                        ViewBag.Title = Resources.Purchase.InvoiceNo + item.tblSupplierInvoice.InvoiceNo;
                         int qty = 0;
                         double itemCost = 0;
                         qty = item.PurchaseQuantity - item.tblSupplierReturnInvoiceDetail.Where(q => q.ProductID == item.ProductID).Sum(q => q.PurchaseReturnQuantity);
@@ -57,7 +57,7 @@
                 <div class="col-lg-6 py-2">
                     <div class="row mb-3 align-items-center">
                         <div class="col-7">
-                            <div class="h3">GRAND TOTAL</div>
+                            <div class="h3">@Resources.Purchase.GRANDTOTAL</div>
                         </div>
                         <div class="col-5">
                             <div class="text-left h3">@total.ToString("F2")</div>
@@ -77,22 +77,22 @@
             <div class="card">
                 <div class="card card-float">
                     <div class="card-header">
-                        <h3 class="text-danger">Return Products Detail</h3>
+                        <h3 class="text-danger">@Resources.Purchase.ReturnProductsDetail</h3>
                     </div>
                     <div class="card-body">
                         <table class="table table-hover">
                             <tr>
                                 <th>
-                                    Return Product
+                                    @Resources.Miscellaneous.ProductName
                                 </th>
                                 <th>
-                                    Return Quantity
+                                    @Resources.Miscellaneous.Quantity
                                 </th>
                                 <th>
-                                    Unit Price
+                                    @Resources.Purchase.UnitPrice
                                 </th>
                                 <th>
-                                    Item Cost
+                                    @Resources.Purchase.ItemCost
                                 </th>
                             </tr>
 
@@ -127,7 +127,7 @@
                         <div class="col-lg-6 py-2">
                             <div class="row mb-3 align-items-center">
                                 <div class="col-7">
-                                    <div class="h3">RETURN TOTAL</div>
+                                    <div class="h3">@Resources.Miscellaneous.RETURNTOTAL</div>
                                 </div>
                                 <div class="col-5">
                                     <div class="text-left h3">@returnTotal.ToString("F2")</div>

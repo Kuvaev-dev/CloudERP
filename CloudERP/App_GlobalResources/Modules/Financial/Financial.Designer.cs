@@ -88,6 +88,51 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Edit Financial Year.
+        /// </summary>
+        internal static string EditFinancialYear {
+            get {
+                return ResourceManager.GetString("EditFinancialYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на End Date.
+        /// </summary>
+        internal static string EndDate {
+            get {
+                return ResourceManager.GetString("EndDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Enter Financial Year Title.
+        /// </summary>
+        internal static string EnterFinancialYearTitle {
+            get {
+                return ResourceManager.GetString("EnterFinancialYearTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Financial Year Title.
+        /// </summary>
+        internal static string FinancialYearTitle {
+            get {
+                return ResourceManager.GetString("FinancialYearTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на New Financial Year.
+        /// </summary>
+        internal static string NewFinancialYear {
+            get {
+                return ResourceManager.GetString("NewFinancialYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Retrieve Balance Sheet.
         /// </summary>
         internal static string RetrieveBalanceSheet {
@@ -102,6 +147,24 @@ namespace Resources {
         internal static string SelectFinancialYear {
             get {
                 return ResourceManager.GetString("SelectFinancialYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Start Date.
+        /// </summary>
+        internal static string StartDate {
+            get {
+                return ResourceManager.GetString("StartDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Status.
+        /// </summary>
+        internal static string Status {
+            get {
+                return ResourceManager.GetString("Status", resourceCulture);
             }
         }
         

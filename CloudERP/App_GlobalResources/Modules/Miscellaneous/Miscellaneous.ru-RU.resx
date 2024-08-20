@@ -835,4 +835,13 @@
   <value>Деталі продукту</value>
   <comment></comment>
 </data>
+
+  <data name="Photo" xml:space="preserve">
+    <value>Фото</value>
+    <comment></comment>
+  </data>
+  <data name="Designation" xml:space="preserve">
+    <value>Должность</value>
+    <comment></comment>
+  </data>
 </root>

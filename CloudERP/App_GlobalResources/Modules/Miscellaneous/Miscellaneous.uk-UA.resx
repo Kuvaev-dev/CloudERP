@@ -836,4 +836,13 @@
   <value>Детали продукта</value>
   <comment></comment>
 </data>
+  
+  <data name="Photo" xml:space="preserve">
+    <value>Фото</value>
+    <comment></comment>
+  </data>
+  <data name="Designation" xml:space="preserve">
+    <value>Посада</value>
+    <comment></comment>
+  </data>
 </root>

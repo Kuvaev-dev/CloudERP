@@ -98,248 +98,385 @@
 	<resheader name="writer">
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
+  <!--КорзинаПродаж-->
+
+  <!--НоваПродаж-->
   <data name="NewSale" xml:space="preserve">
     <value>Нова продаж</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="SelectProduct" xml:space="preserve">
     <value>Виберіть продукт</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="Quantity" xml:space="preserve">
     <value>Кількість</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="ItemCost" xml:space="preserve">
     <value>Вартість товару</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="AddItem" xml:space="preserve">
     <value>Додати товар</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="SaleItemsList" xml:space="preserve">
     <value>Список товарів для продажу</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="Items" xml:space="preserve">
     <value>Товари</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="User" xml:space="preserve">
     <value>Користувач</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="TotalSaleAmount" xml:space="preserve">
     <value>Загальна сума продажу</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="Next" xml:space="preserve">
     <value>Далі</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Скасувати</value>
-</data>
+    <value>Відмінити</value>
+    <comment></comment>
+  </data>
+  <!--ВиберітьКлієнта-->
   <data name="Finilize" xml:space="preserve">
     <value>Завершити</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="SaleDetails" xml:space="preserve">
     <value>Деталі продажу</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="SaleDescription" xml:space="preserve">
     <value>Опис продажу</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="IsSalePaymentPaid" xml:space="preserve">
-    <value>Оплачено за продаж?</value>
-</data>
+    <value>Чи оплаченo продаж?</value>
+    <comment></comment>
+  </data>
   <data name="FinilizeSale" xml:space="preserve">
     <value>Завершити продаж</value>
-</data>
+    <comment></comment>
+  </data>
+  <!--ДрукРахункуПродажу-->
   <data name="SaleInvoice" xml:space="preserve">
-    <value>Рахунок на продаж</value>
-</data>
+    <value>Рахунок продажу</value>
+    <comment></comment>
+  </data>
   <data name="Customer" xml:space="preserve">
     <value>Клієнт</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="PrintDate" xml:space="preserve">
     <value>Дата друку</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="ItemNo" xml:space="preserve">
     <value>Товар №</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="Total" xml:space="preserve">
     <value>Разом</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="GRANDTOTAL" xml:space="preserve">
     <value>ЗАГАЛЬНА СУМА</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="SaleReturnInvoice" xml:space="preserve">
-    <value>Рахунок на повернення продажу</value>
-</data>
+    <value>Рахунок повернення продажу</value>
+    <comment></comment>
+  </data>
   <data name="ReturnInvoiceNo" xml:space="preserve">
-    <value>Номер рахунку на повернення</value>
-</data>
+    <value>Рахунок повернення №</value>
+    <comment></comment>
+  </data>
   <data name="ReturnInvoiceDate" xml:space="preserve">
-    <value>Дата рахунку на повернення</value>
-</data>
+    <value>Дата рахунку повернення</value>
+    <comment></comment>
+  </data>
   <data name="Print" xml:space="preserve">
     <value>Друк</value>
-</data>
+    <comment></comment>
+  </data>
+
+  <!--ОплатаПродажу-->
+
+  <!--СписокОчікуванняОплати-->
   <data name="SalesPaymentPendingList" xml:space="preserve">
-    <value>Список очікуючих платежів за продажами</value>
-</data>
+    <value>Список очікуючих оплат продажів</value>
+    <comment></comment>
+  </data>
   <data name="ContactNo" xml:space="preserve">
     <value>Контакт №</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="PayAmount" xml:space="preserve">
-    <value>Сума платежу</value>
-</data>
+    <value>Сума до оплати</value>
+    <comment></comment>
+  </data>
+  <!--ІндивідуальнаІсторіяПродажів-->
   <data name="CustomBaseSalesHistory" xml:space="preserve">
-    <value>Історія продажів на замовній основі</value>
-</data>
+    <value>Індивідуальна історія продажів</value>
+    <comment></comment>
+  </data>
   <data name="SelectRangeFromDateAndToDate" xml:space="preserve">
     <value>Виберіть діапазон (з дати по дату)</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="SelectFromDate" xml:space="preserve">
     <value>Виберіть початкову дату</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="SelectToDate" xml:space="preserve">
     <value>Виберіть кінцеву дату</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="RetriveSalesRecord" xml:space="preserve">
-    <value>Отримати запис про продажі</value>
-</data>
+    <value>Отримати дані про продажі</value>
+    <comment></comment>
+  </data>
   <data name="SaleTotalAmount" xml:space="preserve">
     <value>Загальна сума продажу</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="Clear" xml:space="preserve">
     <value>Очистити</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="PrintInvoice" xml:space="preserve">
-    <value>Роздрукувати рахунок-фактуру</value>
-</data>
+    <value>Друк рахунку</value>
+    <comment></comment>
+  </data>
+  <!--СубІндивідуальнаІсторіяПродажів-->
   <data name="SubBranchCustomBaseSalesHistory" xml:space="preserve">
-    <value>Історія продажів філії на замовній основі</value>
-</data>
+    <value>Індивідуальна історія продажів по підрозділу</value>
+    <comment></comment>
+  </data>
   <data name="RetriveRecordSubBranch" xml:space="preserve">
-    <value>Отримати запис філії</value>
-</data>
+    <value>Отримати дані по підрозділу</value>
+    <comment></comment>
+  </data>
+  <!--СплаченаСума-->
   <data name="SalePaidAmount" xml:space="preserve">
-    <value>Оплачена сума продажу</value>
-</data>
+    <value>Сплачена сума продажу</value>
+    <comment></comment>
+  </data>
   <data name="EnterPaymentsDetails" xml:space="preserve">
     <value>Введіть деталі платежів</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="SaleRemainingAmount" xml:space="preserve">
-    <value>Залишок суми продажу</value>
-</data>
+    <value>Залишкова сума продажу</value>
+    <comment></comment>
+  </data>
   <data name="CurrentRemainingAmount" xml:space="preserve">
-    <value>Поточний залишок суми</value>
-</data>
+    <value>Поточна залишкова сума</value>
+    <comment></comment>
+  </data>
   <data name="PaidAmount" xml:space="preserve">
-    <value>Оплачена сума</value>
-</data>
+    <value>Сплачена сума</value>
+    <comment></comment>
+  </data>
   <data name="SaleInvoicePaidDetail" xml:space="preserve">
-    <value>Деталі оплати рахунку за продаж</value>
-</data>
+    <value>Деталі сплаченого рахунку продажу</value>
+    <comment></comment>
+  </data>
   <data name="Supplier" xml:space="preserve">
     <value>Постачальник</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="TotalAmount" xml:space="preserve">
     <value>Загальна сума</value>
-</data>
+    <comment></comment>
+  </data>
+  <!--ІсторіяПлатежів-->
   <data name="SalePaymentDetails" xml:space="preserve">
-    <value>Деталі платежів за продажами</value>
-</data>
+    <value>Деталі платежу продажу</value>
+    <comment></comment>
+  </data>
   <data name="SaleReturnDetails" xml:space="preserve">
-    <value>Деталі повернення продажів</value>
-</data>
+    <value>Деталі повернення продажу</value>
+    <comment></comment>
+  </data>
   <data name="InvoiceDate" xml:space="preserve">
-    <value>Дата рахунку-фактури</value>
-</data>
+    <value>Дата рахунку</value>
+    <comment></comment>
+  </data>
   <data name="ReturnTotal" xml:space="preserve">
     <value>Загальна сума повернення</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="ReturnPayment" xml:space="preserve">
     <value>Повернення платежу</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="RemainingReturn" xml:space="preserve">
     <value>Залишок повернення</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="PaymentDate" xml:space="preserve">
     <value>Дата платежу</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="PaymentAmount" xml:space="preserve">
     <value>Сума платежу</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="NoPaymentRecord" xml:space="preserve">
-    <value>Записів про платежі немає</value>
-</data>
+    <value>Запис про платіж відсутній</value>
+    <comment></comment>
+  </data>
   <data name="RemainingTotalBalance" xml:space="preserve">
-    <value>Залишок загального балансу</value>
-</data>
+    <value>Залишковий загальний баланс</value>
+    <comment></comment>
+  </data>
+  <!--ПоверненняПлатежівПродажів-->
   <data name="AllReturnSalesAmountPending" xml:space="preserve">
-    <value>Всі очікуючі суми повернень за продажами</value>
-</data>
+    <value>Всі очікуючі повернення сум продажів</value>
+    <comment></comment>
+  </data>
   <data name="InvoiceNo" xml:space="preserve">
-    <value>Рахунок №</value>
-</data>
+    <value>Номер рахунку</value>
+    <comment></comment>
+  </data>
   <data name="Date" xml:space="preserve">
     <value>Дата</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="ReturnProductsTotalAmount" xml:space="preserve">
-    <value>Повернення товарів (Загальна сума)</value>
-</data>
+    <value>Повернення товарів (загальна сума)</value>
+    <comment></comment>
+  </data>
   <data name="AfterReturnSaleTotalAmount" xml:space="preserve">
-    <value>Після повернення (Загальна сума продажу)</value>
-</data>
+    <value>Після повернення (загальна сума продажу)</value>
+    <comment></comment>
+  </data>
   <data name="PaymentToCustomer" xml:space="preserve">
-    <value>Платеж клієнту</value>
-</data>
+    <value>Оплата клієнту</value>
+    <comment></comment>
+  </data>
   <data name="RemainingBalance" xml:space="preserve">
-    <value>Залишок балансу</value>
-</data>
+    <value>Залишковий баланс</value>
+    <comment></comment>
+  </data>
   <data name="SetPaid" xml:space="preserve">
-    <value>Встановити як оплачено</value>
-</data>
+    <value>Позначити як оплачено</value>
+    <comment></comment>
+  </data>
   <data name="PayHistory" xml:space="preserve">
     <value>Історія платежів</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="NoHistory" xml:space="preserve">
-    <value>Історія відсутня</value>
-</data>
+    <value>Історії немає</value>
+    <comment></comment>
+  </data>
   <data name="ViewDetails" xml:space="preserve">
     <value>Переглянути деталі</value>
-</data>
+    <comment></comment>
+  </data>
+  <!--ПоверненняПродажів-->
   <data name="SearchSaleByInvoiceNo" xml:space="preserve">
-    <value>Шукати продаж за номером рахунку №</value>
-</data>
+    <value>Пошук продажу за номером рахунку</value>
+    <comment></comment>
+  </data>
   <data name="EnterSaleInvoice" xml:space="preserve">
-    <value>Введіть рахунок продажу</value>
-</data>
+    <value>Введіть номер рахунку продажу</value>
+    <comment></comment>
+  </data>
   <data name="FindSale" xml:space="preserve">
     <value>Знайти продаж</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="Invoice" xml:space="preserve">
     <value>Рахунок</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="Company" xml:space="preserve">
     <value>Компанія</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="Address" xml:space="preserve">
     <value>Адреса</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="CreatedBy" xml:space="preserve">
     <value>Створено</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="Product" xml:space="preserve">
     <value>Продукт</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="SaleQty" xml:space="preserve">
     <value>Кількість продажу</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="ReturnQty" xml:space="preserve">
     <value>Кількість повернення</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="UnitPrice" xml:space="preserve">
     <value>Ціна за одиницю</value>
-</data>
+    <comment></comment>
+  </data>
   <data name="IsReturnSalePaymentPaid" xml:space="preserve">
-    <value>Оплачено повернення платежу за продаж?</value>
-</data>
+    <value>Чи оплачена повернена продаж?</value>
+    <comment></comment>
+  </data>
   <data name="SubmitReturn" xml:space="preserve">
-    <value>Підтвердити повернення</value>
-</data>
+    <value>Надіслати повернення</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnSalesAmountPending" xml:space="preserve">
+    <value>Очікувана сума повернення продажу</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnTotalAmount" xml:space="preserve">
+    <value>Повернення (Загальна сума)</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnPaymentAmount" xml:space="preserve">
+    <value>Повернення (Сума платежу)</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnSaleAmount" xml:space="preserve">
+    <value>Сума повернення продажу</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnRemainingAmount" xml:space="preserve">
+    <value>Залишкова сума повернення</value>
+    <comment></comment>
+  </data>
+  <data name="SubmitPayment" xml:space="preserve">
+    <value>Підтвердити платіж</value>
+    <comment></comment>
+  </data>
 
+  <data name="ReturnPurchaseTotalAmount" xml:space="preserve">
+    <value>Повернення (Загальна сума покупки)</value>
+    <comment></comment>
+  </data>
+
+  <data name="SaleProductsDetail" xml:space="preserve">
+    <value>Деталі продажу продуктів</value>
+    <comment></comment>
+  </data>
+  <data name="SaleInvoiceNo" xml:space="preserve">
+    <value>Рахунок продажу №: </value>
+    <comment></comment>
+  </data>
+  <data name="ReturnSaleProductsDetail" xml:space="preserve">
+    <value>Деталі повернення продуктів продажу</value>
+    <comment></comment>
+  </data>
 </root>

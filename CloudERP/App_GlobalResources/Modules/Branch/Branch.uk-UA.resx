@@ -120,9 +120,6 @@
   <data name="Purchases" xml:space="preserve">
     <value>Закупівлі</value>
 </data>
-  <data name="IncomeStatementTitle" xml:space="preserve">
-    <value>Звіт про доходи</value>
-</data>
   <!-- Create -->
   <data name="AddBranch" xml:space="preserve">
     <value>Додати філію</value>

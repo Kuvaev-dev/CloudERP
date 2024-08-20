@@ -44,9 +44,9 @@
                             <td>@task.ReminderDate</td>
                             <td>@task.IsCompleted</td>
                             <td class="btn-group">
-                                <a href="@Url.Action("Edit", new { id = task.TaskID })" class="btn btn-primary btn-sm">@Resources.Repeats.Edit.ToString()</a>
-                                <a href="@Url.Action("Details", new { id = task.TaskID })" class="btn btn-info btn-sm">@Resources.Repeats.Details.ToString()</a>
-                                <a href="@Url.Action("Delete", new { id = task.TaskID })" class="btn btn-danger btn-sm">@Resources.Repeats.Delete.ToString()</a>
+                                <a href="@Url.Action("Edit", new { id = task.TaskID })" class="btn btn-primary btn-sm">@Resources.Common.Edit.ToString()</a>
+                                <a href="@Url.Action("Details", new { id = task.TaskID })" class="btn btn-info btn-sm">@Resources.Common.Details.ToString()</a>
+                                <a href="@Url.Action("Delete", new { id = task.TaskID })" class="btn btn-danger btn-sm">@Resources.Common.Delete.ToString()</a>
                                 <a href="@Url.Action("Complete", new { id = task.TaskID })" class="btn btn-success btn-sm">@Resources.Task.Complete.ToString()</a>
                             </td>
                         </tr>

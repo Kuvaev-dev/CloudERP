@@ -870,4 +870,81 @@
     <value>Product Details</value>
     <comment></comment>
   </data>
+  <!--Employee-->
+  <data name="Photo" xml:space="preserve">
+    <value>Photo</value>
+    <comment></comment>
+  </data>
+  <data name="Designation" xml:space="preserve">
+    <value>Designation</value>
+    <comment></comment>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Profile</value>
+    <comment></comment>
+  </data>
+  <data name="CreateUser" xml:space="preserve">
+    <value>Create User</value>
+    <comment></comment>
+  </data>
+  <data name="UpdateUser" xml:space="preserve">
+    <value>Update User</value>
+    <comment></comment>
+  </data>
+  <data name="EmployeeUpdation" xml:space="preserve">
+    <value>Employee Updation</value>
+    <comment></comment>
+  </data>
+  <data name="BasicSalary" xml:space="preserve">
+    <value>Basic Salary</value>
+    <comment></comment>
+  </data>
+  <data name="EditProfile" xml:space="preserve">
+    <value>Edit Profile</value>
+    <comment></comment>
+  </data>
+  <!--EP-->
+  <data name="SomethingWentWrong" xml:space="preserve">
+    <value>Oh! Something went wrong :(</value>
+    <comment></comment>
+  </data>
+  <data name="DontWorry" xml:space="preserve">
+    <value>Don't worry, we're now checking this.</value>
+    <comment></comment>
+  </data>
+  <data name="TryLinksBelow" xml:space="preserve">
+    <value>In the meantime, please try one of those links below or come back in a moment</value>
+    <comment></comment>
+  </data>
+
+  <data name="MonthlySalaryAmount" xml:space="preserve">
+    <value>Monthly Salary Amount</value>
+    <comment></comment>
+  </data>
+  <data name="AllEmployees" xml:space="preserve">
+    <value>All Employees</value>
+    <comment></comment>
+  </data>
+  <data name="AddEmployee" xml:space="preserve">
+    <value>Add Employee</value>
+    <comment></comment>
+  </data>
+
+  <data name="EmployeeName" xml:space="preserve">
+    <value>Employee Name</value>
+    <comment></comment>
+  </data>
+  <data name="MonthlySalary" xml:space="preserve">
+    <value>Monthly Salary</value>
+    <comment></comment>
+  </data>
+  <data name="EditProfile" xml:space="preserve">
+    <value>Edit Profile</value>
+    <comment></comment>
+  </data>
+
+  <data name="Invoice" xml:space="preserve">
+    <value>Invoice</value>
+    <comment></comment>
+  </data>
 </root>

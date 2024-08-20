@@ -103,7 +103,7 @@
                             @Html.Raw(HttpUtility.HtmlDecode(Resources.Sale.User))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Repeats.Delete))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Common.Delete))
                         </th>
                     </tr>
                 </thead>
@@ -121,7 +121,7 @@
                                 {
                                     @Html.AntiForgeryToken()
                                     @Html.Hidden("id", item.SaleCartDetailID)
-                                    <input type="submit" value="@Resources.Repeats.Delete" class="btn btn-danger" />
+                                    <input type="submit" value="@Resources.Common.Delete" class="btn btn-danger" />
                                 }
                             </td>
                         </tr>
@@ -134,7 +134,7 @@
                         <td></td>
                         <td style="background-color:black; color:white;">@Html.Raw(HttpUtility.HtmlDecode(Resources.Sale.TotalSaleAmount))</td>
                         <td style="background-color:black; color:white;">
-                            @(string.Format("{0:0.000}", Math.Truncate(ViewBag.TotalAmount * 10) / 10)) @Resources.Repeats.UAH
+                            @(string.Format("{0:0.000}", Math.Truncate(ViewBag.TotalAmount * 10) / 10)) @Resources.Common.UAH
                         </td>
                     </tr>
                 </tfoot>

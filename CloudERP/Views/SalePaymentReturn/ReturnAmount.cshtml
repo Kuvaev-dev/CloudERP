@@ -2,7 +2,7 @@
 
 @{
     double remainingBalance = (double)ViewBag.PreviousRemainingAmount;
-    ViewBag.Title = "Return Sale Amount";
+    ViewBag.Title = Resources.Sale.ReturnSaleAmount;
 }
 
 <div class="card">
@@ -19,22 +19,22 @@
                 <input type="text" value="@ViewBag.InvoiceID" id="id" name="id" style="display:none;" />
                 <div class="row">
                     <div class="col-md-4">
-                        <label>Return Remaining Amount</label>
+                        <label>@Resources.Sale.ReturnRemainingAmount</label>
                         <input type="text" id="previousRemainingAmount" name="previousRemainingAmount" value="@remainingBalance" readonly="readonly" class="form-control" required>
                     </div>
                     <div class="col-md-4">
-                        <label>Payment Amount</label>
+                        <label>@Resources.Sale.PaymentAmount</label>
                         <input min="0" type="number" id="paymentAmount" name="paymentAmount" value="10" class="form-control" required>
                     </div>
                     <div class="col-md-4">
-                        <label>Current Remaining Amount</label>
+                        <label>@Resources.Sale.CurrentRemainingAmount</label>
                         <input type="text" id="remainingAmount" name="remainingAmount" value="10" readonly="readonly" class="form-control" required>
                     </div>
                 </div>
                 <br />
                 <br />
-                @Html.ActionLink("Back to List", "AllReturnSalesPendingAmount", "SalePaymentReturn", null, new { @class = "btn btn-primary" })
-                <input type="submit" value="Submit Payment" class="btn btn-success" style="float: right;">
+                @Html.ActionLink(Resources.Common.BackToList, "AllReturnSalesPendingAmount", "SalePaymentReturn", null, new { @class = "btn btn-primary" })
+                <input type="submit" value="@Resources.Sale.SubmitPayment" class="btn btn-success" style="float: right;">
             }
         </div>
     </div>
@@ -51,22 +51,22 @@
                 <thead>
                     <tr>
                         <th>
-                            Customer
+                            @Resources.Miscellaneous.CustomerName
                         </th>
                         <th>
-                            Invoice №
+                            @Resources.Sale.InvoiceNo
                         </th>
                         <th>
-                            Invoice Date
+                            @Resources.Sale.InvoiceDate
                         </th>
                         <th>
-                            Return (Purchase Total Amount)
+                            @Resources.Sale.ReturnPurchaseTotalAmount
                         </th>
                         <th>
-                            Return (Payment Amount)
+                            @Resources.Sale.ReturnPaymentAmount
                         </th>
                         <th>
-                            Return (Remaining Balance)
+                            @Resources.Sale.RemainingBalance
                         </th>
                     </tr>
                 </thead>

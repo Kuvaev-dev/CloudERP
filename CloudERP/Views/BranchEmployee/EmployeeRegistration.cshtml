@@ -1,7 +1,7 @@
 ﻿@model DatabaseAccess.tblEmployee
 
 @{
-    ViewBag.Title = "Employee Registration";
+    ViewBag.Title = Resources.Miscellaneous.EmployeeRegistration;
     string geoapifyApiKey = System.Configuration.ConfigurationManager.AppSettings["GeoapifyApiKey"];
 }
 
@@ -36,7 +36,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.LogoFile, Resources.CompanyEmployee.Photo.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.LogoFile, Resources.Miscellaneous.Photo.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 <span class="btn btn-default btn-file">
                     @Html.TextBoxFor(model => model.LogoFile, new { type = "file" })
@@ -61,7 +61,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Designation, Resources.CompanyEmployee.Designation.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Designation, Resources.Miscellaneous.Designation.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Designation, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Designation, "", new { @class = "text-danger" })
@@ -69,7 +69,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.MonthlySalary, Resources.CompanyEmployee.MonthlySalaryAmount.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.MonthlySalary, Resources.Miscellaneous.MonthlySalaryAmount.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.MonthlySalary, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.MonthlySalary, "", new { @class = "text-danger" })
@@ -77,7 +77,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Description, Resources.CompanyEmployee.Description.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Description, Resources.Miscellaneous.Description.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
@@ -85,7 +85,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Address, Resources.CompanyEmployee.Address.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Address, Resources.Miscellaneous.Address.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @id = "address" } })
                 @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
@@ -96,8 +96,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="@Resources.Repeats.Save.ToString()" class="btn btn-success" />
-                @Html.ActionLink("All Employees", "Employee", null, new { @class = "btn btn-default" })
+                <input type="submit" value="@Resources.Common.Save.ToString()" class="btn btn-success" />
+                @Html.ActionLink(Resources.Miscellaneous.AllEmployees.ToString(), "Employee", null, new { @class = "btn btn-default" })
             </div>
         </div>
     </div>

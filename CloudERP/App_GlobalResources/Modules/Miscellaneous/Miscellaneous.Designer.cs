@@ -493,6 +493,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Designation.
+        /// </summary>
+        internal static string Designation {
+            get {
+                return ResourceManager.GetString("Designation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Edit Category.
         /// </summary>
         internal static string EditCategory {
@@ -822,6 +831,15 @@ namespace Resources {
         internal static string Payroll {
             get {
                 return ResourceManager.GetString("Payroll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Photo.
+        /// </summary>
+        internal static string Photo {
+            get {
+                return ResourceManager.GetString("Photo", resourceCulture);
             }
         }
         

@@ -1,7 +1,7 @@
 ﻿@model DatabaseAccess.tblFinancialYear
 
 @{
-    ViewBag.Title = Resources.FinancialYear.NewFinancialYear.ToString();
+    ViewBag.Title = Resources.Financial.NewFinancialYear.ToString();
 }
 
 <script>
@@ -19,7 +19,7 @@
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.FinancialYear, Resources.FinancialYear.EnterFinancialYearTitle.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
+            @Html.LabelFor(model => model.FinancialYear, Resources.Financial.EnterFinancialYearTitle.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.FinancialYear, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.FinancialYear, "", new { @class = "text-danger" })
@@ -27,7 +27,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.StartDate, Resources.FinancialYear.StartDate.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.StartDate, Resources.Financial.StartDate.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
@@ -35,7 +35,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.EndDate, Resources.FinancialYear.EndDate.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.EndDate, Resources.Financial.EndDate.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
@@ -43,7 +43,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.IsActive, Resources.FinancialYear.Status.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.IsActive, Resources.Financial.Status.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 <div class="checkbox">
                     @Html.EditorFor(model => model.IsActive)
@@ -54,8 +54,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="@Resources.Repeats.Create.ToString()" class="btn btn-success" />
-                @Html.ActionLink(Resources.Repeats.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
+                <input type="submit" value="@Resources.Common.Create.ToString()" class="btn btn-success" />
+                @Html.ActionLink(Resources.Common.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
                 <button id="voiceRecognitionButton" class="btn btn-link" type="button">
                     <i class="fas fa-microphone" style="font-size: 1.5em; color: gray;"></i>
                 </button>

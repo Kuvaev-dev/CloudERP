@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DatabaseAccess.Models.SalePaymentModel>
 
 @{
-    ViewBag.Title = "Return Sale`s Amount Pending";
+    ViewBag.Title = Resources.Sale.ReturnSalesAmountPending;
 }
 
 <script src="~/Scripts/jquery-3.7.1.js"></script>
@@ -18,13 +18,13 @@
             <table class="table table-striped table-bordered table-hover" id="dataTable">
                 <thead>
                     <tr>
-                        <th>Customer</th>
-                        <th>Invoice №</th>
-                        <th>Invoice Date</th>
-                        <th>Return (Total Amount)</th>
-                        <th>Return (Payment Amount)</th>
-                        <th>Remaining Balance</th>
-                        <th>Action`s</th>
+                        <th>@Resources.Miscellaneous.CustomerName</th>
+                        <th>@Resources.Miscellaneous.InvoiceNo</th>
+                        <th>@Resources.Sale.InvoiceDate</th>
+                        <th>@Resources.Sale.ReturnTotalAmount</th>
+                        <th>@Resources.Sale.ReturnPaymentAmount</th>
+                        <th>@Resources.Sale.RemainingBalance</th>
+                        <th>@Resources.Common.Actions</th>
                     </tr>
                 </thead>
                 <tbody id="paymentList">
@@ -53,7 +53,7 @@
                                 @{
                                     if (item.ReturnProductAmount - 1 > item.ReturnPaymentAmount)
                                     {
-                                        Html.ActionLink("Return Payment", "ReturnAmount", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-primary" });
+                                        Html.ActionLink(Resources.Sale.ReturnPayment, "ReturnAmount", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-primary" });
                                     }
                                 }
                             </td>

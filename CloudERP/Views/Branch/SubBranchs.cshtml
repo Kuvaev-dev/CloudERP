@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DatabaseAccess.tblBranch>
 
 @{
-    ViewBag.Title = "Sub Branches";
+    ViewBag.Title = Resources.Branch.SubBranches;
 }
 
 <script src="~/Scripts/jquery-3.7.1.js"></script>
@@ -13,16 +13,16 @@
                 <thead>
                     <tr>
                         <th>
-                            Level
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Branch.Level))
                         </th>
                         <th>
-                            Branch Title
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Branch.BranchTitle))
                         </th>
                         <th>
-                            Contact №
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.User.ContactNo))
                         </th>
                         <th>
-                            Branch Address
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Branch.BranchAddress))
                         </th>
                         <th></th>
                     </tr>
@@ -44,8 +44,8 @@
                                 @Html.DisplayFor(modelItem => item.BranchAddress)
                             </td>
                             <td>
-                                @Html.ActionLink("Edit", "Edit", new { id = item.BranchID }, new { @class = "btn btn-primary" })
-                                @Html.ActionLink("Details", "Details", new { id = item.BranchID }, new { @class = "btn btn-info" })
+                                @Html.ActionLink(Resources.Common.Edit, "Edit", new { id = item.BranchID }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink(Resources.Common.Details, "Details", new { id = item.BranchID }, new { @class = "btn btn-info" })
                             </td>
                         </tr>
                     }

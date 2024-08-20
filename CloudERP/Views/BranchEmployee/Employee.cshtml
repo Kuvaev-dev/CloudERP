@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DatabaseAccess.tblEmployee>
 
 @{
-    ViewBag.Title = "Employee";
+    ViewBag.Title = Resources.Miscellaneous.Employees;
 }
 
 <!-- Tables Sorting-->
@@ -17,7 +17,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        @Html.ActionLink("Add Employee", "EmployeeRegistration", "BranchEmployee", null, new { @style = "float:left;", @class = "btn btn-success" })
+        @Html.ActionLink(Resources.Miscellaneous.AddEmployee, "EmployeeRegistration", "BranchEmployee", null, new { @style = "float:left;", @class = "btn btn-success" })
         <h3 class="text-danger">@ViewBag.Message</h3>
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
     </div>
@@ -27,22 +27,22 @@
                 <thead>
                     <tr>
                         <th>
-                            Branch Name
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Branch.BranchName))
                         </th>
                         <th>
-                            Full Name
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.User.FullName))
                         </th>
                         <th>
-                            Contact №
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.User.ContactNo))
                         </th>
                         <th>
-                            Photo
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.Photo))
                         </th>
                         <th>
-                            Designation
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.Designation))
                         </th>
                         <th>
-                            Actions
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Common.Actions))
                         </th>
                     </tr>
                 </thead>
@@ -69,16 +69,16 @@
                                 @Html.DisplayFor(modelItem => item.Designation)
                             </td>
                             <td class="btn-group">
-                                @Html.ActionLink("Update", "EmployeeUpdation", new { id = item.EmployeeID }, new { @class = "btn btn-primary" })
-                                @Html.ActionLink("Profile", "ViewProfile", new { id = item.EmployeeID }, new { @class = "btn btn-info" })
+                                @Html.ActionLink(Resources.Common.Update, "EmployeeUpdation", new { id = item.EmployeeID }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink(Resources.Miscellaneous.Profile, "ViewProfile", new { id = item.EmployeeID }, new { @class = "btn btn-info" })
 
                                 @if (item.UserID == null)
                                 {
-                                    @Html.ActionLink("Create User", "CreateUser", "UserSetting", new { employeeID = item.EmployeeID }, new { @class = "btn btn-success" })
+                                    @Html.ActionLink(Resources.Miscellaneous.CreateUser, "CreateUser", "UserSetting", new { employeeID = item.EmployeeID }, new { @class = "btn btn-success" })
                                 }
                                 else
                                 {
-                                    @Html.ActionLink("Update User", "UpdateUser", "UserSetting", new { userID = item.UserID }, new { @class = "btn btn-success" })
+                                    @Html.ActionLink(Resources.Miscellaneous.UpdateUser, "UpdateUser", "UserSetting", new { userID = item.UserID }, new { @class = "btn btn-success" })
                                 }
                             </td>
                         </tr>

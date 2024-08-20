@@ -98,4 +98,390 @@
 	<resheader name="writer">
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
+  <!--SaleCart-->
+
+  <!--NewSale-->
+  <data name="NewSale" xml:space="preserve">
+    <value>New Sale</value>
+    <comment></comment>
+  </data>
+  <data name="SelectProduct" xml:space="preserve">
+    <value>Select Product</value>
+    <comment></comment>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Quantity</value>
+    <comment></comment>
+  </data>
+  <data name="ItemCost" xml:space="preserve">
+    <value>Item Cost</value>
+    <comment></comment>
+  </data>
+  <data name="AddItem" xml:space="preserve">
+    <value>Add Item</value>
+    <comment></comment>
+  </data>
+  <data name="SaleItemsList" xml:space="preserve">
+    <value>Sale Items List</value>
+    <comment></comment>
+  </data>
+  <data name="Items" xml:space="preserve">
+    <value>Items</value>
+    <comment></comment>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>User</value>
+    <comment></comment>
+  </data>
+  <data name="TotalSaleAmount" xml:space="preserve">
+    <value>Total Sale Amount</value>
+    <comment></comment>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Next</value>
+    <comment></comment>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+    <comment></comment>
+  </data>
+  <!--SelectCustomer-->
+  <data name="Finilize" xml:space="preserve">
+    <value>Finilize</value>
+    <comment></comment>
+  </data>
+  <data name="SaleDetails" xml:space="preserve">
+    <value>Sale Details</value>
+    <comment></comment>
+  </data>
+  <data name="SaleDescription" xml:space="preserve">
+    <value>Sale Description</value>
+    <comment></comment>
+  </data>
+  <data name="IsSalePaymentPaid" xml:space="preserve">
+    <value>Is Sale Payment Paid?</value>
+    <comment></comment>
+  </data>
+  <data name="FinilizeSale" xml:space="preserve">
+    <value>Finilize Sale</value>
+    <comment></comment>
+  </data>
+  <!--PrintSaleInvoice-->
+  <data name="SaleInvoice" xml:space="preserve">
+    <value>Sale Invoice</value>
+    <comment></comment>
+  </data>
+  <data name="Customer" xml:space="preserve">
+    <value>Customer</value>
+    <comment></comment>
+  </data>
+  <data name="PrintDate" xml:space="preserve">
+    <value>Print Date</value>
+    <comment></comment>
+  </data>
+  <data name="ItemNo" xml:space="preserve">
+    <value>Item №</value>
+    <comment></comment>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+    <comment></comment>
+  </data>
+  <data name="GRANDTOTAL" xml:space="preserve">
+    <value>GRAND TOTAL</value>
+    <comment></comment>
+  </data>
+  <data name="SaleReturnInvoice" xml:space="preserve">
+    <value>Sale Return Invoice</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnInvoiceNo" xml:space="preserve">
+    <value>Return Invoice №</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnInvoiceDate" xml:space="preserve">
+    <value>Return Invoice Date</value>
+    <comment></comment>
+  </data>
+  <data name="Print" xml:space="preserve">
+    <value>Print</value>
+    <comment></comment>
+  </data>
+
+  <!--SalePayment-->
+
+  <!--RemainingPaymentList-->
+  <data name="SalesPaymentPendingList" xml:space="preserve">
+    <value>Sales Payment Pending List</value>
+    <comment></comment>
+  </data>
+  <data name="ContactNo" xml:space="preserve">
+    <value>Contact №</value>
+    <comment></comment>
+  </data>
+  <data name="PayAmount" xml:space="preserve">
+    <value>Pay Amount</value>
+    <comment></comment>
+  </data>
+  <!--CustomSalesHistory-->
+  <data name="CustomBaseSalesHistory" xml:space="preserve">
+    <value>Custom Base Sales History</value>
+    <comment></comment>
+  </data>
+  <data name="SelectRangeFromDateAndToDate" xml:space="preserve">
+    <value>Select Range (From Date and To Date)</value>
+    <comment></comment>
+  </data>
+  <data name="SelectFromDate" xml:space="preserve">
+    <value>Select From Date</value>
+    <comment></comment>
+  </data>
+  <data name="SelectToDate" xml:space="preserve">
+    <value>Select To Date</value>
+    <comment></comment>
+  </data>
+  <data name="RetriveSalesRecord" xml:space="preserve">
+    <value>Retrive Sales Record</value>
+    <comment></comment>
+  </data>
+  <data name="SaleTotalAmount" xml:space="preserve">
+    <value>Sale Total Amount</value>
+    <comment></comment>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Clear</value>
+    <comment></comment>
+  </data>
+  <data name="PrintInvoice" xml:space="preserve">
+    <value>Print Invoice</value>
+    <comment></comment>
+  </data>
+  <!--SubCustomSalesHistory-->
+  <data name="SubBranchCustomBaseSalesHistory" xml:space="preserve">
+    <value>Sub Branch Custom Base Sales History</value>
+    <comment></comment>
+  </data>
+  <data name="RetriveRecordSubBranch" xml:space="preserve">
+    <value>Retrive Record Sub Branch</value>
+    <comment></comment>
+  </data>
+  <!--PaidAmount-->
+  <data name="SalePaidAmount" xml:space="preserve">
+    <value>Sale Paid Amount</value>
+    <comment></comment>
+  </data>
+  <data name="EnterPaymentsDetails" xml:space="preserve">
+    <value>Enter Payments Details</value>
+    <comment></comment>
+  </data>
+  <data name="SaleRemainingAmount" xml:space="preserve">
+    <value>Sale Remaining Amount</value>
+    <comment></comment>
+  </data>
+  <data name="CurrentRemainingAmount" xml:space="preserve">
+    <value>Current Remaining Amount</value>
+    <comment></comment>
+  </data>
+  <data name="PaidAmount" xml:space="preserve">
+    <value>Paid Amount</value>
+    <comment></comment>
+  </data>
+  <data name="SaleInvoicePaidDetail" xml:space="preserve">
+    <value>Sale Invoice Paid Detail</value>
+    <comment></comment>
+  </data>
+  <data name="Supplier" xml:space="preserve">
+    <value>Supplier</value>
+    <comment></comment>
+  </data>
+  <data name="TotalAmount" xml:space="preserve">
+    <value>Total Amount</value>
+    <comment></comment>
+  </data>
+  <!--PaidHistory-->
+  <data name="SalePaymentDetails" xml:space="preserve">
+    <value>Sale Payment Details</value>
+    <comment></comment>
+  </data>
+  <data name="SaleReturnDetails" xml:space="preserve">
+    <value>Sale Return Details</value>
+    <comment></comment>
+  </data>
+  <data name="InvoiceDate" xml:space="preserve">
+    <value>Invoice Date</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnTotal" xml:space="preserve">
+    <value>Return Total</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnPayment" xml:space="preserve">
+    <value>Return Payment</value>
+    <comment></comment>
+  </data>
+  <data name="RemainingReturn" xml:space="preserve">
+    <value>Remaining Return</value>
+    <comment></comment>
+  </data>
+  <data name="PaymentDate" xml:space="preserve">
+    <value>Payment Date</value>
+    <comment></comment>
+  </data>
+  <data name="PaymentAmount" xml:space="preserve">
+    <value>Payment Amount</value>
+    <comment></comment>
+  </data>
+  <data name="NoPaymentRecord" xml:space="preserve">
+    <value>No Payment Record</value>
+    <comment></comment>
+  </data>
+  <data name="RemainingTotalBalance" xml:space="preserve">
+    <value>Remaining Total Balance</value>
+    <comment></comment>
+  </data>
+
+  <!--SalePaymentReturn-->
+
+  <data name="AllReturnSalesAmountPending" xml:space="preserve">
+    <value>All Return Sales Amount Pending</value>
+    <comment></comment>
+  </data>
+  <data name="InvoiceNo" xml:space="preserve">
+    <value>Invoice №</value>
+    <comment></comment>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnProductsTotalAmount" xml:space="preserve">
+    <value>Return Products (Total Amount)</value>
+    <comment></comment>
+  </data>
+  <data name="AfterReturnSaleTotalAmount" xml:space="preserve">
+    <value>After Return (Sale Total Amount)</value>
+    <comment></comment>
+  </data>
+  <data name="PaymentToCustomer" xml:space="preserve">
+    <value>Payment To (Customer)</value>
+    <comment></comment>
+  </data>
+  <data name="RemainingBalance" xml:space="preserve">
+    <value>Remaining Balance</value>
+    <comment></comment>
+  </data>
+  <data name="SetPaid" xml:space="preserve">
+    <value>Set Paid</value>
+    <comment></comment>
+  </data>
+  <data name="PayHistory" xml:space="preserve">
+    <value>Pay History</value>
+    <comment></comment>
+  </data>
+  <data name="NoHistory" xml:space="preserve">
+    <value>No History</value>
+    <comment></comment>
+  </data>
+  <data name="ViewDetails" xml:space="preserve">
+    <value>View Details</value>
+    <comment></comment>
+  </data>
+
+  <!--SaleReturn-->
+
+  <data name="SearchSaleByInvoiceNo" xml:space="preserve">
+    <value>Search Sale By Invoice №</value>
+    <comment></comment>
+  </data>
+  <data name="EnterSaleInvoice" xml:space="preserve">
+    <value>Enter Sale Invoice</value>
+    <comment></comment>
+  </data>
+  <data name="FindSale" xml:space="preserve">
+    <value>Find Sale</value>
+    <comment></comment>
+  </data>
+  <data name="Invoice" xml:space="preserve">
+    <value>Invoice</value>
+    <comment></comment>
+  </data>
+  <data name="Company" xml:space="preserve">
+    <value>Company</value>
+    <comment></comment>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Address</value>
+    <comment></comment>
+  </data>
+  <data name="CreatedBy" xml:space="preserve">
+    <value>Created By</value>
+    <comment></comment>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>Product</value>
+    <comment></comment>
+  </data>
+  <data name="SaleQty" xml:space="preserve">
+    <value>Sale Qty</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnQty" xml:space="preserve">
+    <value>Return Qty</value>
+    <comment></comment>
+  </data>
+  <data name="UnitPrice" xml:space="preserve">
+    <value>Unit Price</value>
+    <comment></comment>
+  </data>
+  <data name="IsReturnSalePaymentPaid" xml:space="preserve">
+    <value>Is Return Sale Payment Paid?</value>
+    <comment></comment>
+  </data>
+  <data name="SubmitReturn" xml:space="preserve">
+    <value>Submit Return</value>
+    <comment></comment>
+  </data>
+
+  <data name="ReturnSalesAmountPending" xml:space="preserve">
+    <value>Return Sale`s Amount Pending</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnTotalAmount" xml:space="preserve">
+    <value>Return (Total Amount)</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnPaymentAmount" xml:space="preserve">
+    <value>Return (Payment Amount)</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnSaleAmount" xml:space="preserve">
+    <value>Return Sale Amount</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnRemainingAmount" xml:space="preserve">
+    <value>Return Remaining Amount</value>
+    <comment></comment>
+  </data>
+  <data name="SubmitPayment" xml:space="preserve">
+    <value>Submit Payment</value>
+    <comment></comment>
+  </data>
+
+  <data name="ReturnPurchaseTotalAmount" xml:space="preserve">
+    <value>Return (Purchase Total Amount)</value>
+    <comment></comment>
+  </data>
+
+  <data name="SaleProductsDetail" xml:space="preserve">
+    <value>Sale Products Detail</value>
+    <comment></comment>
+  </data>
+  <data name="SaleInvoiceNo" xml:space="preserve">
+    <value>Sale Invoice №: </value>
+    <comment></comment>
+  </data>
+  <data name="ReturnSaleProductsDetail" xml:space="preserve">
+    <value>Return Sale Products Detail</value>
+    <comment></comment>
+  </data>
 </root>

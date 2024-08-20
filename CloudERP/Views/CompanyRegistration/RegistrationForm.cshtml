@@ -100,7 +100,7 @@
                 <fieldset>
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="name">@Html.Raw(HttpUtility.HtmlDecode(Resources.Company.Company)) *</label>
+                            <label for="name">@Html.Raw(HttpUtility.HtmlDecode(Resources.Company.CompanyTitle)) *</label>
                             @Html.TextBoxFor(model => model.CompanyName, new { @class = "form-control required", @id = "CName" })
                             @Html.ValidationMessageFor(model => model.CompanyName)
                         </div>

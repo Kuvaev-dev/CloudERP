@@ -135,4 +135,28 @@
   <data name="TotalBalanceLiabilitiesOwnerEquityReturnEarning" xml:space="preserve">
     <value>Итоговый баланс (Обязательства + Капитал + Прибыль)</value>
 </data>
+
+  <!--Создать-->
+  <data name="NewFinancialYear" xml:space="preserve">
+    <value>Новый финансовый год</value>
+</data>
+  <data name="EnterFinancialYearTitle" xml:space="preserve">
+    <value>Введите название финансового года</value>
+</data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Дата начала</value>
+</data>
+  <data name="EndDate" xml:space="preserve">
+    <value>Дата окончания</value>
+</data>
+  <data name="Status" xml:space="preserve">
+    <value>Статус</value>
+</data>
+  <!--Редактировать-->
+  <data name="EditFinancialYear" xml:space="preserve">
+    <value>Редактировать финансовый год</value>
+</data>
+  <data name="FinancialYearTitle" xml:space="preserve">
+    <value>Название финансового года</value>
+</data>
 </root>

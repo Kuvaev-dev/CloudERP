@@ -620,7 +620,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Miscellaneous.uk-UA.resx</DependentUpon>
     </Compile>
-    <Compile Include="App_GlobalResources\Modules\Purchase\Purchase.Designer.cs">
+    <Compile Include="App_GlobalResources\Modules\Purchase\Purchase.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Purchase.resx</DependentUpon>
@@ -3274,6 +3274,7 @@
     <Content Include="App_GlobalResources\Modules\Financial\Financial.en-US.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Financial.en-US.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="App_GlobalResources\Modules\Financial\Financial.ru-RU.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
@@ -3290,6 +3291,7 @@
     <Content Include="App_GlobalResources\Modules\Miscellaneous\Miscellaneous.en-US.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Miscellaneous.en-US.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="App_GlobalResources\Modules\Miscellaneous\Miscellaneous.ru-RU.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
@@ -3301,7 +3303,8 @@
     </Content>
     <Content Include="App_GlobalResources\Modules\Purchase\Purchase.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Purchase.Designer.cs</LastGenOutput>
+      <LastGenOutput>Purchase.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="App_GlobalResources\Modules\Purchase\Purchase.en-US.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>

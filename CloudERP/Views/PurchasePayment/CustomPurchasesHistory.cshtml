@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DatabaseAccess.Models.PurchasePaymentModel>
 
 @{
-    ViewBag.Title = "Custom Base Purchase`s History";
+    ViewBag.Title = Resources.Purchase.CustomBasePurchasesHistory;
 }
 
 <!-- Tables Sorting-->
@@ -18,7 +18,7 @@
 <div class="card">
     <div class="card card-float">
         <div class="card-header">
-            <h4>Select Range (From Date and To Date)</h4>
+            <h4>@Resources.Purchase.SelectRangeFromDateAndToDate</h4>
             <h3 class="text-danger">@ViewBag.Message</h3>
             <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
         </div>
@@ -29,17 +29,17 @@
                 <input type="text" value="@ViewBag.InvoiceID" id="id" name="id" style="display:none;" />
                 <div class="row">
                     <div class="col-md-4">
-                        <label>Select From Date</label>
+                        <label>@Resources.Purchase.SelectFromDate</label>
                         <input type="date" id="FromDate" name="FromDate" value="@DateTime.Now" class="form-control" required>
                     </div>
                     <div class="col-md-4">
-                        <label>Select To Date</label>
+                        <label>@Resources.Purchase.SelectToDate</label>
                         <input type="date" id="ToDate" name="ToDate" value="@DateTime.Now" class="form-control" required>
                     </div>
                 </div>
                 <br />
                 <br />
-                <input type="submit" value="Retrive Purchase`s Record" class="btn btn-success" style="float: right;">
+                <input type="submit" value="@Resources.Purchase.RetrivePurchasesRecord" class="btn btn-success" style="float: right;">
             }
         </div>
     </div>
@@ -55,37 +55,37 @@
                 <thead>
                     <tr>
                         <th>
-                            Supplier
+                            @Resources.Supplier.SupplierName
                         </th>
                         <th>
-                            Contact №
+                            @Resources.Supplier.ConatctNo
                         </th>
                         <th>
-                            Invoice №
+                            @Resources.Miscellaneous.InvoiceNo
                         </th>
                         <th>
-                            Date
+                            @Resources.Miscellaneous.Date
                         </th>
                         <th>
-                            Total Amount
+                            @Resources.Purchase.TotalAmount
                         </th>
                         <th>
-                            Return Products (Total Amount)
+                            @Resources.Purchase.ReturnProductsTotalAmount
                         </th>
                         <th>
-                            After Return (Total Amount)
+                            @Resources.Purchase.AfterReturnTotalAmount
                         </th>
                         <th>
-                            Paid Amount
+                            @Resources.Purchase.PaidAmount
                         </th>
                         <th>
-                            Payment Amount
+                            @Resources.Purchase.PaymentAmount
                         </th>
                         <th>
-                            Remaining Balance
+                            @Resources.Purchase.RemainingBalance
                         </th>
                         <th>
-                            Action`s
+                            @Resources.Common.Actions
                         </th>
                     </tr>
                 </thead>
@@ -118,7 +118,7 @@
                                 @{
                                     if (item.PaymentAmount == 0 && item.AfterReturnTotalAmount > 0)
                                     {
-                                        @Html.ActionLink("Set Payment", "PaidAmount", new { id = item.SupplierInvoiceID }, new { @class = "text-success" })
+                                        @Html.ActionLink(Resources.Purchase.SetPayment, "PaidAmount", new { id = item.SupplierInvoiceID }, new { @class = "text-success" })
                                     }
                                     else
                                     {
@@ -134,7 +134,7 @@
                                     if (item.RemainingBalance == 0 && item.PaymentAmount != 0)
                                     {
                                         <em class="icon-check">
-                                            <label class="text-success">Clear</label>
+                                            <label class="text-success">@Resources.Purchase.Clear</label>
                                         </em>
                                     }
                                     else if (item.RemainingBalance < 0)
@@ -151,18 +151,18 @@
                                 @{
                                     if (item.RemainingBalance < item.TotalAmount && item.PaymentAmount != 0)
                                     {
-                                        @Html.ActionLink("Pay History", "PaidHistory", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-primary mb-2" });
+                                        @Html.ActionLink(Resources.Purchase.PayHistory, "PaidHistory", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-primary mb-2" });
                                     }
                                     else
                                     {
                                         <em class="icon-book-open">
-                                            <label class="text-danger"><b>No History</b></label>
+                                            <label class="text-danger"><b>@Resources.Purchase.NoHistory</b></label>
                                         </em>
                                     }
                                 }
 
-                                @Html.ActionLink("View Details", "PurchaseItemDetail", new { id = item.SupplierInvoiceID }, new { @class = "mt-2 btn btn-info mb-2" })
-                                @Html.ActionLink("Print Invoice", "PrintPurchaseInvoice", "PurchasePayment", new { id = item.SupplierInvoiceID }, new { @class = "mt-2 btn btn-info mb-2" })
+                                @Html.ActionLink(Resources.Purchase.ViewDetails, "PurchaseItemDetail", new { id = item.SupplierInvoiceID }, new { @class = "mt-2 btn btn-info mb-2" })
+                                @Html.ActionLink(Resources.Purchase.PrintInvoice, "PrintPurchaseInvoice", "PurchasePayment", new { id = item.SupplierInvoiceID }, new { @class = "mt-2 btn btn-info mb-2" })
                             </td>
                         </tr>
                     }

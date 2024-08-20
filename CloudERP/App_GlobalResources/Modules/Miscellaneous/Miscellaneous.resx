@@ -870,4 +870,13 @@
     <value>Product Details</value>
     <comment></comment>
   </data>
+
+  <data name="Photo" xml:space="preserve">
+    <value>Photo</value>
+    <comment></comment>
+  </data>
+  <data name="Designation" xml:space="preserve">
+    <value>Designation</value>
+    <comment></comment>
+  </data>
 </root>

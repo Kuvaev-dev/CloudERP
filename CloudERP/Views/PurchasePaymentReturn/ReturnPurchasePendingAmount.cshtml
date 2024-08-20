@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DatabaseAccess.Models.SupplierReturnInvoiceModel>
 
 @{
-    ViewBag.Title = "Return Purchase`s Payment Pending";
+    ViewBag.Title = Resources.Purchase.ReturnPurchasesPaymentPending;
 }
 
 <script src="~/Scripts/jquery-3.7.1.js"></script>
@@ -18,22 +18,22 @@
                 <thead>
                     <tr>
                         <th>
-                            Supplier
+                            @Resources.Supplier.SupplierName
                         </th>
                         <th>
-                            Invoice №
+                            @Resources.Miscellaneous.InvoiceNo
                         </th>
                         <th>
-                            Invoice Date
+                            @Resources.Purchase.InvoiceDate
                         </th>
                         <th>
-                            Return (Total Amount)
+                            @Resources.Purchase.ReturnTotalAmount
                         </th>
                         <th>
-                            Return (Payment Amount)
+                            @Resources.Purchase.ReturnPaymentAmount
                         </th>
                         <th>
-                            Remaining Balance
+                            @Resources.Purchase.RemainingBalance
                         </th>
                     </tr>
                 </thead>
@@ -63,7 +63,7 @@
                                 @{
                                     if (item.ReturnTotalAmount - 1 > item.ReturnPaymentAmount)
                                     {
-                                        Html.ActionLink("Return Payment", "ReturnAmount", new { id = item.SupplierReturnInvoiceID }, new { @class = "btn btn-primary" });
+                                        Html.ActionLink(Resources.Purchase.ReturnPayment, "ReturnAmount", new { id = item.SupplierReturnInvoiceID }, new { @class = "btn btn-primary" });
                                     }
                                 }
                             </td>

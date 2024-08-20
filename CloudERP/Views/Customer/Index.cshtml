@@ -40,7 +40,7 @@
                             @Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.User))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Repeats.Actions))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Common.Actions))
                         </th>
                     </tr>
                 </thead>
@@ -67,7 +67,7 @@
                                 @Html.DisplayFor(modelItem => item.tblUser.FullName)
                             </td>
                             <td>
-                                @Html.ActionLink(Resources.Repeats.Update.ToString(), "Edit", new { id = item.CustomerID }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink(Resources.Common.Update.ToString(), "Edit", new { id = item.CustomerID }, new { @class = "btn btn-primary" })
                             </td>
                         </tr>
                     }

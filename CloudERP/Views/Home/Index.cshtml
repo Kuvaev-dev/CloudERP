@@ -29,9 +29,9 @@
                         <div class="col-8 py-3 bg-primary rounded-right">
                             <div class="mt-0">
                                 <div class="h3 d-inline">@Html.DisplayFor(model => Model.CurrentMonthRevenue)</div>
-                                <div class="h4 d-inline">&nbsp;@Resources.Repeats.UAH.ToString()</div>
+                                <div class="h4 d-inline">&nbsp;@Resources.Common.UAH.ToString()</div>
                             </div>
-                            <div class="mt-3">@Html.Raw(HttpUtility.HtmlDecode(Resources.Home.CurrentMonthRevenue))</div>
+                            <div class="mt-3">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.CurrentMonthRevenue))</div>
                         </div>
                     </div>
                 </div>
@@ -48,7 +48,7 @@
                         <div class="col-8 py-3 bg-purple rounded-right">
                             <div class="mt-0">
                                 <div class="h3 d-inline">@Html.DisplayFor(model => Model.CurrentMonthExpenses)</div>
-                                <div class="h4 d-inline">&nbsp;@Resources.Repeats.UAH.ToString()</div>
+                                <div class="h4 d-inline">&nbsp;@Resources.Common.UAH.ToString()</div>
                             </div>
                             <div class="mt-3">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.CurrentMonthExpenses))</div>
                         </div>
@@ -67,7 +67,7 @@
                         <div class="col-8 py-3 bg-purple rounded-right">
                             <div class="mt-0">
                                 <div class="h3 d-inline">@Html.DisplayFor(model => Model.CurrentMonthRecovery)</div>
-                                <div class="h4 d-inline">&nbsp;@Resources.Repeats.UAH.ToString()</div>
+                                <div class="h4 d-inline">&nbsp;@Resources.Common.UAH.ToString()</div>
                             </div>
                             <div class="mt-3">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.CurrentMonthRecovery))</div>
                         </div>
@@ -82,7 +82,7 @@
                         <div class="col-8 py-3 bg-green rounded-right">
                             <div class="mt-0">
                                 <div class="h3 d-inline">@Html.DisplayFor(model => Model.NetIncome)</div>
-                                <div class="h4 d-inline">&nbsp;@Resources.Repeats.UAH.ToString()</div>
+                                <div class="h4 d-inline">&nbsp;@Resources.Common.UAH.ToString()</div>
                             </div>
                             <div class="mt-3">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.NetProfitLoss))</div>
                         </div>
@@ -97,7 +97,7 @@
                         <div class="col-8 py-3 bg-green rounded-right">
                             <div class="mt-0">
                                 <div class="h3 d-inline">@Html.DisplayFor(model => Model.NetIncome)</div>
-                                <div class="h4 d-inline">&nbsp;@Resources.Repeats.UAH.ToString()</div>
+                                <div class="h4 d-inline">&nbsp;@Resources.Common.UAH.ToString()</div>
                             </div>
                             <div class="mt-3">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.NetProfitLoss))</div>
                         </div>
@@ -112,7 +112,7 @@
                         <div class="col-8 py-3 bg-gray-light rounded-right">
                             <div class="mt-0">
                                 <div class="h3 d-inline">@Html.DisplayFor(model => Model.CashPlusBankAccountBalance)</div>
-                                <div class="h4 d-inline">&nbsp;@Resources.Repeats.UAH.ToString()</div>
+                                <div class="h4 d-inline">&nbsp;@Resources.Common.UAH.ToString()</div>
                             </div>
                             <div class="mt-3">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.CaseBankBalance))</div>
                         </div>
@@ -127,7 +127,7 @@
                         <div class="col-8 py-3 bg-purple-light rounded-right">
                             <div class="mt-0">
                                 <div class="h3 d-inline">@Html.DisplayFor(model => Model.TotalReceivable)</div>
-                                <div class="h4 d-inline">&nbsp;@Resources.Repeats.UAH.ToString()</div>
+                                <div class="h4 d-inline">&nbsp;@Resources.Common.UAH.ToString()</div>
                             </div>
                             <div class="mt-3">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.TotalReceivable))</div>
                         </div>
@@ -142,7 +142,7 @@
                         <div class="col-8 py-3 bg-green-light rounded-right">
                             <div class="mt-0">
                                 <div class="h3 d-inline">@Html.DisplayFor(model => Model.TotalPayable)</div>
-                                <div class="h4 d-inline">&nbsp;@Resources.Repeats.UAH.ToString()</div>
+                                <div class="h4 d-inline">&nbsp;@Resources.Common.UAH.ToString()</div>
                             </div>
                             <div class="mt-3">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.TotalPayable))</div>
                         </div>
@@ -240,42 +240,42 @@
                                     <div class="text-info">
                                         <span class="text-muted">@Html.DisplayFor(model => Model.TotalSalesToday)</span>
                                     </div>
-                                    <div class="text-muted">@Resources.Repeats.UAH.ToString()</div>
+                                    <div class="text-muted">@Resources.Common.UAH.ToString()</div>
                                 </div>
                                 <div class="col-lg-2 col-md-3 py-2 text-center br">
                                     <div class="text-info text-sm">@Resources.Miscellaneous.SalesPaymentPending.ToString()</div>
                                     <div class="text-info">
                                         <span class="text-muted">@Html.DisplayFor(model => Model.SalesPaymentPendingToday)</span>
                                     </div>
-                                    <div class="text-muted">@Resources.Repeats.UAH.ToString()</div>
+                                    <div class="text-muted">@Resources.Common.UAH.ToString()</div>
                                 </div>
                                 <div class="col-lg-2 col-md-3 py-2 text-center br">
                                     <div class="text-info text-sm">@Resources.Miscellaneous.SalesPaymentPaid.ToString()</div>
                                     <div class="text-info">
                                         <span class="text-muted">@Html.DisplayFor(model => Model.SalesPaymentPaidToday)</span>
                                     </div>
-                                    <div class="text-muted">@Resources.Repeats.UAH.ToString()</div>
+                                    <div class="text-muted">@Resources.Common.UAH.ToString()</div>
                                 </div>
                                 <div class="col-lg-2 col-md-3 py-2 text-center br">
                                     <div class="text-info text-sm">@Resources.Miscellaneous.TotalPurchases.ToString()</div>
                                     <div class="text-info">
                                         <span class="text-muted">@Html.DisplayFor(model => Model.TotalPurchasesToday)</span>
                                     </div>
-                                    <div class="text-muted">@Resources.Repeats.UAH.ToString()</div>
+                                    <div class="text-muted">@Resources.Common.UAH.ToString()</div>
                                 </div>
                                 <div class="col-lg-2 col-md-3 py-2 text-center br">
                                     <div class="text-info text-sm">@Resources.Miscellaneous.PurchasesPaymentPending.ToString()</div>
                                     <div class="text-info">
                                         <span class="text-muted">@Html.DisplayFor(model => Model.PurchasesPaymentPendingToday)</span>
                                     </div>
-                                    <div class="text-muted">@Resources.Repeats.UAH.ToString()</div>
+                                    <div class="text-muted">@Resources.Common.UAH.ToString()</div>
                                 </div>
                                 <div class="col-lg-2 col-md-3 py-2 text-center br">
                                     <div class="text-info text-sm">@Resources.Miscellaneous.PurchasesPaymentPaid.ToString()</div>
                                     <div class="text-info">
                                         <span class="text-muted">@Html.DisplayFor(model => Model.PurchasesPaymentPaidToday)</span>
                                     </div>
-                                    <div class="text-muted">@Resources.Repeats.UAH.ToString()</div>
+                                    <div class="text-muted">@Resources.Common.UAH.ToString()</div>
                                 </div>
                             </div>
                         </div>
@@ -300,42 +300,42 @@
                                     <div class="text-info">
                                         <span class="text-muted">@Html.DisplayFor(model => Model.TotalReturnSalesToday)</span>
                                     </div>
-                                    <div class="text-muted">@Resources.Repeats.UAH.ToString()</div>
+                                    <div class="text-muted">@Resources.Common.UAH.ToString()</div>
                                 </div>
                                 <div class="col-lg-2 col-md-3 py-2 text-center br">
                                     <div class="text-info text-sm">@Resources.Miscellaneous.ReturnSalesPaymentPending.ToString()</div>
                                     <div class="text-info">
                                         <span class="text-muted">@Html.DisplayFor(model => Model.ReturnSalesPaymentPendingToday)</span>
                                     </div>
-                                    <div class="text-muted">@Resources.Repeats.UAH.ToString()</div>
+                                    <div class="text-muted">@Resources.Common.UAH.ToString()</div>
                                 </div>
                                 <div class="col-lg-2 col-md-3 py-2 text-center br">
                                     <div class="text-info text-sm">@Resources.Miscellaneous.ReturnSalesPaymentPaid.ToString()</div>
                                     <div class="text-info">
                                         <span class="text-muted">@Html.DisplayFor(model => Model.ReturnSalesPaymentPaidToday)</span>
                                     </div>
-                                    <div class="text-muted">@Resources.Repeats.UAH.ToString()</div>
+                                    <div class="text-muted">@Resources.Common.UAH.ToString()</div>
                                 </div>
                                 <div class="col-lg-2 col-md-3 py-2 text-center br">
                                     <div class="text-info text-sm">@Resources.Miscellaneous.TotalReturnPurchases.ToString()</div>
                                     <div class="text-info">
                                         <span class="text-muted">@Html.DisplayFor(model => Model.TotalReturnPurchasesToday)</span>
                                     </div>
-                                    <div class="text-muted">@Resources.Repeats.UAH.ToString()</div>
+                                    <div class="text-muted">@Resources.Common.UAH.ToString()</div>
                                 </div>
                                 <div class="col-lg-2 col-md-3 py-2 text-center br">
                                     <div class="text-info text-sm">@Resources.Miscellaneous.ReturnPurchasesPaymentPending.ToString()</div>
                                     <div class="text-info">
                                         <span class="text-muted">@Html.DisplayFor(model => Model.ReturnPurchasesPaymentPendingToday)</span>
                                     </div>
-                                    <div class="text-muted">@Resources.Repeats.UAH.ToString()</div>
+                                    <div class="text-muted">@Resources.Common.UAH.ToString()</div>
                                 </div>
                                 <div class="col-lg-2 col-md-3 py-2 text-center br">
                                     <div class="text-info text-sm">@Resources.Miscellaneous.ReturnPurchasesPaymentPaid.ToString()</div>
                                     <div class="text-info">
                                         <span class="text-muted">@Html.DisplayFor(model => Model.ReturnPurchasesPaymentPaidToday)</span>
                                     </div>
-                                    <div class="text-muted">@Resources.Repeats.UAH.ToString()</div>
+                                    <div class="text-muted">@Resources.Common.UAH.ToString()</div>
                                 </div>
                             </div>
                         </div>
@@ -360,42 +360,42 @@
                                     <div class="text-info">
                                         <span class="text-muted">@Html.DisplayFor(model => Model.TotalSalesCurrentMonth)</span>
                                     </div>
-                                    <div class="text-muted">@Resources.Repeats.UAH.ToString()</div>
+                                    <div class="text-muted">@Resources.Common.UAH.ToString()</div>
                                 </div>
                                 <div class="col-lg-2 col-md-3 py-2 text-center br">
                                     <div class="text-info text-sm">@Resources.Miscellaneous.SalesPaymentPending.ToString()</div>
                                     <div class="text-info">
                                         <span class="text-muted">@Html.DisplayFor(model => Model.SalesPaymentPendingCurrentMonth)</span>
                                     </div>
-                                    <div class="text-muted">@Resources.Repeats.UAH.ToString()</div>
+                                    <div class="text-muted">@Resources.Common.UAH.ToString()</div>
                                 </div>
                                 <div class="col-lg-2 col-md-3 py-2 text-center br">
                                     <div class="text-info text-sm">@Resources.Miscellaneous.SalesPaymentPaid.ToString()</div>
                                     <div class="text-info">
                                         <span class="text-muted">@Html.DisplayFor(model => Model.SalesPaymentPaidCurrentMonth)</span>
                                     </div>
-                                    <div class="text-muted">@Resources.Repeats.UAH.ToString()</div>
+                                    <div class="text-muted">@Resources.Common.UAH.ToString()</div>
                                 </div>
                                 <div class="col-lg-2 col-md-3 py-2 text-center br">
                                     <div class="text-info text-sm">@Resources.Miscellaneous.TotalPurchases.ToString()</div>
                                     <div class="text-info">
                                         <span class="text-muted">@Html.DisplayFor(model => Model.TotalPurchasesCurrentMonth)</span>
                                     </div>
-                                    <div class="text-muted">@Resources.Repeats.UAH.ToString()</div>
+                                    <div class="text-muted">@Resources.Common.UAH.ToString()</div>
                                 </div>
                                 <div class="col-lg-2 col-md-3 py-2 text-center br">
                                     <div class="text-info text-sm">@Resources.Miscellaneous.PurchasesPaymentPending.ToString()</div>
                                     <div class="text-info">
                                         <span class="text-muted">@Html.DisplayFor(model => Model.PurchasesPaymentPendingCurrentMonth)</span>
                                     </div>
-                                    <div class="text-muted">@Resources.Repeats.UAH.ToString()</div>
+                                    <div class="text-muted">@Resources.Common.UAH.ToString()</div>
                                 </div>
                                 <div class="col-lg-2 col-md-3 py-2 text-center br">
                                     <div class="text-info text-sm">@Resources.Miscellaneous.PurchasesPaymentPaid.ToString()</div>
                                     <div class="text-info">
                                         <span class="text-muted">@Html.DisplayFor(model => Model.PurchasesPaymentPaidCurrentMonth)</span>
                                     </div>
-                                    <div class="text-muted">@Resources.Repeats.UAH.ToString()</div>
+                                    <div class="text-muted">@Resources.Common.UAH.ToString()</div>
                                 </div>
                             </div>
                         </div>
@@ -420,42 +420,42 @@
                                     <div class="text-info">
                                         <span class="text-muted">@Html.DisplayFor(model => Model.TotalReturnSalesCurrentMonth)</span>
                                     </div>
-                                    <div class="text-muted">@Resources.Repeats.UAH.ToString()</div>
+                                    <div class="text-muted">@Resources.Common.UAH.ToString()</div>
                                 </div>
                                 <div class="col-lg-2 col-md-3 py-2 text-center br">
                                     <div class="text-info text-sm">@Resources.Miscellaneous.ReturnSalesPaymentPending.ToString()</div>
                                     <div class="text-info">
                                         <span class="text-muted">@Html.DisplayFor(model => Model.ReturnSalesPaymentPendingCurrentMonth)</span>
                                     </div>
-                                    <div class="text-muted">@Resources.Repeats.UAH.ToString()</div>
+                                    <div class="text-muted">@Resources.Common.UAH.ToString()</div>
                                 </div>
                                 <div class="col-lg-2 col-md-3 py-2 text-center br">
                                     <div class="text-info text-sm">@Resources.Miscellaneous.ReturnSalesPaymentPaid.ToString()</div>
                                     <div class="text-info">
                                         <span class="text-muted">@Html.DisplayFor(model => Model.ReturnSalesPaymentPaidCurrentMonth)</span>
                                     </div>
-                                    <div class="text-muted">@Resources.Repeats.UAH.ToString()</div>
+                                    <div class="text-muted">@Resources.Common.UAH.ToString()</div>
                                 </div>
                                 <div class="col-lg-2 col-md-3 py-2 text-center br">
                                     <div class="text-info text-sm">@Resources.Miscellaneous.TotalReturnPurchases.ToString()</div>
                                     <div class="text-info">
                                         <span class="text-muted">@Html.DisplayFor(model => Model.TotalReturnPurchasesCurrentMonth)</span>
                                     </div>
-                                    <div class="text-muted">@Resources.Repeats.UAH.ToString()</div>
+                                    <div class="text-muted">@Resources.Common.UAH.ToString()</div>
                                 </div>
                                 <div class="col-lg-2 col-md-3 py-2 text-center br">
                                     <div class="text-info text-sm">@Resources.Miscellaneous.ReturnPurchasesPaymentPending.ToString()</div>
                                     <div class="text-info">
                                         <span class="text-muted">@Html.DisplayFor(model => Model.ReturnPurchasesPaymentPendingCurrentMonth)</span>
                                     </div>
-                                    <div class="text-muted">@Resources.Repeats.UAH.ToString()</div>
+                                    <div class="text-muted">@Resources.Common.UAH.ToString()</div>
                                 </div>
                                 <div class="col-lg-2 col-md-3 py-2 text-center br">
                                     <div class="text-info text-sm">@Resources.Miscellaneous.ReturnPurchasesPaymentPaid.ToString()</div>
                                     <div class="text-info">
                                         <span class="text-muted">@Html.DisplayFor(model => Model.ReturnPurchasesPaymentPaidCurrentMonth)</span>
                                     </div>
-                                    <div class="text-muted">@Resources.Repeats.UAH.ToString()</div>
+                                    <div class="text-muted">@Resources.Common.UAH.ToString()</div>
                                 </div>
                             </div>
                         </div>

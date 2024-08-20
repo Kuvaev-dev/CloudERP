@@ -324,4 +324,101 @@
     <value>Все возвраты закупок (ожидающая оплата возврата)</value>
     <comment></comment>
 </data>
+
+  <data name="Payroll" xml:space="preserve">
+    <value>Зарплата</value>
+    <comment></comment>
+</data>
+  <data name="PurchaseInvoice" xml:space="preserve">
+    <value>Счёт на покупку</value>
+    <comment></comment>
+</data>
+  <data name="PrintDate" xml:space="preserve">
+    <value>Дата печати</value>
+    <comment></comment>
+</data>
+  <data name="ItemNo" xml:space="preserve">
+    <value>Товар №</value>
+    <comment></comment>
+</data>
+  <data name="GRANDTOTAL" xml:space="preserve">
+    <value>ОБЩАЯ СУММА</value>
+    <comment></comment>
+</data>
+  <data name="Print" xml:space="preserve">
+    <value>Печать</value>
+    <comment></comment>
+</data>
+  <data name="PurchaseProductsDetail" xml:space="preserve">
+    <value>Детали покупки товаров</value>
+    <comment></comment>
+</data>
+  <data name="ReturnProductsDetail" xml:space="preserve">
+    <value>Детали возврата товаров</value>
+    <comment></comment>
+</data>
+  <data name="EnterReturnPaymentsDetails" xml:space="preserve">
+    <value>Введите детали возврата оплаты</value>
+    <comment></comment>
+</data>
+  <data name="ReturnRemainingAmount" xml:space="preserve">
+    <value>Возврат оставшейся суммы</value>
+    <comment></comment>
+</data>
+  <data name="CurrentRemainingAmount" xml:space="preserve">
+    <value>Текущая оставшаяся сумма</value>
+    <comment></comment>
+</data>
+  <data name="ReturnPurchaseTotalAmount" xml:space="preserve">
+    <value>Возврат (Общая сумма покупки)</value>
+    <comment></comment>
+</data>
+  <data name="ReturnTotalAmount" xml:space="preserve">
+    <value>Возврат (Общая сумма)</value>
+    <comment></comment>
+</data>
+  <data name="ReturnPaymentAmount" xml:space="preserve">
+    <value>Возврат (Сумма оплаты)</value>
+    <comment></comment>
+</data>
+  <data name="ReturnRemainingBalance" xml:space="preserve">
+    <value>Возврат (Остаток)</value>
+    <comment></comment>
+</data>
+  <data name="ReturnAmount" xml:space="preserve">
+    <value>Сумма возврата</value>
+    <comment></comment>
+</data>
+  <data name="ReturnPurchasesPaymentPending" xml:space="preserve">
+    <value>Возврат покупок ожидает оплаты</value>
+    <comment></comment>
+</data>
+  <data name="SearchPurchaseByInvoiceNo" xml:space="preserve">
+    <value>Поиск покупки по номеру счета</value>
+    <comment></comment>
+</data>
+  <data name="EnterPurchaseInvoiceNo" xml:space="preserve">
+    <value>Введите номер счета на покупку</value>
+    <comment></comment>
+</data>
+  <data name="CreatedBy" xml:space="preserve">
+    <value>Создано</value>
+    <comment></comment>
+</data>
+  <data name="PurchaseQty" xml:space="preserve">
+    <value>Количество покупок</value>
+    <comment></comment>
+</data>
+  <data name="ReturnQty" xml:space="preserve">
+    <value>Количество возвратов</value>
+    <comment></comment>
+</data>
+  <data name="IsReturnPurchasePaymentPaid" xml:space="preserve">
+    <value>Оплачена ли оплата за возврат покупки?</value>
+    <comment></comment>
+</data>
+  <data name="SubmitReturn" xml:space="preserve">
+    <value>Подтвердить возврат</value>
+    <comment></comment>
+</data>
 </root>

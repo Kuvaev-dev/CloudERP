@@ -37,7 +37,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.BranchContact, Resources.Branch.ContactNo.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.BranchContact, Resources.User.ContactNo.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.BranchContact, new { htmlAttributes = new { @class = "form-control", @id = "PhoneNumber" } })
                 @Html.ValidationMessageFor(model => model.BranchContact, "", new { @class = "text-danger" })

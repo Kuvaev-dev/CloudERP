@@ -33,7 +33,7 @@
                             @Html.Raw(HttpUtility.HtmlDecode(Resources.Branch.BranchTitle))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Branch.ContactNo))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.User.ContactNo))
                         </th>
                         <th>
                             @Html.Raw(HttpUtility.HtmlDecode(Resources.Branch.BranchAddress))
@@ -66,12 +66,12 @@
                                     @Html.ActionLink(Resources.Branch.Purchases, "SubCustomPurchasesHistory", "PurchasePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now, id = item.BranchID }, new { @class = "btn btn-info" })
                                 </div>
                                 <div class="mt-2 btn-group">
-                                    @Html.ActionLink(Resources.Resources.Journal, "SubJournal", "GeneralTransaction", new { id = item.BranchID }, new { @class = "btn btn-info" })
-                                    @Html.ActionLink(Resources.Resources.AccountsLedger, "GetSubLedger", "Ledger", new { brchid = item.BranchID.ToString() }, new { @class = "btn btn-info" })
+                                    @Html.ActionLink(Resources.Miscellaneous.Journal, "SubJournal", "GeneralTransaction", new { id = item.BranchID }, new { @class = "btn btn-info" })
+                                    @Html.ActionLink(Resources.Miscellaneous.AccountsLedger, "GetSubLedger", "Ledger", new { brchid = item.BranchID.ToString() }, new { @class = "btn btn-info" })
                                 </div>
                                 <div class="mt-2 btn-group">
-                                    @Html.ActionLink(Resources.Resources.BalanceSheet, "GetSubBalanceSheet", "BalanceSheet", new { brnchid = item.BranchID.ToString() }, new { @class = "btn btn-info" })
-                                    @Html.ActionLink(Resources.Branch.IncomeStatementTitle, "GetSubIncomeStatement", "IncomeStatement", new { brchid = item.BranchID.ToString() }, new { @class = "btn btn-info" })
+                                    @Html.ActionLink(Resources.Miscellaneous.BalanceSheet, "GetSubBalanceSheet", "BalanceSheet", new { brnchid = item.BranchID.ToString() }, new { @class = "btn btn-info" })
+                                    @Html.ActionLink(Resources.Miscellaneous.IncomeStatementTitle, "GetSubIncomeStatement", "IncomeStatement", new { brchid = item.BranchID.ToString() }, new { @class = "btn btn-info" })
                                 </div>
                             </td>
                         </tr>

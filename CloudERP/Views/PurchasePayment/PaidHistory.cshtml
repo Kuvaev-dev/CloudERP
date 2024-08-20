@@ -2,14 +2,14 @@
 
 @{
     double remainingBalance = 0;
-    ViewBag.Title = Resources.Miscellaneous.PurchasePaidDetails.ToString();
+    ViewBag.Title = Resources.Purchase.PurchasePaidDetails.ToString();
 }
 
 <script src="~/Scripts/jquery-3.7.1.js"></script>
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        <h4 style="float:left;">@Resources.Miscellaneous.PurchaseInvoicePaymentDetail.ToString()</h4>
+        <h4 style="float:left;">@Resources.Purchase.PurchaseInvoicePaymentDetail.ToString()</h4>
     </div>
     <div class="card-body">
         <div class="table-responsive bootgrid">
@@ -17,7 +17,7 @@
                 <thead>
                     <tr>
                         <th>
-                            @Resources.Miscellaneous.Supplier.ToString()
+                            @Resources.Supplier.SupplierName.ToString()
                         </th>
                         <th>
                             @Resources.Miscellaneous.ContactNo.ToString()
@@ -29,13 +29,13 @@
                             @Resources.Miscellaneous.Date.ToString()
                         </th>
                         <th>
-                            @Resources.Miscellaneous.TotalAmount.ToString()
+                            @Resources.Purchase.TotalAmount.ToString()
                         </th>
                         <th>
-                            @Resources.Miscellaneous.PaidAmount.ToString()
+                            @Resources.Purchase.PaidAmount.ToString()
                         </th>
                         <th>
-                            @Resources.Miscellaneous.RemainingBalance.ToString()
+                            @Resources.Purchase.RemainingBalance.ToString()
                         </th>
                     </tr>
                 </thead>
@@ -78,7 +78,7 @@
 
     if (ViewData["ReturnPurchaseDetails"] != null)
     {
-        <h3>@Resources.Miscellaneous.PurchaseReturnDetails.ToString()</h3>
+        <h3>@Resources.Purchase.PurchaseReturnDetails.ToString()</h3>
         var returnPurchaseDetail = ViewData["ReturnPurchaseDetails"] as List<DatabaseAccess.tblSupplierReturnInvoice>;
         foreach (DatabaseAccess.tblSupplierReturnInvoice item in returnPurchaseDetail)
         {
@@ -98,7 +98,7 @@
                                         <div class="row">
                                             <div class="col-md-2">
                                                 <div>
-                                                    <b>@Resources.Miscellaneous.Supplier.ToString()</b>
+                                                    <b>@Resources.Purchase.Supplier.ToString()</b>
                                                     <div>
                                                         @item.tblSupplier.SupplierName
                                                     </div>
@@ -106,7 +106,7 @@
                                             </div>
                                             <div class="col-md-2">
                                                 <div>
-                                                    <b>@Resources.Miscellaneous.InvoiceDate.ToString()</b>
+                                                    <b>@Resources.Purchase.InvoiceDate.ToString()</b>
                                                     <div>
                                                         @item.InvoiceDate
                                                     </div>
@@ -122,7 +122,7 @@
                                             </div>
                                             <div class="col-md-2">
                                                 <div>
-                                                    <b>@Resources.Miscellaneous.ReturnTotal.ToString()</b>
+                                                    <b>@Resources.Purchase.ReturnTotal.ToString()</b>
                                                     <div>
                                                         @item.TotalAmount
                                                     </div>
@@ -130,7 +130,7 @@
                                             </div>
                                             <div class="col-md-2">
                                                 <div>
-                                                    <b>@Resources.Miscellaneous.ReturnPayment.ToString()</b>
+                                                    <b>@Resources.Purchase.ReturnPayment.ToString()</b>
                                                     <div>
                                                         @payAmount
                                                     </div>
@@ -138,7 +138,7 @@
                                             </div>
                                             <div class="col-md-2">
                                                 <div>
-                                                    <b>@Resources.Miscellaneous.RemainingReturn.ToString()</b>
+                                                    <b>@Resources.Purchase.RemainingReturn.ToString()</b>
                                                     <div>
                                                         @invoiceRemainingBalance
                                                     </div>
@@ -160,16 +160,16 @@
                                                             @Resources.Miscellaneous.InvoiceNo.ToString()
                                                         </th>
                                                         <th>
-                                                            @Resources.Miscellaneous.PaymentDate.ToString()
+                                                            @Resources.Purchase.PaymentDate.ToString()
                                                         </th>
                                                         <th>
-                                                            @Resources.Miscellaneous.TotalAmount.ToString()
+                                                            @Resources.Purchase.TotalAmount.ToString()
                                                         </th>
                                                         <th>
-                                                            @Resources.Miscellaneous.PaymentAmount.ToString()
+                                                            @Resources.Purchase.PaymentAmount.ToString()
                                                         </th>
                                                         <th>
-                                                            @Resources.Miscellaneous.RemainingBalance.ToString()
+                                                            @Resources.Purchase.RemainingBalance.ToString()
                                                         </th>
                                                     </tr>
                                                 </thead>
@@ -200,7 +200,7 @@
                                         else
                                         {
                                             <div class="text-center">
-                                                @Resources.Miscellaneous.NoPaymentRecord.ToString()
+                                                @Resources.Purchase.NoPaymentRecord.ToString()
                                             </div>
                                         }
                                     </div>
@@ -222,7 +222,7 @@
     <div class="col-lg-6 py-2">
         <div class="row mb-3 align-items-center">
             <div class="col-7">
-                <div class="h3">@Resources.Miscellaneous.RemainingTotalBalance.ToString(): </div>
+                <div class="h3">@Resources.Purchase.RemainingTotalBalance.ToString(): </div>
             </div>
             <div class="col-5">
                 <div id="previousRemainingAmounts" class="text-left h3">@remainingBalance.ToString("F2")</div>

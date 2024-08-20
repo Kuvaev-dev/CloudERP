@@ -135,4 +135,28 @@
   <data name="TotalBalanceLiabilitiesOwnerEquityReturnEarning" xml:space="preserve">
     <value>Загальний баланс (Зобов'язання + Капітал + Прибуток)</value>
 </data>
+
+  <!--Створити-->
+  <data name="NewFinancialYear" xml:space="preserve">
+    <value>Новий фінансовий рік</value>
+</data>
+  <data name="EnterFinancialYearTitle" xml:space="preserve">
+    <value>Введіть назву фінансового року</value>
+</data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Дата початку</value>
+</data>
+  <data name="EndDate" xml:space="preserve">
+    <value>Дата закінчення</value>
+</data>
+  <data name="Status" xml:space="preserve">
+    <value>Статус</value>
+</data>
+  <!--Редагувати-->
+  <data name="EditFinancialYear" xml:space="preserve">
+    <value>Редагувати фінансовий рік</value>
+</data>
+  <data name="FinancialYearTitle" xml:space="preserve">
+    <value>Назва фінансового року</value>
+</data>
 </root>

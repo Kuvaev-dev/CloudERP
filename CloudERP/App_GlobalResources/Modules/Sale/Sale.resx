@@ -441,4 +441,47 @@
     <value>Submit Return</value>
     <comment></comment>
   </data>
+
+  <data name="ReturnSalesAmountPending" xml:space="preserve">
+    <value>Return Sale`s Amount Pending</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnTotalAmount" xml:space="preserve">
+    <value>Return (Total Amount)</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnPaymentAmount" xml:space="preserve">
+    <value>Return (Payment Amount)</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnSaleAmount" xml:space="preserve">
+    <value>Return Sale Amount</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnRemainingAmount" xml:space="preserve">
+    <value>Return Remaining Amount</value>
+    <comment></comment>
+  </data>
+  <data name="SubmitPayment" xml:space="preserve">
+    <value>Submit Payment</value>
+    <comment></comment>
+  </data>
+
+  <data name="ReturnPurchaseTotalAmount" xml:space="preserve">
+    <value>Return (Purchase Total Amount)</value>
+    <comment></comment>
+  </data>
+  
+  <data name="SaleProductsDetail" xml:space="preserve">
+    <value>Sale Products Detail</value>
+    <comment></comment>
+  </data>
+  <data name="SaleInvoiceNo" xml:space="preserve">
+    <value>Sale Invoice №: </value>
+    <comment></comment>
+  </data>
+  <data name="ReturnSaleProductsDetail" xml:space="preserve">
+    <value>Return Sale Products Detail</value>
+    <comment></comment>
+  </data>
 </root>

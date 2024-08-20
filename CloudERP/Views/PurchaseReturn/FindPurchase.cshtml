@@ -34,7 +34,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex align-items-center">
-                                <h3 class="m-0">Invoice №: @Html.DisplayFor(model => model.InvoiceNo)</h3>
+                                <h3 class="m-0">@Resources.User.ContactNo: @Html.DisplayFor(model => model.InvoiceNo)</h3>
                                 <h3 class="m-0 text-danger">&nbsp;(@Session["ReturnMessage"])</h3>
                                 <h3 class="text-danger">@ViewBag.Message</h3>
                                 <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
@@ -49,11 +49,11 @@
                                             <img src="@Url.Content(Model.tblCompany.Logo)" width="50" height="50">
                                         </div>
                                         <div class="col-lg-10">
-                                            <h4>Company:</h4>
+                                            <h4>@Resources.Company.CompanyTitle:</h4>
                                             <hr />
                                             <h4>@Html.DisplayFor(model => model.tblCompany.Name) - @Html.DisplayFor(model => model.tblBranch.BranchName)</h4>
-                                            <address></address>Address: @Html.DisplayFor(model => model.tblBranch.BranchAddress)
-                                            <br>Contact №: @Html.DisplayFor(model => model.tblBranch.BranchContact)
+                                            <address></address>@Resources.Miscellaneous.Address: @Html.DisplayFor(model => model.tblBranch.BranchAddress)
+                                            <br>@Resources.User.ContactNo: @Html.DisplayFor(model => model.tblBranch.BranchContact)
                                         </div>
                                     </div>
                                 </div>
@@ -63,7 +63,7 @@
                                             <em class="fa fa-truck fa-3x text-muted"></em>
                                         </div>
                                         <div class="col-lg-10">
-                                            <h4>Supplier:</h4>
+                                            <h4>@Resources.Supplier.SupplierDetails:</h4>
                                             <hr />
                                             <h4>@Html.DisplayFor(model => model.tblSupplier.SupplierName)</h4>
                                             <address></address>@Html.DisplayFor(model => model.tblSupplier.SupplierAddress)
@@ -74,18 +74,18 @@
                                 </div>
                                 <hr>
                                 <div class="col-xl-4 col-12 py-2">
-                                    <h4>Invoice:</h4>
+                                    <h4>@Resources.Miscellaneous.Invoice:</h4>
                                     <hr />
                                     <div class="clearfix">
-                                        <p class="float-left">INVOICE №</p>
+                                        <p class="float-left">@Resources.Miscellaneous.InvoiceNo</p>
                                         <p class="float-right mr-2">@Html.DisplayFor(model => model.InvoiceNo)</p>
                                     </div>
                                     <div class="clearfix">
-                                        <p class="float-left">Invoice Date</p>
+                                        <p class="float-left">@Resources.Purchase.InvoiceDate</p>
                                         <p class="float-right mr-2">@Html.DisplayFor(model => model.InvoiceDate)</p>
                                     </div>
                                     <div class="clearfix">
-                                        <p class="float-left">Created By</p>
+                                        <p class="float-left">@Resources.Purchase.CreatedBy</p>
                                         <p class="float-right mr-2">@Html.DisplayFor(model => model.tblUser.FullName)</p>
                                     </div>
                                 </div>
@@ -94,11 +94,11 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>Product</th>
-                                            <th>Purchase Qty</th>
-                                            <th>Return Qty</th>
-                                            <th>Unit Price</th>
-                                            <th>Item Cost</th>
+                                            <th>@Resources.Miscellaneous.ProductName</th>
+                                            <th>@Resources.Purchase.PurchaseQty</th>
+                                            <th>@Resources.Purchase.ReturnQty</th>
+                                            <th>@Resources.Purchase.UnitPrice</th>
+                                            <th>@Resources.Purchase.ItemCost</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -126,7 +126,7 @@
                                 <div class="col-lg-6 py-2">
                                     <div class="row mb-3 align-items-center">
                                         <div class="col-7">
-                                            <div class="h5">Is Return Purchase Payment Paid?</div>
+                                            <div class="h5">@Resources.Purchase.IsReturnPurchasePaymentPaid</div>
                                         </div>
                                         <div class="col-5">
                                             <div class="text-right h3"><input type="checkbox" name="IsPayment"/></div>
@@ -134,7 +134,7 @@
                                     </div>
                                     <div class="row mb-3 align-items-center">
                                         <div class="col-7">
-                                            <div class="h3">GRAND TOTAL</div>
+                                            <div class="h3">@Resources.Purchase.GRANDTOTAL</div>
                                         </div>
                                         <div class="col-5">
                                             <div class="text-right h3">@total.ToString("F2")</div>
@@ -144,7 +144,7 @@
                             </div>
                             <hr class="d-print-none">
                             <div class="clearfix">
-                                <button class="btn btn-success float-right" type="submit">Submit Return</button>
+                                <button class="btn btn-success float-right" type="submit">@Resources.Purchase.SubmitReturn</button>
                             </div>
                         </div>
                     </div>

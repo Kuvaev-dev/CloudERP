@@ -137,4 +137,28 @@
   <data name="TotalBalanceLiabilitiesOwnerEquityReturnEarning" xml:space="preserve">
     <value>Total Balance (Liabilities + Owner Equity + Return Earning)</value>
 </data>
+
+  <!--Create-->
+  <data name="NewFinancialYear" xml:space="preserve">
+    <value>New Financial Year</value>
+</data>
+  <data name="EnterFinancialYearTitle" xml:space="preserve">
+    <value>Enter Financial Year Title</value>
+</data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Start Date</value>
+</data>
+  <data name="EndDate" xml:space="preserve">
+    <value>End Date</value>
+</data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+</data>
+  <!--Edit-->
+  <data name="EditFinancialYear" xml:space="preserve">
+    <value>Edit Financial Year</value>
+</data>
+  <data name="FinancialYearTitle" xml:space="preserve">
+    <value>Financial Year Title</value>
+</data>
 </root>

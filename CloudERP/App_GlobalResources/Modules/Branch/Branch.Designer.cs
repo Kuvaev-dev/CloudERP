@@ -133,15 +133,6 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Income Statement.
-        /// </summary>
-        internal static string IncomeStatementTitle {
-            get {
-                return ResourceManager.GetString("IncomeStatementTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Ищет локализованную строку, похожую на Level.
         /// </summary>
         internal static string Level {
@@ -174,6 +165,15 @@ namespace Resources {
         internal static string SelectTopBranch {
             get {
                 return ResourceManager.GetString("SelectTopBranch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Sub Branches.
+        /// </summary>
+        internal static string SubBranches {
+            get {
+                return ResourceManager.GetString("SubBranches", resourceCulture);
             }
         }
         

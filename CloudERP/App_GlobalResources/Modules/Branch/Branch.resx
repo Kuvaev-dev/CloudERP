@@ -124,10 +124,6 @@
     <value>Purchases</value>
     <comment></comment>
   </data>
-  <data name="IncomeStatementTitle" xml:space="preserve">
-    <value>Income Statement</value>
-    <comment></comment>
-  </data>
   <!--Create-->
   <data name="AddBranch" xml:space="preserve">
     <value>Add Branch</value>
@@ -159,5 +155,8 @@
     <comment></comment>
   </data>
 
-  <!--BranchEmployee-->
+  <data name="SubBranches" xml:space="preserve">
+    <value>Sub Branches</value>
+    <comment></comment>
+  </data>
 </root>

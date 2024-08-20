@@ -120,9 +120,6 @@
   <data name="Purchases" xml:space="preserve">
     <value>Закупки</value>
 </data>
-  <data name="IncomeStatementTitle" xml:space="preserve">
-    <value>Отчет о доходах</value>
-</data>
   <!-- Create -->
   <data name="AddBranch" xml:space="preserve">
     <value>Добавить филиал</value>
