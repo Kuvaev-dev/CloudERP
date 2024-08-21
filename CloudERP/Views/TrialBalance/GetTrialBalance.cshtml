@@ -16,7 +16,7 @@
                     <div class="col-md-4">
                         <label>@Resources.Financial.SelectFinancialYear.ToString()</label>
                         @Html.DropDownList("id", (SelectList)ViewBag.FinancialYears, Resources.Financial.SelectFinancialYear.ToString(), new { @class = "form-control", required = "required" })
-                        <input type="submit" value="@Resources.Miscellaneous.RetrieveTransactions.ToString()" class="btn btn-success form-control mt-2">
+                        <input type="submit" value="@Resources.Miscellaneous.GetTrialBalance.ToString()" class="btn btn-success form-control mt-2">
                     </div>
                     <div class="col-md-4">
                         <h3 class="text-danger">@ViewBag.Message</h3>

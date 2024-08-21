@@ -1,7 +1,7 @@
 ﻿@model DatabaseAccess.tblSupplierInvoice
 
 @{
-    ViewBag.Title = "Search Purchase By Invoice №";
+    ViewBag.Title = Resources.Purchase.SearchPurchaseByInvoiceNo;
 }
 
 @using (Html.BeginForm("FindPurchase", "PurchaseReturn", FormMethod.Post, null))
@@ -74,7 +74,7 @@
                                 </div>
                                 <hr>
                                 <div class="col-xl-4 col-12 py-2">
-                                    <h4>@Resources.Miscellaneous.Invoice:</h4>
+                                    <h4>@Resources.Purchase.Invoice:</h4>
                                     <hr />
                                     <div class="clearfix">
                                         <p class="float-left">@Resources.Miscellaneous.InvoiceNo</p>

@@ -417,6 +417,14 @@
     <value>Оплачена ли оплата за возврат покупки?</value>
     <comment></comment>
 </data>
+  <data name="Invoice" xml:space="preserve">
+    <value>Счёт</value>
+    <comment></comment>
+  </data>
+  <data name="AllReturnPurchasesPendingReturnPayment" xml:space="preserve">
+    <value>Все возвраты покупок (ожидается возврат платежа)</value>
+    <comment></comment>
+</data>
   <data name="SubmitReturn" xml:space="preserve">
     <value>Подтвердить возврат</value>
     <comment></comment>

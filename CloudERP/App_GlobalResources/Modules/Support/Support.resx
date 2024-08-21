@@ -131,4 +131,17 @@
     <value>Mark as Resolved</value>
     <comment></comment>
   </data>
+  <!--Support-->
+  <data name="ContactSupport" xml:space="preserve">
+    <value>Contact Support</value>
+    <comment></comment>
+  </data>
+  <data name="Subject" xml:space="preserve">
+    <value>Subject</value>
+    <comment></comment>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Message</value>
+    <comment></comment>
+  </data>
 </root>

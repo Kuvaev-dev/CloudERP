@@ -610,6 +610,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Get Trial Balance.
+        /// </summary>
+        internal static string GetTrialBalance {
+            get {
+                return ResourceManager.GetString("GetTrialBalance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Guide.
         /// </summary>
         internal static string Guide {
@@ -817,11 +826,29 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Paid Purchases.
+        /// </summary>
+        internal static string PaidPurchases {
+            get {
+                return ResourceManager.GetString("PaidPurchases", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Paid Salaries History.
         /// </summary>
         internal static string PaidSalariesHistory {
             get {
                 return ResourceManager.GetString("PaidSalariesHistory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Paid Sales.
+        /// </summary>
+        internal static string PaidSales {
+            get {
+                return ResourceManager.GetString("PaidSales", resourceCulture);
             }
         }
         
@@ -961,6 +988,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Return Purchases.
+        /// </summary>
+        internal static string ReturnPurchases {
+            get {
+                return ResourceManager.GetString("ReturnPurchases", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Return Purchases Payment Paid.
         /// </summary>
         internal static string ReturnPurchasesPaymentPaid {
@@ -975,6 +1011,15 @@ namespace Resources {
         internal static string ReturnPurchasesPaymentPending {
             get {
                 return ResourceManager.GetString("ReturnPurchasesPaymentPending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Return Sales.
+        /// </summary>
+        internal static string ReturnSales {
+            get {
+                return ResourceManager.GetString("ReturnSales", resourceCulture);
             }
         }
         

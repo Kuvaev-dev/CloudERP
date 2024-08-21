@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DatabaseAccess.Models.PurchasePaymentModel>
 
 @{
-    ViewBag.Title = Resources.Miscellaneous.CustomBaseSalesHistory;
+    ViewBag.Title = Resources.Purchase.CustomBasePurchasesHistory;
 }
 
 <script src="~/Scripts/jquery-3.7.1.js"></script>
@@ -30,7 +30,7 @@
                 </div>
                 <br />
                 <br />
-                <input type="submit" value="@Resources.Miscellaneous.RetrivePurchasesRecord" class="btn btn-success" style="float: right;">
+                <input type="submit" value="@Resources.Sale.RetriveSalesRecord" class="btn btn-success" style="float: right;">
             }
         </div>
     </div>
@@ -46,7 +46,7 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.Supplier))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Sale.Supplier))
                         </th>
                         <th>
                             @Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.ContactNo))
@@ -58,22 +58,22 @@
                             @Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.Date))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.TotalAmount))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Sale.TotalAmount))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.ReturnProductsTotalAmount))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Sale.ReturnProductsTotalAmount))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.AfterReturnTotalAmount))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Purchase.AfterReturnTotalAmount))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.PaidAmount))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Sale.PaidAmount))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.PaymentAmount))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Sale.PaymentAmount))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.RemainingBalance))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Sale.RemainingBalance))
                         </th>
                         <th>
                             @Html.Raw(HttpUtility.HtmlDecode(Resources.Common.Actions))
@@ -109,7 +109,7 @@
                                 @{
                                     if (item.PaymentAmount == 0 && item.AfterReturnTotalAmount > 0)
                                     {
-                                        @Html.ActionLink(Resources.Miscellaneous.SetPayment, "PaidAmount", new { id = item.SupplierInvoiceID }, new { @class = "text-success" })
+                                        @Html.ActionLink(Resources.Purchase.SetPayment, "PaidAmount", new { id = item.SupplierInvoiceID }, new { @class = "text-success" })
                                     }
                                     else
                                     {
@@ -125,7 +125,7 @@
                                     if (item.RemainingBalance == 0 && item.PaymentAmount != 0)
                                     {
                                         <em class="icon-check">
-                                            <label class="text-success">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.Clear))</label>
+                                            <label class="text-success">@Html.Raw(HttpUtility.HtmlDecode(Resources.Purchase.Clear))</label>
                                         </em>
                                     }
                                     else if (item.RemainingBalance < 0)
@@ -144,17 +144,17 @@
                                 @{
                                     if (item.RemainingBalance < item.TotalAmount && item.PaymentAmount != 0)
                                     {
-                                        Html.ActionLink(Resources.Miscellaneous.PayHistory, "PaidHistory", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-primary" });
+                                        Html.ActionLink(Resources.Purchase.PayHistory, "PaidHistory", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-primary" });
                                     }
                                     else
                                     {
                                         <em class="icon-book-open">
-                                            <label class="text-danger"><b>@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.NoHistory))</b></label>
+                                            <label class="text-danger"><b>@Html.Raw(HttpUtility.HtmlDecode(Resources.Purchase.NoHistory))</b></label>
                                         </em>
                                     }
                                 }
 
-                                @Html.ActionLink(Resources.Miscellaneous.ViewDetails, "PurchaseItemDetail", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-info" });
+                                @Html.ActionLink(Resources.Purchase.ViewDetails, "PurchaseItemDetail", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-info" });
                             </td>
                         </tr>
                     }

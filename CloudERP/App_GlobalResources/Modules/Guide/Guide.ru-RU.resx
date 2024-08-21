@@ -1,0 +1,326 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<!-- 
+		Microsoft ResX Schema
+
+		Version 1.3
+
+		The primary goals of this format is to allow a simple XML format 
+		that is mostly human readable. The generation and parsing of the 
+		various data types are done through the TypeConverter classes 
+		associated with the data types.
+
+		Example:
+
+		... ado.net/XML headers & schema ...
+		<resheader name="resmimetype">text/microsoft-resx</resheader>
+		<resheader name="version">1.3</resheader>
+		<resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+		<resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+		<data name="Name1">this is my long string</data>
+		<data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+		<data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+			[base64 mime encoded serialized .NET Framework object]
+		</data>
+		<data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+			[base64 mime encoded string representing a byte array form of the .NET Framework object]
+		</data>
+
+		There are any number of "resheader" rows that contain simple 
+		name/value pairs.
+
+		Each data row contains a name, and value. The row also contains a 
+		type or mimetype. Type corresponds to a .NET class that support 
+		text/value conversion through the TypeConverter architecture. 
+		Classes that don't support this are serialized and stored with the 
+		mimetype set.
+
+		The mimetype is used for serialized objects, and tells the 
+		ResXResourceReader how to depersist the object. This is currently not 
+		extensible. For a given mimetype the value must be set accordingly:
+
+		Note - application/x-microsoft.net.object.binary.base64 is the format 
+		that the ResXResourceWriter will generate, however the reader can 
+		read any of the formats listed below.
+
+		mimetype: application/x-microsoft.net.object.binary.base64
+		value   : The object must be serialized with 
+			: System.Serialization.Formatters.Binary.BinaryFormatter
+			: and then encoded with base64 encoding.
+
+		mimetype: application/x-microsoft.net.object.soap.base64
+		value   : The object must be serialized with 
+			: System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+			: and then encoded with base64 encoding.
+
+		mimetype: application/x-microsoft.net.object.bytearray.base64
+		value   : The object must be serialized into a byte array 
+			: using a System.ComponentModel.TypeConverter
+			: and then encoded with base64 encoding.
+	-->
+	
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+							<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+							<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="resmimetype">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="version">
+		<value>1.3</value>
+	</resheader>
+	<resheader name="reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+  <!-- Privacy Policy Title -->
+  <data name="PrivacyPolicyTitle" xml:space="preserve">
+    <value>Политика конфиденциальности</value>
+  </data>
+
+  <!-- Effective Date -->
+  <data name="EffectiveDate" xml:space="preserve">
+    <value>Дата вступления в силу:</value>
+  </data>
+
+  <!-- Introduction -->
+  <data name="IntroductionTitle" xml:space="preserve">
+    <value>1. Введение</value>
+  </data>
+  <data name="IntroductionText" xml:space="preserve">
+    <value>Мы обязуемся защищать вашу конфиденциальность. Эта Политика конфиденциальности описывает наши практики сбора, использования и раскрытия вашей информации.</value>
+  </data>
+
+  <!-- Information We Collect -->
+  <data name="InformationWeCollectTitle" xml:space="preserve">
+    <value>2. Информация, которую мы собираем</value>
+  </data>
+  <data name="InformationWeCollectText" xml:space="preserve">
+    <value>Мы собираем различные типы информации, чтобы предоставлять и улучшать наши услуги.</value>
+  </data>
+
+  <!-- Personal Information -->
+  <data name="PersonalInformationTitle" xml:space="preserve">
+    <value>Персональная информация</value>
+  </data>
+  <data name="PersonalInformationText" xml:space="preserve">
+    <value>Информация, которую вы предоставляете и которая позволяет вас идентифицировать, такая как ваше имя, адрес электронной почты и номер телефона.</value>
+  </data>
+
+  <!-- Account Information -->
+  <data name="AccountInformationTitle" xml:space="preserve">
+    <value>Информация об аккаунте</value>
+  </data>
+  <data name="AccountInformationText" xml:space="preserve">
+    <value>Детали вашего аккаунта, включая учетные данные и предпочтения.</value>
+  </data>
+
+  <!-- Financial Information -->
+  <data name="FinancialInformationTitle" xml:space="preserve">
+    <value>Финансовая информация</value>
+  </data>
+  <data name="FinancialInformationText" xml:space="preserve">
+    <value>Детали платежей и история транзакций.</value>
+  </data>
+
+  <!-- Usage Data -->
+  <data name="UsageDataTitle" xml:space="preserve">
+    <value>Данные об использовании</value>
+  </data>
+  <data name="UsageDataText" xml:space="preserve">
+    <value>Информация о том, как вы взаимодействуете с нашими услугами, такая как IP-адрес, тип браузера и посещённые страницы.</value>
+  </data>
+
+  <!-- Cookies -->
+  <data name="CookiesTitle" xml:space="preserve">
+    <value>Cookies</value>
+  </data>
+  <data name="CookiesText" xml:space="preserve">
+    <value>Небольшие файлы, которые хранятся на вашем устройстве для улучшения вашего опыта и предоставления персонализированных услуг.</value>
+  </data>
+
+  <!-- How We Use Information -->
+  <data name="HowWeUseInformationTitle" xml:space="preserve">
+    <value>3. Как мы используем вашу информацию</value>
+  </data>
+  <data name="HowWeUseInformationText" xml:space="preserve">
+    <value>Мы используем собранную информацию для различных целей, чтобы предоставлять и улучшать наши услуги для вас.</value>
+  </data>
+
+  <!-- Provide Services -->
+  <data name="ProvideServicesTitle" xml:space="preserve">
+    <value>Для предоставления услуг</value>
+  </data>
+  <data name="ProvideServicesText" xml:space="preserve">
+    <value>Мы используем вашу информацию для предоставления и доставки запрашиваемых вами услуг.</value>
+  </data>
+
+  <!-- Improve Services -->
+  <data name="ImproveServicesTitle" xml:space="preserve">
+    <value>Для улучшения услуг</value>
+  </data>
+  <data name="ImproveServicesText" xml:space="preserve">
+    <value>Мы анализируем ваши данные для улучшения наших услуг и разработки новых функций.</value>
+  </data>
+
+  <!-- Communicate -->
+  <data name="CommunicateTitle" xml:space="preserve">
+    <value>Для связи с вами</value>
+  </data>
+  <data name="CommunicateText" xml:space="preserve">
+    <value>Мы можем использовать вашу информацию для связи с вами по поводу обновлений, акций или обслуживания клиентов.</value>
+  </data>
+
+  <!-- Security -->
+  <data name="SecurityTitle" xml:space="preserve">
+    <value>Для обеспечения безопасности</value>
+  </data>
+  <data name="SecurityText" xml:space="preserve">
+    <value>Мы принимаем меры безопасности для защиты вашей информации от несанкционированного доступа или раскрытия.</value>
+  </data>
+
+  <!-- Legal Obligations -->
+  <data name="LegalObligationsTitle" xml:space="preserve">
+    <value>Для соблюдения юридических обязательств</value>
+  </data>
+  <data name="LegalObligationsText" xml:space="preserve">
+    <value>Мы можем обрабатывать вашу информацию для соблюдения применимых законов и нормативных требований.</value>
+  </data>
+
+  <!-- Sharing Information -->
+  <data name="SharingInformationTitle" xml:space="preserve">
+    <value>4. Передача вашей информации</value>
+  </data>
+  <data name="SharingInformationText" xml:space="preserve">
+    <value>Мы можем передавать вашу информацию третьим лицам в определённых обстоятельствах.</value>
+  </data>
+
+  <!-- Service Providers -->
+  <data name="ServiceProvidersTitle" xml:space="preserve">
+    <value>Поставщики услуг</value>
+  </data>
+  <data name="ServiceProvidersText" xml:space="preserve">
+    <value>Мы можем передавать вашу информацию сторонним поставщикам услуг, которые помогают нам в работе наших сервисов.</value>
+  </data>
+
+  <!-- Affiliates -->
+  <data name="AffiliatesTitle" xml:space="preserve">
+    <value>Аффилированные лица</value>
+  </data>
+  <data name="AffiliatesText" xml:space="preserve">
+    <value>Мы можем передавать вашу информацию нашим аффилированным лицам в бизнес-целях.</value>
+  </data>
+
+  <!-- Legal Reasons -->
+  <data name="LegalReasonsTitle" xml:space="preserve">
+    <value>Юридические основания</value>
+  </data>
+  <data name="LegalReasonsText" xml:space="preserve">
+    <value>Мы можем раскрыть вашу информацию, если это требуется по закону или в ответ на законные запросы.</value>
+  </data>
+
+  <!-- Data Security -->
+  <data name="DataSecurityTitle" xml:space="preserve">
+    <value>5. Безопасность данных</value>
+  </data>
+  <data name="DataSecurityText" xml:space="preserve">
+    <value>Мы принимаем разумные меры для защиты вашей информации от утраты, кражи, неправильного использования и несанкционированного доступа.</value>
+  </data>
+
+  <!-- Data Retention -->
+  <data name="DataRetentionTitle" xml:space="preserve">
+    <value>6. Хранение данных</value>
+  </data>
+  <data name="DataRetentionText" xml:space="preserve">
+    <value>Мы храним вашу информацию до тех пор, пока это необходимо для выполнения целей, изложенных в этой Политике конфиденциальности.</value>
+  </data>
+
+  <!-- Your Rights -->
+  <data name="YourRightsTitle" xml:space="preserve">
+    <value>7. Ваши права</value>
+  </data>
+  <data name="YourRightsText" xml:space="preserve">
+    <value>Вы имеете право на доступ, исправление или удаление вашей личной информации.</value>
+  </data>
+
+  <!-- Access -->
+  <data name="AccessTitle" xml:space="preserve">
+    <value>Доступ</value>
+  </data>
+  <data name="AccessText" xml:space="preserve">
+    <value>Вы имеете право запросить доступ к личной информации, которую мы храним о вас.</value>
+  </data>
+
+  <!-- Correction -->
+  <data name="CorrectionTitle" xml:space="preserve">
+    <value>Исправление</value>
+  </data>
+  <data name="CorrectionText" xml:space="preserve">
+    <value>Вы имеете право запросить исправление любых неточностей в вашей личной информации.</value>
+  </data>
+
+  <!-- Deletion -->
+  <data name="DeletionTitle" xml:space="preserve">
+    <value>Удаление</value>
+  </data>
+  <data name="DeletionText" xml:space="preserve">
+    <value>Вы имеете право запросить удаление вашей личной информации, за исключением определённых случаев.</value>
+  </data>
+
+  <!-- Objection -->
+  <data name="ObjectionTitle" xml:space="preserve">
+    <value>Возражение</value>
+  </data>
+  <data name="ObjectionText" xml:space="preserve">
+    <value>Вы имеете право возражать против обработки вашей личной информации в определённых обстоятельствах.</value>
+  </data>
+
+  <!-- Data Portability -->
+  <data name="DataPortabilityTitle" xml:space="preserve">
+    <value>Перенос данных</value>
+  </data>
+  <data name="DataPortabilityText" xml:space="preserve">
+    <value>Вы имеете право запросить перенос вашей личной информации в другую организацию.</value>
+  </data>
+
+  <!-- Changes to this Privacy Policy -->
+  <data name="ChangesTitle" xml:space="preserve">
+    <value>8. Изменения в этой Политике конфиденциальности</value>
+  </data>
+  <data name="ChangesText" xml:space="preserve">
+    <value>Мы можем обновлять эту Политику конфиденциальности время от времени. Все изменения будут опубликованы на этой странице.</value>
+  </data>
+
+  <!-- Contact Us -->
+  <data name="ContactUsTitle" xml:space="preserve">
+    <value>9. Свяжитесь с нами</value>
+  </data>
+  <data name="ContactUsText" xml:space="preserve">
+    <value>Если у вас есть вопросы или замечания по поводу этой Политики конфиденциальности, пожалуйста, свяжитесь с нами, используя информацию ниже:</value>
+  </data>
+</root>

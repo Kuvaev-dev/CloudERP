@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DatabaseAccess.tblPurchaseCartDetail>
 
 @{
-    ViewBag.Title = Resources.Miscellaneous.Purchasing.ToString();
+    ViewBag.Title = Resources.Purchase.Purchasing.ToString();
     var products = ViewBag.Products as List<DatabaseAccess.tblStock>;
 }
 
@@ -18,10 +18,10 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div class="form-group">
-            <label class="control-label col-md-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.SaleCart.SelectProduct))</label>
+            <label class="control-label col-md-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.Purchase.SelectProduct))</label>
             <div class="col-md-5">
                 <select class="form-control" id="PID" name="PID" required>
-                    <option value="">@Resources.Miscellaneous.SelectProduct.ToString()</option>
+                    <option value="">@Resources.Purchase.SelectProduct.ToString()</option>
                     @foreach (var product in products)
                     {
                         <option value="@product.ProductID">@product.ProductName (QTY: @product.Quantity)</option>
@@ -31,21 +31,21 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2">@Resources.Miscellaneous.Quantity.ToString()</label>
+            <label class="control-label col-md-2">@Resources.Purchase.Quantity.ToString()</label>
             <div class="col-md-5">
                 <input type="number" class="form-control" id="Qty" name="Qty" placeholder="Enter Purchase Quantity..." required />
             </div>
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2">@Resources.Miscellaneous.UnitPrice.ToString()</label>
+            <label class="control-label col-md-2">@Resources.Purchase.UnitPrice.ToString()</label>
             <div class="col-md-5">
                 <input type="number" class="form-control" id="Price" step=".01" name="Price" placeholder="Enter Unit Price..." required />
             </div>
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.SaleCart.ItemCost))</label>
+            <label class="control-label col-md-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.Purchase.ItemCost))</label>
             <div class="col-md-5">
                 <input type="text" readonly class="form-control" id="selectItemCost" name="selectItemCost" />
             </div>
@@ -53,7 +53,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="@Resources.Miscellaneous.AddItem.ToString()" class="btn btn-success" />
+                <input type="submit" value="@Resources.Purchase.AddItem.ToString()" class="btn btn-success" />
             </div>
         </div>
     </div>
@@ -61,7 +61,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        <h3 class="text-bold">@Resources.Miscellaneous.ItemsList.ToString()</h3>
+        <h3 class="text-bold">@Resources.Purchase.ItemsList.ToString()</h3>
         <h4 class="text-success">
             @{
                 if (ViewBag.Message != null) 
@@ -81,19 +81,19 @@
                 <thead style="background-color:lightgray;">
                     <tr>
                         <th>
-                            @Resources.Miscellaneous.Items.ToString()
+                            @Resources.Purchase.Items.ToString()
                         </th>
                         <th>
-                            @Resources.Miscellaneous.Quantity.ToString()
+                            @Resources.Purchase.Quantity.ToString()
                         </th>
                         <th>
-                            @Resources.Miscellaneous.UnitPrice.ToString()
+                            @Resources.Purchase.UnitPrice.ToString()
                         </th>
                         <th>
-                            @Resources.Miscellaneous.ItemCost.ToString()
+                            @Resources.Purchase.ItemCost.ToString()
                         </th>
                         <th>
-                            @Resources.Miscellaneous.User.ToString()
+                            @Resources.Purchase.User.ToString()
                         </th>
                         <th>
                             @Resources.Common.Actions.ToString()
@@ -120,7 +120,7 @@
                                 @Html.DisplayFor(modelItem => item.tblUser.UserName)
                             </td>
                             <td>
-                                @Html.ActionLink(Resources.Repeats.Delete.ToString(), "DeleteConfirm", new { id = item.PurchaseCartDetailID }, new { @class = "btn btn-danger" })
+                                @Html.ActionLink(Resources.Common.Delete.ToString(), "DeleteConfirm", new { id = item.PurchaseCartDetailID }, new { @class = "btn btn-danger" })
                             </td>
                         </tr>
                     }
@@ -130,16 +130,16 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td style="background-color:black; color:white;">@Resources.Miscellaneous.TotalPurchaseAmount.ToString()</td>
+                        <td style="background-color:black; color:white;">@Resources.Purchase.TotalPurchaseAmount.ToString()</td>
                         <td style="background-color:black; color:white;">
-                            @(string.Format("{0:0.000}", Math.Truncate(ViewBag.TotalAmount * 10) / 10)) @Resources.Repeats.UAH.ToString()
+                            @(string.Format("{0:0.000}", Math.Truncate(ViewBag.TotalAmount * 10) / 10)) @Resources.Common.UAH.ToString()
                         </td>
                     </tr>
                 </tfoot>
             </table>
             <div style="float:right; margin-top:20px;">
-                @Html.ActionLink(Resources.Miscellaneous.Next.ToString(), "SelectSupplier", null, new { @class = "btn btn-success", style="padding:20px;" })
-                @Html.ActionLink(Resources.Miscellaneous.Cancel.ToString(), "CancelPurchase", null, new { @class = "btn btn-danger", style = "padding:20px;" })
+                @Html.ActionLink(Resources.Purchase.Next.ToString(), "SelectSupplier", null, new { @class = "btn btn-success", style="padding:20px;" })
+                @Html.ActionLink(Resources.Purchase.Cancel.ToString(), "CancelPurchase", null, new { @class = "btn btn-danger", style = "padding:20px;" })
             </div>
         </div>
     </div>

@@ -131,4 +131,17 @@
     <value>Позначити як вирішене</value>
     <comment></comment>
   </data>
+  <!--Support-->
+  <data name="ContactSupport" xml:space="preserve">
+    <value>Зв'язатися з підтримкою</value>
+    <comment></comment>
+</data>
+  <data name="Subject" xml:space="preserve">
+    <value>Тема</value>
+    <comment></comment>
+</data>
+  <data name="Message" xml:space="preserve">
+    <value>Повідомлення</value>
+    <comment></comment>
+</data>
 </root>

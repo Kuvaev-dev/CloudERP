@@ -139,6 +139,9 @@
 </data>
 
   <!--Create-->
+  <data name="AddFinancialYear" xml:space="preserve">
+    <value>Add Financial Year</value>
+</data>
   <data name="NewFinancialYear" xml:space="preserve">
     <value>New Financial Year</value>
 </data>

@@ -36,7 +36,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CustomerContact, Resources.Miscellaneous.ContactNo.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CustomerContact, Resources.User.ContactNo.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.CustomerContact, new { htmlAttributes = new { @class = "form-control", @id = "PhoneNumber" } })
                 @Html.ValidationMessageFor(model => model.CustomerContact, "", new { @class = "text-danger" })
@@ -48,7 +48,7 @@
             <div class="col-md-5">
                 @Html.EditorFor(model => model.CustomerAddress, new { htmlAttributes = new { @class = "form-control", @id = "address" } })
                 @Html.ValidationMessageFor(model => model.CustomerAddress, "", new { @class = "text-danger" })
-                <h5 class="mt-3">Click here to choose a correct address below</h5>
+                <h5 class="mt-3">@Resources.Miscellaneous.ClickHereToChooseACorrectAddressBelow.ToString()</h5>
                 <ul id="suggestions"></ul>
             </div>
         </div>

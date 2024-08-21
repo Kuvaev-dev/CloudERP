@@ -70,6 +70,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Add Financial Year.
+        /// </summary>
+        internal static string AddFinancialYear {
+            get {
+                return ResourceManager.GetString("AddFinancialYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Amount.
         /// </summary>
         internal static string Amount {

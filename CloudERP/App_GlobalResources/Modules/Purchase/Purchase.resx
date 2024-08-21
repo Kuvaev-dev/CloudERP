@@ -487,8 +487,16 @@
     <value>Is Return Purchase Payment Paid?</value>
     <comment></comment>
   </data>
+  <data name="Invoice" xml:space="preserve">
+    <value>Invoice</value>
+    <comment></comment>
+  </data>
   <data name="SubmitReturn" xml:space="preserve">
     <value>Submit Return</value>
+    <comment></comment>
+  </data>
+  <data name="AllReturnPurchasesPendingReturnPayment" xml:space="preserve">
+    <value>All Return Purchases (Pending Return Payment)</value>
     <comment></comment>
   </data>
 </root>

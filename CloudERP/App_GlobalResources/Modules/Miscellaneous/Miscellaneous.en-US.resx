@@ -164,8 +164,28 @@
     <value>Total Sales</value>
     <comment></comment>
   </data>
+  <data name="ReturnSales" xml:space="preserve">
+    <value>Return Sales</value>
+    <comment></comment>
+  </data>
+  <data name="PaidSales" xml:space="preserve">
+    <value>Paid Sales</value>
+    <comment></comment>
+  </data>
   <data name="PurchasesPaymentPending" xml:space="preserve">
     <value>Purchases Payment Pending</value>
+    <comment></comment>
+  </data>
+  <data name="TotalPurchases" xml:space="preserve">
+    <value>Total Purchases</value>
+    <comment></comment>
+  </data>
+  <data name="ReturnPurchases" xml:space="preserve">
+    <value>Return Purchases</value>
+    <comment></comment>
+  </data>
+  <data name="PaidPurchases" xml:space="preserve">
+    <value>Paid Purchases</value>
     <comment></comment>
   </data>
   <!--Today Return Sales / Return Purchases-->
@@ -945,6 +965,10 @@
 
   <data name="Invoice" xml:space="preserve">
     <value>Invoice</value>
+    <comment></comment>
+  </data>
+  <data name="GetTrialBalance" xml:space="preserve">
+    <value>Get Trial Balance</value>
     <comment></comment>
   </data>
 </root>

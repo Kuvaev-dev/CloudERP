@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DatabaseAccess.Models.PurchasePaymentModel>
 
 @{
-    ViewBag.Title = Resources.Miscellaneous.AllReturnPurchasesPendingReturnPayment.ToString();
+    ViewBag.Title = Resources.Purchase.AllReturnPurchasesPendingReturnPayment.ToString();
 }
 
 <!-- Tables Sorting-->
@@ -22,7 +22,7 @@
                 <thead>
                     <tr>
                         <th>
-                            @Resources.Miscellaneous.Supplier.ToString()
+                            @Resources.Purchase.Supplier.ToString()
                         </th>
                         <th>
                             @Resources.Miscellaneous.ContactNo.ToString()
@@ -34,22 +34,22 @@
                             @Resources.Miscellaneous.Date.ToString()
                         </th>
                         <th>
-                            @Resources.Miscellaneous.TotalAmount.ToString()
+                            @Resources.Purchase.TotalAmount.ToString()
                         </th>
                         <th>
-                            @Resources.Miscellaneous.ReturnProductsTotalAmount.ToString()
+                            @Resources.Purchase.ReturnProductsTotalAmount.ToString()
                         </th>
                         <th>
-                            @Resources.Miscellaneous.AfterReturnTotalAmount.ToString()
+                            @Resources.Purchase.AfterReturnTotalAmount.ToString()
                         </th>
                         <th>
-                            @Resources.Miscellaneous.PaidAmount.ToString()
+                            @Resources.Purchase.PaidAmount.ToString()
                         </th>
                         <th>
-                            @Resources.Miscellaneous.PaymentAmount.ToString()
+                            @Resources.Purchase.PaymentAmount.ToString()
                         </th>
                         <th>
-                            @Resources.Miscellaneous.RemainingBalance.ToString()
+                            @Resources.Purchase.RemainingBalance.ToString()
                         </th>
                         <th>
                             @Resources.Common.Actions.ToString()
@@ -85,7 +85,7 @@
                                 @{
                                     if (item.PaymentAmount == 0 && item.AfterReturnTotalAmount > 0)
                                     {
-                                        @Html.ActionLink(Resources.Miscellaneous.SetPayment.ToString(), "PaidAmount", "PurchasePayment", new { id = item.SupplierInvoiceID }, new { @class = "text-success" })
+                                        @Html.ActionLink(Resources.Purchase.SetPayment.ToString(), "PaidAmount", "PurchasePayment", new { id = item.SupplierInvoiceID }, new { @class = "text-success" })
                                     }
                                     else
                                     {
@@ -103,16 +103,16 @@
                                 @{
                                     if (item.RemainingBalance < item.TotalAmount && item.PaymentAmount != 0)
                                     {
-                                        @Html.ActionLink(Resources.Miscellaneous.PayHistory.ToString(), "PaidHistory", "PurchasePayment", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-primary mb-2" });
+                                        @Html.ActionLink(Resources.Purchase.PayHistory.ToString(), "PaidHistory", "PurchasePayment", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-primary mb-2" });
                                     }
                                     else
                                     {
                                         <em class="icon-book-open">
-                                            <label class="text-danger"><b>@Resources.Miscellaneous.NoHistory.ToString()</b></label>
+                                            <label class="text-danger"><b>@Resources.Purchase.NoHistory.ToString()</b></label>
                                         </em>
                                     }
                                 }
-                                @Html.ActionLink(Resources.Miscellaneous.ViewDetails.ToString(), "PurchaseItemDetail", "PurchasePayment", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-info mt-2 mb-2" });
+                                @Html.ActionLink(Resources.Purchase.ViewDetails.ToString(), "PurchaseItemDetail", "PurchasePayment", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-info mt-2 mb-2" });
                             </td>
                         </tr>
                     }

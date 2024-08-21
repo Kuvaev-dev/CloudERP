@@ -334,81 +334,75 @@
     <value>Обов'язкове</value>
     <comment></comment>
 </data>
-  <!--User Profile-->
-  <data name="UserProfile" xml:space="preserve">
-    <value>Профіль користувача</value>
+  <!--Personal Profile-->
+  <data name="PersonalProfile" xml:space="preserve">
+    <value>Персональний профіль</value>
     <comment></comment>
 </data>
-  <data name="EnterUserDetails" xml:space="preserve">
-    <value>Введіть дані користувача</value>
-    <comment></comment>
+  <data name="EnterFocalPersonDetails" xml:space="preserve">
+  <value>Введіть дані контактної особи</value>
+  <comment></comment>
 </data>
-  <data name="UserName" xml:space="preserve">
-    <value>Ім'я користувача</value>
-    <comment></comment>
+  <data name="ContactNo" xml:space="preserve">
+  <value>Контактний №</value>
+  <comment></comment>
 </data>
-  <data name="Password" xml:space="preserve">
-    <value>Пароль</value>
-    <comment></comment>
+  <data name="Email" xml:space="preserve">
+  <value>Електронна пошта</value>
+  <comment></comment>
 </data>
-  <data name="ConfirmPassword" xml:space="preserve">
-    <value>Підтвердіть пароль</value>
-    <comment></comment>
+  <data name="CityIndex" xml:space="preserve">
+  <value>Індекс міста</value>
+  <comment></comment>
 </data>
-  <data name="RegisterUser" xml:space="preserve">
-    <value>Зареєструвати користувача</value>
-    <comment></comment>
+  <data name="Designation" xml:space="preserve">
+  <value>Посада</value>
+  <comment></comment>
 </data>
-  <data name="CompanyDetails" xml:space="preserve">
-    <value>Дані компанії</value>
-    <comment></comment>
+  <data name="BasicSalary" xml:space="preserve">
+  <value>Основна зарплата</value>
+  <comment></comment>
 </data>
-  <data name="CompanyName" xml:space="preserve">
-    <value>Назва компанії</value>
-    <comment></comment>
+  <data name="Address" xml:space="preserve">
+  <value>Адреса</value>
+  <comment></comment>
 </data>
-  <data name="BranchDetails" xml:space="preserve">
-    <value>Дані філії</value>
-    <comment></comment>
+  <!--Company Profile-->
+  <data name="CompanyProfile" xml:space="preserve">
+  <value>Профіль компанії</value>
+  <comment></comment>
 </data>
-  <data name="BranchName" xml:space="preserve">
-    <value>Назва філії</value>
-    <comment></comment>
+  <data name="EnterCompanyDetails" xml:space="preserve">
+  <value>Введіть дані компанії</value>
+  <comment></comment>
 </data>
-  <data name="EmployeeDetails" xml:space="preserve">
-    <value>Дані співробітника</value>
-    <comment></comment>
+  <data name="BranchTitle" xml:space="preserve">
+  <value>Назва філії</value>
+  <comment></comment>
 </data>
-  <data name="EmployeeRole" xml:space="preserve">
-    <value>Роль співробітника</value>
-    <comment></comment>
+  <data name="BranchContact" xml:space="preserve">
+  <value>Контактний номер філії</value>
+  <comment></comment>
 </data>
-  <data name="EmployeeEmail" xml:space="preserve">
-    <value>Електронна пошта співробітника</value>
-    <comment></comment>
+  <data name="BranchAddress" xml:space="preserve">
+  <value>Адреса філії</value>
+  <comment></comment>
 </data>
-  <data name="EmployeePhone" xml:space="preserve">
-    <value>Телефон співробітника</value>
-    <comment></comment>
+  <!--Finish-->
+  <data name="Finish" xml:space="preserve">
+  <value>Завершити</value>
+  <comment></comment>
 </data>
-  <data name="EmployeeAddress" xml:space="preserve">
-    <value>Адреса співробітника</value>
-    <comment></comment>
+  <data name="PleaseCheckBeforeSubmission" xml:space="preserve">
+  <value>Перевірте перед відправкою</value>
+  <comment></comment>
 </data>
-  <data name="CompanyRegistrationSuccess" xml:space="preserve">
-    <value>Реєстрація компанії успішна!</value>
-    <comment></comment>
+  <data name="OneLastCheck" xml:space="preserve">
+  <value>Остання перевірка</value>
+  <comment></comment>
 </data>
-  <data name="CompanyRegistrationError" xml:space="preserve">
-    <value>Сталася помилка при реєстрації компанії. Спробуйте ще раз.</value>
-    <comment></comment>
-</data>
-  <data name="EmployeeRegistrationSuccess" xml:space="preserve">
-    <value>Реєстрація співробітника успішна!</value>
-    <comment></comment>
-</data>
-  <data name="EmployeeRegistrationError" xml:space="preserve">
-    <value>Сталася помилка при реєстрації співробітника. Спробуйте ще раз.</value>
-    <comment></comment>
+  <data name="SubmitRegistration" xml:space="preserve">
+  <value>Відправити реєстрацію</value>
+  <comment></comment>
 </data>
 </root>

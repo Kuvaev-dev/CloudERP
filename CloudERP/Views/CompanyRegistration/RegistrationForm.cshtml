@@ -49,14 +49,14 @@
                 <fieldset>
                     <div class="row">
                         <div class="col-md-4">
-                            <label for="name">@Html.Raw(HttpUtility.HtmlDecode(Resources.Company.EmployeeName)) *</label>
+                            <label for="name">@Html.Raw(HttpUtility.HtmlDecode(Resources.User.FullName)) *</label>
                             @Html.TextBoxFor(model => model.EmployeeName, new { @class = "form-control required", @id = "EName" })
                             @Html.ValidationMessageFor(model => model.EmployeeName)
                         </div>
                         <div class="col-md-4">
                             <div class="form-group mb-3">
                                 <label for="EmployeeContactNo" class="form-label">
-                                    @Html.Raw(HttpUtility.HtmlDecode(Resources.Company.ContactNo)) *
+                                    @Html.Raw(HttpUtility.HtmlDecode(Resources.User.ContactNo)) *
                                 </label>
                                 <div class="input-group">
                                     <input id="EmployeeContactNo" name="EmployeeContactNo" type="tel" class="form-control required" />

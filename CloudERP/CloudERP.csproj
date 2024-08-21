@@ -600,6 +600,26 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Financial.uk-UA.resx</DependentUpon>
     </Compile>
+    <Compile Include="App_GlobalResources\Modules\Guide\Guide.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Guide.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\Modules\Guide\Guide.en-US.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Guide.en-US.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\Modules\Guide\Guide.ru-RU.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Guide.ru-RU.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\Modules\Guide\Guide.uk-UA.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Guide.uk-UA.resx</DependentUpon>
+    </Compile>
     <Compile Include="App_GlobalResources\Modules\Miscellaneous\Miscellaneous.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -856,6 +876,22 @@
     <Content Include="App_GlobalResources\Modules\Sale\Sale.uk-UA.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Sale.uk-UA.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\Modules\Guide\Guide.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Guide.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\Modules\Guide\Guide.en-US.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Guide.en-US.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\Modules\Guide\Guide.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Guide.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\Modules\Guide\Guide.uk-UA.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Guide.uk-UA.designer.cs</LastGenOutput>
     </Content>
     <EmbeddedResource Include="App_GlobalResources\Modules\Task\Task.en-US.resx">
       <Generator>ResXFileCodeGenerator</Generator>

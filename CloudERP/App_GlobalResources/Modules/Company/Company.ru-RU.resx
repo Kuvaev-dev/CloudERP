@@ -354,53 +354,70 @@
     <value>Личный профиль</value>
     <comment></comment>
 </data>
-  <data name="FirstName" xml:space="preserve">
-    <value>Имя</value>
-    <comment></comment>
+  <data name="EnterFocalPersonDetails" xml:space="preserve">
+  <value>Введите данные контактного лица</value>
+  <comment></comment>
 </data>
-  <data name="LastName" xml:space="preserve">
-    <value>Фамилия</value>
-    <comment></comment>
+  <data name="ContactNo" xml:space="preserve">
+  <value>Контактный №</value>
+  <comment></comment>
 </data>
   <data name="Email" xml:space="preserve">
-    <value>Электронная почта</value>
-    <comment></comment>
+  <value>Электронная почта</value>
+  <comment></comment>
 </data>
-  <data name="PhoneNumber" xml:space="preserve">
-    <value>Номер телефона</value>
-    <comment></comment>
+  <data name="CityIndex" xml:space="preserve">
+  <value>Индекс города</value>
+  <comment></comment>
 </data>
-  <data name="Register" xml:space="preserve">
-    <value>Регистрация</value>
-    <comment></comment>
+  <data name="Designation" xml:space="preserve">
+  <value>Должность</value>
+  <comment></comment>
 </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>Отмена</value>
-    <comment></comment>
+  <data name="BasicSalary" xml:space="preserve">
+  <value>Основная зарплата</value>
+  <comment></comment>
 </data>
-  <!--Company Details-->
-  <data name="CompanyDetails" xml:space="preserve">
-    <value>Детали компании</value>
-    <comment></comment>
+  <data name="Address" xml:space="preserve">
+  <value>Адрес</value>
+  <comment></comment>
 </data>
-  <data name="CompanyName" xml:space="preserve">
-    <value>Название компании</value>
-    <comment></comment>
+  <!--Company Profile-->
+  <data name="CompanyProfile" xml:space="preserve">
+  <value>Профиль компании</value>
+  <comment></comment>
 </data>
-  <data name="CompanyAddress" xml:space="preserve">
-    <value>Адрес компании</value>
-    <comment></comment>
+  <data name="EnterCompanyDetails" xml:space="preserve">
+  <value>Введите данные компании</value>
+  <comment></comment>
 </data>
-  <data name="CompanyRegistrationNumber" xml:space="preserve">
-    <value>Регистрационный номер компании</value>
-    <comment></comment>
+  <data name="BranchTitle" xml:space="preserve">
+  <value>Название филиала</value>
+  <comment></comment>
 </data>
-  <data name="CompanyWebsite" xml:space="preserve">
-    <value>Веб-сайт компании</value>
-    <comment></comment>
+  <data name="BranchContact" xml:space="preserve">
+  <value>Контактный номер филиала</value>
+  <comment></comment>
 </data>
-  <data name="Save" xml:space="preserve">
-    <value>Сохранить</value>
-    <comment></comment>
+  <data name="BranchAddress" xml:space="preserve">
+  <value>Адрес филиала</value>
+  <comment></comment>
+</data>
+  <!--Finish-->
+  <data name="Finish" xml:space="preserve">
+  <value>Завершить</value>
+  <comment></comment>
+</data>
+  <data name="PleaseCheckBeforeSubmission" xml:space="preserve">
+  <value>Проверьте перед отправкой</value>
+  <comment></comment>
+</data>
+  <data name="OneLastCheck" xml:space="preserve">
+  <value>Последняя проверка</value>
+  <comment></comment>
+</data>
+  <data name="SubmitRegistration" xml:space="preserve">
+  <value>Отправить регистрацию</value>
+  <comment></comment>
 </data>
 </root>

@@ -105,7 +105,7 @@
   <data name="SelectFinancialYear" xml:space="preserve">
     <value>Виберіть фінансовий рік</value>
 </data>
-  <data name="RetriveBalanceSheet" xml:space="preserve">
+  <data name="RetrieveBalanceSheet" xml:space="preserve">
     <value>Отримати баланс</value>
 </data>
   <data name="BalanceSheetStr" xml:space="preserve">
@@ -137,6 +137,9 @@
 </data>
 
   <!--Створити-->
+  <data name="AddFinancialYear" xml:space="preserve">
+    <value>Додати рік фінансування</value>
+</data>
   <data name="NewFinancialYear" xml:space="preserve">
     <value>Новий фінансовий рік</value>
 </data>

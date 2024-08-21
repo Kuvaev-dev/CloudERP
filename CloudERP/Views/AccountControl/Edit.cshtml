@@ -24,7 +24,7 @@
         @Html.HiddenFor(model => model.UserID)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.AccountHeadID, Resources.Account.EnterAccountHeadID.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
+            @Html.LabelFor(model => model.AccountHeadID, Resources.Account.SelectAccountHead.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-5">
                 @Html.DropDownList("AccountHeadID", null, Resources.Account.AccountHeadTitle.ToString(), htmlAttributes: new { @class = "form-control", @id = "AccountControlID" })
                 @Html.ValidationMessageFor(model => model.AccountHeadID, "", new { @class = "text-danger" })

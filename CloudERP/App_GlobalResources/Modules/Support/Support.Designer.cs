@@ -61,6 +61,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Contact Support.
+        /// </summary>
+        internal static string ContactSupport {
+            get {
+                return ResourceManager.GetString("ContactSupport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Date Created.
         /// </summary>
         internal static string DateCreated {

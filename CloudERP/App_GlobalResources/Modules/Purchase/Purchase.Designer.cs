@@ -241,6 +241,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Invoice.
+        /// </summary>
+        internal static string Invoice {
+            get {
+                return ResourceManager.GetString("Invoice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Invoice Date.
         /// </summary>
         internal static string InvoiceDate {
