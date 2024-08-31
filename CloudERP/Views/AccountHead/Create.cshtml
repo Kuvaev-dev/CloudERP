@@ -19,7 +19,7 @@
         <h2 class="text-danger">@ViewBag.ErrorMessage</h2>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.AccountHeadName, Resources.Account.AccountHeadTitle.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.AccountHeadName, Resources.Account.AccountHeadTitle.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.AccountHeadName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.AccountHeadName, "", new { @class = "text-danger" })

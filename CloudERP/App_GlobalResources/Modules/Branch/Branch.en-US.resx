@@ -155,6 +155,8 @@
     <value>Edit Branch</value>
     <comment></comment>
   </data>
-
-  <!--BranchEmployee-->
+  <data name="EmployeeProfile" xml:space="preserve">
+    <value>Employee Profile</value>
+    <comment></comment>
+  </data>
 </root>

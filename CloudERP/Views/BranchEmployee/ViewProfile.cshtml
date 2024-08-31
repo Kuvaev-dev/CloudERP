@@ -1,7 +1,7 @@
 ﻿@model DatabaseAccess.tblEmployee
 
 @{
-    ViewBag.Title = Resources.Branch.EmployeeProfile.ToString();
+    ViewBag.Title = Resources.Company.EmployeeProfile.ToString();
 }
 
 <div class="form-horizontal">
@@ -51,7 +51,7 @@
             </dd>
 
             <dt>
-                TIN
+                @Html.Raw(HttpUtility.HtmlDecode(Resources.User.TIN))
             </dt>
 
             <dd>
@@ -75,7 +75,7 @@
             </dd>
 
             <dt>
-                @Html.Raw(HttpUtility.HtmlDecode(Resources.Branch.BasicSalary))
+                @Html.Raw(HttpUtility.HtmlDecode(Resources.Company.BasicSalary))
             </dt>
 
             <dd>
@@ -93,7 +93,7 @@
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            @Html.ActionLink(Resources.Miscellaneous.EditProfile.ToString(), "EmployeeUpdation", new { id = Model.EmployeeID }, new { @class = "btn btn-primary" })
+            @Html.ActionLink(Resources.Company.EditProfile.ToString(), "EmployeeUpdation", new { id = Model.EmployeeID }, new { @class = "btn btn-primary" })
             @Html.ActionLink(Resources.Common.BackToList.ToString(), "Employee", null, new { @class = "btn btn-default" })
         </div>
     </div>

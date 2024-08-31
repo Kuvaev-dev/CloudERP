@@ -104,221 +104,206 @@
   <!-- Index -->
   <data name="AllAccountControls" xml:space="preserve">
     <value>Все контролирующие счета</value>
-</data>
+  </data>
   <data name="AddAccountControl" xml:space="preserve">
-    <value>Добавить контролирующий счет</value>
-</data>
+    <value>Добавить контролирующий счёт</value>
+  </data>
   <data name="AccountHeadTitle" xml:space="preserve">
-    <value>Главный счет</value>
-</data>
+    <value>Главный счёт</value>
+  </data>
   <data name="AccountControlTitle" xml:space="preserve">
-    <value>Контролирующий счет</value>
-</data>
+    <value>Контролирующий счёт</value>
+  </data>
   <data name="User" xml:space="preserve">
     <value>Пользователь</value>
-</data>
+  </data>
   <!-- Create -->
   <data name="NewAccountControl" xml:space="preserve">
-    <value>Новый контролирующий счет</value>
-</data>
+    <value>Новый контролирующий счёт</value>
+  </data>
   <data name="SelectAccountHead" xml:space="preserve">
-    <value>Выберите главный счет</value>
-</data>
+    <value>Выберите главный счёт</value>
+  </data>
   <!-- Edit -->
   <data name="EditAccountControl" xml:space="preserve">
     <value>Редактировать контролирующий счет</value>
-</data>
+  </data>
   <data name="EnterAccountHeadID" xml:space="preserve">
-    <value>Введите ID главного счета</value>
-</data>
+    <value>Введите ID главного счёта</value>
+  </data>
   <!--AccountHead-->
 
   <!-- Index -->
   <data name="AllAccountHeads" xml:space="preserve">
     <value>Все главные счета</value>
-</data>
+  </data>
   <data name="AddAccountHead" xml:space="preserve">
-    <value>Добавить главный счет</value>
-</data>
+    <value>Добавить главный счёт</value>
+  </data>
   <data name="AccountHeadTitle" xml:space="preserve">
-    <value>Главный счет</value>
-</data>
+    <value>Название главного счёта</value>
+  </data>
   <data name="Code" xml:space="preserve">
     <value>Код</value>
-</data>
-  <data name="User" xml:space="preserve">
-    <value>Пользователь</value>
-</data>
+  </data>
   <!-- Create -->
   <data name="NewAccountHead" xml:space="preserve">
     <value>Новый главный счет</value>
-</data>
+  </data>
   <data name="HeadCode" xml:space="preserve">
-    <value>Код главного счета</value>
-</data>
+    <value>Код главного счёта</value>
+  </data>
   <!-- Edit -->
   <data name="EditAccountHead" xml:space="preserve">
     <value>Редактировать главный счет</value>
-</data>
+  </data>
   <!--AccountSetting-->
 
   <!-- Index -->
   <data name="ManageTransactions" xml:space="preserve">
     <value>Управление транзакциями</value>
-</data>
+  </data>
   <data name="SetAccountingFlow" xml:space="preserve">
-    <value>Настроить учетный поток</value>
-</data>
+    <value>Настроить учётный поток</value>
+  </data>
   <data name="Activity" xml:space="preserve">
     <value>Активность</value>
-</data>
+  </data>
   <data name="HeadAccount" xml:space="preserve">
-    <value>Главный счет</value>
-</data>
-  <data name="ControlAccount" xml:space="preserve">
-    <value>Контролирующий счет</value>
-</data>
+    <value>Главный счёт</value>
+  </data>
   <data name="SubAccount" xml:space="preserve">
-    <value>Субсчет</value>
-</data>
+    <value>Субсчёт</value>
+  </data>
   <!-- Create -->
   <data name="NewAccountSetting" xml:space="preserve">
-    <value>Новая настройка счета</value>
-</data>
+    <value>Новая настройка счёта</value>
+  </data>
   <data name="SelectHeadAccount" xml:space="preserve">
-    <value>Выберите главный счет</value>
-</data>
+    <value>Выберите главный счёт</value>
+  </data>
   <data name="SelectControlAccount" xml:space="preserve">
-    <value>Выберите контролирующий счет</value>
-</data>
+    <value>Выберите контролирующий счёт</value>
+  </data>
   <data name="SelectSubControlAccount" xml:space="preserve">
-    <value>Выберите субсчет</value>
-</data>
+    <value>Выберите субсчёт</value>
+  </data>
   <data name="SelectActivity" xml:space="preserve">
     <value>Выберите активность</value>
-</data>
+  </data>
   <!--AccountSubControl-->
 
   <!-- Index -->
   <data name="AllAccountSubControls" xml:space="preserve">
     <value>Все субсчета</value>
-</data>
+  </data>
   <data name="AddAccountSubControl" xml:space="preserve">
-    <value>Добавить субсчет</value>
-</data>
-  <data name="HeadAccount" xml:space="preserve">
-    <value>Главный счет</value>
-</data>
+    <value>Добавить субсчёт</value>
+  </data>
   <data name="ControlAccount" xml:space="preserve">
-    <value>Контролирующий счет</value>
-</data>
+    <value>Контролирующий счёт</value>
+  </data>
   <data name="SubControlAccount" xml:space="preserve">
     <value>Субсчет</value>
-</data>
-  <data name="User" xml:space="preserve">
-    <value>Пользователь</value>
-</data>
+  </data>
   <!-- Create -->
   <data name="NewAccountSubControl" xml:space="preserve">
-    <value>Новый субсчет</value>
+    <value>Новый субсчёт</value>
 </data>
   <data name="SelectSubAccount" xml:space="preserve">
-    <value>Выберите субсчет</value>
-</data>
+    <value>Выберите субсчёт</value>
+  </data>
   <data name="AccountSubControlName" xml:space="preserve">
-    <value>Название субсчета</value>
-</data>
+    <value>Название субсчёта</value>
+  </data>
   <!-- Edit -->
   <data name="EditSubControl" xml:space="preserve">
-    <value>Редактировать субсчет</value>
-</data>
+    <value>Редактировать субсчёт</value>
+  </data>
   <data name="NewAccountSubControlName" xml:space="preserve">
-    <value>Новое название субсчета</value>
-</data>
-  <data name="SelectControlAccount" xml:space="preserve">
-    <value>Выберите контролирующий счет</value>
-</data>
+    <value>Новое название субсчёта</value>
+  </data>
   <!--UserSetting-->
 
   <!-- CreateUser + UpdateUser -->
   <data name="CreateUser" xml:space="preserve">
     <value>Создать пользователя</value>
-</data>
+  </data>
   <data name="UserTypeID" xml:space="preserve">
     <value>Тип пользователя</value>
-</data>
+  </data>
   <data name="FullName" xml:space="preserve">
     <value>Полное имя</value>
-</data>
+  </data>
   <data name="Email" xml:space="preserve">
-    <value>Email</value>
+    <value>Электронная почта</value>
 </data>
   <data name="ContactNo" xml:space="preserve">
-    <value>Контактный №</value>
-</data>
+    <value>Номер телефона</value>
+  </data>
   <data name="UserName" xml:space="preserve">
     <value>Имя пользователя</value>
-</data>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Пароль</value>
-</data>
+  </data>
   <data name="Status" xml:space="preserve">
     <value>Статус</value>
-</data>
+  </data>
   <!-- UpdateUser -->
   <data name="UpdateUser" xml:space="preserve">
     <value>Обновить пользователя</value>
-</data>
+  </data>
   <data name="NewUserTypeID" xml:space="preserve">
-    <value>Введите новый тип пользователя</value>
-</data>
+    <value>Выберите новый тип пользователя</value>
+  </data>
   <data name="NewFullName" xml:space="preserve">
     <value>Введите новое полное имя</value>
-</data>
+  </data>
   <data name="NewEmail" xml:space="preserve">
-    <value>Введите новый Email</value>
-</data>
+    <value>Введите новую электронную почту</value>
+  </data>
   <data name="NewContactNo" xml:space="preserve">
-    <value>Введите новый контактный №</value>
-</data>
+    <value>Введите новый номер телефона</value>
+  </data>
   <data name="NewUserName" xml:space="preserve">
     <value>Введите новое имя пользователя</value>
-</data>
+  </data>
   <data name="NewPassword" xml:space="preserve">
     <value>Введите новый пароль</value>
-</data>
+  </data>
   <data name="NewStatus" xml:space="preserve">
     <value>Введите новый статус</value>
-</data>
+  </data>
   <!--UserType-->
 
   <!-- Index -->
   <data name="AllUserTypes" xml:space="preserve">
     <value>Все типы пользователей</value>
-</data>
+  </data>
   <data name="AddUserType" xml:space="preserve">
     <value>Добавить тип пользователя</value>
-</data>
+  </data>
   <data name="UserType" xml:space="preserve">
     <value>Тип пользователя</value>
-</data>
+  </data>
   <!-- Create -->
   <data name="AddNewUserType" xml:space="preserve">
     <value>Добавить новый тип пользователя</value>
-</data>
+  </data>
   <!-- Details -->
   <data name="UserTypeDetails" xml:space="preserve">
     <value>Детали типа пользователя</value>
-</data>
+  </data>
   <!-- Edit -->
   <data name="EditUserType" xml:space="preserve">
     <value>Редактировать тип пользователя</value>
-</data>
+  </data>
   <!-- Delete -->
   <data name="Delete" xml:space="preserve">
     <value>Удалить тип пользователя</value>
-</data>
+  </data>
   <data name="DeleteQuestion" xml:space="preserve">
     <value>Вы уверены, что хотите удалить этот тип пользователя?</value>
-</data>
+  </data>
 </root>

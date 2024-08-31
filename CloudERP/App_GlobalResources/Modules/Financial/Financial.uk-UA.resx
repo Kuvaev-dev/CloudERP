@@ -101,65 +101,65 @@
 
   <data name="SubBranchBalanceSheet" xml:space="preserve">
     <value>Баланс підрозділу</value>
-</data>
+	</data>
   <data name="SelectFinancialYear" xml:space="preserve">
-    <value>Виберіть фінансовий рік</value>
-</data>
+    <value>Оберіть фінансовий рік</value>
+	</data>
   <data name="RetrieveBalanceSheet" xml:space="preserve">
     <value>Отримати баланс</value>
-</data>
+	</data>
   <data name="BalanceSheetStr" xml:space="preserve">
     <value>Баланс</value>
-</data>
+	</data>
   <data name="AccountTitle" xml:space="preserve">
     <value>Назва рахунку</value>
-</data>
+	</data>
   <data name="Amount" xml:space="preserve">
     <value>Сума</value>
-</data>
+	</data>
   <data name="Total" xml:space="preserve">
-    <value>Разом</value>
-</data>
+    <value>Всього</value>
+	</data>
   <data name="TotalAssets" xml:space="preserve">
     <value>Загальні активи</value>
-</data>
+	</data>
   <data name="TotalLiabilities" xml:space="preserve">
     <value>Загальні зобов'язання</value>
-</data>
+	</data>
   <data name="TotalOwnerEquity" xml:space="preserve">
     <value>Загальний капітал</value>
-</data>
+	</data>
   <data name="TotalReturnEarning" xml:space="preserve">
     <value>Загальний прибуток</value>
-</data>
+	</data>
   <data name="TotalBalanceLiabilitiesOwnerEquityReturnEarning" xml:space="preserve">
     <value>Загальний баланс (Зобов'язання + Капітал + Прибуток)</value>
-</data>
+	</data>
 
-  <!--Створити-->
+  <!--Create-->
   <data name="AddFinancialYear" xml:space="preserve">
     <value>Додати рік фінансування</value>
-</data>
+	</data>
   <data name="NewFinancialYear" xml:space="preserve">
     <value>Новий фінансовий рік</value>
-</data>
+	</data>
   <data name="EnterFinancialYearTitle" xml:space="preserve">
     <value>Введіть назву фінансового року</value>
-</data>
+	</data>
   <data name="StartDate" xml:space="preserve">
     <value>Дата початку</value>
-</data>
+	</data>
   <data name="EndDate" xml:space="preserve">
     <value>Дата закінчення</value>
-</data>
+	</data>
   <data name="Status" xml:space="preserve">
     <value>Статус</value>
-</data>
+	</data>
   <!--Редагувати-->
   <data name="EditFinancialYear" xml:space="preserve">
     <value>Редагувати фінансовий рік</value>
-</data>
+	</data>
   <data name="FinancialYearTitle" xml:space="preserve">
     <value>Назва фінансового року</value>
-</data>
+	</data>
 </root>

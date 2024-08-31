@@ -98,9 +98,7 @@
 	<resheader name="writer">
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
-
   <!--PurchaseCart-->
-
   <data name="Purchasing" xml:space="preserve">
     <value>Purchasing</value>
     <comment></comment>
@@ -149,7 +147,6 @@
     <value>Cancel</value>
     <comment></comment>
   </data>
-
   <data name="FinilizePurchasing" xml:space="preserve">
     <value>Finilize Purchasing</value>
     <comment></comment>
@@ -226,16 +223,8 @@
     <value>Total Amount</value>
     <comment></comment>
   </data>
-  <data name="ReturnProductsTotalAmount" xml:space="preserve">
-    <value>Return Products (Total Amount)</value>
-    <comment></comment>
-  </data>
   <data name="AfterReturnTotalAmount" xml:space="preserve">
     <value>After Return (Total Amount)</value>
-    <comment></comment>
-  </data>
-  <data name="PaidAmount" xml:space="preserve">
-    <value>Paid Amount</value>
     <comment></comment>
   </data>
   <data name="PaymentAmount" xml:space="preserve">
@@ -258,25 +247,12 @@
     <value>Pay History</value>
     <comment></comment>
   </data>
-  <data name="NoHistory" xml:space="preserve">
-    <value>No History</value>
-    <comment></comment>
-  </data>
-  <data name="ViewDetails" xml:space="preserve">
-    <value>View Details</value>
-    <comment></comment>
-  </data>
   <data name="PrintInvoice" xml:space="preserve">
     <value>Print Invoice</value>
     <comment></comment>
   </data>
-
   <data name="PurchasesPaymentPending" xml:space="preserve">
     <value>Purchase`s Payment Pending</value>
-    <comment></comment>
-  </data>
-  <data name="TotalAmount" xml:space="preserve">
-    <value>Total Amount</value>
     <comment></comment>
   </data>
   <data name="ReturnProductsTotalAmount" xml:space="preserve">
@@ -291,19 +267,10 @@
     <value>Paid Amount</value>
     <comment></comment>
   </data>
-  <data name="RemainingBalance" xml:space="preserve">
-    <value>Remaining Balance</value>
-    <comment></comment>
-  </data>
   <data name="PayAmount" xml:space="preserve">
     <value>Pay Amount</value>
     <comment></comment>
   </data>
-  <data name="PayHistory" xml:space="preserve">
-    <value>Pay History</value>
-    <comment></comment>
-  </data>
-
   <data name="PurchasePayment" xml:space="preserve">
     <value>Purchase Payment</value>
     <comment></comment>
@@ -361,21 +328,9 @@
     <value>Purchase Paid Details</value>
     <comment></comment>
   </data>
-  <data name="PurchaseInvoicePaymentDetail" xml:space="preserve">
-    <value>Purchase Invoice Payment Detail</value>
-    <comment></comment>
-  </data>
 
   <data name="AllReturnPurchasesPendingReturnPayment" xml:space="preserve">
     <value>All Return Purchases (Pending Return Payment)</value>
-    <comment></comment>
-  </data>
-  <data name="SetPayment" xml:space="preserve">
-    <value>Set Payment</value>
-    <comment></comment>
-  </data>
-  <data name="PayHistory" xml:space="preserve">
-    <value>Pay History</value>
     <comment></comment>
   </data>
   <data name="NoHistory" xml:space="preserve">
@@ -390,7 +345,6 @@
   <!--PurchasePaymentReturn
 
   PurchaseReturn-->
-
   <data name="Payroll" xml:space="preserve">
     <value>Payroll</value>
     <comment></comment>
@@ -423,12 +377,10 @@
     <value>Return Products Detail</value>
     <comment></comment>
   </data>
-
   <data name="EnterReturnPaymentsDetails" xml:space="preserve">
     <value>Enter Return Payment`s Details</value>
     <comment></comment>
   </data>
-  
   <data name="ReturnRemainingAmount" xml:space="preserve">
     <value>Return Remaining Amount</value>
     <comment></comment>
@@ -457,12 +409,10 @@
     <value>Return Amount</value>
     <comment></comment>
   </data>
-
   <data name="ReturnPurchasesPaymentPending" xml:space="preserve">
     <value>Return Purchase`s Payment Pending</value>
     <comment></comment>
   </data>
-
   <data name="SearchPurchaseByInvoiceNo" xml:space="preserve">
     <value>Search Purchase By Invoice №</value>
     <comment></comment>
@@ -493,10 +443,6 @@
   </data>
   <data name="SubmitReturn" xml:space="preserve">
     <value>Submit Return</value>
-    <comment></comment>
-  </data>
-  <data name="AllReturnPurchasesPendingReturnPayment" xml:space="preserve">
-    <value>All Return Purchases (Pending Return Payment)</value>
     <comment></comment>
   </data>
 </root>

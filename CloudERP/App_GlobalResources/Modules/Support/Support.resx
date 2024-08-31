@@ -111,14 +111,6 @@
     <value>Email</value>
     <comment></comment>
   </data>
-  <data name="Subject" xml:space="preserve">
-    <value>Subject</value>
-    <comment></comment>
-  </data>
-  <data name="Message" xml:space="preserve">
-    <value>Message</value>
-    <comment></comment>
-  </data>
   <data name="DateCreated" xml:space="preserve">
     <value>Date Created</value>
     <comment></comment>

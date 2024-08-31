@@ -400,6 +400,10 @@
     <value>Branch Customers</value>
     <comment>Sidebar Option String</comment>
   </data>
+  <data name="SubBranchCustomersNavlink" xml:space="preserve">
+    <value>Sub Branch Customers</value>
+    <comment>Sidebar Option String</comment>
+  </data>
   <data name="SubBranchCustomers" xml:space="preserve">
     <value>Sub Branch Customers</value>
     <comment>Sidebar Option String</comment>
@@ -589,11 +593,6 @@
   </data>
   <data name="ClickHereToChooseACorrectAddressBelow" xml:space="preserve">
     <value>Click here to choose a correct address below</value>
-    <comment></comment>
-  </data>
-  <!--Index-->
-  <data name="BranchCustomers" xml:space="preserve">
-    <value>Branch Customers</value>
     <comment></comment>
   </data>
   <!--Edit-->
@@ -969,6 +968,10 @@
   </data>
   <data name="GetTrialBalance" xml:space="preserve">
     <value>Get Trial Balance</value>
+    <comment></comment>
+  </data>
+  <data name="EmployeeUpdation" xml:space="preserve">
+    <value>Employee Updation</value>
     <comment></comment>
   </data>
 </root>

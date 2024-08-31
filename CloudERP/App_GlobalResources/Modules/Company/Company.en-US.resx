@@ -223,10 +223,6 @@
     <value>Employee Full Name</value>
     <comment></comment>
   </data>
-  <data name="EditProfile" xml:space="preserve">
-    <value>Edit Profile</value>
-    <comment></comment>
-  </data>
   <!--EmployeeSalary-->
   <data name="EmployeeSalary" xml:space="preserve">
     <value>Employee Salary</value>
@@ -355,10 +351,6 @@
     <value>Personal Profile</value>
     <comment></comment>
   </data>
-  <data name="EnterFocalPersonDetails" xml:space="preserve">
-    <value>Enter Focal Person Details</value>
-    <comment></comment>
-  </data>
   <data name="ContactNo" xml:space="preserve">
     <value>Contact №</value>
     <comment></comment>
@@ -375,59 +367,48 @@
     <value>Designation</value>
     <comment></comment>
   </data>
-  
   <data name="BasicSalary" xml:space="preserve">
     <value>Basic Salary</value>
     <comment></comment>
   </data>
-  
   <data name="Address" xml:space="preserve">
     <value>Address</value>
     <comment></comment>
   </data>
-  
   <!--Company Profile-->
   <data name="CompanyProfile" xml:space="preserve">
     <value>Company Profile</value>
     <comment></comment>
   </data>
-  
   <data name="EnterCompanyDetails" xml:space="preserve">
     <value>Enter Company Details</value>
     <comment></comment>
   </data>
-  
   <data name="BranchTitle" xml:space="preserve">
     <value>Branch Title</value>
     <comment></comment>
   </data>
-  
   <data name="BranchContact" xml:space="preserve">
     <value>Branch Contact</value>
     <comment></comment>
   </data>
-  
   <data name="BranchAddress" xml:space="preserve">
     <value>Branch Address</value>
     <comment></comment>
   </data>
-  
   <!--Finish-->
   <data name="Finish" xml:space="preserve">
     <value>Finish</value>
     <comment></comment>
   </data>
-  
   <data name="PleaseCheckBeforeSubmission" xml:space="preserve">
     <value>Please Check Before Submission</value>
     <comment></comment>
   </data>
-  
   <data name="OneLastCheck" xml:space="preserve">
     <value>One last check</value>
     <comment></comment>
   </data>
-  
   <data name="SubmitRegistration" xml:space="preserve">
     <value>Submit Registration</value>
     <comment></comment>

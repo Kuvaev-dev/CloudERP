@@ -101,65 +101,65 @@
 
   <data name="SubBranchBalanceSheet" xml:space="preserve">
     <value>Баланс филиала</value>
-</data>
+	</data>
   <data name="SelectFinancialYear" xml:space="preserve">
     <value>Выберите финансовый год</value>
-</data>
+	</data>
   <data name="RetrieveBalanceSheet" xml:space="preserve">
     <value>Получить баланс</value>
-</data>
+	</data>
   <data name="BalanceSheetStr" xml:space="preserve">
     <value>Баланс</value>
-</data>
+	</data>
   <data name="AccountTitle" xml:space="preserve">
-    <value>Название счета</value>
-</data>
+    <value>Название счёта</value>
+	</data>
   <data name="Amount" xml:space="preserve">
     <value>Сумма</value>
-</data>
+	</data>
   <data name="Total" xml:space="preserve">
     <value>Итого</value>
-</data>
+	</data>
   <data name="TotalAssets" xml:space="preserve">
     <value>Итоговые активы</value>
-</data>
+	</data>
   <data name="TotalLiabilities" xml:space="preserve">
     <value>Итоговые обязательства</value>
-</data>
+	</data>
   <data name="TotalOwnerEquity" xml:space="preserve">
     <value>Итоговый капитал</value>
-</data>
+	</data>
   <data name="TotalReturnEarning" xml:space="preserve">
     <value>Итоговая прибыль</value>
-</data>
+	</data>
   <data name="TotalBalanceLiabilitiesOwnerEquityReturnEarning" xml:space="preserve">
     <value>Итоговый баланс (Обязательства + Капитал + Прибыль)</value>
-</data>
+	</data>
 
-  <!--Создать-->
+  <!--Create-->
   <data name="AddFinancialYear" xml:space="preserve">
-    <value>Все годы финансирования</value>
-</data>
+    <value>Добавить год финансирования</value>
+	</data>
   <data name="NewFinancialYear" xml:space="preserve">
-    <value>Новый финансовый год</value>
-</data>
+    <value>Новый год финансирования</value>
+	</data>
   <data name="EnterFinancialYearTitle" xml:space="preserve">
     <value>Введите название финансового года</value>
-</data>
+	</data>
   <data name="StartDate" xml:space="preserve">
     <value>Дата начала</value>
-</data>
+	</data>
   <data name="EndDate" xml:space="preserve">
     <value>Дата окончания</value>
-</data>
+	</data>
   <data name="Status" xml:space="preserve">
     <value>Статус</value>
-</data>
-  <!--Редактировать-->
+	</data>
+  <!--Edit-->
   <data name="EditFinancialYear" xml:space="preserve">
-    <value>Редактировать финансовый год</value>
-</data>
+    <value>Редактировать год финансирования</value>
+	</data>
   <data name="FinancialYearTitle" xml:space="preserve">
     <value>Название финансового года</value>
-</data>
+	</data>
 </root>

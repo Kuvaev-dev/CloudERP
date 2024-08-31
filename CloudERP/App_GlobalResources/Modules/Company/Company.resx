@@ -219,10 +219,6 @@
     <value>Employee Full Name</value>
     <comment></comment>
   </data>
-  <data name="EditProfile" xml:space="preserve">
-    <value>Edit Profile</value>
-    <comment></comment>
-  </data>
   <!--EmployeeSalary-->
   <data name="EmployeeSalary" xml:space="preserve">
     <value>Employee Salary</value>

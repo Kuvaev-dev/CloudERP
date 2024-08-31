@@ -232,15 +232,6 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Area.
-        /// </summary>
-        internal static string Area {
-            get {
-                return ResourceManager.GetString("Area", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Ищет локализованную строку, похожую на Balance Sheet.
         /// </summary>
         internal static string BalanceSheet {
@@ -534,6 +525,15 @@ namespace Resources {
         internal static string EmployeeStatistics {
             get {
                 return ResourceManager.GetString("EmployeeStatistics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Employee Updation.
+        /// </summary>
+        internal static string EmployeeUpdation {
+            get {
+                return ResourceManager.GetString("EmployeeUpdation", resourceCulture);
             }
         }
         
@@ -1245,6 +1245,15 @@ namespace Resources {
         internal static string SubBranchCustomers {
             get {
                 return ResourceManager.GetString("SubBranchCustomers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Sub Branch Customers.
+        /// </summary>
+        internal static string SubBranchCustomersNavlink {
+            get {
+                return ResourceManager.GetString("SubBranchCustomersNavlink", resourceCulture);
             }
         }
         

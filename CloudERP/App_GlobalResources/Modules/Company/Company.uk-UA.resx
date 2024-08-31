@@ -103,306 +103,306 @@
   <data name="AllCompanies" xml:space="preserve">
     <value>Всі компанії</value>
     <comment></comment>
-</data>
+  </data>
   <data name="AddCompanyTitle" xml:space="preserve">
     <value>Додати компанію</value>
     <comment></comment>
-</data>
+  </data>
   <data name="CompanyTitle" xml:space="preserve">
     <value>Компанія</value>
     <comment></comment>
-</data>
+  </data>
   <data name="Logo" xml:space="preserve">
     <value>Логотип</value>
     <comment></comment>
-</data>
+  </data>
   <data name="UpdateProfile" xml:space="preserve">
     <value>Оновити профіль</value>
     <comment></comment>
-</data>
+  </data>
   <!--Create-->
   <data name="EnterCompanyTitle" xml:space="preserve">
     <value>Введіть назву компанії</value>
     <comment></comment>
-</data>
+  </data>
   <data name="EnterCompanyLogo" xml:space="preserve">
     <value>Завантажте логотип компанії</value>
     <comment></comment>
-</data>
+  </data>
   <data name="EnterCompanyDescription" xml:space="preserve">
     <value>Введіть опис компанії</value>
     <comment></comment>
-</data>
+  </data>
   <!--Edit-->
   <data name="EditCompany" xml:space="preserve">
     <value>Редагувати компанію</value>
     <comment></comment>
-</data>
+  </data>
   <data name="EnterNewCompanyTitle" xml:space="preserve">
     <value>Введіть нову назву компанії</value>
     <comment></comment>
-</data>
+  </data>
   <data name="EnterNewCompanyLogo" xml:space="preserve">
     <value>Завантажте новий логотип компанії</value>
     <comment></comment>
-</data>
+  </data>
   <data name="EnterNewCompanyDescription" xml:space="preserve">
     <value>Введіть новий опис компанії</value>
     <comment></comment>
-</data>
+  </data>
   <!--Details-->
   <data name="CompanyDetails" xml:space="preserve">
     <value>Дані компанії</value>
     <comment></comment>
-</data>
+  </data>
   <data name="EditProfile" xml:space="preserve">
     <value>Редагувати профіль</value>
     <comment></comment>
-</data>
+  </data>
 
   <!--CompanyEmployee-->
   <!--Employees-->
   <data name="AllEmployees" xml:space="preserve">
     <value>Всі співробітники</value>
     <comment></comment>
-</data>
+  </data>
   <data name="AddEmployee" xml:space="preserve">
     <value>Додати співробітника</value>
     <comment></comment>
-</data>
+  </data>
   <data name="Designation" xml:space="preserve">
     <value>Посада</value>
     <comment></comment>
-</data>
+  </data>
   <data name="Profile" xml:space="preserve">
     <value>Профіль</value>
     <comment></comment>
-</data>
+  </data>
   <data name="UpdateUser" xml:space="preserve">
     <value>Оновити користувача</value>
     <comment></comment>
-</data>
+  </data>
   <data name="CreateUser" xml:space="preserve">
     <value>Створити користувача</value>
     <comment></comment>
-</data>
+  </data>
   <data name="Photo" xml:space="preserve">
     <value>Фото</value>
     <comment></comment>
-</data>
+  </data>
   <!--EmployeeRegistration-->
   <data name="EmployeeRegistration" xml:space="preserve">
     <value>Реєстрація співробітника</value>
     <comment></comment>
-</data>
+  </data>
   <data name="SelectBranch" xml:space="preserve">
     <value>Оберіть філію</value>
     <comment></comment>
-</data>
+  </data>
   <data name="Register" xml:space="preserve">
     <value>Зареєструвати</value>
     <comment></comment>
-</data>
+  </data>
   <data name="Address" xml:space="preserve">
     <value>Адреса</value>
     <comment></comment>
-</data>
+  </data>
   <data name="Description" xml:space="preserve">
     <value>Опис</value>
     <comment></comment>
-</data>
+  </data>
   <data name="BasicSalary" xml:space="preserve">
     <value>Основна зарплата</value>
     <comment></comment>
-</data>
+  </data>
   <!--EmployeeProfile-->
   <data name="EmployeeProfile" xml:space="preserve">
     <value>Профіль співробітника</value>
     <comment></comment>
-</data>
+  </data>
   <data name="EmployeeName" xml:space="preserve">
-    <value>Ім'я співробітника</value>
+    <value>Повне ім'я співробітника</value>
     <comment></comment>
-</data>
+  </data>
   <data name="EditProfile" xml:space="preserve">
     <value>Редагувати профіль</value>
     <comment></comment>
-</data>
+  </data>
   <!--EmployeeSalary-->
   <data name="EmployeeSalary" xml:space="preserve">
     <value>Зарплата співробітника</value>
     <comment></comment>
-</data>
+  </data>
   <data name="EnterEmployeeTIN" xml:space="preserve">
     <value>Введіть ІПН співробітника</value>
     <comment></comment>
-</data>
+  </data>
   <data name="MonthlySalaryAmount" xml:space="preserve">
     <value>Сума місячної зарплати</value>
     <comment></comment>
-</data>
+  </data>
   <data name="SalaryOfTheMonth" xml:space="preserve">
     <value>Зарплата за місяць</value>
     <comment></comment>
-</data>
+  </data>
   <data name="SalaryYear" xml:space="preserve">
-    <value>Рік зарплати</value>
+    <value>Рік виплати зарплати</value>
     <comment></comment>
-</data>
+  </data>
   <data name="ProcessSalary" xml:space="preserve">
     <value>Обробити зарплату</value>
     <comment></comment>
-</data>
+  </data>
   <data name="Search" xml:space="preserve">
     <value>Пошук</value>
     <comment></comment>
-</data>
+  </data>
   <!--SalaryHistory-->
   <data name="SalariesSucceedList" xml:space="preserve">
-    <value>Список успішних зарплат</value>
+    <value>Список успішно сплачених зарплат</value>
     <comment></comment>
-</data>
+  </data>
   <data name="Employee" xml:space="preserve">
     <value>Співробітник</value>
     <comment></comment>
-</data>
+  </data>
   <data name="InvoiceNo" xml:space="preserve">
-    <value>Рахунок №</value>
+    <value>Номер рахунку</value>
     <comment></comment>
-</data>
+  </data>
   <data name="Date" xml:space="preserve">
     <value>Дата</value>
     <comment></comment>
-</data>
+  </data>
   <data name="PaidSalary" xml:space="preserve">
     <value>Виплачена зарплата</value>
     <comment></comment>
-</data>
+  </data>
   <data name="SalaryMonth" xml:space="preserve">
-    <value>Місяць зарплати</value>
+    <value>Місяць виплати зарплати</value>
     <comment></comment>
-</data>
+  </data>
   <data name="CreatedBy" xml:space="preserve">
     <value>Створено</value>
     <comment></comment>
-</data>
+  </data>
   <data name="SalaryInvoice" xml:space="preserve">
     <value>Рахунок на зарплату</value>
     <comment></comment>
-</data>
+  </data>
   <data name="PrintPayroll" xml:space="preserve">
     <value>Друкувати розрахунковий лист</value>
     <comment></comment>
-</data>
+  </data>
   <!--PrintSalaryInvoice-->
   <data name="PrintSalaryInvoice" xml:space="preserve">
     <value>Друкувати рахунок на зарплату</value>
     <comment></comment>
-</data>
+  </data>
   <data name="PrintInvoiceNo" xml:space="preserve">
-    <value>РАХУНОК №</value>
+    <value>НОМЕР РАХУНКУ</value>
     <comment></comment>
-</data>
+  </data>
   <data name="PrintDate" xml:space="preserve">
     <value>Дата друку</value>
     <comment></comment>
-</data>
+  </data>
   <data name="SalaryPaidDate" xml:space="preserve">
     <value>Дата виплати зарплати</value>
     <comment></comment>
-</data>
+  </data>
   <data name="TotalSalary" xml:space="preserve">
     <value>Загальна зарплата</value>
     <comment></comment>
-</data>
+  </data>
   <data name="Print" xml:space="preserve">
     <value>Друк</value>
     <comment></comment>
-</data>
+  </data>
 
   <!--CompanyRegistration-->
   <!--RegistrationForm-->
   <data name="AddNewCompany" xml:space="preserve">
     <value>Додати нову компанію</value>
     <comment></comment>
-</data>
+  </data>
   <data name="Registration" xml:space="preserve">
     <value>Реєстрація</value>
     <comment></comment>
-</data>
+  </data>
   <data name="Mandatory" xml:space="preserve">
-    <value>Обов'язкове</value>
+    <value>Обов'язково</value>
     <comment></comment>
-</data>
+  </data>
   <!--Personal Profile-->
   <data name="PersonalProfile" xml:space="preserve">
     <value>Персональний профіль</value>
     <comment></comment>
-</data>
+  </data>
   <data name="EnterFocalPersonDetails" xml:space="preserve">
-  <value>Введіть дані контактної особи</value>
-  <comment></comment>
-</data>
+    <value>Введіть дані контактної особи</value>
+    <comment></comment>
+  </data>
   <data name="ContactNo" xml:space="preserve">
-  <value>Контактний №</value>
-  <comment></comment>
-</data>
+    <value>Номер телефону</value>
+    <comment></comment>
+  </data>
   <data name="Email" xml:space="preserve">
-  <value>Електронна пошта</value>
-  <comment></comment>
-</data>
+    <value>Електронна пошта</value>
+    <comment></comment>
+  </data>
   <data name="CityIndex" xml:space="preserve">
-  <value>Індекс міста</value>
-  <comment></comment>
-</data>
+    <value>Індекс міста</value>
+    <comment></comment>
+  </data>
   <data name="Designation" xml:space="preserve">
-  <value>Посада</value>
-  <comment></comment>
-</data>
+    <value>Посада</value>
+    <comment></comment>
+  </data>
   <data name="BasicSalary" xml:space="preserve">
-  <value>Основна зарплата</value>
-  <comment></comment>
-</data>
+    <value>Основна зарплата</value>
+    <comment></comment>
+  </data>
   <data name="Address" xml:space="preserve">
-  <value>Адреса</value>
-  <comment></comment>
-</data>
+    <value>Адреса</value>
+    <comment></comment>
+  </data>
   <!--Company Profile-->
   <data name="CompanyProfile" xml:space="preserve">
-  <value>Профіль компанії</value>
-  <comment></comment>
-</data>
+    <value>Профіль компанії</value>
+    <comment></comment>
+  </data>
   <data name="EnterCompanyDetails" xml:space="preserve">
-  <value>Введіть дані компанії</value>
-  <comment></comment>
-</data>
+    <value>Введіть дані компанії</value>
+    <comment></comment>
+  </data>
   <data name="BranchTitle" xml:space="preserve">
-  <value>Назва філії</value>
-  <comment></comment>
-</data>
+    <value>Назва філії</value>
+    <comment></comment>
+  </data>
   <data name="BranchContact" xml:space="preserve">
-  <value>Контактний номер філії</value>
-  <comment></comment>
-</data>
+    <value>Контактний номер філії</value>
+    <comment></comment>
+  </data>
   <data name="BranchAddress" xml:space="preserve">
-  <value>Адреса філії</value>
-  <comment></comment>
-</data>
+    <value>Адреса філії</value>
+    <comment></comment>
+  </data>
   <!--Finish-->
   <data name="Finish" xml:space="preserve">
-  <value>Завершити</value>
-  <comment></comment>
-</data>
+    <value>Завершити</value>
+    <comment></comment>
+  </data>
   <data name="PleaseCheckBeforeSubmission" xml:space="preserve">
-  <value>Перевірте перед відправкою</value>
-  <comment></comment>
-</data>
+    <value>Перевірте перед відправкою</value>
+    <comment></comment>
+  </data>
   <data name="OneLastCheck" xml:space="preserve">
-  <value>Остання перевірка</value>
-  <comment></comment>
-</data>
+    <value>Остання перевірка</value>
+    <comment></comment>
+  </data>
   <data name="SubmitRegistration" xml:space="preserve">
-  <value>Відправити реєстрацію</value>
-  <comment></comment>
-</data>
+    <value>Відправити реєстрацію</value>
+    <comment></comment>
+  </data>
 </root>

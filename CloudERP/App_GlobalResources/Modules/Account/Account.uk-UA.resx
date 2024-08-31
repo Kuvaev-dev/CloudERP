@@ -104,221 +104,209 @@
   <!-- Index -->
   <data name="AllAccountControls" xml:space="preserve">
     <value>Всі контрольні рахунки</value>
-</data>
+  </data>
   <data name="AddAccountControl" xml:space="preserve">
     <value>Додати контрольний рахунок</value>
-</data>
+  </data>
   <data name="AccountHeadTitle" xml:space="preserve">
     <value>Головний рахунок</value>
-</data>
+  </data>
   <data name="AccountControlTitle" xml:space="preserve">
     <value>Контрольний рахунок</value>
-</data>
+  </data>
   <data name="User" xml:space="preserve">
     <value>Користувач</value>
-</data>
+  </data>
   <!-- Create -->
   <data name="NewAccountControl" xml:space="preserve">
     <value>Новий контрольний рахунок</value>
-</data>
+  </data>
   <data name="SelectAccountHead" xml:space="preserve">
-    <value>Виберіть головний рахунок</value>
-</data>
+    <value>Оберіть головний рахунок</value>
+  </data>
   <!-- Edit -->
   <data name="EditAccountControl" xml:space="preserve">
     <value>Редагувати контрольний рахунок</value>
-</data>
+  </data>
   <data name="EnterAccountHeadID" xml:space="preserve">
     <value>Введіть ID головного рахунку</value>
-</data>
+  </data>
   <!--AccountHead-->
 
   <!-- Index -->
   <data name="AllAccountHeads" xml:space="preserve">
     <value>Всі головні рахунки</value>
-</data>
+  </data>
   <data name="AddAccountHead" xml:space="preserve">
     <value>Додати головний рахунок</value>
-</data>
+  </data>
   <data name="AccountHeadTitle" xml:space="preserve">
     <value>Головний рахунок</value>
-</data>
+  </data>
   <data name="Code" xml:space="preserve">
     <value>Код</value>
-</data>
-  <data name="User" xml:space="preserve">
-    <value>Користувач</value>
-</data>
+  </data>
   <!-- Create -->
   <data name="NewAccountHead" xml:space="preserve">
     <value>Новий головний рахунок</value>
-</data>
+  </data>
   <data name="HeadCode" xml:space="preserve">
     <value>Код головного рахунку</value>
-</data>
+  </data>
   <!-- Edit -->
   <data name="EditAccountHead" xml:space="preserve">
     <value>Редагувати головний рахунок</value>
-</data>
+  </data>
   <!--AccountSetting-->
 
   <!-- Index -->
   <data name="ManageTransactions" xml:space="preserve">
     <value>Керування транзакціями</value>
-</data>
+  </data>
   <data name="SetAccountingFlow" xml:space="preserve">
     <value>Налаштувати обліковий потік</value>
-</data>
+  </data>
   <data name="Activity" xml:space="preserve">
     <value>Активність</value>
-</data>
+  </data>
   <data name="HeadAccount" xml:space="preserve">
     <value>Головний рахунок</value>
-</data>
-  <data name="ControlAccount" xml:space="preserve">
-    <value>Контрольний рахунок</value>
-</data>
+  </data>
   <data name="SubAccount" xml:space="preserve">
     <value>Субрахунок</value>
-</data>
+  </data>
   <!-- Create -->
   <data name="NewAccountSetting" xml:space="preserve">
-    <value>Нова налаштування рахунку</value>
-</data>
+    <value>Нове налаштування рахунку</value>
+  </data>
   <data name="SelectHeadAccount" xml:space="preserve">
-    <value>Виберіть головний рахунок</value>
-</data>
+    <value>Оберіть головний рахунок</value>
+  </data>
   <data name="SelectControlAccount" xml:space="preserve">
-    <value>Виберіть контрольний рахунок</value>
-</data>
+    <value>Оберіть контрольний рахунок</value>
+  </data>
   <data name="SelectSubControlAccount" xml:space="preserve">
-    <value>Виберіть субрахунок</value>
-</data>
+    <value>Оберіть субрахунок</value>
+  </data>
   <data name="SelectActivity" xml:space="preserve">
-    <value>Виберіть активність</value>
-</data>
+    <value>Оберіть активність</value>
+  </data>
   <!--AccountSubControl-->
 
   <!-- Index -->
   <data name="AllAccountSubControls" xml:space="preserve">
     <value>Всі субрахунки</value>
-</data>
+  </data>
   <data name="AddAccountSubControl" xml:space="preserve">
     <value>Додати субрахунок</value>
-</data>
-  <data name="HeadAccount" xml:space="preserve">
-    <value>Головний рахунок</value>
-</data>
+  </data>
   <data name="ControlAccount" xml:space="preserve">
     <value>Контрольний рахунок</value>
-</data>
+  </data>
   <data name="SubControlAccount" xml:space="preserve">
     <value>Субрахунок</value>
-</data>
+  </data>
   <data name="User" xml:space="preserve">
     <value>Користувач</value>
-</data>
+  </data>
   <!-- Create -->
   <data name="NewAccountSubControl" xml:space="preserve">
     <value>Новий субрахунок</value>
-</data>
+  </data>
   <data name="SelectSubAccount" xml:space="preserve">
-    <value>Виберіть субрахунок</value>
-</data>
+    <value>Оберіть субрахунок</value>
+  </data>
   <data name="AccountSubControlName" xml:space="preserve">
     <value>Назва субрахунку</value>
-</data>
+  </data>
   <!-- Edit -->
   <data name="EditSubControl" xml:space="preserve">
     <value>Редагувати субрахунок</value>
-</data>
+  </data>
   <data name="NewAccountSubControlName" xml:space="preserve">
     <value>Нова назва субрахунку</value>
-</data>
-  <data name="SelectControlAccount" xml:space="preserve">
-    <value>Виберіть контрольний рахунок</value>
-</data>
+  </data>
   <!--UserSetting-->
 
   <!-- CreateUser + UpdateUser -->
   <data name="CreateUser" xml:space="preserve">
     <value>Створити користувача</value>
-</data>
+  </data>
   <data name="UserTypeID" xml:space="preserve">
     <value>Тип користувача</value>
-</data>
+  </data>
   <data name="FullName" xml:space="preserve">
     <value>Повне ім'я</value>
-</data>
+  </data>
   <data name="Email" xml:space="preserve">
-    <value>Email</value>
-</data>
+    <value>Електронна пошта</value>
+  </data>
   <data name="ContactNo" xml:space="preserve">
-    <value>Контактний №</value>
-</data>
+    <value>Номер телефону</value>
+  </data>
   <data name="UserName" xml:space="preserve">
     <value>Ім'я користувача</value>
-</data>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Пароль</value>
-</data>
+  </data>
   <data name="Status" xml:space="preserve">
     <value>Статус</value>
-</data>
+  </data>
   <!-- UpdateUser -->
   <data name="UpdateUser" xml:space="preserve">
     <value>Оновити користувача</value>
-</data>
+  </data>
   <data name="NewUserTypeID" xml:space="preserve">
     <value>Введіть новий тип користувача</value>
-</data>
+  </data>
   <data name="NewFullName" xml:space="preserve">
     <value>Введіть нове повне ім'я</value>
-</data>
+  </data>
   <data name="NewEmail" xml:space="preserve">
-    <value>Введіть новий Email</value>
-</data>
+    <value>Введіть нову електронну пошту</value>
+  </data>
   <data name="NewContactNo" xml:space="preserve">
-    <value>Введіть новий контактний №</value>
-</data>
+    <value>Введіть новий номер телефону</value>
+  </data>
   <data name="NewUserName" xml:space="preserve">
     <value>Введіть нове ім'я користувача</value>
-</data>
+  </data>
   <data name="NewPassword" xml:space="preserve">
     <value>Введіть новий пароль</value>
-</data>
+  </data>
   <data name="NewStatus" xml:space="preserve">
-    <value>Введіть новий статус</value>
-</data>
+    <value>Оберіть новий статус</value>
+  </data>
   <!--UserType-->
 
   <!-- Index -->
   <data name="AllUserTypes" xml:space="preserve">
     <value>Всі типи користувачів</value>
-</data>
+  </data>
   <data name="AddUserType" xml:space="preserve">
     <value>Додати тип користувача</value>
-</data>
+  </data>
   <data name="UserType" xml:space="preserve">
     <value>Тип користувача</value>
-</data>
+  </data>
   <!-- Create -->
   <data name="AddNewUserType" xml:space="preserve">
     <value>Додати новий тип користувача</value>
-</data>
+  </data>
   <!-- Details -->
   <data name="UserTypeDetails" xml:space="preserve">
     <value>Деталі типу користувача</value>
-</data>
+  </data>
   <!-- Edit -->
   <data name="EditUserType" xml:space="preserve">
     <value>Редагувати тип користувача</value>
-</data>
+  </data>
   <!-- Delete -->
   <data name="Delete" xml:space="preserve">
     <value>Видалити тип користувача</value>
-</data>
+  </data>
   <data name="DeleteQuestion" xml:space="preserve">
     <value>Ви впевнені, що хочете видалити цей тип користувача?</value>
-</data>
+  </data>
 </root>

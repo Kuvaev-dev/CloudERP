@@ -101,68 +101,76 @@
   <!--User-->
   <!--Index-->
   <data name="AllUsers" xml:space="preserve">
-  <value>Усі користувачі</value>
-</data>
+		<value>Усі користувачі</value>
+	</data>
   <data name="FullName" xml:space="preserve">
-  <value>Повне ім'я</value>
-</data>
+		<value>Повне ім'я</value>
+	</data>
   <data name="EmailAddress" xml:space="preserve">
-  <value>Електронна пошта</value>
-</data>
+		<value>Електронна пошта</value>
+	</data>
   <data name="ContactNo" xml:space="preserve">
-  <value>Контактний номер</value>
-</data>
+		<value>Контактний номер</value>
+	</data>
   <data name="UserName" xml:space="preserve">
-  <value>Ім'я користувача</value>
-</data>
+		<value>Ім'я користувача</value>
+	</data>
   <data name="Password" xml:space="preserve">
-  <value>Пароль</value>
-</data>
+		<value>Пароль</value>
+	</data>
   <data name="Status" xml:space="preserve">
-  <value>Статус</value>
-</data>
+		<value>Статус</value>
+	</data>
   <data name="UserType" xml:space="preserve">
-  <value>Тип користувача</value>
-</data>
+		<value>Тип користувача</value>
+	</data>
   <!--Edit-->
   <data name="EditUser" xml:space="preserve">
-  <value>Редагувати користувача</value>
-</data>
+		<value>Редагувати користувача</value>
+	</data>
   <!--Details-->
   <data name="UserDetails" xml:space="preserve">
-  <value>Деталі користувача</value>
-</data>
+		<value>Деталі користувача</value>
+	</data>
+  <data name="TIN" xml:space="preserve">
+    <value>ІНПП</value>
+    <comment></comment>
+  </data>
+  <data name="MonthlySalary" xml:space="preserve">
+    <value>Місячна зарплата</value>
+    <comment></comment>
+  </data>
 
   <!--EmployeeStatistics-->
 
   <data name="EmployeeRegistrationStatistics" xml:space="preserve">
-  <value>Статистика реєстрації співробітників</value>
-</data>
+		<value>Статистика реєстрації співробітників</value>
+	</data>
   <data name="SelectRangeFromDateAndToDate" xml:space="preserve">
-  <value>Виберіть діапазон (від дати до дати)</value>
-</data>
+		<value>Оберіть діапазон (Від дати і До дати)</value>
+	</data>
   <data name="SelectFromDate" xml:space="preserve">
-  <value>Виберіть дату початку</value>
-</data>
+		<value>Оберіть дату початку</value>
+	</data>
   <data name="SelectToDate" xml:space="preserve">
-  <value>Виберіть дату закінчення</value>
-</data>
+		<value>Оберіть дату закінчення</value>
+	</data>
   <data name="Retrieve" xml:space="preserve">
-  <value>Отримати</value>
-</data>
+		<value>Отримати</value>
+	</data>
   <data name="Statistics" xml:space="preserve">
-  <value>Статистика</value>
-</data>
+		<value>Статистика</value>
+	</data>
   <data name="NumberOfRegistrations" xml:space="preserve">
-  <value>Кількість реєстрацій</value>
-</data>
+		<value>Кількість реєстрацій</value>
+	</data>
   <data name="ChartData" xml:space="preserve">
-  <value>Дані графіку</value>
-</data>
+		<value>Дані графіку</value>
+	</data>
   <data name="CanvasContextNotFound" xml:space="preserve">
-  <value>Контекст полотна не знайдено</value>
-</data>
+		<value>Контекст полотна не знайдено</value>
+	</data>
   <data name="CanvasElementWithIdChartContainerNotFound" xml:space="preserve">
-  <value>Елемент полотна з id "chartContainer" не знайдено</value>
-</data>
+		<value>Елемент полотна з id "chartContainer" не знайдено</value>
+	</data>
 </root>

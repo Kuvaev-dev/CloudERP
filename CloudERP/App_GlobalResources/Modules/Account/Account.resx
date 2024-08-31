@@ -103,229 +103,217 @@
   <!-- Index -->
   <data name="AllAccountControls" xml:space="preserve">
     <value>All Account Controls</value>
-</data>
+  </data>
   <data name="AddAccountControl" xml:space="preserve">
     <value>Add Account Control</value>
-</data>
+  </data>
   <data name="AccountHeadTitle" xml:space="preserve">
     <value>Account Head</value>
-</data>
+  </data>
   <data name="AccountControlTitle" xml:space="preserve">
     <value>Account Control</value>
-</data>
+  </data>
   <data name="User" xml:space="preserve">
     <value>User</value>
-</data>
+  </data>
   <!-- Create -->
   <data name="NewAccountControl" xml:space="preserve">
     <value>New Account Control</value>
-</data>
+  </data>
   <data name="SelectAccountHead" xml:space="preserve">
     <value>Select Account Head</value>
-</data>
+  </data>
   <!-- Edit -->
   <data name="EditAccountControl" xml:space="preserve">
     <value>Edit Account Control</value>
-</data>
+  </data>
   <data name="EnterAccountHeadID" xml:space="preserve">
     <value>Enter Account Head ID</value>
-</data>
+  </data>
 
   <!--AccountHead-->
   <!-- Index -->
   <data name="AllAccountHeads" xml:space="preserve">
     <value>All Account Heads</value>
-</data>
+  </data>
   <data name="AddAccountHead" xml:space="preserve">
     <value>Add Account Head</value>
-</data>
+  </data>
   <data name="AccountHeadTitle" xml:space="preserve">
     <value>Account Head</value>
-</data>
+  </data>
   <data name="Code" xml:space="preserve">
     <value>Code</value>
-</data>
-  <data name="User" xml:space="preserve">
-    <value>User</value>
-</data>
+  </data>
   <!-- Create -->
   <data name="NewAccountHead" xml:space="preserve">
     <value>New Account Head</value>
-</data>
+  </data>
   <data name="HeadCode" xml:space="preserve">
     <value>Head Code</value>
-</data>
+  </data>
   <!-- Edit -->
   <data name="EditAccountHead" xml:space="preserve">
     <value>Edit Account Head</value>
-</data>
+  </data>
 
   <!--AccountSetting-->
   <!-- Index -->
   <data name="ManageTransactions" xml:space="preserve">
     <value>Manage Transactions</value>
-</data>
+  </data>
   <data name="SetAccountingFlow" xml:space="preserve">
     <value>Set Accounting Flow</value>
-</data>
+  </data>
   <data name="Activity" xml:space="preserve">
     <value>Activity</value>
-</data>
+  </data>
   <data name="HeadAccount" xml:space="preserve">
     <value>Head Account</value>
-</data>
-  <data name="ControlAccount" xml:space="preserve">
-    <value>Control Account</value>
-</data>
+  </data>
   <data name="SubAccount" xml:space="preserve">
     <value>Sub Account</value>
-</data>
+  </data>
 
   <!-- Create -->
   <data name="NewAccountSetting" xml:space="preserve">
     <value>New Account Setting</value>
-</data>
+  </data>
   <data name="SelectHeadAccount" xml:space="preserve">
     <value>Select Head Account</value>
-</data>
+  </data>
   <data name="SelectControlAccount" xml:space="preserve">
     <value>Select Control Account</value>
-</data>
+  </data>
   <data name="SelectSubControlAccount" xml:space="preserve">
     <value>Select Sub Control Account</value>
-</data>
+  </data>
   <data name="SelectActivity" xml:space="preserve">
     <value>Select Activity</value>
-</data>
+  </data>
 
   <!--AccountSubControl-->
   <!-- Index -->
   <data name="AllAccountSubControls" xml:space="preserve">
     <value>All Account Sub Controls</value>
-</data>
+  </data>
   <data name="AddAccountSubControl" xml:space="preserve">
     <value>Add Account Sub Control</value>
-</data>
-  <data name="HeadAccount" xml:space="preserve">
-    <value>Head Account</value>
-</data>
+  </data>
   <data name="ControlAccount" xml:space="preserve">
     <value>Control Account</value>
-</data>
+  </data>
   <data name="SubControlAccount" xml:space="preserve">
     <value>Sub Control Account</value>
-</data>
+  </data>
   <data name="User" xml:space="preserve">
     <value>User</value>
-</data>
+  </data>
 
   <!-- Create -->
   <data name="NewAccountSubControl" xml:space="preserve">
     <value>New Account Sub Control</value>
-</data>
+  </data>
   <data name="SelectSubAccount" xml:space="preserve">
     <value>Select Sub Account</value>
-</data>
+  </data>
   <data name="AccountSubControlName" xml:space="preserve">
     <value>Account Sub Control Name</value>
-</data>
+  </data>
 
   <!-- Edit -->
   <data name="EditSubControl" xml:space="preserve">
     <value>Edit Sub Control</value>
-</data>
+  </data>
   <data name="NewAccountSubControlName" xml:space="preserve">
     <value>New Account Sub Control Name</value>
-</data>
-  <data name="SelectControlAccount" xml:space="preserve">
-    <value>Select Control Account</value>
-</data>
+  </data>
 
   <!--UserSetting-->
   <!-- CreateUser + UpdateUser -->
   <data name="CreateUser" xml:space="preserve">
     <value>Create User</value>
-</data>
+  </data>
   <data name="UserTypeID" xml:space="preserve">
     <value>User Type</value>
-</data>
+  </data>
   <data name="FullName" xml:space="preserve">
     <value>Full Name</value>
-</data>
+  </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>
-</data>
+  </data>
   <data name="ContactNo" xml:space="preserve">
     <value>Contact №</value>
-</data>
+  </data>
   <data name="UserName" xml:space="preserve">
     <value>User Name</value>
-</data>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Password</value>
-</data>
+  </data>
   <data name="Status" xml:space="preserve">
     <value>Status</value>
-</data>
+  </data>
 
   <!-- UpdateUser -->
   <data name="UpdateUser" xml:space="preserve">
     <value>Update User</value>
-</data>
+  </data>
   <data name="NewUserTypeID" xml:space="preserve">
     <value>Enter New User Type</value>
-</data>
+  </data>
   <data name="NewFullName" xml:space="preserve">
     <value>Enter New Full Name</value>
-</data>
+  </data>
   <data name="NewEmail" xml:space="preserve">
     <value>Enter New Email</value>
-</data>
+  </data>
   <data name="NewContactNo" xml:space="preserve">
     <value>Enter New Contact №</value>
-</data>
+  </data>
   <data name="NewUserName" xml:space="preserve">
     <value>Enter New User Name</value>
-</data>
+  </data>
   <data name="NewPassword" xml:space="preserve">
     <value>Enter New Password</value>
-</data>
+  </data>
   <data name="NewStatus" xml:space="preserve">
     <value>Enter New Status</value>
-</data>
+  </data>
 
   <!--UserType-->
   <!-- Index -->
   <data name="AllUserTypes" xml:space="preserve">
     <value>All User Types</value>
-</data>
+  </data>
   <data name="AddUserType" xml:space="preserve">
     <value>Add User Type</value>
-</data>
+  </data>
   <data name="UserType" xml:space="preserve">
     <value>User Type</value>
-</data>
+  </data>
 
   <!-- Create -->
   <data name="AddNewUserType" xml:space="preserve">
     <value>Add New User Type</value>
-</data>
+  </data>
 
   <!-- Details -->
   <data name="UserTypeDetails" xml:space="preserve">
     <value>User Type Details</value>
-</data>
+  </data>
 
   <!-- Edit -->
   <data name="EditUserType" xml:space="preserve">
     <value>Edit User Type</value>
-</data>
+  </data>
 
   <!-- Delete -->
   <data name="Delete" xml:space="preserve">
     <value>Delete User Type</value>
-</data>
+  </data>
   <data name="DeleteQuestion" xml:space="preserve">
     <value>Are you sure you want to delete this User Type?</value>
-</data>
+  </data>
 </root>

@@ -20,7 +20,7 @@
         @Html.HiddenFor(model => model.EmployeeID)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Name, Resources.Miscellaneous.EmployeeName, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Name, Resources.Company.EmployeeName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
@@ -69,7 +69,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.MonthlySalary, Resources.Miscellaneous.MonthlySalary, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.MonthlySalary, Resources.User.MonthlySalary, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.MonthlySalary, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.MonthlySalary, "", new { @class = "text-danger" })
@@ -97,7 +97,7 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-5">
                 <input type="submit" value="@Resources.Common.Save" class="btn btn-success" />
-                @Html.ActionLink(Resources.Miscellaneous.AllEmployees, "Employee", null, new { @class = "btn btn-default" })
+                @Html.ActionLink(Resources.Company.AllEmployees, "Employee", null, new { @class = "btn btn-default" })
             </div>
         </div>
     </div>

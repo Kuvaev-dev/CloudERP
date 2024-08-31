@@ -159,4 +159,8 @@
     <value>Sub Branches</value>
     <comment></comment>
   </data>
+  <data name="EmployeeProfile" xml:space="preserve">
+    <value>Employee Profile</value>
+    <comment></comment>
+  </data>
 </root>

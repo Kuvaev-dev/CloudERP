@@ -99,223 +99,217 @@
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
   <!--Company-->
-
   <data name="AllCompanies" xml:space="preserve">
     <value>Все компании</value>
     <comment></comment>
-</data>
+  </data>
   <data name="AddCompanyTitle" xml:space="preserve">
     <value>Добавить компанию</value>
     <comment></comment>
-</data>
+  </data>
   <data name="CompanyTitle" xml:space="preserve">
     <value>Компания</value>
     <comment></comment>
-</data>
+  </data>
   <data name="Logo" xml:space="preserve">
     <value>Логотип</value>
     <comment></comment>
-</data>
+  </data>
   <data name="UpdateProfile" xml:space="preserve">
     <value>Обновить профиль</value>
     <comment></comment>
-</data>
+  </data>
   <!--Create-->
   <data name="AddNewCompany" xml:space="preserve">
     <value>Добавить новую компанию</value>
     <comment></comment>
-</data>
+  </data>
   <data name="EnterCompanyTitle" xml:space="preserve">
     <value>Введите название компании</value>
     <comment></comment>
-</data>
+  </data>
   <data name="EnterCompanyLogo" xml:space="preserve">
     <value>Загрузите логотип компании</value>
     <comment></comment>
-</data>
+  </data>
   <data name="EnterCompanyDescription" xml:space="preserve">
     <value>Введите описание компании</value>
     <comment></comment>
-</data>
+  </data>
   <!--Edit-->
   <data name="EditCompany" xml:space="preserve">
     <value>Редактировать компанию</value>
     <comment></comment>
-</data>
+  </data>
   <data name="EnterNewCompanyTitle" xml:space="preserve">
     <value>Введите новое название компании</value>
     <comment></comment>
-</data>
+  </data>
   <data name="EnterNewCompanyLogo" xml:space="preserve">
     <value>Загрузите новый логотип компании</value>
     <comment></comment>
-</data>
+  </data>
   <data name="EnterNewCompanyDescription" xml:space="preserve">
     <value>Введите новое описание компании</value>
     <comment></comment>
-</data>
+  </data>
   <!--Details-->
   <data name="CompanyDetails" xml:space="preserve">
     <value>Детали компании</value>
     <comment></comment>
-</data>
+  </data>
   <data name="EditProfile" xml:space="preserve">
     <value>Редактировать профиль</value>
     <comment></comment>
-</data>
+  </data>
 
   <!--CompanyEmployee-->
-
   <!--Employees-->
   <data name="AllEmployees" xml:space="preserve">
     <value>Все сотрудники</value>
     <comment></comment>
-</data>
+  </data>
   <data name="AddEmployee" xml:space="preserve">
     <value>Добавить сотрудника</value>
     <comment></comment>
-</data>
+  </data>
   <data name="Designation" xml:space="preserve">
     <value>Должность</value>
     <comment></comment>
-</data>
+  </data>
   <data name="Profile" xml:space="preserve">
     <value>Профиль</value>
     <comment></comment>
-</data>
+  </data>
   <data name="UpdateUser" xml:space="preserve">
     <value>Обновить пользователя</value>
     <comment></comment>
-</data>
+  </data>
   <data name="CreateUser" xml:space="preserve">
     <value>Создать пользователя</value>
     <comment></comment>
-</data>
+  </data>
   <data name="Photo" xml:space="preserve">
     <value>Фото</value>
     <comment></comment>
-</data>
+  </data>
   <!--EmployeeRegistration-->
   <data name="EmployeeRegistration" xml:space="preserve">
     <value>Регистрация сотрудника</value>
     <comment></comment>
-</data>
+  </data>
   <data name="SelectBranch" xml:space="preserve">
     <value>Выберите филиал</value>
     <comment></comment>
-</data>
+  </data>
   <data name="Register" xml:space="preserve">
     <value>Регистрация</value>
     <comment></comment>
-</data>
+  </data>
   <data name="Description" xml:space="preserve">
     <value>Описание</value>
     <comment></comment>
-</data>
+  </data>
   <!--EmployeeProfile-->
   <data name="EmployeeProfile" xml:space="preserve">
     <value>Профиль сотрудника</value>
     <comment></comment>
-</data>
+  </data>
   <data name="EmployeeName" xml:space="preserve">
     <value>Полное имя сотрудника</value>
     <comment></comment>
-</data>
-  <data name="EditProfile" xml:space="preserve">
-    <value>Редактировать профиль</value>
-    <comment></comment>
-</data>
+  </data>
   <!--EmployeeSalary-->
   <data name="EmployeeSalary" xml:space="preserve">
     <value>Зарплата сотрудника</value>
     <comment></comment>
-</data>
+  </data>
   <data name="EnterEmployeeTIN" xml:space="preserve">
     <value>Введите ИНН сотрудника</value>
     <comment></comment>
-</data>
+  </data>
   <data name="MonthlySalaryAmount" xml:space="preserve">
-    <value>Месячная зарплата</value>
+    <value>Суммарная зарплата</value>
     <comment></comment>
-</data>
+  </data>
   <data name="SalaryOfTheMonth" xml:space="preserve">
     <value>Зарплата за месяц</value>
     <comment></comment>
-</data>
+  </data>
   <data name="SalaryYear" xml:space="preserve">
-    <value>Год зарплаты</value>
+    <value>Год выплаты зарплаты</value>
     <comment></comment>
-</data>
+  </data>
   <data name="ProcessSalary" xml:space="preserve">
     <value>Обработать зарплату</value>
     <comment></comment>
-</data>
+  </data>
   <data name="Search" xml:space="preserve">
     <value>Поиск</value>
     <comment></comment>
-</data>
+  </data>
   <!--SalaryHistory-->
   <data name="SalariesSucceedList" xml:space="preserve">
-    <value>Список успешных зарплат</value>
+    <value>Список успешно выплаченных зарплат</value>
     <comment></comment>
-</data>
+  </data>
   <data name="Employee" xml:space="preserve">
     <value>Сотрудник</value>
     <comment></comment>
-</data>
+  </data>
   <data name="InvoiceNo" xml:space="preserve">
-    <value>Номер счета</value>
+    <value>Номер счёта</value>
     <comment></comment>
-</data>
+  </data>
   <data name="Date" xml:space="preserve">
     <value>Дата</value>
     <comment></comment>
-</data>
+  </data>
   <data name="PaidSalary" xml:space="preserve">
     <value>Выплаченная зарплата</value>
     <comment></comment>
-</data>
+  </data>
   <data name="SalaryMonth" xml:space="preserve">
-    <value>Месяц зарплаты</value>
+    <value>Месяц выплаты зарплаты</value>
     <comment></comment>
-</data>
+  </data>
   <data name="CreatedBy" xml:space="preserve">
     <value>Создано</value>
     <comment></comment>
-</data>
+  </data>
   <data name="SalaryInvoice" xml:space="preserve">
     <value>Квитанция по зарплате</value>
     <comment></comment>
-</data>
+  </data>
   <data name="PrintPayroll" xml:space="preserve">
     <value>Распечатать расчетную ведомость</value>
     <comment></comment>
-</data>
+  </data>
   <!--PrintSalaryInvoice-->
   <data name="PrintSalaryInvoice" xml:space="preserve">
     <value>Распечатать счет по зарплате</value>
     <comment></comment>
-</data>
+  </data>
   <data name="PrintInvoiceNo" xml:space="preserve">
-    <value>Номер счета</value>
+    <value>Номер счёта</value>
     <comment></comment>
-</data>
+  </data>
   <data name="PrintDate" xml:space="preserve">
     <value>Дата печати</value>
     <comment></comment>
-</data>
+  </data>
   <data name="SalaryPaidDate" xml:space="preserve">
     <value>Дата выплаты зарплаты</value>
     <comment></comment>
-</data>
+  </data>
   <data name="TotalSalary" xml:space="preserve">
     <value>Общая зарплата</value>
     <comment></comment>
-</data>
+  </data>
   <data name="Print" xml:space="preserve">
     <value>Печать</value>
     <comment></comment>
-</data>
+  </data>
 
   <!--CompanyRegistration-->
 
@@ -323,101 +317,101 @@
   <data name="Registration" xml:space="preserve">
     <value>Регистрация</value>
     <comment></comment>
-</data>
+  </data>
   <data name="Mandatory" xml:space="preserve">
     <value>Обязательно</value>
     <comment></comment>
-</data>
+  </data>
   <!--User Profile-->
   <data name="UserProfile" xml:space="preserve">
     <value>Профиль пользователя</value>
     <comment></comment>
-</data>
+  </data>
   <data name="EnterUserDetails" xml:space="preserve">
     <value>Введите данные пользователя</value>
     <comment></comment>
-</data>
+  </data>
   <data name="UserName" xml:space="preserve">
     <value>Имя пользователя</value>
     <comment></comment>
-</data>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Пароль</value>
     <comment></comment>
-</data>
+  </data>
   <data name="ConfirmPassword" xml:space="preserve">
     <value>Подтвердите пароль</value>
     <comment></comment>
-</data>
+  </data>
   <!--Personal Profile-->
   <data name="PersonalProfile" xml:space="preserve">
     <value>Личный профиль</value>
     <comment></comment>
-</data>
+  </data>
   <data name="EnterFocalPersonDetails" xml:space="preserve">
-  <value>Введите данные контактного лица</value>
-  <comment></comment>
-</data>
+    <value>Введите данные контактного лица</value>
+    <comment></comment>
+  </data>
   <data name="ContactNo" xml:space="preserve">
-  <value>Контактный №</value>
-  <comment></comment>
-</data>
+    <value>Номер телефона</value>
+    <comment></comment>
+  </data>
   <data name="Email" xml:space="preserve">
-  <value>Электронная почта</value>
-  <comment></comment>
-</data>
+    <value>Электронная почта</value>
+    <comment></comment>
+  </data>
   <data name="CityIndex" xml:space="preserve">
-  <value>Индекс города</value>
-  <comment></comment>
-</data>
+    <value>Индекс города</value>
+    <comment></comment>
+  </data>
   <data name="Designation" xml:space="preserve">
-  <value>Должность</value>
-  <comment></comment>
-</data>
+    <value>Должность</value>
+    <comment></comment>
+  </data>
   <data name="BasicSalary" xml:space="preserve">
-  <value>Основная зарплата</value>
-  <comment></comment>
-</data>
+    <value>Основная зарплата</value>
+    <comment></comment>
+  </data>
   <data name="Address" xml:space="preserve">
-  <value>Адрес</value>
-  <comment></comment>
-</data>
+    <value>Адрес</value>
+    <comment></comment>
+  </data>
   <!--Company Profile-->
   <data name="CompanyProfile" xml:space="preserve">
-  <value>Профиль компании</value>
-  <comment></comment>
-</data>
+    <value>Профиль компании</value>
+    <comment></comment>
+  </data>
   <data name="EnterCompanyDetails" xml:space="preserve">
-  <value>Введите данные компании</value>
-  <comment></comment>
-</data>
+    <value>Введите данные компании</value>
+    <comment></comment>
+  </data>
   <data name="BranchTitle" xml:space="preserve">
-  <value>Название филиала</value>
-  <comment></comment>
-</data>
+    <value>Название филиала</value>
+    <comment></comment>
+  </data>
   <data name="BranchContact" xml:space="preserve">
-  <value>Контактный номер филиала</value>
-  <comment></comment>
-</data>
+    <value>Контактный номер филиала</value>
+    <comment></comment>
+  </data>
   <data name="BranchAddress" xml:space="preserve">
-  <value>Адрес филиала</value>
-  <comment></comment>
-</data>
+    <value>Адрес филиала</value>
+    <comment></comment>
+  </data>
   <!--Finish-->
   <data name="Finish" xml:space="preserve">
-  <value>Завершить</value>
-  <comment></comment>
-</data>
+    <value>Завершить</value>
+    <comment></comment>
+  </data>
   <data name="PleaseCheckBeforeSubmission" xml:space="preserve">
-  <value>Проверьте перед отправкой</value>
-  <comment></comment>
-</data>
+    <value>Проверьте перед отправкой</value>
+    <comment></comment>
+  </data>
   <data name="OneLastCheck" xml:space="preserve">
-  <value>Последняя проверка</value>
-  <comment></comment>
-</data>
+    <value>Последняя проверка</value>
+    <comment></comment>
+  </data>
   <data name="SubmitRegistration" xml:space="preserve">
-  <value>Отправить регистрацию</value>
-  <comment></comment>
-</data>
+    <value>Завершить регистрацию</value>
+    <comment></comment>
+  </data>
 </root>

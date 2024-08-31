@@ -104,45 +104,47 @@
   <!-- Index -->
   <data name="AllBranches" xml:space="preserve">
     <value>Всі філії</value>
-</data>
+	</data>
   <data name="Level" xml:space="preserve">
     <value>Рівень</value>
-</data>
+	</data>
   <data name="BranchTitle" xml:space="preserve">
     <value>Назва філії</value>
-</data>
+	</data>
   <data name="BranchAddress" xml:space="preserve">
     <value>Адреса філії</value>
-</data>
+	</data>
   <data name="Sales" xml:space="preserve">
     <value>Продажі</value>
-</data>
+	</data>
   <data name="Purchases" xml:space="preserve">
     <value>Закупівлі</value>
-</data>
+	</data>
   <!-- Create -->
   <data name="AddBranch" xml:space="preserve">
     <value>Додати філію</value>
-</data>
+	</data>
   <data name="SelectTopBranch" xml:space="preserve">
     <value>Виберіть головну філію</value>
-</data>
+	</data>
   <data name="TopBranch" xml:space="preserve">
     <value>Головна філія</value>
-</data>
+	</data>
   <data name="BranchLevel" xml:space="preserve">
     <value>Рівень філії</value>
-</data>
+	</data>
   <data name="BranchName" xml:space="preserve">
     <value>Назва філії</value>
-</data>
+	</data>
   <data name="ClickHereToChooseACorrectAddressBelow" xml:space="preserve">
-    <value>Натисніть тут, щоб вибрати правильну адресу нижче</value>
-</data>
+    <value>Натисніть тут, щоб вибрати правильну адресу</value>
+	</data>
   <!-- Edit -->
   <data name="EditBranch" xml:space="preserve">
     <value>Редагувати філію</value>
-</data>
-
-  <!--BranchEmployee-->
+	</data>
+  <data name="EmployeeProfile" xml:space="preserve">
+    <value>Профіль співробітника</value>
+    <comment></comment>
+  </data>
 </root>

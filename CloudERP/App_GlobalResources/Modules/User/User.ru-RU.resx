@@ -110,7 +110,7 @@
     <value>Электронная почта</value>
   </data>
   <data name="ContactNo" xml:space="preserve">
-    <value>Контактный номер</value>
+    <value>Номер телефона</value>
   </data>
   <data name="UserName" xml:space="preserve">
     <value>Имя пользователя</value>
@@ -132,6 +132,14 @@
   <data name="UserDetails" xml:space="preserve">
     <value>Детали пользователя</value>
   </data>
+  <data name="TIN" xml:space="preserve">
+    <value>ИНН</value>
+    <comment></comment>
+  </data>
+  <data name="MonthlySalary" xml:space="preserve">
+    <value>Месячная зарплата</value>
+    <comment></comment>
+  </data>
 
   <!--EmployeeStatistics-->
 
@@ -139,7 +147,7 @@
     <value>Статистика регистрации сотрудников</value>
   </data>
   <data name="SelectRangeFromDateAndToDate" xml:space="preserve">
-    <value>Выберите диапазон (от даты до даты)</value>
+    <value>Выберите диапазон (С даты и По дату)</value>
   </data>
   <data name="SelectFromDate" xml:space="preserve">
     <value>Выберите дату начала</value>

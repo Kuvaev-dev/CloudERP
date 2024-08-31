@@ -103,65 +103,65 @@
 
   <data name="SubBranchBalanceSheet" xml:space="preserve">
     <value>Sub Branch Balance Sheet</value>
-</data>
+	</data>
   <data name="SelectFinancialYear" xml:space="preserve">
     <value>Select Financial Year</value>
-</data>
+	</data>
   <data name="RetrieveBalanceSheet" xml:space="preserve">
     <value>Retrieve Balance Sheet</value>
-</data>
+	</data>
   <data name="BalanceSheetStr" xml:space="preserve">
     <value>Balance Sheet</value>
-</data>
+	</data>
   <data name="AccountTitle" xml:space="preserve">
     <value>Account Title</value>
-</data>
+	</data>
   <data name="Amount" xml:space="preserve">
     <value>Amount</value>
-</data>
+	</data>
   <data name="Total" xml:space="preserve">
     <value>Total</value>
-</data>
+	</data>
   <data name="TotalAssets" xml:space="preserve">
     <value>Total Assets</value>
-</data>
+	</data>
   <data name="TotalLiabilities" xml:space="preserve">
     <value>Total Liabilities</value>
-</data>
+	</data>
   <data name="TotalOwnerEquity" xml:space="preserve">
     <value>Total Owner Equity</value>
-</data>
+	</data>
   <data name="TotalReturnEarning" xml:space="preserve">
     <value>Total Return Earning</value>
-</data>
+	</data>
   <data name="TotalBalanceLiabilitiesOwnerEquityReturnEarning" xml:space="preserve">
     <value>Total Balance (Liabilities + Owner Equity + Return Earning)</value>
-</data>
+	</data>
 
   <!--Create-->
   <data name="AddFinancialYear" xml:space="preserve">
     <value>Add Financial Year</value>
-</data>
+	</data>
   <data name="NewFinancialYear" xml:space="preserve">
     <value>New Financial Year</value>
-</data>
+	</data>
   <data name="EnterFinancialYearTitle" xml:space="preserve">
     <value>Enter Financial Year Title</value>
 </data>
   <data name="StartDate" xml:space="preserve">
     <value>Start Date</value>
-</data>
+	</data>
   <data name="EndDate" xml:space="preserve">
     <value>End Date</value>
-</data>
+	</data>
   <data name="Status" xml:space="preserve">
     <value>Status</value>
-</data>
+	</data>
   <!--Edit-->
   <data name="EditFinancialYear" xml:space="preserve">
     <value>Edit Financial Year</value>
-</data>
+	</data>
   <data name="FinancialYearTitle" xml:space="preserve">
     <value>Financial Year Title</value>
-</data>
+	</data>
 </root>

@@ -133,6 +133,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Employee Profile.
+        /// </summary>
+        internal static string EmployeeProfile {
+            get {
+                return ResourceManager.GetString("EmployeeProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Level.
         /// </summary>
         internal static string Level {

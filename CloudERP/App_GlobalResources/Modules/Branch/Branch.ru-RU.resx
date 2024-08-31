@@ -104,45 +104,47 @@
   <!-- Index -->
   <data name="AllBranches" xml:space="preserve">
     <value>Все филиалы</value>
-</data>
+	</data>
   <data name="Level" xml:space="preserve">
     <value>Уровень</value>
-</data>
+	</data>
   <data name="BranchTitle" xml:space="preserve">
     <value>Название филиала</value>
-</data>
+	</data>
   <data name="BranchAddress" xml:space="preserve">
     <value>Адрес филиала</value>
-</data>
+	</data>
   <data name="Sales" xml:space="preserve">
     <value>Продажи</value>
-</data>
+	</data>
   <data name="Purchases" xml:space="preserve">
     <value>Закупки</value>
-</data>
+	</data>
   <!-- Create -->
   <data name="AddBranch" xml:space="preserve">
     <value>Добавить филиал</value>
-</data>
+	</data>
   <data name="SelectTopBranch" xml:space="preserve">
     <value>Выбрать главный филиал</value>
-</data>
+	</data>
   <data name="TopBranch" xml:space="preserve">
     <value>Главный филиал</value>
-</data>
+	</data>
   <data name="BranchLevel" xml:space="preserve">
     <value>Уровень филиала</value>
-</data>
+	</data>
   <data name="BranchName" xml:space="preserve">
     <value>Название филиала</value>
-</data>
+	</data>
   <data name="ClickHereToChooseACorrectAddressBelow" xml:space="preserve">
-    <value>Нажмите здесь, чтобы выбрать правильный адрес ниже</value>
-</data>
+    <value>Нажмите здесь, чтобы выбрать правильный адрес</value>
+	</data>
   <!-- Edit -->
   <data name="EditBranch" xml:space="preserve">
     <value>Редактировать филиал</value>
-</data>
-
-  <!--BranchEmployee-->
+	</data>
+  <data name="EmployeeProfile" xml:space="preserve">
+    <value>Профиль сотрудника</value>
+    <comment></comment>
+  </data>
 </root>

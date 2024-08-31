@@ -108,7 +108,7 @@
     <comment></comment>
   </data>
   <data name="BranchTitle" xml:space="preserve">
-    <value>Филия</value>
+    <value>Филиал</value>
     <comment></comment>
   </data>
   <data name="SupplierName" xml:space="preserve">
@@ -124,7 +124,7 @@
     <comment></comment>
   </data>
   <data name="Address" xml:space="preserve">
-    <value>Адресс</value>
+    <value>Адрес</value>
     <comment></comment>
   </data>
   <data name="User" xml:space="preserve">
@@ -140,7 +140,7 @@
     <comment></comment>
   </data>
   <data name="SubBranchSuppliers" xml:space="preserve">
-    <value>Поставщики подфилиала</value>
+    <value>Поставщики подразделения</value>
     <comment></comment>
   </data>
   <!--Create-->
@@ -157,7 +157,7 @@
     <comment></comment>
   </data>
   <data name="ClickHereToChooseACorrectAddressBelow" xml:space="preserve">
-    <value>Нажмите здесь чтобы выбрать корректный адресс</value>
+    <value>Нажмите здесь чтобы выбрать корректный адрес</value>
     <comment></comment>
   </data>
   <!--Edit-->

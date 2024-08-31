@@ -142,6 +142,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Monthly Salary.
+        /// </summary>
+        internal static string MonthlySalary {
+            get {
+                return ResourceManager.GetString("MonthlySalary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Number of Registrations.
         /// </summary>
         internal static string NumberOfRegistrations {
@@ -210,6 +219,15 @@ namespace Resources {
         internal static string Status {
             get {
                 return ResourceManager.GetString("Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на TIN.
+        /// </summary>
+        internal static string TIN {
+            get {
+                return ResourceManager.GetString("TIN", resourceCulture);
             }
         }
         
