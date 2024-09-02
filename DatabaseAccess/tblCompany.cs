@@ -45,6 +45,7 @@ namespace DatabaseAccess
         public int CompanyID { get; set; }
 
         [Required(ErrorMessage = "Name is required.")]
+        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Name can only contain letters and spaces.")]
         public string Name { get; set; }
 
         public string Logo { get; set; }

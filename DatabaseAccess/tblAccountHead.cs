@@ -11,6 +11,7 @@ namespace DatabaseAccess
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public partial class tblAccountHead
     {
@@ -28,6 +29,7 @@ namespace DatabaseAccess
 
         [Required(ErrorMessage = "Account Head Name is required.")]
         [StringLength(100, ErrorMessage = "Account Head Name cannot be longer than 100 characters.")]
+        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Account Head Name can only contain letters and spaces.")]
         public string AccountHeadName { get; set; }
 
         [Required(ErrorMessage = "Code is required.")]

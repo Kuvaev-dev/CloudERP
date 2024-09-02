@@ -3416,9 +3416,11 @@
     </Content>
     <None Include="Properties\PublishProfiles\CloudERP20240507124545 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
+    <Content Include="Scripts\CustomScripts\AddressAutocomplete.js" />
     <Content Include="Scripts\CustomScripts\chapters.css" />
     <Content Include="Scripts\CustomScripts\ChapterSwitch.js" />
     <Content Include="Scripts\CustomScripts\FullscreenMode.js" />
+    <Content Include="Scripts\CustomScripts\GetCurrentLozation.js" />
     <Content Include="Scripts\CustomScripts\Tour.js" />
     <Content Include="Scripts\CustomScripts\VoiceRecognition.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />

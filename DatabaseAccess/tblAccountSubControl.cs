@@ -38,6 +38,7 @@ namespace DatabaseAccess
 
         [Required(ErrorMessage = "Account Sub Control Name is required.")]
         [StringLength(100, ErrorMessage = "Account Sub Control Name cannot be longer than 100 characters.")]
+        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Account Sub Control Name can only contain letters and spaces.")]
         public string AccountSubControlName { get; set; }
 
         [Required(ErrorMessage = "User ID is required.")]

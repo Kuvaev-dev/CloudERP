@@ -18,6 +18,7 @@ namespace DatabaseAccess
 
         [Required(ErrorMessage = "Name is required.")]
         [StringLength(100, ErrorMessage = "Name cannot be longer than 100 characters.")]
+        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Name can only contain letters and spaces.")]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Email is required.")]
@@ -26,6 +27,7 @@ namespace DatabaseAccess
 
         [Required(ErrorMessage = "Subject is required.")]
         [StringLength(200, ErrorMessage = "Subject cannot be longer than 200 characters.")]
+        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Subject can only contain letters and spaces.")]
         public string Subject { get; set; }
 
         [Required(ErrorMessage = "Message is required.")]

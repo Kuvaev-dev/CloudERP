@@ -19,6 +19,7 @@ namespace DatabaseAccess
 
         [Required(ErrorMessage = "Title is required")]
         [StringLength(100, ErrorMessage = "Title cannot exceed 100 characters")]
+        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Title can only contain letters and spaces.")]
         public string Title { get; set; }
 
         [StringLength(500, ErrorMessage = "Description cannot exceed 500 characters")]

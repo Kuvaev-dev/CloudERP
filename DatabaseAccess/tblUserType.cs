@@ -25,6 +25,7 @@ namespace DatabaseAccess
 
         [Required(ErrorMessage = "User Type is required.")]
         [StringLength(50, ErrorMessage = "User Type cannot be longer than 50 characters.")]
+        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "User Type can only contain letters and spaces.")]
         public string UserType { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

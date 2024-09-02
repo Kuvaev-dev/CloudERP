@@ -28,6 +28,7 @@ namespace DatabaseAccess
 
         [Required(ErrorMessage = "*Required!")]
         [StringLength(100, ErrorMessage = "Name cannot be longer than 100 characters.")]
+        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Name can only contain letters and spaces.")]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "*Required!")]
@@ -51,6 +52,7 @@ namespace DatabaseAccess
 
         [Required(ErrorMessage = "*Required!")]
         [StringLength(100, ErrorMessage = "Designation cannot be longer than 100 characters.")]
+        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Designation can only contain letters and spaces.")]
         public string Designation { get; set; }
 
         [DataType(DataType.MultilineText)]

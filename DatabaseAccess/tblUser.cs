@@ -51,6 +51,7 @@ namespace DatabaseAccess
 
         [Required(ErrorMessage = "Full Name is required.")]
         [StringLength(100, ErrorMessage = "Full Name cannot be longer than 100 characters.")]
+        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Full Name can only contain letters and spaces.")]
         public string FullName { get; set; }
 
         [Required(ErrorMessage = "Email is required.")]

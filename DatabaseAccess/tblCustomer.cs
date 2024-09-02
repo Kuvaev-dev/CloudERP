@@ -26,6 +26,7 @@ namespace DatabaseAccess
         public int CustomerID { get; set; }
 
         [Required(ErrorMessage = "Customer Name is required.")]
+        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Customer Name can only contain letters and spaces.")]
         public string Customername { get; set; }
 
         [Required(ErrorMessage = "Customer Contact is required.")]

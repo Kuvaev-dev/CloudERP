@@ -29,6 +29,7 @@ namespace DatabaseAccess
 
         [Required(ErrorMessage = "Supplier Name is required.")]
         [StringLength(100, ErrorMessage = "Supplier Name cannot be longer than 100 characters.")]
+        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Supplier Name can only contain letters and spaces.")]
         public string SupplierName { get; set; }
 
         [Required(ErrorMessage = "Supplier Contact No is required.")]

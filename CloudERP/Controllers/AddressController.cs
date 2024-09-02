@@ -25,5 +25,23 @@ namespace CloudERP.Controllers
                 }
             }
         }
+
+        public async Task<ActionResult> GetAddressByCoordinates(double latitude, double longitude)
+        {
+            using (var client = new HttpClient())
+            {
+                var response = await client.GetAsync($"https://api.geoapify.com/v1/geocode/reverse?lat={latitude}&lon={longitude}&apiKey={apiKey}");
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    return Content(content, "application/json");
+                }
+                else
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    return new HttpStatusCodeResult(response.StatusCode, $"{Resources.Messages.ErrorFetchingDataFromGeoapifyAPI} {errorContent}");
+                }
+            }
+        }
     }
 }

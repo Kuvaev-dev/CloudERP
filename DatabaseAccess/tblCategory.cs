@@ -25,6 +25,7 @@ namespace DatabaseAccess
 
         [Required(ErrorMessage = "Category Name is required.")]
         [StringLength(100, ErrorMessage = "Category Name cannot be longer than 100 characters.")]
+        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Category Name can only contain letters and spaces.")]
         public string CategoryName { get; set; }
 
         [Required(ErrorMessage = "Branch ID is required.")]

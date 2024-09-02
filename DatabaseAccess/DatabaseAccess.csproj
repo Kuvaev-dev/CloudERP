@@ -84,6 +84,11 @@
     <Compile Include="Code\SP_Code\SP_Sale.cs" />
     <Compile Include="Code\SP_Code\SP_TrialBalance.cs" />
     <Compile Include="Helpers\AllowedDomainsAttribute.cs" />
+    <Compile Include="Localization\Localization.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Localization.resx</DependentUpon>
+    </Compile>
     <Compile Include="Models\AccountLedgerModel.cs" />
     <Compile Include="Models\AllAccountModel.cs" />
     <Compile Include="Models\BalanceSheetModel.cs" />
@@ -228,6 +233,15 @@
       <DependentUpon>CloudDB.edmx</DependentUpon>
       <LastGenOutput>CloudDB.cs</LastGenOutput>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Localization\Localization.en-US.resx" />
+    <EmbeddedResource Include="Localization\Localization.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Localization.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Localization\Localization.ru-RU.resx" />
+    <EmbeddedResource Include="Localization\Localization.uk-UA.resx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
