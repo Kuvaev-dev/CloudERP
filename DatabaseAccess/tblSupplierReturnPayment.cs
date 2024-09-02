@@ -17,38 +17,38 @@ namespace DatabaseAccess
         [Key]
         public int SupplierReturnPaymentID { get; set; }
 
-        [Required(ErrorMessage = "Supplier Return Invoice ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int SupplierReturnInvoiceID { get; set; }
 
-        [Required(ErrorMessage = "Supplier Invoice ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int SupplierInvoiceID { get; set; }
 
-        [Required(ErrorMessage = "Supplier ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int SupplierID { get; set; }
 
-        [Required(ErrorMessage = "Company ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int CompanyID { get; set; }
 
-        [Required(ErrorMessage = "Branch ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int BranchID { get; set; }
 
-        [Required(ErrorMessage = "Invoice No is required.")]
-        [StringLength(50, ErrorMessage = "Invoice No cannot be longer than 50 characters.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [StringLength(50, ErrorMessageResourceName = "StringLengthField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string InvoiceNo { get; set; }
 
-        [Required(ErrorMessage = "Total Amount is required.")]
-        [Range(0.01, double.MaxValue, ErrorMessage = "Total Amount must be greater than 0.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [Range(0.01, double.MaxValue, ErrorMessageResourceName = "RangedField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public double TotalAmount { get; set; }
 
-        [Required(ErrorMessage = "Payment Amount is required.")]
-        [Range(0.01, double.MaxValue, ErrorMessage = "Payment Amount must be greater than 0.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [Range(0.01, double.MaxValue, ErrorMessageResourceName = "RangedField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public double PaymentAmount { get; set; }
 
-        [Required(ErrorMessage = "Remaining Balance is required.")]
-        [Range(0.0, double.MaxValue, ErrorMessage = "Remaining Balance must be non-negative.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [Range(0.0, double.MaxValue, ErrorMessageResourceName = "RangedField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public double RemainingBalance { get; set; }
 
-        [Required(ErrorMessage = "User ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int UserID { get; set; }
 
         [DataType(DataType.Date)]

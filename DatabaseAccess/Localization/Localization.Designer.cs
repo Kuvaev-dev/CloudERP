@@ -59,5 +59,194 @@ namespace DatabaseAccess.Localization {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Your Company Financial Year is not Set! Please Contact the Administrator!.
+        /// </summary>
+        internal static string CompanyFinancialYearNotSet {
+            get {
+                return ResourceManager.GetString("CompanyFinancialYearNotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Credit.
+        /// </summary>
+        internal static string Credit {
+            get {
+                return ResourceManager.GetString("Credit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Credit account not found..
+        /// </summary>
+        internal static string CreditAccountNotFound {
+            get {
+                return ResourceManager.GetString("CreditAccountNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Date.
+        /// </summary>
+        internal static string Date {
+            get {
+                return ResourceManager.GetString("Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Debit.
+        /// </summary>
+        internal static string Debit {
+            get {
+                return ResourceManager.GetString("Debit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Debit account not found..
+        /// </summary>
+        internal static string DebitAccountNotFound {
+            get {
+                return ResourceManager.GetString("DebitAccountNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Description.
+        /// </summary>
+        internal static string Description {
+            get {
+                return ResourceManager.GetString("Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Domain {0} isn`t allowed..
+        /// </summary>
+        internal static string DomainField {
+            get {
+                return ResourceManager.GetString("DomainField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Invalid Email Address..
+        /// </summary>
+        internal static string EmailAddressField {
+            get {
+                return ResourceManager.GetString("EmailAddressField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на General Transaction Succeed!.
+        /// </summary>
+        internal static string GeneralTransactionSucceed {
+            get {
+                return ResourceManager.GetString("GeneralTransactionSucceed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Net Income.
+        /// </summary>
+        internal static string NetIncome {
+            get {
+                return ResourceManager.GetString("NetIncome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Invalid Phone Number..
+        /// </summary>
+        internal static string PhoneField {
+            get {
+                return ResourceManager.GetString("PhoneField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на {0} must be non-negative..
+        /// </summary>
+        internal static string RangedField {
+            get {
+                return ResourceManager.GetString("RangedField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на {0} can only contain letters and spaces..
+        /// </summary>
+        internal static string RegularField {
+            get {
+                return ResourceManager.GetString("RegularField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на {0} is required.
+        /// </summary>
+        internal static string RequiredField {
+            get {
+                return ResourceManager.GetString("RequiredField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на {0} cannot be longer than {1} characters..
+        /// </summary>
+        internal static string StringLengthField {
+            get {
+                return ResourceManager.GetString("StringLengthField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Total.
+        /// </summary>
+        internal static string Total {
+            get {
+                return ResourceManager.GetString("Total", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Total Balance.
+        /// </summary>
+        internal static string TotalBalance {
+            get {
+                return ResourceManager.GetString("TotalBalance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Total Expenses.
+        /// </summary>
+        internal static string TotalExpenses {
+            get {
+                return ResourceManager.GetString("TotalExpenses", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Total Revenue.
+        /// </summary>
+        internal static string TotalRevenue {
+            get {
+                return ResourceManager.GetString("TotalRevenue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Unexpected Error Occurred. Please Try Again!.
+        /// </summary>
+        internal static string UnexpectedErrorOccurred {
+            get {
+                return ResourceManager.GetString("UnexpectedErrorOccurred", resourceCulture);
+            }
+        }
     }
 }

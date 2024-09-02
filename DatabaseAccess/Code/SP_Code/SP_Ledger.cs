@@ -60,7 +60,7 @@ namespace DatabaseAccess.Code.SP_Code
                                     ledger.Add(new AccountLedgerModel
                                     {
                                         SNo = sNo++,
-                                        Date = "Total Balance",
+                                        Date = Localization.Localization.TotalBalance,
                                         Debit = totalDebit.ToString(),
                                         Credit = totalCredit.ToString()
                                     });
@@ -71,10 +71,10 @@ namespace DatabaseAccess.Code.SP_Code
                                 {
                                     SNo = sNo++,
                                     Account = accountName,
-                                    Date = "Date",
-                                    Description = "Description",
-                                    Debit = "Debit",
-                                    Credit = "Credit"
+                                    Date = Localization.Localization.Date,
+                                    Description = Localization.Localization.Description,
+                                    Debit = Localization.Localization.Debit,
+                                    Credit = Localization.Localization.Credit
                                 });
 
                                 totalDebit = 0;
@@ -102,7 +102,7 @@ namespace DatabaseAccess.Code.SP_Code
                             ledger.Add(new AccountLedgerModel
                             {
                                 SNo = sNo++,
-                                Date = "Total Balance",
+                                Date = Localization.Localization.TotalBalance,
                                 Debit = totalDebit.ToString(),
                                 Credit = totalCredit.ToString()
                             });

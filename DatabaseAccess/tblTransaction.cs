@@ -16,45 +16,45 @@ namespace DatabaseAccess
         [Key]
         public int TransactionID { get; set; }
 
-        [Required(ErrorMessage = "Financial Year ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int FinancialYearID { get; set; }
 
-        [Required(ErrorMessage = "Account Head ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int AccountHeadID { get; set; }
 
-        [Required(ErrorMessage = "Account Control ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int AccountControlID { get; set; }
 
-        [Required(ErrorMessage = "Account Sub Control ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int AccountSubControlID { get; set; }
 
-        [Required(ErrorMessage = "Invoice No is required.")]
-        [StringLength(50, ErrorMessage = "Invoice No cannot be longer than 50 characters.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [StringLength(50, ErrorMessageResourceName = "StringLengthField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string InvoiceNo { get; set; }
 
-        [Required(ErrorMessage = "Company ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int CompanyID { get; set; }
 
-        [Required(ErrorMessage = "Branch ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int BranchID { get; set; }
 
-        [Required(ErrorMessage = "Credit is required.")]
-        [Range(0.0, double.MaxValue, ErrorMessage = "Credit must be non-negative.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [Range(0.0, double.MaxValue, ErrorMessageResourceName = "RangedField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public double Credit { get; set; }
 
-        [Required(ErrorMessage = "Debit is required.")]
-        [Range(0.0, double.MaxValue, ErrorMessage = "Debit must be non-negative.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [Range(0.0, double.MaxValue, ErrorMessageResourceName = "RangedField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public double Debit { get; set; }
 
-        [Required(ErrorMessage = "Transaction Date is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         [DataType(DataType.DateTime)]
         public System.DateTime TransectionDate { get; set; }
 
-        [Required(ErrorMessage = "Transaction Title is required.")]
-        [StringLength(100, ErrorMessage = "Transaction Title cannot be longer than 100 characters.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [StringLength(100, ErrorMessageResourceName = "StringLengthField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string TransectionTitle { get; set; }
 
-        [Required(ErrorMessage = "User ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int UserID { get; set; }
 
         public virtual tblAccountControl tblAccountControl { get; set; }

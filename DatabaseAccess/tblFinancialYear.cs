@@ -24,22 +24,22 @@ namespace DatabaseAccess
         [Key]
         public int FinancialYearID { get; set; }
 
-        [Required(ErrorMessage = "User ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int UserID { get; set; }
 
-        [Required(ErrorMessage = "*Required!")]
-        [StringLength(50, ErrorMessage = "Financial Year cannot be longer than 50 characters.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [StringLength(50, ErrorMessageResourceName = "StringLengthField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string FinancialYear { get; set; }
 
-        [Required(ErrorMessage = "*Required!")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         [DataType(DataType.Date)]
         public System.DateTime StartDate { get; set; }
 
-        [Required(ErrorMessage = "*Required!")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         [DataType(DataType.Date)]
         public System.DateTime EndDate { get; set; }
 
-        [Required(ErrorMessage = "Is Active is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public bool IsActive { get; set; }
 
         public virtual tblUser tblUser { get; set; }

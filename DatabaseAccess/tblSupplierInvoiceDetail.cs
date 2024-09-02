@@ -23,18 +23,18 @@ namespace DatabaseAccess
         [Key]
         public int SupplierInvoiceDetailID { get; set; }
 
-        [Required(ErrorMessage = "Supplier Invoice ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int SupplierInvoiceID { get; set; }
 
-        [Required(ErrorMessage = "Product ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int ProductID { get; set; }
 
-        [Required(ErrorMessage = "Purchase Quantity is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Purchase Quantity must be at least 1.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [Range(1, int.MaxValue, ErrorMessageResourceName = "RangedField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int PurchaseQuantity { get; set; }
 
-        [Required(ErrorMessage = "Purchase Unit Price is required.")]
-        [Range(0.01, double.MaxValue, ErrorMessage = "Purchase Unit Price must be greater than 0.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [Range(0.01, double.MaxValue, ErrorMessageResourceName = "RangedField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public double PurchaseUnitPrice { get; set; }
 
         public virtual tblStock tblStock { get; set; }

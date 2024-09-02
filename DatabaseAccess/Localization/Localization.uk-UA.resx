@@ -98,4 +98,91 @@
 	<resheader name="writer">
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
+  <data name="RequiredField" xml:space="preserve">
+    <value>{0} є обов'язковим.</value>
+    <comment></comment>
+	</data>
+  <data name="StringLengthField" xml:space="preserve">
+    <value>{0} не може бути довшим за {1} символів.</value>
+    <comment></comment>
+	</data>
+  <data name="PhoneField" xml:space="preserve">
+    <value>Невірний номер телефону.</value>
+    <comment></comment>
+	</data>
+  <data name="EmailAddressField" xml:space="preserve">
+    <value>Невірна електронна адреса.</value>
+    <comment></comment>
+	</data>
+  <data name="RangedField" xml:space="preserve">
+    <value>{0} має бути невід'ємним.</value>
+    <comment></comment>
+	</data>
+  <data name="RegularField" xml:space="preserve">
+    <value>{0} може містити тільки літери та пробіли.</value>
+    <comment></comment>
+	</data>
+  <data name="DomainField" xml:space="preserve">
+    <value>Домен {0} не дозволений.</value>
+    <comment></comment>
+  </data>
+
+  <data name="TotalBalance" xml:space="preserve">
+    <value>Загальний баланс</value>
+    <comment></comment>
+	</data>
+  <data name="Date" xml:space="preserve">
+    <value>Дата</value>
+    <comment></comment>
+	</data>
+  <data name="Description" xml:space="preserve">
+    <value>Опис</value>
+    <comment></comment>
+	</data>
+  <data name="Debit" xml:space="preserve">
+    <value>Дебет</value>
+    <comment></comment>
+	</data>
+  <data name="Credit" xml:space="preserve">
+    <value>Кредит</value>
+    <comment></comment>
+	</data>
+  <data name="Total" xml:space="preserve">
+    <value>Усього</value>
+    <comment></comment>
+  </data>
+
+  <data name="CompanyFinancialYearNotSet" xml:space="preserve">
+    <value>Фінансовий рік вашої компанії не встановлено! Будь ласка, зв'яжіться з адміністратором!</value>
+    <comment></comment>
+	</data>
+  <data name="DebitAccountNotFound" xml:space="preserve">
+    <value>Дебетовий рахунок не знайдено.</value>
+    <comment></comment>
+	</data>
+  <data name="CreditAccountNotFound" xml:space="preserve">
+    <value>Кредитовий рахунок не знайдено.</value>
+    <comment></comment>
+	</data>
+  <data name="GeneralTransactionSucceed" xml:space="preserve">
+    <value>Транзакцію успішно виконано!</value>
+    <comment></comment>
+	</data>
+  <data name="UnexpectedErrorOccurred" xml:space="preserve">
+    <value>Сталася непередбачена помилка. Будь ласка, спробуйте ще раз!</value>
+    <comment></comment>
+	</data>
+
+  <data name="NetIncome" xml:space="preserve">
+    <value>Чистий дохід</value>
+    <comment></comment>
+	</data>
+  <data name="TotalRevenue" xml:space="preserve">
+    <value>Загальний дохід</value>
+    <comment></comment>
+	</data>
+  <data name="TotalExpenses" xml:space="preserve">
+    <value>Загальні витрати</value>
+    <comment></comment>
+	</data>
 </root>

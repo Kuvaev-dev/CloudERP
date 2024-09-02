@@ -25,7 +25,7 @@ namespace DatabaseAccess
         [Required(ErrorMessage = "Account Sub Control ID is required.")]
         public int AccountSubControlID { get; set; }
 
-        [Required(ErrorMessage = "Account Activity ID is required.")]
+        [Required(ErrorMessageResourceName = "Edit", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int AccountActivityID { get; set; }
 
         [Required(ErrorMessage = "Company ID is required.")]

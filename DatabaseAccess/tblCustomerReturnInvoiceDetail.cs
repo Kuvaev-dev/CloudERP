@@ -16,24 +16,24 @@ namespace DatabaseAccess
         [Key]
         public int CustomerReturnInvoiceDetailID { get; set; }
 
-        [Required(ErrorMessage = "Customer Invoice Detail ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int CustomerInvoiceDetailID { get; set; }
 
-        [Required(ErrorMessage = "Customer Invoice ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int CustomerInvoiceID { get; set; }
 
-        [Required(ErrorMessage = "Customer Return Invoice ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int CustomerReturnInvoiceID { get; set; }
 
-        [Required(ErrorMessage = "Product ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int ProductID { get; set; }
 
-        [Required(ErrorMessage = "Sale Return Quantity is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Sale return quantity must be greater than 0.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [Range(1, int.MaxValue, ErrorMessageResourceName = "RangedField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int SaleReturnQuantity { get; set; }
 
-        [Required(ErrorMessage = "Sale Return Unit Price is required.")]
-        [Range(0.01, double.MaxValue, ErrorMessage = "Sale return unit price must be greater than 0.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [Range(0.01, double.MaxValue, ErrorMessageResourceName = "RangedField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public double SaleReturnUnitPrice { get; set; }
 
         public virtual tblCustomerInvoice tblCustomerInvoice { get; set; }

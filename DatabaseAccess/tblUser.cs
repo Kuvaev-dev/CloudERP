@@ -46,29 +46,29 @@ namespace DatabaseAccess
         [Key]
         public int UserID { get; set; }
 
-        [Required(ErrorMessage = "User Type ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int UserTypeID { get; set; }
 
-        [Required(ErrorMessage = "Full Name is required.")]
-        [StringLength(100, ErrorMessage = "Full Name cannot be longer than 100 characters.")]
-        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Full Name can only contain letters and spaces.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [StringLength(100, ErrorMessageResourceName = "StringLengthField", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessageResourceName = "RegularField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string FullName { get; set; }
 
-        [Required(ErrorMessage = "Email is required.")]
-        [EmailAddress(ErrorMessage = "Invalid Email Address.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [EmailAddress(ErrorMessageResourceName = "EmailAddressField", ErrorMessageResourceType = typeof(Localization.Localization))]
         [AllowedDomains(new string[] { "gmail.com", "ukr.net" }, ErrorMessage = "Domain {0} isn`t allowed.")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Contact No is required.")]
-        [Phone(ErrorMessage = "Invalid Phone Number.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [Phone(ErrorMessageResourceName = "PhoneField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string ContactNo { get; set; }
 
-        [Required(ErrorMessage = "User Name is required.")]
-        [StringLength(50, ErrorMessage = "User Name cannot be longer than 50 characters.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [StringLength(50, ErrorMessageResourceName = "StringLengthField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string UserName { get; set; }
 
-        [Required(ErrorMessage = "Password is required.")]
-        [StringLength(100, ErrorMessage = "Password cannot be longer than 100 characters.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [StringLength(100, ErrorMessageResourceName = "StringLengthField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string Password { get; set; }
 
         public string ResetPasswordCode { get; set; }
@@ -79,7 +79,7 @@ namespace DatabaseAccess
         [DataType(DataType.DateTime)]
         public Nullable<System.DateTime> ResetPasswordExpiration { get; set; }
 
-        [Required(ErrorMessage = "Is Active is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public bool IsActive { get; set; }
 
         public string Salt { get; set; }

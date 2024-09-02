@@ -58,7 +58,7 @@ namespace DatabaseAccess.Code.SP_Code
                         {
                             Credit = totalCredit,
                             Debit = totalDebit,
-                            AccountSubControl = "Total"
+                            AccountSubControl = Localization.Localization.Total
                         };
                         trialBalance.Add(totalBalance);
                     }

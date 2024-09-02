@@ -44,22 +44,22 @@ namespace DatabaseAccess
         [Key]
         public int BranchID { get; set; }
 
-        [Required(ErrorMessage = "Branch Type ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int BranchTypeID { get; set; }
 
-        [Required(ErrorMessage = "Branch Name is required.")]
-        [StringLength(100, ErrorMessage = "Branch Name cannot be longer than 100 characters.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [StringLength(100, ErrorMessageResourceName = "StringLengthField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string BranchName { get; set; }
 
-        [Required(ErrorMessage = "Branch Contact is required.")]
-        [StringLength(50, ErrorMessage = "Branch Contact cannot be longer than 50 characters.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [StringLength(50, ErrorMessageResourceName = "StringLengthField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string BranchContact { get; set; }
 
-        [Required(ErrorMessage = "Branch Address is required.")]
-        [StringLength(200, ErrorMessage = "Branch Address cannot be longer than 200 characters.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [StringLength(200, ErrorMessageResourceName = "StringLengthField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string BranchAddress { get; set; }
 
-        [Required(ErrorMessage = "Company ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int CompanyID { get; set; }
 
         public Nullable<int> BrchID { get; set; }

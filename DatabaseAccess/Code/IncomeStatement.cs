@@ -19,19 +19,19 @@ namespace DatabaseAccess.Code
         public IncomeStatementModel GetIncomeStatement(int CompanyID, int BranchID, int FinancialYearID)
         {
             var incomeStatement = new IncomeStatementModel();
-            incomeStatement.Title = "Net Income";
+            incomeStatement.Title = Localization.Localization.NetIncome;
             incomeStatement.IncomeStatementHeads = new List<IncomeStatementHead>();
 
             var revenue = _income.GetHeadAccountsWithTotal(CompanyID, BranchID, FinancialYearID, 5); // 5 - Revenue
             var revenueDetails = new IncomeStatementHead();
-            revenueDetails.Title = "Total Revenue";
+            revenueDetails.Title = Localization.Localization.TotalRevenue;
             revenueDetails.TotalAmount = Math.Abs(revenue.TotalAmount);
             revenueDetails.AccountHead = revenue;
             incomeStatement.IncomeStatementHeads.Add(revenueDetails);
 
             var expenses = _income.GetHeadAccountsWithTotal(CompanyID, BranchID, FinancialYearID, 3); // 3 - Expenses
             var expensesDetails = new IncomeStatementHead();
-            expensesDetails.Title = "Total Expenses";
+            expensesDetails.Title = Localization.Localization.TotalExpenses;
             expensesDetails.TotalAmount = Math.Abs(expenses.TotalAmount);
             expensesDetails.AccountHead = expenses;
             incomeStatement.IncomeStatementHeads.Add(expensesDetails);

@@ -23,9 +23,9 @@ namespace DatabaseAccess
         [Key]
         public int UserTypeID { get; set; }
 
-        [Required(ErrorMessage = "User Type is required.")]
-        [StringLength(50, ErrorMessage = "User Type cannot be longer than 50 characters.")]
-        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "User Type can only contain letters and spaces.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [StringLength(50, ErrorMessageResourceName = "StringLengthField", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessageResourceName = "RegularField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string UserType { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

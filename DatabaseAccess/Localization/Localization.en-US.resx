@@ -98,4 +98,124 @@
 	<resheader name="writer">
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
+  <data name="RequiredField" xml:space="preserve">
+    <value>{0} is required</value>
+    <comment></comment>
+  </data>
+  <data name="StringLengthField" xml:space="preserve">
+    <value>{0} cannot be longer than {1} characters.</value>
+    <comment></comment>
+  </data>
+  <data name="PhoneField" xml:space="preserve">
+    <value>Invalid Phone Number.</value>
+    <comment></comment>
+  </data>
+  <data name="EmailAddressField" xml:space="preserve">
+    <value>Invalid Email Address.</value>
+    <comment></comment>
+  </data>
+  <data name="RangedField" xml:space="preserve">
+    <value>{0} must be non-negative.</value>
+    <comment></comment>
+  </data>
+  <data name="RegularField" xml:space="preserve">
+    <value>{0} can only contain letters and spaces.</value>
+    <comment></comment>
+  </data>
+  <data name="DomainField" xml:space="preserve">
+    <value>Domain {0} isn`t allowed.</value>
+    <comment></comment>
+  </data>
+
+  <data name="TotalBalance" xml:space="preserve">
+    <value>Total Balance</value>
+    <comment></comment>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+    <comment></comment>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+    <comment></comment>
+  </data>
+  <data name="Debit" xml:space="preserve">
+    <value>Debit</value>
+    <comment></comment>
+  </data>
+  <data name="Credit" xml:space="preserve">
+    <value>Credit</value>
+    <comment></comment>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+    <comment></comment>
+  </data>
+
+  <data name="CompanyFinancialYearNotSet" xml:space="preserve">
+    <value>Your Company Financial Year is not Set! Please Contact the Administrator!</value>
+    <comment></comment>
+  </data>
+  <data name="DebitAccountNotFound" xml:space="preserve">
+    <value>Debit account not found.</value>
+    <comment></comment>
+  </data>
+  <data name="CreditAccountNotFound" xml:space="preserve">
+    <value>Credit account not found.</value>
+    <comment></comment>
+  </data>
+  <data name="GeneralTransactionSucceed" xml:space="preserve">
+    <value>General Transaction Succeed!</value>
+    <comment></comment>
+  </data>
+  <data name="UnexpectedErrorOccurred" xml:space="preserve">
+    <value>Unexpected Error Occurred. Please Try Again!</value>
+    <comment></comment>
+  </data>
+
+  <data name="NetIncome" xml:space="preserve">
+    <value>Net Income</value>
+    <comment></comment>
+  </data>
+  <data name="TotalRevenue" xml:space="preserve">
+    <value>Total Revenue</value>
+    <comment></comment>
+  </data>
+  <data name="TotalExpenses" xml:space="preserve">
+    <value>Total Expenses</value>
+    <comment></comment>
+  </data>
+
+  <data name="AccountSettingsForPurchaseNotFound" xml:space="preserve">
+    <value>Account settings for Purchase not found.</value>
+    <comment></comment>
+  </data>
+  <data name="AccountSettingsForPurchasePaymentPendingNotFound" xml:space="preserve">
+    <value>Account settings for Purchase Payment Pending not found.</value>
+    <comment></comment>
+  </data>
+  <data name="AccountSettingsForPurchasePaymentPaidNotFound" xml:space="preserve">
+    <value>Account settings for Purchase Payment Paid not found.</value>
+    <comment></comment>
+  </data>
+  <data name="AccountSettingsForPurchasePaymentSuccessNotFound" xml:space="preserve">
+    <value>Account settings for Purchase Payment Success not found.</value>
+    <comment></comment>
+  </data>
+  <data name="PurchaseSuccessWithPayment" xml:space="preserve">
+    <value>Purchase Success with Payment.</value>
+    <comment></comment>
+  </data>
+  <data name="PurchaseSuccess" xml:space="preserve">
+    <value>Purchase Success</value>
+    <comment></comment>
+  </data>
+  <data name="PurchaseFrom" xml:space="preserve">
+    <value>Purchase From </value>
+    <comment></comment>
+  </data>
+  <data name="ReturnPurchaseTo" xml:space="preserve">
+    <value>Return Purchase to </value>
+    <comment></comment>
+  </data>
 </root>

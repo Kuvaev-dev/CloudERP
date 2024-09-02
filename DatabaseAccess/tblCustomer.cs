@@ -25,26 +25,26 @@ namespace DatabaseAccess
         [Key]
         public int CustomerID { get; set; }
 
-        [Required(ErrorMessage = "Customer Name is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Customer Name can only contain letters and spaces.")]
         public string Customername { get; set; }
 
-        [Required(ErrorMessage = "Customer Contact is required.")]
-        [Phone(ErrorMessage = "Invalid phone number format.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [Phone(ErrorMessageResourceName = "PhoneField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string CustomerContact { get; set; }
 
-        [Required(ErrorMessage = "Customer Address is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string CustomerAddress { get; set; }
 
         public string Description { get; set; }
 
-        [Required(ErrorMessage = "Branch ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int BranchID { get; set; }
 
-        [Required(ErrorMessage = "Company ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int CompanyID { get; set; }
 
-        [Required(ErrorMessage = "User ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int UserID { get; set; }
 
         public virtual tblBranch tblBranch { get; set; }

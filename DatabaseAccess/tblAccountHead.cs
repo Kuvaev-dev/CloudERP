@@ -27,16 +27,16 @@ namespace DatabaseAccess
         [Key]
         public int AccountHeadID { get; set; }
 
-        [Required(ErrorMessage = "Account Head Name is required.")]
-        [StringLength(100, ErrorMessage = "Account Head Name cannot be longer than 100 characters.")]
-        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Account Head Name can only contain letters and spaces.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [StringLength(100, ErrorMessageResourceName = "StringLengthField", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessageResourceName = "RegularField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string AccountHeadName { get; set; }
 
-        [Required(ErrorMessage = "Code is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Code must be a positive integer.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [Range(1, int.MaxValue, ErrorMessageResourceName = "RangedField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int Code { get; set; }
 
-        [Required(ErrorMessage = "User ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int UserID { get; set; }
 
         public virtual tblUser tblUser { get; set; }

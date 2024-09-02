@@ -58,14 +58,14 @@ namespace DatabaseAccess.Code
 
                     if (string.IsNullOrEmpty(FinancialYearID))
                     {
-                        return "Your Company Financial Year is not Set! Please Contact the Administrator!";
+                        return Localization.Localization.CompanyFinancialYearNotSet;
                     }
 
                     // Debit entry
                     var debitAccount = _db.tblAccountSubControl.FirstOrDefault(a => a.AccountSubControlID == DebitAccountControlID && a.CompanyID == CompanyID && a.BranchID == BranchID);
                     if (debitAccount == null)
                     {
-                        return "Debit account not found.";
+                        return Localization.Localization.DebitAccountNotFound;
                     }
                     SetEntries(FinancialYearID, debitAccount.AccountHeadID.ToString(), debitAccount.AccountControlID.ToString(), debitAccount.AccountSubControlID.ToString(), InvoiceNo, UserID.ToString(), "0", TransferAmount.ToString(), DateTime.Now, transectiontitle);
 
@@ -73,9 +73,9 @@ namespace DatabaseAccess.Code
                     var creditAccount = _db.tblAccountSubControl.FirstOrDefault(a => a.AccountSubControlID == CreditAccountControlID && a.CompanyID == CompanyID && a.BranchID == BranchID);
                     if (creditAccount == null)
                     {
-                        return "Credit account not found.";
+                        return Localization.Localization.CreditAccountNotFound;
                     }
-                    transectiontitle = "General Transaction Succeed!";
+                    transectiontitle = Localization.Localization.GeneralTransactionSucceed;
                     SetEntries(FinancialYearID, creditAccount.AccountHeadID.ToString(), creditAccount.AccountControlID.ToString(), creditAccount.AccountSubControlID.ToString(), InvoiceNo, UserID.ToString(), TransferAmount.ToString(), "0", DateTime.Now, transectiontitle);
 
                     // Insert transaction entries
@@ -105,13 +105,13 @@ namespace DatabaseAccess.Code
                     }
 
                     transaction.Commit();
-                    return "General Transaction Succeed";
+                    return Localization.Localization.GeneralTransactionSucceed;
                 }
                 catch (Exception ex)
                 {
                     transaction.Rollback();
                     Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
-                    return "Unexpected Error Occurred. Please Try Again!";
+                    return Localization.Localization.UnexpectedErrorOccurred;
                 }
             }
         }

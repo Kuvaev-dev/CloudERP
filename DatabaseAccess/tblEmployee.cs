@@ -26,52 +26,52 @@ namespace DatabaseAccess
         [Key]
         public int EmployeeID { get; set; }
 
-        [Required(ErrorMessage = "*Required!")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         [StringLength(100, ErrorMessage = "Name cannot be longer than 100 characters.")]
         [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Name can only contain letters and spaces.")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "*Required!")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         [Phone(ErrorMessage = "Invalid phone number format.")]
         public string ContactNo { get; set; }
 
         public string Photo { get; set; }
 
-        [Required(ErrorMessage = "*Required!")]
-        [EmailAddress(ErrorMessage = "Invalid email address format.")]
-        [AllowedDomains(new string[] { "gmail.com", "ukr.net" }, ErrorMessage = "Domain {0} isn`t allowed.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [EmailAddress(ErrorMessageResourceName = "EmailAddressField", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [AllowedDomains(new string[] { "gmail.com", "ukr.net" }, ErrorMessageResourceName = "DomainField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "*Required!")]
-        [StringLength(100, ErrorMessage = "Address cannot be longer than 100 characters.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [StringLength(100, ErrorMessageResourceName = "StringLengthField", ErrorMessageResourceType = typeof(Localization.Localization))]
         [DataType(DataType.MultilineText)]
         public string Address { get; set; }
 
-        [StringLength(50, ErrorMessage = "TIN cannot be longer than 50 characters.")]
+        [StringLength(50, ErrorMessageResourceName = "StringLengthField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string TIN { get; set; }
 
-        [Required(ErrorMessage = "*Required!")]
-        [StringLength(100, ErrorMessage = "Designation cannot be longer than 100 characters.")]
-        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Designation can only contain letters and spaces.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [StringLength(100, ErrorMessageResourceName = "StringLengthField", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessageResourceName = "RegularField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string Designation { get; set; }
 
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
-        [Required(ErrorMessage = "*Required!")]
-        [Range(0.01, double.MaxValue, ErrorMessage = "Monthly Salary must be greater than 0.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [Range(0.01, double.MaxValue, ErrorMessageResourceName = "RangedField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public double MonthlySalary { get; set; }
 
-        [Required(ErrorMessage = "*Required!")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         [DataType(DataType.DateTime)]
         public Nullable<System.DateTime> RegistrationDate { get; set; }
 
         public Nullable<bool> IsFirstLogin { get; set; }
 
-        [Required(ErrorMessage = "Branch ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int BranchID { get; set; }
 
-        [Required(ErrorMessage = "Company ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int CompanyID { get; set; }
 
         public Nullable<int> UserID { get; set; }

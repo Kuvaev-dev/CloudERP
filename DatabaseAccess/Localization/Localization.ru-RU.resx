@@ -98,4 +98,91 @@
 	<resheader name="writer">
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
+  <data name="RequiredField" xml:space="preserve">
+    <value>{0} является обязательным.</value>
+    <comment></comment>
+	</data>
+  <data name="StringLengthField" xml:space="preserve">
+    <value>{0} не может быть длиннее {1} символов.</value>
+    <comment></comment>
+	</data>
+  <data name="PhoneField" xml:space="preserve">
+    <value>Неправильный номер телефона.</value>
+    <comment></comment>
+	</data>
+  <data name="EmailAddressField" xml:space="preserve">
+    <value>Неправильный адрес электронной почты.</value>
+    <comment></comment>
+	</data>
+  <data name="RangedField" xml:space="preserve">
+    <value>{0} должен быть неотрицательным.</value>
+    <comment></comment>
+	</data>
+  <data name="RegularField" xml:space="preserve">
+    <value>{0} может содержать только буквы и пробелы.</value>
+    <comment></comment>
+	</data>
+  <data name="DomainField" xml:space="preserve">
+    <value>Домен {0} не разрешён.</value>
+    <comment></comment>
+  </data>
+
+  <data name="TotalBalance" xml:space="preserve">
+    <value>Общий баланс</value>
+    <comment></comment>
+	</data>
+  <data name="Date" xml:space="preserve">
+    <value>Дата</value>
+    <comment></comment>
+	</data>
+  <data name="Description" xml:space="preserve">
+    <value>Описание</value>
+    <comment></comment>
+	</data>
+  <data name="Debit" xml:space="preserve">
+    <value>Дебет</value>
+    <comment></comment>
+	</data>
+  <data name="Credit" xml:space="preserve">
+    <value>Кредит</value>
+    <comment></comment>
+	</data>
+  <data name="Total" xml:space="preserve">
+    <value>Всего</value>
+    <comment></comment>
+  </data>
+
+  <data name="CompanyFinancialYearNotSet" xml:space="preserve">
+    <value>Финансовый год вашей компании не установлен! Пожалуйста, свяжитесь с администратором!</value>
+    <comment></comment>
+	</data>
+  <data name="DebitAccountNotFound" xml:space="preserve">
+    <value>Дебетовый счет не найден.</value>
+    <comment></comment>
+	</data>
+  <data name="CreditAccountNotFound" xml:space="preserve">
+    <value>Кредитовый счет не найден.</value>
+    <comment></comment>
+	</data>
+  <data name="GeneralTransactionSucceed" xml:space="preserve">
+    <value>Транзакция успешно выполнена!</value>
+    <comment></comment>
+	</data>
+  <data name="UnexpectedErrorOccurred" xml:space="preserve">
+    <value>Произошла непредвиденная ошибка. Пожалуйста, попробуйте снова!</value>
+    <comment></comment>
+	</data>
+
+  <data name="NetIncome" xml:space="preserve">
+    <value>Чистый доход</value>
+    <comment></comment>
+	</data>
+  <data name="TotalRevenue" xml:space="preserve">
+    <value>Общая выручка</value>
+    <comment></comment>
+	</data>
+  <data name="TotalExpenses" xml:space="preserve">
+    <value>Общие расходы</value>
+    <comment></comment>
+	</data>
 </root>

@@ -16,24 +16,24 @@ namespace DatabaseAccess
         [Key]
         public int SupplierReturnInvoiceDetailID { get; set; }
 
-        [Required(ErrorMessage = "Supplier Invoice ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int SupplierInvoiceID { get; set; }
 
-        [Required(ErrorMessage = "Supplier Invoice Detail ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int SupplierInvoiceDetailID { get; set; }
 
-        [Required(ErrorMessage = "Supplier Return Invoice ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int SupplierReturnInvoiceID { get; set; }
 
-        [Required(ErrorMessage = "Product ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int ProductID { get; set; }
 
-        [Required(ErrorMessage = "Purchase Return Quantity is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Purchase Return Quantity must be at least 1.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [Range(1, int.MaxValue, ErrorMessageResourceName = "RangedField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int PurchaseReturnQuantity { get; set; }
 
-        [Required(ErrorMessage = "Purchase Return Unit Price is required.")]
-        [Range(0.01, double.MaxValue, ErrorMessage = "Purchase Return Unit Price must be greater than 0.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [Range(0.01, double.MaxValue, ErrorMessageResourceName = "RangedField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public double PurchaseReturnUnitPrice { get; set; }
 
         public virtual tblStock tblStock { get; set; }

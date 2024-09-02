@@ -49,7 +49,7 @@ namespace DatabaseAccess.Code
                     string FinancialYearID = (financialYearCheck != null ? Convert.ToString(financialYearCheck.Rows[0][0]) : string.Empty);
                     if (string.IsNullOrEmpty(FinancialYearID))
                     {
-                        return "Your Company Financial Year is not Set! Please Contact to Administrator!";
+                        return Localization.Localization.CompanyFinancialYearNotSet;
                     }
 
                     // Debit Entry Purchase

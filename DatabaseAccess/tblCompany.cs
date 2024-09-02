@@ -44,8 +44,8 @@ namespace DatabaseAccess
         [Key]
         public int CompanyID { get; set; }
 
-        [Required(ErrorMessage = "Name is required.")]
-        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Name can only contain letters and spaces.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessageResourceName = "RangedField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string Name { get; set; }
 
         public string Logo { get; set; }
