@@ -12,7 +12,10 @@
 <script>
     window.Culture = '@Session["Culture"]';
 </script>
+
 <script src="~/Scripts/CustomScripts/VoiceRecognition.js"></script>
+<script src="~/Scripts/CustomScripts/GetCurrentLozation.js"></script>
+<script src="~/Scripts/CustomScripts/AddressAutocomplete.js"></script>
 
 @using (Html.BeginForm())
 {
@@ -42,9 +45,16 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CustomerAddress, Resources.Miscellaneous.Address.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
-                @Html.EditorFor(model => model.CustomerAddress, new { htmlAttributes = new { @class = "form-control", @id = "address" } })
+                <div class="input-group">
+                    @Html.EditorFor(model => model.CustomerAddress, new { htmlAttributes = new { @class = "form-control", @id = "address" } })
+                    <div class="input-group-append">
+                        <button class="btn btn-link" type="button" onclick="getLocation()">
+                            <i class="fas fa-location" style="font-size: 1.5em; color: gray;"></i>
+                        </button>
+                    </div>
+                </div>
                 @Html.ValidationMessageFor(model => model.CustomerAddress, "", new { @class = "text-danger" })
-                <h5 class="mt-3">@Resources.Miscellaneous.ClickHereToChooseACorrectAddressBelow.ToString()</h5>
+                <h5 class="mt-3">@Resources.Branch.ClickHereToChooseACorrectAddressBelow.ToString()</h5>
                 <ul id="suggestions"></ul>
             </div>
         </div>
@@ -88,37 +98,6 @@
             } else {
                 $('#PhoneNumber').val(phoneNumber);
             }
-        });
-
-        $('#address').on('input', function () {
-            var query = $(this).val();
-            if (query.length > 2) {
-                $.ajax({
-                    url: '/Address/Autocomplete',
-                    data: { query: query },
-                    dataType: 'json',
-                    success: function (data) {
-                        if (data && data.features) {
-                            var suggestions = data.features;
-                            $('#suggestions').empty();
-                            suggestions.forEach(function (suggestion) {
-                                $('#suggestions').append('<li class="suggestion-item">' + suggestion.properties.formatted + '</li>');
-                            });
-                        } else {
-                            console.error("Unexpected JSON format:", data);
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error("Error during AJAX request:", status, error);
-                    }
-                });
-            }
-        });
-
-        $(document).on('click', '.suggestion-item', function () {
-            var selectedAddress = $(this).text();
-            $('#address').val(selectedAddress);
-            $('#suggestions').empty();
         });
     });
 </script>
