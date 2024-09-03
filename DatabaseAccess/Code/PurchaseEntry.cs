@@ -42,7 +42,7 @@ namespace DatabaseAccess.Code
                 {
                     InitializeDataTable();
 
-                    string purchaseTitle = "Purchase From " + SupplierName.Trim();
+                    string purchaseTitle = Localization.Localization.PurchaseFrom + SupplierName.Trim();
 
                     // Retrieve the active financial year
                     var financialYearCheck = DatabaseQuery.Retrive("SELECT TOP 1 FinancialYearID FROM tblFinancialYear WHERE IsActive = 1");
@@ -59,7 +59,7 @@ namespace DatabaseAccess.Code
                         .FirstOrDefault();
                     if (purchaseAccount == null)
                     {
-                        return "Account settings for Purchase not found.";
+                        return Localization.Localization.AccountSettingsForPurchaseNotFound;
                     }
                     SetEntries(FinancialYearID, purchaseAccount.AccountHeadID.ToString(), purchaseAccount.AccountControlID.ToString(), purchaseAccount.AccountSubControlID.ToString(), InvoiceNo, UserID.ToString(), "0", Amount.ToString(), DateTime.Now, purchaseTitle);
 
@@ -70,7 +70,7 @@ namespace DatabaseAccess.Code
                         .FirstOrDefault();
                     if (purchaseAccount == null)
                     {
-                        return "Account settings for Purchase Payment Pending not found.";
+                        return Localization.Localization.AccountSettingsForPurchasePaymentPendingNotFound;
                     }
                     SetEntries(FinancialYearID, purchaseAccount.AccountHeadID.ToString(), purchaseAccount.AccountControlID.ToString(), purchaseAccount.AccountSubControlID.ToString(), InvoiceNo, UserID.ToString(), Amount.ToString(), "0", DateTime.Now, SupplierName + ", Purchase Payment is Pending!");
 
@@ -85,7 +85,7 @@ namespace DatabaseAccess.Code
                             .FirstOrDefault();
                         if (purchaseAccount == null)
                         {
-                            return "Account settings for Purchase Payment Paid not found.";
+                            return Localization.Localization.AccountSettingsForPurchasePaymentPaidNotFound;
                         }
                         SetEntries(FinancialYearID, purchaseAccount.AccountHeadID.ToString(), purchaseAccount.AccountControlID.ToString(), purchaseAccount.AccountSubControlID.ToString(), payInvoiceNo, UserID.ToString(), "0", Amount.ToString(), DateTime.Now, "Payment Paid to " + SupplierName);
 
@@ -96,7 +96,7 @@ namespace DatabaseAccess.Code
                             .FirstOrDefault();
                         if (purchaseAccount == null)
                         {
-                            return "Account settings for Purchase Payment Success not found.";
+                            return Localization.Localization.AccountSettingsForPurchasePaymentSuccessNotFound;
                         }
                         SetEntries(FinancialYearID, purchaseAccount.AccountHeadID.ToString(), purchaseAccount.AccountControlID.ToString(), purchaseAccount.AccountSubControlID.ToString(), payInvoiceNo, UserID.ToString(), Amount.ToString(), "0", DateTime.Now, SupplierName + ", Purchase Payment is Succeed!");
 
@@ -120,7 +120,7 @@ namespace DatabaseAccess.Code
 
                         DatabaseQuery.Insert(paymentQuery, paymentParams);
 
-                        return "Purchase Success with Payment.";
+                        return Localization.Localization.PurchaseSuccessWithPayment;
                     }
 
                     // Insert transaction records
@@ -150,13 +150,13 @@ namespace DatabaseAccess.Code
                     }
 
                     transaction.Commit();
-                    return "Purchase Success";
+                    return Localization.Localization.PurchaseSuccess;
                 }
                 catch (Exception ex)
                 {
                     transaction.Rollback();
                     Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
-                    return "Unexpected Error is Occurred. Please Try Again!";
+                    return Localization.Localization.UnexpectedErrorOccurred;
                 }
             }
         }
@@ -169,14 +169,14 @@ namespace DatabaseAccess.Code
                 {
                     InitializeDataTable();
 
-                    string pruchaseTitle = "Purchase From " + SupplierName.Trim();
+                    string pruchaseTitle = Localization.Localization.PurchaseFrom + SupplierName.Trim();
 
                     // Retrieve the active financial year
                     var financialYearCheck = DatabaseQuery.Retrive("SELECT TOP 1 FinancialYearID FROM tblFinancialYear WHERE IsActive = 1");
                     string FinancialYearID = (financialYearCheck != null ? Convert.ToString(financialYearCheck.Rows[0][0]) : string.Empty);
                     if (string.IsNullOrEmpty(FinancialYearID))
                     {
-                        return "Your Company Financial Year is not Set! Please Contact the Administrator!";
+                        return Localization.Localization.CompanyFinancialYearNotSet;
                     }
 
                     // Debit Entry Purchase
@@ -186,7 +186,7 @@ namespace DatabaseAccess.Code
                         .FirstOrDefault();
                     if (purchaseAccount == null)
                     {
-                        return "Account settings for Purchase not found.";
+                        return Localization.Localization.AccountSettingsForPurchaseNotFound;
                     }
                     SetEntries(FinancialYearID, purchaseAccount.AccountHeadID.ToString(), purchaseAccount.AccountControlID.ToString(), purchaseAccount.AccountSubControlID.ToString(), InvoiceNo, UserID.ToString(), "0", Amount.ToString(), DateTime.Now, pruchaseTitle);
 
@@ -197,7 +197,7 @@ namespace DatabaseAccess.Code
                         .FirstOrDefault();
                     if (purchaseAccount == null)
                     {
-                        return "Account settings for Purchase Payment Pending not found.";
+                        return Localization.Localization.AccountSettingsForPurchasePaymentPendingNotFound;
                     }
                     SetEntries(FinancialYearID, purchaseAccount.AccountHeadID.ToString(), purchaseAccount.AccountControlID.ToString(), purchaseAccount.AccountSubControlID.ToString(), InvoiceNo, UserID.ToString(), Amount.ToString(), "0", DateTime.Now, SupplierName + ", Purchase Payment is Pending!");
 
@@ -213,7 +213,7 @@ namespace DatabaseAccess.Code
                             .FirstOrDefault();
                         if (purchaseAccount == null)
                         {
-                            return "Account settings for Purchase Payment Paid not found.";
+                            return Localization.Localization.AccountSettingsForPurchasePaymentPaidNotFound;
                         }
                         SetEntries(FinancialYearID, purchaseAccount.AccountHeadID.ToString(), purchaseAccount.AccountControlID.ToString(), purchaseAccount.AccountSubControlID.ToString(), payInvoiceNo, UserID.ToString(), "0", Amount.ToString(), DateTime.Now, "Payment Paid to " + SupplierName);
 
@@ -224,7 +224,7 @@ namespace DatabaseAccess.Code
                             .FirstOrDefault();
                         if (purchaseAccount == null)
                         {
-                            return "Account settings for Purchase Payment Success not found.";
+                            return Localization.Localization.AccountSettingsForPurchasePaymentSuccessNotFound;
                         }
                         SetEntries(FinancialYearID, purchaseAccount.AccountHeadID.ToString(), purchaseAccount.AccountControlID.ToString(), purchaseAccount.AccountSubControlID.ToString(), payInvoiceNo, UserID.ToString(), Amount.ToString(), "0", DateTime.Now, SupplierName + ", Purchase Payment is Succeed!");
 
@@ -248,7 +248,7 @@ namespace DatabaseAccess.Code
 
                         DatabaseQuery.Insert(paymentQuery, paymentParams);
 
-                        return "Purchase Success with Payment.";
+                        return Localization.Localization.PurchaseSuccessWithPayment;
                     }
 
                     // Insert transaction records
@@ -278,13 +278,13 @@ namespace DatabaseAccess.Code
                     }
 
                     transaction.Commit();
-                    return "Purchase Success";
+                    return Localization.Localization.PurchaseSuccess;
                 }
                 catch (Exception ex)
                 {
                     transaction.Rollback();
                     Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
-                    return "Unexpected Error Occurred. Please Try Again!";
+                    return Localization.Localization.UnexpectedErrorOccurred;
                 }
             }
         }
@@ -298,17 +298,17 @@ namespace DatabaseAccess.Code
                 {
                     InitializeDataTable();
 
-                    string returnPurchaseTitle = "Return Purchase to " + SupplierName.Trim();
+                    string returnPurchaseTitle = Localization.Localization.ReturnPurchaseTo + SupplierName.Trim();
 
                     // Retrieve the active financial year
                     var financialYearCheck = DatabaseQuery.Retrive("SELECT TOP 1 FinancialYearID FROM tblFinancialYear WHERE IsActive = 1");
                     string FinancialYearID = (financialYearCheck != null ? Convert.ToString(financialYearCheck.Rows[0][0]) : string.Empty);
                     if (string.IsNullOrEmpty(FinancialYearID))
                     {
-                        return "Your Company Financial Year is not Set! Please Contact the Administrator!";
+                        return Localization.Localization.CompanyFinancialYearNotSet;
                     }
 
-                    string successMessage = "Return Purchase Success";
+                    string successMessage = Localization.Localization.ReturnPurchaseSuccess;
 
                     // Credit Entry Return Purchase
                     // 5 - Return Purchase
@@ -317,7 +317,7 @@ namespace DatabaseAccess.Code
                         .FirstOrDefault();
                     if (returnPurchaseAccount == null)
                     {
-                        return "Account settings for Return Purchase not found.";
+                        return Localization.Localization.AccountSettingsАForReturnPurchaseNotFound;
                     }
                     SetEntries(FinancialYearID, returnPurchaseAccount.AccountHeadID.ToString(), returnPurchaseAccount.AccountControlID.ToString(), returnPurchaseAccount.AccountSubControlID.ToString(), InvoiceNo, UserID.ToString(), Amount.ToString(), "0", DateTime.Now, returnPurchaseTitle);
 
@@ -328,7 +328,7 @@ namespace DatabaseAccess.Code
                         .FirstOrDefault();
                     if (returnPurchaseAccount == null)
                     {
-                        return "Account settings for Purchase Return Payment Pending not found.";
+                        return Localization.Localization.AccountSettingsForPurchaseReturnPaymentPendingNotFound;
                     }
                     string pendingPaymentTitle = SupplierName + ", Return Purchase Payment is Pending!";
                     SetEntries(FinancialYearID, returnPurchaseAccount.AccountHeadID.ToString(), returnPurchaseAccount.AccountControlID.ToString(), returnPurchaseAccount.AccountSubControlID.ToString(), InvoiceNo, UserID.ToString(), "0", Amount.ToString(), DateTime.Now, pendingPaymentTitle);
@@ -344,7 +344,7 @@ namespace DatabaseAccess.Code
                             .FirstOrDefault();
                         if (returnPurchaseAccount == null)
                         {
-                            return "Account settings for Purchase Return Payment Pending not found.";
+                            return Localization.Localization.AccountSettingsForPurchaseReturnPaymentPendingNotFound;
                         }
                         string paymentFromTitle = "Return Payment from " + SupplierName;
                         SetEntries(FinancialYearID, returnPurchaseAccount.AccountHeadID.ToString(), returnPurchaseAccount.AccountControlID.ToString(), returnPurchaseAccount.AccountSubControlID.ToString(), payInvoiceNo, UserID.ToString(), Amount.ToString(), "0", DateTime.Now, paymentFromTitle);
@@ -356,9 +356,9 @@ namespace DatabaseAccess.Code
                             .FirstOrDefault();
                         if (returnPurchaseAccount == null)
                         {
-                            return "Account settings for Purchase Return Payment Succeed not found.";
+                            return Localization.Localization.AccountSettingsForPurchaseReturnPaymentSucceedNotFound;
                         }
-                        string paymentSuccessTitle = SupplierName + ", Return Purchase Payment is Succeed!";
+                        string paymentSuccessTitle = SupplierName + Localization.Localization.ReturnPurchasePaymentIsSucceed;
                         SetEntries(FinancialYearID, returnPurchaseAccount.AccountHeadID.ToString(), returnPurchaseAccount.AccountControlID.ToString(), returnPurchaseAccount.AccountSubControlID.ToString(), payInvoiceNo, UserID.ToString(), "0", Amount.ToString(), DateTime.Now, paymentSuccessTitle);
 
                         string paymentQuery = "INSERT INTO tblSupplierReturnPayment (SupplierID, SupplierInvoiceID, UserID, InvoiceNo, TotalAmount, PaymentAmount, RemainingBalance, CompanyID, BranchID, SupplierReturnInvoiceID, InvoiceDate) " +
@@ -381,7 +381,7 @@ namespace DatabaseAccess.Code
 
                         DatabaseQuery.Insert(paymentQuery, paymentParams);
 
-                        successMessage += " with Payment.";
+                        successMessage += Localization.Localization.WithPayment;
                     }
 
                     // Insert transaction records
@@ -417,7 +417,7 @@ namespace DatabaseAccess.Code
                 {
                     transaction.Rollback();
                     Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
-                    return "Unexpected Error Occurred. Please Try Again!";
+                    return Localization.Localization.UnexpectedErrorOccurred;
                 }
             }
         }
@@ -430,7 +430,7 @@ namespace DatabaseAccess.Code
                 {
                     InitializeDataTable();
 
-                    string returnPurchaseTitle = "Return Purchase to " + SupplierName.Trim();
+                    string returnPurchaseTitle = Localization.Localization.ReturnPurchaseTo + SupplierName.Trim();
 
                     // Retrieve the active financial year
                     var financialYearCheck = DatabaseQuery.Retrive("SELECT TOP 1 FinancialYearID FROM tblFinancialYear WHERE IsActive = 1");
@@ -438,7 +438,7 @@ namespace DatabaseAccess.Code
 
                     if (string.IsNullOrEmpty(FinancialYearID))
                     {
-                        return "Your Company Financial Year is not Set! Please Contact the Administrator!";
+                        return Localization.Localization.CompanyFinancialYearNotSet;
                     }
 
                     string AccountHeadID = string.Empty;
@@ -453,7 +453,7 @@ namespace DatabaseAccess.Code
                         .FirstOrDefault();
                     if (returnPurchaseAccount == null)
                     {
-                        return "Account settings for Purchase Return Payment Pending not found.";
+                        return Localization.Localization.AccountSettingsForPurchaseReturnPaymentPendingNotFound;
                     }
                     SetEntries(FinancialYearID, returnPurchaseAccount.AccountHeadID.ToString(), returnPurchaseAccount.AccountControlID.ToString(), returnPurchaseAccount.AccountSubControlID.ToString(), InvoiceNo, UserID.ToString(), Amount.ToString(), "0", DateTime.Now, "Return Payment from " + SupplierName);
 
@@ -464,7 +464,7 @@ namespace DatabaseAccess.Code
                         .FirstOrDefault();
                     if (returnPurchaseAccount == null)
                     {
-                        return "Account settings for Purchase Return Payment Succeed not found.";
+                        return Localization.Localization.AccountSettingsForPurchaseReturnPaymentSucceedNotFound;
                     }
                     SetEntries(FinancialYearID, returnPurchaseAccount.AccountHeadID.ToString(), returnPurchaseAccount.AccountControlID.ToString(), returnPurchaseAccount.AccountSubControlID.ToString(), InvoiceNo, UserID.ToString(), "0", Amount.ToString(), DateTime.Now, SupplierName + ", Return Purchase Payment is Succeed!");
 
@@ -516,13 +516,13 @@ namespace DatabaseAccess.Code
                     }
 
                     transaction.Commit();
-                    return "Return Purchase Payment is Paid";
+                    return Localization.Localization.ReturnPurchasePaymentIsSucceed;
                 }
                 catch (Exception ex)
                 {
                     transaction.Rollback();
                     Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
-                    return "Unexpected Error Occurred. Please Try Again!";
+                    return Localization.Localization.UnexpectedErrorOccurred;
                 }
             }
         }

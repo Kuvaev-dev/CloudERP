@@ -42,14 +42,14 @@ namespace DatabaseAccess.Code
                 {
                     InitializeDataTable();
 
-                    string saleTitle = "Sale to " + CustomerName.Trim();
+                    string saleTitle = Localization.Localization.SaleTo + CustomerName.Trim();
 
                     // Retrieve the active financial year
                     var financialYearCheck = DatabaseQuery.Retrive("SELECT TOP 1 FinancialYearID FROM tblFinancialYear WHERE IsActive = 1");
                     string FinancialYearID = (financialYearCheck != null ? Convert.ToString(financialYearCheck.Rows[0][0]) : string.Empty);
                     if (string.IsNullOrEmpty(FinancialYearID))
                     {
-                        return "Your Company Financial Year is not Set! Please Contact to Administrator!";
+                        return Localization.Localization.CompanyFinancialYearNotSet;
                     }
 
                     // Credit Entry Sale
@@ -59,7 +59,7 @@ namespace DatabaseAccess.Code
                         .FirstOrDefault();
                     if (saleAccount == null)
                     {
-                        return "Account settings for Sale not found.";
+                        return Localization.Localization.AccountSettingsForSaleNotFound;
                     }
                     SetEntries(FinancialYearID, saleAccount.AccountHeadID.ToString(), saleAccount.AccountControlID.ToString(), saleAccount.AccountSubControlID.ToString(), InvoiceNo, UserID.ToString(), Amount.ToString(), "0", DateTime.Now, saleTitle);
 
@@ -70,7 +70,7 @@ namespace DatabaseAccess.Code
                         .FirstOrDefault();
                     if (saleAccount == null)
                     {
-                        return "Account settings for Sale Payment Pending not found.";
+                        return Localization.Localization.AccountSettingsForSalePaymentPendingNotFound;
                     }
                     SetEntries(FinancialYearID, saleAccount.AccountHeadID.ToString(), saleAccount.AccountControlID.ToString(), saleAccount.AccountSubControlID.ToString(), InvoiceNo, UserID.ToString(), "0", Amount.ToString(), DateTime.Now, CustomerName + ", Sale Payment is Pending!");
 
@@ -85,7 +85,7 @@ namespace DatabaseAccess.Code
                             .FirstOrDefault();
                         if (saleAccount == null)
                         {
-                            return "Account settings for Sale Payment Paid not found.";
+                            return Localization.Localization.AccountSettingsForSalePaymentPaidNotFound;
                         }
                         SetEntries(FinancialYearID, saleAccount.AccountHeadID.ToString(), saleAccount.AccountControlID.ToString(), saleAccount.AccountSubControlID.ToString(), payInvoiceNo, UserID.ToString(), Amount.ToString(), "0", DateTime.Now, "Sale Payment Paid By " + CustomerName);
 
@@ -96,7 +96,7 @@ namespace DatabaseAccess.Code
                             .FirstOrDefault();
                         if (saleAccount == null)
                         {
-                            return "Account settings for Sale Payment Success not found.";
+                            return Localization.Localization.AccountSettingsForSalePaymentSuccessNotFound;
                         }
                         SetEntries(FinancialYearID, saleAccount.AccountHeadID.ToString(), saleAccount.AccountControlID.ToString(), saleAccount.AccountSubControlID.ToString(), payInvoiceNo, UserID.ToString(), "0", Amount.ToString(), DateTime.Now, CustomerName + ", Sale Payment is Succeed!");
 
@@ -120,7 +120,7 @@ namespace DatabaseAccess.Code
 
                         DatabaseQuery.Insert(paymentQuery, paymentParams);
 
-                        return "Sale Success with Payment.";
+                        return Localization.Localization.SaleSuccessWithPayment;
                     }
 
                     // Insert transaction records
@@ -150,13 +150,13 @@ namespace DatabaseAccess.Code
                     }
 
                     transaction.Commit();
-                    return "Sale Success";
+                    return Localization.Localization.SaleSuccess;
                 }
                 catch (Exception ex)
                 {
                     transaction.Rollback();
                     Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
-                    return "Unexpected Error is Occurred. Please Try Again!";
+                    return Localization.Localization.UnexpectedErrorOccurred;
                 }
             }
         }
@@ -169,14 +169,14 @@ namespace DatabaseAccess.Code
                 {
                     InitializeDataTable();
 
-                    string saleTitle = "Sale to " + CustomerName.Trim();
+                    string saleTitle = Localization.Localization.SaleTo + CustomerName.Trim();
 
                     // Retrieve the active financial year
                     var financialYearCheck = DatabaseQuery.Retrive("SELECT TOP 1 FinancialYearID FROM tblFinancialYear WHERE IsActive = 1");
                     string FinancialYearID = (financialYearCheck != null ? Convert.ToString(financialYearCheck.Rows[0][0]) : string.Empty);
                     if (string.IsNullOrEmpty(FinancialYearID))
                     {
-                        return "Your Company Financial Year is not Set! Please Contact Administrator!";
+                        return Localization.Localization.CompanyFinancialYearNotSet;
                     }
 
                     // Credit Entry Sale Payment Paid
@@ -186,7 +186,7 @@ namespace DatabaseAccess.Code
                         .FirstOrDefault();
                     if (saleAccount == null)
                     {
-                        return "Account settings for Sale Payment Paid not found.";
+                        return Localization.Localization.AccountSettingsForSalePaymentPaidNotFound;
                     }
                     SetEntries(FinancialYearID, saleAccount.AccountHeadID.ToString(), saleAccount.AccountControlID.ToString(), saleAccount.AccountSubControlID.ToString(), InvoiceNo, UserID.ToString(), Amount.ToString(), "0", DateTime.Now, "Sale Payment Paid By " + CustomerName);
 
@@ -197,7 +197,7 @@ namespace DatabaseAccess.Code
                         .FirstOrDefault();
                     if (saleAccount == null)
                     {
-                        return "Account settings for Sale Payment Success not found.";
+                        return Localization.Localization.AccountSettingsForSalePaymentSuccessNotFound;
                     }
                     SetEntries(FinancialYearID, saleAccount.AccountHeadID.ToString(), saleAccount.AccountControlID.ToString(), saleAccount.AccountSubControlID.ToString(), InvoiceNo, UserID.ToString(), "0", Amount.ToString(), DateTime.Now, CustomerName + ", Sale Payment is Succeed!");
 
@@ -248,13 +248,13 @@ namespace DatabaseAccess.Code
                     }
 
                     transaction.Commit();
-                    return "Paid Successfully";
+                    return Localization.Localization.PaidSuccessfully;
                 }
                 catch (Exception ex)
                 {
                     transaction.Rollback();
                     Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
-                    return "Unexpected Error is Occurred. Please Try Again!";
+                    return Localization.Localization.UnexpectedErrorOccurred;
                 }
             }
         }
@@ -269,14 +269,14 @@ namespace DatabaseAccess.Code
                 {
                     InitializeDataTable();
 
-                    string returnSaleTitle = "Return Sale from " + Customername.Trim();
+                    string returnSaleTitle = Localization.Localization.ReturnSaleFrom + Customername.Trim();
 
                     // Retrieve the active financial year
                     var financialYearCheck = DatabaseQuery.Retrive("SELECT TOP 1 FinancialYearID FROM tblFinancialYear WHERE IsActive = 1");
                     string FinancialYearID = (financialYearCheck != null ? Convert.ToString(financialYearCheck.Rows[0][0]) : string.Empty);
                     if (string.IsNullOrEmpty(FinancialYearID))
                     {
-                        return "Your Company Financial Year is not Set! Please Contact to Administrator!";
+                        return Localization.Localization.CompanyFinancialYearNotSet;
                     }
 
                     // Debit Entry Return Sale
@@ -286,7 +286,7 @@ namespace DatabaseAccess.Code
                         .FirstOrDefault();
                     if (returnSaleAccount == null)
                     {
-                        return "Account settings for Sale Return not found.";
+                        return Localization.Localization.AccountSettingsForSaleReturnNotFound;
                     }
                     SetEntries(FinancialYearID, returnSaleAccount.AccountHeadID.ToString(), returnSaleAccount.AccountControlID.ToString(), returnSaleAccount.AccountSubControlID.ToString(), InvoiceNo, UserID.ToString(), "0", Amount.ToString(), DateTime.Now, returnSaleTitle);
 
@@ -297,7 +297,7 @@ namespace DatabaseAccess.Code
                         .FirstOrDefault();
                     if (returnSaleAccount == null)
                     {
-                        return "Account settings for Sale Return Payment Pending not found.";
+                        return Localization.Localization.AccountSettingsForSaleReturnPaymentPendingNotFound;
                     }
                     SetEntries(FinancialYearID, returnSaleAccount.AccountHeadID.ToString(), returnSaleAccount.AccountControlID.ToString(), returnSaleAccount.AccountSubControlID.ToString(), InvoiceNo, UserID.ToString(), Amount.ToString(), "0", DateTime.Now, Customername + ", Return Sale Payment is Pending!");
 
@@ -312,7 +312,7 @@ namespace DatabaseAccess.Code
                             .FirstOrDefault();
                         if (returnSaleAccount == null)
                         {
-                            return "Account settings for Sale Return Payment Pending not found.";
+                            return Localization.Localization.AccountSettingsForSaleReturnPaymentPaidNotFound;
                         }
                         SetEntries(FinancialYearID, returnSaleAccount.AccountHeadID.ToString(), returnSaleAccount.AccountControlID.ToString(), returnSaleAccount.AccountSubControlID.ToString(), payInvoiceNo, UserID.ToString(), "0", Amount.ToString(), DateTime.Now, "Return Sale Payment Paid to " + Customername);
 
@@ -323,7 +323,7 @@ namespace DatabaseAccess.Code
                             .FirstOrDefault();
                         if (returnSaleAccount == null)
                         {
-                            return "Account settings for Sale Return Payment Success not found.";
+                            return Localization.Localization.AccountSettingsForSalePaymentSuccessNotFound;
                         }
                         SetEntries(FinancialYearID, returnSaleAccount.AccountHeadID.ToString(), returnSaleAccount.AccountControlID.ToString(), returnSaleAccount.AccountSubControlID.ToString(), payInvoiceNo, UserID.ToString(), "0", Amount.ToString(), DateTime.Now, Customername + ", Return Sale Payment is Succeed!");
 
@@ -346,7 +346,7 @@ namespace DatabaseAccess.Code
                         };
                         DatabaseQuery.Insert(paymentQuery, paymentParams);
 
-                        return "Return Sale Success with Payment.";
+                        return Localization.Localization.ReturnSaleSuccessWithPayment;
                     }
 
                     // Insert transaction records
@@ -373,13 +373,13 @@ namespace DatabaseAccess.Code
                     }
 
                     transaction.Commit();
-                    return "Return Sale Success";
+                    return Localization.Localization.ReturnSaleSuccess;
                 }
                 catch (Exception ex)
                 {
                     transaction.Rollback();
                     Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
-                    return "Unexpected Error is Occurred. Please Try Again!";
+                    return Localization.Localization.UnexpectedErrorOccurred;
                 }
             }
         }
@@ -392,14 +392,14 @@ namespace DatabaseAccess.Code
                 {
                     InitializeDataTable();
 
-                    string saleTitle = "Return Sale from " + Customername.Trim();
+                    string saleTitle = Localization.Localization.ReturnSaleFrom + Customername.Trim();
 
                     // Retrieve the active financial year
                     var financialYearCheck = DatabaseQuery.Retrive("SELECT TOP 1 FinancialYearID FROM tblFinancialYear WHERE IsActive = 1");
                     string FinancialYearID = (financialYearCheck != null ? Convert.ToString(financialYearCheck.Rows[0][0]) : string.Empty);
                     if (string.IsNullOrEmpty(FinancialYearID))
                     {
-                        return "Your Company Financial Year is not Set! Please Contact to Administrator!";
+                        return Localization.Localization.CompanyFinancialYearNotSet;
                     }
 
                     string AccountHeadID;
@@ -414,12 +414,12 @@ namespace DatabaseAccess.Code
                         .FirstOrDefault();
                     if (returnSaleAccount == null)
                     {
-                        return "Account settings for Sale Return Payment Pending not found.";
+                        return Localization.Localization.AccountSettingsForSaleReturnPaymentPaidNotFound;
                     }
                     AccountHeadID = returnSaleAccount.AccountHeadID.ToString();
                     AccountControlID = returnSaleAccount.AccountControlID.ToString();
                     AccountSubControlID = returnSaleAccount.AccountSubControlID.ToString();
-                    transactionTitle = "Return Sale Payment Paid to " + Customername;
+                    transactionTitle = Localization.Localization.ReturnSalePaymentPaidTo + Customername;
                     SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID.ToString(), "0", Amount.ToString(), DateTime.Now, transactionTitle);
 
                     // Debit Entry Return Sale Payment Success
@@ -429,12 +429,12 @@ namespace DatabaseAccess.Code
                         .FirstOrDefault();
                     if (returnSaleAccount == null)
                     {
-                        return "Account settings for Sale Return Payment Success not found.";
+                        return Localization.Localization.AccountSettingsForSaleReturnPaymentSuccessNotFound;
                     }
                     AccountHeadID = returnSaleAccount.AccountHeadID.ToString();
                     AccountControlID = returnSaleAccount.AccountControlID.ToString();
                     AccountSubControlID = returnSaleAccount.AccountSubControlID.ToString();
-                    transactionTitle = Customername + ", Return Sale Payment is Succeed!";
+                    transactionTitle = Customername + Localization.Localization.ReturnSalePaymentSsSucceed;
                     SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID.ToString(), Amount.ToString(), "0", DateTime.Now, transactionTitle);
 
                     // Insert return payment record
@@ -480,13 +480,13 @@ namespace DatabaseAccess.Code
                     }
 
                     transaction.Commit();
-                    return "Paid Successfully";
+                    return Localization.Localization.PaidSuccessfully;
                 }
                 catch (Exception ex)
                 {
                     transaction.Rollback();
                     Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
-                    return "Unexpected Error is Occurred. Please Try Again!";
+                    return Localization.Localization.UnexpectedErrorOccurred;
                 }
             }
         }

@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using DatabaseAccess;
 using DatabaseAccess.Code;
+using DatabaseAccess.Localization;
 
 public class SalaryTransaction
 {
@@ -50,14 +51,14 @@ public class SalaryTransaction
             {
                 InitializeDataTable();
 
-                string transectiontitle = "Salary is Pending";
+                string transectiontitle = Localization.SalaryIsPending;
 
                 var employee = _db.tblEmployee.Find(EmployeeID);
                 string employeename = string.Empty;
 
                 if (employee != null)
                 {
-                    employeename = ", To " + employee.Name;
+                    employeename = Localization.To + employee.Name;
                     transectiontitle += employeename;
                 }
 
@@ -65,7 +66,7 @@ public class SalaryTransaction
                 string FinancialYearID = (financialYearCheck != null ? Convert.ToString(financialYearCheck.Rows[0][0]) : string.Empty);
                 if (string.IsNullOrEmpty(FinancialYearID))
                 {
-                    return "Your Company Financial Year is not Set! Please Contact the Administrator!";
+                    return Localization.CompanyFinancialYearNotSet;
                 }
 
                 // 8 - Sale Return Payment Pending
@@ -74,7 +75,7 @@ public class SalaryTransaction
                     .FirstOrDefault();
                 if (account == null)
                 {
-                    return "Account settings not found for the provided CompanyID and BranchID.";
+                    return Localization.AccountSettingsNotFoundForTheProvidedCompanyIDAndBranchID;
                 }
 
                 string AccountHeadID = Convert.ToString(account.AccountHeadID);
@@ -83,7 +84,7 @@ public class SalaryTransaction
 
                 SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID.ToString(), "0", Convert.ToString(TransferAmount), DateTime.Now, transectiontitle);
 
-                transectiontitle = "Salary Succeed " + employee.Name;
+                transectiontitle = Localization.SalarySucceed + employee.Name;
 
                 SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID.ToString(), Convert.ToString(TransferAmount), "0", DateTime.Now, transectiontitle);
 
@@ -132,13 +133,13 @@ public class SalaryTransaction
                 }
 
                 transaction.Commit();
-                return "Salary Succeed";
+                return Localization.SalarySucceed;
             }
             catch (Exception ex)
             {
                 transaction.Rollback();
                 Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
-                return "Unexpected Error is Occured. Please Try Again!";
+                return Localization.UnexpectedErrorOccurred;
             }
         }
     }

@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DatabaseAccess.Localization;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Resources;
 
 public class AllowedDomainsAttribute : ValidationAttribute
 {
@@ -22,9 +24,14 @@ public class AllowedDomainsAttribute : ValidationAttribute
             }
             else
             {
-                return new ValidationResult($"Domain {emailDomain} isn`t avaliable. Allowed domains: {string.Join(", ", _allowedDomains)}");
+                string errorMessage = string.Format(
+                    Localization.DomainNotAvailable,
+                    emailDomain,
+                    string.Join(", ", _allowedDomains)
+                );
+                return new ValidationResult(errorMessage);
             }
         }
-        return new ValidationResult("Email is required.");
+        return new ValidationResult("Email " + Localization.RequiredField);
     }
 }
