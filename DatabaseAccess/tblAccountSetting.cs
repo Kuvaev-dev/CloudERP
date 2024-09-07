@@ -16,22 +16,22 @@ namespace DatabaseAccess
         [Key]
         public int AccountSettingID { get; set; }
 
-        [Required(ErrorMessage = "Account Head ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int AccountHeadID { get; set; }
 
-        [Required(ErrorMessage = "Account Control ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int AccountControlID { get; set; }
 
-        [Required(ErrorMessage = "Account Sub Control ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int AccountSubControlID { get; set; }
 
-        [Required(ErrorMessageResourceName = "Edit", ErrorMessageResourceType = typeof(Localization.Localization))]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int AccountActivityID { get; set; }
 
-        [Required(ErrorMessage = "Company ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int CompanyID { get; set; }
 
-        [Required(ErrorMessage = "Branch ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int BranchID { get; set; }
 
         public virtual tblAccountActivity tblAccountActivity { get; set; }

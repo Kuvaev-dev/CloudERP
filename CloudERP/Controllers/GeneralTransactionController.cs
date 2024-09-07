@@ -69,7 +69,7 @@ namespace CloudERP.Controllers
                     string payinvoiceno = "GEN" + DateTime.Now.ToString("yyyyMMddHHmmssmm");
                     var message = _generalEntry.ConfirmGeneralTransaction(transaction.TransferAmount, userID, branchID, companyID, payinvoiceno, transaction.DebitAccountControlID, transaction.CreditAccountControlID, transaction.Reason);
 
-                    if (message.Contains("Succeed"))
+                    if (message.Contains(Resources.Common.Succeed) || message.Contains(Resources.Common.Succeed.ToLower()))
                     {
                         Session["GNMessage"] = message;
                         return RedirectToAction("Journal");

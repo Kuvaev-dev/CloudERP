@@ -142,6 +142,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Forecast has been generated:.
+        /// </summary>
+        internal static string ForecastHasBeenGenerated {
+            get {
+                return ResourceManager.GetString("ForecastHasBeenGenerated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Invalid financial year ID..
         /// </summary>
         internal static string InvalidFinancialYearID {
@@ -331,6 +340,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Saved Successfully!.
+        /// </summary>
+        internal static string SavedSuccessfully {
+            get {
+                return ResourceManager.GetString("SavedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Your support request has been submitted successfully..
         /// </summary>
         internal static string SupportRequestSubmitted {
@@ -363,6 +381,15 @@ namespace Resources {
         internal static string UnexpectedIssue {
             get {
                 return ResourceManager.GetString("UnexpectedIssue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Updated Successfully!.
+        /// </summary>
+        internal static string UpdatedSuccessfully {
+            get {
+                return ResourceManager.GetString("UpdatedSuccessfully", resourceCulture);
             }
         }
         

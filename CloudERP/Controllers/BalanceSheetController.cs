@@ -62,7 +62,7 @@ namespace CloudERP.Controllers
 
             if (!id.HasValue)
             {
-                ViewBag.ErrorMessage = "Invalid Financial Year ID.";
+                ViewBag.ErrorMessage = Resources.Messages.InvalidFinancialYearID;
                 return View(new BalanceSheetModel());
             }
 

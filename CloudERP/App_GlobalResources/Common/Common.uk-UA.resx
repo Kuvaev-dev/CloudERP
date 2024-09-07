@@ -134,4 +134,8 @@
     <value>ГРН</value>
     <comment></comment>
   </data>
+  <data name="Succeed" xml:space="preserve">
+    <value>Успешно</value>
+    <comment></comment>
+  </data>
 </root>

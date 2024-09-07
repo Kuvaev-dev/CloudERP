@@ -56,7 +56,7 @@ namespace DatabaseAccess
 
         [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         [EmailAddress(ErrorMessageResourceName = "EmailAddressField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [AllowedDomains(new string[] { "gmail.com", "ukr.net" }, ErrorMessage = "Domain {0} isn`t allowed.")]
+        [AllowedDomains(new string[] { "gmail.com", "ukr.net" }, ErrorMessageResourceName = "DomainField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string Email { get; set; }
 
         [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]

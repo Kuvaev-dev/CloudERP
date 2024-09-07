@@ -206,4 +206,13 @@
   <data name="NoDataAvailableForForecasting" xml:space="preserve">
     <value>No data available for forecasting.</value>
 	</data>
+  <data name="SavedSuccessfully" xml:space="preserve">
+    <value>Saved Successfully!</value>
+	</data>
+  <data name="UpdatedSuccessfully" xml:space="preserve">
+    <value>Updated Successfully!</value>
+	</data>
+  <data name="ForecastHasBeenGenerated" xml:space="preserve">
+    <value>Forecast has been generated:</value>
+	</data>
 </root>

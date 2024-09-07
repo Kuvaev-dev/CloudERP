@@ -124,6 +124,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Succeed.
+        /// </summary>
+        internal static string Succeed {
+            get {
+                return ResourceManager.GetString("Succeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на UAH.
         /// </summary>
         internal static string UAH {

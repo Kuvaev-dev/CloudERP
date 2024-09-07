@@ -134,4 +134,8 @@
     <value>UAH</value>
     <comment></comment>
   </data>
+  <data name="Succeed" xml:space="preserve">
+    <value>Succeed</value>
+    <comment></comment>
+  </data>
 </root>

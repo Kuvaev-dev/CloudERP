@@ -99,7 +99,7 @@ namespace CloudERP.Controllers
                     }
                     else
                     {
-                        ViewBag.Message = "Already Exist!";
+                        ViewBag.Message = Resources.Messages.AlreadyExists;
                     }
                 }
 
@@ -165,7 +165,7 @@ namespace CloudERP.Controllers
                     }
                     else
                     {
-                        ViewBag.Message = "Already Exist!";
+                        ViewBag.Message = Resources.Messages.AlreadyExists;
                     }
                 }
 

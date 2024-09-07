@@ -185,7 +185,7 @@ namespace CloudERP.Controllers
                                             .Where(p => p.BranchID == branchID && p.CompanyID == companyID)
                                             .Select(item => new ProductMV()
                                             {
-                                                Name = item.ProductName + " (Avl Qty: " + item.Quantity + ")",
+                                                Name = item.ProductName + " (AVL QTY: " + item.Quantity + ")",
                                                 ProductID = item.ProductID
                                             })
                                             .ToList();

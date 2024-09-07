@@ -107,13 +107,13 @@ namespace CloudERP.Controllers
                     {
                         _db.tblAccountSetting.Add(tblAccountSetting);
                         _db.SaveChanges();
-                        ViewBag.Message = "Saved Successfully!";
+                        ViewBag.Message = Resources.Messages.SavedSuccessfully;
 
                         return RedirectToAction("Index");
                     }
                     else
                     {
-                        ViewBag.Message = "Already Exist!";
+                        ViewBag.Message = Resources.Messages.AlreadyExists;
                     }
                 }
 
@@ -197,13 +197,13 @@ namespace CloudERP.Controllers
                     {
                         _db.Entry(tblAccountSetting).State = EntityState.Modified;
                         _db.SaveChanges();
-                        ViewBag.Message = "Updated Successfully!";
+                        ViewBag.Message = Resources.Messages.UpdatedSuccessfully;
 
                         return RedirectToAction("Index");
                     }
                     else
                     {
-                        ViewBag.Message = "Already Exist!";
+                        ViewBag.Message = Resources.Messages.AlreadyExists;
                     }
                 }
 

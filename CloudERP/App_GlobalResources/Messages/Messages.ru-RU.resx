@@ -100,110 +100,119 @@
 	</resheader>
   <data name="UnexpectedErrorMessage" xml:space="preserve">
     <value>Произошла непредвиденная ошибка при внесении изменений: </value>
-</data>
+	</data>
   <data name="AlreadyExists" xml:space="preserve">
     <value>Такие данные уже содержатся в базе данных. Проверьте данные формы и попробуйте снова.</value>
-</data>
+	</data>
   <data name="ErrorFetchingDataFromGeoapifyAPI" xml:space="preserve">
     <value>Ошибка получения данных из Geoapify API</value>
-</data>
+	</data>
   <data name="CompanyFinancialYearNotSet" xml:space="preserve">
     <value>Финансовый год вашей компании не установлен! Пожалуйста, обратитесь к администратору!</value>
-</data>
+	</data>
   <data name="InvalidFinancialYearID" xml:space="preserve">
     <value>Неверный ID финансового года.</value>
-</data>
+	</data>
   <data name="BranchEists" xml:space="preserve">
     <value>Филиал с таким же именем, контактом или адресом уже существует для этой компании.</value>
-</data>
+	</data>
   <data name="RecordNotFound" xml:space="preserve">
     <value>Запись не найдена</value>
-</data>
+	</data>
   <data name="SalaryIsAlreadyPaid" xml:space="preserve">
     <value>Зарплата уже выплачена</value>
-</data>
+	</data>
   <data name="PleaseReLoginAndTryAgain" xml:space="preserve">
     <value>Пожалуйста, войдите в систему снова и попробуйте еще раз</value>
-</data>
+	</data>
   <data name="UsernameAlreadyExists" xml:space="preserve">
     <value>Пользователь с этим именем пользователя или электронной почтой уже существует.</value>
-</data>
+	</data>
   <data name="EmployeeEmailAlreadyExists" xml:space="preserve">
     <value>Сотрудник с этим адресом электронной почты уже существует в этой компании.</value>
-</data>
+	</data>
   <data name="RegistrationSuccessful" xml:space="preserve">
     <value>Регистрация прошла успешно!</value>
-</data>
+	</data>
   <data name="PleaseProvideCorrectDetails" xml:space="preserve">
     <value>Пожалуйста, укажите правильные данные.</value>
-</data>
+	</data>
   <data name="EmailIsRequired" xml:space="preserve">
     <value>Электронная почта обязательна.</value>
-</data>
+	</data>
   <data name="PasswordResetAlreadyRequested" xml:space="preserve">
     <value>Вы уже запросили сброс пароля. Пожалуйста, подождите некоторое время перед повторной попыткой.</value>
-</data>
+	</data>
   <data name="ItemAddedSuccessfully" xml:space="preserve">
     <value>Элемент успешно добавлен!</value>
-</data>
+	</data>
   <data name="ItemAlreadyExists" xml:space="preserve">
     <value>Элемент уже существует!</value>
-</data>
+	</data>
   <data name="DeletedSuccessfully" xml:space="preserve">
     <value>Успешно удалено.</value>
-</data>
+	</data>
   <data name="UnexpectedIssue" xml:space="preserve">
     <value>Произошла непредвиденная проблема. Пожалуйста, свяжитесь с ответственным лицом!</value>
-</data>
+	</data>
   <data name="PurchaseIsCanceled" xml:space="preserve">
     <value>Покупка отменена.</value>
-</data>
+	</data>
   <data name="PurchaseCartIsEmpty" xml:space="preserve">
     <value>Корзина покупок пуста</value>
-</data>
+	</data>
   <data name="PurchasePaymentRemainingAmountError" xml:space="preserve">
     <value>Платеж должен быть меньше или равен предыдущей оставшейся сумме.</value>
-</data>
+	</data>
   <data name="PurchaseReturn" xml:space="preserve">
     <value>Возврат покупки</value>
-</data>
+	</data>
   <data name="OneProductReturnQtyError" xml:space="preserve">
     <value>Должно быть хотя бы одно количество возврата продукта</value>
-</data>
+	</data>
   <data name="ReturnSuccessfully" xml:space="preserve">
     <value>Возврат успешно завершен</value>
-</data>
+	</data>
   <data name="ProductDetailsFetchingError" xml:space="preserve">
     <value>Произошла ошибка при получении данных о продукте.</value>
-</data>
+	</data>
   <data name="SaleQuantityError" xml:space="preserve">
     <value>Количество продажи должно быть меньше или равно доступному количеству.</value>
-</data>
+	</data>
   <data name="ProductNotFound" xml:space="preserve">
     <value>Продукт не найден.</value>
-</data>
+	</data>
   <data name="EmployeeNotFound" xml:space="preserve">
     <value>Сотрудник не найден.</value>
-</data>
+	</data>
   <data name="SaleCanceledSuccessfully" xml:space="preserve">
     <value>Продажа успешно отменена.</value>
-</data>
+	</data>
   <data name="SaleCartEmpty" xml:space="preserve">
     <value>Корзина продаж пуста.</value>
-</data>
+	</data>
   <data name="SupportRequestSubmitted" xml:space="preserve">
     <value>Ваш запрос на поддержку был успешно отправлен.</value>
-</data>
+	</data>
   <data name="EmailIsAlreadyRegistered" xml:space="preserve">
     <value>Электронная почта уже зарегистрирована</value>
-</data>
+	</data>
   <data name="UserNotFound" xml:space="preserve">
     <value>Пользователь не найден.</value>
-</data>
+	</data>
   <data name="TrainingSetHasZeroInstances" xml:space="preserve">
     <value>Набор для обучения содержит 0 экземпляров, обучение прекращено.</value>
-</data>
+	</data>
   <data name="NoDataAvailableForForecasting" xml:space="preserve">
     <value>Нет данных для прогнозирования.</value>
-</data>
+	</data>
+  <data name="SavedSuccessfully" xml:space="preserve">
+    <value>Успешно сохранено!</value>
+	</data>
+  <data name="UpdatedSuccessfully" xml:space="preserve">
+    <value>Успешно обновлено!</value>
+	</data>
+  <data name="ForecastHasBeenGenerated" xml:space="preserve">
+    <value>Данные для прогноза успешно сгенерированы:</value>
+	</data>
 </root>

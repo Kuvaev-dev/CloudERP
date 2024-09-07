@@ -27,12 +27,12 @@ namespace DatabaseAccess
         public int EmployeeID { get; set; }
 
         [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [StringLength(100, ErrorMessage = "Name cannot be longer than 100 characters.")]
+        [StringLength(100, ErrorMessageResourceName = "StringLengthField", ErrorMessageResourceType = typeof(Localization.Localization))]
         [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Name can only contain letters and spaces.")]
         public string Name { get; set; }
 
         [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [Phone(ErrorMessage = "Invalid phone number format.")]
+        [Phone(ErrorMessageResourceName = "PhoneField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string ContactNo { get; set; }
 
         public string Photo { get; set; }

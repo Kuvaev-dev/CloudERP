@@ -100,110 +100,119 @@
 	</resheader>
   <data name="UnexpectedErrorMessage" xml:space="preserve">
     <value>Сталася непередбачена помилка під час внесення змін: </value>
-</data>
+	</data>
   <data name="AlreadyExists" xml:space="preserve">
     <value>Такі дані вже містяться в базі даних. Перевірте дані форми та спробуйте ще раз.</value>
-</data>
+	</data>
   <data name="ErrorFetchingDataFromGeoapifyAPI" xml:space="preserve">
     <value>Помилка отримання даних з Geoapify API</value>
-</data>
+	</data>
   <data name="CompanyFinancialYearNotSet" xml:space="preserve">
     <value>Фінансовий рік вашої компанії не встановлений! Будь ласка, зверніться до адміністратора!</value>
-</data>
+	</data>
   <data name="InvalidFinancialYearID" xml:space="preserve">
     <value>Невірний ID фінансового року.</value>
-</data>
+	</data>
   <data name="BranchEists" xml:space="preserve">
     <value>Філія з таким же ім'ям, контактом або адресою вже існує для цієї компанії.</value>
-</data>
+	</data>
   <data name="RecordNotFound" xml:space="preserve">
     <value>Запис не знайдено</value>
-</data>
+	</data>
   <data name="SalaryIsAlreadyPaid" xml:space="preserve">
     <value>Зарплата вже виплачена</value>
-</data>
+	</data>
   <data name="PleaseReLoginAndTryAgain" xml:space="preserve">
     <value>Будь ласка, увійдіть в систему знову та спробуйте ще раз</value>
-</data>
+	</data>
   <data name="UsernameAlreadyExists" xml:space="preserve">
     <value>Користувач з цим ім'ям або електронною поштою вже існує.</value>
-</data>
+	</data>
   <data name="EmployeeEmailAlreadyExists" xml:space="preserve">
     <value>Співробітник з цим електронним адресом вже існує в цій компанії.</value>
-</data>
+	</data>
   <data name="RegistrationSuccessful" xml:space="preserve">
     <value>Реєстрація пройшла успішно!</value>
-</data>
+	</data>
   <data name="PleaseProvideCorrectDetails" xml:space="preserve">
     <value>Будь ласка, надайте правильні дані.</value>
-</data>
+	</data>
   <data name="EmailIsRequired" xml:space="preserve">
     <value>Електронна пошта є обов'язковою.</value>
-</data>
+	</data>
   <data name="PasswordResetAlreadyRequested" xml:space="preserve">
     <value>Ви вже запитували скидання пароля. Будь ласка, почекайте деякий час перед повторною спробою.</value>
-</data>
+	</data>
   <data name="ItemAddedSuccessfully" xml:space="preserve">
     <value>Елемент успішно додано!</value>
-</data>
+	</data>
   <data name="ItemAlreadyExists" xml:space="preserve">
     <value>Елемент вже існує!</value>
-</data>
+	</data>
   <data name="DeletedSuccessfully" xml:space="preserve">
     <value>Успішно видалено.</value>
-</data>
+	</data>
   <data name="UnexpectedIssue" xml:space="preserve">
     <value>Сталася непередбачена проблема. Будь ласка, зверніться до відповідальної особи!</value>
-</data>
+	</data>
   <data name="PurchaseIsCanceled" xml:space="preserve">
     <value>Покупка скасована.</value>
-</data>
+	</data>
   <data name="PurchaseCartIsEmpty" xml:space="preserve">
     <value>Корзина покупок порожня</value>
-</data>
+	</data>
   <data name="PurchasePaymentRemainingAmountError" xml:space="preserve">
     <value>Платіж має бути менше або дорівнювати попередній залишковій сумі.</value>
-</data>
+	</data>
   <data name="PurchaseReturn" xml:space="preserve">
     <value>Повернення покупки</value>
-</data>
+	</data>
   <data name="OneProductReturnQtyError" xml:space="preserve">
     <value>Має бути хоча б одна кількість повернення продукту</value>
-</data>
+	</data>
   <data name="ReturnSuccessfully" xml:space="preserve">
     <value>Повернення успішно завершено</value>
-</data>
+	</data>
   <data name="ProductDetailsFetchingError" xml:space="preserve">
     <value>Сталася помилка при отриманні деталей продукту.</value>
-</data>
+	</data>
   <data name="SaleQuantityError" xml:space="preserve">
     <value>Кількість продажу має бути менше або дорівнювати доступній кількості.</value>
-</data>
+	</data>
   <data name="ProductNotFound" xml:space="preserve">
     <value>Продукт не знайдено.</value>
-</data>
+	</data>
   <data name="EmployeeNotFound" xml:space="preserve">
     <value>Співробітник не знайдено.</value>
-</data>
+	</data>
   <data name="SaleCanceledSuccessfully" xml:space="preserve">
     <value>Продаж успішно скасовано.</value>
-</data>
+	</data>
   <data name="SaleCartEmpty" xml:space="preserve">
     <value>Корзина продажів порожня.</value>
-</data>
+	</data>
   <data name="SupportRequestSubmitted" xml:space="preserve">
     <value>Ваш запит на підтримку був успішно відправлений.</value>
-</data>
+	</data>
   <data name="EmailIsAlreadyRegistered" xml:space="preserve">
     <value>Електронна пошта вже зареєстрована</value>
-</data>
+	</data>
   <data name="UserNotFound" xml:space="preserve">
     <value>Користувач не знайдено.</value>
-</data>
+	</data>
   <data name="TrainingSetHasZeroInstances" xml:space="preserve">
     <value>Набір для навчання містить 0 екземплярів, навчання припинено.</value>
-</data>
+	</data>
   <data name="NoDataAvailableForForecasting" xml:space="preserve">
     <value>Немає даних для прогнозування.</value>
-</data>
+	</data>
+  <data name="SavedSuccessfully" xml:space="preserve">
+    <value>Успішно збережено!</value>
+	</data>
+  <data name="UpdatedSuccessfully" xml:space="preserve">
+    <value>Успішно оновлено!</value>
+	</data>
+  <data name="ForecastHasBeenGenerated" xml:space="preserve">
+    <value>Дані для прогнозу успішно згенеровано:</value>
+	</data>
 </root>

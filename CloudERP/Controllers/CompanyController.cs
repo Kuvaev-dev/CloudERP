@@ -96,7 +96,7 @@ namespace CloudERP.Controllers
 
                     if (existingCompany != null)
                     {
-                        ModelState.AddModelError("Name", "Компания с таким именем уже существует.");
+                        ModelState.AddModelError("Name", Resources.Messages.AlreadyExists);
                         return View(tblCompany);
                     }
 

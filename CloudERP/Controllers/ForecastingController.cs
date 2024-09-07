@@ -50,7 +50,7 @@ namespace CloudERP.Controllers
                 var forecastData = _forecastingService.GetForecastData(companyID, branchID, inputModel.StartDate, inputModel.EndDate);
                 var forecastValue = _forecastingService.GenerateForecast(companyID, branchID, inputModel.StartDate, inputModel.EndDate);
 
-                TempData["Message"] = $"Forecast has been generated: {forecastValue}";
+                TempData["Message"] = $"{Resources.Messages.ForecastHasBeenGenerated} {forecastValue}";
                 inputModel.ForecastData = forecastData;
                 return View("Index", inputModel);
             }
