@@ -11,10 +11,10 @@ namespace CloudERP.Controllers
         private readonly CloudDBEntities _db;
         private readonly IncomeStatement _income;
 
-        public IncomeStatementController(CloudDBEntities db)
+        public IncomeStatementController(CloudDBEntities db, IncomeStatement income)
         {
             _db = db;
-            _income = new IncomeStatement(_db);
+            _income = income;
         }
 
         // GET: IncomeStatement

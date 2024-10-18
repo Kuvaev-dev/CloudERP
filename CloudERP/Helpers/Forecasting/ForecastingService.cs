@@ -1,5 +1,6 @@
 ﻿using CloudERP.Models.Forecasting;
 using DatabaseAccess;
+using Microsoft.ML;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,22 +10,23 @@ namespace CloudERP.Helpers.Forecasting
     public class ForecastingService
     {
         private readonly CloudDBEntities _context;
+        private readonly MLContext _mlContext;
 
         public ForecastingService(CloudDBEntities context)
         {
             _context = context;
+            _mlContext = new MLContext();
         }
 
         public IEnumerable<ForecastData> GetForecastData(int companyID, int branchID, DateTime startDate, DateTime endDate)
         {
             // Retrieve the data from the database
-            var transactionData = _context.tblTransaction
-                .Where(t => t.CompanyID == companyID &&
+            var transactionData = _context.tblTransaction.Where(t => t.CompanyID == companyID &&
                             t.BranchID == branchID &&
                             t.TransectionDate >= startDate &&
                             t.TransectionDate <= endDate)
                 .AsEnumerable() // Convert to Enumerable to perform LINQ to Objects
-                .GroupBy(t => new { Year = t.TransectionDate.Year, Month = t.TransectionDate.Month })
+                .GroupBy(t => new { t.TransectionDate.Year, t.TransectionDate.Month })
                 .Select(g => new
                 {
                     NetAmount = g.Sum(t => t.Credit) - g.Sum(t => t.Debit),
@@ -56,7 +58,7 @@ namespace CloudERP.Helpers.Forecasting
                 throw new InvalidOperationException(Resources.Messages.NoDataAvailableForForecasting);
             }
 
-            var forecaster = new FinancialForecaster();
+            var forecaster = new FinancialForecaster(_mlContext); 
             var model = forecaster.TrainModel(forecastData);
 
             var futureDate = DateTime.Now.AddMonths(1);

@@ -1,7 +1,6 @@
 ﻿using DatabaseAccess.Localization;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Resources;
 
 public class AllowedDomainsAttribute : ValidationAttribute
 {

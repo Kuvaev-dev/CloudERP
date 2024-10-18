@@ -14,10 +14,10 @@ namespace CloudERP.Controllers
         private readonly CloudDBEntities _db;
         private readonly SP_TrialBalance _trialBalance;
 
-        public TrialBalanceController(CloudDBEntities db)
+        public TrialBalanceController(CloudDBEntities db, SP_TrialBalance trialBalance)
         {
             _db = db;
-            _trialBalance = new SP_TrialBalance();
+            _trialBalance = trialBalance;
         }
 
         // GET: TrialBalance

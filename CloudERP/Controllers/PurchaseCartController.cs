@@ -15,10 +15,10 @@ namespace CloudERP.Controllers
         private readonly CloudDBEntities _db;
         private readonly PurchaseEntry _purchaseEntry;
 
-        public PurchaseCartController(CloudDBEntities db)
+        public PurchaseCartController(CloudDBEntities db, PurchaseEntry purchaseEntry)
         {
             _db = db;
-            _purchaseEntry = new PurchaseEntry(_db);
+            _purchaseEntry = purchaseEntry;
         }
 
         // GET: PurchaseCart/NewPurchase

@@ -13,11 +13,11 @@ namespace CloudERP.Controllers
         private readonly SP_GeneralTransaction _accounts;
         private readonly GeneralTransactionEntry _generalEntry;
 
-        public GeneralTransactionController(CloudDBEntities db)
+        public GeneralTransactionController(CloudDBEntities db, SP_GeneralTransaction accounts, GeneralTransactionEntry generalEntry)
         {
             _db = db;
-            _accounts = new SP_GeneralTransaction(_db);
-            _generalEntry = new GeneralTransactionEntry(_db);
+            _accounts = accounts;
+            _generalEntry = generalEntry;
         }
 
         // GET: GeneralTransaction/GeneralTransaction
@@ -38,8 +38,7 @@ namespace CloudERP.Controllers
                 ViewBag.CreditAccountControlID = new SelectList(accounts, "AccountSubControlID", "AccountSubControl");
                 ViewBag.DebitAccountControlID = new SelectList(accounts, "AccountSubControlID", "AccountSubControl");
 
-                var transaction = new GeneralTransactionMV();
-                return View(transaction);
+                return View(new GeneralTransactionMV());
             }
             catch (Exception ex)
             {

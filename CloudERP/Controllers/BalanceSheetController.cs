@@ -13,10 +13,10 @@ namespace CloudERP.Controllers
         private readonly CloudDBEntities _db;
         private readonly SP_BalanceSheet _balSheet;
 
-        public BalanceSheetController(CloudDBEntities db)
+        public BalanceSheetController(CloudDBEntities db, SP_BalanceSheet balSheet)
         {
             _db = db;
-            _balSheet = new SP_BalanceSheet(_db);
+            _balSheet = balSheet;
         }
 
         // GET: BalanceSheet

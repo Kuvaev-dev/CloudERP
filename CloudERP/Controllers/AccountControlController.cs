@@ -15,10 +15,10 @@ namespace CloudERP.Controllers
         private readonly CloudDBEntities _db;
         private readonly List<AccountControlMV> _accountControl;
 
-        public AccountControlController(CloudDBEntities db)
+        public AccountControlController(CloudDBEntities db, List<AccountControlMV> accountControl)
         {
             _db = db;
-            _accountControl = new List<AccountControlMV>();
+            _accountControl = accountControl;
         }
 
         // GET: AccountControl

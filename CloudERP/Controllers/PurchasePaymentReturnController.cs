@@ -12,14 +12,14 @@ namespace CloudERP.Controllers
     public class PurchasePaymentReturnController : Controller
     {
         private readonly CloudDBEntities _db;
-        internal SP_Purchase _purchase;
-        internal PurchaseEntry _purchaseEntry;
+        private readonly SP_Purchase _purchase;
+        private readonly PurchaseEntry _purchaseEntry;
 
-        public PurchasePaymentReturnController(CloudDBEntities db)
+        public PurchasePaymentReturnController(CloudDBEntities db, SP_Purchase purchase, PurchaseEntry purchaseEntry)
         {
             _db = db;
-            _purchase = new SP_Purchase(_db);
-            _purchaseEntry = new PurchaseEntry(_db);
+            _purchase = purchase;
+            _purchaseEntry = purchaseEntry;
         }
 
         // GET: PurchasePaymentReturn

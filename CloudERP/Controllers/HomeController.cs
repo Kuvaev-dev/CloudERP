@@ -17,10 +17,10 @@ namespace CloudERP.Controllers
         private readonly CloudDBEntities _db;
         private readonly SP_Dashboard _spDashboard;
 
-        public HomeController(CloudDBEntities db)
+        public HomeController(CloudDBEntities db, SP_Dashboard spDashboard)
         {
             _db = db;
-            _spDashboard = new SP_Dashboard(_db);
+            _spDashboard = spDashboard;
         }
 
         public ActionResult Index()

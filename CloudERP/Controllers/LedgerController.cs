@@ -12,10 +12,10 @@ namespace CloudERP.Controllers
         private readonly CloudDBEntities _db;
         private readonly SP_Ledger _ledgersp;
 
-        public LedgerController(CloudDBEntities db)
+        public LedgerController(CloudDBEntities db, SP_Ledger ledgersp)
         {
             _db = db;
-            _ledgersp = new SP_Ledger(_db);
+            _ledgersp = ledgersp;
         }
 
         public ActionResult GetLedger()

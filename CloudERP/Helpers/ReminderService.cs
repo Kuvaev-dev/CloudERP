@@ -9,10 +9,10 @@ namespace CloudERP.Helpers
         private readonly CloudDBEntities _db;
         private readonly EmailService _emailService;
 
-        public ReminderService(CloudDBEntities db)
+        public ReminderService(CloudDBEntities db, EmailService emailService)
         {
             _db = db;
-            _emailService = new EmailService();
+            _emailService = emailService;
         }
 
         public void SendReminders()

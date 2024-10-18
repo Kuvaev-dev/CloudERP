@@ -13,11 +13,11 @@ namespace CloudERP.Controllers
         private readonly SP_Sale _sale;
         private readonly SaleEntry _saleEntry;
 
-        public SalePaymentController(CloudDBEntities db)
+        public SalePaymentController(CloudDBEntities db, SP_Sale sale, SaleEntry saleEntry)
         {
             _db = db;
-            _sale = new SP_Sale(_db);
-            _saleEntry = new SaleEntry(_db);
+            _sale = sale;
+            _saleEntry = saleEntry;
         }
 
         // GET: PurchasePayment

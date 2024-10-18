@@ -5,8 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using CloudERP.Models;
-using CloudERP.Helpers;
-using System.Threading.Tasks;
 
 namespace CloudERP.Controllers
 {
@@ -15,10 +13,10 @@ namespace CloudERP.Controllers
         private readonly CloudDBEntities _db;
         private readonly SaleEntry _saleEntry;
 
-        public SaleCartController(CloudDBEntities db)
+        public SaleCartController(CloudDBEntities db, SaleEntry saleEntry)
         {
             _db = db;
-            _saleEntry = new SaleEntry(_db);
+            _saleEntry = saleEntry;
         }
 
         // GET: SaleCart/NewSale

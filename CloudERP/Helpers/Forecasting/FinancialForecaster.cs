@@ -10,9 +10,9 @@ namespace CloudERP.Helpers
     {
         private readonly MLContext _mlContext;
 
-        public FinancialForecaster()
+        public FinancialForecaster(MLContext mlContext)
         {
-            _mlContext = new MLContext();
+            _mlContext = mlContext;
         }
 
         public ITransformer TrainModel(IEnumerable<ForecastData> data)

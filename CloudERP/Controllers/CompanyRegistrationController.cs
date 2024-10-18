@@ -10,10 +10,12 @@ namespace CloudERP.Controllers
     public class CompanyRegistrationController : Controller
     {
         private readonly CloudDBEntities _db;
+        private readonly EmailService _emailService;
 
-        public CompanyRegistrationController(CloudDBEntities db)
+        public CompanyRegistrationController(CloudDBEntities db, EmailService emailService)
         {
             _db = db;
+            _emailService = emailService;
         }
 
         // GET: CompanyRegistration/RegistrationForm
@@ -119,7 +121,6 @@ namespace CloudERP.Controllers
                     _db.SaveChanges();
 
                     // Send email
-                    var emailService = new EmailService();
                     var subject = "Welcome to the Company";
                     var body = $"Hello {employee.Name},\n\n" +
                                $"Your registration is successful. Here are your details:\n" +
@@ -127,7 +128,7 @@ namespace CloudERP.Controllers
                                $"Email: {employee.Email}\n" +
                                $"Contact No: {employee.ContactNo}\n\n" +
                                $"Best regards,\nCompany Team";
-                    emailService.SendEmail(employee.Email, subject, body);
+                    _emailService.SendEmail(employee.Email, subject, body);
 
                     ViewBag.Message = Resources.Messages.RegistrationSuccessful;
                     return RedirectToAction("Login", "Home");

@@ -13,10 +13,10 @@ namespace CloudERP.Controllers
         private readonly CloudDBEntities _db;
         private readonly SalaryTransaction _salaryTransaction;
 
-        public CompanyEmployeeController(CloudDBEntities db)
+        public CompanyEmployeeController(CloudDBEntities db, SalaryTransaction salaryTransaction)
         {
             _db = db;
-            _salaryTransaction = new SalaryTransaction(_db);
+            _salaryTransaction = salaryTransaction;
         }
 
         // GET: Employees
@@ -229,7 +229,7 @@ namespace CloudERP.Controllers
                         if (message.Contains("Succeed"))
                         {
                             Session["SalaryMessage"] = message;
-                            int payrollNo = _db.tblPayroll.Any() ? _db.tblPayroll.Max(p => p.PayrollID) : 0; // Check if tblPayroll has records
+                            int payrollNo = _db.tblPayroll.Any() ? _db.tblPayroll.Max(p => p.PayrollID) : 0;
                             return RedirectToAction("PrintSalaryInvoice", new { id = payrollNo });
                         }
                         else

@@ -12,10 +12,10 @@ namespace CloudERP.Controllers
         private readonly CloudDBEntities _db;
         private readonly SaleEntry _saleEntry;
 
-        public SaleReturnController(CloudDBEntities db)
+        public SaleReturnController(CloudDBEntities db, SaleEntry saleEntry)
         {
             _db = db;
-            _saleEntry = new SaleEntry(_db);
+            _saleEntry = saleEntry;
         }
 
         // GET: SaleReturn

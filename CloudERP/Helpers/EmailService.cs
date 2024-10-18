@@ -2,7 +2,12 @@
 using MimeKit;
 using System.Configuration;
 
-public class EmailService
+public interface IEmailService
+{
+    void SendEmail(string toEmailAddress, string subject, string body);
+}
+
+public class EmailService : IEmailService
 {
     public void SendEmail(string toEmailAddress, string subject, string body)
     {

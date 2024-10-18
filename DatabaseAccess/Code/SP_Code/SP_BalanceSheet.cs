@@ -8,7 +8,7 @@ namespace DatabaseAccess.Code.SP_Code
 {
     public class SP_BalanceSheet
     {
-        private CloudDBEntities _db;
+        private readonly CloudDBEntities _db;
 
         public SP_BalanceSheet(CloudDBEntities db)
         {
