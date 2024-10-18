@@ -3028,6 +3028,7 @@
     <Content Include="Content\Template\img\user\12.jpg" />
     <Content Include="Content\Template\img\user\13.jpg" />
     <Content Include="Content\Template\js\app.js" />
+    <Content Include="Content\Template\img\loading.gif" />
     <Content Include="Content\Template\vendor\%40ttskch\select2-bootstrap4-theme\dist\select2-bootstrap4.css" />
     <Content Include="Content\Template\vendor\animate.css\animate.css" />
     <Content Include="Content\Template\vendor\animo\animo.js" />

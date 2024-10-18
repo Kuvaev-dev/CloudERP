@@ -100,6 +100,13 @@
                 <!-- END Left navbar-->
                 <!-- START Right Navbar-->
                 <ul class="navbar-nav flex-row">
+                    <!-- START Loading-->
+                    <li class="nav-item" id="step4">
+                        <div style="display:none;">
+                            <img src="~/Content/Template/img/loading.gif" alt="Loading..." />
+                        </div>
+                    </li>
+                    <!-- END Loading-->
                     <!-- START Dark theme-->
                     <li class="nav-item" id="step4">
                         <div class="nav-link container">
@@ -122,13 +129,13 @@
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="languageDropdown">
                             @using (Html.BeginForm("SetCulture", "Home", FormMethod.Post, new { @id = "languageForm" }))
                             {
-                            <div class="dropdown-item">
-                                <select name="culture" class="custom-select" onchange="document.getElementById('languageForm').submit()">
-                                    <option value="en-US" @(Session["Culture"]?.ToString() == "en-US" ? "selected" : "")>English</option>
-                                    <option value="ru-RU" @(Session["Culture"]?.ToString() == "ru-RU" ? "selected" : "")>Русский</option>
-                                    <option value="uk-UA" @(Session["Culture"]?.ToString() == "uk-UA" ? "selected" : "")>Українська</option>
-                                </select>
-                            </div>
+                                <div class="dropdown-item">
+                                    <select name="culture" class="custom-select" onchange="document.getElementById('languageForm').submit()">
+                                        <option value="en-US" @(Session["Culture"]?.ToString() == "en-US" ? "selected" : "")>English</option>
+                                        <option value="ru-RU" @(Session["Culture"]?.ToString() == "ru-RU" ? "selected" : "")>Русский</option>
+                                        <option value="uk-UA" @(Session["Culture"]?.ToString() == "uk-UA" ? "selected" : "")>Українська</option>
+                                    </select>
+                                </div>
                             }
                         </div>
                     </li>
@@ -720,12 +727,22 @@
     <script src="~/Scripts/CustomScripts/FullscreenMode.js"></script>
     <script src="~/Scripts/CustomScripts/Tour.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            if (@(Session["StartTour"] != null && (bool)Session["StartTour"] ? "true" : "false")) {
-                startTour();
-                @Session["StartTour"] = false;
-            }
-        });
+        $(document).ready(function () {
+            document.addEventListener('DOMContentLoaded', () => {
+                if (@(Session["StartTour"] != null && (bool)Session["StartTour"] ? "true" : "false")) {
+                    startTour();
+                    @Session["StartTour"] = false;
+                }
+            });
+
+            $(document).on('click', 'a', function () {
+                $('#loading').show();
+
+                $(window).on('load', function () {
+                    $('#loading').hide();
+                });
+            });
+        }
     </script>
 </body>
 </html>
