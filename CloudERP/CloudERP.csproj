@@ -2,7 +2,6 @@
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\Microsoft.ML.3.0.1\build\netstandard2.0\Microsoft.ML.props" Condition="Exists('..\packages\Microsoft.ML.3.0.1\build\netstandard2.0\Microsoft.ML.props')" />
   <Import Project="..\packages\Microsoft.ML.CpuMath.3.0.1\build\netstandard2.0\Microsoft.ML.CpuMath.props" Condition="Exists('..\packages\Microsoft.ML.CpuMath.3.0.1\build\netstandard2.0\Microsoft.ML.CpuMath.props')" />
-  <Import Project="..\packages\NUnit.4.1.0\build\NUnit.props" Condition="Exists('..\packages\NUnit.4.1.0\build\NUnit.props')" />
   <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -189,17 +188,8 @@
     <Reference Include="MimeKit, Version=4.7.0.0, Culture=neutral, PublicKeyToken=bede1c8a46c66814, processorArchitecture=MSIL">
       <HintPath>..\packages\MimeKit.4.7.1\lib\net47\MimeKit.dll</HintPath>
     </Reference>
-    <Reference Include="Moq, Version=4.20.70.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <HintPath>..\packages\Moq.4.20.70\lib\net462\Moq.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework, Version=4.0.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.4.1.0\lib\net462\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework.legacy, Version=4.0.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.4.1.0\lib\net462\nunit.framework.legacy.dll</HintPath>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
@@ -832,17 +822,6 @@
     <Compile Include="Models\RegistrationMV.cs" />
     <Compile Include="Models\SalaryMV.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tests\CompanyRegistrationControllerTests.cs" />
-    <Compile Include="Tests\GeneralTransactionControllerTests.cs" />
-    <Compile Include="Tests\HomeControllerTests.cs" />
-    <Compile Include="Tests\PurchaseCartControllerTests.cs" />
-    <Compile Include="Tests\PurchasePaymentReturnControllerTests.cs" />
-    <Compile Include="Tests\PurchaseReturnControllerTests.cs" />
-    <Compile Include="Tests\SaleCartControllerTests.cs" />
-    <Compile Include="Tests\SalePaymentControllerTests.cs" />
-    <Compile Include="Tests\SalePaymentReturnControllerTests.cs" />
-    <Compile Include="Tests\SaleReturnControllerTests.cs" />
-    <Compile Include="Tests\TrialBalanceControllerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages\Messages.resx">
@@ -3679,7 +3658,6 @@
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets'))" />
     <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
     <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
-    <Error Condition="!Exists('..\packages\NUnit.4.1.0\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit.4.1.0\build\NUnit.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.ML.CpuMath.3.0.1\build\netstandard2.0\Microsoft.ML.CpuMath.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ML.CpuMath.3.0.1\build\netstandard2.0\Microsoft.ML.CpuMath.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.ML.3.0.1\build\netstandard2.0\Microsoft.ML.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ML.3.0.1\build\netstandard2.0\Microsoft.ML.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.ML.3.0.1\build\netstandard2.0\Microsoft.ML.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ML.3.0.1\build\netstandard2.0\Microsoft.ML.targets'))" />
