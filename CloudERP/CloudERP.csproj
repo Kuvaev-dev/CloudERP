@@ -803,7 +803,6 @@
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Helpers\Forecasting\FinancialForecaster.cs" />
     <Compile Include="Helpers\Forecasting\ForecastingService.cs" />
-    <Compile Include="Helpers\MockHelper.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
     <Compile Include="Helpers\ReminderService.cs" />
     <Compile Include="Helpers\UnityConfig.cs" />
