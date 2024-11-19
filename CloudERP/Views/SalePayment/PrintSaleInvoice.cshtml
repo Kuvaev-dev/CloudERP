@@ -47,7 +47,9 @@
                                     <div class="col-lg-12">
                                         <h4>@Resources.Sale.Customer.ToString()</h4>
                                         <hr/>
-                                        <h4>@Model.FirstOrDefault().tblCustomerInvoice.tblCustomer.Customername</h4>
+                                        <h4>
+                                            @Model.FirstOrDefault().tblCustomerInvoice.tblCustomer.Customername
+                                        </h4>
                                         <h5>@Resources.Sale.ContactNo.ToString(): @Model.FirstOrDefault().tblCustomerInvoice.tblCustomer.CustomerContact</h5>
                                         <address>@Model.FirstOrDefault().tblCustomerInvoice.tblCustomer.CustomerArea</address>
                                         <h4>@Model.FirstOrDefault().tblCustomerInvoice.tblCompany.Name</h4>

@@ -19,7 +19,6 @@ namespace CloudERP
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             var container = new UnityContainer();
-            RegisterTypes(container);
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
 
@@ -31,11 +30,6 @@ namespace CloudERP
                 culture = Session["Culture"].ToString();
             }
             ResourceManagerHelper.SetCulture(culture);
-        }
-
-        private void RegisterTypes(IUnityContainer container)
-        {
-            container.RegisterType<ForecastingService>();
         }
     }
 }
