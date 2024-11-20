@@ -1,15 +1,9 @@
 ﻿using DatabaseAccess;
+using DatabaseAccess.Repositories;
 using System.Web.Mvc;
 using Unity.AspNet.Mvc;
 using Unity;
-using CloudERP.Models;
-using System.Collections.Generic;
-using DatabaseAccess.Code.SP_Code;
-using DatabaseAccess.Code;
 using Unity.Lifetime;
-using Microsoft.ML;
-using CloudERP.Helpers.Forecasting;
-using DatabaseAccess.Repositories;
 using Domain.Services;
 
 namespace CloudERP.Helpers

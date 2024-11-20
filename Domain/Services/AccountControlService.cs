@@ -2,16 +2,16 @@
 using DatabaseAccess;
 using System.Collections.Generic;
 using System.Linq;
-using Domain.ViewModels;
+using Domain.Models;
 
 namespace Domain.Services
 {
     public interface IAccountControlService
     {
-        IEnumerable<AccountControlMV> GetAll(int companyId, int branchId);
-        AccountControlMV GetById(int id);
-        void Create(AccountControlMV accountControl);
-        void Update(AccountControlMV accountControl);
+        IEnumerable<AccountControl> GetAll(int companyId, int branchId);
+        AccountControl GetById(int id);
+        void Create(AccountControl accountControl);
+        void Update(AccountControl accountControl);
     }
 
     public class AccountControlService : IAccountControlService
@@ -23,10 +23,10 @@ namespace Domain.Services
             _repository = repository;
         }
 
-        public IEnumerable<AccountControlMV> GetAll(int companyId, int branchId)
+        public IEnumerable<AccountControl> GetAll(int companyId, int branchId)
         {
             var entities = _repository.GetAccountControls(companyId, branchId);
-            return entities.Select(e => new AccountControlMV
+            return entities.Select(e => new AccountControl
             {
                 AccountControlID = e.AccountControlID,
                 AccountControlName = e.AccountControlName,
@@ -35,19 +35,19 @@ namespace Domain.Services
                 BranchID = e.BranchID,
                 BranchName = e.tblBranch?.BranchName,
                 CompanyID = e.CompanyID,
-                Name = e.tblCompany?.Name,
+                CompanyName = e.tblCompany?.Name,
                 UserID = e.UserID,
                 UserName = e.tblUser?.UserName
             });
         }
 
-        public AccountControlMV GetById(int id)
+        public AccountControl GetById(int id)
         {
             var entity = _repository.GetById(id);
             if (entity == null)
                 return null;
 
-            return new AccountControlMV
+            return new AccountControl
             {
                 AccountControlID = entity.AccountControlID,
                 AccountControlName = entity.AccountControlName,
@@ -56,13 +56,13 @@ namespace Domain.Services
                 BranchID = entity.BranchID,
                 BranchName = entity.tblBranch?.BranchName,
                 CompanyID = entity.CompanyID,
-                Name = entity.tblCompany?.Name,
+                CompanyName = entity.tblCompany?.Name,
                 UserID = entity.UserID,
                 UserName = entity.tblUser?.UserName
             };
         }
 
-        public void Create(AccountControlMV accountControl)
+        public void Create(AccountControl accountControl)
         {
             var entity = new tblAccountControl
             {
@@ -76,7 +76,7 @@ namespace Domain.Services
             _repository.Add(entity);
         }
 
-        public void Update(AccountControlMV accountControl)
+        public void Update(AccountControl accountControl)
         {
             var entity = _repository.GetById(accountControl.AccountControlID);
             if (entity == null) throw new KeyNotFoundException("AccountControl not found.");

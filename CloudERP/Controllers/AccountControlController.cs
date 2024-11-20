@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
+using CloudERP.Models;
 using Domain.Services;
-using Domain.ViewModels;
 
 namespace CloudERP.Controllers
 {
@@ -39,7 +40,16 @@ namespace CloudERP.Controllers
         {
             if (ModelState.IsValid)
             {
-                _service.Create(model);
+                var accountControl = new Domain.Models.AccountControl
+                {
+                    AccountControlName = model.AccountControlName,
+                    CompanyID = model.CompanyID,
+                    BranchID = model.BranchID,
+                    UserID = model.UserID,
+                    AccountHeadID = model.AccountHeadID
+                };
+
+                _service.Create(accountControl);
                 return RedirectToAction("Index");
             }
             return View(model);
@@ -58,8 +68,25 @@ namespace CloudERP.Controllers
         {
             if (ModelState.IsValid)
             {
-                _service.Update(model);
-                return RedirectToAction("Index");
+                var accountControl = new Domain.Models.AccountControl
+                {
+                    AccountControlID = model.AccountControlID,
+                    AccountControlName = model.AccountControlName,
+                    AccountHeadID = model.AccountHeadID,
+                    BranchID = model.BranchID,
+                    CompanyID = model.CompanyID,
+                    UserID = model.UserID
+                };
+
+                try
+                {
+                    _service.Update(accountControl);
+                    return RedirectToAction("Index");
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                }
             }
             return View(model);
         }
