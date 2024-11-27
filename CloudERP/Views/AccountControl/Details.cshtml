@@ -1,4 +1,4 @@
-﻿@model DatabaseAccess.tblAccountControl
+﻿@model Domain.Models.AccountControl
 
 @{
     ViewBag.Title = "Account Control Details";
@@ -25,29 +25,28 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.tblBranch.BranchName)
+            @Html.DisplayNameFor(model => model.BranchName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.tblBranch.BranchName)
+            @Html.DisplayFor(model => model.BranchName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.tblCompany.Name)
+            @Html.DisplayNameFor(model => model.CompanyName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.tblCompany.Name)
+            @Html.DisplayFor(model => model.CompanyName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.tblUser.FullName)
+            @Html.DisplayNameFor(model => model.UserName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.tblUser.FullName)
+            @Html.DisplayFor(model => model.UserName)
         </dd>
-
     </dl>
 </div>
 <p>
