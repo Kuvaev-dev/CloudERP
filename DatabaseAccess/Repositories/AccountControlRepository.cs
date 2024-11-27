@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 
 namespace DatabaseAccess.Repositories
 {
     public interface IAccountControlRepository
     {
-        IEnumerable<tblAccountControl> GetAccountControls(int companyId, int branchId);
+        IEnumerable<tblAccountControl> GetAll(int companyId, int branchId);
         tblAccountControl GetById(int id);
         void Add(tblAccountControl accountControl);
         void Update(tblAccountControl accountControl);
@@ -21,19 +20,16 @@ namespace DatabaseAccess.Repositories
             _dbContext = dbContext;
         }
 
-        public IEnumerable<tblAccountControl> GetAccountControls(int companyId, int branchId)
+        public IEnumerable<tblAccountControl> GetAll(int companyId, int branchId)
         {
             return _dbContext.tblAccountControl
-                .Include(ac => ac.tblBranch)
-                .Include(ac => ac.tblCompany)
-                .Include(ac => ac.tblUser)
                 .Where(ac => ac.CompanyID == companyId && ac.BranchID == branchId)
                 .ToList();
         }
 
         public tblAccountControl GetById(int id)
         {
-            return _dbContext.tblAccountControl.Find(id);
+            return _dbContext.tblAccountControl.FirstOrDefault(ac => ac.AccountControlID == id);
         }
 
         public void Add(tblAccountControl accountControl)
@@ -44,7 +40,16 @@ namespace DatabaseAccess.Repositories
 
         public void Update(tblAccountControl accountControl)
         {
-            _dbContext.Entry(accountControl).State = EntityState.Modified;
+            var entity = _dbContext.tblAccountControl.Find(accountControl.AccountControlID);
+            if (entity == null) throw new KeyNotFoundException("AccountControl not found.");
+
+            entity.AccountControlName = accountControl.AccountControlName;
+            entity.AccountHeadID = accountControl.AccountHeadID;
+            entity.BranchID = accountControl.BranchID;
+            entity.CompanyID = accountControl.CompanyID;
+            entity.UserID = accountControl.UserID;
+
+            _dbContext.Entry(entity).State = System.Data.Entity.EntityState.Modified;
             _dbContext.SaveChanges();
         }
     }

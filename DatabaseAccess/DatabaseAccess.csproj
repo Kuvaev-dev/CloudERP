@@ -246,6 +246,5 @@
     <EmbeddedResource Include="Localization\Localization.ru-RU.resx" />
     <EmbeddedResource Include="Localization\Localization.uk-UA.resx" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

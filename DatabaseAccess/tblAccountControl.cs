@@ -10,8 +10,6 @@
 namespace DatabaseAccess
 {
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
 
     public partial class tblAccountControl
     {
@@ -23,31 +21,16 @@ namespace DatabaseAccess
             this.tblTransaction = new HashSet<tblTransaction>();
         }
 
-        [Key]
         public int AccountControlID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int CompanyID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int BranchID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int AccountHeadID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [StringLength(100, ErrorMessageResourceName = "StringLengthField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessageResourceName = "RegularField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string AccountControlName { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int UserID { get; set; }
 
         public virtual tblBranch tblBranch { get; set; }
         public virtual tblCompany tblCompany { get; set; }
         public virtual tblUser tblUser { get; set; }
-        public virtual tblAccountHead tblAccountHead { get; set; }
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblAccountSetting> tblAccountSetting { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
