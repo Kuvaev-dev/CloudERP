@@ -5,6 +5,7 @@ using Unity.AspNet.Mvc;
 using Unity;
 using Unity.Lifetime;
 using Domain.Services;
+using Unity.Injection;
 
 namespace CloudERP.Helpers
 {
@@ -15,7 +16,9 @@ namespace CloudERP.Helpers
             var container = new UnityContainer();
 
             // DbContext
-            container.RegisterType<CloudDBEntities>(new PerResolveLifetimeManager());
+            container.RegisterType<CloudDBEntities>(
+                new InjectionFactory(c => new CloudDBEntities())
+            );
 
             // Repos
             container.RegisterType<IAccountControlRepository, AccountControlRepository>();

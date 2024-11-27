@@ -17,9 +17,6 @@ namespace CloudERP
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-
-            var container = new UnityContainer();
-            DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
 
         protected void Application_AcquireRequestState(Object sender, EventArgs e)
