@@ -42,9 +42,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Mapping\AccountControlMapper.cs" />
+    <Compile Include="Mapping\AccountHeadMapper.cs" />
     <Compile Include="Models\AccountControl.cs" />
+    <Compile Include="Models\AccountHead.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AccountControlService.cs" />
+    <Compile Include="Services\AccountHeadService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DatabaseAccess\DatabaseAccess.csproj">

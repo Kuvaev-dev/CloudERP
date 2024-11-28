@@ -1,4 +1,4 @@
-﻿@model DatabaseAccess.tblAccountHead
+﻿@model Domain.Models.AccountHead
 
 @{
     ViewBag.Title = "Account Head Details";
@@ -8,22 +8,6 @@
 
 <div>
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.CompanyID)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CompanyID)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.BranchID)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.BranchID)
-        </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.AccountHeadName)
         </dt>
@@ -39,15 +23,6 @@
         <dd>
             @Html.DisplayFor(model => model.Code)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.tblUser.FullName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.tblUser.FullName)
-        </dd>
-
     </dl>
 </div>
 <p>

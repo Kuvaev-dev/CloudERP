@@ -808,6 +808,7 @@
     <Compile Include="Helpers\UnityConfig.cs" />
     <Compile Include="Models\AccountControlMV.cs" />
     <Compile Include="Models\AccountControlsMV.cs" />
+    <Compile Include="Models\AccountHeadMV.cs" />
     <Compile Include="Models\AccountSubControlMV.cs" />
     <Compile Include="Models\BranchsCustomersMV.cs" />
     <Compile Include="Models\BranchsSuppliersMV.cs" />
@@ -3472,7 +3473,6 @@
     <Content Include="Views\Stock\Edit.cshtml" />
     <Content Include="Views\Stock\Index.cshtml" />
     <Content Include="Views\AccountHead\Create.cshtml" />
-    <Content Include="Views\AccountHead\Delete.cshtml" />
     <Content Include="Views\AccountHead\Details.cshtml" />
     <Content Include="Views\AccountHead\Edit.cshtml" />
     <Content Include="Views\AccountHead\Index.cshtml" />
