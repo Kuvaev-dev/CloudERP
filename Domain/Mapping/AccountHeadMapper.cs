@@ -12,7 +12,8 @@ namespace Domain.Mapping
                 AccountHeadID = dbModel.AccountHeadID,
                 AccountHeadName = dbModel.AccountHeadName,
                 Code = dbModel.Code,
-                UserID = dbModel.UserID
+                UserID = dbModel.UserID,
+                FullName = dbModel.tblUser != null ? dbModel.tblUser.FullName : string.Empty
             };
         }
 

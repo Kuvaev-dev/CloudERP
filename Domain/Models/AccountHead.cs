@@ -6,5 +6,6 @@
         public string AccountHeadName { get; set; }
         public int Code { get; set; }
         public int UserID { get; set; }
+        public string FullName { get; set; }
     }
 }

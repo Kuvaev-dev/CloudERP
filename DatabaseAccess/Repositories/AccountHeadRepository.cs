@@ -23,7 +23,7 @@ namespace DatabaseAccess.Repositories
 
         public IEnumerable<tblAccountHead> GetAll()
         {
-            return _dbContext.tblAccountHead.ToList();
+            return _dbContext.tblAccountHead.Include("tblUser").ToList();
         }
 
         public tblAccountHead GetById(int id)

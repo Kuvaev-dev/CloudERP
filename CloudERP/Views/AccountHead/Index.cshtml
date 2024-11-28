@@ -33,6 +33,9 @@
                             @Html.Raw(HttpUtility.HtmlDecode(Resources.Account.Code))
                         </th>
                         <th>
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Account.FullName))
+                        </th>
+                        <th>
                             @Html.Raw(HttpUtility.HtmlDecode(Resources.Common.Actions))
                         </th>
                     </tr>
@@ -48,6 +51,9 @@
                                 @Html.DisplayFor(modelItem => item.Code)
                             </td>
                             <td>
+                                @Html.DisplayFor(modelItem => item.FullName)
+                            </td>
+                            <td>
                                 @Html.ActionLink(Resources.Common.Edit.ToString(), "Edit", new { id = item.AccountHeadID }, new { @class = "btn btn-primary" })
                             </td>
                         </tr>
@@ -60,7 +66,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#dataTable').DataTable({
-            "columnDefs": [{ "orderable": false, "targets": 2 }],
+            "columnDefs": [{ "orderable": false, "targets": 3 }],
             "lengthMenu": [[5, 10, 25, 50, 75, 100, 150, 200, -1], [5, 10, 25, 50, 75, 100, 150, 200, "All"]],
         });
     });
