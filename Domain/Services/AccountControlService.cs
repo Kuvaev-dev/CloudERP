@@ -12,6 +12,7 @@ namespace Domain.Services
         AccountControl GetById(int id);
         void Create(AccountControl accountControl);
         void Update(AccountControl accountControl);
+        IEnumerable<AccountHead> GetAllAccountHeads();
     }
 
     public class AccountControlService : IAccountControlService
@@ -26,7 +27,17 @@ namespace Domain.Services
         public IEnumerable<AccountControl> GetAll(int companyId, int branchId)
         {
             var dbModels = _repository.GetAll(companyId, branchId);
-            return dbModels.Select(AccountControlMapper.MapToDomain).ToList();
+            var accountHeads = _repository.GetAllAccountHeads().ToDictionary(x => x.AccountHeadID, x => x.AccountHeadName);
+
+            return dbModels.Select(dbModel =>
+            {
+                var accountControl = AccountControlMapper.MapToDomain(dbModel);
+                accountControl.UserName = dbModel.tblUser?.FullName ?? "Unknown";
+                accountControl.AccountHeadName = accountHeads.ContainsKey(dbModel.AccountHeadID)
+                                                 ? accountHeads[dbModel.AccountHeadID]
+                                                 : "Unknown";
+                return accountControl;
+            }).ToList();
         }
 
         public AccountControl GetById(int id)
@@ -48,6 +59,16 @@ namespace Domain.Services
 
             var updatedModel = AccountControlMapper.MapToDatabase(accountControl);
             _repository.Update(updatedModel);
+        }
+
+        public IEnumerable<AccountHead> GetAllAccountHeads()
+        {
+            var dbModels = _repository.GetAllAccountHeads();
+            return dbModels.Select(ah => new AccountHead
+            {
+                AccountHeadID = ah.AccountHeadID,
+                AccountHeadName = ah.AccountHeadName
+            }).ToList();
         }
     }
 }

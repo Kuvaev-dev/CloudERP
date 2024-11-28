@@ -12,9 +12,11 @@ namespace Domain.Mapping
                 AccountControlID = dbModel.AccountControlID,
                 AccountControlName = dbModel.AccountControlName,
                 AccountHeadID = dbModel.AccountHeadID,
+                AccountHeadName = "Unknown",
                 BranchID = dbModel.BranchID,
                 CompanyID = dbModel.CompanyID,
                 UserID = dbModel.UserID,
+                UserName = dbModel.tblUser?.FullName ?? "Unknown"
             };
         }
 

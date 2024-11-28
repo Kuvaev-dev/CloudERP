@@ -1,4 +1,4 @@
-﻿@model CloudERP.Models.AccountControlMV
+﻿@model Domain.Models.AccountControl
 
 @{
     ViewBag.Title = Resources.Account.EditAccountControl.ToString();
@@ -26,7 +26,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.AccountHeadID, Resources.Account.SelectAccountHead.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-5">
-                @Html.DropDownList("AccountHeadID", null, Resources.Account.AccountHeadTitle.ToString(), htmlAttributes: new { @class = "form-control", @id = "AccountControlID" })
+                @Html.DropDownListFor(model => model.AccountHeadID, (IEnumerable<SelectListItem>)ViewBag.AccountHeadList, Resources.Account.AccountHeadTitle.ToString(), new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.AccountHeadID, "", new { @class = "text-danger" })
             </div>
         </div>

@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace CloudERP.Models
 {
     public class AccountControlMV
     {
-        [Required(ErrorMessage = "Account ID is required.")]
         public int AccountControlID { get; set; }
 
         [Required(ErrorMessage = "Account name is required.")]
@@ -26,5 +27,7 @@ namespace CloudERP.Models
         [Required(ErrorMessage = "User  ID is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "User  ID must be greater than zero.")]
         public int UserID { get; set; }
+
+        public IEnumerable<SelectListItem> AccountHeadList { get; set; }
     }
 }

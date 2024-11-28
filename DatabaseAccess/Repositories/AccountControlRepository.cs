@@ -9,6 +9,7 @@ namespace DatabaseAccess.Repositories
         tblAccountControl GetById(int id);
         void Add(tblAccountControl accountControl);
         void Update(tblAccountControl accountControl);
+        IEnumerable<tblAccountHead> GetAllAccountHeads();
     }
 
     public class AccountControlRepository : IAccountControlRepository
@@ -23,6 +24,7 @@ namespace DatabaseAccess.Repositories
         public IEnumerable<tblAccountControl> GetAll(int companyId, int branchId)
         {
             return _dbContext.tblAccountControl
+                .Include("tblUser")
                 .Where(ac => ac.CompanyID == companyId && ac.BranchID == branchId)
                 .ToList();
         }
@@ -51,6 +53,11 @@ namespace DatabaseAccess.Repositories
 
             _dbContext.Entry(entity).State = System.Data.Entity.EntityState.Modified;
             _dbContext.SaveChanges();
+        }
+
+        public IEnumerable<tblAccountHead> GetAllAccountHeads()
+        {
+            return _dbContext.tblAccountHead.ToList();
         }
     }
 }

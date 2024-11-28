@@ -3477,7 +3477,6 @@
     <Content Include="Views\AccountHead\Edit.cshtml" />
     <Content Include="Views\AccountHead\Index.cshtml" />
     <Content Include="Views\AccountControl\Create.cshtml" />
-    <Content Include="Views\AccountControl\Details.cshtml" />
     <Content Include="Views\AccountControl\Edit.cshtml" />
     <Content Include="Views\AccountControl\Index.cshtml" />
     <Content Include="Views\AccountSubControl\Create.cshtml" />
