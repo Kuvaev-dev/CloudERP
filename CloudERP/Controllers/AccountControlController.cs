@@ -52,21 +52,9 @@ namespace CloudERP.Controllers
             int branchId = Convert.ToInt32(Session["BranchID"]);
             int userId = Convert.ToInt32(Session["UserID"]);
 
-            if (ModelState.IsValid)
-            {
-                var accountControl = new Domain.Models.AccountControl
-                {
-                    AccountControlName = model.AccountControlName,
-                    CompanyID = companyId,
-                    BranchID = branchId,
-                    UserID = userId,
-                    AccountHeadID = model.AccountHeadID
-                };
-
-                _service.Create(accountControl);
-                return RedirectToAction("Index");
-            }
-
+            model.BranchID = branchId;
+            model.CompanyID = companyId;
+            model.UserID = userId;
             model.AccountHeadList = _service.GetAllAccountHeads()
                 .Select(ah => new SelectListItem
                 {
@@ -74,12 +62,33 @@ namespace CloudERP.Controllers
                     Text = ah.AccountHeadName
                 }).ToList();
 
+            if (ModelState.IsValid)
+            {
+                var accountControl = new Domain.Models.AccountControl
+                {
+                    AccountControlName = model.AccountControlName,
+                    CompanyID = model.CompanyID,
+                    BranchID = model.BranchID,
+                    UserID = model.UserID,
+                    AccountHeadID = model.AccountHeadID
+                };
+
+                _service.Create(accountControl);
+                return RedirectToAction("Index");
+            }
+
             return View(model);
         }
 
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
-            var accountControl = _service.GetById(id);
+            int companyId = Convert.ToInt32(Session["CompanyID"]);
+            int branchId = Convert.ToInt32(Session["BranchID"]);
+            int userId = Convert.ToInt32(Session["UserID"]);
+
+            if (id == null) return RedirectToAction("Index");
+
+            var accountControl = _service.GetById(id.Value);
             if (accountControl == null) return HttpNotFound();
 
             var model = new AccountControlMV
@@ -87,6 +96,9 @@ namespace CloudERP.Controllers
                 AccountControlID = accountControl.AccountControlID,
                 AccountControlName = accountControl.AccountControlName,
                 AccountHeadID = accountControl.AccountHeadID,
+                BranchID = branchId,
+                CompanyID = companyId,
+                UserID = userId,
                 AccountHeadList = _service.GetAllAccountHeads()
                     .Select(ah => new SelectListItem
                     {
@@ -123,6 +135,14 @@ namespace CloudERP.Controllers
                 catch (KeyNotFoundException ex)
                 {
                     ModelState.AddModelError(string.Empty, ex.Message);
+                }
+            }
+
+            foreach (var modelState in ModelState.Values)
+            {
+                foreach (var error in modelState.Errors)
+                {
+                    Console.Write(error.ErrorMessage);
                 }
             }
 
