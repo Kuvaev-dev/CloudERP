@@ -23,10 +23,12 @@ namespace CloudERP.Helpers
             // Repos
             container.RegisterType<IAccountControlRepository, AccountControlRepository>();
             container.RegisterType<IAccountHeadRepository, AccountHeadRepository>();
+            container.RegisterType<IAccountSubControlRepository, AccountSubControlRepository>();
 
             // Services
             container.RegisterType<IAccountControlService, AccountControlService>();
             container.RegisterType<IAccountHeadService, AccountHeadService>();
+            container.RegisterType<IAccountSubControlService, AccountSubControlService>();
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

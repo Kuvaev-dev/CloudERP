@@ -1,4 +1,4 @@
-﻿@model DatabaseAccess.tblAccountSubControl
+﻿@model CloudERP.Models.AccountSubControlMV
 
 @{
     ViewBag.Title = Resources.Account.EditSubControl.ToString();
@@ -14,18 +14,19 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <h3 class="text-danger">@ViewBag.Message</h3>
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
 
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.AccountSubControlID)
         @Html.HiddenFor(model => model.CompanyID)
         @Html.HiddenFor(model => model.BranchID)
+        @Html.HiddenFor(model => model.UserID)
 
         <div class="form-group">
             @Html.LabelFor(model => model.AccountControlID, Resources.Account.SelectControlAccount.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-5">
-                @Html.DropDownList("AccountControlID", null, "Account Control", htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.AccountControlID, Model.AccountControlList, Resources.Account.ControlAccount.ToString(), new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.AccountControlID, "", new { @class = "text-danger" })
             </div>
         </div>

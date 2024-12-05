@@ -10,7 +10,6 @@
 namespace DatabaseAccess
 {
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
 
     public partial class tblAccountSubControl
     {
@@ -21,27 +20,12 @@ namespace DatabaseAccess
             this.tblTransaction = new HashSet<tblTransaction>();
         }
 
-        [Key]
         public int AccountSubControlID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int AccountHeadID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int AccountControlID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int CompanyID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int BranchID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [StringLength(100, ErrorMessageResourceName = "StringLengthField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessageResourceName = "RegularField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string AccountSubControlName { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int UserID { get; set; }
 
         public virtual tblAccountControl tblAccountControl { get; set; }

@@ -1,263 +1,157 @@
 ﻿using System;
-using System.Data.Entity;
 using System.Linq;
-using System.Net;
 using System.Web.Mvc;
-using DatabaseAccess;
+using CloudERP.Models;
+using Domain.Models;
+using Domain.Services;
 
 namespace CloudERP.Controllers
 {
     public class AccountSubControlController : Controller
     {
-        private readonly CloudDBEntities _db;
+        private readonly IAccountSubControlService _service;
+        private readonly IAccountControlService _controlService;
 
-        public AccountSubControlController(CloudDBEntities db)
+        public AccountSubControlController(IAccountSubControlService service, IAccountControlService controlService)
         {
-            _db = db;
+            _service = service;
+            _controlService = controlService;
         }
 
-        // GET: AccountSubControl
         public ActionResult Index()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
-                return RedirectToAction("Login", "Home");
-            }
+            int companyId = Convert.ToInt32(Session["CompanyID"]);
+            int branchId = Convert.ToInt32(Session["BranchID"]);
 
-            int companyID = Convert.ToInt32(Session["CompanyID"]);
-            int branchID = Convert.ToInt32(Session["BranchID"]);
-
-            try
-            {
-                var tblAccountSubControl = _db.tblAccountSubControl
-                    .Include(t => t.tblAccountControl)
-                    .Include(t => t.tblAccountHead)
-                    .Include(t => t.tblBranch)
-                    .Include(t => t.tblUser)
-                    .Where(t => t.CompanyID == companyID && t.BranchID == branchID);
-
-                return View(tblAccountSubControl.ToList());
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            var subControls = _service.GetAll(companyId, branchId);
+            return View(subControls);
         }
 
-        // GET: AccountSubControl/Create
         public ActionResult Create()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
-                return RedirectToAction("Login", "Home");
-            }
+            int companyId = Convert.ToInt32(Session["CompanyID"]);
+            int branchId = Convert.ToInt32(Session["BranchID"]);
 
-            int companyID = Convert.ToInt32(Session["CompanyID"]);
-            int branchID = Convert.ToInt32(Session["BranchID"]);
-
-            try
+            var model = new AccountSubControlMV
             {
-                ViewBag.AccountControlID = new SelectList(
-                    _db.tblAccountControl.Where(a => a.BranchID == branchID && a.CompanyID == companyID),
-                    "AccountControlID",
-                    "AccountControlName",
-                    "0"
-                );
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+                AccountControlList = _controlService.GetAll(companyId, branchId)
+                    .Select(ac => new SelectListItem
+                    {
+                        Value = ac.AccountControlID.ToString(),
+                        Text = ac.AccountControlName
+                    }).ToList()
+            };
 
-            return View(new tblAccountSubControl());
+            return View(model);
         }
 
-        // POST: AccountSubControl/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(tblAccountSubControl tblAccountSubControl)
+        public ActionResult Create(AccountSubControlMV model)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
-                return RedirectToAction("Login", "Home");
-            }
+            int companyId = Convert.ToInt32(Session["CompanyID"]);
+            int branchId = Convert.ToInt32(Session["BranchID"]);
+            int userId = Convert.ToInt32(Session["UserID"]);
 
-            int companyID = Convert.ToInt32(Session["CompanyID"]);
-            int branchID = Convert.ToInt32(Session["BranchID"]);
-            int userID = Convert.ToInt32(Session["UserID"]);
-
-            tblAccountSubControl.CompanyID = companyID;
-            tblAccountSubControl.BranchID = branchID;
-            tblAccountSubControl.UserID = userID;
-            tblAccountSubControl.AccountHeadID = _db.tblAccountControl.Find(tblAccountSubControl.AccountControlID)?.AccountHeadID ?? 0;
+            model.BranchID = branchId;
+            model.CompanyID = companyId;
+            model.UserID = userId;
+            model.AccountControlList = _service.GetAllAccountControls()
+                .Select(ah => new SelectListItem
+                {
+                    Value = ah.AccountControlID.ToString(),
+                    Text = ah.AccountControlName
+                }).ToList();
 
             if (ModelState.IsValid)
             {
-                try
+                var subControl = new AccountSubControl
                 {
-                    var findSubControl = _db.tblAccountSubControl.FirstOrDefault(s => s.CompanyID == tblAccountSubControl.CompanyID
-                        && s.BranchID == tblAccountSubControl.BranchID
-                        && s.AccountSubControlName == tblAccountSubControl.AccountSubControlName);
+                    AccountSubControlName = model.AccountSubControlName,
+                    AccountControlID = model.AccountControlID,
+                    CompanyID = model.CompanyID,
+                    BranchID = model.BranchID,
+                    UserID = model.UserID,
+                    AccountHeadID = _controlService.GetById(model.AccountControlID).AccountHeadID
+                };
 
-                    if (findSubControl == null)
-                    {
-                        _db.tblAccountSubControl.Add(tblAccountSubControl);
-                        _db.SaveChanges();
+                _service.Create(subControl);
+                return RedirectToAction("Index");
+            }
 
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        ViewBag.Message = Resources.Messages.AlreadyExists;
-                    }
-                }
-                catch (Exception ex)
+            model.AccountControlList = _controlService.GetAll(companyId, branchId)
+                .Select(ac => new SelectListItem
                 {
-                    TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                    return RedirectToAction("EP500", "EP");
-                }
-            }
+                    Value = ac.AccountControlID.ToString(),
+                    Text = ac.AccountControlName
+                }).ToList();
 
-            try
-            {
-                ViewBag.AccountControlID = new SelectList(
-                    _db.tblAccountControl.Where(a => a.BranchID == branchID && a.CompanyID == companyID),
-                    "AccountControlID",
-                    "AccountControlName",
-                    tblAccountSubControl.AccountControlID
-                );
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
-
-            return View(tblAccountSubControl);
+            return View(model);
         }
 
-        // GET: AccountSubControl/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
-                return RedirectToAction("Login", "Home");
-            }
+            int companyId = Convert.ToInt32(Session["CompanyID"]);
+            int branchId = Convert.ToInt32(Session["BranchID"]);
+            int userId = Convert.ToInt32(Session["UserID"]);
 
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+            if (id == null) return RedirectToAction("Index");
 
-            tblAccountSubControl tblAccountSubControl;
+            var subControl = _service.GetById(id.Value);
+            if (subControl == null) return HttpNotFound();
 
-            try
+            var model = new AccountSubControlMV
             {
-                tblAccountSubControl = _db.tblAccountSubControl.Find(id);
-                if (tblAccountSubControl == null)
-                {
-                    return HttpNotFound();
-                }
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+                AccountSubControlID = subControl.AccountSubControlID,
+                AccountSubControlName = subControl.AccountSubControlName,
+                AccountControlID = subControl.AccountControlID,
+                CompanyID = subControl.CompanyID,
+                BranchID = subControl.BranchID,
+                UserID = subControl.UserID,
+                AccountControlList = _controlService.GetAll(companyId, branchId)
+                    .Select(ac => new SelectListItem
+                    {
+                        Value = ac.AccountControlID.ToString(),
+                        Text = ac.AccountControlName,
+                        Selected = ac.AccountControlID == subControl.AccountControlID
+                    }).ToList()
+            };
 
-            int companyID = Convert.ToInt32(Session["CompanyID"]);
-            int branchID = Convert.ToInt32(Session["BranchID"]);
-
-            try
-            {
-                ViewBag.AccountControlID = new SelectList(
-                    _db.tblAccountControl.Where(a => a.BranchID == branchID && a.CompanyID == companyID),
-                    "AccountControlID",
-                    "AccountControlName",
-                    tblAccountSubControl.AccountControlID
-                );
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
-
-            return View(tblAccountSubControl);
+            return View(model);
         }
 
-        // POST: AccountSubControl/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(tblAccountSubControl tblAccountSubControl)
+        public ActionResult Edit(AccountSubControlMV model)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
-                return RedirectToAction("Login", "Home");
-            }
-
-            int companyID = Convert.ToInt32(Session["CompanyID"]);
-            int branchID = Convert.ToInt32(Session["BranchID"]);
-            int userID = Convert.ToInt32(Session["UserID"]);
-
-            tblAccountSubControl.UserID = userID;
-            tblAccountSubControl.AccountHeadID = _db.tblAccountControl.Find(tblAccountSubControl.AccountControlID)?.AccountHeadID ?? 0;
-
             if (ModelState.IsValid)
             {
-                try
+                var subControl = new AccountSubControl
                 {
-                    var findSubControl = _db.tblAccountSubControl.FirstOrDefault(s => s.CompanyID == tblAccountSubControl.CompanyID
-                        && s.BranchID == tblAccountSubControl.BranchID
-                        && s.AccountSubControlName == tblAccountSubControl.AccountSubControlName
-                        && s.AccountSubControlID != tblAccountSubControl.AccountSubControlID);
+                    AccountSubControlID = model.AccountSubControlID,
+                    AccountSubControlName = model.AccountSubControlName,
+                    AccountControlID = model.AccountControlID,
+                    CompanyID = model.CompanyID,
+                    BranchID = model.BranchID,
+                    UserID = model.UserID,
+                    AccountHeadID = _controlService.GetById(model.AccountControlID).AccountHeadID
+                };
 
-                    if (findSubControl == null)
-                    {
-                        _db.Entry(tblAccountSubControl).State = EntityState.Modified;
-                        _db.SaveChanges();
+                _service.Update(subControl);
+                return RedirectToAction("Index");
+            }
 
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        ViewBag.Message = Resources.Messages.AlreadyExists;
-                    }
-                }
-                catch (Exception ex)
+            int companyId = Convert.ToInt32(Session["CompanyID"]);
+            int branchId = Convert.ToInt32(Session["BranchID"]);
+
+            model.AccountControlList = _controlService.GetAll(companyId, branchId)
+                .Select(ac => new SelectListItem
                 {
-                    TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                    return RedirectToAction("EP500", "EP");
-                }
-            }
+                    Value = ac.AccountControlID.ToString(),
+                    Text = ac.AccountControlName
+                }).ToList();
 
-            try
-            {
-                ViewBag.AccountControlID = new SelectList(
-                    _db.tblAccountControl.Where(a => a.BranchID == branchID && a.CompanyID == companyID),
-                    "AccountControlID",
-                    "AccountControlName",
-                    tblAccountSubControl.AccountControlID
-                );
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
-
-            return View(tblAccountSubControl);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _db.Dispose();
-            }
-            base.Dispose(disposing);
+            return View(model);
         }
     }
 }

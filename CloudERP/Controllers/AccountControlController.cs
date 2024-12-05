@@ -138,14 +138,6 @@ namespace CloudERP.Controllers
                 }
             }
 
-            foreach (var modelState in ModelState.Values)
-            {
-                foreach (var error in modelState.Errors)
-                {
-                    Console.Write(error.ErrorMessage);
-                }
-            }
-
             model.AccountHeadList = _service.GetAllAccountHeads()
                 .Select(ah => new SelectListItem
                 {
