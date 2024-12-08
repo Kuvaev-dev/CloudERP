@@ -17,16 +17,18 @@ namespace Domain.Services
     public class AccountControlService : IAccountControlService
     {
         private readonly IAccountControlRepository _repository;
+        private readonly IAccountHeadRepository _headRepository;
 
-        public AccountControlService(IAccountControlRepository repository)
+        public AccountControlService(IAccountControlRepository repository, IAccountHeadRepository headRepository)
         {
             _repository = repository;
+            _headRepository = headRepository;
         }
 
         public IEnumerable<AccountControl> GetAll(int companyId, int branchId)
         {
             var dbModels = _repository.GetAll(companyId, branchId);
-            var accountHeads = _repository.GetAllAccountHeads().ToDictionary(x => x.AccountHeadID, x => x.AccountHeadName);
+            var accountHeads = _headRepository.GetAll().ToDictionary(x => x.AccountHeadID, x => x.AccountHeadName);
 
             return dbModels.Select(dbModel =>
             {

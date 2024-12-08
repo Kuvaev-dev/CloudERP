@@ -1,5 +1,4 @@
-﻿@*Localized*@
-@model IEnumerable<DatabaseAccess.tblUserType>
+﻿@model IEnumerable<Domain.Models.UserType>
 
 @{
     ViewBag.Title = Resources.Account.AllUserTypes;
@@ -40,7 +39,7 @@
                     {
                         <tr>
                             <td>
-                                <p>@Html.DisplayFor(modelItem => item.UserType)</p>
+                                <p>@Html.DisplayFor(modelItem => item.Name)</p>
                             </td>
                             <td class="btn-group">
                                 @Html.ActionLink(Resources.Common.Edit.ToString(), "Edit", new { id = item.UserTypeID }, new { @class = "btn btn-primary" })

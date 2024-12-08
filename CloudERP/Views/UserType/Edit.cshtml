@@ -1,5 +1,4 @@
-﻿@*Localized*@
-@model DatabaseAccess.tblUserType
+﻿@model CloudERP.Models.UserTypeMV
 
 @{
     ViewBag.Title = Resources.Account.EditUserType.ToString();
@@ -22,10 +21,10 @@
         @Html.HiddenFor(model => model.UserTypeID)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.UserType, Resources.Account.UserType.ToString(), htmlAttributes: new { @class = "control-label col-md-3" })
+            @Html.LabelFor(model => model.Name, Resources.Account.UserType.ToString(), htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-5">
-                @Html.EditorFor(model => model.UserType, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.UserType, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
             </div>
         </div>
 

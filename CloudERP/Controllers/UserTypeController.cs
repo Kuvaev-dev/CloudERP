@@ -1,42 +1,28 @@
-﻿using System;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
+using System;
 using System.Web.Mvc;
-using DatabaseAccess;
+using CloudERP.Models;
+using Domain.Services;
 
 namespace CloudERP.Controllers
 {
     public class UserTypeController : Controller
     {
-        private readonly CloudDBEntities _db;
+        private readonly IUserTypeService _service;
 
-        public UserTypeController(CloudDBEntities db)
+        public UserTypeController(IUserTypeService service)
         {
-            _db = db;
+            _service = service;
         }
 
-        // GET: UserType
         public ActionResult Index()
         {
-            try
-            {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
-                return View(_db.tblUserType.ToList());
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            var userTypes = _service.GetAll();
+            return View(userTypes);
         }
 
         // GET: UserType/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int id)
         {
             try
             {
@@ -45,18 +31,8 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-
-                tblUserType tblUserType = _db.tblUserType.Find(id);
-                if (tblUserType == null)
-                {
-                    return HttpNotFound();
-                }
-
-                return View(tblUserType);
+                var userType = _service.GetById(id);
+                return View(userType);
             }
             catch (Exception ex)
             {
@@ -65,191 +41,58 @@ namespace CloudERP.Controllers
             }
         }
 
-        // GET: UserType/Create
         public ActionResult Create()
         {
-            try
-            {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
-                return View(new tblUserType());
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            return View(new UserTypeMV());
         }
 
-        // POST: UserType/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(tblUserType tblUserType)
+        public ActionResult Create(UserTypeMV model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                var userType = new Domain.Models.UserType
                 {
-                    return RedirectToAction("Login", "Home");
-                }
+                    UserTypeName = model.UserTypeName
+                };
 
-                if (ModelState.IsValid)
-                {
-                    bool exists = _db.tblUserType.Any(u => u.UserType == tblUserType.UserType);
-                    if (exists)
-                    {
-                        ModelState.AddModelError("UserType", Resources.Messages.AlreadyExists);
-                        return View(tblUserType);
-                    }
-
-                    _db.tblUserType.Add(tblUserType);
-                    _db.SaveChanges();
-
-                    return RedirectToAction("Index");
-                }
-
-                return View(tblUserType);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
-        }
-
-        // GET: UserType/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-
-                tblUserType tblUserType = _db.tblUserType.Find(id);
-                if (tblUserType == null)
-                {
-                    return HttpNotFound();
-                }
-
-                return View(tblUserType);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
-        }
-
-        // POST: UserType/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(tblUserType tblUserType)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
-                if (ModelState.IsValid)
-                {
-                    bool exists = _db.tblUserType
-                        .Any(u => u.UserType == tblUserType.UserType && u.UserTypeID != tblUserType.UserTypeID);
-
-                    if (exists)
-                    {
-                        ModelState.AddModelError("UserType", Resources.Messages.AlreadyExists);
-                        return View(tblUserType);
-                    }
-
-                    _db.Entry(tblUserType).State = EntityState.Modified;
-                    _db.SaveChanges();
-
-                    return RedirectToAction("Index");
-                }
-
-                return View(tblUserType);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
-        }
-
-        // GET: UserType/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-
-                tblUserType tblUserType = _db.tblUserType.Find(id);
-                if (tblUserType == null)
-                {
-                    return HttpNotFound();
-                }
-
-                return View(tblUserType);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
-        }
-
-        // POST: UserType/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
-                tblUserType tblUserType = _db.tblUserType.Find(id);
-                _db.tblUserType.Remove(tblUserType);
-                _db.SaveChanges();
-
+                _service.Create(userType);
                 return RedirectToAction("Index");
             }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            return View(model);
         }
 
-        protected override void Dispose(bool disposing)
+        public ActionResult Edit(int id)
         {
-            if (disposing)
+            var userType = _service.GetById(id);
+            if (userType == null) return HttpNotFound();
+
+            var model = new UserTypeMV
             {
-                _db.Dispose();
+                UserTypeID = userType.UserTypeID,
+                UserTypeName = userType.UserTypeName
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(UserTypeMV model)
+        {
+            if (ModelState.IsValid)
+            {
+                var userType = new Domain.Models.UserType
+                {
+                    UserTypeID = model.UserTypeID,
+                    UserTypeName = model.UserTypeName
+                };
+
+                _service.Update(userType);
+                return RedirectToAction("Index");
             }
-            base.Dispose(disposing);
+            return View(model);
         }
     }
 }

@@ -821,6 +821,7 @@
     <Compile Include="Models\ProductMV.cs" />
     <Compile Include="Models\RegistrationMV.cs" />
     <Compile Include="Models\SalaryMV.cs" />
+    <Compile Include="Models\UserTypeMV.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -3473,7 +3474,6 @@
     <Content Include="Views\Stock\Edit.cshtml" />
     <Content Include="Views\Stock\Index.cshtml" />
     <Content Include="Views\AccountHead\Create.cshtml" />
-    <Content Include="Views\AccountHead\Details.cshtml" />
     <Content Include="Views\AccountHead\Edit.cshtml" />
     <Content Include="Views\AccountHead\Index.cshtml" />
     <Content Include="Views\AccountControl\Create.cshtml" />
@@ -3560,7 +3560,6 @@
     <Content Include="Views\Guide\PrivacyPolicy.cshtml" />
     <Content Include="Views\User\Create.cshtml" />
     <Content Include="Views\User\Delete.cshtml" />
-    <Content Include="Views\UserType\Delete.cshtml" />
     <Content Include="Views\Home\ResetPasswordLinkExpired.cshtml" />
     <Content Include="Views\Home\ResetPasswordSuccess.cshtml" />
     <Content Include="Views\Support\Support.cshtml" />
