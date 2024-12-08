@@ -9,7 +9,6 @@ namespace DatabaseAccess.Repositories
         tblAccountSubControl GetById(int id);
         void Add(tblAccountSubControl entity);
         void Update(tblAccountSubControl entity);
-        IEnumerable<tblAccountControl> GetAllAccountControls();
     }
 
     public class AccountSubControlRepository : IAccountSubControlRepository
@@ -46,11 +45,6 @@ namespace DatabaseAccess.Repositories
         {
             _db.Entry(entity).State = System.Data.Entity.EntityState.Modified;
             _db.SaveChanges();
-        }
-
-        public IEnumerable<tblAccountControl> GetAllAccountControls()
-        {
-            return _db.tblAccountControl.ToList();
         }
     }
 }

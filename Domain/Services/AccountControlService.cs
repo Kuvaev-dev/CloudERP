@@ -12,7 +12,6 @@ namespace Domain.Services
         AccountControl GetById(int id);
         void Create(AccountControl accountControl);
         void Update(AccountControl accountControl);
-        IEnumerable<AccountHead> GetAllAccountHeads();
     }
 
     public class AccountControlService : IAccountControlService
@@ -59,16 +58,6 @@ namespace Domain.Services
 
             var updatedModel = AccountControlMapper.MapToDatabase(accountControl);
             _repository.Update(updatedModel);
-        }
-
-        public IEnumerable<AccountHead> GetAllAccountHeads()
-        {
-            var dbModels = _repository.GetAllAccountHeads();
-            return dbModels.Select(ah => new AccountHead
-            {
-                AccountHeadID = ah.AccountHeadID,
-                AccountHeadName = ah.AccountHeadName
-            }).ToList();
         }
     }
 }

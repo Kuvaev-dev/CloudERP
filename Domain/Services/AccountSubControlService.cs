@@ -12,7 +12,6 @@ namespace Domain.Services
         AccountSubControl GetById(int id);
         void Create(AccountSubControl accountSubControl);
         void Update(AccountSubControl accountSubControl);
-        IEnumerable<AccountControl> GetAllAccountControls();
     }
 
     public class AccountSubControlService : IAccountSubControlService
@@ -46,16 +45,6 @@ namespace Domain.Services
         {
             var dbModel = AccountSubControlMapper.MapToDatabase(accountSubControl);
             _repository.Update(dbModel);
-        }
-
-        public IEnumerable<AccountControl> GetAllAccountControls()
-        {
-            var dbModels = _repository.GetAllAccountControls();
-            return dbModels.Select(ah => new AccountControl
-            {
-                AccountControlID = ah.AccountControlID,
-                AccountControlName = ah.AccountControlName
-            }).ToList();
         }
     }
 }

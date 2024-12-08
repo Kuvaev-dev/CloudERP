@@ -56,11 +56,11 @@ namespace CloudERP.Controllers
             model.BranchID = branchId;
             model.CompanyID = companyId;
             model.UserID = userId;
-            model.AccountControlList = _service.GetAllAccountControls()
-                .Select(ah => new SelectListItem
+            model.AccountControlList = _controlService.GetAll(companyId, branchId)
+                .Select(ac => new SelectListItem
                 {
-                    Value = ah.AccountControlID.ToString(),
-                    Text = ah.AccountControlName
+                    Value = ac.AccountControlID.ToString(),
+                    Text = ac.AccountControlName
                 }).ToList();
 
             if (ModelState.IsValid)

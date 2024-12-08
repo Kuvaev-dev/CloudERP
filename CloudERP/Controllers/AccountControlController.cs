@@ -10,10 +10,12 @@ namespace CloudERP.Controllers
     public class AccountControlController : Controller
     {
         private readonly IAccountControlService _service;
+        private readonly IAccountHeadService _headService;
 
-        public AccountControlController(IAccountControlService service)
+        public AccountControlController(IAccountControlService service, IAccountHeadService headService)
         {
             _service = service;
+            _headService = headService;
         }
 
         public ActionResult Index()
@@ -34,7 +36,7 @@ namespace CloudERP.Controllers
         {
             var model = new AccountControlMV
             {
-                AccountHeadList = _service.GetAllAccountHeads()
+                AccountHeadList = _headService.GetAll()
                 .Select(ah => new SelectListItem
                 {
                     Value = ah.AccountHeadID.ToString(),
@@ -55,7 +57,7 @@ namespace CloudERP.Controllers
             model.BranchID = branchId;
             model.CompanyID = companyId;
             model.UserID = userId;
-            model.AccountHeadList = _service.GetAllAccountHeads()
+            model.AccountHeadList = _headService.GetAll()
                 .Select(ah => new SelectListItem
                 {
                     Value = ah.AccountHeadID.ToString(),
@@ -99,13 +101,13 @@ namespace CloudERP.Controllers
                 BranchID = branchId,
                 CompanyID = companyId,
                 UserID = userId,
-                AccountHeadList = _service.GetAllAccountHeads()
-                    .Select(ah => new SelectListItem
-                    {
-                        Value = ah.AccountHeadID.ToString(),
-                        Text = ah.AccountHeadName,
-                        Selected = ah.AccountHeadID == accountControl.AccountHeadID
-                    }).ToList()
+                AccountHeadList = _headService.GetAll()
+                .Select(ah => new SelectListItem
+                {
+                    Value = ah.AccountHeadID.ToString(),
+                    Text = ah.AccountHeadName,
+                    Selected = ah.AccountHeadID == accountControl.AccountHeadID
+                }).ToList()
             };
 
             return View(model);
@@ -138,7 +140,7 @@ namespace CloudERP.Controllers
                 }
             }
 
-            model.AccountHeadList = _service.GetAllAccountHeads()
+            model.AccountHeadList = _headService.GetAll()
                 .Select(ah => new SelectListItem
                 {
                     Value = ah.AccountHeadID.ToString(),
