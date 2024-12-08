@@ -1,47 +1,39 @@
 ﻿using System;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
 using System.Web.Mvc;
-using DatabaseAccess;
+using CloudERP.Models;
+using Domain.Services;
 
 namespace CloudERP.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly CloudDBEntities _db;
+        private readonly ICategoryService _service;
 
-        public CategoryController(CloudDBEntities db)
+        public CategoryController(ICategoryService service)
         {
-            _db = db;
+            _service = service;
         }
 
-        private bool CategoryExists(int companyID, int branchID, string categoryName, int categoryId)
-        {
-            return _db.tblCategory.Any(c => c.CompanyID == companyID
-                                        && c.BranchID == branchID
-                                        && c.CategoryName == categoryName
-                                        && c.CategoryID != categoryId);
-        }
-
-        // GET: Category
         public ActionResult Index()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
-                return RedirectToAction("Login", "Home");
-            }
-
             int companyID = Convert.ToInt32(Session["CompanyID"]);
             int branchID = Convert.ToInt32(Session["BranchID"]);
 
+            var categories = _service.GetAll(companyID, branchID);
+            return View(categories);
+        }
+
+        public ActionResult Details(int id)
+        {
             try
             {
-                var tblCategory = _db.tblCategory.Include(t => t.tblBranch).Include(t => t.tblCompany)
-                                                 .Include(t => t.tblUser)
-                                                 .Where(c => c.CompanyID == companyID && c.BranchID == branchID);
+                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                {
+                    return RedirectToAction("Login", "Home");
+                }
 
-                return View(tblCategory.ToList());
+                var userType = _service.GetById(id);
+                return View(userType);
             }
             catch (Exception ex)
             {
@@ -50,139 +42,64 @@ namespace CloudERP.Controllers
             }
         }
 
-        // GET: Category/Create
         public ActionResult Create()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
-                return RedirectToAction("Login", "Home");
-            }
-
-            return View(new tblCategory());
+            return View(new CategoryMV());
         }
 
-        // POST: Category/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(tblCategory tblCategory)
+        public ActionResult Create(CategoryMV model)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (ModelState.IsValid)
             {
-                return RedirectToAction("Login", "Home");
-            }
-
-            int companyID = Convert.ToInt32(Session["CompanyID"]);
-            int branchID = Convert.ToInt32(Session["BranchID"]);
-            int userID = Convert.ToInt32(Session["UserID"]);
-
-            tblCategory.BranchID = branchID;
-            tblCategory.CompanyID = companyID;
-            tblCategory.UserID = userID;
-
-            try
-            {
-                if (ModelState.IsValid)
+                var category = new Domain.Models.Category
                 {
-                    if (!CategoryExists(companyID, branchID, tblCategory.CategoryName, tblCategory.CategoryID))
-                    {
-                        _db.tblCategory.Add(tblCategory);
-                        _db.SaveChanges();
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        ViewBag.Message = Resources.Messages.AlreadyExists;
-                    }
-                }
+                    CategoryName = model.CategoryName,
+                    CompanyID = Convert.ToInt32(Session["CompanyID"]),
+                    BranchID = Convert.ToInt32(Session["BranchID"]),
+                    UserID = Convert.ToInt32(Session["UserID"])
+                };
 
-                return View(tblCategory);
+                _service.Create(category);
+                return RedirectToAction("Index");
             }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+
+            return View(model);
         }
 
-        // GET: Category/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
-                return RedirectToAction("Login", "Home");
-            }
+            var category = _service.GetById(id);
+            if (category == null) return HttpNotFound();
 
-            if (id == null)
+            var model = new CategoryMV
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+                CategoryID = category.CategoryID,
+                CategoryName = category.CategoryName
+            };
 
-            try
-            {
-                tblCategory tblCategory = _db.tblCategory.Find(id);
-
-                if (tblCategory == null)
-                {
-                    return HttpNotFound();
-                }
-
-                return View(tblCategory);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            return View(model);
         }
 
         // POST: Category/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(tblCategory tblCategory)
+        public ActionResult Edit(CategoryMV model)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (ModelState.IsValid)
             {
-                return RedirectToAction("Login", "Home");
-            }
-
-            int userID = Convert.ToInt32(Session["UserID"]);
-            tblCategory.UserID = userID;
-
-            try
-            {
-                if (ModelState.IsValid)
+                var accountHead = new Domain.Models.Category
                 {
-                    int companyID = tblCategory.CompanyID;
-                    int branchID = tblCategory.BranchID;
+                    CategoryID = model.CategoryID,
+                    CategoryName = model.CategoryName,
+                    UserID = Convert.ToInt32(Session["UserID"])
+                };
 
-                    if (!CategoryExists(companyID, branchID, tblCategory.CategoryName, tblCategory.CategoryID))
-                    {
-                        _db.Entry(tblCategory).State = EntityState.Modified;
-                        _db.SaveChanges();
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        ViewBag.Message = Resources.Messages.AlreadyExists;
-                    }
-                }
-
-                return View(tblCategory);
+                _service.Update(accountHead);
+                return RedirectToAction("Index");
             }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _db.Dispose();
-            }
-            base.Dispose(disposing);
+            return View(model);
         }
     }
 }

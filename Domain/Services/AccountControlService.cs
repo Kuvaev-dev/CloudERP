@@ -33,7 +33,7 @@ namespace Domain.Services
             return dbModels.Select(dbModel =>
             {
                 var accountControl = AccountControlMapper.MapToDomain(dbModel);
-                accountControl.UserName = dbModel.tblUser?.FullName ?? "Unknown";
+                accountControl.FullName = dbModel.tblUser?.FullName ?? "Unknown";
                 accountControl.AccountHeadName = accountHeads.ContainsKey(dbModel.AccountHeadID)
                                                  ? accountHeads[dbModel.AccountHeadID]
                                                  : "Unknown";

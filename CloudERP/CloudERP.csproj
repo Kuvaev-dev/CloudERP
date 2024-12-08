@@ -812,6 +812,7 @@
     <Compile Include="Models\AccountSubControlMV.cs" />
     <Compile Include="Models\BranchsCustomersMV.cs" />
     <Compile Include="Models\BranchsSuppliersMV.cs" />
+    <Compile Include="Models\CategoryMV.cs" />
     <Compile Include="Models\CompanyRegistrationMV.cs" />
     <Compile Include="Models\EmployeeStatisticsMV.cs" />
     <Compile Include="Models\Forecasting\ForecastData.cs" />
@@ -3464,7 +3465,6 @@
     <Content Include="Views\CompanyEmployee\Employees.cshtml" />
     <Content Include="Views\CompanyEmployee\EmployeeRegistration.cshtml" />
     <Content Include="Views\Category\Create.cshtml" />
-    <Content Include="Views\Category\Delete.cshtml" />
     <Content Include="Views\Category\Details.cshtml" />
     <Content Include="Views\Category\Edit.cshtml" />
     <Content Include="Views\Category\Index.cshtml" />

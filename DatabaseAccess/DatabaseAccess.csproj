@@ -104,6 +104,7 @@
     <Compile Include="Repositories\AccountControlRepository.cs" />
     <Compile Include="Repositories\AccountHeadRepository.cs" />
     <Compile Include="Repositories\AccountSubControlRepository.cs" />
+    <Compile Include="Repositories\CategoryRepository.cs" />
     <Compile Include="Repositories\UserTypeRepository.cs" />
     <Compile Include="tblAccountActivity.cs">
       <DependentUpon>CloudDB.tt</DependentUpon>

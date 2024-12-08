@@ -16,7 +16,7 @@ namespace Domain.Mapping
                 BranchID = dbModel.BranchID,
                 CompanyID = dbModel.CompanyID,
                 UserID = dbModel.UserID,
-                UserName = dbModel.tblUser?.FullName ?? "Unknown"
+                FullName = dbModel.tblUser?.FullName ?? "Unknown"
             };
         }
 

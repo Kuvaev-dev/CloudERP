@@ -33,7 +33,7 @@
                             @Html.Raw(HttpUtility.HtmlDecode(Resources.Account.Code))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Account.FullName))
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Account.User))
                         </th>
                         <th>
                             @Html.Raw(HttpUtility.HtmlDecode(Resources.Common.Actions))
@@ -53,7 +53,7 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.FullName)
                             </td>
-                            <td>
+                            <td class="btn btn-group">
                                 @Html.ActionLink(Resources.Common.Edit.ToString(), "Edit", new { id = item.AccountHeadID }, new { @class = "btn btn-primary" })
                             </td>
                         </tr>

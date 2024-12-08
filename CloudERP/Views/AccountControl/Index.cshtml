@@ -38,8 +38,8 @@
                         <tr>
                             <td>@Html.DisplayFor(modelItem => item.AccountHeadName)</td>
                             <td>@Html.DisplayFor(modelItem => item.AccountControlName)</td>
-                            <td>@Html.DisplayFor(modelItem => item.UserName)</td>
-                            <td>
+                            <td>@Html.DisplayFor(modelItem => item.FullName)</td>
+                            <td class="btn btn-group">
                                 @Html.ActionLink(Resources.Common.Edit.ToString(), "Edit", new { id = item.AccountControlID }, new { @class = "btn btn-primary" })
                             </td>
                         </tr>

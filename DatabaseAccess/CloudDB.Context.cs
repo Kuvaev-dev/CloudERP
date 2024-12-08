@@ -102,7 +102,6 @@ public partial class CloudDBEntities : DbContext
 
     public virtual DbSet<tblUserType> tblUserType { get; set; }
 
-}
-
+    }
 }
 
