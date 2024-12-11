@@ -3,7 +3,6 @@ using DatabaseAccess.Repositories;
 using System.Web.Mvc;
 using Unity.AspNet.Mvc;
 using Unity;
-using Unity.Lifetime;
 using Domain.Services;
 using Unity.Injection;
 

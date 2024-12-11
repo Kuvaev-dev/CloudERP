@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DatabaseAccess.Repositories;
 using Domain.Mapping;
 using Domain.Models;
@@ -8,7 +9,7 @@ namespace Domain.Services
 {
     public interface IAccountControlService
     {
-        IEnumerable<AccountControl> GetAll(int companyId, int branchId);
+        Task<IEnumerable<AccountControl>> GetAllAsync(int companyId, int branchId);
         AccountControl GetById(int id);
         void Create(AccountControl accountControl);
         void Update(AccountControl accountControl);
@@ -25,17 +26,18 @@ namespace Domain.Services
             _headRepository = headRepository;
         }
 
-        public IEnumerable<AccountControl> GetAll(int companyId, int branchId)
+        public async Task<IEnumerable<AccountControl>> GetAllAsync(int companyId, int branchId)
         {
             var dbModels = _repository.GetAll(companyId, branchId);
-            var accountHeads = _headRepository.GetAll().ToDictionary(x => x.AccountHeadID, x => x.AccountHeadName);
+            var accountHeads = await _headRepository.GetAllAsync();
+            var headsDictionary = accountHeads.ToDictionary(x => x.AccountHeadID, x => x.AccountHeadName);
 
             return dbModels.Select(dbModel =>
             {
                 var accountControl = AccountControlMapper.MapToDomain(dbModel);
                 accountControl.FullName = dbModel.tblUser?.FullName ?? "Unknown";
-                accountControl.AccountHeadName = accountHeads.ContainsKey(dbModel.AccountHeadID)
-                                                 ? accountHeads[dbModel.AccountHeadID]
+                accountControl.AccountHeadName = headsDictionary.ContainsKey(dbModel.AccountHeadID)
+                                                 ? headsDictionary[dbModel.AccountHeadID]
                                                  : "Unknown";
                 return accountControl;
             }).ToList();

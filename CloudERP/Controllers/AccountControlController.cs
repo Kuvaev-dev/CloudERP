@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Models;
 using Domain.Services;
@@ -18,7 +19,7 @@ namespace CloudERP.Controllers
             _headService = headService;
         }
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
             if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
             {
@@ -28,27 +29,23 @@ namespace CloudERP.Controllers
             int companyId = Convert.ToInt32(Session["CompanyID"]);
             int branchId = Convert.ToInt32(Session["BranchID"]);
 
-            var accountControls = _service.GetAll(companyId, branchId);
+            var accountControls = await _service.GetAllAsync(companyId, branchId);
             return View(accountControls);
         }
 
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
             var model = new AccountControlMV
             {
-                AccountHeadList = _headService.GetAll()
-                .Select(ah => new SelectListItem
-                {
-                    Value = ah.AccountHeadID.ToString(),
-                    Text = ah.AccountHeadName
-                }).ToList()
+                AccountHeadList = await GetAccountHeadList()
             };
+
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(AccountControlMV model)
+        public async Task<ActionResult> Create(AccountControlMV model)
         {
             int companyId = Convert.ToInt32(Session["CompanyID"]);
             int branchId = Convert.ToInt32(Session["BranchID"]);
@@ -57,12 +54,7 @@ namespace CloudERP.Controllers
             model.BranchID = branchId;
             model.CompanyID = companyId;
             model.UserID = userId;
-            model.AccountHeadList = _headService.GetAll()
-                .Select(ah => new SelectListItem
-                {
-                    Value = ah.AccountHeadID.ToString(),
-                    Text = ah.AccountHeadName
-                }).ToList();
+            model.AccountHeadList = await GetAccountHeadList();
 
             if (ModelState.IsValid)
             {
@@ -82,14 +74,11 @@ namespace CloudERP.Controllers
             return View(model);
         }
 
-        public ActionResult Edit(int? id)
+        public async Task<ActionResult> Edit(int? id)
         {
-            int companyId = Convert.ToInt32(Session["CompanyID"]);
-            int branchId = Convert.ToInt32(Session["BranchID"]);
-            int userId = Convert.ToInt32(Session["UserID"]);
-
             if (id == null) return RedirectToAction("Index");
 
+            var accountHeads = await _headService.GetAllAsync();
             var accountControl = _service.GetById(id.Value);
             if (accountControl == null) return HttpNotFound();
 
@@ -98,10 +87,10 @@ namespace CloudERP.Controllers
                 AccountControlID = accountControl.AccountControlID,
                 AccountControlName = accountControl.AccountControlName,
                 AccountHeadID = accountControl.AccountHeadID,
-                BranchID = branchId,
-                CompanyID = companyId,
-                UserID = userId,
-                AccountHeadList = _headService.GetAll()
+                BranchID = Convert.ToInt32(Session["BranchID"]),
+                CompanyID = Convert.ToInt32(Session["CompanyID"]),
+                UserID = Convert.ToInt32(Session["UserID"]),
+                AccountHeadList = accountHeads
                 .Select(ah => new SelectListItem
                 {
                     Value = ah.AccountHeadID.ToString(),
@@ -115,7 +104,7 @@ namespace CloudERP.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(AccountControlMV model)
+        public async Task<ActionResult> Edit(AccountControlMV model)
         {
             if (ModelState.IsValid)
             {
@@ -140,14 +129,21 @@ namespace CloudERP.Controllers
                 }
             }
 
-            model.AccountHeadList = _headService.GetAll()
+            model.AccountHeadList = await GetAccountHeadList();
+
+            return View(model);
+        }
+
+        public async Task<IEnumerable<SelectListItem>> GetAccountHeadList()
+        {
+            var accountHeads = await _headService.GetAllAsync();
+            return accountHeads
                 .Select(ah => new SelectListItem
                 {
                     Value = ah.AccountHeadID.ToString(),
                     Text = ah.AccountHeadName
-                }).ToList();
-
-            return View(model);
+                })
+                .ToList();
         }
     }
 }

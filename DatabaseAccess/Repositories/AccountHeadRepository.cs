@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using System.Data.Entity;
+using System.Threading.Tasks;
 
 namespace DatabaseAccess.Repositories
 {
     public interface IAccountHeadRepository
     {
-        IEnumerable<tblAccountHead> GetAll();
-        tblAccountHead GetById(int id);
-        void Add(tblAccountHead accountHead);
-        void Update(tblAccountHead accountHead);
-        void Delete(tblAccountHead accountHead);
+        Task<IEnumerable<tblAccountHead>> GetAllAsync();
+        Task<tblAccountHead> GetByIdAsync(int id);
+        Task AddAsync(tblAccountHead accountHead);
+        Task UpdateAsync(tblAccountHead accountHead);
+        Task DeleteAsync(tblAccountHead accountHead);
     }
 
     public class AccountHeadRepository : IAccountHeadRepository
@@ -21,39 +22,39 @@ namespace DatabaseAccess.Repositories
             _dbContext = dbContext;
         }
 
-        public IEnumerable<tblAccountHead> GetAll()
+        public async Task<IEnumerable<tblAccountHead>> GetAllAsync()
         {
-            return _dbContext.tblAccountHead.Include("tblUser").ToList();
+            return await _dbContext.tblAccountHead.Include(e => e.tblUser).ToListAsync();
         }
 
-        public tblAccountHead GetById(int id)
+        public async Task<tblAccountHead> GetByIdAsync(int id)
         {
-            return _dbContext.tblAccountHead.FirstOrDefault(ah => ah.AccountHeadID == id);
+            return await _dbContext.tblAccountHead.FirstOrDefaultAsync(ah => ah.AccountHeadID == id);
         }
 
-        public void Add(tblAccountHead accountHead)
+        public async Task AddAsync(tblAccountHead accountHead)
         {
             _dbContext.tblAccountHead.Add(accountHead);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
 
-        public void Update(tblAccountHead accountHead)
+        public async Task UpdateAsync(tblAccountHead accountHead)
         {
-            var entity = _dbContext.tblAccountHead.Find(accountHead.AccountHeadID);
+            var entity = await _dbContext.tblAccountHead.FindAsync(accountHead.AccountHeadID);
             if (entity == null) throw new KeyNotFoundException("AccountHead not found.");
 
             entity.AccountHeadName = accountHead.AccountHeadName;
             entity.Code = accountHead.Code;
             entity.UserID = accountHead.UserID;
 
-            _dbContext.Entry(entity).State = System.Data.Entity.EntityState.Modified;
-            _dbContext.SaveChanges();
+            _dbContext.Entry(entity).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
         }
 
-        public void Delete(tblAccountHead accountHead)
+        public async Task DeleteAsync(tblAccountHead accountHead)
         {
             _dbContext.tblAccountHead.Remove(accountHead);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

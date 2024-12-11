@@ -1,18 +1,21 @@
 ﻿using DatabaseAccess.Repositories;
 using Domain.Mapping;
 using Domain.Models;
+using Microsoft.Extensions.Caching.Memory;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Domain.Services
 {
     public interface IAccountHeadService
     {
-        IEnumerable<AccountHead> GetAll();
-        AccountHead GetById(int id);
-        void Create(AccountHead accountHead);
-        void Update(AccountHead accountHead);
-        void Delete(int id);
+        Task<IEnumerable<AccountHead>> GetAllAsync();
+        Task<AccountHead> GetByIdAsync(int id);
+        Task CreateAsync(AccountHead accountHead);
+        Task UpdateAsync(AccountHead accountHead);
+        Task DeleteAsync(int id);
     }
 
     public class AccountHeadService : IAccountHeadService
@@ -24,36 +27,38 @@ namespace Domain.Services
             _repository = repository;
         }
 
-        public IEnumerable<AccountHead> GetAll()
+        public async Task<IEnumerable<AccountHead>> GetAllAsync()
         {
-            var dbModels = _repository.GetAll();
-            return dbModels.Select(AccountHeadMapper.MapToDomain).ToList();
+            var dbModels = await _repository.GetAllAsync();
+            var accountHeads = dbModels.Select(AccountHeadMapper.MapToDomain).ToList();
+
+            return accountHeads;
         }
 
-        public AccountHead GetById(int id)
+        public async Task<AccountHead> GetByIdAsync(int id)
         {
-            var dbModel = _repository.GetById(id);
+            var dbModel = await _repository.GetByIdAsync(id);
             return dbModel == null ? null : AccountHeadMapper.MapToDomain(dbModel);
         }
 
-        public void Create(AccountHead accountHead)
+        public async Task CreateAsync(AccountHead accountHead)
         {
             var dbModel = AccountHeadMapper.MapToDatabase(accountHead);
-            _repository.Add(dbModel);
+            await _repository.AddAsync(dbModel);
         }
 
-        public void Update(AccountHead accountHead)
+        public async Task UpdateAsync(AccountHead accountHead)
         {
             var dbModel = AccountHeadMapper.MapToDatabase(accountHead);
-            _repository.Update(dbModel);
+            await _repository.UpdateAsync(dbModel);
         }
 
-        public void Delete(int id)
+        public async Task DeleteAsync(int id)
         {
-            var dbModel = _repository.GetById(id);
+            var dbModel = await _repository.GetByIdAsync(id);
             if (dbModel == null) throw new KeyNotFoundException("AccountHead not found.");
 
-            _repository.Delete(dbModel);
+            await _repository.DeleteAsync(dbModel);
         }
     }
 }

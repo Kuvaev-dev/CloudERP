@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Web.Mvc;
+using CloudERP.Mapping;
 using CloudERP.Models;
 using Domain.Services;
 
@@ -14,9 +16,9 @@ namespace CloudERP.Controllers
             _service = service;
         }
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            var accountHeads = _service.GetAll();
+            var accountHeads = await _service.GetAllAsync();
             return View(accountHeads);
         }
 
@@ -27,54 +29,32 @@ namespace CloudERP.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(AccountHeadMV model)
+        public async Task<ActionResult> Create(AccountHeadMV model)
         {
             if (ModelState.IsValid)
             {
-                var accountHead = new Domain.Models.AccountHead
-                {
-                    AccountHeadName = model.AccountHeadName,
-                    Code = model.Code,
-                    UserID = Convert.ToInt32(Session["UserID"])
-                };
-
-                _service.Create(accountHead);
+                model.UserID = Convert.ToInt32(Session["UserID"]);
+                await _service.CreateAsync(AccountHeadMapper.MapToDomain(model));
                 return RedirectToAction("Index");
             }
             return View(model);
         }
 
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            var accountHead = _service.GetById(id);
+            var accountHead = await _service.GetByIdAsync(id);
             if (accountHead == null) return HttpNotFound();
 
-            var model = new AccountHeadMV
-            {
-                AccountHeadID = accountHead.AccountHeadID,
-                AccountHeadName = accountHead.AccountHeadName,
-                Code = accountHead.Code,
-                UserID = accountHead.UserID
-            };
-
-            return View(model);
+            return View(AccountHeadMapper.MapToViewModel(accountHead));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(AccountHeadMV model)
+        public async Task<ActionResult> Edit(AccountHeadMV model)
         {
             if (ModelState.IsValid)
             {
-                var accountHead = new Domain.Models.AccountHead
-                {
-                    AccountHeadID = model.AccountHeadID,
-                    AccountHeadName = model.AccountHeadName,
-                    Code = model.Code,
-                    UserID = model.UserID
-                };
-
-                _service.Update(accountHead);
+                await _service.UpdateAsync(AccountHeadMapper.MapToDomain(model));
                 return RedirectToAction("Index");
             }
             return View(model);
