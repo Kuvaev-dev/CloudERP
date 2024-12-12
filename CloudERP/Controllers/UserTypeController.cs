@@ -1,6 +1,7 @@
-﻿using System.Net;
-using System;
+﻿using System;
+using System.Threading.Tasks;
 using System.Web.Mvc;
+using CloudERP.Mapping;
 using CloudERP.Models;
 using Domain.Services;
 
@@ -15,14 +16,14 @@ namespace CloudERP.Controllers
             _service = service;
         }
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            var userTypes = _service.GetAll();
+            var userTypes = await _service.GetAllAsync();
             return View(userTypes);
         }
 
         // GET: UserType/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
             try
             {
@@ -31,7 +32,7 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                var userType = _service.GetById(id);
+                var userType = await _service.GetByIdAsync(id);
                 return View(userType);
             }
             catch (Exception ex)
@@ -48,48 +49,31 @@ namespace CloudERP.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(UserTypeMV model)
+        public async Task<ActionResult> Create(UserTypeMV model)
         {
             if (ModelState.IsValid)
             {
-                var userType = new Domain.Models.UserType
-                {
-                    UserTypeName = model.UserTypeName
-                };
-
-                _service.Create(userType);
+                await _service.CreateAsync(UserTypeMapper.MapToDomain(model));
                 return RedirectToAction("Index");
             }
             return View(model);
         }
 
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            var userType = _service.GetById(id);
+            var userType = await _service.GetByIdAsync(id);
             if (userType == null) return HttpNotFound();
 
-            var model = new UserTypeMV
-            {
-                UserTypeID = userType.UserTypeID,
-                UserTypeName = userType.UserTypeName
-            };
-
-            return View(model);
+            return View(UserTypeMapper.MapToViewModel(userType));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(UserTypeMV model)
+        public async Task<ActionResult> Edit(UserTypeMV model)
         {
             if (ModelState.IsValid)
             {
-                var userType = new Domain.Models.UserType
-                {
-                    UserTypeID = model.UserTypeID,
-                    UserTypeName = model.UserTypeName
-                };
-
-                _service.Update(userType);
+                await _service.UpdateAsync(UserTypeMapper.MapToDomain(model));
                 return RedirectToAction("Index");
             }
             return View(model);

@@ -1,16 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DatabaseAccess.Repositories
 {
     public interface IUserTypeRepository
     {
-        IEnumerable<tblUserType> GetAll();
-        tblUserType GetById(int id);
-        void Add(tblUserType userType);
-        void Update(tblUserType userType);
-        void Delete(tblUserType userType);
+        Task<IEnumerable<tblUserType>> GetAllAsync();
+        Task<tblUserType> GetByIdAsync(int id);
+        Task AddAsync(tblUserType userType);
+        Task UpdateAsync(tblUserType userType);
+        Task DeleteAsync(tblUserType userType);
     }
 
     public class UserTypeRepository : IUserTypeRepository
@@ -22,25 +23,25 @@ namespace DatabaseAccess.Repositories
             _dbContext = dbContext;
         }
 
-        public IEnumerable<tblUserType> GetAll()
+        public async Task<IEnumerable<tblUserType>> GetAllAsync()
         {
-            return _dbContext.tblUserType.ToList();
+            return await _dbContext.tblUserType.ToListAsync();
         }
 
-        public tblUserType GetById(int id)
+        public async Task<tblUserType> GetByIdAsync(int id)
         {
-            return _dbContext.tblUserType.FirstOrDefault(ut => ut.UserTypeID == id);
+            return await _dbContext.tblUserType.FirstOrDefaultAsync(ut => ut.UserTypeID == id);
         }
 
-        public void Add(tblUserType userType)
+        public async Task AddAsync(tblUserType userType)
         {
             _dbContext.tblUserType.Add(userType);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
 
-        public void Update(tblUserType userType)
+        public async Task UpdateAsync(tblUserType userType)
         {
-            var existingUserType = _dbContext.tblUserType.Find(userType.UserTypeID);
+            var existingUserType = await _dbContext.tblUserType.FindAsync(userType.UserTypeID);
             if (existingUserType == null)
             {
                 throw new KeyNotFoundException("UserType not found.");
@@ -48,19 +49,19 @@ namespace DatabaseAccess.Repositories
 
             existingUserType.UserType = userType.UserType;
             _dbContext.Entry(existingUserType).State = EntityState.Modified;
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
 
-        public void Delete(tblUserType userType)
+        public async Task DeleteAsync(tblUserType userType)
         {
-            var existingUserType = _dbContext.tblUserType.Find(userType.UserTypeID);
+            var existingUserType = await _dbContext.tblUserType.FindAsync(userType.UserTypeID);
             if (existingUserType == null)
             {
                 throw new KeyNotFoundException("UserType not found.");
             }
 
             _dbContext.tblUserType.Remove(existingUserType);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

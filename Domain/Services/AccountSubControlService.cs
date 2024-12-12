@@ -3,15 +3,16 @@ using Domain.Mapping;
 using Domain.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Domain.Services
 {
     public interface IAccountSubControlService
     {
-        IEnumerable<AccountSubControl> GetAll(int companyId, int branchId);
-        AccountSubControl GetById(int id);
-        void Create(AccountSubControl accountSubControl);
-        void Update(AccountSubControl accountSubControl);
+        Task<IEnumerable<AccountSubControl>> GetAllAsync(int companyId, int branchId);
+        Task<AccountSubControl> GetByIdAsync(int id);
+        Task CreateAsync(AccountSubControl accountSubControl);
+        Task UpdateAsync(AccountSubControl accountSubControl);
     }
 
     public class AccountSubControlService : IAccountSubControlService
@@ -23,28 +24,28 @@ namespace Domain.Services
             _repository = repository;
         }
 
-        public IEnumerable<AccountSubControl> GetAll(int companyId, int branchId)
+        public async Task<IEnumerable<AccountSubControl>> GetAllAsync(int companyId, int branchId)
         {
-            return _repository.GetAll(companyId, branchId)
-                              .Select(AccountSubControlMapper.MapToDomain);
+            var accountSubControls = await _repository.GetAllAsync(companyId, branchId);
+            return accountSubControls.Select(AccountSubControlMapper.MapToDomain);
         }
 
-        public AccountSubControl GetById(int id)
+        public async Task<AccountSubControl> GetByIdAsync(int id)
         {
-            var entity = _repository.GetById(id);
+            var entity = await _repository.GetByIdAsync(id);
             return entity == null ? null : AccountSubControlMapper.MapToDomain(entity);
         }
 
-        public void Create(AccountSubControl accountSubControl)
+        public async Task CreateAsync(AccountSubControl accountSubControl)
         {
             var dbModel = AccountSubControlMapper.MapToDatabase(accountSubControl);
-            _repository.Add(dbModel);
+            await _repository.AddAsync(dbModel);
         }
 
-        public void Update(AccountSubControl accountSubControl)
+        public async Task UpdateAsync(AccountSubControl accountSubControl)
         {
             var dbModel = AccountSubControlMapper.MapToDatabase(accountSubControl);
-            _repository.Update(dbModel);
+            await _repository.UpdateAsync(dbModel);
         }
     }
 }

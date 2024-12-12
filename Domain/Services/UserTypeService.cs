@@ -3,16 +3,17 @@ using Domain.Mapping;
 using Domain.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Domain.Services
 {
     public interface IUserTypeService
     {
-        IEnumerable<UserType> GetAll();
-        UserType GetById(int id);
-        void Create(UserType userType);
-        void Update(UserType userType);
-        void Delete(int id);
+        Task<IEnumerable<UserType>> GetAllAsync();
+        Task<UserType> GetByIdAsync(int id);
+        Task CreateAsync(UserType userType);
+        Task UpdateAsync(UserType userType);
+        Task DeleteAsync(int id);
     }
 
     public class UserTypeService : IUserTypeService
@@ -24,34 +25,37 @@ namespace Domain.Services
             _repository = repository;
         }
 
-        public IEnumerable<UserType> GetAll()
+        public async Task<IEnumerable<UserType>> GetAllAsync()
         {
-            return _repository.GetAll().Select(UserTypeMapper.MapToDomain).ToList();
+            var dbModels = await _repository.GetAllAsync();
+            var userTypes = dbModels.Select(UserTypeMapper.MapToDomain).ToList();
+
+            return userTypes;
         }
 
-        public UserType GetById(int id)
+        public async Task<UserType> GetByIdAsync(int id)
         {
-            var dbModel = _repository.GetById(id);
+            var dbModel = await _repository.GetByIdAsync(id);
             return dbModel == null ? null : UserTypeMapper.MapToDomain(dbModel);
         }
 
-        public void Create(UserType userType)
+        public async Task CreateAsync(UserType userType)
         {
             var dbModel = UserTypeMapper.MapToDatabase(userType);
-            _repository.Add(dbModel);
+            await _repository.AddAsync(dbModel);
         }
 
-        public void Update(UserType userType)
+        public async Task UpdateAsync(UserType userType)
         {
             var dbModel = UserTypeMapper.MapToDatabase(userType);
-            _repository.Update(dbModel);
+            await _repository.UpdateAsync(dbModel);
         }
 
-        public void Delete(int id)
+        public async Task DeleteAsync(int id)
         {
-            var dbModel = _repository.GetById(id);
+            var dbModel = await _repository.GetByIdAsync(id);
             if (dbModel == null) throw new KeyNotFoundException("UserType not found.");
-            _repository.Delete(dbModel);
+            await _repository.DeleteAsync(dbModel);
         }
     }
 }

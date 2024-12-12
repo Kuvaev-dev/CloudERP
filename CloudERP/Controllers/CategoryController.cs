@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Web.Mvc;
+using CloudERP.Mapping;
 using CloudERP.Models;
 using Domain.Services;
 
@@ -14,16 +16,16 @@ namespace CloudERP.Controllers
             _service = service;
         }
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
             int companyID = Convert.ToInt32(Session["CompanyID"]);
             int branchID = Convert.ToInt32(Session["BranchID"]);
 
-            var categories = _service.GetAll(companyID, branchID);
+            var categories = await _service.GetAllAsync(companyID, branchID);
             return View(categories);
         }
 
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
             try
             {
@@ -32,7 +34,7 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                var userType = _service.GetById(id);
+                var userType = await _service.GetByIdAsync(id);
                 return View(userType);
             }
             catch (Exception ex)
@@ -49,54 +51,41 @@ namespace CloudERP.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(CategoryMV model)
+        public async Task<ActionResult> Create(CategoryMV model)
         {
             if (ModelState.IsValid)
             {
-                var category = new Domain.Models.Category
-                {
-                    CategoryName = model.CategoryName,
-                    CompanyID = Convert.ToInt32(Session["CompanyID"]),
-                    BranchID = Convert.ToInt32(Session["BranchID"]),
-                    UserID = Convert.ToInt32(Session["UserID"])
-                };
+                model.CompanyID = Convert.ToInt32(Session["CompanyID"]);
+                model.BranchID = Convert.ToInt32(Session["BranchID"]);
+                model.UserID = Convert.ToInt32(Session["UserID"]);
 
-                _service.Create(category);
+                await _service.CreateAsync(CategoryMapper.MapToDomain(model));
                 return RedirectToAction("Index");
             }
 
             return View(model);
         }
 
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            var category = _service.GetById(id);
+            var category = await _service.GetByIdAsync(id);
             if (category == null) return HttpNotFound();
 
-            var model = new CategoryMV
-            {
-                CategoryID = category.CategoryID,
-                CategoryName = category.CategoryName
-            };
-
-            return View(model);
+            return View(CategoryMapper.MapToViewModel(category));
         }
 
         // POST: Category/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(CategoryMV model)
+        public async Task<ActionResult> Edit(CategoryMV model)
         {
             if (ModelState.IsValid)
             {
-                var accountHead = new Domain.Models.Category
-                {
-                    CategoryID = model.CategoryID,
-                    CategoryName = model.CategoryName,
-                    UserID = Convert.ToInt32(Session["UserID"])
-                };
+                model.CompanyID = Convert.ToInt32(Session["CompanyID"]);
+                model.BranchID = Convert.ToInt32(Session["BranchID"]);
+                model.UserID = Convert.ToInt32(Session["UserID"]);
 
-                _service.Update(accountHead);
+                await _service.UpdateAsync(CategoryMapper.MapToDomain(model));
                 return RedirectToAction("Index");
             }
             return View(model);

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using CloudERP.Mapping;
 using CloudERP.Models;
-using Domain.Models;
 using Domain.Services;
 
 namespace CloudERP.Controllers
@@ -20,12 +20,12 @@ namespace CloudERP.Controllers
             _controlService = controlService;
         }
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
             int companyId = Convert.ToInt32(Session["CompanyID"]);
             int branchId = Convert.ToInt32(Session["BranchID"]);
 
-            var subControls = _service.GetAll(companyId, branchId);
+            var subControls = await _service.GetAllAsync(companyId, branchId);
             return View(subControls);
         }
 
@@ -50,24 +50,17 @@ namespace CloudERP.Controllers
             int branchId = Convert.ToInt32(Session["BranchID"]);
             int userId = Convert.ToInt32(Session["UserID"]);
 
+            var accountHead = await _controlService.GetByIdAsync(model.AccountControlID);
+
             model.BranchID = branchId;
             model.CompanyID = companyId;
             model.UserID = userId;
-            model.AccountControlList = await GetAccountControlList(companyId, branchId);
+            model.AccountControlList = null;
+            model.AccountHeadID = accountHead.AccountHeadID;
 
             if (ModelState.IsValid)
             {
-                var subControl = new AccountSubControl
-                {
-                    AccountSubControlName = model.AccountSubControlName,
-                    AccountControlID = model.AccountControlID,
-                    CompanyID = model.CompanyID,
-                    BranchID = model.BranchID,
-                    UserID = model.UserID,
-                    AccountHeadID = _controlService.GetById(model.AccountControlID).AccountHeadID
-                };
-
-                _service.Create(subControl);
+                await _service.CreateAsync(AccountSubControlMapper.MapToDomain(model));
                 return RedirectToAction("Index");
             }
 
@@ -85,7 +78,7 @@ namespace CloudERP.Controllers
             if (id == null) return RedirectToAction("Index");
 
             var accountControls = await _controlService.GetAllAsync(companyId, branchId);
-            var subControl = _service.GetById(id.Value);
+            var subControl = await _service.GetByIdAsync(id.Value);
             if (subControl == null) return HttpNotFound();
 
             var model = new AccountSubControlMV
@@ -114,18 +107,7 @@ namespace CloudERP.Controllers
         {
             if (ModelState.IsValid)
             {
-                var subControl = new AccountSubControl
-                {
-                    AccountSubControlID = model.AccountSubControlID,
-                    AccountSubControlName = model.AccountSubControlName,
-                    AccountControlID = model.AccountControlID,
-                    CompanyID = model.CompanyID,
-                    BranchID = model.BranchID,
-                    UserID = model.UserID,
-                    AccountHeadID = _controlService.GetById(model.AccountControlID).AccountHeadID
-                };
-
-                _service.Update(subControl);
+                await _service.UpdateAsync(AccountSubControlMapper.MapToDomain(model));
                 return RedirectToAction("Index");
             }
 

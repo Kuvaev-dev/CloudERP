@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using CloudERP.Mapping;
 using CloudERP.Models;
 using Domain.Services;
 
@@ -47,27 +48,14 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(AccountControlMV model)
         {
-            int companyId = Convert.ToInt32(Session["CompanyID"]);
-            int branchId = Convert.ToInt32(Session["BranchID"]);
-            int userId = Convert.ToInt32(Session["UserID"]);
-
-            model.BranchID = branchId;
-            model.CompanyID = companyId;
-            model.UserID = userId;
-            model.AccountHeadList = await GetAccountHeadList();
-
             if (ModelState.IsValid)
             {
-                var accountControl = new Domain.Models.AccountControl
-                {
-                    AccountControlName = model.AccountControlName,
-                    CompanyID = model.CompanyID,
-                    BranchID = model.BranchID,
-                    UserID = model.UserID,
-                    AccountHeadID = model.AccountHeadID
-                };
+                model.BranchID = Convert.ToInt32(Session["BranchID"]);
+                model.CompanyID = Convert.ToInt32(Session["CompanyID"]);
+                model.UserID = Convert.ToInt32(Session["UserID"]);
+                model.AccountHeadList = await GetAccountHeadList();
 
-                _service.Create(accountControl);
+                await _service.CreateAsync(AccountControlMapper.MapToDomain(model));
                 return RedirectToAction("Index");
             }
 
@@ -79,7 +67,7 @@ namespace CloudERP.Controllers
             if (id == null) return RedirectToAction("Index");
 
             var accountHeads = await _headService.GetAllAsync();
-            var accountControl = _service.GetById(id.Value);
+            var accountControl = await _service.GetByIdAsync(id.Value);
             if (accountControl == null) return HttpNotFound();
 
             var model = new AccountControlMV
@@ -107,26 +95,9 @@ namespace CloudERP.Controllers
         public async Task<ActionResult> Edit(AccountControlMV model)
         {
             if (ModelState.IsValid)
-            {
-                var accountControl = new Domain.Models.AccountControl
-                {
-                    AccountControlID = model.AccountControlID,
-                    AccountControlName = model.AccountControlName,
-                    AccountHeadID = model.AccountHeadID,
-                    BranchID = model.BranchID,
-                    CompanyID = model.CompanyID,
-                    UserID = model.UserID
-                };
-
-                try
-                {
-                    _service.Update(accountControl);
-                    return RedirectToAction("Index");
-                }
-                catch (KeyNotFoundException ex)
-                {
-                    ModelState.AddModelError(string.Empty, ex.Message);
-                }
+            {   
+                await _service.UpdateAsync(AccountControlMapper.MapToDomain(model));
+                return RedirectToAction("Index");
             }
 
             model.AccountHeadList = await GetAccountHeadList();

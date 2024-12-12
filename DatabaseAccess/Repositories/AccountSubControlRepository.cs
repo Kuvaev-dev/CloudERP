@@ -1,14 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DatabaseAccess.Repositories
 {
     public interface IAccountSubControlRepository
     {
-        IEnumerable<tblAccountSubControl> GetAll(int companyId, int branchId);
-        tblAccountSubControl GetById(int id);
-        void Add(tblAccountSubControl entity);
-        void Update(tblAccountSubControl entity);
+        Task<IEnumerable<tblAccountSubControl>> GetAllAsync(int companyId, int branchId);
+        Task<tblAccountSubControl> GetByIdAsync(int id);
+        Task AddAsync(tblAccountSubControl entity);
+        Task UpdateAsync(tblAccountSubControl entity);
     }
 
     public class AccountSubControlRepository : IAccountSubControlRepository
@@ -20,31 +22,31 @@ namespace DatabaseAccess.Repositories
             _db = db;
         }
 
-        public IEnumerable<tblAccountSubControl> GetAll(int companyId, int branchId)
+        public async Task<IEnumerable<tblAccountSubControl>> GetAllAsync(int companyId, int branchId)
         {
-            return _db.tblAccountSubControl
-                .Include("tblAccountControl")
-                .Include("tblAccountHead")
-                .Include("tblUser")
+            return await _db.tblAccountSubControl
+                .Include(ac => ac.tblAccountControl)
+                .Include(ah => ah.tblAccountHead)
+                .Include(u => u.tblUser)
                 .Where(x => x.CompanyID == companyId && x.BranchID == branchId)
-                .ToList();
+                .ToListAsync();
         }
 
-        public tblAccountSubControl GetById(int id)
+        public async Task<tblAccountSubControl> GetByIdAsync(int id)
         {
-            return _db.tblAccountSubControl.Find(id);
+            return await _db.tblAccountSubControl.FindAsync(id);
         }
 
-        public void Add(tblAccountSubControl entity)
+        public async Task AddAsync(tblAccountSubControl entity)
         {
             _db.tblAccountSubControl.Add(entity);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
         }
 
-        public void Update(tblAccountSubControl entity)
+        public async Task UpdateAsync(tblAccountSubControl entity)
         {
             _db.Entry(entity).State = System.Data.Entity.EntityState.Modified;
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
         }
     }
 }

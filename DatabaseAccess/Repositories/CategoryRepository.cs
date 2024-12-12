@@ -1,16 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DatabaseAccess.Repositories
 {
     public interface ICategoryRepository
     {
-        IEnumerable<tblCategory> GetAll(int companyID, int branchID);
-        tblCategory GetById(int id);
-        void Add(tblCategory category);
-        void Update(tblCategory category);
-        void Delete(tblCategory category);
+        Task<IEnumerable<tblCategory>> GetAllAsync(int companyID, int branchID);
+        Task<tblCategory> GetByIdAsync(int id);
+        Task AddAsync(tblCategory category);
+        Task UpdateAsync(tblCategory category);
+        Task DeleteAsync(tblCategory category);
     }
 
     public class CategoryRepository : ICategoryRepository
@@ -22,44 +23,44 @@ namespace DatabaseAccess.Repositories
             _dbContext = dbContext;
         }
 
-        public IEnumerable<tblCategory> GetAll(int companyID, int branchID)
+        public async Task<IEnumerable<tblCategory>> GetAllAsync(int companyID, int branchID)
         {
-            return _dbContext.tblCategory
+            return await _dbContext.tblCategory
                 .Include(c => c.tblUser)
                 .Where(c => c.CompanyID == companyID && c.BranchID == branchID)
-                .ToList();
+                .ToListAsync();
         }
 
-        public tblCategory GetById(int id)
+        public async Task<tblCategory> GetByIdAsync(int id)
         {
-            return _dbContext.tblCategory.Find(id);
+            return await _dbContext.tblCategory.FindAsync(id);
         }
 
-        public void Add(tblCategory category)
+        public async Task AddAsync(tblCategory category)
         {
             _dbContext.tblCategory.Add(category);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
 
-        public void Update(tblCategory category)
+        public async Task UpdateAsync(tblCategory category)
         {
-            var existingCategory = _dbContext.tblCategory.Find(category.CategoryID);
+            var existingCategory = await _dbContext.tblCategory.FindAsync(category.CategoryID);
             if (existingCategory == null) throw new KeyNotFoundException("Category not found.");
 
             existingCategory.CategoryName = category.CategoryName;
             existingCategory.UserID = category.UserID;
 
             _dbContext.Entry(existingCategory).State = EntityState.Modified;
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
 
-        public void Delete(tblCategory category)
+        public async Task DeleteAsync(tblCategory category)
         {
-            var existingCategory = _dbContext.tblCategory.Find(category.CategoryID);
+            var existingCategory = await _dbContext.tblCategory.FindAsync(category.CategoryID);
             if (existingCategory == null) throw new KeyNotFoundException("Category not found.");
 
             _dbContext.tblCategory.Remove(existingCategory);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

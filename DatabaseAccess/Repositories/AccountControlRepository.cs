@@ -1,14 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DatabaseAccess.Repositories
 {
     public interface IAccountControlRepository
     {
-        IEnumerable<tblAccountControl> GetAll(int companyId, int branchId);
-        tblAccountControl GetById(int id);
-        void Add(tblAccountControl accountControl);
-        void Update(tblAccountControl accountControl);
+        Task<IEnumerable<tblAccountControl>> GetAllAsync(int companyId, int branchId);
+        Task<tblAccountControl> GetByIdAsync(int id);
+        Task AddAsync(tblAccountControl accountControl);
+        Task UpdateAsync(tblAccountControl accountControl);
     }
 
     public class AccountControlRepository : IAccountControlRepository
@@ -20,28 +22,29 @@ namespace DatabaseAccess.Repositories
             _dbContext = dbContext;
         }
 
-        public IEnumerable<tblAccountControl> GetAll(int companyId, int branchId)
+        public async Task<IEnumerable<tblAccountControl>> GetAllAsync(int companyId, int branchId)
         {
-            return _dbContext.tblAccountControl
-                .Include("tblUser")
+            return await _dbContext.tblAccountControl
+                .AsNoTracking()
+                .Include(ac => ac.tblUser)
                 .Where(ac => ac.CompanyID == companyId && ac.BranchID == branchId)
-                .ToList();
+                .ToListAsync();
         }
 
-        public tblAccountControl GetById(int id)
+        public async Task<tblAccountControl> GetByIdAsync(int id)
         {
-            return _dbContext.tblAccountControl.FirstOrDefault(ac => ac.AccountControlID == id);
+            return await _dbContext.tblAccountControl.FirstOrDefaultAsync(ac => ac.AccountControlID == id);
         }
 
-        public void Add(tblAccountControl accountControl)
+        public async Task AddAsync(tblAccountControl accountControl)
         {
             _dbContext.tblAccountControl.Add(accountControl);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
 
-        public void Update(tblAccountControl accountControl)
+        public async Task UpdateAsync(tblAccountControl accountControl)
         {
-            var entity = _dbContext.tblAccountControl.Find(accountControl.AccountControlID);
+            var entity = await _dbContext.tblAccountControl.FindAsync(accountControl.AccountControlID);
             if (entity == null) throw new KeyNotFoundException("AccountControl not found.");
 
             entity.AccountControlName = accountControl.AccountControlName;
@@ -51,7 +54,7 @@ namespace DatabaseAccess.Repositories
             entity.UserID = accountControl.UserID;
 
             _dbContext.Entry(entity).State = System.Data.Entity.EntityState.Modified;
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

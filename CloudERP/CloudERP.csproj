@@ -807,7 +807,11 @@
     <Compile Include="Helpers\PasswordHelper.cs" />
     <Compile Include="Helpers\ReminderService.cs" />
     <Compile Include="Helpers\UnityConfig.cs" />
+    <Compile Include="Mapping\AccountControlMapper.cs" />
     <Compile Include="Mapping\AccountHeadMapper.cs" />
+    <Compile Include="Mapping\AccountSubControlMapper.cs" />
+    <Compile Include="Mapping\CategoryMapper.cs" />
+    <Compile Include="Mapping\UserTypeMapper.cs" />
     <Compile Include="Models\AccountControlMV.cs" />
     <Compile Include="Models\AccountControlsMV.cs" />
     <Compile Include="Models\AccountHeadMV.cs" />

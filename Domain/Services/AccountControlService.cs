@@ -10,9 +10,9 @@ namespace Domain.Services
     public interface IAccountControlService
     {
         Task<IEnumerable<AccountControl>> GetAllAsync(int companyId, int branchId);
-        AccountControl GetById(int id);
-        void Create(AccountControl accountControl);
-        void Update(AccountControl accountControl);
+        Task<AccountControl> GetByIdAsync(int id);
+        Task CreateAsync(AccountControl accountControl);
+        Task UpdateAsync(AccountControl accountControl);
     }
 
     public class AccountControlService : IAccountControlService
@@ -28,7 +28,7 @@ namespace Domain.Services
 
         public async Task<IEnumerable<AccountControl>> GetAllAsync(int companyId, int branchId)
         {
-            var dbModels = _repository.GetAll(companyId, branchId);
+            var dbModels = await _repository.GetAllAsync(companyId, branchId);
             var accountHeads = await _headRepository.GetAllAsync();
             var headsDictionary = accountHeads.ToDictionary(x => x.AccountHeadID, x => x.AccountHeadName);
 
@@ -43,25 +43,25 @@ namespace Domain.Services
             }).ToList();
         }
 
-        public AccountControl GetById(int id)
+        public async Task<AccountControl> GetByIdAsync(int id)
         {
-            var dbModel = _repository.GetById(id);
+            var dbModel = await _repository.GetByIdAsync(id);
             return dbModel == null ? null : AccountControlMapper.MapToDomain(dbModel);
         }
 
-        public void Create(AccountControl accountControl)
+        public async Task CreateAsync(AccountControl accountControl)
         {
             var dbModel = AccountControlMapper.MapToDatabase(accountControl);
-            _repository.Add(dbModel);
+            await _repository.AddAsync(dbModel);
         }
 
-        public void Update(AccountControl accountControl)
+        public async Task UpdateAsync(AccountControl accountControl)
         {
-            var dbModel = _repository.GetById(accountControl.AccountControlID);
+            var dbModel = await _repository.GetByIdAsync(accountControl.AccountControlID);
             if (dbModel == null) throw new KeyNotFoundException("AccountControl not found.");
 
             var updatedModel = AccountControlMapper.MapToDatabase(accountControl);
-            _repository.Update(updatedModel);
+            await _repository.UpdateAsync(updatedModel);
         }
     }
 }
