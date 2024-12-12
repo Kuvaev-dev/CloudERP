@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using CloudERP.Mapping;
+using CloudERP.Helpers;
 using CloudERP.Mapping.Base;
 using CloudERP.Models;
 using Domain.Models;
@@ -13,11 +13,13 @@ namespace CloudERP.Controllers
     {
         private readonly IUserTypeService _service;
         private readonly IMapper<UserType, UserTypeMV> _mapper;
+        private readonly SessionHelper _sessionHelper;
 
-        public UserTypeController(IUserTypeService service, IMapper<UserType, UserTypeMV> mapper)
+        public UserTypeController(IUserTypeService service, IMapper<UserType, UserTypeMV> mapper, SessionHelper sessionHelper)
         {
             _service = service;
             _mapper = mapper;
+            _sessionHelper = sessionHelper;
         }
 
         public async Task<ActionResult> Index()
@@ -31,7 +33,7 @@ namespace CloudERP.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }

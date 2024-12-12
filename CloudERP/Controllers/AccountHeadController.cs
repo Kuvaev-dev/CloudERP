@@ -1,7 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
-using CloudERP.Mapping;
+using CloudERP.Helpers;
 using CloudERP.Mapping.Base;
 using CloudERP.Models;
 using Domain.Models;
@@ -13,11 +12,13 @@ namespace CloudERP.Controllers
     {
         private readonly IAccountHeadService _service;
         private readonly IMapper<AccountHead, AccountHeadMV> _mapper;
+        private readonly SessionHelper _sessionHelper;
 
-        public AccountHeadController(IAccountHeadService service, IMapper<AccountHead, AccountHeadMV> mapper)
+        public AccountHeadController(IAccountHeadService service, IMapper<AccountHead, AccountHeadMV> mapper, SessionHelper sessionHelper)
         {
             _service = service;
             _mapper = mapper;
+            _sessionHelper = sessionHelper;
         }
 
         public async Task<ActionResult> Index()
@@ -37,7 +38,7 @@ namespace CloudERP.Controllers
         {
             if (ModelState.IsValid)
             {
-                model.UserID = Convert.ToInt32(Session["UserID"]);
+                model.UserID = _sessionHelper.UserID;
                 await _service.CreateAsync(_mapper.MapToDomain(model));
                 return RedirectToAction("Index");
             }

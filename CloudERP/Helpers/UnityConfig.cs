@@ -7,6 +7,7 @@ using Domain.Services;
 using Unity.Injection;
 using Domain.Models;
 using CloudERP.Models;
+using System.Web;
 
 namespace CloudERP.Helpers
 {
@@ -19,6 +20,11 @@ namespace CloudERP.Helpers
             // DbContext
             container.RegisterType<CloudDBEntities>(
                 new InjectionFactory(c => new CloudDBEntities())
+            );
+
+            // Session
+            container.RegisterType<SessionHelper>(
+                new InjectionFactory(c => new SessionHelper(new HttpSessionStateWrapper(HttpContext.Current.Session)))
             );
 
             // Repos

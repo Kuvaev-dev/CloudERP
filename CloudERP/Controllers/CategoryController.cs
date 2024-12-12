@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using CloudERP.Mapping;
+using CloudERP.Helpers;
 using CloudERP.Mapping.Base;
 using CloudERP.Models;
 using Domain.Models;
@@ -13,19 +13,18 @@ namespace CloudERP.Controllers
     {
         private readonly ICategoryService _service;
         private readonly IMapper<Category, CategoryMV> _mapper;
+        private readonly SessionHelper _sessionHelper;
 
-        public CategoryController(ICategoryService service, IMapper<Category, CategoryMV> mapper)
+        public CategoryController(ICategoryService service, IMapper<Category, CategoryMV> mapper, SessionHelper sessionHelper)
         {
             _service = service;
             _mapper = mapper;
+            _sessionHelper = sessionHelper;
         }
 
         public async Task<ActionResult> Index()
         {
-            int companyID = Convert.ToInt32(Session["CompanyID"]);
-            int branchID = Convert.ToInt32(Session["BranchID"]);
-
-            var categories = await _service.GetAllAsync(companyID, branchID);
+            var categories = await _service.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
             return View(categories);
         }
 
@@ -33,7 +32,7 @@ namespace CloudERP.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
@@ -59,9 +58,9 @@ namespace CloudERP.Controllers
         {
             if (ModelState.IsValid)
             {
-                model.CompanyID = Convert.ToInt32(Session["CompanyID"]);
-                model.BranchID = Convert.ToInt32(Session["BranchID"]);
-                model.UserID = Convert.ToInt32(Session["UserID"]);
+                model.CompanyID = _sessionHelper.CompanyID;
+                model.BranchID = _sessionHelper.BranchID;
+                model.UserID = _sessionHelper.UserID;
 
                 await _service.CreateAsync(_mapper.MapToDomain(model));
                 return RedirectToAction("Index");
@@ -85,9 +84,9 @@ namespace CloudERP.Controllers
         {
             if (ModelState.IsValid)
             {
-                model.CompanyID = Convert.ToInt32(Session["CompanyID"]);
-                model.BranchID = Convert.ToInt32(Session["BranchID"]);
-                model.UserID = Convert.ToInt32(Session["UserID"]);
+                model.CompanyID = _sessionHelper.CompanyID;
+                model.BranchID = _sessionHelper.BranchID;
+                model.UserID = _sessionHelper.UserID;
 
                 await _service.UpdateAsync(_mapper.MapToDomain(model));
                 return RedirectToAction("Index");

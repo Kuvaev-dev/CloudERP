@@ -806,6 +806,7 @@
     <Compile Include="Helpers\Forecasting\ForecastingService.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
     <Compile Include="Helpers\ReminderService.cs" />
+    <Compile Include="Helpers\SessionHelper.cs" />
     <Compile Include="Helpers\UnityConfig.cs" />
     <Compile Include="Mapping\AccountControlMapper.cs" />
     <Compile Include="Mapping\AccountHeadMapper.cs" />

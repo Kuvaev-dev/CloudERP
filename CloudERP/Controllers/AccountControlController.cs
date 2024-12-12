@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using CloudERP.Helpers;
 using CloudERP.Mapping;
 using CloudERP.Mapping.Base;
 using CloudERP.Models;
@@ -16,25 +17,24 @@ namespace CloudERP.Controllers
         private readonly IAccountControlService _service;
         private readonly IAccountHeadService _headService;
         private readonly IMapper<AccountControl, AccountControlMV> _mapper;
+        private readonly SessionHelper _sessionHelper;
 
-        public AccountControlController(IAccountControlService service, IAccountHeadService headService, IMapper<AccountControl, AccountControlMV> mapper)
+        public AccountControlController(IAccountControlService service, IAccountHeadService headService, IMapper<AccountControl, AccountControlMV> mapper, SessionHelper sessionHelper)
         {
             _service = service;
             _headService = headService;
             _mapper = mapper;
+            _sessionHelper = sessionHelper;
         }
 
         public async Task<ActionResult> Index()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!_sessionHelper.IsAuthenticated)
             {
                 return RedirectToAction("Login", "Home");
             }
 
-            int companyId = Convert.ToInt32(Session["CompanyID"]);
-            int branchId = Convert.ToInt32(Session["BranchID"]);
-
-            var accountControls = await _service.GetAllAsync(companyId, branchId);
+            var accountControls = await _service.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
             return View(accountControls);
         }
 
@@ -54,9 +54,9 @@ namespace CloudERP.Controllers
         {
             if (ModelState.IsValid)
             {
-                model.BranchID = Convert.ToInt32(Session["BranchID"]);
-                model.CompanyID = Convert.ToInt32(Session["CompanyID"]);
-                model.UserID = Convert.ToInt32(Session["UserID"]);
+                model.BranchID = _sessionHelper.BranchID;
+                model.CompanyID = _sessionHelper.CompanyID;
+                model.UserID = _sessionHelper.UserID;
                 model.AccountHeadList = await GetAccountHeadList();
 
                 await _service.CreateAsync(_mapper.MapToDomain(model));
@@ -74,22 +74,17 @@ namespace CloudERP.Controllers
             var accountControl = await _service.GetByIdAsync(id.Value);
             if (accountControl == null) return HttpNotFound();
 
-            var model = new AccountControlMV
-            {
-                AccountControlID = accountControl.AccountControlID,
-                AccountControlName = accountControl.AccountControlName,
-                AccountHeadID = accountControl.AccountHeadID,
-                BranchID = Convert.ToInt32(Session["BranchID"]),
-                CompanyID = Convert.ToInt32(Session["CompanyID"]),
-                UserID = Convert.ToInt32(Session["UserID"]),
-                AccountHeadList = accountHeads
+            var model = _mapper.MapToViewModel(accountControl);
+            model.BranchID = _sessionHelper.BranchID;
+            model.CompanyID = _sessionHelper.CompanyID;
+            model.UserID = _sessionHelper.UserID;
+            model.AccountHeadList = accountHeads
                 .Select(ah => new SelectListItem
                 {
                     Value = ah.AccountHeadID.ToString(),
                     Text = ah.AccountHeadName,
                     Selected = ah.AccountHeadID == accountControl.AccountHeadID
-                }).ToList()
-            };
+                }).ToList();
 
             return View(model);
         }
