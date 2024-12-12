@@ -1,11 +1,12 @@
 ﻿using DatabaseAccess;
+using Domain.Mapping.Base;
 using Domain.Models;
 
 namespace Domain.Mapping
 {
-    public static class AccountSubControlMapper
+    public class AccountSubControlMapper : BaseMapper<AccountSubControl, tblAccountSubControl>
     {
-        public static AccountSubControl MapToDomain(tblAccountSubControl dbModel)
+        public override AccountSubControl MapToDomain(tblAccountSubControl dbModel)
         {
             return new AccountSubControl
             {
@@ -22,7 +23,7 @@ namespace Domain.Mapping
             };
         }
 
-        public static tblAccountSubControl MapToDatabase(AccountSubControl domainModel)
+        public override tblAccountSubControl MapToDatabase(AccountSubControl domainModel)
         {
             return new tblAccountSubControl
             {

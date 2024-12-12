@@ -1,11 +1,12 @@
 ﻿using DatabaseAccess;
+using Domain.Mapping.Base;
 using Domain.Models;
 
 namespace Domain.Mapping
 {
-    public static class UserTypeMapper
+    public class UserTypeMapper : BaseMapper<UserType, tblUserType>
     {
-        public static UserType MapToDomain(tblUserType dbModel)
+        public override UserType MapToDomain(tblUserType dbModel)
         {
             return new UserType
             {
@@ -14,7 +15,7 @@ namespace Domain.Mapping
             };
         }
 
-        public static tblUserType MapToDatabase(UserType domainModel)
+        public override tblUserType MapToDatabase(UserType domainModel)
         {
             return new tblUserType
             {

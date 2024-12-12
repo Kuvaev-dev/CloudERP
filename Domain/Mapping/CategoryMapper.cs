@@ -1,11 +1,12 @@
 ﻿using DatabaseAccess;
+using Domain.Mapping.Base;
 using Domain.Models;
 
 namespace Domain.Mapping
 {
-    public static class CategoryMapper
+    public class CategoryMapper : BaseMapper<Category, tblCategory>
     {
-        public static Category MapToDomain(tblCategory dbModel)
+        public override Category MapToDomain(tblCategory dbModel)
         {
             return new Category
             {
@@ -20,7 +21,7 @@ namespace Domain.Mapping
             };
         }
 
-        public static tblCategory MapToDatabase(Category domainModel)
+        public override tblCategory MapToDatabase(Category domainModel)
         {
             return new tblCategory
             {

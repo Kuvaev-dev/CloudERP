@@ -2,7 +2,9 @@
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Mapping;
+using CloudERP.Mapping.Base;
 using CloudERP.Models;
+using Domain.Models;
 using Domain.Services;
 
 namespace CloudERP.Controllers
@@ -10,10 +12,12 @@ namespace CloudERP.Controllers
     public class UserTypeController : Controller
     {
         private readonly IUserTypeService _service;
+        private readonly IMapper<UserType, UserTypeMV> _mapper;
 
-        public UserTypeController(IUserTypeService service)
+        public UserTypeController(IUserTypeService service, IMapper<UserType, UserTypeMV> mapper)
         {
             _service = service;
+            _mapper = mapper;
         }
 
         public async Task<ActionResult> Index()
@@ -53,7 +57,7 @@ namespace CloudERP.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _service.CreateAsync(UserTypeMapper.MapToDomain(model));
+                await _service.CreateAsync(_mapper.MapToDomain(model));
                 return RedirectToAction("Index");
             }
             return View(model);
@@ -64,7 +68,7 @@ namespace CloudERP.Controllers
             var userType = await _service.GetByIdAsync(id);
             if (userType == null) return HttpNotFound();
 
-            return View(UserTypeMapper.MapToViewModel(userType));
+            return View(_mapper.MapToViewModel(userType));
         }
 
         [HttpPost]
@@ -73,7 +77,7 @@ namespace CloudERP.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _service.UpdateAsync(UserTypeMapper.MapToDomain(model));
+                await _service.UpdateAsync(_mapper.MapToDomain(model));
                 return RedirectToAction("Index");
             }
             return View(model);

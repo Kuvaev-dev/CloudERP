@@ -810,6 +810,7 @@
     <Compile Include="Mapping\AccountControlMapper.cs" />
     <Compile Include="Mapping\AccountHeadMapper.cs" />
     <Compile Include="Mapping\AccountSubControlMapper.cs" />
+    <Compile Include="Mapping\Base\BaseMapper.cs" />
     <Compile Include="Mapping\CategoryMapper.cs" />
     <Compile Include="Mapping\UserTypeMapper.cs" />
     <Compile Include="Models\AccountControlMV.cs" />

@@ -1,11 +1,12 @@
-﻿using CloudERP.Models;
+﻿using CloudERP.Mapping.Base;
+using CloudERP.Models;
 using Domain.Models;
 
 namespace CloudERP.Mapping
 {
-    public class AccountControlMapper
+    public class AccountControlMapper : BaseMapper<AccountControl, AccountControlMV>
     {
-        public static AccountControl MapToDomain(AccountControlMV viewModel)
+        public override AccountControl MapToDomain(AccountControlMV viewModel)
         {
             return new AccountControl
             {
@@ -18,7 +19,7 @@ namespace CloudERP.Mapping
             };
         }
 
-        public static AccountControlMV MapToViewModel(AccountControl domainModel)
+        public override AccountControlMV MapToViewModel(AccountControl domainModel)
         {
             return new AccountControlMV
             {

@@ -2,7 +2,9 @@
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Mapping;
+using CloudERP.Mapping.Base;
 using CloudERP.Models;
+using Domain.Models;
 using Domain.Services;
 
 namespace CloudERP.Controllers
@@ -10,10 +12,12 @@ namespace CloudERP.Controllers
     public class CategoryController : Controller
     {
         private readonly ICategoryService _service;
+        private readonly IMapper<Category, CategoryMV> _mapper;
 
-        public CategoryController(ICategoryService service)
+        public CategoryController(ICategoryService service, IMapper<Category, CategoryMV> mapper)
         {
             _service = service;
+            _mapper = mapper;
         }
 
         public async Task<ActionResult> Index()
@@ -59,7 +63,7 @@ namespace CloudERP.Controllers
                 model.BranchID = Convert.ToInt32(Session["BranchID"]);
                 model.UserID = Convert.ToInt32(Session["UserID"]);
 
-                await _service.CreateAsync(CategoryMapper.MapToDomain(model));
+                await _service.CreateAsync(_mapper.MapToDomain(model));
                 return RedirectToAction("Index");
             }
 
@@ -71,7 +75,7 @@ namespace CloudERP.Controllers
             var category = await _service.GetByIdAsync(id);
             if (category == null) return HttpNotFound();
 
-            return View(CategoryMapper.MapToViewModel(category));
+            return View(_mapper.MapToViewModel(category));
         }
 
         // POST: Category/Edit/5
@@ -85,7 +89,7 @@ namespace CloudERP.Controllers
                 model.BranchID = Convert.ToInt32(Session["BranchID"]);
                 model.UserID = Convert.ToInt32(Session["UserID"]);
 
-                await _service.UpdateAsync(CategoryMapper.MapToDomain(model));
+                await _service.UpdateAsync(_mapper.MapToDomain(model));
                 return RedirectToAction("Index");
             }
             return View(model);

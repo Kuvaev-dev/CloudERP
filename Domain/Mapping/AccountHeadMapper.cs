@@ -1,11 +1,12 @@
 ﻿using DatabaseAccess;
+using Domain.Mapping.Base;
 using Domain.Models;
 
 namespace Domain.Mapping
 {
-    public static class AccountHeadMapper
+    public class AccountHeadMapper : BaseMapper<AccountHead, tblAccountHead>
     {
-        public static AccountHead MapToDomain(tblAccountHead dbModel)
+        public override AccountHead MapToDomain(tblAccountHead dbModel)
         {
             return new AccountHead
             {
@@ -17,7 +18,7 @@ namespace Domain.Mapping
             };
         }
 
-        public static tblAccountHead MapToDatabase(AccountHead domainModel)
+        public override tblAccountHead MapToDatabase(AccountHead domainModel)
         {
             return new tblAccountHead
             {

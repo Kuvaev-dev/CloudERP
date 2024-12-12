@@ -1,11 +1,12 @@
-﻿using CloudERP.Models;
+﻿using CloudERP.Mapping.Base;
+using CloudERP.Models;
 using Domain.Models;
 
 namespace CloudERP.Mapping
 {
-    public static class AccountHeadMapper
+    public class AccountHeadMapper : BaseMapper<AccountHead, AccountHeadMV>
     {
-        public static AccountHead MapToDomain(AccountHeadMV viewModel)
+        public override AccountHead MapToDomain(AccountHeadMV viewModel)
         {
             return new AccountHead
             {
@@ -16,7 +17,7 @@ namespace CloudERP.Mapping
             };
         }
 
-        public static AccountHeadMV MapToViewModel(AccountHead domainModel)
+        public override AccountHeadMV MapToViewModel(AccountHead domainModel)
         {
             return new AccountHeadMV
             {

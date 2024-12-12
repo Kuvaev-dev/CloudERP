@@ -1,11 +1,12 @@
-﻿using CloudERP.Models;
+﻿using CloudERP.Mapping.Base;
+using CloudERP.Models;
 using Domain.Models;
 
 namespace CloudERP.Mapping
 {
-    public class UserTypeMapper
+    public class UserTypeMapper : BaseMapper<UserType, UserTypeMV>
     {
-        public static UserType MapToDomain(UserTypeMV viewModel)
+        public override UserType MapToDomain(UserTypeMV viewModel)
         {
             return new UserType
             {
@@ -13,7 +14,7 @@ namespace CloudERP.Mapping
             };
         }
 
-        public static UserTypeMV MapToViewModel(UserType domainModel)
+        public override UserTypeMV MapToViewModel(UserType domainModel)
         {
             return new UserTypeMV
             {

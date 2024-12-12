@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DatabaseAccess;
 using DatabaseAccess.Repositories;
-using Domain.Mapping;
+using Domain.Mapping.Base;
 using Domain.Models;
 
 namespace Domain.Services
@@ -19,11 +20,14 @@ namespace Domain.Services
     {
         private readonly IAccountControlRepository _repository;
         private readonly IAccountHeadRepository _headRepository;
+        private readonly IMapper<AccountControl, tblAccountControl> _mapper;
 
-        public AccountControlService(IAccountControlRepository repository, IAccountHeadRepository headRepository)
+        public AccountControlService(IAccountControlRepository repository, IAccountHeadRepository headRepository,
+            IMapper<AccountControl, tblAccountControl> mapper)
         {
             _repository = repository;
             _headRepository = headRepository;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<AccountControl>> GetAllAsync(int companyId, int branchId)
@@ -34,7 +38,7 @@ namespace Domain.Services
 
             return dbModels.Select(dbModel =>
             {
-                var accountControl = AccountControlMapper.MapToDomain(dbModel);
+                var accountControl = _mapper.MapToDomain(dbModel);
                 accountControl.FullName = dbModel.tblUser?.FullName ?? "Unknown";
                 accountControl.AccountHeadName = headsDictionary.ContainsKey(dbModel.AccountHeadID)
                                                  ? headsDictionary[dbModel.AccountHeadID]
@@ -46,12 +50,12 @@ namespace Domain.Services
         public async Task<AccountControl> GetByIdAsync(int id)
         {
             var dbModel = await _repository.GetByIdAsync(id);
-            return dbModel == null ? null : AccountControlMapper.MapToDomain(dbModel);
+            return dbModel == null ? null : _mapper.MapToDomain(dbModel);
         }
 
         public async Task CreateAsync(AccountControl accountControl)
         {
-            var dbModel = AccountControlMapper.MapToDatabase(accountControl);
+            var dbModel = _mapper.MapToDatabase(accountControl);
             await _repository.AddAsync(dbModel);
         }
 
@@ -60,7 +64,7 @@ namespace Domain.Services
             var dbModel = await _repository.GetByIdAsync(accountControl.AccountControlID);
             if (dbModel == null) throw new KeyNotFoundException("AccountControl not found.");
 
-            var updatedModel = AccountControlMapper.MapToDatabase(accountControl);
+            var updatedModel = _mapper.MapToDatabase(accountControl);
             await _repository.UpdateAsync(updatedModel);
         }
     }

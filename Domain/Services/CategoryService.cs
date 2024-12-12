@@ -1,5 +1,6 @@
-﻿using DatabaseAccess.Repositories;
-using Domain.Mapping;
+﻿using DatabaseAccess;
+using DatabaseAccess.Repositories;
+using Domain.Mapping.Base;
 using Domain.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,33 +20,35 @@ namespace Domain.Services
     public class CategoryService : ICategoryService
     {
         private readonly ICategoryRepository _repository;
+        private readonly IMapper<Category, tblCategory> _mapper;
 
-        public CategoryService(ICategoryRepository repository)
+        public CategoryService(ICategoryRepository repository, IMapper<Category, tblCategory> mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<Category>> GetAllAsync(int companyID, int branchID)
         {
             var categories = await _repository.GetAllAsync(companyID, branchID);
-            return categories.Select(CategoryMapper.MapToDomain).ToList();
+            return categories.Select(_mapper.MapToDomain).ToList();
         }
 
         public async Task<Category> GetByIdAsync(int id)
         {
             var dbModel = await _repository.GetByIdAsync(id);
-            return dbModel == null ? null : CategoryMapper.MapToDomain(dbModel);
+            return dbModel == null ? null : _mapper.MapToDomain(dbModel);
         }
 
         public async Task CreateAsync(Category category)
         {
-            var dbModel = CategoryMapper.MapToDatabase(category);
+            var dbModel = _mapper.MapToDatabase(category);
             await _repository.AddAsync(dbModel);
         }
 
         public async Task UpdateAsync(Category category)
         {
-            var dbModel = CategoryMapper.MapToDatabase(category);
+            var dbModel = _mapper.MapToDatabase(category);
             await _repository.UpdateAsync(dbModel);
         }
 

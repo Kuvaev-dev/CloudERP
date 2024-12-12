@@ -1,5 +1,6 @@
-﻿using DatabaseAccess.Repositories;
-using Domain.Mapping;
+﻿using DatabaseAccess;
+using DatabaseAccess.Repositories;
+using Domain.Mapping.Base;
 using Domain.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,16 +20,18 @@ namespace Domain.Services
     public class UserTypeService : IUserTypeService
     {
         private readonly IUserTypeRepository _repository;
+        private readonly IMapper<UserType, tblUserType> _mapper;
 
-        public UserTypeService(IUserTypeRepository repository)
+        public UserTypeService(IUserTypeRepository repository, IMapper<UserType, tblUserType> mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<UserType>> GetAllAsync()
         {
             var dbModels = await _repository.GetAllAsync();
-            var userTypes = dbModels.Select(UserTypeMapper.MapToDomain).ToList();
+            var userTypes = dbModels.Select(_mapper.MapToDomain).ToList();
 
             return userTypes;
         }
@@ -36,18 +39,18 @@ namespace Domain.Services
         public async Task<UserType> GetByIdAsync(int id)
         {
             var dbModel = await _repository.GetByIdAsync(id);
-            return dbModel == null ? null : UserTypeMapper.MapToDomain(dbModel);
+            return dbModel == null ? null : _mapper.MapToDomain(dbModel);
         }
 
         public async Task CreateAsync(UserType userType)
         {
-            var dbModel = UserTypeMapper.MapToDatabase(userType);
+            var dbModel = _mapper.MapToDatabase(userType);
             await _repository.AddAsync(dbModel);
         }
 
         public async Task UpdateAsync(UserType userType)
         {
-            var dbModel = UserTypeMapper.MapToDatabase(userType);
+            var dbModel = _mapper.MapToDatabase(userType);
             await _repository.UpdateAsync(dbModel);
         }
 

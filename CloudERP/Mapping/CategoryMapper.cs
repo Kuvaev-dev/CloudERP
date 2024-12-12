@@ -1,11 +1,12 @@
-﻿using CloudERP.Models;
+﻿using CloudERP.Mapping.Base;
+using CloudERP.Models;
 using Domain.Models;
 
 namespace CloudERP.Mapping
 {
-    public class CategoryMapper
+    public class CategoryMapper : BaseMapper<Category, CategoryMV>
     {
-        public static Category MapToDomain(CategoryMV viewModel)
+        public override Category MapToDomain(CategoryMV viewModel)
         {
             return new Category
             {
@@ -17,7 +18,7 @@ namespace CloudERP.Mapping
             };
         }
 
-        public static CategoryMV MapToViewModel(Category domainModel)
+        public override CategoryMV MapToViewModel(Category domainModel)
         {
             return new CategoryMV
             {
