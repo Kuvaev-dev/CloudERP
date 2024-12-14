@@ -1,179 +1,63 @@
-﻿using System;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
-using DatabaseAccess;
+using CloudERP.Mapping;
+using CloudERP.Models;
+using Domain.Services;
 
 namespace CloudERP.Controllers
 {
     public class FinancialYearController : Controller
     {
-        private readonly CloudDBEntities _db;
+        private readonly IFinancialYearService _service;
 
-        public FinancialYearController(CloudDBEntities db)
+        public FinancialYearController(IFinancialYearService service)
         {
-            _db = db;
+            _service = service;
         }
 
-        // GET: FinancialYear
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            try
-            {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
-                var tblFinancialYear = _db.tblFinancialYear.Include(t => t.tblUser);
-
-                return View(tblFinancialYear.ToList());
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            var financialYears = await _service.GetAllAsync();
+            return View(financialYears);
         }
 
-        // GET: FinancialYear/Create
         public ActionResult Create()
         {
-            try
-            {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
-                return View(new tblFinancialYear());
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            return View(new FinancialYearMV());
         }
 
-        // POST: FinancialYear/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(tblFinancialYear tblFinancialYear)
+        public async Task<ActionResult> Create(FinancialYearMV model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
-                int userID = Convert.ToInt32(Session["UserID"]);
-                tblFinancialYear.UserID = userID;
-
-                if (ModelState.IsValid)
-                {
-                    var findFinancialYear = _db.tblFinancialYear.FirstOrDefault(f => f.FinancialYear == tblFinancialYear.FinancialYear);
-                    if (findFinancialYear == null)
-                    {
-                        _db.tblFinancialYear.Add(tblFinancialYear);
-                        _db.SaveChanges();
-
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        ViewBag.Message = Resources.Messages.AlreadyExists;
-                    }
-                }
-
-                return View(tblFinancialYear);
+                var domainModel = FinancialYearMapper.MapToDomain(model);
+                await _service.CreateAsync(domainModel);
+                return RedirectToAction("Index");
             }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            return View(model);
         }
 
-        // GET: FinancialYear/Edit/5
-        public ActionResult Edit(int? id)
+        public async Task<ActionResult> Edit(int id)
         {
-            try
-            {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
+            var financialYear = await _service.GetByIdAsync(id);
+            if (financialYear == null) return HttpNotFound();
 
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-
-                tblFinancialYear tblFinancialYear = _db.tblFinancialYear.Find(id);
-                if (tblFinancialYear == null)
-                {
-                    return HttpNotFound();
-                }
-
-                return View(tblFinancialYear);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            return View(FinancialYearMapper.MapToViewModel(financialYear));
         }
 
-        // POST: FinancialYear/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(tblFinancialYear tblFinancialYear)
+        public async Task<ActionResult> Edit(FinancialYearMV model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
-                int userID = Convert.ToInt32(Session["UserID"]);
-                tblFinancialYear.UserID = userID;
-
-                if (ModelState.IsValid)
-                {
-                    var findFinancialYear = _db.tblFinancialYear.FirstOrDefault(f => f.FinancialYear == tblFinancialYear.FinancialYear
-                                                                        && f.FinancialYearID != tblFinancialYear.FinancialYearID);
-                    if (findFinancialYear == null)
-                    {
-                        _db.Entry(tblFinancialYear).State = EntityState.Modified;
-                        _db.SaveChanges();
-
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        ViewBag.Message = Resources.Messages.AlreadyExists;
-                    }
-                }
-
-                return View(tblFinancialYear);
+                var domainModel = FinancialYearMapper.MapToDomain(model);
+                await _service.UpdateAsync(domainModel);
+                return RedirectToAction("Index");
             }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _db.Dispose();
-            }
-            base.Dispose(disposing);
+            return View(model);
         }
     }
 }

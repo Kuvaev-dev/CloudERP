@@ -813,6 +813,7 @@
     <Compile Include="Mapping\AccountSubControlMapper.cs" />
     <Compile Include="Mapping\Base\BaseMapper.cs" />
     <Compile Include="Mapping\CategoryMapper.cs" />
+    <Compile Include="Mapping\FinancialYearMapper.cs" />
     <Compile Include="Mapping\UserTypeMapper.cs" />
     <Compile Include="Models\AccountControlMV.cs" />
     <Compile Include="Models\AccountControlsMV.cs" />
@@ -823,6 +824,7 @@
     <Compile Include="Models\CategoryMV.cs" />
     <Compile Include="Models\CompanyRegistrationMV.cs" />
     <Compile Include="Models\EmployeeStatisticsMV.cs" />
+    <Compile Include="Models\FinancialYearMV.cs" />
     <Compile Include="Models\Forecasting\ForecastData.cs" />
     <Compile Include="Models\Forecasting\ForecastInputModel.cs" />
     <Compile Include="Models\Forecasting\ForecastPrediction.cs" />
@@ -3491,8 +3493,6 @@
     <Content Include="Views\AccountSubControl\Edit.cshtml" />
     <Content Include="Views\AccountSubControl\Index.cshtml" />
     <Content Include="Views\FinancialYear\Create.cshtml" />
-    <Content Include="Views\FinancialYear\Delete.cshtml" />
-    <Content Include="Views\FinancialYear\Details.cshtml" />
     <Content Include="Views\FinancialYear\Edit.cshtml" />
     <Content Include="Views\FinancialYear\Index.cshtml" />
     <Content Include="Views\FinancialYearView\Index.cshtml" />
