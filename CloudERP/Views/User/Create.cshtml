@@ -1,4 +1,4 @@
-﻿@model DatabaseAccess.tblUser
+﻿@model Domain.Models.User
 
 @{
     ViewBag.Title = "Create User";
@@ -98,7 +98,7 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />
-                @Html.ActionLink(Resources.Repeats.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
+                @Html.ActionLink(Resources.Common.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
             </div>
         </div>
     </div>
