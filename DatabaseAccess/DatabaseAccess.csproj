@@ -84,6 +84,7 @@
     <Compile Include="Code\SP_Code\SP_Sale.cs" />
     <Compile Include="Code\SP_Code\SP_TrialBalance.cs" />
     <Compile Include="Helpers\AllowedDomainsAttribute.cs" />
+    <Compile Include="Helpers\BranchHelper.cs" />
     <Compile Include="Localization\Localization.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -107,6 +108,9 @@
     <Compile Include="Repositories\CategoryRepository.cs" />
     <Compile Include="Repositories\CustomerRepository.cs" />
     <Compile Include="Repositories\FinancialYearRepository.cs" />
+    <Compile Include="Repositories\SupportTicketRepository.cs" />
+    <Compile Include="Repositories\TaskRepository.cs" />
+    <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Repositories\UserTypeRepository.cs" />
     <Compile Include="tblAccountActivity.cs">
       <DependentUpon>CloudDB.tt</DependentUpon>

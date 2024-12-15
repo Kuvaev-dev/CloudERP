@@ -1,4 +1,8 @@
-﻿using DatabaseAccess;
+﻿using CloudERP.Helpers;
+using CloudERP.Mapping.Base;
+using CloudERP.Models;
+using Domain.Models;
+using Domain.Services;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,93 +12,54 @@ namespace CloudERP.Controllers
 {
     public class SupportController : Controller
     {
-        private readonly CloudDBEntities _db;
+        private readonly ISupportTicketService _service;
+        private readonly IMapper<SupportTicket, SupportTicketMV> _mapper;
+        private readonly SessionHelper _sessionHelper;
 
-        public SupportController(CloudDBEntities db)
+        public SupportController(ISupportTicketService service, IMapper<SupportTicket, SupportTicketMV> mapper, SessionHelper sessionHelper)
         {
-            _db = db;
+            _service = service;
+            _mapper = mapper;
+            _sessionHelper = sessionHelper;
         }
 
-        // GET: Support
         public ActionResult Support()
         {
-            return View(new tblSupportTicket());
+            return View(new SupportTicketMV());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SubmitTicket(tblSupportTicket ticket)
+        public async Task<ActionResult> SubmitTicket(SupportTicketMV model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
+                var domainModel = _mapper.MapToDomain(model);
+                domainModel.CompanyID = _sessionHelper.CompanyID;
+                domainModel.BranchID = _sessionHelper.BranchID;
+                domainModel.UserID = _sessionHelper.UserID;
+                domainModel.DateCreated = DateTime.Now;
+                domainModel.IsResolved = false;
 
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-                int userID = Convert.ToInt32(Session["UserID"]);
+                await _service.CreateAsync(domainModel);
+                ViewBag.Message = Resources.Messages.SupportRequestSubmitted;
 
-                if (ModelState.IsValid)
-                {
-                    ticket.Name = Convert.ToString(Session["EName"]);
-                    ticket.Email = Convert.ToString(Session["Email"]);
-                    ticket.DateCreated = DateTime.Now;
-                    ticket.IsResolved = false;
-                    ticket.CompanyID = companyID;
-                    ticket.BranchID = branchID;
-                    ticket.UserID = userID;
-
-                    _db.tblSupportTicket.Add(ticket);
-                    await _db.SaveChangesAsync();
-
-                    ViewBag.Message = Resources.Messages.SupportRequestSubmitted;
-                    return View("Support", new tblSupportTicket());
-                }
-
-                return View("Support", ticket);
+                return View("Support", new SupportTicketMV());
             }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            return View("Support", model);
         }
 
-        public ActionResult AdminList()
+        public async Task<ActionResult> AdminList()
         {
-            try
-            {
-                var tickets = _db.tblSupportTicket.ToList();
-                return View(tickets);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            var tickets = await _service.GetAllAsync();
+            return View(tickets.Select(_mapper.MapToViewModel));
         }
 
         [HttpPost]
         public async Task<ActionResult> ResolveTicket(int id)
         {
-            try
-            {
-                var ticket = await _db.tblSupportTicket.FindAsync(id);
-                if (ticket != null)
-                {
-                    ticket.IsResolved = true;
-                    await _db.SaveChangesAsync();
-                }
-
-                return RedirectToAction("AdminList");
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            await _service.ResolveAsync(id);
+            return RedirectToAction("AdminList");
         }
     }
 }

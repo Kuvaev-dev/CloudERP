@@ -85,7 +85,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\BranchHelper.cs" />
     <Compile Include="Mapping\AccountControlMapper.cs" />
     <Compile Include="Mapping\AccountHeadMapper.cs" />
     <Compile Include="Mapping\AccountSubControlMapper.cs" />
@@ -93,6 +92,9 @@
     <Compile Include="Mapping\CategoryMapper.cs" />
     <Compile Include="Mapping\CustomerMapper.cs" />
     <Compile Include="Mapping\FinancialYearMapper.cs" />
+    <Compile Include="Mapping\SupportTicketMapper.cs" />
+    <Compile Include="Mapping\TaskMapper.cs" />
+    <Compile Include="Mapping\UserMapper.cs" />
     <Compile Include="Mapping\UserTypeMapper.cs" />
     <Compile Include="Models\AccountControl.cs" />
     <Compile Include="Models\AccountHead.cs" />
@@ -100,6 +102,9 @@
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\FinancialYear.cs" />
+    <Compile Include="Models\SupportTicket.cs" />
+    <Compile Include="Models\TaskModel.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AccountControlService.cs" />
@@ -108,6 +113,9 @@
     <Compile Include="Services\CategoryService.cs" />
     <Compile Include="Services\CustomerService.cs" />
     <Compile Include="Services\FinancialYearService.cs" />
+    <Compile Include="Services\SupportTicketService.cs" />
+    <Compile Include="Services\TaskService.cs" />
+    <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\UserTypeService.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,274 +1,92 @@
-﻿using DatabaseAccess;
-using System;
-using System.Linq;
+﻿using CloudERP.Helpers;
+using CloudERP.Mapping.Base;
+using CloudERP.Models;
+using Domain.Services;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace CloudERP.Controllers
 {
     public class TaskController : Controller
     {
-        private readonly CloudDBEntities _db;
+        private readonly ITaskService _service;
+        private readonly IMapper<Domain.Models.TaskModel, TaskMV> _mapper;
+        private readonly SessionHelper _sessionHelper;
 
-        public TaskController(CloudDBEntities db)
+        public TaskController(ITaskService service, IMapper<Domain.Models.TaskModel, TaskMV> mapper, SessionHelper sessionHelper)
         {
-            _db = db;
+            _service = service;
+            _mapper = mapper;
+            _sessionHelper = sessionHelper;
         }
 
-        // GET: Task
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            try
-            {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-                int userID = Convert.ToInt32(Session["UserID"]);
-
-                var tasks = _db.tblTask.Where(t => t.CompanyID == companyID && t.BranchID == branchID && t.UserID == userID).ToList();
-
-                return View(tasks);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            var tasks = await _service.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID, _sessionHelper.UserID);
+            return View(tasks);
         }
 
-        // GET: Task/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
-            try
-            {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
+            var task = await _service.GetByIdAsync(id);
+            if (task == null) return HttpNotFound();
 
-                var task = _db.tblTask.Find(id);
-                if (task == null)
-                {
-                    return HttpNotFound();
-                }
-
-                return View(task);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            return View(_mapper.MapToViewModel(task));
         }
 
-        // GET: Task/Create
         public ActionResult Create()
         {
-            try
-            {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
-                return View(new tblTask());
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            return View(new TaskMV());
         }
 
-        // POST: Task/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(tblTask task)
+        public async Task<ActionResult> Create(TaskMV model)
         {
-            try 
-            { 
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-                int userID = Convert.ToInt32(Session["UserID"]);
-
-                task.BranchID = branchID;
-                task.CompanyID = companyID;
-                task.UserID = userID;
-
-                if (ModelState.IsValid)
-                {
-                    _db.tblTask.Add(task);
-                    _db.SaveChanges();
-                    return RedirectToAction("Index");
-                }
-
-                return View(task);
-            }
-            catch (Exception ex)
+            if (ModelState.IsValid)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
+                var domainModel = _mapper.MapToDomain(model);
+                await _service.CreateAsync(domainModel);
+                return RedirectToAction("Index");
             }
+            return View(model);
         }
 
-        // GET: Task/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            try 
-            { 
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
+            var task = await _service.GetByIdAsync(id);
+            if (task == null) return HttpNotFound();
 
-                var task = _db.tblTask.Find(id);
-                if (task == null)
-                {
-                    return HttpNotFound();
-                }
-
-                return View(task);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            return View(_mapper.MapToViewModel(task));
         }
 
-        // POST: Task/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(tblTask task)
+        public async Task<ActionResult> Edit(TaskMV model)
         {
-            try 
-            { 
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-                int userID = Convert.ToInt32(Session["UserID"]);
-
-                task.BranchID = branchID;
-                task.CompanyID = companyID;
-                task.UserID = userID;
-
-                if (ModelState.IsValid)
-                {
-                    _db.Entry(task).State = System.Data.Entity.EntityState.Modified;
-                    _db.SaveChanges();
-                    return RedirectToAction("Index");
-                }
-
-                return View(task);
-            }
-            catch (Exception ex)
+            if (ModelState.IsValid)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
+                var domainModel = _mapper.MapToDomain(model);
+                await _service.UpdateAsync(domainModel);
+                return RedirectToAction("Index");
             }
+            return View(model);
         }
 
-        // GET: Task/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            try 
-            { 
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
+            var task = await _service.GetByIdAsync(id);
+            if (task == null) return HttpNotFound();
 
-                var task = _db.tblTask.Find(id);
-                if (task == null)
-                {
-                    return HttpNotFound();
-                }
-
-                return View(task);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            return View(_mapper.MapToViewModel(task));
         }
 
-        // POST: Task/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            try
-            { 
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
-                var task = _db.tblTask.Find(id);
-                if (task != null)
-                {
-                    _db.tblTask.Remove(task);
-                    _db.SaveChanges();
-                }
-
-                return RedirectToAction("Index");
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
-        }
-
-        // GET: Task/Complete/5
-        public ActionResult Complete(int id)
-        {
-            try 
-            { 
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
-                var task = _db.tblTask.Find(id);
-                if (task == null)
-                {
-                    return HttpNotFound();
-                }
-                task.IsCompleted = true;
-
-                _db.Entry(task).State = System.Data.Entity.EntityState.Modified;
-                _db.SaveChanges();
-
-                return RedirectToAction("Index");
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _db.Dispose();
-            }
-            base.Dispose(disposing);
+            await _service.DeleteAsync(id);
+            return RedirectToAction("Index");
         }
     }
 }

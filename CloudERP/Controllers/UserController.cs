@@ -1,337 +1,101 @@
-﻿using System;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
-using DatabaseAccess;
+using CloudERP.Mapping.Base;
+using CloudERP.Models;
+using Domain.Services;
 
 namespace CloudERP.Controllers
 {
     public class UserController : Controller
     {
-        private readonly CloudDBEntities _db;
+        private readonly IUserService _service;
+        private readonly IUserTypeService _userTypeService;
+        private readonly IMapper<Domain.Models.User, UserMV> _mapper;
+        private readonly SessionHelper _sessionHelper;
 
-        public UserController(CloudDBEntities db)
+        public UserController(IUserService service, IUserTypeService userTypeService, IMapper<Domain.Models.User, UserMV> mapper, SessionHelper sessionHelper)
         {
-            _db = db;
+            _service = service;
+            _userTypeService = userTypeService;
+            _mapper = mapper;
+            _sessionHelper = sessionHelper;
         }
 
-        // GET: User
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            try
-            {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
-                var tblUser = _db.tblUser.Include(t => t.tblUserType);
-
-                return View(tblUser.ToList());
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            var users = await _service.GetAllAsync();
+            return View(users);
         }
 
-        public ActionResult SubBranchUser()
+        public async Task<ActionResult> SubBranchUser()
         {
-            try
-            {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchTypeID = Convert.ToInt32(Session["BranchTypeID"]);
-                int brchID = Convert.ToInt32(Session["BranchID"]);
-
-                IQueryable<tblUser> tblUser;
-
-                if (branchTypeID == 1)  // Main Branch
-                {
-                    tblUser = from s in _db.tblUser
-                              join sa in _db.tblEmployee on s.UserID equals sa.UserID
-                              where sa.CompanyID == companyID
-                              select s;
-
-                    foreach (var item in tblUser)
-                    {
-                        item.FullName = item.FullName + " (" + _db.tblEmployee.FirstOrDefault(e => e.UserID == item.UserID)?.tblBranch.BranchName + ")";
-                    }
-                }
-                else
-                {
-                    tblUser = from s in _db.tblUser
-                              join sa in _db.tblEmployee on s.UserID equals sa.UserID
-                              where sa.tblBranch.BrchID == brchID
-                              select s;
-
-                    foreach (var item in tblUser)
-                    {
-                        item.FullName = item.FullName + " (" + _db.tblEmployee.FirstOrDefault(e => e.UserID == item.UserID)?.tblBranch.BranchName + ")";
-                    }
-                }
-
-                return View(tblUser.ToList());
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            var users = await _service.GetByBranchAsync(_sessionHelper.CompanyID, _sessionHelper.BranchTypeID, _sessionHelper.BranchID);
+            return View(users);
         }
 
-        // GET: User/Details/5
-        public ActionResult Details(int? id)
+        public async Task<ActionResult> Details(int id)
         {
-            try
-            {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
+            var user = await _service.GetByIdAsync(id);
+            if (user == null) return HttpNotFound();
 
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-
-                tblUser tblUser = _db.tblUser.Find(id);
-                if (tblUser == null)
-                {
-                    return HttpNotFound();
-                }
-
-                return View(tblUser);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            return View(_mapper.MapToViewModel(user));
         }
 
-        // GET: User/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            try
-            {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
-                ViewBag.UserTypeID = new SelectList(_db.tblUserType, "UserTypeID", "UserType");
-
-                return View(new tblUser());
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            ViewBag.UserTypeID = new SelectList(await _userTypeService.GetAllAsync(), "UserTypeID", "UserType");
+            return View(new UserMV());
         }
 
-        // POST: User/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(tblUser tblUser)
+        public async Task<ActionResult> Create(UserMV model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
-                if (ModelState.IsValid)
-                {
-                    int companyID = Convert.ToInt32(Session["CompanyID"]);
-                    
-                    tblUser.UserTypeID = (companyID == 0) ? 1 : 2;
-                    
-                    _db.tblUser.Add(tblUser);
-                    _db.SaveChanges();
-
-                    if (companyID == 0)
-                    {
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        return RedirectToAction("SubBranchUser");
-                    }
-                }
-
-                ViewBag.UserTypeID = new SelectList(_db.tblUserType, "UserTypeID", "UserType", tblUser.UserTypeID);
-
-                return View(tblUser);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
-        }
-
-        // GET: User/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-
-                tblUser tblUser = _db.tblUser.Find(id);
-                if (tblUser == null)
-                {
-                    return HttpNotFound();
-                }
-
-                ViewBag.UserTypeID = new SelectList(_db.tblUserType, "UserTypeID", "UserType", tblUser.UserTypeID);
-
-                tblUser.Password = string.Empty;
-
-                return View(tblUser);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
-        }
-
-        // POST: User/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(tblUser tblUser)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
-                if (ModelState.IsValid)
-                {
-                    var currentUser = _db.tblUser.Find(tblUser.UserID);
-                    if (currentUser == null)
-                    {
-                        return HttpNotFound();
-                    }
-
-                    if (!string.IsNullOrEmpty(tblUser.Password))
-                    {
-                        tblUser.Password = PasswordHelper.HashPassword(tblUser.Password, out string salt);
-                        tblUser.Salt = salt;
-                    }
-                    else
-                    {
-                        tblUser.Password = currentUser.Password;
-                        tblUser.Salt = currentUser.Salt;
-                    }
-
-                    currentUser.FullName = tblUser.FullName;
-                    currentUser.Email = tblUser.Email;
-                    currentUser.ContactNo = tblUser.ContactNo;
-                    currentUser.UserName = tblUser.UserName;
-                    currentUser.UserTypeID = tblUser.UserTypeID;
-                    currentUser.IsActive = tblUser.IsActive;
-
-                    _db.Entry(currentUser).State = EntityState.Modified;
-                    _db.SaveChanges();
-
-                    return RedirectToAction("Index");
-                }
-
-                ViewBag.UserTypeID = new SelectList(_db.tblUserType, "UserTypeID", "UserType", tblUser.UserTypeID);
-
-                return View(tblUser);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
-        }
-
-        // GET: User/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-
-                tblUser tblUser = _db.tblUser.Find(id);
-                if (tblUser == null)
-                {
-                    return HttpNotFound();
-                }
-
-                return View(tblUser);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
-        }
-
-        // POST: User/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
-                tblUser tblUser = _db.tblUser.Find(id);
-                _db.tblUser.Remove(tblUser);
-                _db.SaveChanges();
-
+                var domainModel = _mapper.MapToDomain(model);
+                await _service.CreateAsync(domainModel);
                 return RedirectToAction("Index");
             }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            return View(model);
         }
 
-        protected override void Dispose(bool disposing)
+        public async Task<ActionResult> Edit(int id)
         {
-            if (disposing)
+            var user = await _service.GetByIdAsync(id);
+            if (user == null) return HttpNotFound();
+
+            return View(_mapper.MapToViewModel(user));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(UserMV model)
+        {
+            if (ModelState.IsValid)
             {
-                _db.Dispose();
+                var domainModel = _mapper.MapToDomain(model);
+                await _service.UpdateAsync(domainModel);
+                return RedirectToAction("Index");
             }
-            base.Dispose(disposing);
+            return View(model);
+        }
+
+        public async Task<ActionResult> Delete(int id)
+        {
+            var user = await _service.GetByIdAsync(id);
+            if (user == null) return HttpNotFound();
+
+            return View(_mapper.MapToViewModel(user));
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteConfirmed(int id)
+        {
+            await _service.DeleteAsync(id);
+            return RedirectToAction("Index");
         }
     }
 }

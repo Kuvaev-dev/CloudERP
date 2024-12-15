@@ -48,6 +48,18 @@ namespace CloudERP.Helpers
             }
         }
 
+        public int BranchTypeID
+        {
+            get
+            {
+                if (int.TryParse(_session["BranchTypeID"]?.ToString(), out int value))
+                {
+                    return value;
+                }
+                throw new KeyNotFoundException("BranchTypeID is not found in session.");
+            }
+        }
+
         public bool IsAuthenticated => _session["CompanyID"] != null && _session["BranchID"] != null;
     }
 }

@@ -4,8 +4,8 @@ using Domain.Mapping.Base;
 using Domain.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CloudERP.Helpers;
 using System.Linq;
+using DatabaseAccess.Helpers;
 
 namespace Domain.Services
 {

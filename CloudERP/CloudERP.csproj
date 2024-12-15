@@ -815,6 +815,9 @@
     <Compile Include="Mapping\CategoryMapper.cs" />
     <Compile Include="Mapping\CustomerMapper.cs" />
     <Compile Include="Mapping\FinancialYearMapper.cs" />
+    <Compile Include="Mapping\SupportTicketMapper.cs" />
+    <Compile Include="Mapping\TaskMapper.cs" />
+    <Compile Include="Mapping\UserMapper.cs" />
     <Compile Include="Mapping\UserTypeMapper.cs" />
     <Compile Include="Models\AccountControlMV.cs" />
     <Compile Include="Models\AccountControlsMV.cs" />
@@ -834,6 +837,9 @@
     <Compile Include="Models\ProductMV.cs" />
     <Compile Include="Models\RegistrationMV.cs" />
     <Compile Include="Models\SalaryMV.cs" />
+    <Compile Include="Models\SupportTicketMV.cs" />
+    <Compile Include="Models\TaskMV.cs" />
+    <Compile Include="Models\UserMV.cs" />
     <Compile Include="Models\UserTypeMV.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
