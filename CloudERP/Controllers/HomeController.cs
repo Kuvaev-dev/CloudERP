@@ -16,30 +16,29 @@ namespace CloudERP.Controllers
     {
         private readonly CloudDBEntities _db;
         private readonly SP_Dashboard _spDashboard;
+        private readonly SessionHelper _sessionHelper;
 
-        public HomeController(CloudDBEntities db, SP_Dashboard spDashboard)
+        public HomeController(CloudDBEntities db, SP_Dashboard spDashboard, SessionHelper sessionHelper)
         {
             _db = db;
             _spDashboard = spDashboard;
+            _sessionHelper = sessionHelper;
         }
 
         public ActionResult Index()
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login");
                 }
-
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
 
                 DateTime currentDate = DateTime.Today;
                 string fromDate = new DateTime(currentDate.Year, currentDate.Month, 1).ToString("yyyy-MM-dd");
                 string toDate = new DateTime(currentDate.Year, currentDate.Month, DateTime.DaysInMonth(currentDate.Year, currentDate.Month)).ToString("yyyy-MM-dd");
 
-                DashboardModel dashboardValues = _spDashboard.GetDashboardValues(fromDate, toDate, branchID, companyID);
+                DashboardModel dashboardValues = _spDashboard.GetDashboardValues(fromDate, toDate, _sessionHelper.BranchID, _sessionHelper.CompanyID);
 
                 return View(dashboardValues);
             }

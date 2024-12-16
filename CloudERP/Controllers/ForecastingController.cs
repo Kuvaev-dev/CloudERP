@@ -1,4 +1,5 @@
-﻿using CloudERP.Helpers.Forecasting;
+﻿using CloudERP.Helpers;
+using CloudERP.Helpers.Forecasting;
 using CloudERP.Models;
 using CloudERP.Models.Forecasting;
 using System;
@@ -10,15 +11,17 @@ namespace CloudERP.Controllers
     public class ForecastingController : Controller
     {
         private readonly ForecastingService _forecastingService;
+        private readonly SessionHelper _sessionHelper;
 
-        public ForecastingController(ForecastingService forecastingService)
+        public ForecastingController(ForecastingService forecastingService, SessionHelper sessionHelper)
         {
             _forecastingService = forecastingService;
+            _sessionHelper = sessionHelper;
         }
 
         public ActionResult Index()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!_sessionHelper.IsAuthenticated)
             {
                 return RedirectToAction("Login", "Home");
             }
@@ -35,20 +38,17 @@ namespace CloudERP.Controllers
         [HttpPost]
         public ActionResult GenerateForecast(ForecastInputModel inputModel)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!_sessionHelper.IsAuthenticated)
             {
                 return RedirectToAction("Login", "Home");
             }
-
-            int companyID = Convert.ToInt32(Session["CompanyID"]);
-            int branchID = Convert.ToInt32(Session["BranchID"]);
 
             try
             {
                 inputModel.StartDate = DateTime.Now;
 
-                var forecastData = _forecastingService.GetForecastData(companyID, branchID, inputModel.StartDate, inputModel.EndDate);
-                var forecastValue = _forecastingService.GenerateForecast(companyID, branchID, inputModel.StartDate, inputModel.EndDate);
+                var forecastData = _forecastingService.GetForecastData(_sessionHelper.CompanyID, _sessionHelper.BranchID, inputModel.StartDate, inputModel.EndDate);
+                var forecastValue = _forecastingService.GenerateForecast(_sessionHelper.CompanyID, _sessionHelper.BranchID, inputModel.StartDate, inputModel.EndDate);
 
                 TempData["Message"] = $"{Resources.Messages.ForecastHasBeenGenerated} {forecastValue}";
                 inputModel.ForecastData = forecastData;

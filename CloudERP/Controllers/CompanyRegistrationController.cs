@@ -11,17 +11,19 @@ namespace CloudERP.Controllers
     {
         private readonly CloudDBEntities _db;
         private readonly EmailService _emailService;
+        private readonly SessionHelper _sessionHelper;
 
-        public CompanyRegistrationController(CloudDBEntities db, EmailService emailService)
+        public CompanyRegistrationController(CloudDBEntities db, EmailService emailService, SessionHelper sessionHelper)
         {
             _db = db;
             _emailService = emailService;
+            _sessionHelper = sessionHelper;
         }
 
         // GET: CompanyRegistration/RegistrationForm
         public ActionResult RegistrationForm()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!_sessionHelper.IsAuthenticated)
             {
                 return RedirectToAction("Login", "Home");
             }
@@ -34,7 +36,7 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult RegistrationForm(RegistrationMV model)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (_sessionHelper.IsAuthenticated)
             {
                 return RedirectToAction("Login", "Home");
             }

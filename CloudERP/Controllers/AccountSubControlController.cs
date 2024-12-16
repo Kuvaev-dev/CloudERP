@@ -35,9 +35,6 @@ namespace CloudERP.Controllers
 
         public async Task<ActionResult> Create()
         {
-            int companyId = Convert.ToInt32(Session["CompanyID"]);
-            int branchId = Convert.ToInt32(Session["BranchID"]);
-
             var model = new AccountSubControlMV
             {
                 AccountControlList = await GetAccountControlList()

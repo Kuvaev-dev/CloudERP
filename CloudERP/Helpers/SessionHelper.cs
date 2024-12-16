@@ -36,6 +36,18 @@ namespace CloudERP.Helpers
             }
         }
 
+        public int BrchID
+        {
+            get
+            {
+                if (int.TryParse(_session["BrchID"]?.ToString(), out int value))
+                {
+                    return value;
+                }
+                throw new KeyNotFoundException("BrchID is not found in session.");
+            }
+        }
+
         public int UserID
         {
             get
@@ -57,6 +69,29 @@ namespace CloudERP.Helpers
                     return value;
                 }
                 throw new KeyNotFoundException("BranchTypeID is not found in session.");
+            }
+        }
+
+        public int? CompanyEmployeeID
+        {
+            get
+            {
+                if (int.TryParse(_session["CEmployeeID"]?.ToString(), out int value))
+                {
+                    return value;
+                }
+                return null;
+            }
+            set
+            {
+                if (value.HasValue)
+                {
+                    _session["CEmployeeID"] = value.Value;
+                }
+                else
+                {
+                    _session.Remove("CEmployeeID");
+                }
             }
         }
 

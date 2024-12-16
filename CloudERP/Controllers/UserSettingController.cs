@@ -1,186 +1,168 @@
 ﻿using CloudERP.Helpers;
-using DatabaseAccess;
-using System;
+using CloudERP.Mapping.Base;
+using CloudERP.Models;
+using Domain.Models;
+using Domain.Services;
 using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace CloudERP.Controllers
 {
     public class UserSettingController : Controller
     {
-        private readonly CloudDBEntities _db;
+        private readonly IEmployeeService _employeeService;
+        private readonly IUserService _userService;
+        private readonly IUserTypeService _userTypeService;
+        private readonly IMapper<User, UserMV> _mapper;
+        private readonly SessionHelper _sessionHelper;
 
-        public UserSettingController(CloudDBEntities db)
+        public UserSettingController(IEmployeeService employeeService, IUserService userService, IUserTypeService userTypeService, IMapper<User, UserMV> mapper, SessionHelper sessionHelper)
         {
-            _db = db;
+            _employeeService = employeeService;
+            _userService = userService;
+            _userTypeService = userTypeService;
+            _mapper = mapper;
+            _sessionHelper = sessionHelper;
         }
 
         // GET: CreateUser
-        public ActionResult CreateUser(int? employeeID)
+        public async Task<ActionResult> CreateUser(int? employeeID)
         {
-            try
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            if (employeeID == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var employee = await _employeeService.GetByIdAsync(employeeID.Value);
+            if (employee == null)
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
-                Session["CEmployeeID"] = employeeID;
-                var employee = _db.tblEmployee.Find(employeeID);
-                if (employee == null)
-                {
-                    TempData["ErrorMessage"] = Resources.Messages.EmployeeNotFound;
-                    return RedirectToAction("EP500", "EP");
-                }
-
-                string salt;
-                var hashedPassword = PasswordHelper.HashPassword(employee.ContactNo, out salt);
-
-                var user = new tblUser
-                {
-                    Email = employee.Email,
-                    ContactNo = employee.ContactNo,
-                    FullName = employee.Name,
-                    IsActive = true,
-                    Password = hashedPassword,
-                    Salt = salt,
-                    UserName = employee.Email
-                };
-
-                ViewBag.Password = hashedPassword;
-                ViewBag.Salt = salt;
-
-                ViewBag.UserTypeID = new SelectList(_db.tblUserType.ToList(), "UserTypeID", "UserType");
-
-                return View(user);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.EmployeeNotFound;
                 return RedirectToAction("EP500", "EP");
             }
+
+            _sessionHelper.CompanyEmployeeID = employeeID;
+            var hashedPassword = PasswordHelper.HashPassword(employee.ContactNumber, out string salt);
+
+            var user = new UserMV
+            {
+                Email = employee.Email,
+                ContactNo = employee.ContactNumber,
+                FullName = employee.FullName,
+                IsActive = true,
+                Password = hashedPassword,
+                Salt = salt,
+                UserName = employee.Email
+            };
+
+            var userTypes = await _userTypeService.GetAllAsync();
+            ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserType");
+
+            return View(_mapper.MapToDomain(user));
         }
 
         // POST: CreateUser
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateUser(tblUser tblUser)
+        public async Task<ActionResult> CreateUser(UserMV userViewModel)
         {
-            try
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            if (!ModelState.IsValid)
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
-                if (ModelState.IsValid)
-                {
-                    var existingUser = _db.tblUser.FirstOrDefault(u => u.Email == tblUser.Email && u.UserID != tblUser.UserID);
-                    if (existingUser != null)
-                    {
-                        ViewBag.Message = Resources.Messages.EmailIsAlreadyRegistered;
-                    }
-                    else
-                    {
-                        string password = Request.Form["Password"];
-                        string salt = Request.Form["Salt"];
-
-                        tblUser.Password = password;
-                        tblUser.Salt = salt;
-
-                        _db.tblUser.Add(tblUser);
-                        _db.SaveChanges();
-
-                        int? employeeID = Convert.ToInt32(Session["CEmployeeID"]);
-                        var employee = _db.tblEmployee.Find(employeeID);
-                        if (employee != null)
-                        {
-                            employee.UserID = tblUser.UserID;
-                            _db.Entry(employee).State = System.Data.Entity.EntityState.Modified;
-                            _db.SaveChanges();
-                        }
-                        Session["CEmployeeID"] = null;
-
-                        return RedirectToAction("Index", "User");
-                    }
-                }
-
-                ViewBag.UserTypeID = new SelectList(_db.tblUserType.ToList(), "UserTypeID", "UserType", tblUser.UserTypeID);
-
-                return View(tblUser);
+                var userTypes = await _userTypeService.GetAllAsync();
+                ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserType", userViewModel.UserTypeID);
+                return View(userViewModel);
             }
-            catch (Exception ex)
+
+            var existingUser = (await _userService.GetAllAsync()).FirstOrDefault(u => u.Email == userViewModel.Email && u.UserID != userViewModel.UserID);
+            if (existingUser != null)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
+                ViewBag.Message = Resources.Messages.EmailIsAlreadyRegistered;
+
+                var userTypes = await _userTypeService.GetAllAsync();
+                ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserType", userViewModel.UserTypeID);
+
+                return View(userViewModel);
             }
+
+            userViewModel.Password = Request.Form["Password"];
+            userViewModel.Salt = Request.Form["Salt"];
+
+            var domainUser = _mapper.MapToDomain(userViewModel);
+            await _userService.CreateAsync(domainUser);
+
+            int? employeeID = _sessionHelper.CompanyEmployeeID;
+            if (employeeID.HasValue)
+            {
+                var employee = await _employeeService.GetByIdAsync(employeeID.Value);
+                if (employee != null)
+                {
+                    employee.UserID = domainUser.UserID;
+                    await _employeeService.UpdateAsync(employee);
+                }
+                _sessionHelper.CompanyEmployeeID = null;
+            }
+
+            return RedirectToAction("Index", "User");
         }
 
         // GET: UpdateUser
-        public ActionResult UpdateUser(int? userID)
+        public async Task<ActionResult> UpdateUser(int? userID)
         {
-            try
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            if (userID == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var user = await _userService.GetByIdAsync(userID.Value);
+            if (user == null)
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
-                var user = _db.tblUser.Find(userID);
-                if (user == null)
-                {
-                    TempData["ErrorMessage"] = Resources.Messages.UserNotFound;
-                    return RedirectToAction("EP500", "EP");
-                }
-
-                ViewBag.UserTypeID = new SelectList(_db.tblUserType.ToList(), "UserTypeID", "UserType", user.UserTypeID);
-
-                return View(user);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UserNotFound;
                 return RedirectToAction("EP500", "EP");
             }
+
+            var viewModel = _mapper.MapToViewModel(user);
+            var userTypes = await _userTypeService.GetAllAsync();
+            ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserType", user.UserTypeID);
+
+            return View(viewModel);
         }
 
         // POST: UpdateUser
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult UpdateUser(tblUser tblUser)
+        public async Task<ActionResult> UpdateUser(UserMV userViewModel)
         {
-            try
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            if (!ModelState.IsValid)
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
-                if (ModelState.IsValid)
-                {
-                    var existingUser = _db.tblUser.FirstOrDefault(u => u.Email == tblUser.Email && u.UserID != tblUser.UserID);
-                    if (existingUser != null)
-                    {
-                        ViewBag.Message = Resources.Messages.EmailIsAlreadyRegistered;
-                    }
-                    else
-                    {
-                        _db.Entry(tblUser).State = System.Data.Entity.EntityState.Modified;
-                        _db.SaveChanges();
-
-                        return RedirectToAction("Index", "User");
-                    }
-                }
-
-                ViewBag.UserTypeID = new SelectList(_db.tblUserType.ToList(), "UserTypeID", "UserType", tblUser.UserTypeID);
-
-                return View(tblUser);
+                var userTypes = await _userTypeService.GetAllAsync();
+                ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserType", userViewModel.UserTypeID);
+                return View(userViewModel);
             }
-            catch (Exception ex)
+
+            var existingUser = (await _userService.GetAllAsync()).FirstOrDefault(u => u.Email == userViewModel.Email && u.UserID != userViewModel.UserID);
+            if (existingUser != null)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
+                ViewBag.Message = Resources.Messages.EmailIsAlreadyRegistered;
+
+                var userTypes = await _userTypeService.GetAllAsync();
+                ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserType", userViewModel.UserTypeID);
+
+                return View(userViewModel);
             }
+
+            var domainUser = _mapper.MapToDomain(userViewModel);
+            await _userService.UpdateAsync(domainUser);
+
+            return RedirectToAction("Index", "User");
         }
     }
 }

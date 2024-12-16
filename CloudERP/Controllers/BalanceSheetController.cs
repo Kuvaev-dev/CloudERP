@@ -1,4 +1,5 @@
-﻿using DatabaseAccess;
+﻿using CloudERP.Helpers;
+using DatabaseAccess;
 using DatabaseAccess.Code.SP_Code;
 using DatabaseAccess.Models;
 using System;
@@ -12,23 +13,22 @@ namespace CloudERP.Controllers
     {
         private readonly CloudDBEntities _db;
         private readonly SP_BalanceSheet _balSheet;
+        private readonly SessionHelper _sessionHelper;
 
-        public BalanceSheetController(CloudDBEntities db, SP_BalanceSheet balSheet)
+        public BalanceSheetController(CloudDBEntities db, SP_BalanceSheet balSheet, SessionHelper sessionHelper)
         {
             _db = db;
             _balSheet = balSheet;
+            _sessionHelper = sessionHelper;
         }
 
         // GET: BalanceSheet
         public ActionResult GetBalanceSheet()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!_sessionHelper.IsAuthenticated)
             {
                 return RedirectToAction("Login", "Home");
             }
-
-            int companyID = Convert.ToInt32(Session["CompanyID"]);
-            int branchID = Convert.ToInt32(Session["BranchID"]);
 
             try
             {
@@ -42,7 +42,7 @@ namespace CloudERP.Controllers
                     return View(new BalanceSheetModel());
                 }
 
-                var balanceSheet = _balSheet.GetBalanceSheet(companyID, branchID, financialYear.FinancialYearID, new List<int> { 1, 2, 3, 4, 5 });
+                var balanceSheet = _balSheet.GetBalanceSheet(_sessionHelper.CompanyID, _sessionHelper.BranchID, financialYear.FinancialYearID, new List<int> { 1, 2, 3, 4, 5 });
                 return View(balanceSheet);
             }
             catch (Exception ex)
@@ -55,7 +55,7 @@ namespace CloudERP.Controllers
         [HttpPost]
         public ActionResult GetBalanceSheet(int? id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!_sessionHelper.IsAuthenticated)
             {
                 return RedirectToAction("Login", "Home");
             }
@@ -66,15 +66,12 @@ namespace CloudERP.Controllers
                 return View(new BalanceSheetModel());
             }
 
-            int companyID = Convert.ToInt32(Session["CompanyID"]);
-            int branchID = Convert.ToInt32(Session["BranchID"]);
-
             try
             {
                 var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
                 ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear");
 
-                var balanceSheet = _balSheet.GetBalanceSheet(companyID, branchID, id.Value, new List<int> { 1, 2, 3, 4, 5 });
+                var balanceSheet = _balSheet.GetBalanceSheet(_sessionHelper.CompanyID, _sessionHelper.BranchID, id.Value, new List<int> { 1, 2, 3, 4, 5 });
                 return View(balanceSheet);
             }
             catch (Exception ex)
@@ -86,14 +83,10 @@ namespace CloudERP.Controllers
 
         public ActionResult GetSubBalanceSheet()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!_sessionHelper.IsAuthenticated)
             {
                 return RedirectToAction("Login", "Home");
             }
-
-            int companyID = Convert.ToInt32(Session["CompanyID"]);
-            int branchID = Convert.ToInt32(Session["BranchID"]);
-            int brchID = Convert.ToInt32(Session["BrchID"]);
 
             try
             {
@@ -107,7 +100,7 @@ namespace CloudERP.Controllers
                     return View(new List<BalanceSheetModel>());
                 }
 
-                var balanceSheet = _balSheet.GetBalanceSheet(companyID, brchID, financialYear.FinancialYearID, new List<int> { 1, 2, 3, 4, 5 });
+                var balanceSheet = _balSheet.GetBalanceSheet(_sessionHelper.CompanyID, _sessionHelper.BrchID, financialYear.FinancialYearID, new List<int> { 1, 2, 3, 4, 5 });
                 return View(balanceSheet);
             }
             catch (Exception ex)
@@ -120,7 +113,7 @@ namespace CloudERP.Controllers
         [HttpPost]
         public ActionResult GetSubBalanceSheet(int? id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!_sessionHelper.IsAuthenticated)
             {
                 return RedirectToAction("Login", "Home");
             }
@@ -131,16 +124,12 @@ namespace CloudERP.Controllers
                 return View(new List<BalanceSheetModel>());
             }
 
-            int companyID = Convert.ToInt32(Session["CompanyID"]);
-            int branchID = Convert.ToInt32(Session["BranchID"]);
-            int brchID = Convert.ToInt32(Session["BrchID"]);
-
             try
             {
                 var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
                 ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear");
 
-                var balanceSheet = _balSheet.GetBalanceSheet(companyID, brchID, id.Value, new List<int> { 1, 2, 3, 4, 5 });
+                var balanceSheet = _balSheet.GetBalanceSheet(_sessionHelper.CompanyID, _sessionHelper.BrchID, id.Value, new List<int> { 1, 2, 3, 4, 5 });
                 return View(balanceSheet);
             }
             catch (Exception ex)

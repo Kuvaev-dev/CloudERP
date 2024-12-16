@@ -814,6 +814,7 @@
     <Compile Include="Mapping\Base\BaseMapper.cs" />
     <Compile Include="Mapping\BranchMapper.cs" />
     <Compile Include="Mapping\CategoryMapper.cs" />
+    <Compile Include="Mapping\CompanyMapper.cs" />
     <Compile Include="Mapping\CustomerMapper.cs" />
     <Compile Include="Mapping\EmployeeMapper.cs" />
     <Compile Include="Mapping\FinancialYearMapper.cs" />
@@ -829,6 +830,7 @@
     <Compile Include="Models\BranchsCustomersMV.cs" />
     <Compile Include="Models\BranchsSuppliersMV.cs" />
     <Compile Include="Models\CategoryMV.cs" />
+    <Compile Include="Models\CompanyMV.cs" />
     <Compile Include="Models\CompanyRegistrationMV.cs" />
     <Compile Include="Models\CustomerMV.cs" />
     <Compile Include="Models\EmployeeMV.cs" />
@@ -3460,7 +3462,6 @@
     <Content Include="Views\UserType\Index.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Company\Create.cshtml" />
-    <Content Include="Views\Company\Delete.cshtml" />
     <Content Include="Views\Company\Details.cshtml" />
     <Content Include="Views\Company\Edit.cshtml" />
     <Content Include="Views\Company\Index.cshtml" />

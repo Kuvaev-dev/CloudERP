@@ -1,4 +1,5 @@
-﻿using DatabaseAccess;
+﻿using CloudERP.Helpers;
+using DatabaseAccess;
 using DatabaseAccess.Code.SP_Code;
 using System;
 using System.Collections.Generic;
@@ -11,24 +12,23 @@ namespace CloudERP.Controllers
     {
         private readonly CloudDBEntities _db;
         private readonly SP_Ledger _ledgersp;
+        private readonly SessionHelper _sessionHelper;
 
-        public LedgerController(CloudDBEntities db, SP_Ledger ledgersp)
+        public LedgerController(CloudDBEntities db, SP_Ledger ledgersp, SessionHelper sessionHelper)
         {
             _db = db;
             _ledgersp = ledgersp;
+            _sessionHelper = sessionHelper;
         }
 
         public ActionResult GetLedger()
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
-
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
 
                 var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
                 if (!financialYears.Any())
@@ -42,7 +42,7 @@ namespace CloudERP.Controllers
                 var defaultFinancialYear = financialYears.FirstOrDefault();
                 if (defaultFinancialYear != null)
                 {
-                    var ledger = _ledgersp.GetLedger(companyID, branchID, defaultFinancialYear.FinancialYearID);
+                    var ledger = _ledgersp.GetLedger(_sessionHelper.CompanyID, _sessionHelper.BranchID, defaultFinancialYear.FinancialYearID);
                     return View(ledger);
                 }
 
@@ -60,15 +60,12 @@ namespace CloudERP.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
 
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-
-                var ledger = _ledgersp.GetLedger(companyID, branchID, id);
+                var ledger = _ledgersp.GetLedger(_sessionHelper.CompanyID, _sessionHelper.BranchID, id);
 
                 var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
                 ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear", id);
@@ -86,13 +83,10 @@ namespace CloudERP.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
-
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
 
                 var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
                 if (!financialYears.Any())
@@ -106,7 +100,7 @@ namespace CloudERP.Controllers
                 var defaultFinancialYear = financialYears.FirstOrDefault();
                 if (defaultFinancialYear != null)
                 {
-                    var ledger = _ledgersp.GetLedger(companyID, branchID, defaultFinancialYear.FinancialYearID);
+                    var ledger = _ledgersp.GetLedger(_sessionHelper.CompanyID, _sessionHelper.BranchID, defaultFinancialYear.FinancialYearID);
                     return View(ledger);
                 }
 
@@ -124,15 +118,12 @@ namespace CloudERP.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
 
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-
-                var ledger = _ledgersp.GetLedger(companyID, branchID, id ?? 0);
+                var ledger = _ledgersp.GetLedger(_sessionHelper.CompanyID, _sessionHelper.BranchID, id ?? 0);
 
                 var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
                 ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear", id);

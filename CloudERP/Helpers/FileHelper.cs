@@ -3,36 +3,30 @@ using System.Web;
 
 namespace CloudERP.Helpers
 {
-    public class FileHelper
+    public static class FileHelper
     {
-        public static bool UploadPhoto(HttpPostedFileBase file, string folder, string name)
+        public static string UploadPhoto(HttpPostedFileBase file, string folder, string fileName)
         {
-            if (file == null || string.IsNullOrEmpty(folder) || string.IsNullOrEmpty(name))
-            {
-                return false;
-            }
+            if (file == null || string.IsNullOrEmpty(folder) || string.IsNullOrEmpty(fileName))
+                return null;
 
             try
             {
-                string path = string.Empty;
-
-                if (file != null)
+                string folderPath = HttpContext.Current.Server.MapPath(folder);
+                if (!Directory.Exists(folderPath))
                 {
-                    path = Path.Combine(HttpContext.Current.Server.MapPath(folder), name);
-                    file.SaveAs(path);
-
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        file.InputStream.CopyTo(ms);
-                        byte[] array = ms.GetBuffer();
-                    }
+                    Directory.CreateDirectory(folderPath);
                 }
 
-                return true;
+                string filePath = Path.Combine(folderPath, fileName);
+
+                file.SaveAs(filePath);
+
+                return $"{folder}/{fileName}";
             }
             catch
             {
-                return false;
+                return null;
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using DatabaseAccess;
+﻿using CloudERP.Helpers;
+using DatabaseAccess;
 using DatabaseAccess.Code;
 using DatabaseAccess.Code.SP_Code;
 using DatabaseAccess.Models;
@@ -13,11 +14,13 @@ namespace CloudERP.Controllers
     {
         private readonly CloudDBEntities _db;
         private readonly SP_TrialBalance _trialBalance;
+        private readonly SessionHelper _sessionHelper;
 
-        public TrialBalanceController(CloudDBEntities db, SP_TrialBalance trialBalance)
+        public TrialBalanceController(CloudDBEntities db, SP_TrialBalance trialBalance, SessionHelper sessionHelper)
         {
             _db = db;
             _trialBalance = trialBalance;
+            _sessionHelper = sessionHelper;
         }
 
         // GET: TrialBalance
@@ -25,14 +28,10 @@ namespace CloudERP.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
-
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-                int userID = Convert.ToInt32(Session["UserID"]);
 
                 var financialYearCheck = DatabaseQuery.Retrive("select top 1 FinancialYearID from tblFinancialYear where IsActive = 1");
 
@@ -42,11 +41,11 @@ namespace CloudERP.Controllers
 
                 if (string.IsNullOrEmpty(FinancialYearID))
                 {
-                    list = _trialBalance.TrialBalance(branchID, companyID, 0);
+                    list = _trialBalance.TrialBalance(_sessionHelper.BranchID, _sessionHelper.CompanyID, 0);
                 }
                 else
                 {
-                    list = _trialBalance.TrialBalance(branchID, companyID, Convert.ToInt32(FinancialYearID));
+                    list = _trialBalance.TrialBalance(_sessionHelper.BranchID, _sessionHelper.CompanyID, Convert.ToInt32(FinancialYearID));
                 }
 
                 var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
@@ -66,19 +65,16 @@ namespace CloudERP.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
-
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
 
                 List<TrialBalanceModel> list;
 
                 if (id.HasValue)
                 {
-                    list = _trialBalance.TrialBalance(branchID, companyID, (int)id);
+                    list = _trialBalance.TrialBalance(_sessionHelper.BranchID, _sessionHelper.CompanyID, (int)id);
                 }
                 else
                 {

@@ -1,14 +1,21 @@
-﻿using System;
+﻿using CloudERP.Helpers;
 using System.Web.Mvc;
 
 namespace CloudERP.Controllers
 {
     public class GuideController : Controller
     {
+        private readonly SessionHelper _sessionHelper;
+
+        public GuideController(SessionHelper sessionHelper)
+        {
+            _sessionHelper = sessionHelper;
+        }
+
         // GET: Guide
         public ActionResult AdminMenuGuide()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!_sessionHelper.IsAuthenticated)
             {
                 return RedirectToAction("Login");
             }
@@ -18,7 +25,7 @@ namespace CloudERP.Controllers
 
         public ActionResult MainBranchEmployeeGuide()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!_sessionHelper.IsAuthenticated)
             {
                 return RedirectToAction("Login");
             }
@@ -28,7 +35,7 @@ namespace CloudERP.Controllers
 
         public ActionResult EmployeeGuide()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!_sessionHelper.IsAuthenticated)
             {
                 return RedirectToAction("Login");
             }
@@ -38,7 +45,7 @@ namespace CloudERP.Controllers
 
         public ActionResult PrivacyPolicy()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!_sessionHelper.IsAuthenticated)
             {
                 return RedirectToAction("Login");
             }

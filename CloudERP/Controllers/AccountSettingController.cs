@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using CloudERP.Helpers;
 using CloudERP.Models;
 using DatabaseAccess;
 
@@ -13,10 +14,12 @@ namespace CloudERP.Controllers
     public class AccountSettingController : Controller
     {
         private readonly CloudDBEntities _db;
+        private readonly SessionHelper _sessionHelper;
 
-        public AccountSettingController(CloudDBEntities db)
+        public AccountSettingController(CloudDBEntities db, SessionHelper sessionHelper)
         {
             _db = db;
+            _sessionHelper = sessionHelper;
         }
 
         // GET: AccountSetting
@@ -24,14 +27,10 @@ namespace CloudERP.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
-
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-                int userID = Convert.ToInt32(Session["UserID"]);
 
                 var tblAccountSetting = _db.tblAccountSetting
                     .Include(t => t.tblAccountActivity)
@@ -39,7 +38,7 @@ namespace CloudERP.Controllers
                     .Include(t => t.tblAccountHead)
                     .Include(t => t.tblBranch)
                     .Include(t => t.tblCompany)
-                    .Where(t => t.CompanyID == companyID && t.BranchID == branchID);
+                    .Where(t => t.CompanyID == _sessionHelper.CompanyID && t.BranchID == _sessionHelper.BranchID);
 
                 return View(tblAccountSetting.ToList());
             }
@@ -55,18 +54,15 @@ namespace CloudERP.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
 
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-
                 ViewBag.AccountActivityID = new SelectList(_db.tblAccountActivity, "AccountActivityID", "Name", "0");
-                ViewBag.AccountControlID = new SelectList(_db.tblAccountControl.Where(c => c.BranchID == branchID && c.CompanyID == companyID), "AccountControlID", "AccountControlName", "0");
+                ViewBag.AccountControlID = new SelectList(_db.tblAccountControl.Where(c => c.BranchID == _sessionHelper.BranchID && c.CompanyID == _sessionHelper.CompanyID), "AccountControlID", "AccountControlName", "0");
                 ViewBag.AccountHeadID = new SelectList(_db.tblAccountHead, "AccountHeadID", "AccountHeadName", "0");
-                ViewBag.AccountSubControlID = new SelectList(_db.tblAccountSubControl.Where(c => c.BranchID == branchID && c.CompanyID == companyID), "AccountSubControlID", "AccountSubControlName", "0");
+                ViewBag.AccountSubControlID = new SelectList(_db.tblAccountSubControl.Where(c => c.BranchID == _sessionHelper.BranchID && c.CompanyID == _sessionHelper.CompanyID), "AccountSubControlID", "AccountSubControlName", "0");
 
                 return View(new tblAccountSetting());
             }
@@ -84,17 +80,13 @@ namespace CloudERP.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
 
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-                int userID = Convert.ToInt32(Session["UserID"]);
-
-                tblAccountSetting.BranchID = branchID;
-                tblAccountSetting.CompanyID = companyID;
+                tblAccountSetting.BranchID = _sessionHelper.BranchID;
+                tblAccountSetting.CompanyID = _sessionHelper.CompanyID;
 
                 if (ModelState.IsValid)
                 {
@@ -118,9 +110,9 @@ namespace CloudERP.Controllers
                 }
 
                 ViewBag.AccountActivityID = new SelectList(_db.tblAccountActivity, "AccountActivityID", "Name", tblAccountSetting.AccountActivityID);
-                ViewBag.AccountControlID = new SelectList(_db.tblAccountControl.Where(c => c.BranchID == branchID && c.CompanyID == companyID), "AccountControlID", "AccountControlName", tblAccountSetting.AccountControlID);
+                ViewBag.AccountControlID = new SelectList(_db.tblAccountControl.Where(c => c.BranchID == _sessionHelper.BranchID && c.CompanyID == _sessionHelper.CompanyID), "AccountControlID", "AccountControlName", tblAccountSetting.AccountControlID);
                 ViewBag.AccountHeadID = new SelectList(_db.tblAccountHead, "AccountHeadID", "AccountHeadName", tblAccountSetting.AccountHeadID);
-                ViewBag.AccountSubControlID = new SelectList(_db.tblAccountSubControl.Where(c => c.BranchID == branchID && c.CompanyID == companyID), "AccountSubControlID", "AccountSubControlName", tblAccountSetting.AccountSubControlID);
+                ViewBag.AccountSubControlID = new SelectList(_db.tblAccountSubControl.Where(c => c.BranchID == _sessionHelper.BranchID && c.CompanyID == _sessionHelper.CompanyID), "AccountSubControlID", "AccountSubControlName", tblAccountSetting.AccountSubControlID);
 
                 return View(tblAccountSetting);
             }
@@ -136,13 +128,10 @@ namespace CloudERP.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
-
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
 
                 if (id == null)
                 {
@@ -156,9 +145,9 @@ namespace CloudERP.Controllers
                 }
 
                 ViewBag.AccountActivityID = new SelectList(_db.tblAccountActivity, "AccountActivityID", "Name", tblAccountSetting.AccountActivityID);
-                ViewBag.AccountControlID = new SelectList(_db.tblAccountControl.Where(c => c.BranchID == branchID && c.CompanyID == companyID), "AccountControlID", "AccountControlName", tblAccountSetting.AccountControlID);
+                ViewBag.AccountControlID = new SelectList(_db.tblAccountControl.Where(c => c.BranchID == _sessionHelper.BranchID && c.CompanyID == _sessionHelper.CompanyID), "AccountControlID", "AccountControlName", tblAccountSetting.AccountControlID);
                 ViewBag.AccountHeadID = new SelectList(_db.tblAccountHead, "AccountHeadID", "AccountHeadName", tblAccountSetting.AccountHeadID);
-                ViewBag.AccountSubControlID = new SelectList(_db.tblAccountSubControl.Where(c => c.BranchID == branchID && c.CompanyID == companyID), "AccountSubControlID", "AccountSubControlName", tblAccountSetting.AccountSubControlID);
+                ViewBag.AccountSubControlID = new SelectList(_db.tblAccountSubControl.Where(c => c.BranchID == _sessionHelper.BranchID && c.CompanyID == _sessionHelper.CompanyID), "AccountSubControlID", "AccountSubControlName", tblAccountSetting.AccountSubControlID);
 
                 return View(tblAccountSetting);
             }
@@ -176,14 +165,10 @@ namespace CloudERP.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
-
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-                int userID = Convert.ToInt32(Session["UserID"]);
 
                 if (ModelState.IsValid)
                 {
@@ -208,9 +193,9 @@ namespace CloudERP.Controllers
                 }
 
                 ViewBag.AccountActivityID = new SelectList(_db.tblAccountActivity, "AccountActivityID", "Name", tblAccountSetting.AccountActivityID);
-                ViewBag.AccountControlID = new SelectList(_db.tblAccountControl.Where(c => c.BranchID == branchID && c.CompanyID == companyID), "AccountControlID", "AccountControlName", tblAccountSetting.AccountControlID);
+                ViewBag.AccountControlID = new SelectList(_db.tblAccountControl.Where(c => c.BranchID == _sessionHelper.BranchID && c.CompanyID == _sessionHelper.CompanyID), "AccountControlID", "AccountControlName", tblAccountSetting.AccountControlID);
                 ViewBag.AccountHeadID = new SelectList(_db.tblAccountHead, "AccountHeadID", "AccountHeadName", tblAccountSetting.AccountHeadID);
-                ViewBag.AccountSubControlID = new SelectList(_db.tblAccountSubControl.Where(c => c.BranchID == branchID && c.CompanyID == companyID), "AccountSubControlID", "AccountSubControlName", tblAccountSetting.AccountSubControlID);
+                ViewBag.AccountSubControlID = new SelectList(_db.tblAccountSubControl.Where(c => c.BranchID == _sessionHelper.BranchID && c.CompanyID == _sessionHelper.CompanyID), "AccountSubControlID", "AccountSubControlName", tblAccountSetting.AccountSubControlID);
 
                 return View(tblAccountSetting);
             }
@@ -226,17 +211,14 @@ namespace CloudERP.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
 
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-
                 List<AccountControlMV> controls = new List<AccountControlMV>();
                 var controlList = _db.tblAccountControl
-                    .Where(p => p.BranchID == branchID && p.CompanyID == companyID && p.AccountHeadID == id)
+                    .Where(p => p.BranchID == _sessionHelper.BranchID && p.CompanyID == _sessionHelper.CompanyID && p.AccountHeadID == id)
                     .ToList();
 
                 foreach (var item in controlList)
@@ -258,17 +240,14 @@ namespace CloudERP.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
 
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-
                 List<AccountSubControlMV> subControls = new List<AccountSubControlMV>();
                 var subControlList = _db.tblAccountSubControl
-                    .Where(p => p.BranchID == branchID && p.CompanyID == companyID && p.AccountControlID == id)
+                    .Where(p => p.BranchID == _sessionHelper.BranchID && p.CompanyID == _sessionHelper.CompanyID && p.AccountControlID == id)
                     .ToList();
 
                 foreach (var item in subControlList)

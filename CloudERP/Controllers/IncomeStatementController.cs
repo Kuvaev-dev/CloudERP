@@ -1,4 +1,5 @@
-﻿using DatabaseAccess;
+﻿using CloudERP.Helpers;
+using DatabaseAccess;
 using DatabaseAccess.Code;
 using System;
 using System.Linq;
@@ -10,11 +11,13 @@ namespace CloudERP.Controllers
     {
         private readonly CloudDBEntities _db;
         private readonly IncomeStatement _income;
+        private readonly SessionHelper _sessionHelper;
 
-        public IncomeStatementController(CloudDBEntities db, IncomeStatement income)
+        public IncomeStatementController(CloudDBEntities db, IncomeStatement income, SessionHelper sessionHelper)
         {
             _db = db;
             _income = income;
+            _sessionHelper = sessionHelper;
         }
 
         // GET: IncomeStatement
@@ -22,13 +25,10 @@ namespace CloudERP.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
-
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
 
                 var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
                 ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear");
@@ -40,7 +40,7 @@ namespace CloudERP.Controllers
                     return View();
                 }
 
-                var incomeStatement = _income.GetIncomeStatement(companyID, branchID, FinancialYear.FinancialYearID);
+                var incomeStatement = _income.GetIncomeStatement(_sessionHelper.CompanyID, _sessionHelper.BranchID, FinancialYear.FinancialYearID);
 
                 return View(incomeStatement);
             }
@@ -56,18 +56,15 @@ namespace CloudERP.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
 
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-
                 var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
                 ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear");
 
-                var incomeStatement = _income.GetIncomeStatement(companyID, branchID, FinancialYearID ?? 0);
+                var incomeStatement = _income.GetIncomeStatement(_sessionHelper.CompanyID, _sessionHelper.BranchID, FinancialYearID ?? 0);
 
                 return View(incomeStatement);
             }
@@ -83,14 +80,10 @@ namespace CloudERP.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
-
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-                int brchID = Convert.ToInt32(Session["BrchID"]);
 
                 var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
                 ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear");
@@ -102,7 +95,7 @@ namespace CloudERP.Controllers
                     return View();
                 }
 
-                var incomeStatement = _income.GetIncomeStatement(companyID, brchID, FinancialYear.FinancialYearID);
+                var incomeStatement = _income.GetIncomeStatement(_sessionHelper.CompanyID, _sessionHelper.BrchID, FinancialYear.FinancialYearID);
 
                 return View(incomeStatement);
             }
@@ -118,19 +111,15 @@ namespace CloudERP.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
 
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-                int brchID = Convert.ToInt32(Session["BrchID"]);
-
                 var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
                 ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear");
 
-                var incomeStatement = _income.GetIncomeStatement(companyID, brchID, FinancialYearID ?? 0);
+                var incomeStatement = _income.GetIncomeStatement(_sessionHelper.CompanyID, _sessionHelper.BrchID, FinancialYearID ?? 0);
 
                 return View(incomeStatement);
             }

@@ -1,294 +1,150 @@
-﻿using System;
-using System.Data.Entity;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
-using DatabaseAccess;
+using CloudERP.Mapping;
+using CloudERP.Mapping.Base;
+using CloudERP.Models;
+using Domain.Models;
+using Domain.Services;
 
 namespace CloudERP.Controllers
 {
     public class CompanyController : Controller
     {
-        private readonly CloudDBEntities _db;
+        private readonly ICompanyService _service;
+        private readonly IMapper<Company, CompanyMV> _mapper;
+        private readonly SessionHelper _sessionHelper;
 
-        public CompanyController(CloudDBEntities db)
+        public CompanyController(ICompanyService service, IMapper<Company, CompanyMV> mapper, SessionHelper sessionHelper)
         {
-            _db = db;
+            _service = service;
+            _mapper = mapper;
+            _sessionHelper = sessionHelper;
         }
 
         // GET: Company
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
+            if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
-            }
 
-            try
-            {
-                return View(_db.tblCompany.ToList());
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            var companies = await _service.GetAllAsync();
+            var viewModel = companies.Select(_mapper.MapToViewModel);
+
+            return View(viewModel);
         }
 
         // GET: Company/Details/5
-        public ActionResult Details(int? id)
+        public async Task<ActionResult> Details(int? id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
+            if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
-            }
 
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
 
-            try
-            {
-                tblCompany tblCompany = _db.tblCompany.Find(id);
+            var company = await _service.GetByIdAsync(id.Value);
+            if (company == null) return HttpNotFound();
 
-                if (tblCompany == null)
-                {
-                    return HttpNotFound();
-                }
-
-                return View(tblCompany);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            var viewModel = _mapper.MapToViewModel(company);
+            return View(viewModel);
         }
 
         // GET: Company/Create
         public ActionResult Create()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
+            if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
-            }
 
-            return View(new tblCompany());
+            return View(new CompanyMV());
         }
 
+        // POST: Company/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(tblCompany tblCompany)
+        public async Task<ActionResult> Create(CompanyMV model)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
+            if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
-            }
 
             try
             {
                 if (ModelState.IsValid)
                 {
-                    var existingCompany = _db.tblCompany
-                        .FirstOrDefault(c => c.Name == tblCompany.Name);
-
-                    if (existingCompany != null)
+                    if (await _service.CheckCompanyExistsAsync(model.Name))
                     {
                         ModelState.AddModelError("Name", Resources.Messages.AlreadyExists);
-                        return View(tblCompany);
+                        return View(model);
                     }
 
-                    if (tblCompany.LogoFile != null)
-                    {
-                        var folder = "~/Content/CompanyLogo";
-                        var file = $"{tblCompany.CompanyID}.jpg";
-                        var response = FileHelper.UploadPhoto(tblCompany.LogoFile, folder, file);
+                    model.Logo = model.LogoFile != null
+                        ? FileHelper.UploadPhoto(model.LogoFile, "~/Content/CompanyLogo", $"{model.Name}.jpg")
+                        : "~/Content/CompanyLogo/erp-logo.png";
 
-                        if (response)
-                        {
-                            var filePath = Server.MapPath($"{folder}/{file}");
-                            if (System.IO.File.Exists(filePath))
-                            {
-                                tblCompany.Logo = $"{folder}/{file}";
-                            }
-                            else
-                            {
-                                tblCompany.Logo = "~/Content/CompanyLogo/erp-logo.png";
-                            }
-                        }
-                        else
-                        {
-                            tblCompany.Logo = "~/Content/CompanyLogo/erp-logo.png";
-                        }
-                    }
-                    else
-                    {
-                        tblCompany.Logo = "~/Content/CompanyLogo/erp-logo.png";
-                    }
-
-                    _db.tblCompany.Add(tblCompany);
-                    _db.SaveChanges();
+                    var domainModel = _mapper.MapToDomain(model);
+                    await _service.CreateAsync(domainModel);
 
                     return RedirectToAction("Index");
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage;
                 return RedirectToAction("EP500", "EP");
             }
 
-            return View(tblCompany);
+            return View(model);
         }
 
         // GET: Company/Edit/5
-        public ActionResult Edit(int? id)
+        public async Task<ActionResult> Edit(int? id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
+            if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
-            }
 
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
 
-            try
-            {
-                tblCompany tblCompany = _db.tblCompany.Find(id);
+            var company = await _service.GetByIdAsync(id.Value);
+            if (company == null) return HttpNotFound();
 
-                if (tblCompany == null)
-                {
-                    return HttpNotFound();
-                }
-
-                return View(tblCompany);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            var viewModel = _mapper.MapToViewModel(company);
+            return View(viewModel);
         }
 
         // POST: Company/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(tblCompany tblCompany)
+        public async Task<ActionResult> Edit(CompanyMV model)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
+            if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
-            }
 
             try
             {
                 if (ModelState.IsValid)
                 {
-                    if (tblCompany.LogoFile != null)
+                    if (model.LogoFile != null)
                     {
-                        var folder = "~/Content/CompanyLogo";
-                        var file = $"{tblCompany.CompanyID}.jpg";
-                        var response = FileHelper.UploadPhoto(tblCompany.LogoFile, folder, file);
-
-                        if (response)
-                        {
-                            tblCompany.Logo = $"{folder}/{file}";
-                        }
-                    }
-                    else
-                    {
-                        var existingCompany = _db.tblCompany.AsNoTracking().FirstOrDefault(c => c.CompanyID == tblCompany.CompanyID);
-                        if (existingCompany != null)
-                        {
-                            tblCompany.Logo = existingCompany.Logo;
-                        }
+                        var filePath = FileHelper.UploadPhoto(model.LogoFile, "~/Content/CompanyLogo", $"{model.CompanyID}.jpg");
+                        model.Logo = filePath ?? model.Logo;
                     }
 
-                    _db.Entry(tblCompany).State = EntityState.Modified;
-                    _db.SaveChanges();
+                    var domainModel = _mapper.MapToDomain(model);
+                    await _service.UpdateAsync(domainModel);
 
                     return RedirectToAction("Index");
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage;
                 return RedirectToAction("EP500", "EP");
             }
 
-            return View(tblCompany);
-        }
-
-        // GET: Company/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
-                return RedirectToAction("Login", "Home");
-            }
-
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            try
-            {
-                tblCompany tblCompany = _db.tblCompany.Find(id);
-
-                if (tblCompany == null)
-                {
-                    return HttpNotFound();
-                }
-
-                return View(tblCompany);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
-        }
-
-        // POST: Company/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
-                return RedirectToAction("Login", "Home");
-            }
-
-            try
-            {
-                tblCompany tblCompany = _db.tblCompany.Find(id);
-                if (tblCompany != null)
-                {
-                    _db.tblCompany.Remove(tblCompany);
-                    _db.SaveChanges();
-                }
-
-                return RedirectToAction("Index");
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _db.Dispose();
-            }
-            base.Dispose(disposing);
+            return View(model);
         }
     }
 }

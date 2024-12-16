@@ -5,7 +5,6 @@ using DatabaseAccess.Code;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace CloudERP.Controllers
@@ -14,11 +13,13 @@ namespace CloudERP.Controllers
     {
         private readonly CloudDBEntities _db;
         private readonly PurchaseEntry _purchaseEntry;
+        private readonly SessionHelper _sessionHelper;
 
-        public PurchaseCartController(CloudDBEntities db, PurchaseEntry purchaseEntry)
+        public PurchaseCartController(CloudDBEntities db, PurchaseEntry purchaseEntry, SessionHelper sessionHelper)
         {
             _db = db;
             _purchaseEntry = purchaseEntry;
+            _sessionHelper = sessionHelper;
         }
 
         // GET: PurchaseCart/NewPurchase
@@ -26,21 +27,17 @@ namespace CloudERP.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
 
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-                int userID = Convert.ToInt32(Session["UserID"]);
-
-                var findDetail = _db.tblPurchaseCartDetail.Where(i => i.BranchID == branchID && i.CompanyID == companyID && i.UserID == userID).ToList();
+                var findDetail = _db.tblPurchaseCartDetail.Where(i => i.BranchID == _sessionHelper.BranchID && i.CompanyID == _sessionHelper.CompanyID && i.UserID == _sessionHelper.UserID).ToList();
                 double totalAmount = findDetail.Sum(item => item.PurchaseQuantity * item.PurchaseUnitPrice);
                 ViewBag.TotalAmount = totalAmount;
 
                 var products = _db.tblStock
-                                  .Where(p => p.CompanyID == companyID && p.BranchID == branchID)
+                                  .Where(p => p.CompanyID == _sessionHelper.CompanyID && p.BranchID == _sessionHelper.BranchID)
                                   .ToList();
 
                 ViewBag.Products = products;
@@ -79,16 +76,12 @@ namespace CloudERP.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
 
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-                int userID = Convert.ToInt32(Session["UserID"]);
-
-                var findDetail = _db.tblPurchaseCartDetail.FirstOrDefault(i => i.ProductID == PID && i.BranchID == branchID && i.CompanyID == companyID);
+                var findDetail = _db.tblPurchaseCartDetail.FirstOrDefault(i => i.ProductID == PID && i.BranchID == _sessionHelper.BranchID && i.CompanyID == _sessionHelper.CompanyID);
                 if (findDetail == null)
                 {
                     if (PID > 0 && Qty > 0 && Price > 0)
@@ -98,9 +91,9 @@ namespace CloudERP.Controllers
                             ProductID = PID,
                             PurchaseQuantity = Qty,
                             PurchaseUnitPrice = Price,
-                            BranchID = branchID,
-                            CompanyID = companyID,
-                            UserID = userID
+                            BranchID = _sessionHelper.BranchID,
+                            CompanyID = _sessionHelper.CompanyID,
+                            UserID = _sessionHelper.UserID
                         };
 
                         _db.tblPurchaseCartDetail.Add(newItem);
@@ -128,15 +121,12 @@ namespace CloudERP.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return Json(new { data = new List<ProductMV>() }, JsonRequestBehavior.AllowGet);
                 }
 
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-
-                List<ProductMV> products = _db.tblStock.Where(p => p.BranchID == branchID && p.CompanyID == companyID)
+                List<ProductMV> products = _db.tblStock.Where(p => p.BranchID == _sessionHelper.BranchID && p.CompanyID == _sessionHelper.CompanyID)
                                                         .Select(item => new ProductMV { Name = item.ProductName, ProductID = item.ProductID })
                                                         .ToList();
 
@@ -154,14 +144,10 @@ namespace CloudERP.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
-
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-                int userID = Convert.ToInt32(Session["UserID"]);
 
                 var product = _db.tblPurchaseCartDetail.Find(id);
                 if (product != null)
@@ -173,7 +159,7 @@ namespace CloudERP.Controllers
                 }
 
                 ViewBag.Message = Resources.Messages.UnexpectedIssue;
-                var find = _db.tblPurchaseCartDetail.Where(i => i.BranchID == branchID && i.CompanyID == companyID && i.UserID == userID).ToList();
+                var find = _db.tblPurchaseCartDetail.Where(i => i.BranchID == _sessionHelper.BranchID && i.CompanyID == _sessionHelper.CompanyID && i.UserID == _sessionHelper.UserID).ToList();
 
                 return View(find);
             }
@@ -190,16 +176,12 @@ namespace CloudERP.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
 
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-                int userID = Convert.ToInt32(Session["UserID"]);
-
-                var list = _db.tblPurchaseCartDetail.Where(p => p.BranchID == branchID && p.CompanyID == companyID && p.UserID == userID).ToList();
+                var list = _db.tblPurchaseCartDetail.Where(p => p.BranchID == _sessionHelper.BranchID && p.CompanyID == _sessionHelper.CompanyID && p.UserID == _sessionHelper.UserID).ToList();
                 bool cancelstatus = false;
 
                 foreach (var item in list)
@@ -237,22 +219,19 @@ namespace CloudERP.Controllers
             {
                 Session["ErrorMessagePurchase"] = string.Empty;
 
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
 
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-
-                var checkPurchaseCart = _db.tblPurchaseCartDetail.FirstOrDefault(pd => pd.BranchID == branchID && pd.CompanyID == companyID);
+                var checkPurchaseCart = _db.tblPurchaseCartDetail.FirstOrDefault(pd => pd.BranchID == _sessionHelper.BranchID && pd.CompanyID == _sessionHelper.CompanyID);
                 if (checkPurchaseCart == null)
                 {
                     Session["ErrorMessagePurchase"] = Resources.Messages.PurchaseCartIsEmpty;
                     return RedirectToAction("NewPurchase");
                 }
 
-                var suppliers = _db.tblSupplier.Where(s => s.CompanyID == companyID && s.BranchID == branchID).ToList();
+                var suppliers = _db.tblSupplier.Where(s => s.CompanyID == _sessionHelper.CompanyID && s.BranchID == _sessionHelper.BranchID).ToList();
 
                 return View(suppliers);
             }
@@ -273,10 +252,6 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
-
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-                int userID = Convert.ToInt32(Session["UserID"]);
 
                 int supplierID = 0;
                 bool IsPayment = false;
@@ -308,7 +283,7 @@ namespace CloudERP.Controllers
                 }
 
                 var supplier = _db.tblSupplier.Find(supplierID);
-                var purchaseDetails = _db.tblPurchaseCartDetail.Where(pd => pd.BranchID == branchID && pd.CompanyID == companyID).ToList();
+                var purchaseDetails = _db.tblPurchaseCartDetail.Where(pd => pd.BranchID == _sessionHelper.BranchID && pd.CompanyID == _sessionHelper.CompanyID).ToList();
                 double totalAmount = purchaseDetails.Sum(item => item.PurchaseQuantity * item.PurchaseUnitPrice);
 
                 if (totalAmount == 0)
@@ -320,13 +295,13 @@ namespace CloudERP.Controllers
                 string invoiceNo = "PUR" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
                 var invoiceHeader = new tblSupplierInvoice()
                 {
-                    BranchID = branchID,
-                    CompanyID = companyID,
+                    BranchID = _sessionHelper.BranchID,
+                    CompanyID = _sessionHelper.CompanyID,
                     Description = Description,
                     InvoiceDate = DateTime.Now,
                     InvoiceNo = invoiceNo,
                     SupplierID = supplierID,
-                    UserID = userID,
+                    UserID = _sessionHelper.UserID,
                     TotalAmount = totalAmount
                 };
 
@@ -347,7 +322,7 @@ namespace CloudERP.Controllers
 
                 _db.SaveChanges();
 
-                string Message = _purchaseEntry.ConfirmPurchase(companyID, branchID, userID, invoiceNo, invoiceHeader.SupplierInvoiceID.ToString(), (float)totalAmount, supplierID.ToString(), supplier.SupplierName, IsPayment);
+                string Message = _purchaseEntry.ConfirmPurchase(_sessionHelper.CompanyID, _sessionHelper.BranchID, _sessionHelper.UserID, invoiceNo, invoiceHeader.SupplierInvoiceID.ToString(), (float)totalAmount, supplierID.ToString(), supplier.SupplierName, IsPayment);
 
                 if (Message.Contains("Success"))
                 {

@@ -1,4 +1,5 @@
-﻿using CloudERP.Models;
+﻿using CloudERP.Helpers;
+using CloudERP.Models;
 using DatabaseAccess;
 using System;
 using System.Collections.Generic;
@@ -10,10 +11,12 @@ namespace CloudERP.Controllers
     public class EmployeeStatisticsController : Controller
     {
         private readonly CloudDBEntities _db;
+        private readonly SessionHelper _sessionHelper;
 
-        public EmployeeStatisticsController(CloudDBEntities db)
+        public EmployeeStatisticsController(CloudDBEntities db, SessionHelper sessionHelper)
         {
             _db = db;
+            _sessionHelper = sessionHelper;
         }
 
         // GET: EmployeeStatistics
@@ -21,18 +24,15 @@ namespace CloudERP.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
 
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-
                 DateTime start = startDate ?? DateTime.Now.AddMonths(-1);
                 DateTime end = endDate ?? DateTime.Now;
 
-                var statistics = GetEmployeeStatistics(start, end, branchID, companyID);
+                var statistics = GetEmployeeStatistics(start, end, _sessionHelper.BranchID, _sessionHelper.CompanyID);
                 return View(statistics);
             }
             catch (Exception ex)
