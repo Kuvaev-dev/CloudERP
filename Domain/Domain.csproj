@@ -103,6 +103,7 @@
     <Compile Include="Models\Branch.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\FinancialYear.cs" />
     <Compile Include="Models\SupportTicket.cs" />
     <Compile Include="Models\TaskModel.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="Services\BranchService.cs" />
     <Compile Include="Services\CategoryService.cs" />
     <Compile Include="Services\CustomerService.cs" />
+    <Compile Include="Services\EmployeeService.cs" />
     <Compile Include="Services\FinancialYearService.cs" />
     <Compile Include="Services\SupportTicketService.cs" />
     <Compile Include="Services\TaskService.cs" />

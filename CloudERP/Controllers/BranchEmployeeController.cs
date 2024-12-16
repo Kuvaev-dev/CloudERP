@@ -1,244 +1,104 @@
 ﻿using CloudERP.Helpers;
-using DatabaseAccess;
+using CloudERP.Mapping.Base;
+using CloudERP.Models;
+using Domain.Models;
+using Domain.Services;
 using System;
-using System.Data.Entity;
 using System.Linq;
-using System.Net;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace CloudERP.Controllers
 {
     public class BranchEmployeeController : Controller
     {
-        private readonly CloudDBEntities _db;
+        private readonly IEmployeeService _service;
+        private readonly IMapper<Employee, EmployeeMV> _mapper;
+        private readonly SessionHelper _sessionHelper;
 
-        public BranchEmployeeController(CloudDBEntities db)
+        public BranchEmployeeController(IEmployeeService service, IMapper<Employee, EmployeeMV> mapper, SessionHelper sessionHelper)
         {
-            _db = db;
+            _service = service;
+            _mapper = mapper;
+            _sessionHelper = sessionHelper;
         }
 
         // GET: Employee
-        public ActionResult Employee()
+        public async Task<ActionResult> Employee()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
+            if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
-            }
 
-            int companyID = Convert.ToInt32(Session["CompanyID"]);
-            int branchID = Convert.ToInt32(Session["BranchID"]);
+            var employees = await _service.GetEmployeesByBranchAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
 
-            try
-            {
-                var tblEmployee = _db.tblEmployee.Where(c => c.CompanyID == companyID && c.BranchID == branchID);
-                return View(tblEmployee.ToList());
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            return View(employees.Select(_mapper.MapToViewModel));
         }
 
         // GET: EmployeeRegistration
-        public ActionResult EmployeeRegistration()
-        {
-            return View(new tblEmployee());
-        }
+        public ActionResult EmployeeRegistration() => View(new EmployeeMV());
 
         // POST: EmployeeRegistration
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EmployeeRegistration(tblEmployee employee)
+        public async Task<ActionResult> EmployeeRegistration(EmployeeMV model)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
+            if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
-            }
 
-            int companyID = Convert.ToInt32(Session["CompanyID"]);
-            int branchID = Convert.ToInt32(Session["BranchID"]);
+            model.CompanyID = _sessionHelper.CompanyID;
+            model.BranchID = _sessionHelper.BranchID;
+            model.RegistrationDate = DateTime.Now;
+            model.IsFirstLogin = true;
 
-            employee.RegistrationDate = DateTime.Now;
-            employee.IsFirstLogin = true;
-            employee.BranchID = branchID;
-            employee.CompanyID = companyID;
-            employee.UserID = null;
-
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    _db.tblEmployee.Add(employee);
-                    _db.SaveChanges();
-
-                    if (employee.LogoFile != null)
-                    {
-                        var folder = "~/Content/EmployeePhoto";
-                        var file = $"{employee.EmployeeID}.jpg";
-                        var response = FileHelper.UploadPhoto(employee.LogoFile, folder, file);
-
-                        if (response)
-                        {
-                            var filePath = Server.MapPath($"{folder}/{file}");
-                            if (System.IO.File.Exists(filePath))
-                            {
-                                employee.Photo = $"{folder}/{file}";
-                            }
-                            else
-                            {
-                                employee.Photo = "~/Content/EmployeePhoto/Default/default.jpg";
-                            }
-                        }
-                        else
-                        {
-                            employee.Photo = "~/Content/EmployeePhoto/Default/default.jpg";
-                        }
-
-                        _db.Entry(employee).State = EntityState.Modified;
-                        _db.SaveChanges();
-                    }
-
-                    return RedirectToAction("Employee");
-                }
-
-                return View(employee);
+                await _service.CreateAsync(_mapper.MapToDomain(model));
+                return RedirectToAction("Employee");
             }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+
+            return View(model);
         }
 
         // GET: EmployeeUpdation
-        public ActionResult EmployeeUpdation(int? id)
+        public async Task<ActionResult> EmployeeUpdation(int id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
+            if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
-            }
 
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+            var employee = await _service.GetByIdAsync(id);
+            if (employee == null) return HttpNotFound();
 
-            try
-            {
-                var employee = _db.tblEmployee.Find(id);
-                if (employee == null)
-                {
-                    return HttpNotFound();
-                }
-
-                return View(employee);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            return View(_mapper.MapToViewModel(employee));
         }
 
         // POST: EmployeeUpdation
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EmployeeUpdation(tblEmployee employee)
+        public async Task<ActionResult> EmployeeUpdation(EmployeeMV model)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
+            if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
-            }
 
-            int companyID = Convert.ToInt32(Session["CompanyID"]);
-            int branchID = Convert.ToInt32(Session["BranchID"]);
-
-            employee.BranchID = branchID;
-            employee.CompanyID = companyID;
-            employee.UserID = null;
-
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    if (employee.LogoFile != null)
-                    {
-                        var folder = "~/Content/EmployeePhoto";
-                        var file = $"{employee.EmployeeID}.jpg";
-                        var response = FileHelper.UploadPhoto(employee.LogoFile, folder, file);
-
-                        if (response)
-                        {
-                            var filePath = Server.MapPath($"{folder}/{file}");
-                            if (System.IO.File.Exists(filePath))
-                            {
-                                employee.Photo = $"{folder}/{file}";
-                            }
-                            else
-                            {
-                                employee.Photo = "~/Content/EmployeePhoto/Default/default.jpg";
-                            }
-                        }
-                        else
-                        {
-                            employee.Photo = "~/Content/EmployeePhoto/Default/default.jpg";
-                        }
-                    }
-                    else
-                    {
-                        var existingEmployee = _db.tblEmployee.AsNoTracking().FirstOrDefault(e => e.EmployeeID == employee.EmployeeID);
-                        if (existingEmployee != null)
-                        {
-                            employee.Photo = existingEmployee.Photo;
-                        }
-                    }
-
-                    _db.Entry(employee).Property(e => e.IsFirstLogin).IsModified = false;
-                    _db.Entry(employee).State = EntityState.Modified;
-                    _db.SaveChanges();
-
-                    return RedirectToAction("Employee");
-                }
-
-                return View(employee);
+                await _service.UpdateAsync(_mapper.MapToDomain(model));
+                return RedirectToAction("Employee");
             }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+
+            return View(model);
         }
 
-        public ActionResult ViewProfile(int? id)
+        // GET: ViewProfile
+        public async Task<ActionResult> ViewProfile(int id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
+            if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
-            }
 
-            try
-            {
-                if (id == null)
-                {
-                    return RedirectToAction("EP500", "EP");
-                }
+            var employee = await _service.GetByIdAsync(id);
+            if (employee == null) return RedirectToAction("EP404", "EP");
 
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-
-                var employee = _db.tblEmployee.Where(c => c.CompanyID == companyID && c.EmployeeID == id).FirstOrDefault();
-                if (employee == null)
-                {
-                    return RedirectToAction("EP404", "EP");
-                }
-
-                return View(employee);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            var viewModel = _mapper.MapToViewModel(employee);
+            return View(viewModel);
         }
     }
 }

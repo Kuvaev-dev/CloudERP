@@ -108,6 +108,7 @@
     <Compile Include="Repositories\BranchRepository.cs" />
     <Compile Include="Repositories\CategoryRepository.cs" />
     <Compile Include="Repositories\CustomerRepository.cs" />
+    <Compile Include="Repositories\EmployeeRepository.cs" />
     <Compile Include="Repositories\FinancialYearRepository.cs" />
     <Compile Include="Repositories\SupportTicketRepository.cs" />
     <Compile Include="Repositories\TaskRepository.cs" />

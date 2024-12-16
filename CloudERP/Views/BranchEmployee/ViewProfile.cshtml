@@ -1,4 +1,4 @@
-﻿@model DatabaseAccess.tblEmployee
+﻿@model Domain.Models.Employee
 
 @{
     ViewBag.Title = Resources.Company.EmployeeProfile.ToString();
@@ -12,7 +12,7 @@
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.Name)
+                @Html.DisplayFor(model => model.FullName)
             </dd>
 
             <dt>
@@ -20,7 +20,7 @@
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.ContactNo)
+                @Html.DisplayFor(model => model.ContactNumber)
             </dd>
 
             <dt>
@@ -87,7 +87,7 @@
             </dt>
 
             <dt>
-                @Html.DisplayFor(model => model.tblBranch.BranchName)
+                @Html.DisplayFor(model => model.BranchName)
             </dt>
         </dl>
     </div>

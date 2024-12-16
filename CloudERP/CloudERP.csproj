@@ -815,6 +815,7 @@
     <Compile Include="Mapping\BranchMapper.cs" />
     <Compile Include="Mapping\CategoryMapper.cs" />
     <Compile Include="Mapping\CustomerMapper.cs" />
+    <Compile Include="Mapping\EmployeeMapper.cs" />
     <Compile Include="Mapping\FinancialYearMapper.cs" />
     <Compile Include="Mapping\SupportTicketMapper.cs" />
     <Compile Include="Mapping\TaskMapper.cs" />
@@ -830,6 +831,7 @@
     <Compile Include="Models\CategoryMV.cs" />
     <Compile Include="Models\CompanyRegistrationMV.cs" />
     <Compile Include="Models\CustomerMV.cs" />
+    <Compile Include="Models\EmployeeMV.cs" />
     <Compile Include="Models\EmployeeStatisticsMV.cs" />
     <Compile Include="Models\FinancialYearMV.cs" />
     <Compile Include="Models\Forecasting\ForecastData.cs" />
