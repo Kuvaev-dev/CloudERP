@@ -89,6 +89,7 @@
     <Compile Include="Mapping\AccountHeadMapper.cs" />
     <Compile Include="Mapping\AccountSubControlMapper.cs" />
     <Compile Include="Mapping\Base\BaseMapper.cs" />
+    <Compile Include="Mapping\BranchMapper.cs" />
     <Compile Include="Mapping\CategoryMapper.cs" />
     <Compile Include="Mapping\CustomerMapper.cs" />
     <Compile Include="Mapping\FinancialYearMapper.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Models\AccountControl.cs" />
     <Compile Include="Models\AccountHead.cs" />
     <Compile Include="Models\AccountSubControl.cs" />
+    <Compile Include="Models\Branch.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\FinancialYear.cs" />
@@ -110,6 +112,7 @@
     <Compile Include="Services\AccountControlService.cs" />
     <Compile Include="Services\AccountHeadService.cs" />
     <Compile Include="Services\AccountSubControlService.cs" />
+    <Compile Include="Services\BranchService.cs" />
     <Compile Include="Services\CategoryService.cs" />
     <Compile Include="Services\CustomerService.cs" />
     <Compile Include="Services\FinancialYearService.cs" />

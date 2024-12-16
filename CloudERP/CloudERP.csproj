@@ -812,6 +812,7 @@
     <Compile Include="Mapping\AccountHeadMapper.cs" />
     <Compile Include="Mapping\AccountSubControlMapper.cs" />
     <Compile Include="Mapping\Base\BaseMapper.cs" />
+    <Compile Include="Mapping\BranchMapper.cs" />
     <Compile Include="Mapping\CategoryMapper.cs" />
     <Compile Include="Mapping\CustomerMapper.cs" />
     <Compile Include="Mapping\FinancialYearMapper.cs" />
@@ -823,6 +824,7 @@
     <Compile Include="Models\AccountControlsMV.cs" />
     <Compile Include="Models\AccountHeadMV.cs" />
     <Compile Include="Models\AccountSubControlMV.cs" />
+    <Compile Include="Models\BranchMV.cs" />
     <Compile Include="Models\BranchsCustomersMV.cs" />
     <Compile Include="Models\BranchsSuppliersMV.cs" />
     <Compile Include="Models\CategoryMV.cs" />
@@ -3467,8 +3469,6 @@
     <Content Include="Views\CompanyRegistration\server\i18n\site-es.json" />
     <Content Include="Views\CompanyRegistration\server\xeditable-groups.json" />
     <Content Include="Views\Branch\Create.cshtml" />
-    <Content Include="Views\Branch\Delete.cshtml" />
-    <Content Include="Views\Branch\Details.cshtml" />
     <Content Include="Views\Branch\Edit.cshtml" />
     <Content Include="Views\Branch\Index.cshtml" />
     <Content Include="Views\BranchEmployee\Employee.cshtml" />

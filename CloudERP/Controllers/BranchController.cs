@@ -1,329 +1,125 @@
-﻿using System;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
-using DatabaseAccess;
+using CloudERP.Helpers;
+using CloudERP.Mapping.Base;
+using CloudERP.Models;
+using Domain.Models;
+using Domain.Services;
 
 namespace CloudERP.Controllers
 {
     public class BranchController : Controller
     {
-        private readonly CloudDBEntities _db;
+        private readonly IBranchService _service;
+        private readonly IMapper<Branch, BranchMV> _mapper;
+        private readonly SessionHelper _sessionHelper;
 
-        public BranchController(CloudDBEntities db)
+        public BranchController(IBranchService service, IMapper<Branch, BranchMV> mapper, SessionHelper sessionHelper)
         {
-            _db = db;
+            _service = service;
+            _mapper = mapper;
+            _sessionHelper = sessionHelper;
         }
 
         // GET: Branch
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
+            if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
-            }
 
-            int companyID = Convert.ToInt32(Session["CompanyID"]);
-            int branchTypeID = Convert.ToInt32(Session["BranchTypeID"]);
-            int branchID = Convert.ToInt32(Session["BranchID"]);
+            var branches = await _service.GetBranchesByFilterAsync(_sessionHelper.CompanyID, _sessionHelper.BranchTypeID, _sessionHelper.BranchID);
 
-            IQueryable<tblBranch> branches;
-
-            try
-            {
-                if (branchTypeID == 1) // Main Branch
-                {
-                    branches = _db.tblBranch.Include(t => t.tblBranchType).Where(c => c.CompanyID == companyID);
-                }
-                else
-                {
-                    branches = _db.tblBranch.Include(t => t.tblBranchType).Where(c => c.BrchID == branchID);
-                }
-
-                return View(branches.ToList());
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
-        }
-
-        public ActionResult SubBranchs()
-        {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
-                return RedirectToAction("Login", "Home");
-            }
-
-            int companyID = Convert.ToInt32(Session["CompanyID"]);
-            int branchID = Convert.ToInt32(Session["BranchID"]);
-
-            try
-            {
-                var branches = _db.tblBranch.Include(t => t.tblBranchType)
-                                            .Where(c => c.CompanyID == companyID && c.BrchID == branchID);
-
-                return View(branches.ToList());
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
-        }
-
-        // GET: Branch/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
-                return RedirectToAction("Login", "Home");
-            }
-
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            try
-            {
-                tblBranch branch = _db.tblBranch.Find(id);
-                if (branch == null)
-                {
-                    return HttpNotFound();
-                }
-
-                return View(branch);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            return View(branches.Select(_mapper.MapToViewModel));
         }
 
         // GET: Branch/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
+            if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
-            }
 
-            int companyID = Convert.ToInt32(Session["CompanyID"]);
+            await PopulateViewBags(_sessionHelper.CompanyID);
 
-            try
-            {
-                ViewBag.BrchID = new SelectList(_db.tblBranch.Where(c => c.CompanyID == companyID).ToList(), "BranchID", "BranchName");
-                ViewBag.BranchTypeID = new SelectList(_db.tblBranchType, "BranchTypeID", "BranchType");
-
-                return View(new tblBranch());
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            return View(new BranchMV());
         }
 
         // POST: Branch/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(tblBranch tblBranch)
+        public async Task<ActionResult> Create(BranchMV model)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
+            if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
-            }
 
-            int companyID = Convert.ToInt32(Session["CompanyID"]);
-            tblBranch.CompanyID = companyID;
+            model.CompanyID = _sessionHelper.CompanyID;
 
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                if (await _service.CheckBranchExistsAsync(_mapper.MapToDomain(model)))
                 {
-                    bool branchExists = _db.tblBranch.Any(b =>
-                        b.CompanyID == companyID &&
-                        (b.BranchName == tblBranch.BranchName ||
-                         b.BranchContact == tblBranch.BranchContact ||
-                         b.BranchAddress == tblBranch.BranchAddress)
-                    );
-
-                    if (branchExists)
-                    {
-                        ModelState.AddModelError("", Resources.Messages.BranchEists);
-                        ViewBag.BrchID = new SelectList(_db.tblBranch.Where(c => c.CompanyID == companyID).ToList(), "BranchID", "BranchName");
-                        ViewBag.BranchTypeID = new SelectList(_db.tblBranchType, "BranchTypeID", "BranchType", tblBranch.BranchTypeID);
-                        return View(tblBranch);
-                    }
-
-                    _db.tblBranch.Add(tblBranch);
-                    _db.SaveChanges();
-                    return RedirectToAction("Index");
+                    ModelState.AddModelError("", Resources.Messages.BranchEists);
+                    await PopulateViewBags(_sessionHelper.CompanyID);
+                    return View(model);
                 }
 
-                ViewBag.BrchID = new SelectList(_db.tblBranch.Where(c => c.CompanyID == companyID).ToList(), "BranchID", "BranchName");
-                ViewBag.BranchTypeID = new SelectList(_db.tblBranchType, "BranchTypeID", "BranchType", tblBranch.BranchTypeID);
+                await _service.CreateAsync(_mapper.MapToDomain(model));
+                return RedirectToAction("Index");
+            }
 
-                return View(tblBranch);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            await PopulateViewBags(_sessionHelper.CompanyID);
+            return View(model);
         }
 
         // GET: Branch/Edit/5
-        public ActionResult Edit(int? id)
+        public async Task<ActionResult> Edit(int id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
+            if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
-            }
 
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+            var branch = await _service.GetByIdAsync(id);
+            if (branch == null) return HttpNotFound();
 
-            try
-            {
-                tblBranch branch = _db.tblBranch.Find(id);
-                if (branch == null)
-                {
-                    return HttpNotFound();
-                }
+            await PopulateViewBags(_sessionHelper.CompanyID, branch.ParentBranchID, branch.BranchTypeID);
 
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-
-                ViewBag.BrchID = new SelectList(_db.tblBranch.Where(c => c.CompanyID == companyID).ToList(), "BranchID", "BranchName", branch.BrchID);
-                ViewBag.BranchTypeID = new SelectList(_db.tblBranchType, "BranchTypeID", "BranchType", branch.BranchTypeID);
-
-                return View(branch);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            var viewModel = _mapper.MapToViewModel(branch);
+            return View(viewModel);
         }
 
         // POST: Branch/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(tblBranch tblBranch)
+        public async Task<ActionResult> Edit(BranchMV model)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
+            if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
-            }
 
-            int companyID = Convert.ToInt32(Session["CompanyID"]);
-            tblBranch.CompanyID = companyID;
+            model.CompanyID = _sessionHelper.CompanyID;
 
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                if (await _service.CheckBranchExistsAsync(_mapper.MapToDomain(model), isEdit: true))
                 {
-                    bool branchExists = _db.tblBranch.Any(b =>
-                        b.CompanyID == companyID &&
-                        (b.BranchName == tblBranch.BranchName ||
-                         b.BranchContact == tblBranch.BranchContact ||
-                         b.BranchAddress == tblBranch.BranchAddress) &&
-                        b.BranchID != tblBranch.BranchID
-                    );
-
-                    if (branchExists)
-                    {
-                        ModelState.AddModelError("", Resources.Messages.BranchEists);
-                        ViewBag.BrchID = new SelectList(_db.tblBranch.Where(c => c.CompanyID == companyID).ToList(), "BranchID", "BranchName", tblBranch.BranchID);
-                        ViewBag.BranchTypeID = new SelectList(_db.tblBranchType, "BranchTypeID", "BranchType", tblBranch.BranchTypeID);
-                        return View(tblBranch);
-                    }
-
-                    _db.Entry(tblBranch).State = EntityState.Modified;
-                    _db.SaveChanges();
-                    return RedirectToAction("Index");
+                    ModelState.AddModelError("", Resources.Messages.BranchEists);
+                    await PopulateViewBags(_sessionHelper.CompanyID, model.ParentBranchID, model.BranchTypeID);
+                    return View(model);
                 }
 
-                ViewBag.BrchID = new SelectList(_db.tblBranch.Where(c => c.CompanyID == companyID).ToList(), "BranchID", "BranchName", tblBranch.BranchID);
-                ViewBag.BranchTypeID = new SelectList(_db.tblBranchType, "BranchTypeID", "BranchType", tblBranch.BranchTypeID);
-
-                return View(tblBranch);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
-        }
-
-        // GET: Branch/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
-                return RedirectToAction("Login", "Home");
-            }
-
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            try
-            {
-                tblBranch branch = _db.tblBranch.Find(id);
-                if (branch == null)
-                {
-                    return HttpNotFound();
-                }
-
-                return View(branch);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
-        }
-
-        // POST: Branch/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-            {
-                return RedirectToAction("Login", "Home");
-            }
-
-            try
-            {
-                tblBranch branch = _db.tblBranch.Find(id);
-                _db.tblBranch.Remove(branch);
-                _db.SaveChanges();
-
+                await _service.UpdateAsync(_mapper.MapToDomain(model));
                 return RedirectToAction("Index");
             }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+
+            await PopulateViewBags(_sessionHelper.CompanyID, model.ParentBranchID, model.BranchTypeID);
+            return View(model);
         }
 
-        protected override void Dispose(bool disposing)
+        private async Task PopulateViewBags(int companyID, int? selectedParentBranchID = null, int? selectedBranchTypeID = null)
         {
-            if (disposing)
-            {
-                _db.Dispose();
-            }
-            base.Dispose(disposing);
+            var branches = await _service.GetBranchesByCompanyAsync(companyID);
+            var branchTypes = await _service.GetBranchTypesAsync();
+
+            ViewBag.BrchID = new SelectList(branches, "BranchID", "BranchName", selectedParentBranchID);
+            ViewBag.BranchTypeID = new SelectList(branchTypes.Select((type, index) => new { Text = type, Value = index + 1 }), "Value", "Text", selectedBranchTypeID);
         }
     }
 }
