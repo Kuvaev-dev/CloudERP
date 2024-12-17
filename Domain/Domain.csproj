@@ -91,7 +91,9 @@
     <Compile Include="Mapping\Base\BaseMapper.cs" />
     <Compile Include="Mapping\BranchMapper.cs" />
     <Compile Include="Mapping\CategoryMapper.cs" />
+    <Compile Include="Mapping\CompanyMapper.cs" />
     <Compile Include="Mapping\CustomerMapper.cs" />
+    <Compile Include="Mapping\EmployeeMapper.cs" />
     <Compile Include="Mapping\FinancialYearMapper.cs" />
     <Compile Include="Mapping\SupportTicketMapper.cs" />
     <Compile Include="Mapping\TaskMapper.cs" />
@@ -102,6 +104,7 @@
     <Compile Include="Models\AccountSubControl.cs" />
     <Compile Include="Models\Branch.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\FinancialYear.cs" />
@@ -115,6 +118,7 @@
     <Compile Include="Services\AccountSubControlService.cs" />
     <Compile Include="Services\BranchService.cs" />
     <Compile Include="Services\CategoryService.cs" />
+    <Compile Include="Services\CompanyService.cs" />
     <Compile Include="Services\CustomerService.cs" />
     <Compile Include="Services\EmployeeService.cs" />
     <Compile Include="Services\FinancialYearService.cs" />

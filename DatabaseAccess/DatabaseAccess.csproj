@@ -71,14 +71,12 @@
       <DependentUpon>CloudDB.edmx</DependentUpon>
     </Compile>
     <Compile Include="Code\DatabaseQuery.cs" />
-    <Compile Include="Code\GeneralTransactionEntry.cs" />
     <Compile Include="Code\IncomeStatement.cs" />
     <Compile Include="Code\PurchaseEntry.cs" />
     <Compile Include="Code\SalaryTransaction.cs" />
     <Compile Include="Code\SaleEntry.cs" />
     <Compile Include="Code\SP_Code\SP_BalanceSheet.cs" />
     <Compile Include="Code\SP_Code\SP_Dashboard.cs" />
-    <Compile Include="Code\SP_Code\SP_GeneralTransaction.cs" />
     <Compile Include="Code\SP_Code\SP_Ledger.cs" />
     <Compile Include="Code\SP_Code\SP_Purchase.cs" />
     <Compile Include="Code\SP_Code\SP_Sale.cs" />
@@ -113,6 +111,7 @@
     <Compile Include="Repositories\FinancialYearRepository.cs" />
     <Compile Include="Repositories\SupportTicketRepository.cs" />
     <Compile Include="Repositories\TaskRepository.cs" />
+    <Compile Include="Repositories\GeneralTransactionRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Repositories\UserTypeRepository.cs" />
     <Compile Include="tblAccountActivity.cs">
