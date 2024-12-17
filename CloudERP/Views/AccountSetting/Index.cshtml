@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DatabaseAccess.tblAccountSetting>
+﻿@model IEnumerable<Domain.Models.AccountSetting>
 
 @{
     ViewBag.Title = Resources.Account.SetAccountingFlow.ToString();
@@ -48,16 +48,16 @@
                     {
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelItem => item.tblAccountActivity.Name)
+                                @Html.DisplayFor(modelItem => item.AccountActivityName)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.tblAccountHead.AccountHeadName)
+                                @Html.DisplayFor(modelItem => item.AccountHeadName)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.tblAccountControl.AccountControlName)
+                                @Html.DisplayFor(modelItem => item.AccountControlName)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.tblAccountSubControl.AccountSubControlName)
+                                @Html.DisplayFor(modelItem => item.AccountSubControlName)
                             </td>
                             <td>
                                 @Html.ActionLink(Resources.Common.Edit.ToString(), "Edit", new { id = item.AccountSettingID }, new { @class = "btn btn-primary" })

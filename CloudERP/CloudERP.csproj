@@ -810,6 +810,7 @@
     <Compile Include="Helpers\UnityConfig.cs" />
     <Compile Include="Mapping\AccountControlMapper.cs" />
     <Compile Include="Mapping\AccountHeadMapper.cs" />
+    <Compile Include="Mapping\AccountSettingMapper.cs" />
     <Compile Include="Mapping\AccountSubControlMapper.cs" />
     <Compile Include="Mapping\Base\BaseMapper.cs" />
     <Compile Include="Mapping\BranchMapper.cs" />
@@ -825,6 +826,7 @@
     <Compile Include="Models\AccountControlMV.cs" />
     <Compile Include="Models\AccountControlsMV.cs" />
     <Compile Include="Models\AccountHeadMV.cs" />
+    <Compile Include="Models\AccountSettingMV.cs" />
     <Compile Include="Models\AccountSubControlMV.cs" />
     <Compile Include="Models\BranchMV.cs" />
     <Compile Include="Models\BranchsCustomersMV.cs" />
@@ -3523,8 +3525,6 @@
     <Content Include="Views\PurchaseCart\NewPurchase.cshtml" />
     <Content Include="Views\PurchaseCart\AddItem.cshtml" />
     <Content Include="Views\AccountSetting\Create.cshtml" />
-    <Content Include="Views\AccountSetting\Delete.cshtml" />
-    <Content Include="Views\AccountSetting\Details.cshtml" />
     <Content Include="Views\AccountSetting\Edit.cshtml" />
     <Content Include="Views\AccountSetting\Index.cshtml" />
     <Content Include="Views\PurchaseCart\SelectSupplier.cshtml" />

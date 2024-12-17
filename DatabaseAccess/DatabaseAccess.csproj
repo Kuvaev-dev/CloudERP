@@ -100,8 +100,10 @@
     <Compile Include="Models\SupplierReturnInvoiceModel.cs" />
     <Compile Include="Models\TrialBalanceModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\AccountActivityRepository.cs" />
     <Compile Include="Repositories\AccountControlRepository.cs" />
     <Compile Include="Repositories\AccountHeadRepository.cs" />
+    <Compile Include="Repositories\AccountSettingRepository.cs" />
     <Compile Include="Repositories\AccountSubControlRepository.cs" />
     <Compile Include="Repositories\BranchRepository.cs" />
     <Compile Include="Repositories\CategoryRepository.cs" />
