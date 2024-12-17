@@ -1,273 +1,145 @@
-﻿using System;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using DatabaseAccess;
+using CloudERP.Helpers;
+using CloudERP.Mapping.Base;
+using CloudERP.Models;
+using Domain.Models;
+using Domain.Services;
 
 namespace CloudERP.Controllers
 {
     public class StockController : Controller
     {
-        private readonly CloudDBEntities _db;
+        private readonly IStockService _stockService;
+        private readonly ICategoryService _categoryService;
+        private readonly IMapper<Stock, StockMV> _mapper;
+        private readonly SessionHelper _sessionHelper;
 
-        public StockController(CloudDBEntities db)
+        public StockController(IStockService stockService, ICategoryService categoryService, IMapper<Stock, StockMV> mapper, SessionHelper sessionHelper)
         {
-            _db = db;
+            _stockService = stockService;
+            _categoryService = categoryService;
+            _mapper = mapper;
+            _sessionHelper = sessionHelper;
         }
 
         // GET: Stock
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            try
-            {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
 
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-
-                var tblStock = _db.tblStock.Include(t => t.tblBranch)
-                    .Include(t => t.tblCategory).Include(t => t.tblCompany).Include(t => t.tblUser)
-                    .Where(t => t.CompanyID == companyID && t.BranchID == branchID)
-                    .ToList();
-
-                return View(tblStock);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            var stocks = await _stockService.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+            return View(stocks);
         }
 
         // GET: Stock/Details/5
-        public ActionResult Details(int? id)
+        public async Task<ActionResult> Details(int? id)
         {
-            try
-            {
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-                tblStock tblStock = _db.tblStock.Find(id);
+            var stock = await _stockService.GetByIdAsync(id.Value);
+            if (stock == null)
+                return HttpNotFound();
 
-                if (tblStock == null)
-                {
-                    return HttpNotFound();
-                }
-
-                return View(tblStock);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            return View(stock);
         }
 
         // GET: Stock/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            try
-            {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
 
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
+            var categories = await _categoryService.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+            ViewBag.CategoryID = new SelectList(categories, "CategoryID", "CategoryName");
 
-                ViewBag.CategoryID = new SelectList(_db.tblCategory.Where(c => c.BranchID == branchID && c.CompanyID == companyID), "CategoryID", "CategoryName", "0");
-
-                return View(new tblStock());
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            return View(new StockMV());
         }
 
         // POST: Stock/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(tblStock tblStock)
+        public async Task<ActionResult> Create(StockMV model)
         {
-            try
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            model.CompanyID = _sessionHelper.CompanyID;
+            model.BranchID = _sessionHelper.BranchID;
+            model.UserID = _sessionHelper.UserID;
+
+            if (ModelState.IsValid)
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                var existingStock = await _stockService.GetByProductNameAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID, model.ProductName);
+                if (existingStock == null)
                 {
-                    return RedirectToAction("Login", "Home");
+                    var stock = _mapper.MapToDomain(model);
+                    await _stockService.CreateAsync(stock);
+
+                    return RedirectToAction("Index");
                 }
-
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-                int userID = Convert.ToInt32(Session["UserID"]);
-
-                tblStock.BranchID = branchID;
-                tblStock.CompanyID = companyID;
-                tblStock.UserID = userID;
-
-                if (ModelState.IsValid)
+                else
                 {
-                    var findProduct = _db.tblStock.Where(p => p.CompanyID == companyID && p.BranchID == branchID && p.ProductName == tblStock.ProductName).FirstOrDefault();
-                    if (findProduct == null)
-                    {
-                        _db.tblStock.Add(tblStock);
-                        _db.SaveChanges();
-
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        ViewBag.Message = Resources.Messages.AlreadyExists;
-                    }
+                    ViewBag.Message = Resources.Messages.AlreadyExists;
                 }
-
-                ViewBag.CategoryID = new SelectList(_db.tblCategory.Where(c => c.BranchID == branchID && c.CompanyID == companyID), "CategoryID", "CategoryName", tblStock.CategoryID);
-
-                return View(tblStock);
             }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+
+            var categories = await _categoryService.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+            ViewBag.CategoryID = new SelectList(categories, "CategoryID", "CategoryName", model.CategoryID);
+
+            return View(model);
         }
 
         // GET: Stock/Edit/5
-        public ActionResult Edit(int? id)
+        public async Task<ActionResult> Edit(int? id)
         {
-            try
-            {
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-                tblStock tblStock = _db.tblStock.Find(id);
+            var stock = await _stockService.GetByIdAsync(id.Value);
+            if (stock == null)
+                return HttpNotFound();
 
-                if (tblStock == null)
-                {
-                    return HttpNotFound();
-                }
+            var categories = await _categoryService.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+            ViewBag.CategoryID = new SelectList(categories, "CategoryID", "CategoryName", stock.CategoryID);
 
-                ViewBag.CategoryID = new SelectList(_db.tblCategory.Where(c => c.BranchID == tblStock.BranchID && c.CompanyID == tblStock.CompanyID), "CategoryID", "CategoryName", tblStock.CategoryID);
-
-                return View(tblStock);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            return View(stock);
         }
 
         // POST: Stock/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(tblStock tblStock)
+        public async Task<ActionResult> Edit(StockMV model)
         {
-            try
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            int userID = _sessionHelper.UserID;
+            model.UserID = userID;
+
+            if (ModelState.IsValid)
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                var existingStock = await _stockService.GetByProductNameAsync(model.CompanyID, model.BranchID, model.ProductName);
+                if (existingStock == null || existingStock.ProductID == model.ProductID)
                 {
-                    return RedirectToAction("Login", "Home");
+                    var stock = _mapper.MapToDomain(model);
+                    await _stockService.UpdateAsync(stock);
+
+                    return RedirectToAction("Index");
                 }
-
-                int userID = Convert.ToInt32(Session["UserID"]);
-                tblStock.UserID = userID;
-
-                if (ModelState.IsValid)
+                else
                 {
-                    var findProduct = _db.tblStock.Where(p => p.CompanyID == tblStock.CompanyID && p.BranchID == tblStock.BranchID && p.ProductName == tblStock.ProductName && p.ProductID != tblStock.ProductID).FirstOrDefault();
-                    if (findProduct == null)
-                    {
-                        _db.Entry(tblStock).State = EntityState.Modified;
-                        _db.SaveChanges();
-
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        ViewBag.Message = Resources.Messages.AlreadyExists;
-                    }
+                    ViewBag.Message = Resources.Messages.AlreadyExists;
                 }
-
-                ViewBag.CategoryID = new SelectList(_db.tblCategory.Where(c => c.BranchID == tblStock.BranchID && c.CompanyID == tblStock.CompanyID), "CategoryID", "CategoryName", tblStock.CategoryID);
-
-                return View(tblStock);
             }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
-        }
 
-        // GET: Stock/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            try
-            {
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
+            var categories = await _categoryService.GetAllAsync(model.CompanyID, model.BranchID);
+            ViewBag.CategoryID = new SelectList(categories, "CategoryID", "CategoryName", model.CategoryID);
 
-                tblStock tblStock = _db.tblStock.Find(id);
-
-                if (tblStock == null)
-                {
-                    return HttpNotFound();
-                }
-
-                return View(tblStock);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
-        }
-
-        // POST: Stock/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            try
-            {
-                tblStock tblStock = _db.tblStock.Find(id);
-                if (tblStock != null)
-                {
-                    _db.tblStock.Remove(tblStock);
-                    _db.SaveChanges();
-                }
-
-                return RedirectToAction("Index");
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _db.Dispose();
-            }
-            base.Dispose(disposing);
+            return View(model);
         }
     }
 }

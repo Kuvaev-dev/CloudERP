@@ -96,6 +96,8 @@
     <Compile Include="Mapping\CustomerMapper.cs" />
     <Compile Include="Mapping\EmployeeMapper.cs" />
     <Compile Include="Mapping\FinancialYearMapper.cs" />
+    <Compile Include="Mapping\StockMapper.cs" />
+    <Compile Include="Mapping\SupplierMapper.cs" />
     <Compile Include="Mapping\SupportTicketMapper.cs" />
     <Compile Include="Mapping\TaskMapper.cs" />
     <Compile Include="Mapping\UserMapper.cs" />
@@ -111,6 +113,8 @@
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\FinancialYear.cs" />
+    <Compile Include="Models\Stock.cs" />
+    <Compile Include="Models\Supplier.cs" />
     <Compile Include="Models\SupportTicket.cs" />
     <Compile Include="Models\TaskModel.cs" />
     <Compile Include="Models\User.cs" />
@@ -127,6 +131,8 @@
     <Compile Include="Services\CustomerService.cs" />
     <Compile Include="Services\EmployeeService.cs" />
     <Compile Include="Services\FinancialYearService.cs" />
+    <Compile Include="Services\StockService.cs" />
+    <Compile Include="Services\SupplierService.cs" />
     <Compile Include="Services\SupportTicketService.cs" />
     <Compile Include="Services\TaskService.cs" />
     <Compile Include="Services\UserService.cs" />

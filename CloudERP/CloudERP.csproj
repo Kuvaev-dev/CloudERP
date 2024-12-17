@@ -819,6 +819,8 @@
     <Compile Include="Mapping\CustomerMapper.cs" />
     <Compile Include="Mapping\EmployeeMapper.cs" />
     <Compile Include="Mapping\FinancialYearMapper.cs" />
+    <Compile Include="Mapping\StockMapper.cs" />
+    <Compile Include="Mapping\SupplierMapper.cs" />
     <Compile Include="Mapping\SupportTicketMapper.cs" />
     <Compile Include="Mapping\TaskMapper.cs" />
     <Compile Include="Mapping\UserMapper.cs" />
@@ -845,6 +847,8 @@
     <Compile Include="Models\ProductMV.cs" />
     <Compile Include="Models\RegistrationMV.cs" />
     <Compile Include="Models\SalaryMV.cs" />
+    <Compile Include="Models\StockMV.cs" />
+    <Compile Include="Models\SupplierMV.cs" />
     <Compile Include="Models\SupportTicketMV.cs" />
     <Compile Include="Models\TaskMV.cs" />
     <Compile Include="Models\UserMV.cs" />
@@ -3492,7 +3496,6 @@
     <Content Include="Views\Category\Edit.cshtml" />
     <Content Include="Views\Category\Index.cshtml" />
     <Content Include="Views\Stock\Create.cshtml" />
-    <Content Include="Views\Stock\Delete.cshtml" />
     <Content Include="Views\Stock\Details.cshtml" />
     <Content Include="Views\Stock\Edit.cshtml" />
     <Content Include="Views\Stock\Index.cshtml" />
@@ -3516,7 +3519,6 @@
     <Content Include="Views\Customer\AllCustomers.cshtml" />
     <Content Include="Views\Customer\SubBranchCustomer.cshtml" />
     <Content Include="Views\Supplier\Create.cshtml" />
-    <Content Include="Views\Supplier\Delete.cshtml" />
     <Content Include="Views\Supplier\Details.cshtml" />
     <Content Include="Views\Supplier\Edit.cshtml" />
     <Content Include="Views\Supplier\Index.cshtml" />

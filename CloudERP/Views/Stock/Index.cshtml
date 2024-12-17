@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DatabaseAccess.tblStock>
+﻿@model IEnumerable<Domain.Models.Stock>
 
 @{
     ViewBag.Title = Resources.Miscellaneous.StockDetails.ToString();
@@ -54,7 +54,7 @@
                     {
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelItem => item.tblCategory.CategoryName)
+                                @Html.DisplayFor(modelItem => item.CategoryName)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.ProductName)

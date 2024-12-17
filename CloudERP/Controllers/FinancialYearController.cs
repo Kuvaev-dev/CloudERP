@@ -1,7 +1,8 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
-using CloudERP.Mapping;
+using CloudERP.Mapping.Base;
 using CloudERP.Models;
+using Domain.Models;
 using Domain.Services;
 
 namespace CloudERP.Controllers
@@ -9,10 +10,12 @@ namespace CloudERP.Controllers
     public class FinancialYearController : Controller
     {
         private readonly IFinancialYearService _service;
+        private readonly IMapper<FinancialYear, FinancialYearMV> _mapper;
 
-        public FinancialYearController(IFinancialYearService service)
+        public FinancialYearController(IFinancialYearService service, IMapper<FinancialYear, FinancialYearMV> mapper)
         {
             _service = service;
+            _mapper = mapper;
         }
 
         public async Task<ActionResult> Index()
@@ -32,7 +35,7 @@ namespace CloudERP.Controllers
         {
             if (ModelState.IsValid)
             {
-                var domainModel = FinancialYearMapper.MapToDomain(model);
+                var domainModel = _mapper.MapToDomain(model);
                 await _service.CreateAsync(domainModel);
                 return RedirectToAction("Index");
             }
@@ -44,7 +47,7 @@ namespace CloudERP.Controllers
             var financialYear = await _service.GetByIdAsync(id);
             if (financialYear == null) return HttpNotFound();
 
-            return View(FinancialYearMapper.MapToViewModel(financialYear));
+            return View(_mapper.MapToViewModel(financialYear));
         }
 
         [HttpPost]
@@ -53,7 +56,7 @@ namespace CloudERP.Controllers
         {
             if (ModelState.IsValid)
             {
-                var domainModel = FinancialYearMapper.MapToDomain(model);
+                var domainModel = _mapper.MapToDomain(model);
                 await _service.UpdateAsync(domainModel);
                 return RedirectToAction("Index");
             }

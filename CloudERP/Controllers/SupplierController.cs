@@ -1,276 +1,166 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
 using CloudERP.Models;
-using DatabaseAccess;
+using Domain.Services;
+using CloudERP.Mapping.Base;
+using Domain.Models;
 
 namespace CloudERP.Controllers
 {
     public class SupplierController : Controller
     {
-        private readonly CloudDBEntities _db;
+        private readonly ISupplierService _supplierService;
+        private readonly IMapper<Supplier, SupplierMV> _mapper;
+        private readonly SessionHelper _sessionHelper;
 
-        public SupplierController(CloudDBEntities db)
+        public SupplierController(ISupplierService supplierService, IMapper<Supplier, SupplierMV> mapper, SessionHelper sessionHelper)
         {
-            _db = db;
+            _supplierService = supplierService;
+            _mapper = mapper;
+            _sessionHelper = sessionHelper;
         }
 
         // GET: All Suppliers
-        public ActionResult AllSuppliers()
+        public async Task<ActionResult> AllSuppliers()
         {
-            try
-            {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
 
-                var tblSupplier = _db.tblSupplier.Include(t => t.tblBranch)
-                                                 .Include(t => t.tblCompany)
-                                                 .Include(t => t.tblUser);
-
-                return View(tblSupplier.ToList());
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            var suppliers = await _supplierService.GetAllAsync();
+            return View(suppliers);
         }
 
         // GET: Supplier
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            try
-            {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
 
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-                int userID = Convert.ToInt32(Session["UserID"]);
-                var tblSupplier = _db.tblSupplier
-                    .Include(t => t.tblBranch)
-                    .Include(t => t.tblCompany)
-                    .Include(t => t.tblUser)
-                    .Where(s => s.BranchID == branchID && s.CompanyID == companyID);
+            int companyID = _sessionHelper.CompanyID;
+            int branchID = _sessionHelper.BranchID;
 
-                return View(tblSupplier.ToList());
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            var suppliers = await _supplierService.GetByCompanyAndBranchAsync(companyID, branchID);
+            return View(suppliers);
         }
 
         // GET: Sub Branch Supplier
-        public ActionResult SubBranchSupplier()
+        public async Task<ActionResult> SubBranchSupplier()
         {
-            try
-            {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
-                {
-                    return RedirectToAction("Login", "Home");
-                }
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
 
-                List<BranchsSuppliersMV> branchsSuppliers = new List<BranchsSuppliersMV>();
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-                List<int> branchIDs = BranchHelper.GetBranchsIDs(branchID, _db);
+            int branchID = _sessionHelper.BrchID;
+            var branchSuppliers = await _supplierService.GetSuppliersByBranchesAsync(branchID);
 
-                foreach (var item in branchIDs)
-                {
-                    foreach (var supplier in _db.tblSupplier.Where(c => c.BranchID == item))
-                    {
-                        var newSupplier = new BranchsSuppliersMV
-                        {
-                            BranchName = supplier.tblBranch.BranchName,
-                            CompanyName = supplier.tblCompany.Name,
-                            SupplierName = supplier.SupplierName,
-                            SupplierAddress = supplier.SupplierAddress,
-                            SupplierConatctNo = supplier.SupplierConatctNo,
-                            SupplierEmail = supplier.SupplierEmail,
-                            Discription = supplier.Discription,
-                            User = supplier.tblUser.UserName
-                        };
-                        branchsSuppliers.Add(newSupplier);
-                    }
-                }
-
-                return View(branchsSuppliers);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            return View(branchSuppliers);
         }
 
         // GET: Supplier/Details/5
-        public ActionResult Details(int? id)
+        public async Task<ActionResult> Details(int? id)
         {
-            try
-            {
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-                tblSupplier tblSupplier = _db.tblSupplier.Find(id);
-                if (tblSupplier == null)
-                {
-                    return HttpNotFound();
-                }
+            var supplier = await _supplierService.GetByIdAsync(id.Value);
+            if (supplier == null)
+                return HttpNotFound();
 
-                return View(tblSupplier);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            return View(supplier);
+        }
+
+        // GET: Supplier/SupplierDetails/5
+        public async Task<ActionResult> SupplierDetails(int? id)
+        {
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var supplier = await _supplierService.GetByIdAsync(id.Value);
+            if (supplier == null)
+                return HttpNotFound();
+
+            return View(supplier);
         }
 
         // GET: Supplier/Create
         public ActionResult Create()
         {
-            return View(new tblSupplier());
+            return View(new SupplierMV());
         }
 
         // POST: Supplier/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(tblSupplier tblSupplier)
+        public async Task<ActionResult> Create(SupplierMV model)
         {
-            try
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            model.CompanyID = _sessionHelper.CompanyID;
+            model.BranchID = _sessionHelper.BranchID;
+            model.UserID = _sessionHelper.UserID;
+
+            if (ModelState.IsValid)
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                var existingSupplier = await _supplierService.GetByNameAndContactAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID, model.SupplierName, model.SupplierConatctNo);
+                if (existingSupplier == null)
                 {
-                    return RedirectToAction("Login", "Home");
+                    var supplier = _mapper.MapToDomain(model);
+                    await _supplierService.CreateAsync(supplier);
+
+                    return RedirectToAction("Index");
                 }
-
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-                int userID = Convert.ToInt32(Session["UserID"]);
-                tblSupplier.CompanyID = companyID;
-                tblSupplier.BranchID = branchID;
-                tblSupplier.UserID = userID;
-
-                if (ModelState.IsValid)
+                else
                 {
-                    var findSupplier = _db.tblSupplier
-                        .Where(s => s.SupplierName == tblSupplier.SupplierName
-                                && s.SupplierConatctNo == tblSupplier.SupplierConatctNo
-                                && s.BranchID == tblSupplier.BranchID)
-                        .FirstOrDefault();
-
-                    if (findSupplier == null)
-                    {
-                        _db.tblSupplier.Add(tblSupplier);
-                        _db.SaveChanges();
-
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        ViewBag.Message = Resources.Messages.AlreadyExists;
-                    }
+                    ViewBag.Message = Resources.Messages.AlreadyExists;
                 }
+            }
 
-                return View(tblSupplier);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            return View(model);
         }
 
         // GET: Supplier/Edit/5
-        public ActionResult Edit(int? id)
+        public async Task<ActionResult> Edit(int? id)
         {
-            try
-            {
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-                tblSupplier tblSupplier = _db.tblSupplier.Find(id);
+            var supplier = await _supplierService.GetByIdAsync(id.Value);
+            if (supplier == null)
+                return HttpNotFound();
 
-                if (tblSupplier == null)
-                {
-                    return HttpNotFound();
-                }
-
-                return View(tblSupplier);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            return View(_mapper.MapToViewModel(supplier));
         }
 
         // POST: Supplier/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(tblSupplier tblSupplier)
+        public async Task<ActionResult> Edit(SupplierMV model)
         {
-            try
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            int userID = _sessionHelper.UserID;
+            model.UserID = userID;
+
+            if (ModelState.IsValid)
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                var existingSupplier = await _supplierService.GetByNameAndContactAsync(model.CompanyID, model.BranchID, model.SupplierName, model.SupplierConatctNo);
+                if (existingSupplier == null || existingSupplier.SupplierID == model.SupplierID)
                 {
-                    return RedirectToAction("Login", "Home");
+                    var supplier = _mapper.MapToDomain(model);
+                    await _supplierService.UpdateAsync(supplier);
+
+                    return RedirectToAction("Index");
                 }
-
-                int userID = Convert.ToInt32(Session["UserID"]);
-                tblSupplier.UserID = userID;
-
-                if (ModelState.IsValid)
+                else
                 {
-                    var findSupplier = _db.tblSupplier
-                        .Where(s => s.SupplierName == tblSupplier.SupplierName
-                                && s.SupplierConatctNo == tblSupplier.SupplierConatctNo
-                                && s.BranchID == tblSupplier.BranchID
-                                && s.SupplierID != tblSupplier.SupplierID)
-                        .FirstOrDefault();
-
-                    if (findSupplier == null)
-                    {
-                        _db.Entry(tblSupplier).State = EntityState.Modified;
-                        _db.SaveChanges();
-
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        ViewBag.Message = Resources.Messages.AlreadyExists;
-                    }
+                    ViewBag.Message = Resources.Messages.AlreadyExists;
                 }
+            }
 
-                return View(tblSupplier);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _db.Dispose();
-            }
-            base.Dispose(disposing);
+            return View(model);
         }
     }
 }
