@@ -10,15 +10,19 @@ namespace CloudERP.Models
 
         [Required(ErrorMessage = "Account Head is required.")]
         public int AccountHeadID { get; set; }
+        public string AccountHeadName { get; set; }
 
         [Required(ErrorMessage = "Account Control is required.")]
         public int AccountControlID { get; set; }
+        public string AccountControlName { get; set; }
 
         [Required(ErrorMessage = "Account SubControl is required.")]
         public int AccountSubControlID { get; set; }
+        public string AccountSubControlName { get; set; }
 
         [Required(ErrorMessage = "Account Activity is required.")]
         public int AccountActivityID { get; set; }
+        public string AccountActivityName { get; set; }
 
         [Required]
         public int CompanyID { get; set; }
