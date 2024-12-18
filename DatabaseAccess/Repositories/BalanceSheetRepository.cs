@@ -1,21 +1,32 @@
-﻿using DatabaseAccess.Models;
+﻿using DatabaseAccess.Code;
+using DatabaseAccess.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
+using System.Threading.Tasks;
 
-namespace DatabaseAccess.Code.SP_Code
+namespace DatabaseAccess.Repositories
 {
-    public class SP_BalanceSheet
+    public interface IBalanceSheetRepository
+    {
+        Task<BalanceSheetModel> GetBalanceSheetAsync(int companyId, int branchId, int financialYearId, List<int> headIds);
+        Task<double> GetAccountTotalAmountAsync(int companyId, int branchId, int financialYearId, int headId);
+        Task<AccountHeadTotal> GetHeadAccountsWithTotal(int CompanyID, int BranchID, int FinancialYearID, int HeadID);
+    }
+
+    public class BalanceSheetRepository : IBalanceSheetRepository
     {
         private readonly CloudDBEntities _db;
+        private readonly DatabaseQuery _query;
 
-        public SP_BalanceSheet(CloudDBEntities db)
+        public BalanceSheetRepository(CloudDBEntities db, DatabaseQuery query)
         {
             _db = db;
+            _query = query;
         }
 
-        public BalanceSheetModel GetBalanceSheet(int CompanyID, int BranchID, int FinancialYearID, List<int> HeadIDs)
+        public async Task<BalanceSheetModel> GetBalanceSheetAsync(int companyId, int branchId, int financialYearId, List<int> headIds)
         {
             var BalanceSheet = new BalanceSheetModel();
 
@@ -30,23 +41,23 @@ namespace DatabaseAccess.Code.SP_Code
 
             var AllHeads = new List<AccountHeadTotal>();
 
-            foreach (var HeadID in HeadIDs)
+            foreach (var HeadID in headIds)
             {
-                AccountHeadTotal AccountHead = GetHeadAccountsWithTotal(CompanyID, BranchID, FinancialYearID, HeadID);
+                AccountHeadTotal AccountHead = await GetHeadAccountsWithTotal(companyId, branchId, financialYearId, HeadID);
 
                 if (AccountHead != null && AccountHead.AccountHeadDetails != null)
                 {
                     if (HeadID == 1) // Total Assets
                     {
-                        TotalAssets = GetAccountTotalAmount(CompanyID, BranchID, FinancialYearID, HeadID);
+                        TotalAssets = await GetAccountTotalAmountAsync(companyId, branchId, financialYearId, HeadID);
                     }
                     else if (HeadID == 2) // Total Liabilities
                     {
-                        TotalLiabilities = GetAccountTotalAmount(CompanyID, BranchID, FinancialYearID, HeadID);
+                        TotalLiabilities = await GetAccountTotalAmountAsync(companyId, branchId, financialYearId, HeadID);
                     }
                     else if (HeadID == 4) // Total Owner Equity
                     {
-                        TotalOwnerEquity = GetAccountTotalAmount(CompanyID, BranchID, FinancialYearID, HeadID);
+                        TotalOwnerEquity = await GetAccountTotalAmountAsync(companyId, branchId, financialYearId, HeadID);
                     }
                     else if (HeadID == 3) // Total Expenses
                     {
@@ -72,21 +83,21 @@ namespace DatabaseAccess.Code.SP_Code
             return BalanceSheet;
         }
 
-        public double GetAccountTotalAmount(int CompanyID, int BranchID, int FinancialYearID, int HeadID)
+        public async Task<double> GetAccountTotalAmountAsync(int companyId, int branchId, int financialYearId, int headId)
         {
             double totalAmount = 0;
 
             try
             {
-                using (SqlConnection connection = DatabaseQuery.ConnOpen())
+                using (SqlConnection connection = await _query.ConnOpen())
                 {
                     using (SqlCommand command = new SqlCommand("GetTotalByHeadAccount", connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.Parameters.Add(new SqlParameter("@BranchID", BranchID));
-                        command.Parameters.Add(new SqlParameter("@CompanyID", CompanyID));
-                        command.Parameters.Add(new SqlParameter("@HeadID", HeadID));
-                        command.Parameters.Add(new SqlParameter("@FinancialYearID", FinancialYearID));
+                        command.Parameters.Add(new SqlParameter("@BranchID", branchId));
+                        command.Parameters.Add(new SqlParameter("@CompanyID", companyId));
+                        command.Parameters.Add(new SqlParameter("@HeadID", headId));
+                        command.Parameters.Add(new SqlParameter("@FinancialYearID", financialYearId));
 
                         var dt = new DataTable();
                         using (SqlDataAdapter da = new SqlDataAdapter(command))
@@ -109,7 +120,7 @@ namespace DatabaseAccess.Code.SP_Code
             return totalAmount;
         }
 
-        public AccountHeadTotal GetHeadAccountsWithTotal(int CompanyID, int BranchID, int FinancialYearID, int HeadID)
+        public async Task<AccountHeadTotal> GetHeadAccountsWithTotal(int CompanyID, int BranchID, int FinancialYearID, int HeadID)
         {
             var accountsHeadWithDetails = new AccountHeadTotal
             {
@@ -120,7 +131,7 @@ namespace DatabaseAccess.Code.SP_Code
 
             try
             {
-                using (SqlConnection connection = DatabaseQuery.ConnOpen())
+                using (SqlConnection connection = await _query.ConnOpen())
                 {
                     using (SqlCommand command = new SqlCommand("GetAccountHeadDetails", connection))
                     {

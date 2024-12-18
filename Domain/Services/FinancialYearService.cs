@@ -11,6 +11,8 @@ namespace Domain.Services
     public interface IFinancialYearService
     {
         Task<IEnumerable<FinancialYear>> GetAllAsync();
+        Task<IEnumerable<FinancialYear>> GetAllActiveAsync();
+        Task<FinancialYear> GetSingleActiveAsync();
         Task<FinancialYear> GetByIdAsync(int id);
         Task CreateAsync(FinancialYear financialYear);
         Task UpdateAsync(FinancialYear financialYear);
@@ -49,6 +51,18 @@ namespace Domain.Services
         {
             var dbModel = _mapper.MapToDatabase(financialYear);
             await _repository.UpdateAsync(dbModel);
+        }
+
+        public async Task<IEnumerable<FinancialYear>> GetAllActiveAsync()
+        {
+            var dbModels = await _repository.GetAllActiveAsync();
+            return dbModels.Select(_mapper.MapToDomain);
+        }
+
+        public async Task<FinancialYear> GetSingleActiveAsync()
+        {
+            var dbModel = await _repository.GetSingleActiveAsync();
+            return dbModel == null ? null : _mapper.MapToDomain(dbModel);
         }
     }
 }

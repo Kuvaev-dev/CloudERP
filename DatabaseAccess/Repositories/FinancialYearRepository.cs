@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DatabaseAccess.Repositories
@@ -7,6 +8,8 @@ namespace DatabaseAccess.Repositories
     public interface IFinancialYearRepository
     {
         Task<IEnumerable<tblFinancialYear>> GetAllAsync();
+        Task<IEnumerable<tblFinancialYear>> GetAllActiveAsync();
+        Task<tblFinancialYear> GetSingleActiveAsync();
         Task<tblFinancialYear> GetByIdAsync(int id);
         Task AddAsync(tblFinancialYear financialYear);
         Task UpdateAsync(tblFinancialYear financialYear);
@@ -25,6 +28,16 @@ namespace DatabaseAccess.Repositories
         public async Task<IEnumerable<tblFinancialYear>> GetAllAsync()
         {
             return await _dbContext.tblFinancialYear.Include(u => u.tblUser).ToListAsync();
+        }
+
+        public async Task<IEnumerable<tblFinancialYear>> GetAllActiveAsync()
+        {
+            return await _dbContext.tblFinancialYear.Where(f => f.IsActive).ToListAsync();
+        }
+
+        public async Task<tblFinancialYear> GetSingleActiveAsync()
+        {
+            return await _dbContext.tblFinancialYear.FirstOrDefaultAsync(f => f.IsActive);
         }
 
         public async Task<tblFinancialYear> GetByIdAsync(int id)

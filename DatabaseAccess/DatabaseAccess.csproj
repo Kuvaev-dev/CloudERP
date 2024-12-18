@@ -75,7 +75,6 @@
     <Compile Include="Code\PurchaseEntry.cs" />
     <Compile Include="Code\SalaryTransaction.cs" />
     <Compile Include="Code\SaleEntry.cs" />
-    <Compile Include="Code\SP_Code\SP_BalanceSheet.cs" />
     <Compile Include="Code\SP_Code\SP_Dashboard.cs" />
     <Compile Include="Code\SP_Code\SP_Ledger.cs" />
     <Compile Include="Code\SP_Code\SP_Purchase.cs" />
@@ -105,6 +104,7 @@
     <Compile Include="Repositories\AccountHeadRepository.cs" />
     <Compile Include="Repositories\AccountSettingRepository.cs" />
     <Compile Include="Repositories\AccountSubControlRepository.cs" />
+    <Compile Include="Repositories\BalanceSheetRepository.cs" />
     <Compile Include="Repositories\BranchRepository.cs" />
     <Compile Include="Repositories\CategoryRepository.cs" />
     <Compile Include="Repositories\CompanyRepository.cs" />

@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 
 namespace DatabaseAccess.Code
 {
@@ -7,34 +8,34 @@ namespace DatabaseAccess.Code
     {
         private static readonly string connectionString = "data source=localhost\\sqlexpress;initial catalog=CloudErp;integrated security=True;";
 
-        public static SqlConnection ConnOpen()
+        public async Task<SqlConnection> ConnOpen()
         {
             var connection = new SqlConnection(connectionString);
-            connection.Open();
+            await connection.OpenAsync();
             return connection;
         }
 
-        public static void Insert(string query, params SqlParameter[] parameters)
+        public async Task Insert(string query, params SqlParameter[] parameters)
         {
-            using (var connection = ConnOpen())
+            using (var connection = await ConnOpen())
             {
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddRange(parameters);
-                    command.ExecuteNonQuery();
+                    await command.ExecuteNonQueryAsync();
                 }
             }
         }
 
-        public static bool Update(string query)
+        public async Task<bool> Update(string query)
         {
             try
             {
-                using (var connection = ConnOpen())
+                using (var connection = await ConnOpen())
                 {
                     using (var command = new SqlCommand(query, connection))
                     {
-                        int noOfRows = command.ExecuteNonQuery();
+                        int noOfRows = await command.ExecuteNonQueryAsync();
                         return noOfRows > 0;
                     }
                 }
@@ -45,15 +46,15 @@ namespace DatabaseAccess.Code
             }
         }
 
-        public static bool Delete(string query)
+        public async Task<bool> Delete(string query)
         {
             try
             {
-                using (var connection = ConnOpen())
+                using (var connection = await ConnOpen())
                 {
                     using (var command = new SqlCommand(query, connection))
                     {
-                        int noOfRows = command.ExecuteNonQuery();
+                        int noOfRows = await command.ExecuteNonQueryAsync();
                         return noOfRows > 0;
                     }
                 }
@@ -64,10 +65,10 @@ namespace DatabaseAccess.Code
             }
         }
 
-        public static DataTable Retrive(string query)
+        public async Task<DataTable> Retrive(string query)
         {
             var dt = new DataTable();
-            using (var connection = ConnOpen())
+            using (var connection = await ConnOpen())
             {
                 using (var cmd = new SqlCommand(query, connection))
                 {
