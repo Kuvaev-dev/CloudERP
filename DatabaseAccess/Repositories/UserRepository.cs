@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,6 +10,8 @@ namespace DatabaseAccess.Repositories
     {
         Task<IEnumerable<tblUser>> GetAllAsync();
         Task<IEnumerable<tblUser>> GetByBranchAsync(int companyId, int branchTypeId, int branchId);
+        Task<tblUser> GetByEmailAsync(string email);
+        Task<tblUser> GetByPasswordCodesAsync(string id, DateTime expiration);
         Task<tblUser> GetByIdAsync(int id);
         Task AddAsync(tblUser user);
         Task UpdateAsync(tblUser user);
@@ -74,6 +77,16 @@ namespace DatabaseAccess.Repositories
                 _dbContext.tblUser.Remove(user);
                 await _dbContext.SaveChangesAsync();
             }
+        }
+
+        public async Task<tblUser> GetByEmailAsync(string email)
+        {
+            return await _dbContext.tblUser.SingleOrDefaultAsync(u => u.Email == email);
+        }
+
+        public async Task<tblUser> GetByPasswordCodesAsync(string id, DateTime expiration)
+        {
+            return await _dbContext.tblUser.FirstOrDefaultAsync(u => u.ResetPasswordCode == id && u.ResetPasswordExpiration > expiration);
         }
     }
 }

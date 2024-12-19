@@ -12,8 +12,10 @@ namespace Domain.Services
     {
         Task<IEnumerable<Employee>> GetEmployeesByBranchAsync(int companyId, int branchId);
         Task<Employee> GetByIdAsync(int id);
+        Task<Employee> GetByUserIdAsync(int id);
         Task CreateAsync(Employee employee);
         Task UpdateAsync(Employee employee);
+        Task<bool> IsFirstLoginAsync(Employee employee);
     }
 
     public class EmployeeService : IEmployeeService
@@ -49,6 +51,17 @@ namespace Domain.Services
         {
             var dbModel = _mapper.MapToDatabase(employee);
             await _repository.UpdateAsync(dbModel);
+        }
+
+        public async Task<Employee> GetByUserIdAsync(int id)
+        {
+            var employee = await _repository.GetByUserIdAsync(id);
+            return employee == null ? null : _mapper.MapToDomain(employee);
+        }
+
+        public async Task<bool> IsFirstLoginAsync(Employee employee)
+        {
+            return await _repository.IsFirstLoginAsync(_mapper.MapToDatabase(employee));
         }
     }
 }

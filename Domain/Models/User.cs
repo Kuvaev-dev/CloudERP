@@ -1,4 +1,6 @@
-﻿namespace Domain.Models
+﻿using System;
+
+namespace Domain.Models
 {
     public class User
     {
@@ -13,5 +15,8 @@
         public bool IsActive { get; set; }
         public string UserTypeName { get; set; }
         public string BranchName { get; set; }
+        public string ResetPasswordCode { get; set; }
+        public Nullable<DateTime> LastPasswordResetRequest { get; set; }
+        public Nullable<DateTime> ResetPasswordExpiration { get; set; }
     }
 }

@@ -4,6 +4,8 @@ using Domain.Mapping.Base;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Domain.Models;
+using System;
 
 namespace Domain.Services
 {
@@ -11,6 +13,8 @@ namespace Domain.Services
     {
         Task<IEnumerable<Models.User>> GetAllAsync();
         Task<IEnumerable<Models.User>> GetByBranchAsync(int companyId, int branchTypeId, int branchId);
+        Task<Models.User> GetByEmailAsync(string email);
+        Task<Models.User> GetByPasswordCodesAsync(string id, DateTime expiration);
         Task<Models.User> GetByIdAsync(int id);
         Task CreateAsync(Models.User user);
         Task UpdateAsync(Models.User user);
@@ -61,6 +65,18 @@ namespace Domain.Services
         public async Task DeleteAsync(int id)
         {
             await _repository.DeleteAsync(id);
+        }
+
+        public async Task<User> GetByEmailAsync(string email)
+        {
+            var user = await _repository.GetByEmailAsync(email);
+            return user == null ? null : _mapper.MapToDomain(user);
+        }
+
+        public async Task<User> GetByPasswordCodesAsync(string id, DateTime expiration)
+        {
+            var user = await _repository.GetByPasswordCodesAsync(id, expiration);
+            return user == null ? null : _mapper.MapToDomain(user);
         }
     }
 }

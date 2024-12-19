@@ -1,31 +1,36 @@
 ﻿using CloudERP.Helpers;
-using DatabaseAccess;
-using DatabaseAccess.Models;
-using DatabaseAccess.Code.SP_Code;
 using System;
-using System.Data.Entity;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using System.Threading.Tasks;
+using DatabaseAccess.Repositories;
+using Domain.Services;
 
 namespace CloudERP.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly CloudDBEntities _db;
-        private readonly SP_Dashboard _spDashboard;
+        private readonly IDashboardRepository _dashboard;
+        private readonly IUserService _userService;
+        private readonly IEmployeeService _employeeService;
+        private readonly ICompanyService _companyService;
         private readonly SessionHelper _sessionHelper;
+        private readonly PasswordHelper _passwordHelper;
+        private readonly EmailService _emailService;
 
-        public HomeController(CloudDBEntities db, SP_Dashboard spDashboard, SessionHelper sessionHelper)
+        public HomeController(IDashboardRepository dashboard, IUserService userService, IEmployeeService employeeService, ICompanyService companyService, SessionHelper sessionHelper, PasswordHelper passwordHelper, EmailService emailService)
         {
-            _db = db;
-            _spDashboard = spDashboard;
+            _userService = userService;
+            _dashboard = dashboard;
+            _employeeService = employeeService;
+            _companyService = companyService;
             _sessionHelper = sessionHelper;
+            _passwordHelper = passwordHelper;
+            _emailService = emailService;
         }
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
             try
             {
@@ -38,9 +43,7 @@ namespace CloudERP.Controllers
                 string fromDate = new DateTime(currentDate.Year, currentDate.Month, 1).ToString("yyyy-MM-dd");
                 string toDate = new DateTime(currentDate.Year, currentDate.Month, DateTime.DaysInMonth(currentDate.Year, currentDate.Month)).ToString("yyyy-MM-dd");
 
-                DashboardModel dashboardValues = _spDashboard.GetDashboardValues(fromDate, toDate, _sessionHelper.BranchID, _sessionHelper.CompanyID);
-
-                return View(dashboardValues);
+                return View(await _dashboard.GetDashboardValuesAsync(fromDate, toDate, _sessionHelper.BranchID, _sessionHelper.CompanyID));
             }
             catch (Exception ex)
             {
@@ -64,14 +67,14 @@ namespace CloudERP.Controllers
         }
 
         [HttpPost]
-        public ActionResult LoginUser(string email, string password, bool? rememberMe)
+        public async Task<ActionResult> LoginUser(string email, string password, bool? rememberMe)
         {
             try
             {
-                var user = _db.tblUser.SingleOrDefault(u => u.Email == email);
+                var user = await _userService.GetByEmailAsync(email);
                 if (user != null)
                 {
-                    bool isPasswordValid = PasswordHelper.VerifyPassword(password, user.Password, user.Salt);
+                    bool isPasswordValid = _passwordHelper.VerifyPassword(password, user.Password, user.Salt);
                     if (isPasswordValid)
                     {
                         FormsAuthentication.SetAuthCookie(user.Email, false);
@@ -105,23 +108,23 @@ namespace CloudERP.Controllers
                         Session["Salt"] = user.Salt;
                         Session["IsActive"] = user.IsActive;
 
-                        var employee = _db.tblEmployee.Where(e => e.UserID == user.UserID).FirstOrDefault();
+                        var employee = await _employeeService.GetByUserIdAsync(user.UserID);
                         if (employee == null)
                         {
                             ClearSession();
                             return RedirectToAction("Login", "Home");
                         }
 
-                        Session["EName"] = employee.Name;
+                        Session["EName"] = employee.FullName;
                         Session["EPhoto"] = employee.Photo;
                         Session["ERegistrationDate"] = employee.RegistrationDate;
                         Session["Designation"] = employee.Designation;
                         Session["BranchID"] = employee.BranchID;
-                        Session["BranchTypeID"] = employee.tblBranch.BranchTypeID;
-                        Session["BrchID"] = employee.tblBranch.BrchID;
+                        Session["BranchTypeID"] = employee.BranchTypeID;
+                        Session["BrchID"] = employee.BrchID;
                         Session["CompanyID"] = employee.CompanyID;
 
-                        var company = _db.tblCompany.Where(c => c.CompanyID == employee.CompanyID).FirstOrDefault();
+                        var company = await _companyService.GetByIdAsync(employee.CompanyID);
                         if (company == null)
                         {
                             ClearSession();
@@ -131,21 +134,12 @@ namespace CloudERP.Controllers
                         Session["CName"] = company.Name;
                         Session["CLogo"] = company.Logo;
 
-                        if ((bool)employee.IsFirstLogin)
+                        if (await _employeeService.IsFirstLoginAsync(employee))
                         {
                             Session["StartTour"] = true;
-                            employee.IsFirstLogin = false;
-                            _db.SaveChanges();
                         }
 
-                        if (user.UserTypeID == 1)
-                        {
-                            return RedirectToAction("AdminMenuGuide", "Guide");
-                        }
-                        else if (user.UserTypeID == 2)
-                        {
-                            return RedirectToAction("Index", "Home");
-                        }
+                        return user.UserTypeID == 1 ? RedirectToAction("AdminMenuGuide", "Guide") : RedirectToAction("Index", "Home");
                     }
                 }
 
@@ -207,10 +201,10 @@ namespace CloudERP.Controllers
 
             try
             {
-                var user = _db.tblUser.FirstOrDefault(u => u.Email == email);
+                var user = await _userService.GetByEmailAsync(email);
                 if (user != null)
                 {
-                    if (user.LastPasswordResetRequest.HasValue && (DateTime.Now - user.LastPasswordResetRequest.Value).TotalMinutes < 5)
+                    if ((DateTime.Now - user.LastPasswordResetRequest)?.TotalMinutes < 5)
                     {
                         ModelState.AddModelError("", Resources.Messages.PasswordResetAlreadyRequested);
                         return View();
@@ -220,8 +214,7 @@ namespace CloudERP.Controllers
                     user.ResetPasswordExpiration = DateTime.Now.AddHours(1);
                     user.LastPasswordResetRequest = DateTime.Now;
 
-                    _db.Entry(user).State = EntityState.Modified;
-                    await _db.SaveChangesAsync();
+                    await _userService.UpdateAsync(user);
 
                     try
                     {
@@ -255,8 +248,7 @@ namespace CloudERP.Controllers
                 var subject = "Password Reset";
                 var body = $"<strong>Please reset your password by clicking the following link: <a href='{resetLink}'>Reset Password</a></strong>";
 
-                var emailService = new EmailService();
-                emailService.SendEmail(email, subject, body);
+                _emailService.SendEmail(email, subject, body);
             }
             catch (Exception ex)
             {
@@ -265,11 +257,11 @@ namespace CloudERP.Controllers
         }
 
         // GET: ResetPassword
-        public ActionResult ResetPassword(string id)
+        public async Task<ActionResult> ResetPassword(string id)
         {
             try
             {
-                var user = _db.tblUser.FirstOrDefault(u => u.ResetPasswordCode == id && u.ResetPasswordExpiration > DateTime.Now);
+                var user = await _userService.GetByPasswordCodesAsync(id, DateTime.Now);
                 if (user != null)
                 {
                     ViewBag.ResetCode = id;
@@ -290,7 +282,7 @@ namespace CloudERP.Controllers
         // POST: ResetPassword
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ResetPassword(string id, string newPassword, string confirmPassword)
+        public async Task<ActionResult> ResetPassword(string id, string newPassword, string confirmPassword)
         {
             try
             {
@@ -300,25 +292,16 @@ namespace CloudERP.Controllers
                     return View();
                 }
 
-                var user = _db.tblUser.FirstOrDefault(u => u.ResetPasswordCode == id && u.ResetPasswordExpiration > DateTime.Now);
+                var user = await _userService.GetByPasswordCodesAsync(id, DateTime.Now);
                 if (user != null)
                 {
-                    user.Password = PasswordHelper.HashPassword(newPassword, out string salt);
+                    user.Password = _passwordHelper.HashPassword(newPassword, out string salt);
                     user.Salt = salt;
                     user.ResetPasswordCode = null;
                     user.ResetPasswordExpiration = null;
                     user.LastPasswordResetRequest = null;
 
-                    try
-                    {
-                        _db.Entry(user).State = EntityState.Modified;
-                        _db.SaveChanges();
-                    }
-                    catch (Exception ex)
-                    {
-                        TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                        return RedirectToAction("EP500", "EP");
-                    }
+                    await _userService.UpdateAsync(user);
 
                     return View("ResetPasswordSuccess");
                 }

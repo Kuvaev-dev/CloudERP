@@ -1,26 +1,33 @@
-﻿using System;
+﻿using DatabaseAccess.Code;
+using DatabaseAccess.Models;
 using System.Data.SqlClient;
 using System.Data;
-using DatabaseAccess.Models;
+using System;
+using System.Threading.Tasks;
 
-namespace DatabaseAccess.Code.SP_Code
+namespace DatabaseAccess.Repositories
 {
-    public class SP_Dashboard
+    public interface IDashboardRepository
     {
-        private readonly CloudDBEntities _db;
+        Task<DashboardModel> GetDashboardValuesAsync(string fromDate, string toDate, int branchID, int companyID);
+    }
 
-        public SP_Dashboard(CloudDBEntities db)
+    public class DashboardRepository : IDashboardRepository
+    {
+        private readonly DatabaseQuery _query;
+
+        public DashboardRepository(DatabaseQuery query)
         {
-            _db = db;
+            _query = query;
         }
 
-        public DashboardModel GetDashboardValues(string fromDate, string toDate, int branchID, int companyID)
+        public async Task<DashboardModel> GetDashboardValuesAsync(string fromDate, string toDate, int branchID, int companyID)
         {
             DashboardModel dashboardValues = new DashboardModel();
 
             try
             {
-                using (SqlCommand command = new SqlCommand("GetDashboardValues", DatabaseQuery.ConnOpen()))
+                using (SqlCommand command = new SqlCommand("GetDashboardValues", await _query.ConnOpen()))
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@FromDate", fromDate);
@@ -28,12 +35,12 @@ namespace DatabaseAccess.Code.SP_Code
                     command.Parameters.AddWithValue("@BranchID", branchID);
                     command.Parameters.AddWithValue("@CompanyID", companyID);
 
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    using (SqlDataReader reader = await command.ExecuteReaderAsync())
                     {
                         // Reading other dashboard values
                         if (reader.HasRows)
                         {
-                            while (reader.Read())
+                            while (await reader.ReadAsync())
                             {
                                 dashboardValues.CurrentMonthRevenue = Convert.ToDouble(reader["Current Month Revenue"]);
                                 dashboardValues.CurrentMonthExpenses = Convert.ToDouble(reader["Current Month Expenses"]);

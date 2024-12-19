@@ -9,8 +9,10 @@ namespace DatabaseAccess.Repositories
     {
         Task<IEnumerable<tblEmployee>> GetByBranchAsync(int companyId, int branchId);
         Task<tblEmployee> GetByIdAsync(int id);
+        Task<tblEmployee> GetByUserIdAsync(int id);
         Task AddAsync(tblEmployee employee);
         Task UpdateAsync(tblEmployee employee);
+        Task<bool> IsFirstLoginAsync(tblEmployee employee);
     }
 
     public class EmployeeRepository : IEmployeeRepository
@@ -44,6 +46,27 @@ namespace DatabaseAccess.Repositories
         {
             _dbContext.Entry(employee).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<tblEmployee> GetByUserIdAsync(int id)
+        {
+            return await _dbContext.tblEmployee
+                .Include(b => b.tblBranch)
+                .Where(e => e.UserID == id).FirstOrDefaultAsync();
+        }
+
+        public async Task<bool> IsFirstLoginAsync(tblEmployee employee)
+        {
+            var employeeRecord = await _dbContext.tblEmployee.FirstOrDefaultAsync(e => e.EmployeeID == employee.EmployeeID);
+
+            if (employeeRecord.IsFirstLogin == true)
+            {
+                employeeRecord.IsFirstLogin = false;
+                await _dbContext.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
         }
     }
 }
