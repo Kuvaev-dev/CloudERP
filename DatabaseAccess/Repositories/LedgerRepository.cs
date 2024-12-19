@@ -1,35 +1,44 @@
-﻿using DatabaseAccess.Models;
+﻿using DatabaseAccess.Code;
+using DatabaseAccess.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
+using System.Threading.Tasks;
 
-namespace DatabaseAccess.Code.SP_Code
+namespace DatabaseAccess.Repositories
 {
-    public class SP_Ledger
+    public interface ILedgerRepository
+    {
+        Task<List<AccountLedgerModel>> GetLedgerAsync(int companyId, int branchId, int financialYearId);
+    }
+
+    public class LedgerRepository : ILedgerRepository
     {
         private readonly CloudDBEntities _db;
+        private readonly DatabaseQuery _query;
 
-        public SP_Ledger(CloudDBEntities db)
+        public LedgerRepository(CloudDBEntities db, DatabaseQuery query)
         {
             _db = db;
+            _query = query;
         }
 
-        public List<AccountLedgerModel> GetLedger(int CompanyID, int BranchID, int FinancialYearID)
+        public async Task<List<AccountLedgerModel>> GetLedgerAsync(int companyId, int branchId, int financialYearId)
         {
             var ledger = new List<AccountLedgerModel>();
             int sNo = 1;
 
             try
             {
-                using (SqlConnection connection = DatabaseQuery.ConnOpen())
+                using (SqlConnection connection = await _query.ConnOpen())
                 {
                     using (SqlCommand command = new SqlCommand("GetLedger", connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.Parameters.Add(new SqlParameter("@BranchID", BranchID));
-                        command.Parameters.Add(new SqlParameter("@CompanyID", CompanyID));
-                        command.Parameters.Add(new SqlParameter("@FinancialYearID", FinancialYearID));
+                        command.Parameters.Add(new SqlParameter("@BranchID", branchId));
+                        command.Parameters.Add(new SqlParameter("@CompanyID", companyId));
+                        command.Parameters.Add(new SqlParameter("@FinancialYearID", financialYearId));
 
                         var dt = new DataTable();
                         using (SqlDataAdapter da = new SqlDataAdapter(command))
@@ -56,7 +65,7 @@ namespace DatabaseAccess.Code.SP_Code
                             {
                                 if (!string.IsNullOrEmpty(currentAccountName))
                                 {
-                                    // Add the total balance for the previous account
+                                    // Add total balance for the previous account
                                     ledger.Add(new AccountLedgerModel
                                     {
                                         SNo = sNo++,
@@ -82,7 +91,7 @@ namespace DatabaseAccess.Code.SP_Code
                                 currentAccountName = accountName;
                             }
 
-                            // Add the transaction details
+                            // Add transaction details
                             ledger.Add(new AccountLedgerModel
                             {
                                 SNo = sNo++,
@@ -96,7 +105,7 @@ namespace DatabaseAccess.Code.SP_Code
                             totalCredit += credit;
                         }
 
-                        // Add the total balance for the last account
+                        // Add total balance for the last account
                         if (!string.IsNullOrEmpty(currentAccountName))
                         {
                             ledger.Add(new AccountLedgerModel

@@ -1,27 +1,29 @@
 ﻿using CloudERP.Helpers;
-using DatabaseAccess;
-using DatabaseAccess.Code.SP_Code;
+using DatabaseAccess.Models;
+using DatabaseAccess.Repositories;
+using Domain.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace CloudERP.Controllers
 {
     public class LedgerController : Controller
     {
-        private readonly CloudDBEntities _db;
-        private readonly SP_Ledger _ledgersp;
+        private readonly ILedgerRepository _ledgerRepository;
+        private readonly IFinancialYearService _financialYearService;
         private readonly SessionHelper _sessionHelper;
 
-        public LedgerController(CloudDBEntities db, SP_Ledger ledgersp, SessionHelper sessionHelper)
+        public LedgerController(ILedgerRepository ledgerRepository, IFinancialYearService financialYearService, SessionHelper sessionHelper)
         {
-            _db = db;
-            _ledgersp = ledgersp;
+            _ledgerRepository = ledgerRepository;
+            _financialYearService = financialYearService;
             _sessionHelper = sessionHelper;
         }
 
-        public ActionResult GetLedger()
+        public async Task<ActionResult> GetLedger()
         {
             try
             {
@@ -30,23 +32,15 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
-                if (!financialYears.Any())
-                {
-                    ViewBag.ErrorMessage = Resources.Messages.CompanyFinancialYearNotSet;
-                    return View(new List<DatabaseAccess.Models.AccountLedgerModel>());
-                }
+                await PopulateViewBag();
 
-                ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear");
-
-                var defaultFinancialYear = financialYears.FirstOrDefault();
+                var defaultFinancialYear = await _financialYearService.GetSingleActiveAsync();
                 if (defaultFinancialYear != null)
                 {
-                    var ledger = _ledgersp.GetLedger(_sessionHelper.CompanyID, _sessionHelper.BranchID, defaultFinancialYear.FinancialYearID);
-                    return View(ledger);
+                    return View(await _ledgerRepository.GetLedgerAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID, defaultFinancialYear.FinancialYearID));
                 }
 
-                return View(new List<DatabaseAccess.Models.AccountLedgerModel>());
+                return View(new List<AccountLedgerModel>());
             }
             catch (Exception ex)
             {
@@ -56,7 +50,7 @@ namespace CloudERP.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetLedger(int id)
+        public async Task<ActionResult> GetLedger(int id)
         {
             try
             {
@@ -65,12 +59,9 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                var ledger = _ledgersp.GetLedger(_sessionHelper.CompanyID, _sessionHelper.BranchID, id);
+                await PopulateViewBagWithId(id);
 
-                var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
-                ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear", id);
-
-                return View(ledger);
+                return View(await _ledgerRepository.GetLedgerAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID, id));
             }
             catch (Exception ex)
             {
@@ -79,62 +70,14 @@ namespace CloudERP.Controllers
             }
         }
 
-        public ActionResult GetSubLedger()
+        private async Task PopulateViewBag()
         {
-            try
-            {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
-                var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
-                if (!financialYears.Any())
-                {
-                    ViewBag.ErrorMessage = Resources.Messages.CompanyFinancialYearNotSet;
-                    return View(new List<DatabaseAccess.Models.AccountLedgerModel>());
-                }
-
-                ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear");
-
-                var defaultFinancialYear = financialYears.FirstOrDefault();
-                if (defaultFinancialYear != null)
-                {
-                    var ledger = _ledgersp.GetLedger(_sessionHelper.CompanyID, _sessionHelper.BranchID, defaultFinancialYear.FinancialYearID);
-                    return View(ledger);
-                }
-
-                return View(new List<DatabaseAccess.Models.AccountLedgerModel>());
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            ViewBag.FinancialYears = new SelectList(await _financialYearService.GetAllActiveAsync(), "FinancialYearID", "FinancialYear");
         }
 
-        [HttpPost]
-        public ActionResult GetSubLedger(int? id)
+        private async Task PopulateViewBagWithId(int id)
         {
-            try
-            {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
-                var ledger = _ledgersp.GetLedger(_sessionHelper.CompanyID, _sessionHelper.BranchID, id ?? 0);
-
-                var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
-                ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear", id);
-
-                return View(ledger);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            ViewBag.FinancialYears = new SelectList(await _financialYearService.GetAllActiveAsync(), "FinancialYearID", "FinancialYear", id);
         }
     }
 }

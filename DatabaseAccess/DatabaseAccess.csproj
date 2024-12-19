@@ -74,7 +74,6 @@
     <Compile Include="Code\PurchaseEntry.cs" />
     <Compile Include="Code\SalaryTransaction.cs" />
     <Compile Include="Code\SaleEntry.cs" />
-    <Compile Include="Code\SP_Code\SP_Ledger.cs" />
     <Compile Include="Code\SP_Code\SP_Purchase.cs" />
     <Compile Include="Code\SP_Code\SP_Sale.cs" />
     <Compile Include="Code\SP_Code\SP_TrialBalance.cs" />
@@ -110,6 +109,7 @@
     <Compile Include="Repositories\DashboardRepository.cs" />
     <Compile Include="Repositories\EmployeeRepository.cs" />
     <Compile Include="Repositories\FinancialYearRepository.cs" />
+    <Compile Include="Repositories\LedgerRepository.cs" />
     <Compile Include="Repositories\StockRepository.cs" />
     <Compile Include="Repositories\SupplierRepository.cs" />
     <Compile Include="Repositories\SupportTicketRepository.cs" />
