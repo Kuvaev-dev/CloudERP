@@ -76,7 +76,6 @@
     <Compile Include="Code\SaleEntry.cs" />
     <Compile Include="Code\SP_Code\SP_Purchase.cs" />
     <Compile Include="Code\SP_Code\SP_Sale.cs" />
-    <Compile Include="Code\SP_Code\SP_TrialBalance.cs" />
     <Compile Include="Helpers\AllowedDomainsAttribute.cs" />
     <Compile Include="Helpers\BranchHelper.cs" />
     <Compile Include="Localization\Localization.Designer.cs">
@@ -115,6 +114,7 @@
     <Compile Include="Repositories\SupportTicketRepository.cs" />
     <Compile Include="Repositories\TaskRepository.cs" />
     <Compile Include="Repositories\GeneralTransactionRepository.cs" />
+    <Compile Include="Repositories\TrialBalanceRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Repositories\UserTypeRepository.cs" />
     <Compile Include="tblAccountActivity.cs">

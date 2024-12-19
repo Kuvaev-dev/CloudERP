@@ -1,30 +1,26 @@
 ﻿using CloudERP.Helpers;
-using DatabaseAccess;
-using DatabaseAccess.Code;
-using DatabaseAccess.Code.SP_Code;
-using DatabaseAccess.Models;
+using DatabaseAccess.Repositories;
+using Domain.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace CloudERP.Controllers
 {
     public class TrialBalanceController : Controller
     {
-        private readonly CloudDBEntities _db;
-        private readonly SP_TrialBalance _trialBalance;
+        private readonly ITrialBalanceRepository _trialBalanceRepository;
+        private readonly IFinancialYearService _financialYearService;
         private readonly SessionHelper _sessionHelper;
 
-        public TrialBalanceController(CloudDBEntities db, SP_TrialBalance trialBalance, SessionHelper sessionHelper)
+        public TrialBalanceController(ITrialBalanceRepository trialBalanceRepository, IFinancialYearService financialYearService, SessionHelper sessionHelper)
         {
-            _db = db;
-            _trialBalance = trialBalance;
+            _trialBalanceRepository = trialBalanceRepository;
+            _financialYearService = financialYearService;
             _sessionHelper = sessionHelper;
         }
 
-        // GET: TrialBalance
-        public ActionResult GetTrialBalance()
+        public async Task<ActionResult> GetTrialBalance()
         {
             try
             {
@@ -33,25 +29,16 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                var financialYearCheck = DatabaseQuery.Retrive("select top 1 FinancialYearID from tblFinancialYear where IsActive = 1");
+                await PopulateViewBag();
 
-                string FinancialYearID = (financialYearCheck != null ? Convert.ToString(financialYearCheck.Rows[0][0]) : string.Empty);
+                var financialYear = await _financialYearService.GetSingleActiveAsync();
 
-                List<TrialBalanceModel> list;
+                var trialBalance = await _trialBalanceRepository.GetTrialBalanceAsync(
+                    _sessionHelper.BranchID,
+                    _sessionHelper.CompanyID,
+                    financialYear.FinancialYearID);
 
-                if (string.IsNullOrEmpty(FinancialYearID))
-                {
-                    list = _trialBalance.TrialBalance(_sessionHelper.BranchID, _sessionHelper.CompanyID, 0);
-                }
-                else
-                {
-                    list = _trialBalance.TrialBalance(_sessionHelper.BranchID, _sessionHelper.CompanyID, Convert.ToInt32(FinancialYearID));
-                }
-
-                var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
-                ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear");
-
-                return View(list);
+                return View(trialBalance);
             }
             catch (Exception ex)
             {
@@ -61,7 +48,7 @@ namespace CloudERP.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetTrialBalance(int? id)
+        public async Task<ActionResult> GetTrialBalance(int? id)
         {
             try
             {
@@ -70,27 +57,30 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                List<TrialBalanceModel> list;
+                await PopulateViewBagWithId(id);
 
-                if (id.HasValue)
-                {
-                    list = _trialBalance.TrialBalance(_sessionHelper.BranchID, _sessionHelper.CompanyID, (int)id);
-                }
-                else
-                {
-                    list = new List<TrialBalanceModel>();
-                }
+                var trialBalance = await _trialBalanceRepository.GetTrialBalanceAsync(
+                    _sessionHelper.BranchID,
+                    _sessionHelper.CompanyID,
+                    id ?? 0);
 
-                var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
-                ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear", id);
-
-                return View(list);
+                return View(trialBalance);
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
+        }
+
+        private async Task PopulateViewBag()
+        {
+            ViewBag.FinancialYears = new SelectList(await _financialYearService.GetAllActiveAsync(), "FinancialYearID", "FinancialYear");
+        }
+
+        private async Task PopulateViewBagWithId(int? id)
+        {
+            ViewBag.FinancialYears = new SelectList(await _financialYearService.GetAllActiveAsync(), "FinancialYearID", "FinancialYear", id);
         }
     }
 }

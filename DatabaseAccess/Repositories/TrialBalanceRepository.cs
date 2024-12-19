@@ -1,27 +1,41 @@
-﻿using DatabaseAccess.Models;
+﻿using DatabaseAccess.Code;
+using DatabaseAccess.Models;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
+using System.Data;
+using System.Threading.Tasks;
 
-namespace DatabaseAccess.Code.SP_Code
+namespace DatabaseAccess.Repositories
 {
-    public class SP_TrialBalance
+    public interface ITrialBalanceRepository
     {
-        public List<TrialBalanceModel> TrialBalance(int BranchID, int CompanyID, int FinancialYearID)
+        Task<List<TrialBalanceModel>> GetTrialBalanceAsync(int branchId, int companyId, int financialYearId);
+    }
+
+    public class TrialBalanceRepository : ITrialBalanceRepository
+    {
+        private readonly DatabaseQuery _query;
+
+        public TrialBalanceRepository(DatabaseQuery query)
+        {
+            _query = query;
+        }
+
+        public async Task<List<TrialBalanceModel>> GetTrialBalanceAsync(int branchId, int companyId, int financialYearId)
         {
             var trialBalance = new List<TrialBalanceModel>();
 
             try
             {
-                using (SqlConnection connection = DatabaseQuery.ConnOpen())
+                using (SqlConnection connection = await _query.ConnOpen())
                 {
                     using (SqlCommand command = new SqlCommand("GetTrialBalance", connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.Parameters.Add(new SqlParameter("@BranchID", BranchID));
-                        command.Parameters.Add(new SqlParameter("@CompanyID", CompanyID));
-                        command.Parameters.Add(new SqlParameter("@FinancialYearID", FinancialYearID));
+                        command.Parameters.Add(new SqlParameter("@BranchID", branchId));
+                        command.Parameters.Add(new SqlParameter("@CompanyID", companyId));
+                        command.Parameters.Add(new SqlParameter("@FinancialYearID", financialYearId));
 
                         var dt = new DataTable();
                         using (SqlDataAdapter da = new SqlDataAdapter(command))
