@@ -1,23 +1,52 @@
 ﻿using CloudERP.Helpers;
+using CloudERP.Mapping.Base;
 using CloudERP.Models;
-using DatabaseAccess;
+using Domain.Models;
+using Domain.Services;
 using System;
-using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace CloudERP.Controllers
 {
     public class CompanyRegistrationController : Controller
     {
-        private readonly CloudDBEntities _db;
+        private readonly ICompanyService _companyService;
+        private readonly IBranchService _branchService;
+        private readonly IUserService _userService;
+        private readonly IEmployeeService _employeeService;
+        private readonly IMapper<Company, CompanyMV> _companyMapper;
+        private readonly IMapper<Branch, BranchMV> _branchMapper;
+        private readonly IMapper<User, UserMV> _userMapper;
+        private readonly IMapper<Employee, EmployeeMV> _employeeMapper;
         private readonly EmailService _emailService;
         private readonly SessionHelper _sessionHelper;
+        private readonly PasswordHelper _passwordHelper;
 
-        public CompanyRegistrationController(CloudDBEntities db, EmailService emailService, SessionHelper sessionHelper)
+        public CompanyRegistrationController(
+            ICompanyService companyService,
+            IBranchService branchService,
+            IUserService userService,
+            IEmployeeService employeeService,
+            EmailService emailService,
+            SessionHelper sessionHelper,
+            PasswordHelper passwordHelper,
+            IMapper<Company, CompanyMV> companyMapper,
+            IMapper<Branch, BranchMV> branchMapper,
+            IMapper<User, UserMV> userMapper,
+            IMapper<Employee, EmployeeMV> employeeMapper)
         {
-            _db = db;
+            _companyService = companyService;
+            _branchService = branchService;
+            _userService = userService;
+            _employeeService = employeeService;
             _emailService = emailService;
             _sessionHelper = sessionHelper;
+            _passwordHelper = passwordHelper;
+            _companyMapper = companyMapper;
+            _branchMapper = branchMapper;
+            _userMapper = userMapper;
+            _employeeMapper = employeeMapper;
         }
 
         // GET: CompanyRegistration/RegistrationForm
@@ -34,116 +63,106 @@ namespace CloudERP.Controllers
         // POST: CompanyRegistration/RegistrationForm
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult RegistrationForm(RegistrationMV model)
+        public async Task<ActionResult> RegistrationForm(RegistrationMV model)
         {
-            if (_sessionHelper.IsAuthenticated)
+            if (!_sessionHelper.IsAuthenticated)
             {
                 return RedirectToAction("Login", "Home");
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                try
-                {
-                    // Add company
-                    var company = new tblCompany()
-                    {
-                        Name = model.CompanyName,
-                        Logo = "~/Content/CompanyLogo/erp-logo.png",
-                        Description = string.Empty
-                    };
-                    _db.tblCompany.Add(company);
-                    _db.SaveChanges();
-
-                    // Add branch
-                    var branch = new tblBranch()
-                    {
-                        BranchAddress = model.BranchAddress,
-                        BranchContact = model.BranchContact,
-                        BranchName = model.BranchName,
-                        BranchTypeID = 1,
-                        CompanyID = company.CompanyID,
-                        BrchID = null
-                    };
-                    _db.tblBranch.Add(branch);
-                    _db.SaveChanges();
-
-                    // Check if the user already exists
-                    if (_db.tblUser.Any(u => u.UserName == model.UserName || u.Email == model.EmployeeEmail))
-                    {
-                        ModelState.AddModelError("", Resources.Messages.UsernameAlreadyExists);
-                        return View(model);
-                    }
-
-                    // Add user
-                    string hashedPassword = PasswordHelper.HashPassword(model.EmployeeContactNo, out string salt);
-
-                    var user = new tblUser()
-                    {
-                        ContactNo = model.EmployeeContactNo,
-                        Email = model.EmployeeEmail,
-                        FullName = model.EmployeeName,
-                        IsActive = true,
-                        Password = hashedPassword,
-                        ResetPasswordCode = null,
-                        LastPasswordResetRequest = null,
-                        ResetPasswordExpiration = null,
-                        Salt = salt,
-                        UserName = model.UserName,
-                        UserTypeID = 2
-                    };
-                    _db.tblUser.Add(user);
-                    _db.SaveChanges();
-
-                    // Check if the employee already exists
-                    if (_db.tblEmployee.Any(e => e.Email == model.EmployeeEmail && e.CompanyID == company.CompanyID))
-                    {
-                        ModelState.AddModelError("", Resources.Messages.EmployeeEmailAlreadyExists);
-                        return View(model);
-                    }
-
-                    // Add employee
-                    var employee = new tblEmployee()
-                    {
-                        Address = model.EmployeeAddress,
-                        BranchID = branch.BranchID,
-                        TIN = model.EmployeeTIN,
-                        CompanyID = company.CompanyID,
-                        ContactNo = model.EmployeeContactNo,
-                        Designation = model.EmployeeDesignation,
-                        Email = model.EmployeeEmail,
-                        MonthlySalary = model.EmployeeMonthlySalary,
-                        UserID = user.UserID,
-                        Name = model.EmployeeName,
-                        Description = string.Empty,
-                        IsFirstLogin = true,
-                        Photo = "~/Content/EmployeePhoto/Default/default.png"
-                    };
-                    _db.tblEmployee.Add(employee);
-                    _db.SaveChanges();
-
-                    // Send email
-                    var subject = "Welcome to the Company";
-                    var body = $"Hello {employee.Name},\n\n" +
-                               $"Your registration is successful. Here are your details:\n" +
-                               $"Name: {employee.Name}\n" +
-                               $"Email: {employee.Email}\n" +
-                               $"Contact No: {employee.ContactNo}\n\n" +
-                               $"Best regards,\nCompany Team";
-                    _emailService.SendEmail(employee.Email, subject, body);
-
-                    ViewBag.Message = Resources.Messages.RegistrationSuccessful;
-                    return RedirectToAction("Login", "Home");
-                }
-                catch (Exception ex)
-                {
-                    TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                    return RedirectToAction("EP500", "EP");
-                }
+                ViewBag.Message = Resources.Messages.PleaseProvideCorrectDetails;
+                return View(model);
             }
 
-            ViewBag.Message = Resources.Messages.PleaseProvideCorrectDetails;
-            return View(model);
+            try
+            {
+                // Перевірка існування користувача
+                if (await _userService.GetByEmailAsync(model.EmployeeEmail) != null)
+                {
+                    ModelState.AddModelError("", Resources.Messages.UsernameAlreadyExists);
+                    return View(model);
+                }
+
+                // Перевірка існування компанії
+                if (await _companyService.CheckCompanyExistsAsync(model.CompanyName))
+                {
+                    ModelState.AddModelError("", Resources.Messages.AlreadyExists);
+                    return View(model);
+                }
+
+                // Створення компанії
+                var company = _companyMapper.MapToDomain(new CompanyMV
+                {
+                    Name = model.CompanyName,
+                    Logo = "~/Content/CompanyLogo/erp-logo.png",
+                    Description = string.Empty
+                });
+                await _companyService.CreateAsync(company);
+
+                // Створення відділення
+                var branch = _branchMapper.MapToDomain(new BranchMV
+                {
+                    BranchAddress = model.BranchAddress,
+                    BranchContact = model.BranchContact,
+                    BranchName = model.BranchName,
+                    BranchTypeID = 1,
+                    CompanyID = company.CompanyID
+                });
+                await _branchService.CreateAsync(branch);
+
+                // Створення користувача
+                string hashedPassword = _passwordHelper.HashPassword(model.EmployeeContactNo, out string salt);
+                var user = _userMapper.MapToDomain(new UserMV
+                {
+                    ContactNo = model.EmployeeContactNo,
+                    Email = model.EmployeeEmail,
+                    FullName = model.EmployeeName,
+                    IsActive = true,
+                    Password = hashedPassword,
+                    Salt = salt,
+                    UserName = model.UserName,
+                    UserTypeID = 2
+                });
+                await _userService.CreateAsync(user);
+
+                // Створення співробітника
+                var employee = _employeeMapper.MapToDomain(new EmployeeMV
+                {
+                    Address = model.EmployeeAddress,
+                    BranchID = branch.BranchID,
+                    TIN = model.EmployeeTIN,
+                    CompanyID = company.CompanyID,
+                    ContactNumber = model.EmployeeContactNo,
+                    Designation = model.EmployeeDesignation,
+                    Email = model.EmployeeEmail,
+                    MonthlySalary = model.EmployeeMonthlySalary,
+                    UserID = user.UserID,
+                    FullName = model.EmployeeName,
+                    IsFirstLogin = true,
+                    Photo = "~/Content/EmployeePhoto/Default/default.png"
+                });
+                await _employeeService.CreateAsync(employee);
+
+                // Відправлення листа
+                var subject = "Welcome to the Company";
+                var body = $"Hello {employee.FullName},\n\n" +
+                           $"Your registration is successful. Here are your details:\n" +
+                           $"Name: {employee.FullName}\n" +
+                           $"Email: {employee.Email}\n" +
+                           $"Contact No: {employee.ContactNumber}\n\n" +
+                           $"Best regards,\nCompany Team";
+                _emailService.SendEmail(employee.Email, subject, body);
+
+                ViewBag.Message = Resources.Messages.RegistrationSuccessful;
+                return RedirectToAction("Login", "Home");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
     }
 }
