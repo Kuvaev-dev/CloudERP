@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace CloudERP.Models
+namespace Domain.Models
 {
-    public class EmployeeStatisticsMV
+    public class EmployeeStatistics
     {
         public DateTime Date { get; set; }
         public int NumberOfRegistrations { get; set; }

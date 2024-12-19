@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ namespace DatabaseAccess.Repositories
         Task<IEnumerable<tblEmployee>> GetByBranchAsync(int companyId, int branchId);
         Task<tblEmployee> GetByIdAsync(int id);
         Task<tblEmployee> GetByUserIdAsync(int id);
+        Task<List<tblEmployee>> GetEmployeesByDateRangeAsync(DateTime startDate, DateTime endDate, List<int?> branchIDs, int companyID);
         Task AddAsync(tblEmployee employee);
         Task UpdateAsync(tblEmployee employee);
         Task<bool> IsFirstLoginAsync(tblEmployee employee);
@@ -67,6 +69,17 @@ namespace DatabaseAccess.Repositories
             }
 
             return false;
+        }
+
+        public async Task<List<tblEmployee>> GetEmployeesByDateRangeAsync(DateTime startDate, DateTime endDate, List<int?> branchIDs, int companyID)
+        {
+            return await _dbContext.tblEmployee
+                .Where(e => e.RegistrationDate.HasValue
+                            && e.RegistrationDate.Value >= startDate
+                            && e.RegistrationDate.Value <= endDate
+                            && e.CompanyID == companyID
+                            && branchIDs.Contains(e.BranchID))
+                .ToListAsync();
         }
     }
 }

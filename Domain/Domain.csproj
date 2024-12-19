@@ -112,6 +112,7 @@
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\EmployeeStatistics.cs" />
     <Compile Include="Models\FinancialYear.cs" />
     <Compile Include="Models\Stock.cs" />
     <Compile Include="Models\Supplier.cs" />
@@ -130,7 +131,9 @@
     <Compile Include="Services\CompanyService.cs" />
     <Compile Include="Services\CustomerService.cs" />
     <Compile Include="Services\EmployeeService.cs" />
+    <Compile Include="Services\EmployeeStatisticsService.cs" />
     <Compile Include="Services\FinancialYearService.cs" />
+    <Compile Include="Services\IncomeStatementService.cs" />
     <Compile Include="Services\StockService.cs" />
     <Compile Include="Services\SupplierService.cs" />
     <Compile Include="Services\SupportTicketService.cs" />

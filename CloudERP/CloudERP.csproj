@@ -838,7 +838,6 @@
     <Compile Include="Models\CompanyRegistrationMV.cs" />
     <Compile Include="Models\CustomerMV.cs" />
     <Compile Include="Models\EmployeeMV.cs" />
-    <Compile Include="Models\EmployeeStatisticsMV.cs" />
     <Compile Include="Models\FinancialYearMV.cs" />
     <Compile Include="Models\Forecasting\ForecastData.cs" />
     <Compile Include="Models\Forecasting\ForecastInputModel.cs" />

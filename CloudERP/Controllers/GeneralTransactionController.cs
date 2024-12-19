@@ -13,9 +13,7 @@ namespace CloudERP.Controllers
         private readonly IGeneralTransactionRepository _transactionRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public GeneralTransactionController(
-            IGeneralTransactionRepository transactionRepository,
-            SessionHelper sessionHelper)
+        public GeneralTransactionController(IGeneralTransactionRepository transactionRepository, SessionHelper sessionHelper)
         {
             _transactionRepository = transactionRepository;
             _sessionHelper = sessionHelper;

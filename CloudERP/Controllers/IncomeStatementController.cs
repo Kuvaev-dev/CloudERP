@@ -1,27 +1,26 @@
 ﻿using CloudERP.Helpers;
-using DatabaseAccess;
-using DatabaseAccess.Code;
+using Domain.Services;
 using System;
-using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace CloudERP.Controllers
 {
     public class IncomeStatementController : Controller
     {
-        private readonly CloudDBEntities _db;
-        private readonly IncomeStatement _income;
+        private readonly IIncomeStatementService _income;
+        private readonly IFinancialYearService _finYear;
         private readonly SessionHelper _sessionHelper;
 
-        public IncomeStatementController(CloudDBEntities db, IncomeStatement income, SessionHelper sessionHelper)
+        public IncomeStatementController(IIncomeStatementService income, IFinancialYearService finYear, SessionHelper sessionHelper)
         {
-            _db = db;
             _income = income;
+            _finYear = finYear;
             _sessionHelper = sessionHelper;
         }
 
         // GET: IncomeStatement
-        public ActionResult GetIncomeStatement()
+        public async Task<ActionResult> GetIncomeStatement()
         {
             try
             {
@@ -30,19 +29,16 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
-                ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear");
+                await PopulateViewBag();
 
-                var FinancialYear = _db.tblFinancialYear.FirstOrDefault(f => f.IsActive);
+                var FinancialYear = await _finYear.GetSingleActiveAsync();
                 if (FinancialYear == null)
                 {
                     ViewBag.ErrorMessage = Resources.Messages.CompanyFinancialYearNotSet;
                     return View();
                 }
 
-                var incomeStatement = _income.GetIncomeStatement(_sessionHelper.CompanyID, _sessionHelper.BranchID, FinancialYear.FinancialYearID);
-
-                return View(incomeStatement);
+                return View(await _income.GetIncomeStatementAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID, FinancialYear.FinancialYearID));
             }
             catch (Exception ex)
             {
@@ -52,7 +48,7 @@ namespace CloudERP.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetIncomeStatement(int? FinancialYearID)
+        public async Task<ActionResult> GetIncomeStatement(int? FinancialYearID)
         {
             try
             {
@@ -61,12 +57,9 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
-                ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear");
+                await PopulateViewBag();
 
-                var incomeStatement = _income.GetIncomeStatement(_sessionHelper.CompanyID, _sessionHelper.BranchID, FinancialYearID ?? 0);
-
-                return View(incomeStatement);
+                return View(await _income.GetIncomeStatementAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID, FinancialYearID ?? 0));
             }
             catch (Exception ex)
             {
@@ -76,7 +69,7 @@ namespace CloudERP.Controllers
         }
 
         // GET: IncomeStatement
-        public ActionResult GetSubIncomeStatement()
+        public async Task<ActionResult> GetSubIncomeStatement()
         {
             try
             {
@@ -85,19 +78,16 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
-                ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear");
+                await PopulateViewBag();
 
-                var FinancialYear = _db.tblFinancialYear.FirstOrDefault(f => f.IsActive);
+                var FinancialYear = await _finYear.GetSingleActiveAsync();
                 if (FinancialYear == null)
                 {
                     ViewBag.ErrorMessage = Resources.Messages.CompanyFinancialYearNotSet;
                     return View();
                 }
 
-                var incomeStatement = _income.GetIncomeStatement(_sessionHelper.CompanyID, _sessionHelper.BrchID, FinancialYear.FinancialYearID);
-
-                return View(incomeStatement);
+                return View(await _income.GetIncomeStatementAsync(_sessionHelper.CompanyID, _sessionHelper.BrchID, FinancialYear.FinancialYearID));
             }
             catch (Exception ex)
             {
@@ -107,7 +97,7 @@ namespace CloudERP.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetSubIncomeStatement(int? FinancialYearID)
+        public async Task<ActionResult> GetSubIncomeStatement(int? FinancialYearID)
         {
             try
             {
@@ -116,18 +106,20 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                var financialYears = _db.tblFinancialYear.Where(f => f.IsActive).ToList();
-                ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYear");
+                await PopulateViewBag();
 
-                var incomeStatement = _income.GetIncomeStatement(_sessionHelper.CompanyID, _sessionHelper.BrchID, FinancialYearID ?? 0);
-
-                return View(incomeStatement);
+                return View(await _income.GetIncomeStatementAsync(_sessionHelper.CompanyID, _sessionHelper.BrchID, FinancialYearID ?? 0));
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
+        }
+
+        private async Task PopulateViewBag()
+        {
+            ViewBag.FinancialYears = new SelectList(await _finYear.GetAllActiveAsync(), "FinancialYearID", "FinancialYear");
         }
     }
 }

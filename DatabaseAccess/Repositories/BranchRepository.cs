@@ -9,6 +9,7 @@ namespace DatabaseAccess.Repositories
     {
         Task<IEnumerable<tblBranch>> GetByCompanyAsync(int companyId);
         Task<IEnumerable<tblBranch>> GetSubBranchAsync(int companyId, int branchId);
+        Task<List<int?>> GetBranchIDsAsync(int branchID);
         Task<tblBranch> GetByIdAsync(int id);
         Task AddAsync(tblBranch branch);
         Task UpdateAsync(tblBranch branch);
@@ -65,6 +66,17 @@ namespace DatabaseAccess.Repositories
                 _dbContext.tblBranch.Remove(branch);
                 await _dbContext.SaveChangesAsync();
             }
+        }
+
+        public async Task<List<int?>> GetBranchIDsAsync(int branchID)
+        {
+            var branchIDs = await _dbContext.tblBranch
+                .Where(b => b.BrchID == branchID || b.BranchID == branchID)
+                .Select(b => b.BrchID)
+                .ToListAsync();
+
+            branchIDs.Add(branchID);
+            return branchIDs;
         }
     }
 }

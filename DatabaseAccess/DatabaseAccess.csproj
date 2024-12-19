@@ -71,7 +71,6 @@
       <DependentUpon>CloudDB.edmx</DependentUpon>
     </Compile>
     <Compile Include="Code\DatabaseQuery.cs" />
-    <Compile Include="Code\IncomeStatement.cs" />
     <Compile Include="Code\PurchaseEntry.cs" />
     <Compile Include="Code\SalaryTransaction.cs" />
     <Compile Include="Code\SaleEntry.cs" />
