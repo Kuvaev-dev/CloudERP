@@ -5,12 +5,13 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DatabaseAccess.Repositories
 {
     public interface IGeneralTransactionRepository
     {
-        string ConfirmGeneralTransaction(
+        Task<string> ConfirmGeneralTransaction(
             float transferAmount,
             int userId,
             int branchId,
@@ -19,18 +20,20 @@ namespace DatabaseAccess.Repositories
             int debitAccountControlId,
             int creditAccountControlId,
             string reason);
-        List<AllAccountModel> GetAllAccounts(int CompanyID, int BranchID);
-        List<JournalModel> GetJournal(int CompanyID, int BranchID, DateTime FromDate, DateTime ToDate);
+        Task<List<AllAccountModel>> GetAllAccounts(int CompanyID, int BranchID);
+        Task<List<JournalModel>> GetJournal(int CompanyID, int BranchID, DateTime FromDate, DateTime ToDate);
     }
 
     public class GeneralTransactionRepository : IGeneralTransactionRepository
     {
         private readonly CloudDBEntities _db;
+        private readonly DatabaseQuery _query;
         private DataTable _dtEntries;
 
-        public GeneralTransactionRepository(CloudDBEntities db)
+        public GeneralTransactionRepository(CloudDBEntities db, DatabaseQuery query)
         {
             _db = db;
+            _query = query;
         }
 
         private void InitializeDataTable()
@@ -51,7 +54,7 @@ namespace DatabaseAccess.Repositories
             }
         }
 
-        public string ConfirmGeneralTransaction(
+        public async Task<string> ConfirmGeneralTransaction(
             float transferAmount,
             int userId,
             int branchId,
@@ -71,7 +74,7 @@ namespace DatabaseAccess.Repositories
                     string transactionTitle = reason;
 
                     // Проверка финансового года
-                    var financialYearCheck = DatabaseQuery.Retrive("SELECT TOP 1 FinancialYearID FROM tblFinancialYear WHERE IsActive = 1");
+                    var financialYearCheck = await _query.Retrive("SELECT TOP 1 FinancialYearID FROM tblFinancialYear WHERE IsActive = 1");
                     string financialYearId = Convert.ToString(financialYearCheck.Rows[0][0]);
 
                     if (string.IsNullOrEmpty(financialYearId))
@@ -136,7 +139,7 @@ namespace DatabaseAccess.Repositories
                             new SqlParameter("@BranchID", branchId)
                         };
 
-                        DatabaseQuery.Insert(entryQuery, entryParams);
+                        await _query.Insert(entryQuery, entryParams);
                     }
 
                     transaction.Commit();
@@ -151,13 +154,13 @@ namespace DatabaseAccess.Repositories
             }
         }
 
-        public List<AllAccountModel> GetAllAccounts(int CompanyID, int BranchID)
+        public async Task<List<AllAccountModel>> GetAllAccounts(int CompanyID, int BranchID)
         {
             var accountsList = new List<AllAccountModel>();
 
             try
             {
-                using (SqlConnection connection = DatabaseQuery.ConnOpen())
+                using (SqlConnection connection = await _query.ConnOpen())
                 {
                     using (SqlCommand command = new SqlCommand("GetAllAccounts", connection))
                     {
@@ -198,13 +201,13 @@ namespace DatabaseAccess.Repositories
             return accountsList;
         }
 
-        public List<JournalModel> GetJournal(int CompanyID, int BranchID, DateTime FromDate, DateTime ToDate)
+        public async Task<List<JournalModel>> GetJournal(int CompanyID, int BranchID, DateTime FromDate, DateTime ToDate)
         {
             var journalEntries = new List<JournalModel>();
 
             try
             {
-                using (SqlConnection connection = DatabaseQuery.ConnOpen())
+                using (SqlConnection connection = await _query.ConnOpen())
                 {
                     using (SqlCommand command = new SqlCommand("GetJournal", connection))
                     {

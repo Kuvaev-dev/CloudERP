@@ -1,8 +1,10 @@
-﻿using DatabaseAccess;
+﻿using CloudERP.Helpers;
+using DatabaseAccess;
 using DatabaseAccess.Code;
-using DatabaseAccess.Code.SP_Code;
+using DatabaseAccess.Repositories;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace CloudERP.Controllers
@@ -10,31 +12,29 @@ namespace CloudERP.Controllers
     public class PurchasePaymentController : Controller
     {
         private readonly CloudDBEntities _db;
-        private readonly SP_Purchase _purchase;
-        private readonly PurchaseEntry _paymentEntry;
+        private readonly SessionHelper _sessionHelper;
+        private readonly IPurchaseRepository _purchase;
+        private readonly IPurchaseEntry _paymentEntry;
 
-        public PurchasePaymentController(CloudDBEntities db, SP_Purchase purchase, PurchaseEntry paymentEntry)
+        public PurchasePaymentController(CloudDBEntities db, SessionHelper sessionHelper, IPurchaseRepository purchase, IPurchaseEntry paymentEntry)
         {
             _db = db;
+            _sessionHelper = sessionHelper;
             _purchase = purchase;
             _paymentEntry = paymentEntry;
         }
 
         // GET: PurchasePayment
-        public ActionResult RemainingPaymentList()
+        public async Task<ActionResult> RemainingPaymentList()
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
 
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-                int userID = Convert.ToInt32(Session["UserID"]);
-
-                var list = _purchase.RemainingPaymentList(companyID, branchID);
+                var list = await _purchase.RemainingPaymentList(_sessionHelper.CompanyID, _sessionHelper.BranchID);
 
                 return View(list.ToList());
             }
@@ -45,20 +45,16 @@ namespace CloudERP.Controllers
             }
         }
 
-        public ActionResult PaidHistory(int? id)
+        public async Task<ActionResult> PaidHistory(int? id)
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])) || string.IsNullOrEmpty(Convert.ToString(id)))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
 
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-                int userID = Convert.ToInt32(Session["UserID"]);
-
-                var list = _purchase.PurchasePaymentHistory((int)id);
+                var list = await _purchase.PurchasePaymentHistory((int)id);
                 var returnDetails = _db.tblSupplierReturnInvoice.Where(r => r.SupplierInvoiceID == id).ToList();
                 if (returnDetails != null && returnDetails.Any())
                 {
@@ -82,20 +78,16 @@ namespace CloudERP.Controllers
             }
         }
 
-        public ActionResult PaidAmount(int? id)
+        public async Task<ActionResult> PaidAmount(int? id)
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])) || string.IsNullOrEmpty(Convert.ToString(id)))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
 
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-                int userID = Convert.ToInt32(Session["UserID"]);
-
-                var list = _purchase.PurchasePaymentHistory((int)id);
+                var list = await _purchase.PurchasePaymentHistory((int)id);
                 var returnDetails = _db.tblSupplierReturnInvoice.Where(r => r.SupplierInvoiceID == id).ToList();
                 if (returnDetails != null && returnDetails.Any())
                 {
@@ -124,23 +116,19 @@ namespace CloudERP.Controllers
         }
 
         [HttpPost]
-        public ActionResult PaidAmount(int? id, float previousRemainingAmount, float paymentAmount)
+        public async Task<ActionResult> PaidAmount(int? id, float previousRemainingAmount, float paymentAmount)
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])) || string.IsNullOrEmpty(Convert.ToString(id)))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
 
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-                int userID = Convert.ToInt32(Session["UserID"]);
-
                 if (paymentAmount > previousRemainingAmount)
                 {
                     ViewBag.Message = Resources.Messages.PurchasePaymentRemainingAmountError;
-                    var list = _purchase.PurchasePaymentHistory((int)id);
+                    var list = await _purchase.PurchasePaymentHistory((int)id);
                     var returnDetails = _db.tblSupplierReturnInvoice.Where(r => r.SupplierInvoiceID == id).ToList();
                     if (returnDetails != null && returnDetails.Any())
                     {
@@ -159,7 +147,7 @@ namespace CloudERP.Controllers
                 string payinvoicenno = "PAY" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
                 var supplier = _db.tblSupplier.Find(_db.tblSupplierInvoice.Find(id)?.SupplierID);
                 var purchaseInvoice = _db.tblSupplierInvoice.Find(id);
-                string message = _paymentEntry.PurchasePayment(companyID, branchID, userID, payinvoicenno, Convert.ToString(id), (float)purchaseInvoice.TotalAmount,
+                string message = await _paymentEntry.PurchasePayment(_sessionHelper.CompanyID, _sessionHelper.BranchID, _sessionHelper.UserID, payinvoicenno, Convert.ToString(id), (float)purchaseInvoice.TotalAmount,
                     paymentAmount, Convert.ToString(supplier?.SupplierID), supplier?.SupplierName, previousRemainingAmount - paymentAmount);
                 Session["Message"] = message;
 
@@ -172,20 +160,16 @@ namespace CloudERP.Controllers
             }
         }
 
-        public ActionResult CustomPurchasesHistory(DateTime FromDate, DateTime ToDate)
+        public async Task<ActionResult> CustomPurchasesHistory(DateTime FromDate, DateTime ToDate)
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
 
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-                int userID = Convert.ToInt32(Session["UserID"]);
-
-                var list = _purchase.CustomPurchasesList(companyID, branchID, FromDate, ToDate);
+                var list = await _purchase.CustomPurchasesList(_sessionHelper.CompanyID, _sessionHelper.BranchID, FromDate, ToDate);
 
                 return View(list.ToList());
             }
@@ -196,26 +180,21 @@ namespace CloudERP.Controllers
             }
         }
 
-        public ActionResult SubCustomPurchasesHistory(DateTime FromDate, DateTime ToDate, int? id)
+        public async Task<ActionResult> SubCustomPurchasesHistory(DateTime FromDate, DateTime ToDate, int? id)
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
-
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-                int userID = Convert.ToInt32(Session["UserID"]);
 
                 if (id != null)
                 {
                     Session["BrchID"] = id;
                 }
 
-                branchID = Convert.ToInt32(Session["BrchID"]);
-                var list = _purchase.CustomPurchasesList(companyID, branchID, FromDate, ToDate);
+                var list = await _purchase.CustomPurchasesList(_sessionHelper.CompanyID, _sessionHelper.BrchID, FromDate, ToDate);
 
                 return View(list.ToList());
             }
@@ -230,14 +209,10 @@ namespace CloudERP.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
-
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-                int userID = Convert.ToInt32(Session["UserID"]);
 
                 var list = _db.tblSupplierInvoiceDetail.Where(i => i.SupplierInvoiceID == id);
 
@@ -258,10 +233,6 @@ namespace CloudERP.Controllers
                 {
                     return RedirectToAction("Login", "Home");
                 }
-
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-                int userID = Convert.ToInt32(Session["UserID"]);
 
                 var list = _db.tblSupplierInvoiceDetail.Where(i => i.SupplierInvoiceID == id);
 

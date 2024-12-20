@@ -3,6 +3,7 @@ using DatabaseAccess.Code;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace CloudERP.Controllers
@@ -10,9 +11,9 @@ namespace CloudERP.Controllers
     public class PurchaseReturnController : Controller
     {
         private readonly CloudDBEntities _db;
-        private readonly PurchaseEntry _purchaseEntry;
+        private readonly IPurchaseEntry _purchaseEntry;
 
-        public PurchaseReturnController(CloudDBEntities db, PurchaseEntry purchaseEntry)
+        public PurchaseReturnController(CloudDBEntities db, IPurchaseEntry purchaseEntry)
         {
             _db = db;
             _purchaseEntry = purchaseEntry;
@@ -85,7 +86,7 @@ namespace CloudERP.Controllers
         }
 
         [HttpPost]
-        public ActionResult ReturnConfirm(FormCollection collection)
+        public async Task<ActionResult> ReturnConfirm(FormCollection collection)
         {
             try
             {
@@ -177,7 +178,7 @@ namespace CloudERP.Controllers
                 _db.SaveChanges();
 
                 var supplier = _db.tblSupplier.Find(supplierID);
-                string Message = _purchaseEntry.ReturnPurchase(companyID, branchID, userID, invoiceNo, returnInvoiceHeader.SupplierInvoiceID.ToString(), returnInvoiceHeader.SupplierReturnInvoiceID, (float)TotalAmount, supplierID.ToString(), supplier.SupplierName, IsPayment);
+                string Message = await _purchaseEntry.ReturnPurchase(companyID, branchID, userID, invoiceNo, returnInvoiceHeader.SupplierInvoiceID.ToString(), returnInvoiceHeader.SupplierReturnInvoiceID, (float)TotalAmount, supplierID.ToString(), supplier.SupplierName, IsPayment);
 
                 if (Message.Contains("Success"))
                 {

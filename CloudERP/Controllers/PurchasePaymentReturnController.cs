@@ -1,40 +1,40 @@
-﻿using DatabaseAccess;
+﻿using CloudERP.Helpers;
+using DatabaseAccess;
 using DatabaseAccess.Code;
-using DatabaseAccess.Code.SP_Code;
+using DatabaseAccess.Repositories;
 using System;
 using System.Linq;
-using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
-[assembly: InternalsVisibleTo("CloudERP.Tests")]
 namespace CloudERP.Controllers
 {
     public class PurchasePaymentReturnController : Controller
     {
         private readonly CloudDBEntities _db;
-        private readonly SP_Purchase _purchase;
-        private readonly PurchaseEntry _purchaseEntry;
+        private readonly SessionHelper _sessionHelper;
+        private readonly IPurchaseRepository _purchase;
+        private readonly IPurchaseEntry _purchaseEntry;
 
-        public PurchasePaymentReturnController(CloudDBEntities db, SP_Purchase purchase, PurchaseEntry purchaseEntry)
+        public PurchasePaymentReturnController(CloudDBEntities db, IPurchaseRepository purchase, IPurchaseEntry purchaseEntry, SessionHelper sessionHelper)
         {
             _db = db;
             _purchase = purchase;
             _purchaseEntry = purchaseEntry;
+            _sessionHelper = sessionHelper;
         }
 
         // GET: PurchasePaymentReturn
-        public ActionResult ReturnPurchasePendingAmount(int? id)
+        public async Task<ActionResult> ReturnPurchasePendingAmount(int? id)
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
 
-                var list = _purchase.PurchaseReturnPaymentPending(id);
-
-                return View(list);
+                return View(await _purchase.PurchaseReturnPaymentPending(id));
             }
             catch (Exception ex)
             {
@@ -43,22 +43,16 @@ namespace CloudERP.Controllers
             }
         }
 
-        public ActionResult AllPurchasesPendingPayment()
+        public async Task<ActionResult> AllPurchasesPendingPayment()
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
 
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-                int userID = Convert.ToInt32(Session["UserID"]);
-
-                var list = _purchase.GetReturnPurchasesPaymentPending(companyID, branchID);
-
-                return View(list);
+                return View(await _purchase.GetReturnPurchasesPaymentPending(_sessionHelper.CompanyID, _sessionHelper.BranchID));
             }
             catch (Exception ex)
             {
@@ -106,18 +100,14 @@ namespace CloudERP.Controllers
         }
 
         [HttpPost]
-        public ActionResult ReturnAmount(int? id, float previousRemainingAmount, float paymentAmount)
+        public async Task<ActionResult> ReturnAmount(int? id, float previousRemainingAmount, float paymentAmount)
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])) || id == null)
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
-
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-                int userID = Convert.ToInt32(Session["UserID"]);
 
                 if (paymentAmount > previousRemainingAmount)
                 {
@@ -144,9 +134,9 @@ namespace CloudERP.Controllers
                 string payinvoicenno = "RPP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
                 var supplier = _db.tblSupplier.Find(_db.tblSupplierReturnInvoice.Find(id)?.SupplierID);
                 var purchaseInvoice = _db.tblSupplierReturnInvoice.Find(id);
-                string message = _purchaseEntry.ReturnPurchasePayment(companyID, branchID, userID, payinvoicenno, purchaseInvoice.SupplierInvoiceID.ToString(), purchaseInvoice.SupplierReturnInvoiceID, (float)purchaseInvoice.TotalAmount,
-                    paymentAmount, Convert.ToString(supplier?.SupplierID), supplier?.SupplierName, previousRemainingAmount - paymentAmount);
-                Session["Message"] = message;
+                
+                Session["Message"] = await _purchaseEntry.ReturnPurchasePayment(_sessionHelper.CompanyID, _sessionHelper.BranchID, _sessionHelper.UserID, payinvoicenno, purchaseInvoice.SupplierInvoiceID.ToString(), purchaseInvoice.SupplierReturnInvoiceID, (float)purchaseInvoice.TotalAmount,
+                    paymentAmount, Convert.ToString(supplier?.SupplierID), supplier?.SupplierName, previousRemainingAmount - paymentAmount); ;
 
                 return RedirectToAction("PurchasePaymentReturn", new { id });
             }

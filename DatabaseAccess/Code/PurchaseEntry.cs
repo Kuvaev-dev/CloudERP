@@ -1,19 +1,33 @@
-﻿using System;
+﻿using DatabaseAccess.Repositories;
+using System;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
+using System.Threading.Tasks;
 
 namespace DatabaseAccess.Code
 {
-    public class PurchaseEntry
+    public interface IPurchaseEntry
+    {
+        Task<string> ConfirmPurchase(int CompanyID, int BranchID, int UserID, string InvoiceNo, string SupplierInvoiceID, float Amount, string SupplierID, string SupplierName, bool isPayment);
+        Task<string> PurchasePayment(int CompanyID, int BranchID, int UserID, string InvoiceNo, string SupplierInvoiceID, float TotalAmount, float Amount, string SupplierID, string SupplierName, float RemainingBalance);
+        Task<string> ReturnPurchase(int CompanyID, int BranchID, int UserID, string InvoiceNo, string SupplierInvoiceID, int SupplierReturnInvoiceID, float Amount, string SupplierID, string SupplierName, bool isPayment);
+        Task<string> ReturnPurchasePayment(int CompanyID, int BranchID, int UserID, string InvoiceNo, string SupplierInvoiceID, int SupplierReturnInvoiceID, float TotalAmount, float Amount, string SupplierID, string SupplierName, float RemainingBalance);
+    }
+
+    public class PurchaseEntry : IPurchaseEntry
     {
         private CloudDBEntities _db;
-        public string selectsupplierid = string.Empty;
+        private DatabaseQuery _query;
         private DataTable _dtEntries = null;
+        private IAccountSettingRepository _accountSettingRepository;
 
-        public PurchaseEntry(CloudDBEntities db)
+        public string selectsupplierid = string.Empty;
+
+        public PurchaseEntry(CloudDBEntities db, DatabaseQuery query, IAccountSettingRepository accountSettingRepository)
         {
             _db = db;
+            _query = query;
+            _accountSettingRepository = accountSettingRepository;
         }
 
         private void InitializeDataTable()
@@ -34,7 +48,7 @@ namespace DatabaseAccess.Code
             }
         }
 
-        public string ConfirmPurchase(int CompanyID, int BranchID, int UserID, string InvoiceNo, string SupplierInvoiceID, float Amount, string SupplierID, string SupplierName, bool isPayment)
+        public async Task<string> ConfirmPurchase(int CompanyID, int BranchID, int UserID, string InvoiceNo, string SupplierInvoiceID, float Amount, string SupplierID, string SupplierName, bool isPayment)
         {
             using (var transaction = _db.Database.BeginTransaction())
             {
@@ -45,7 +59,7 @@ namespace DatabaseAccess.Code
                     string purchaseTitle = Localization.Localization.PurchaseFrom + SupplierName.Trim();
 
                     // Retrieve the active financial year
-                    var financialYearCheck = DatabaseQuery.Retrive("SELECT TOP 1 FinancialYearID FROM tblFinancialYear WHERE IsActive = 1");
+                    var financialYearCheck = await _query.Retrive("SELECT TOP 1 FinancialYearID FROM tblFinancialYear WHERE IsActive = 1");
                     string FinancialYearID = (financialYearCheck != null ? Convert.ToString(financialYearCheck.Rows[0][0]) : string.Empty);
                     if (string.IsNullOrEmpty(FinancialYearID))
                     {
@@ -54,9 +68,7 @@ namespace DatabaseAccess.Code
 
                     // Debit Entry Purchase
                     // 1 - Purchase
-                    var purchaseAccount = _db.tblAccountSetting
-                        .Where(a => a.AccountActivityID == 1 && a.CompanyID == CompanyID && a.BranchID == BranchID)
-                        .FirstOrDefault();
+                    var purchaseAccount = await _accountSettingRepository.GetByActivityAsync(1, CompanyID, BranchID);
                     if (purchaseAccount == null)
                     {
                         return Localization.Localization.AccountSettingsForPurchaseNotFound;
@@ -65,9 +77,7 @@ namespace DatabaseAccess.Code
 
                     // Credit Entry Purchase Payment Pending
                     // 2 - Purchase Payment Pending
-                    purchaseAccount = _db.tblAccountSetting
-                        .Where(a => a.AccountActivityID == 2 && a.CompanyID == CompanyID && a.BranchID == BranchID)
-                        .FirstOrDefault();
+                    purchaseAccount = await _accountSettingRepository.GetByActivityAsync(2, CompanyID, BranchID);
                     if (purchaseAccount == null)
                     {
                         return Localization.Localization.AccountSettingsForPurchasePaymentPendingNotFound;
@@ -80,9 +90,7 @@ namespace DatabaseAccess.Code
 
                         // Debit Entry Purchase Payment Paid
                         // 3 - Purchase Payment Paid
-                        purchaseAccount = _db.tblAccountSetting
-                            .Where(a => a.AccountActivityID == 3 && a.CompanyID == CompanyID && a.BranchID == BranchID)
-                            .FirstOrDefault();
+                        purchaseAccount = await _accountSettingRepository.GetByActivityAsync(3, CompanyID, BranchID);
                         if (purchaseAccount == null)
                         {
                             return Localization.Localization.AccountSettingsForPurchasePaymentPaidNotFound;
@@ -91,9 +99,7 @@ namespace DatabaseAccess.Code
 
                         // Credit Entry Purchase Payment Success
                         // 4 - Purchase Payment Success
-                        purchaseAccount = _db.tblAccountSetting
-                            .Where(a => a.AccountActivityID == 4 && a.CompanyID == CompanyID && a.BranchID == BranchID)
-                            .FirstOrDefault();
+                        purchaseAccount = await _accountSettingRepository.GetByActivityAsync(4, CompanyID, BranchID);
                         if (purchaseAccount == null)
                         {
                             return Localization.Localization.AccountSettingsForPurchasePaymentSuccessNotFound;
@@ -118,7 +124,7 @@ namespace DatabaseAccess.Code
                             new SqlParameter("@InvoiceDate", DateTime.Now.Date)
                         };
 
-                        DatabaseQuery.Insert(paymentQuery, paymentParams);
+                        await _query.Insert(paymentQuery, paymentParams);
 
                         return Localization.Localization.PurchaseSuccessWithPayment;
                     }
@@ -146,7 +152,7 @@ namespace DatabaseAccess.Code
                             new SqlParameter("@BranchID", BranchID)
                         };
 
-                        DatabaseQuery.Insert(entryQuery, entryParams);
+                        await _query.Insert(entryQuery, entryParams);
                     }
 
                     transaction.Commit();
@@ -161,7 +167,7 @@ namespace DatabaseAccess.Code
             }
         }
 
-        public string PurchasePayment(int CompanyID, int BranchID, int UserID, string InvoiceNo, string SupplierInvoiceID, float TotalAmount, float Amount, string SupplierID, string SupplierName, float RemainingBalance)
+        public async Task<string> PurchasePayment(int CompanyID, int BranchID, int UserID, string InvoiceNo, string SupplierInvoiceID, float TotalAmount, float Amount, string SupplierID, string SupplierName, float RemainingBalance)
         {
             using (var transaction = _db.Database.BeginTransaction())
             {
@@ -172,7 +178,7 @@ namespace DatabaseAccess.Code
                     string pruchaseTitle = Localization.Localization.PurchaseFrom + SupplierName.Trim();
 
                     // Retrieve the active financial year
-                    var financialYearCheck = DatabaseQuery.Retrive("SELECT TOP 1 FinancialYearID FROM tblFinancialYear WHERE IsActive = 1");
+                    var financialYearCheck = await _query.Retrive("SELECT TOP 1 FinancialYearID FROM tblFinancialYear WHERE IsActive = 1");
                     string FinancialYearID = (financialYearCheck != null ? Convert.ToString(financialYearCheck.Rows[0][0]) : string.Empty);
                     if (string.IsNullOrEmpty(FinancialYearID))
                     {
@@ -181,9 +187,7 @@ namespace DatabaseAccess.Code
 
                     // Debit Entry Purchase
                     // 1 - Purchase
-                    var purchaseAccount = _db.tblAccountSetting
-                        .Where(a => a.AccountActivityID == 1 && a.CompanyID == CompanyID && a.BranchID == BranchID)
-                        .FirstOrDefault();
+                    var purchaseAccount = await _accountSettingRepository.GetByActivityAsync(1, CompanyID, BranchID);
                     if (purchaseAccount == null)
                     {
                         return Localization.Localization.AccountSettingsForPurchaseNotFound;
@@ -192,9 +196,7 @@ namespace DatabaseAccess.Code
 
                     // Credit Entry Purchase Payment Pending
                     // 2 - Purchase Payment Pending
-                    purchaseAccount = _db.tblAccountSetting
-                        .Where(a => a.AccountActivityID == 2 && a.CompanyID == CompanyID && a.BranchID == BranchID)
-                        .FirstOrDefault();
+                    purchaseAccount = await _accountSettingRepository.GetByActivityAsync(2, CompanyID, BranchID);
                     if (purchaseAccount == null)
                     {
                         return Localization.Localization.AccountSettingsForPurchasePaymentPendingNotFound;
@@ -208,9 +210,7 @@ namespace DatabaseAccess.Code
 
                         // Credit Entry Purchase Payment Paid
                         // 3 - Purchase Payment Paid
-                        purchaseAccount = _db.tblAccountSetting
-                            .Where(a => a.AccountActivityID == 3 && a.CompanyID == CompanyID && a.BranchID == BranchID)
-                            .FirstOrDefault();
+                        purchaseAccount = await _accountSettingRepository.GetByActivityAsync(3, CompanyID, BranchID);
                         if (purchaseAccount == null)
                         {
                             return Localization.Localization.AccountSettingsForPurchasePaymentPaidNotFound;
@@ -219,9 +219,7 @@ namespace DatabaseAccess.Code
 
                         // Debit Entry Purchase Payment Success
                         // 4 - Purchase Payment Success
-                        purchaseAccount = _db.tblAccountSetting
-                            .Where(a => a.AccountActivityID == 4 && a.CompanyID == CompanyID && a.BranchID == BranchID)
-                            .FirstOrDefault();
+                        purchaseAccount = await _accountSettingRepository.GetByActivityAsync(4, CompanyID, BranchID);
                         if (purchaseAccount == null)
                         {
                             return Localization.Localization.AccountSettingsForPurchasePaymentSuccessNotFound;
@@ -246,7 +244,7 @@ namespace DatabaseAccess.Code
                             new SqlParameter("@InvoiceDate", DateTime.Now.Date)
                         };
 
-                        DatabaseQuery.Insert(paymentQuery, paymentParams);
+                        await _query.Insert(paymentQuery, paymentParams);
 
                         return Localization.Localization.PurchaseSuccessWithPayment;
                     }
@@ -274,7 +272,7 @@ namespace DatabaseAccess.Code
                             new SqlParameter("@BranchID", BranchID)
                         };
 
-                        DatabaseQuery.Insert(entryQuery, entryParams);
+                        await _query.Insert(entryQuery, entryParams);
                     }
 
                     transaction.Commit();
@@ -290,7 +288,7 @@ namespace DatabaseAccess.Code
         }
 
         // Purchase Return
-        public string ReturnPurchase(int CompanyID, int BranchID, int UserID, string InvoiceNo, string SupplierInvoiceID, int SupplierReturnInvoiceID, float Amount, string SupplierID, string SupplierName, bool isPayment)
+        public async Task<string> ReturnPurchase(int CompanyID, int BranchID, int UserID, string InvoiceNo, string SupplierInvoiceID, int SupplierReturnInvoiceID, float Amount, string SupplierID, string SupplierName, bool isPayment)
         {
             using (var transaction = _db.Database.BeginTransaction())
             {
@@ -301,7 +299,7 @@ namespace DatabaseAccess.Code
                     string returnPurchaseTitle = Localization.Localization.ReturnPurchaseTo + SupplierName.Trim();
 
                     // Retrieve the active financial year
-                    var financialYearCheck = DatabaseQuery.Retrive("SELECT TOP 1 FinancialYearID FROM tblFinancialYear WHERE IsActive = 1");
+                    var financialYearCheck = await _query.Retrive("SELECT TOP 1 FinancialYearID FROM tblFinancialYear WHERE IsActive = 1");
                     string FinancialYearID = (financialYearCheck != null ? Convert.ToString(financialYearCheck.Rows[0][0]) : string.Empty);
                     if (string.IsNullOrEmpty(FinancialYearID))
                     {
@@ -312,9 +310,7 @@ namespace DatabaseAccess.Code
 
                     // Credit Entry Return Purchase
                     // 5 - Return Purchase
-                    var returnPurchaseAccount = _db.tblAccountSetting
-                        .Where(a => a.AccountActivityID == 5 && a.CompanyID == CompanyID && a.BranchID == BranchID)
-                        .FirstOrDefault();
+                    var returnPurchaseAccount = await _accountSettingRepository.GetByActivityAsync(5, CompanyID, BranchID);
                     if (returnPurchaseAccount == null)
                     {
                         return Localization.Localization.AccountSettingsАForReturnPurchaseNotFound;
@@ -323,9 +319,7 @@ namespace DatabaseAccess.Code
 
                     // Debit Entry Return Purchase Payment Pending
                     // 6 - Purchase Return Payment Pending
-                    returnPurchaseAccount = _db.tblAccountSetting
-                        .Where(a => a.AccountActivityID == 6 && a.CompanyID == CompanyID && a.BranchID == BranchID)
-                        .FirstOrDefault();
+                    returnPurchaseAccount = await _accountSettingRepository.GetByActivityAsync(6, CompanyID, BranchID);
                     if (returnPurchaseAccount == null)
                     {
                         return Localization.Localization.AccountSettingsForPurchaseReturnPaymentPendingNotFound;
@@ -339,9 +333,7 @@ namespace DatabaseAccess.Code
 
                         // Debit Entry Return Payment from Supplier
                         // 6 - Purchase Return Payment Pending
-                        returnPurchaseAccount = _db.tblAccountSetting
-                            .Where(a => a.AccountActivityID == 6 && a.CompanyID == CompanyID && a.BranchID == BranchID)
-                            .FirstOrDefault();
+                        returnPurchaseAccount = await _accountSettingRepository.GetByActivityAsync(6, CompanyID, BranchID);
                         if (returnPurchaseAccount == null)
                         {
                             return Localization.Localization.AccountSettingsForPurchaseReturnPaymentPendingNotFound;
@@ -351,9 +343,7 @@ namespace DatabaseAccess.Code
 
                         // Credit Entry Purchase Return Payment Succeed
                         // 7 - Purchase Return Payment Succeed
-                        returnPurchaseAccount = _db.tblAccountSetting
-                            .Where(a => a.AccountActivityID == 7 && a.CompanyID == CompanyID && a.BranchID == BranchID)
-                            .FirstOrDefault();
+                        returnPurchaseAccount = await _accountSettingRepository.GetByActivityAsync(7, CompanyID, BranchID);
                         if (returnPurchaseAccount == null)
                         {
                             return Localization.Localization.AccountSettingsForPurchaseReturnPaymentSucceedNotFound;
@@ -379,7 +369,7 @@ namespace DatabaseAccess.Code
                             new SqlParameter("@InvoiceDate", DateTime.Now.Date)
                         };
 
-                        DatabaseQuery.Insert(paymentQuery, paymentParams);
+                        await _query.Insert(paymentQuery, paymentParams);
 
                         successMessage += Localization.Localization.WithPayment;
                     }
@@ -407,7 +397,7 @@ namespace DatabaseAccess.Code
                             new SqlParameter("@BranchID", BranchID)
                         };
 
-                        DatabaseQuery.Insert(entryQuery, entryParams);
+                        await _query.Insert(entryQuery, entryParams);
                     }
 
                     transaction.Commit();
@@ -422,7 +412,7 @@ namespace DatabaseAccess.Code
             }
         }
 
-        public string ReturnPurchasePayment(int CompanyID, int BranchID, int UserID, string InvoiceNo, string SupplierInvoiceID, int SupplierReturnInvoiceID, float TotalAmount, float Amount, string SupplierID, string SupplierName, float RemainingBalance)
+        public async Task<string> ReturnPurchasePayment(int CompanyID, int BranchID, int UserID, string InvoiceNo, string SupplierInvoiceID, int SupplierReturnInvoiceID, float TotalAmount, float Amount, string SupplierID, string SupplierName, float RemainingBalance)
         {
             using (var transaction = _db.Database.BeginTransaction())
             {
@@ -433,7 +423,7 @@ namespace DatabaseAccess.Code
                     string returnPurchaseTitle = Localization.Localization.ReturnPurchaseTo + SupplierName.Trim();
 
                     // Retrieve the active financial year
-                    var financialYearCheck = DatabaseQuery.Retrive("SELECT TOP 1 FinancialYearID FROM tblFinancialYear WHERE IsActive = 1");
+                    var financialYearCheck = await _query.Retrive("SELECT TOP 1 FinancialYearID FROM tblFinancialYear WHERE IsActive = 1");
                     string FinancialYearID = (financialYearCheck != null && financialYearCheck.Rows.Count > 0) ? Convert.ToString(financialYearCheck.Rows[0][0]) : string.Empty;
 
                     if (string.IsNullOrEmpty(FinancialYearID))
@@ -448,9 +438,7 @@ namespace DatabaseAccess.Code
 
                     // Retrieve account settings for Purchase Return Payment Pending
                     // 6 - Purchase Return Payment Pending
-                    var returnPurchaseAccount = _db.tblAccountSetting
-                        .Where(a => a.AccountActivityID == 6 && a.CompanyID == CompanyID && a.BranchID == BranchID)
-                        .FirstOrDefault();
+                    var returnPurchaseAccount = await _accountSettingRepository.GetByActivityAsync(6, CompanyID, BranchID);
                     if (returnPurchaseAccount == null)
                     {
                         return Localization.Localization.AccountSettingsForPurchaseReturnPaymentPendingNotFound;
@@ -459,9 +447,7 @@ namespace DatabaseAccess.Code
 
                     // Retrieve account settings for Purchase Return Payment Succeed
                     // 7 - Purchase Return Payment Succeed
-                    returnPurchaseAccount = _db.tblAccountSetting
-                        .Where(a => a.AccountActivityID == 7 && a.CompanyID == CompanyID && a.BranchID == BranchID)
-                        .FirstOrDefault();
+                    returnPurchaseAccount = await _accountSettingRepository.GetByActivityAsync(7, CompanyID, BranchID);
                     if (returnPurchaseAccount == null)
                     {
                         return Localization.Localization.AccountSettingsForPurchaseReturnPaymentSucceedNotFound;
@@ -487,7 +473,7 @@ namespace DatabaseAccess.Code
                         new SqlParameter("@InvoiceDate", DateTime.Now.Date)
                     };
 
-                    DatabaseQuery.Insert(paymentQuery, paymentParams);
+                    await _query.Insert(paymentQuery, paymentParams);
 
                     // Insert transaction entries
                     foreach (DataRow entryRow in _dtEntries.Rows)
@@ -512,7 +498,7 @@ namespace DatabaseAccess.Code
                             new SqlParameter("@BranchID", BranchID)
                         };
 
-                        DatabaseQuery.Insert(entryQuery, entryParams);
+                        await _query.Insert(entryQuery, entryParams);
                     }
 
                     transaction.Commit();

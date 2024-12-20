@@ -1,27 +1,42 @@
-﻿using DatabaseAccess.Models;
+﻿using DatabaseAccess.Code;
+using DatabaseAccess.Models;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
+using System.Data;
+using System.Threading.Tasks;
 
-namespace DatabaseAccess.Code.SP_Code
+namespace DatabaseAccess.Repositories
 {
-    public class SP_Purchase
+    public interface IPurchaseRepository
     {
-        private readonly CloudDBEntities _db;
+        Task<List<PurchasePaymentModel>> RemainingPaymentList(int CompanyID, int BranchID);
+        Task<List<PurchasePaymentModel>> CustomPurchasesList(int CompanyID, int BranchID, DateTime FromDate, DateTime ToDate);
+        Task<List<PurchasePaymentModel>> PurchasePaymentHistory(int SupplierInvoiceID);
+        Task<List<SupplierReturnInvoiceModel>> PurchaseReturnPaymentPending(int? SupplierInvoiceID);
+        Task<List<PurchasePaymentModel>> GetReturnPurchasesPaymentPending(int CompanyID, int BranchID);
+    }
 
-        public SP_Purchase(CloudDBEntities db)
+    public class PurchaseRepository : IPurchaseRepository
+    {
+        private readonly DatabaseQuery _query;
+        private readonly ISupplierRepository _suppliers;
+        private readonly IUserRepository _users;
+
+        public PurchaseRepository(DatabaseQuery query, ISupplierRepository suppliers, IUserRepository users)
         {
-            _db = db;
+            _query = query;
+            _suppliers = suppliers;
+            _users = users;
         }
 
-        public List<PurchasePaymentModel> RemainingPaymentList(int CompanyID, int BranchID)
+        public async Task<List<PurchasePaymentModel>> RemainingPaymentList(int CompanyID, int BranchID)
         {
             var remainingPaymentList = new List<PurchasePaymentModel>();
 
             try
             {
-                using (SqlCommand command = new SqlCommand("GetSupplierRemainingPaymentRecord", DatabaseQuery.ConnOpen()))
+                using (SqlCommand command = new SqlCommand("GetSupplierRemainingPaymentRecord", await _query.ConnOpen()))
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@BranchID", BranchID);
@@ -36,7 +51,7 @@ namespace DatabaseAccess.Code.SP_Code
                     foreach (DataRow row in dt.Rows)
                     {
                         var supplierID = Convert.ToInt32(row["SupplierID"]);
-                        var supplier = _db.tblSupplier.Find(supplierID);
+                        var supplier = await _suppliers.GetByIdAsync(supplierID);
 
                         var payment = new PurchasePaymentModel
                         {
@@ -68,13 +83,13 @@ namespace DatabaseAccess.Code.SP_Code
             return remainingPaymentList;
         }
 
-        public List<PurchasePaymentModel> CustomPurchasesList(int CompanyID, int BranchID, DateTime FromDate, DateTime ToDate)
+        public async Task<List<PurchasePaymentModel>> CustomPurchasesList(int CompanyID, int BranchID, DateTime FromDate, DateTime ToDate)
         {
             var remainingPaymentList = new List<PurchasePaymentModel>();
 
             try
             {
-                using (SqlCommand command = new SqlCommand("GetPurchasesHistory", DatabaseQuery.ConnOpen()))
+                using (SqlCommand command = new SqlCommand("GetPurchasesHistory", await _query.ConnOpen()))
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@BranchID", BranchID);
@@ -91,7 +106,7 @@ namespace DatabaseAccess.Code.SP_Code
                     foreach (DataRow row in dt.Rows)
                     {
                         var supplierID = Convert.ToInt32(row["SupplierID"]);
-                        var supplier = _db.tblSupplier.Find(supplierID);
+                        var supplier = await _suppliers.GetByIdAsync(supplierID);
 
                         var payment = new PurchasePaymentModel
                         {
@@ -123,13 +138,13 @@ namespace DatabaseAccess.Code.SP_Code
             return remainingPaymentList;
         }
 
-        public List<PurchasePaymentModel> PurchasePaymentHistory(int SupplierInvoiceID)
+        public async Task<List<PurchasePaymentModel>> PurchasePaymentHistory(int SupplierInvoiceID)
         {
             var remainingPaymentList = new List<PurchasePaymentModel>();
 
             try
             {
-                using (SqlCommand command = new SqlCommand("GetSupplierPaymentHistory", DatabaseQuery.ConnOpen()))
+                using (SqlCommand command = new SqlCommand("GetSupplierPaymentHistory", await _query.ConnOpen()))
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@SupplierInvoiceID", SupplierInvoiceID);
@@ -142,10 +157,8 @@ namespace DatabaseAccess.Code.SP_Code
 
                     foreach (DataRow row in dt.Rows)
                     {
-                        var supplierID = Convert.ToInt32(row["SupplierID"]);
-                        var userID = Convert.ToInt32(row["UserID"]);
-                        var supplier = _db.tblSupplier.Find(supplierID);
-                        var user = _db.tblUser.Find(userID);
+                        var supplier = await _suppliers.GetByIdAsync(Convert.ToInt32(row["SupplierID"]));
+                        var user = await _users.GetByIdAsync(Convert.ToInt32(row["UserID"]));
 
                         var payment = new PurchasePaymentModel
                         {
@@ -177,13 +190,13 @@ namespace DatabaseAccess.Code.SP_Code
             return remainingPaymentList;
         }
 
-        public List<SupplierReturnInvoiceModel> PurchaseReturnPaymentPending(int? SupplierInvoiceID)
+        public async Task<List<SupplierReturnInvoiceModel>> PurchaseReturnPaymentPending(int? SupplierInvoiceID)
         {
             var remainingPaymentList = new List<SupplierReturnInvoiceModel>();
 
             try
             {
-                using (SqlCommand command = new SqlCommand("GetSupplierReturnPurchasePaymentPending", DatabaseQuery.ConnOpen()))
+                using (SqlCommand command = new SqlCommand("GetSupplierReturnPurchasePaymentPending", await _query.ConnOpen()))
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@SupplierInvoiceID", SupplierInvoiceID.HasValue ? (object)SupplierInvoiceID.Value : DBNull.Value);
@@ -196,10 +209,8 @@ namespace DatabaseAccess.Code.SP_Code
 
                     foreach (DataRow row in dt.Rows)
                     {
-                        var supplierID = Convert.ToInt32(row["SupplierID"]);
-                        var userID = Convert.ToInt32(row["UserID"]);
-                        var supplier = _db.tblSupplier.Find(supplierID);
-                        var user = _db.tblUser.Find(userID);
+                        var supplier = await _suppliers.GetByIdAsync(Convert.ToInt32(row["SupplierID"]));
+                        var user = await _users.GetByIdAsync(Convert.ToInt32(row["UserID"]));
 
                         var payment = new SupplierReturnInvoiceModel
                         {
@@ -232,13 +243,13 @@ namespace DatabaseAccess.Code.SP_Code
             return remainingPaymentList;
         }
 
-        public List<PurchasePaymentModel> GetReturnPurchasesPaymentPending(int CompanyID, int BranchID)
+        public async Task<List<PurchasePaymentModel>> GetReturnPurchasesPaymentPending(int CompanyID, int BranchID)
         {
             var remainingPaymentList = new List<PurchasePaymentModel>();
 
             try
             {
-                using (SqlCommand command = new SqlCommand("GetReturnPurchasePaymentPending", DatabaseQuery.ConnOpen()))
+                using (SqlCommand command = new SqlCommand("GetReturnPurchasePaymentPending", await _query.ConnOpen()))
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@BranchID", BranchID);
@@ -252,8 +263,7 @@ namespace DatabaseAccess.Code.SP_Code
 
                     foreach (DataRow row in dt.Rows)
                     {
-                        var supplierID = Convert.ToInt32(row["SupplierID"]);
-                        var supplier = _db.tblSupplier.Find(supplierID);
+                        var supplier = await _suppliers.GetByIdAsync(Convert.ToInt32(row["SupplierID"]));
 
                         var payment = new PurchasePaymentModel
                         {

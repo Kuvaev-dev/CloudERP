@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 using DatabaseAccess;
 using DatabaseAccess.Code;
 using DatabaseAccess.Localization;
@@ -9,12 +10,14 @@ using DatabaseAccess.Localization;
 public class SalaryTransaction
 {
     private readonly CloudDBEntities _db;
+    private readonly DatabaseQuery _query;
     private DataTable _dtEntries = null;
 
-    public SalaryTransaction(CloudDBEntities db)
+    public SalaryTransaction(CloudDBEntities db, DatabaseQuery query)
     {
         _db = db;
         InitializeDataTable();
+        _query = query;
     }
 
     private void InitializeDataTable()
@@ -35,7 +38,7 @@ public class SalaryTransaction
         }
     }
 
-    public string Confirm(
+    public async Task<string> Confirm(
         int EmployeeID,
         double TransferAmount,
         int UserID,
@@ -62,7 +65,7 @@ public class SalaryTransaction
                     transectiontitle += employeename;
                 }
 
-                var financialYearCheck = DatabaseQuery.Retrive("select top 1 FinancialYearID from tblFinancialYear where IsActive = 1");
+                var financialYearCheck = await _query.Retrive("select top 1 FinancialYearID from tblFinancialYear where IsActive = 1");
                 string FinancialYearID = (financialYearCheck != null ? Convert.ToString(financialYearCheck.Rows[0][0]) : string.Empty);
                 if (string.IsNullOrEmpty(FinancialYearID))
                 {
@@ -105,7 +108,7 @@ public class SalaryTransaction
                 };
 
                 Console.WriteLine($"Executing payment query: {paymentquery}");
-                DatabaseQuery.Insert(paymentquery, paymentParameters);
+                await _query.Insert(paymentquery, paymentParameters);
 
                 foreach (DataRow entryRow in _dtEntries.Rows)
                 {
@@ -129,7 +132,7 @@ public class SalaryTransaction
                     };
 
                     Console.WriteLine($"Executing transaction entry query: {entryQuery}");
-                    DatabaseQuery.Insert(entryQuery, entryParameters);
+                    await _query.Insert(entryQuery, entryParameters);
                 }
 
                 transaction.Commit();

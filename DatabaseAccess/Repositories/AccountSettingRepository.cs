@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ namespace DatabaseAccess.Repositories
     {
         Task<IEnumerable<tblAccountSetting>> GetAllAsync(int companyId, int branchId);
         Task<tblAccountSetting> GetByIdAsync(int id);
+        Task<tblAccountSetting> GetByActivityAsync(int id, int companyId, int branchId);
         Task AddAsync(tblAccountSetting accountSetting);
         Task UpdateAsync(tblAccountSetting accountSetting);
     }
@@ -61,6 +63,13 @@ namespace DatabaseAccess.Repositories
 
             _dbContext.Entry(existing).CurrentValues.SetValues(accountSetting);
             await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<tblAccountSetting> GetByActivityAsync(int id, int companyId, int branchId)
+        {
+            return await _dbContext.tblAccountSetting
+                        .Where(a => a.AccountActivityID == id && a.CompanyID == companyId && a.BranchID == branchId)
+                        .FirstOrDefaultAsync();
         }
     }
 }

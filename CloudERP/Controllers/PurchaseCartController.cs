@@ -2,9 +2,11 @@
 using CloudERP.Models;
 using DatabaseAccess;
 using DatabaseAccess.Code;
+using Domain.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace CloudERP.Controllers
@@ -12,18 +14,22 @@ namespace CloudERP.Controllers
     public class PurchaseCartController : Controller
     {
         private readonly CloudDBEntities _db;
-        private readonly PurchaseEntry _purchaseEntry;
+        private readonly IPurchaseEntry _purchaseEntry;
+        private readonly IStockService _stockService;
+        private readonly ISupplierService _supplierService;
         private readonly SessionHelper _sessionHelper;
 
-        public PurchaseCartController(CloudDBEntities db, PurchaseEntry purchaseEntry, SessionHelper sessionHelper)
+        public PurchaseCartController(CloudDBEntities db, IPurchaseEntry purchaseEntry, IStockService stockService, ISupplierService supplierService, SessionHelper sessionHelper)
         {
             _db = db;
             _purchaseEntry = purchaseEntry;
+            _stockService = stockService;
+            _supplierService = supplierService;
             _sessionHelper = sessionHelper;
         }
 
         // GET: PurchaseCart/NewPurchase
-        public ActionResult NewPurchase()
+        public async Task<ActionResult> NewPurchase()
         {
             try
             {
@@ -36,11 +42,7 @@ namespace CloudERP.Controllers
                 double totalAmount = findDetail.Sum(item => item.PurchaseQuantity * item.PurchaseUnitPrice);
                 ViewBag.TotalAmount = totalAmount;
 
-                var products = _db.tblStock
-                                  .Where(p => p.CompanyID == _sessionHelper.CompanyID && p.BranchID == _sessionHelper.BranchID)
-                                  .ToList();
-
-                ViewBag.Products = products;
+                ViewBag.Products = await _stockService.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
 
                 return View(findDetail);
             }
@@ -52,11 +54,11 @@ namespace CloudERP.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetProductDetails(int id)
+        public async Task<JsonResult> GetProductDetails(int id)
         {
             try
             {
-                var product = _db.tblStock.Find(id);
+                var product = await _stockService.GetByIdAsync(id);
                 if (product != null)
                 {
                     return Json(new { product.CurrentPurchaseUnitPrice }, JsonRequestBehavior.AllowGet);
@@ -213,7 +215,7 @@ namespace CloudERP.Controllers
         }
 
         // GET: PurchaseCart/SelectSupplier
-        public ActionResult SelectSupplier()
+        public async Task<ActionResult> SelectSupplier()
         {
             try
             {
@@ -231,9 +233,7 @@ namespace CloudERP.Controllers
                     return RedirectToAction("NewPurchase");
                 }
 
-                var suppliers = _db.tblSupplier.Where(s => s.CompanyID == _sessionHelper.CompanyID && s.BranchID == _sessionHelper.BranchID).ToList();
-
-                return View(suppliers);
+                return View(await _supplierService.GetByCompanyAndBranchAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID));
             }
             catch (Exception ex)
             {
@@ -244,11 +244,11 @@ namespace CloudERP.Controllers
 
         // POST: PurchaseCart/PurchaseConfirm
         [HttpPost]
-        public ActionResult PurchaseConfirm(FormCollection collection)
+        public async Task<ActionResult> PurchaseConfirm(FormCollection collection)
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
@@ -282,7 +282,7 @@ namespace CloudERP.Controllers
                     }
                 }
 
-                var supplier = _db.tblSupplier.Find(supplierID);
+                var supplier = await _supplierService.GetByIdAsync(supplierID);
                 var purchaseDetails = _db.tblPurchaseCartDetail.Where(pd => pd.BranchID == _sessionHelper.BranchID && pd.CompanyID == _sessionHelper.CompanyID).ToList();
                 double totalAmount = purchaseDetails.Sum(item => item.PurchaseQuantity * item.PurchaseUnitPrice);
 
@@ -322,7 +322,7 @@ namespace CloudERP.Controllers
 
                 _db.SaveChanges();
 
-                string Message = _purchaseEntry.ConfirmPurchase(_sessionHelper.CompanyID, _sessionHelper.BranchID, _sessionHelper.UserID, invoiceNo, invoiceHeader.SupplierInvoiceID.ToString(), (float)totalAmount, supplierID.ToString(), supplier.SupplierName, IsPayment);
+                string Message = await _purchaseEntry.ConfirmPurchase(_sessionHelper.CompanyID, _sessionHelper.BranchID, _sessionHelper.UserID, invoiceNo, invoiceHeader.SupplierInvoiceID.ToString(), (float)totalAmount, supplierID.ToString(), supplier.SupplierName, IsPayment);
 
                 if (Message.Contains("Success"))
                 {
