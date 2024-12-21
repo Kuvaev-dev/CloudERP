@@ -2,6 +2,7 @@
 using CloudERP.Models;
 using DatabaseAccess;
 using DatabaseAccess.Code;
+using DatabaseAccess.Repositories;
 using Domain.Services;
 using System;
 using System.Collections.Generic;
@@ -13,18 +14,22 @@ namespace CloudERP.Controllers
 {
     public class PurchaseCartController : Controller
     {
-        private readonly CloudDBEntities _db;
         private readonly IPurchaseEntry _purchaseEntry;
         private readonly IStockService _stockService;
         private readonly ISupplierService _supplierService;
+        private readonly IPurchaseCartDetailRepository _purchaseCartDetailRepository;
+        private readonly ISupplierInvoiceRepository _supplierInvoiceRepository;
+        private readonly ISupplierInvoiceDetailRepository _supplierInvoiceDetailRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public PurchaseCartController(CloudDBEntities db, IPurchaseEntry purchaseEntry, IStockService stockService, ISupplierService supplierService, SessionHelper sessionHelper)
+        public PurchaseCartController(IPurchaseEntry purchaseEntry, IStockService stockService, ISupplierService supplierService, IPurchaseCartDetailRepository purchaseCartDetailRepository, ISupplierInvoiceRepository supplierInvoiceRepository, ISupplierInvoiceDetailRepository supplierInvoiceDetailRepository, SessionHelper sessionHelper)
         {
-            _db = db;
             _purchaseEntry = purchaseEntry;
             _stockService = stockService;
             _supplierService = supplierService;
+            _purchaseCartDetailRepository = purchaseCartDetailRepository;
+            _supplierInvoiceRepository = supplierInvoiceRepository;
+            _supplierInvoiceDetailRepository = supplierInvoiceDetailRepository;
             _sessionHelper = sessionHelper;
         }
 
@@ -38,9 +43,9 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                var findDetail = _db.tblPurchaseCartDetail.Where(i => i.BranchID == _sessionHelper.BranchID && i.CompanyID == _sessionHelper.CompanyID && i.UserID == _sessionHelper.UserID).ToList();
-                double totalAmount = findDetail.Sum(item => item.PurchaseQuantity * item.PurchaseUnitPrice);
-                ViewBag.TotalAmount = totalAmount;
+                var findDetail = await _purchaseCartDetailRepository.GetByDefaultSettingsAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID, _sessionHelper.UserID);
+
+                ViewBag.TotalAmount = findDetail.Sum(item => item.PurchaseQuantity * item.PurchaseUnitPrice);
 
                 ViewBag.Products = await _stockService.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
 
@@ -74,7 +79,7 @@ namespace CloudERP.Controllers
 
         // POST: PurchaseCart/AddItem
         [HttpPost]
-        public ActionResult AddItem(int PID, int Qty, float Price)
+        public async Task<ActionResult> AddItem(int PID, int Qty, float Price)
         {
             try
             {
@@ -83,8 +88,7 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                var findDetail = _db.tblPurchaseCartDetail.FirstOrDefault(i => i.ProductID == PID && i.BranchID == _sessionHelper.BranchID && i.CompanyID == _sessionHelper.CompanyID);
-                if (findDetail == null)
+                if (await _purchaseCartDetailRepository.GetByProductIdAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID, PID) == null)
                 {
                     if (PID > 0 && Qty > 0 && Price > 0)
                     {
@@ -98,8 +102,7 @@ namespace CloudERP.Controllers
                             UserID = _sessionHelper.UserID
                         };
 
-                        _db.tblPurchaseCartDetail.Add(newItem);
-                        _db.SaveChanges();
+                        await _purchaseCartDetailRepository.AddAsync(newItem);
                         ViewBag.Message = Resources.Messages.ItemAddedSuccessfully;
                     }
                 }
@@ -119,7 +122,7 @@ namespace CloudERP.Controllers
 
         // POST: PurchaseCart/GetProduct
         [HttpPost]
-        public ActionResult GetProduct()
+        public async Task<ActionResult> GetProduct()
         {
             try
             {
@@ -128,11 +131,9 @@ namespace CloudERP.Controllers
                     return Json(new { data = new List<ProductMV>() }, JsonRequestBehavior.AllowGet);
                 }
 
-                List<ProductMV> products = _db.tblStock.Where(p => p.BranchID == _sessionHelper.BranchID && p.CompanyID == _sessionHelper.CompanyID)
-                                                        .Select(item => new ProductMV { Name = item.ProductName, ProductID = item.ProductID })
-                                                        .ToList();
+                var products = await _stockService.GetAllAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID);
 
-                return Json(new { data = products }, JsonRequestBehavior.AllowGet);
+                return Json(new { data = products.Select(item => new ProductMV { Name = item.ProductName, ProductID = item.ProductID }).ToList() }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -142,7 +143,7 @@ namespace CloudERP.Controllers
         }
 
         // GET: PurchaseCart/DeleteConfirm
-        public ActionResult DeleteConfirm(int? id)
+        public async Task<ActionResult> DeleteConfirm(int id)
         {
             try
             {
@@ -151,19 +152,17 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                var product = _db.tblPurchaseCartDetail.Find(id);
+                var product = await _purchaseCartDetailRepository.GetByIdAsync(id);
                 if (product != null)
                 {
-                    _db.Entry(product).State = System.Data.Entity.EntityState.Deleted;
-                    _db.SaveChanges();
+                    await _purchaseCartDetailRepository.UpdateAsync(product);
                     ViewBag.Message = Resources.Messages.DeletedSuccessfully;
                     return RedirectToAction("NewPurchase");
                 }
 
                 ViewBag.Message = Resources.Messages.UnexpectedIssue;
-                var find = _db.tblPurchaseCartDetail.Where(i => i.BranchID == _sessionHelper.BranchID && i.CompanyID == _sessionHelper.CompanyID && i.UserID == _sessionHelper.UserID).ToList();
 
-                return View(find);
+                return View(await _purchaseCartDetailRepository.GetByDefaultSettingsAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID, _sessionHelper.UserID));
             }
             catch (Exception ex)
             {
@@ -174,7 +173,7 @@ namespace CloudERP.Controllers
 
         // POST: PurchaseCart/CancelPurchase
         [HttpPost]
-        public ActionResult CancelPurchase()
+        public async Task<ActionResult> CancelPurchase()
         {
             try
             {
@@ -183,20 +182,7 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                var list = _db.tblPurchaseCartDetail.Where(p => p.BranchID == _sessionHelper.BranchID && p.CompanyID == _sessionHelper.CompanyID && p.UserID == _sessionHelper.UserID).ToList();
-                bool cancelstatus = false;
-
-                foreach (var item in list)
-                {
-                    _db.Entry(item).State = System.Data.Entity.EntityState.Deleted;
-                    int noofrecords = _db.SaveChanges();
-                    if (cancelstatus == false && noofrecords > 0)
-                    {
-                        cancelstatus = true;
-                    }
-                }
-
-                if (cancelstatus)
+                if (await _purchaseCartDetailRepository.IsCanceled(_sessionHelper.BranchID, _sessionHelper.CompanyID, _sessionHelper.UserID))
                 {
                     ViewBag.Message = Resources.Messages.PurchaseIsCanceled;
                 }
@@ -226,8 +212,7 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                var checkPurchaseCart = _db.tblPurchaseCartDetail.FirstOrDefault(pd => pd.BranchID == _sessionHelper.BranchID && pd.CompanyID == _sessionHelper.CompanyID);
-                if (checkPurchaseCart == null)
+                if (await _purchaseCartDetailRepository.GetByBranchAndCompanyAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID) == null)
                 {
                     Session["ErrorMessagePurchase"] = Resources.Messages.PurchaseCartIsEmpty;
                     return RedirectToAction("NewPurchase");
@@ -283,9 +268,9 @@ namespace CloudERP.Controllers
                 }
 
                 var supplier = await _supplierService.GetByIdAsync(supplierID);
-                var purchaseDetails = _db.tblPurchaseCartDetail.Where(pd => pd.BranchID == _sessionHelper.BranchID && pd.CompanyID == _sessionHelper.CompanyID).ToList();
-                double totalAmount = purchaseDetails.Sum(item => item.PurchaseQuantity * item.PurchaseUnitPrice);
+                var purchaseDetails = await _purchaseCartDetailRepository.GetByBranchAndCompanyAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID);
 
+                double totalAmount = purchaseDetails.Sum(item => item.PurchaseQuantity * item.PurchaseUnitPrice);
                 if (totalAmount == 0)
                 {
                     ViewBag.Message = Resources.Messages.PurchaseCartIsEmpty;
@@ -304,9 +289,7 @@ namespace CloudERP.Controllers
                     UserID = _sessionHelper.UserID,
                     TotalAmount = totalAmount
                 };
-
-                _db.tblSupplierInvoice.Add(invoiceHeader);
-                _db.SaveChanges();
+                await _supplierInvoiceRepository.AddAsync(invoiceHeader);
 
                 foreach (var item in purchaseDetails)
                 {
@@ -317,10 +300,8 @@ namespace CloudERP.Controllers
                         PurchaseUnitPrice = item.PurchaseUnitPrice,
                         SupplierInvoiceID = invoiceHeader.SupplierInvoiceID
                     };
-                    _db.tblSupplierInvoiceDetail.Add(newPurchaseDetails);
+                    await _supplierInvoiceDetailRepository.AddAsync(newPurchaseDetails);
                 }
-
-                _db.SaveChanges();
 
                 string Message = await _purchaseEntry.ConfirmPurchase(_sessionHelper.CompanyID, _sessionHelper.BranchID, _sessionHelper.UserID, invoiceNo, invoiceHeader.SupplierInvoiceID.ToString(), (float)totalAmount, supplierID.ToString(), supplier.SupplierName, IsPayment);
 
@@ -328,16 +309,15 @@ namespace CloudERP.Controllers
                 {
                     foreach (var item in purchaseDetails)
                     {
-                        var stockItem = _db.tblStock.Find(item.ProductID);
+                        var stockItem = await _stockService.GetByIdAsync(item.ProductID);
                         if (stockItem != null)
                         {
                             stockItem.CurrentPurchaseUnitPrice = item.PurchaseUnitPrice;
                             stockItem.Quantity += item.PurchaseQuantity;
-                            _db.Entry(stockItem).State = System.Data.Entity.EntityState.Modified;
+                            await _stockService.UpdateAsync(stockItem);
                         }
-                        _db.Entry(item).State = System.Data.Entity.EntityState.Deleted;
+                        await _purchaseCartDetailRepository.DeleteAsync(item);
                     }
-                    _db.SaveChanges();
                     return RedirectToAction("PrintPurchaseInvoice", "PurchasePayment", new { id = invoiceHeader.SupplierInvoiceID });
                 }
 

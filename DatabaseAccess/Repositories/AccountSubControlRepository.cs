@@ -9,6 +9,7 @@ namespace DatabaseAccess.Repositories
     {
         Task<IEnumerable<tblAccountSubControl>> GetAllAsync(int companyId, int branchId);
         Task<tblAccountSubControl> GetByIdAsync(int id);
+        Task<tblAccountSubControl> GetBySettingAsync(int id, int companyId, int branchId);
         Task AddAsync(tblAccountSubControl entity);
         Task UpdateAsync(tblAccountSubControl entity);
     }
@@ -47,6 +48,15 @@ namespace DatabaseAccess.Repositories
         {
             _db.Entry(entity).State = System.Data.Entity.EntityState.Modified;
             await _db.SaveChangesAsync();
+        }
+
+        public async Task<tblAccountSubControl> GetBySettingAsync(int id, int companyId, int branchId)
+        {
+            var asc = await _db.tblAccountSubControl.FirstOrDefaultAsync(a =>
+                        a.AccountSubControlID == id &&
+                        a.CompanyID == companyId &&
+                        a.BranchID == branchId);
+            return asc;
         }
     }
 }

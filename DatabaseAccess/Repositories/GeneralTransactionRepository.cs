@@ -28,12 +28,14 @@ namespace DatabaseAccess.Repositories
     {
         private readonly CloudDBEntities _db;
         private readonly DatabaseQuery _query;
+        private readonly IAccountSubControlRepository _accountSubControlRepository;
         private DataTable _dtEntries;
 
-        public GeneralTransactionRepository(CloudDBEntities db, DatabaseQuery query)
+        public GeneralTransactionRepository(CloudDBEntities db, DatabaseQuery query, IAccountSubControlRepository accountSubControlRepository)
         {
             _db = db;
             _query = query;
+            _accountSubControlRepository = accountSubControlRepository;
         }
 
         private void InitializeDataTable()
@@ -83,10 +85,7 @@ namespace DatabaseAccess.Repositories
                     }
 
                     // Дебетовая запись
-                    var debitAccount = _db.tblAccountSubControl.FirstOrDefault(a =>
-                        a.AccountSubControlID == debitAccountControlId &&
-                        a.CompanyID == companyId &&
-                        a.BranchID == branchId);
+                    var debitAccount = await _accountSubControlRepository.GetBySettingAsync(debitAccountControlId, companyId, branchId);
 
                     if (debitAccount == null)
                     {
@@ -99,10 +98,7 @@ namespace DatabaseAccess.Repositories
                         DateTime.Now, transactionTitle);
 
                     // Кредитовая запись
-                    var creditAccount = _db.tblAccountSubControl.FirstOrDefault(a =>
-                        a.AccountSubControlID == creditAccountControlId &&
-                        a.CompanyID == companyId &&
-                        a.BranchID == branchId);
+                    var creditAccount = await _accountSubControlRepository.GetBySettingAsync(creditAccountControlId, companyId, branchId);
 
                     if (creditAccount == null)
                     {

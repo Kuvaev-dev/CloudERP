@@ -108,8 +108,11 @@
     <Compile Include="Repositories\EmployeeRepository.cs" />
     <Compile Include="Repositories\FinancialYearRepository.cs" />
     <Compile Include="Repositories\LedgerRepository.cs" />
+    <Compile Include="Repositories\PurchaseCartDetailRepository.cs" />
     <Compile Include="Repositories\PurchaseRepository.cs" />
     <Compile Include="Repositories\StockRepository.cs" />
+    <Compile Include="Repositories\SupplierInvoiceDetailRepository.cs" />
+    <Compile Include="Repositories\SupplierInvoiceRepository.cs" />
     <Compile Include="Repositories\SupplierRepository.cs" />
     <Compile Include="Repositories\SupportTicketRepository.cs" />
     <Compile Include="Repositories\TaskRepository.cs" />

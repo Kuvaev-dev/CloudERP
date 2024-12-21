@@ -17,13 +17,13 @@ namespace DatabaseAccess.Repositories
 
     public class BalanceSheetRepository : IBalanceSheetRepository
     {
-        private readonly CloudDBEntities _db;
         private readonly DatabaseQuery _query;
+        private readonly IAccountHeadRepository _accountHeadRepository;
 
-        public BalanceSheetRepository(CloudDBEntities db, DatabaseQuery query)
+        public BalanceSheetRepository(DatabaseQuery query, IAccountHeadRepository accountHeadRepository)
         {
-            _db = db;
             _query = query;
+            _accountHeadRepository = accountHeadRepository;
         }
 
         public async Task<BalanceSheetModel> GetBalanceSheetAsync(int companyId, int branchId, int financialYearId, List<int> headIds)
@@ -166,7 +166,7 @@ namespace DatabaseAccess.Repositories
                     }
                 }
 
-                var accountHead = _db.tblAccountHead.Find(HeadID);
+                var accountHead = await _accountHeadRepository.GetByIdAsync(HeadID);
                 if (accountHead != null)
                 {
                     accountsHeadWithDetails.TotalAmount = totalAmount;
