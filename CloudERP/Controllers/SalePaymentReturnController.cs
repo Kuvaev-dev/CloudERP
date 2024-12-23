@@ -1,8 +1,9 @@
 ﻿using DatabaseAccess;
 using DatabaseAccess.Code;
-using DatabaseAccess.Code.SP_Code;
+using DatabaseAccess.Repositories;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace CloudERP.Controllers
@@ -10,10 +11,10 @@ namespace CloudERP.Controllers
     public class SalePaymentReturnController : Controller
     {
         private readonly CloudDBEntities _db;
-        private readonly SP_Sale _sale;
-        private readonly SaleEntry _saleEntry;
+        private readonly ISaleRepository _sale;
+        private readonly ISaleEntry _saleEntry;
 
-        public SalePaymentReturnController(CloudDBEntities db, SP_Sale sale, SaleEntry saleEntry)
+        public SalePaymentReturnController(CloudDBEntities db, ISaleRepository sale, ISaleEntry saleEntry)
         {
             _db = db;
             _sale = sale;
@@ -104,7 +105,7 @@ namespace CloudERP.Controllers
         }
 
         [HttpPost]
-        public ActionResult ReturnAmount(int? id, float previousRemainingAmount, float paymentAmount)
+        public async Task<ActionResult> ReturnAmount(int? id, float previousRemainingAmount, float paymentAmount)
         {
             try
             {
@@ -138,7 +139,7 @@ namespace CloudERP.Controllers
                 var customer = _db.tblCustomer.Find(_db.tblCustomerReturnInvoice.Find(id).CustomerID);
                 var saleInvoice = _db.tblCustomerReturnInvoice.Find(id);
 
-                string message = _saleEntry.ReturnSalePayment(companyID, branchID, userID, payInvoiceNo, saleInvoice.CustomerInvoiceID.ToString(), saleInvoice.CustomerReturnInvoiceID, (float)saleInvoice.TotalAmount,
+                string message = await _saleEntry.ReturnSalePayment(companyID, branchID, userID, payInvoiceNo, saleInvoice.CustomerInvoiceID.ToString(), saleInvoice.CustomerReturnInvoiceID, (float)saleInvoice.TotalAmount,
                     paymentAmount, customer.CustomerID.ToString(), customer.Customername, previousRemainingAmount - paymentAmount);
 
                 Session["SaleMessage"] = message;

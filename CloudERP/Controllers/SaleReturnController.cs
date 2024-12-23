@@ -3,6 +3,7 @@ using DatabaseAccess.Code;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace CloudERP.Controllers
@@ -81,7 +82,7 @@ namespace CloudERP.Controllers
         }
 
         [HttpPost]
-        public ActionResult ReturnConfirm(FormCollection collection)
+        public async Task<ActionResult> ReturnConfirm(FormCollection collection)
         {
             try
             {
@@ -168,7 +169,7 @@ namespace CloudERP.Controllers
                 _db.SaveChanges();
 
                 var customer = _db.tblCustomer.Find(customerID);
-                string Message = _saleEntry.ReturnSale(companyID, branchID, userID, invoiceNo, returnInvoiceHeader.CustomerInvoiceID.ToString(), returnInvoiceHeader.CustomerReturnInvoiceID, (float)TotalAmount, customerID.ToString(), customer.Customername, IsPayment);
+                string Message = await _saleEntry.ReturnSale(companyID, branchID, userID, invoiceNo, returnInvoiceHeader.CustomerInvoiceID.ToString(), returnInvoiceHeader.CustomerReturnInvoiceID, (float)TotalAmount, customerID.ToString(), customer.Customername, IsPayment);
 
                 if (Message.Contains("Success"))
                 {

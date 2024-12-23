@@ -74,7 +74,6 @@
     <Compile Include="Code\PurchaseEntry.cs" />
     <Compile Include="Code\SalaryTransaction.cs" />
     <Compile Include="Code\SaleEntry.cs" />
-    <Compile Include="Code\SP_Code\SP_Sale.cs" />
     <Compile Include="Helpers\AllowedDomainsAttribute.cs" />
     <Compile Include="Helpers\BranchHelper.cs" />
     <Compile Include="Localization\Localization.Designer.cs">

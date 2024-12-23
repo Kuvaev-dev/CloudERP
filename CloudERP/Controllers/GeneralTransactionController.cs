@@ -3,6 +3,7 @@ using CloudERP.Models;
 using DatabaseAccess;
 using DatabaseAccess.Repositories;
 using System;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace CloudERP.Controllers
@@ -21,7 +22,7 @@ namespace CloudERP.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SaveGeneralTransaction(GeneralTransactionMV transaction)
+        public async Task<ActionResult> SaveGeneralTransaction(GeneralTransactionMV transaction)
         {
             try
             {
@@ -33,7 +34,7 @@ namespace CloudERP.Controllers
                 if (ModelState.IsValid)
                 {
                     string payInvoiceNo = "GEN" + DateTime.Now.ToString("yyyyMMddHHmmssmm");
-                    var message = _transactionRepository.ConfirmGeneralTransaction(
+                    var message = await _transactionRepository.ConfirmGeneralTransaction(
                         transaction.TransferAmount,
                         _sessionHelper.UserID,
                         _sessionHelper.BranchID,
@@ -53,11 +54,11 @@ namespace CloudERP.Controllers
                 }
 
                 ViewBag.CreditAccountControlID = new SelectList(
-                    _transactionRepository.GetAllAccounts(_sessionHelper.CompanyID, _sessionHelper.BranchID),
+                    await _transactionRepository.GetAllAccounts(_sessionHelper.CompanyID, _sessionHelper.BranchID),
                     "AccountSubControlID", "AccountSubControl", "0");
 
                 ViewBag.DebitAccountControlID = new SelectList(
-                    _transactionRepository.GetAllAccounts(_sessionHelper.CompanyID, _sessionHelper.BranchID),
+                    await _transactionRepository.GetAllAccounts(_sessionHelper.CompanyID, _sessionHelper.BranchID),
                     "AccountSubControlID", "AccountSubControl", "0");
 
                 return RedirectToAction("GeneralTransaction", new { transaction });

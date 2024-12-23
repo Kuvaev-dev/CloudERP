@@ -1,19 +1,20 @@
-﻿using DatabaseAccess.Code.SP_Code;
-using DatabaseAccess.Code;
+﻿using DatabaseAccess.Code;
 using DatabaseAccess;
 using System;
 using System.Linq;
 using System.Web.Mvc;
+using DatabaseAccess.Repositories;
+using System.Threading.Tasks;
 
 namespace CloudERP.Controllers
 {
     public class SalePaymentController : Controller
     {
         private readonly CloudDBEntities _db;
-        private readonly SP_Sale _sale;
-        private readonly SaleEntry _saleEntry;
+        private readonly ISaleRepository _sale;
+        private readonly ISaleEntry _saleEntry;
 
-        public SalePaymentController(CloudDBEntities db, SP_Sale sale, SaleEntry saleEntry)
+        public SalePaymentController(CloudDBEntities db, ISaleRepository sale, ISaleEntry saleEntry)
         {
             _db = db;
             _sale = sale;
@@ -21,7 +22,7 @@ namespace CloudERP.Controllers
         }
 
         // GET: PurchasePayment
-        public ActionResult RemainingPaymentList()
+        public async Task<ActionResult> RemainingPaymentList()
         {
             try
             {
@@ -33,7 +34,7 @@ namespace CloudERP.Controllers
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = Convert.ToInt32(Session["BranchID"]);
 
-                var list = _sale.RemainingPaymentList(companyID, branchID);
+                var list = await _sale.RemainingPaymentList(companyID, branchID);
 
                 return View(list.ToList());
             }
@@ -44,7 +45,7 @@ namespace CloudERP.Controllers
             }
         }
 
-        public ActionResult PaidHistory(int? id)
+        public async Task<ActionResult> PaidHistory(int? id)
         {
             try
             {
@@ -56,7 +57,7 @@ namespace CloudERP.Controllers
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = Convert.ToInt32(Session["BranchID"]);
 
-                var list = _sale.SalePaymentHistory(id.Value);
+                var list = await _sale.SalePaymentHistory(id.Value);
                 var returnDetails = _db.tblCustomerReturnInvoice.Where(r => r.CustomerInvoiceID == id).ToList();
 
                 if (returnDetails != null && returnDetails.Count > 0)
@@ -82,7 +83,7 @@ namespace CloudERP.Controllers
             }
         }
 
-        public ActionResult PaidAmount(int? id)
+        public async Task<ActionResult> PaidAmount(int? id)
         {
             try
             {
@@ -94,7 +95,7 @@ namespace CloudERP.Controllers
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = Convert.ToInt32(Session["BranchID"]);
 
-                var list = _sale.SalePaymentHistory(id.Value);
+                var list = await _sale.SalePaymentHistory(id.Value);
                 double remainingAmount = 0;
 
                 foreach (var item in list)
@@ -120,7 +121,7 @@ namespace CloudERP.Controllers
         }
 
         [HttpPost]
-        public ActionResult PaidAmount(int? id, float previousRemainingAmount, float paidAmount)
+        public async Task<ActionResult> PaidAmount(int? id, float previousRemainingAmount, float paidAmount)
         {
             try
             {
@@ -136,7 +137,7 @@ namespace CloudERP.Controllers
                 if (paidAmount > previousRemainingAmount)
                 {
                     ViewBag.Message = Resources.Messages.PurchasePaymentRemainingAmountError;
-                    var list = _sale.SalePaymentHistory(id.Value);
+                    var list = await _sale.SalePaymentHistory(id.Value);
                     double remainingAmount = 0;
 
                     foreach (var item in list)
@@ -158,7 +159,7 @@ namespace CloudERP.Controllers
                 string payInvoiceNo = "INP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
                 var customer = _db.tblCustomer.Find(_db.tblCustomerInvoice.Find(id).CustomerID);
                 var purchaseInvoice = _db.tblCustomerInvoice.Find(id);
-                string message = _saleEntry.SalePayment(companyID, branchID, userID, payInvoiceNo, Convert.ToString(id), (float)purchaseInvoice.TotalAmount,
+                string message = await _saleEntry.SalePayment(companyID, branchID, userID, payInvoiceNo, Convert.ToString(id), (float)purchaseInvoice.TotalAmount,
                     paidAmount, Convert.ToString(customer.CustomerID), customer.Customername, previousRemainingAmount - paidAmount);
 
                 TempData["Message"] = message;
@@ -168,7 +169,7 @@ namespace CloudERP.Controllers
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                var list = _sale.SalePaymentHistory(id.Value);
+                var list = await _sale.SalePaymentHistory(id.Value);
                 double remainingAmount = 0;
 
                 foreach (var item in list)
@@ -188,7 +189,7 @@ namespace CloudERP.Controllers
             }
         }
 
-        public ActionResult CustomSalesHistory(DateTime FromDate, DateTime ToDate)
+        public async Task<ActionResult> CustomSalesHistory(DateTime FromDate, DateTime ToDate)
         {
             try
             {
@@ -201,7 +202,7 @@ namespace CloudERP.Controllers
                 int branchID = Convert.ToInt32(Session["BranchID"]);
                 int userID = Convert.ToInt32(Session["UserID"]);
 
-                var list = _sale.CustomSalesList(companyID, branchID, FromDate, ToDate);
+                var list = await _sale.CustomSalesList(companyID, branchID, FromDate, ToDate);
 
                 return View(list.ToList());
             }
@@ -212,7 +213,7 @@ namespace CloudERP.Controllers
             }
         }
 
-        public ActionResult SubCustomSalesHistory(DateTime FromDate, DateTime ToDate, int? id)
+        public async Task<ActionResult> SubCustomSalesHistory(DateTime FromDate, DateTime ToDate, int? id)
         {
             try
             {
@@ -224,7 +225,7 @@ namespace CloudERP.Controllers
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
                 int branchID = (id.HasValue) ? id.Value : Convert.ToInt32(Session["BranchID"]);
                 int userID = Convert.ToInt32(Session["UserID"]);
-                var list = _sale.CustomSalesList(companyID, branchID, FromDate, ToDate);
+                var list = await _sale.CustomSalesList(companyID, branchID, FromDate, ToDate);
 
                 return View(list.ToList());
             }

@@ -1,5 +1,7 @@
 ﻿using DatabaseAccess.Code;
+using DatabaseAccess.Models;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
@@ -8,6 +10,11 @@ namespace DatabaseAccess.Repositories
 {
     public interface ISaleRepository
     {
+        Task<List<SalePaymentModel>> RemainingPaymentList(int CompanyID, int BranchID);
+        Task<List<SalePaymentModel>> CustomSalesList(int CompanyID, int BranchID, DateTime FromDate, DateTime ToDate);
+        Task<List<SalePaymentModel>> SalePaymentHistory(int CustomerInvoiceID);
+        Task<List<SalePaymentModel>> GetReturnSaleAmountPending(int CompanyID, int BranchID);
+
         Task<string> ConfirmSale(int CompanyID, int BranchID, int UserID, string CustomerInvoiceID, float Amount, string CustomerID, string payInvoiceNo, float RemainingBalance);
         Task<string> ReturnSale(int CompanyID, int BranchID, int UserID, string CustomerInvoiceID, int CustomerReturnInvoiceID, float Amount, string CustomerID, string payInvoiceNo, float RemainingBalance);
         Task<string> InsertTransaction(int CompanyID, int BranchID);
@@ -64,6 +71,134 @@ namespace DatabaseAccess.Repositories
             }
         }
 
+        public async Task<List<SalePaymentModel>> CustomSalesList(int CompanyID, int BranchID, DateTime FromDate, DateTime ToDate)
+        {
+            var remainingPaymentList = new List<SalePaymentModel>();
+
+            try
+            {
+                using (SqlConnection connection = await _query.ConnOpen())
+                {
+                    using (SqlCommand command = new SqlCommand("GetSalesHistory", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add(new SqlParameter("@BranchID", BranchID));
+                        command.Parameters.Add(new SqlParameter("@CompanyID", CompanyID));
+                        command.Parameters.Add(new SqlParameter("@FromDate", FromDate.ToString("yyyy-MM-dd")));
+                        command.Parameters.Add(new SqlParameter("@ToDate", ToDate.ToString("yyyy-MM-dd")));
+
+                        var dt = new DataTable();
+                        using (SqlDataAdapter da = new SqlDataAdapter(command))
+                        {
+                            da.Fill(dt);
+                        }
+
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            var customerID = Convert.ToInt32(row["CustomerID"]);
+                            var customer = _db.tblCustomer.Find(customerID);
+
+                            if (customer == null)
+                            {
+                                Console.WriteLine($"Warning: Customer with ID {customerID} not found.");
+                                continue;
+                            }
+
+                            var payment = new SalePaymentModel
+                            {
+                                CustomerInvoiceID = Convert.ToInt32(row["CustomerInvoiceID"]),
+                                BranchID = Convert.ToInt32(row["BranchID"]),
+                                CompanyID = Convert.ToInt32(row["CompanyID"]),
+                                InvoiceDate = Convert.ToDateTime(row["InvoiceDate"]),
+                                InvoiceNo = Convert.ToString(row["InvoiceNo"]),
+                                TotalAmount = Convert.ToDouble(row["BeforeReturnTotal"] == DBNull.Value ? 0 : row["BeforeReturnTotal"]),
+                                ReturnProductAmount = Convert.ToDouble(row["ReturnTotal"] == DBNull.Value ? 0 : row["ReturnTotal"]),
+                                AfterReturnTotalAmount = Convert.ToDouble(row["AfterReturnTotal"] == DBNull.Value ? 0 : row["AfterReturnTotal"]),
+                                PaymentAmount = Convert.ToDouble(row["PaidAmount"] == DBNull.Value ? 0 : row["PaidAmount"]),
+                                ReturnPaymentAmount = Convert.ToDouble(row["ReturnPayment"] == DBNull.Value ? 0 : row["ReturnPayment"]),
+                                RemainingBalance = Convert.ToDouble(row["RemainingBalance"] == DBNull.Value ? 0 : row["RemainingBalance"]),
+                                CustomerContactNo = customer.CustomerContact,
+                                CustomerAddress = customer.CustomerAddress,
+                                CustomerID = customer.CustomerID,
+                                CustomerName = customer.Customername
+                            };
+
+                            remainingPaymentList.Add(payment);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
+            }
+
+            return remainingPaymentList;
+        }
+
+        public async Task<List<SalePaymentModel>> GetReturnSaleAmountPending(int CompanyID, int BranchID)
+        {
+            var remainingPaymentList = new List<SalePaymentModel>();
+
+            try
+            {
+                using (SqlConnection connection = await _query.ConnOpen())
+                {
+                    using (SqlCommand command = new SqlCommand("GetReturnSaleAmountPending", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add(new SqlParameter("@BranchID", BranchID));
+                        command.Parameters.Add(new SqlParameter("@CompanyID", CompanyID));
+
+                        var dt = new DataTable();
+                        using (SqlDataAdapter da = new SqlDataAdapter(command))
+                        {
+                            da.Fill(dt);
+                        }
+
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            var customerID = Convert.ToInt32(row["CustomerID"]);
+                            var customer = _db.tblCustomer.Find(customerID);
+
+                            if (customer == null)
+                            {
+                                Console.WriteLine($"Warning: Customer with ID {customerID} not found.");
+                                continue;
+                            }
+
+                            var payment = new SalePaymentModel
+                            {
+                                CustomerInvoiceID = Convert.ToInt32(row["CustomerInvoiceID"]),
+                                BranchID = Convert.ToInt32(row["BranchID"]),
+                                CompanyID = Convert.ToInt32(row["CompanyID"]),
+                                InvoiceDate = Convert.ToDateTime(row["InvoiceDate"]),
+                                InvoiceNo = Convert.ToString(row["InvoiceNo"]),
+                                TotalAmount = Convert.ToDouble(row["BeforeReturnTotal"] == DBNull.Value ? 0 : row["BeforeReturnTotal"]),
+                                ReturnProductAmount = Convert.ToDouble(row["ReturnTotal"] == DBNull.Value ? 0 : row["ReturnTotal"]),
+                                AfterReturnTotalAmount = Convert.ToDouble(row["AfterReturnTotal"] == DBNull.Value ? 0 : row["AfterReturnTotal"]),
+                                PaymentAmount = Convert.ToDouble(row["PaidAmount"] == DBNull.Value ? 0 : row["PaidAmount"]),
+                                ReturnPaymentAmount = Convert.ToDouble(row["ReturnPayment"] == DBNull.Value ? 0 : row["ReturnPayment"]),
+                                RemainingBalance = Convert.ToDouble(row["RemainingBalance"] == DBNull.Value ? 0 : row["RemainingBalance"]),
+                                CustomerContactNo = customer.CustomerContact,
+                                CustomerAddress = customer.CustomerAddress,
+                                CustomerID = customer.CustomerID,
+                                CustomerName = customer.Customername
+                            };
+
+                            remainingPaymentList.Add(payment);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
+            }
+
+            return remainingPaymentList;
+        }
+
         public async Task<string> InsertTransaction(int CompanyID, int BranchID)
         {
             using (var transaction = _db.Database.BeginTransaction())
@@ -103,6 +238,66 @@ namespace DatabaseAccess.Repositories
                     return Localization.Localization.UnexpectedErrorOccurred;
                 }
             }
+        }
+
+        public async Task<List<SalePaymentModel>> RemainingPaymentList(int CompanyID, int BranchID)
+        {
+            var remainingPaymentList = new List<SalePaymentModel>();
+
+            try
+            {
+                using (SqlConnection connection = await _query.ConnOpen())
+                {
+                    using (SqlCommand command = new SqlCommand("GetCustomerRemainingPaymentRecord", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add(new SqlParameter("@BranchID", BranchID));
+                        command.Parameters.Add(new SqlParameter("@CompanyID", CompanyID));
+
+                        var dt = new DataTable();
+                        using (SqlDataAdapter da = new SqlDataAdapter(command))
+                        {
+                            da.Fill(dt);
+                        }
+
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            var customerID = Convert.ToInt32(row["CustomerID"]);
+                            var customer = _db.tblCustomer.Find(customerID);
+
+                            if (customer == null)
+                            {
+                                Console.WriteLine($"Warning: Customer with ID {customerID} not found.");
+                                continue;
+                            }
+
+                            var payment = new SalePaymentModel
+                            {
+                                CustomerInvoiceID = Convert.ToInt32(row["CustomerInvoiceID"]),
+                                BranchID = Convert.ToInt32(row["BranchID"]),
+                                CompanyID = Convert.ToInt32(row["CompanyID"]),
+                                InvoiceDate = Convert.ToDateTime(row["InvoiceDate"]),
+                                InvoiceNo = Convert.ToString(row["InvoiceNo"]),
+                                PaymentAmount = Convert.ToDouble(row["Payment"] == DBNull.Value ? 0 : row["Payment"]),
+                                RemainingBalance = Convert.ToDouble(row["RemainingBalance"] == DBNull.Value ? 0 : row["RemainingBalance"]),
+                                CustomerContactNo = customer.CustomerContact,
+                                CustomerAddress = customer.CustomerAddress,
+                                CustomerID = customer.CustomerID,
+                                CustomerName = customer.Customername,
+                                TotalAmount = Convert.ToDouble(row["TotalAmount"] == DBNull.Value ? 0 : row["TotalAmount"])
+                            };
+
+                            remainingPaymentList.Add(payment);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
+            }
+
+            return remainingPaymentList;
         }
 
         public async Task<string> ReturnSale(int CompanyID, int BranchID, int UserID, string CustomerInvoiceID, int CustomerReturnInvoiceID, float Amount, string CustomerID, string payInvoiceNo, float RemainingBalance)
@@ -173,6 +368,11 @@ namespace DatabaseAccess.Repositories
                     Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
                 }
             }
+        }
+
+        public Task<List<SalePaymentModel>> SalePaymentHistory(int CustomerInvoiceID)
+        {
+            throw new NotImplementedException();
         }
 
         private void InitializeDataTable()

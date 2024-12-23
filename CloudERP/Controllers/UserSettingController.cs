@@ -17,14 +17,16 @@ namespace CloudERP.Controllers
         private readonly IUserTypeService _userTypeService;
         private readonly IMapper<User, UserMV> _mapper;
         private readonly SessionHelper _sessionHelper;
+        private readonly PasswordHelper _passwordHelper;
 
-        public UserSettingController(IEmployeeService employeeService, IUserService userService, IUserTypeService userTypeService, IMapper<User, UserMV> mapper, SessionHelper sessionHelper)
+        public UserSettingController(IEmployeeService employeeService, IUserService userService, IUserTypeService userTypeService, IMapper<User, UserMV> mapper, SessionHelper sessionHelper, PasswordHelper passwordHelper)
         {
             _employeeService = employeeService;
             _userService = userService;
             _userTypeService = userTypeService;
             _mapper = mapper;
             _sessionHelper = sessionHelper;
+            _passwordHelper = passwordHelper;
         }
 
         // GET: CreateUser
@@ -44,7 +46,7 @@ namespace CloudERP.Controllers
             }
 
             _sessionHelper.CompanyEmployeeID = employeeID;
-            var hashedPassword = PasswordHelper.HashPassword(employee.ContactNumber, out string salt);
+            var hashedPassword = _passwordHelper.HashPassword(employee.ContactNumber, out string salt);
 
             var user = new UserMV
             {

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using CloudERP.Models;
+using System.Threading.Tasks;
 
 namespace CloudERP.Controllers
 {
@@ -75,7 +76,7 @@ namespace CloudERP.Controllers
 
         // POST: SaleCart/AddItem
         [HttpPost]
-        public ActionResult AddItem(int PID, int Qty, float Price)
+        public async Task<ActionResult> AddItem(int PID, int Qty, float Price)
         {
             try
             {
@@ -133,7 +134,7 @@ namespace CloudERP.Controllers
 
         // POST: SaleCart/DeleteConfirm/5
         [HttpPost]
-        public ActionResult DeleteConfirm(int id)
+        public async Task<ActionResult> DeleteConfirm(int id)
         {
             try
             {
@@ -167,7 +168,7 @@ namespace CloudERP.Controllers
 
         // POST: SaleCart/GetProduct
         [HttpPost]
-        public ActionResult GetProduct()
+        public async Task<ActionResult> GetProduct()
         {
             try
             {
@@ -199,7 +200,7 @@ namespace CloudERP.Controllers
 
         // POST: SaleCart/GetProductDetails/5
         [HttpPost]
-        public ActionResult GetProductDetails(int? id)
+        public async Task<ActionResult> GetProductDetails(int? id)
         {
             try
             {
@@ -222,7 +223,7 @@ namespace CloudERP.Controllers
 
         // POST: SaleCart/CancelSale
         [HttpPost]
-        public ActionResult CancelSale()
+        public async Task<ActionResult> CancelSale()
         {
             try
             {
@@ -295,7 +296,7 @@ namespace CloudERP.Controllers
 
         // POST: SaleCart/SaleConfirm
         [HttpPost]
-        public ActionResult SaleConfirm(FormCollection collection)
+        public async Task<ActionResult> SaleConfirm(FormCollection collection)
         {
             try
             {
@@ -373,7 +374,7 @@ namespace CloudERP.Controllers
 
                 _db.SaveChanges();
 
-                string Message = _saleEntry.ConfirmSale(companyID, branchID, userID, invoiceNo, invoiceHeader.CustomerInvoiceID.ToString(), (float)totalAmount, customerID.ToString(), customer.Customername, IsPayment);
+                string Message = await _saleEntry.ConfirmSale(companyID, branchID, userID, invoiceNo, invoiceHeader.CustomerInvoiceID.ToString(), (float)totalAmount, customerID.ToString(), customer.Customername, IsPayment);
                 if (Message.Contains("Success"))
                 {
                     foreach (var item in saleDetails)

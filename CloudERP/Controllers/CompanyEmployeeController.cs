@@ -4,6 +4,7 @@ using DatabaseAccess;
 using System;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace CloudERP.Controllers
@@ -199,7 +200,7 @@ namespace CloudERP.Controllers
         }
 
         [HttpPost]
-        public ActionResult EmployeeSalaryConfirm(SalaryMV salary)
+        public async Task<ActionResult> EmployeeSalaryConfirm(SalaryMV salary)
         {
             try
             {
@@ -225,7 +226,7 @@ namespace CloudERP.Controllers
                     string invoiceNo = $"ESA{DateTime.Now:yyyyMMddHHmmss}{DateTime.Now.Millisecond}";
                     if (ModelState.IsValid)
                     {
-                        string message = _salaryTransaction.Confirm(salary.EmployeeID, salary.TransferAmount, userID, branchID, companyID, invoiceNo, salary.SalaryMonth, salary.SalaryYear);
+                        string message = await _salaryTransaction.Confirm(salary.EmployeeID, salary.TransferAmount, userID, branchID, companyID, invoiceNo, salary.SalaryMonth, salary.SalaryYear);
                         if (message.Contains("Succeed"))
                         {
                             Session["SalaryMessage"] = message;
