@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Domain.Models;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
@@ -24,6 +25,16 @@ namespace CloudERP.Models
 
         [Required(ErrorMessage = "User  ID is required.")]
         public int UserID { get; set; }
+
+
+
+
+        private AccountHead myVar;
+
+        public AccountHead MyProperty
+        {
+            get { return myVar ?? new AccountHead(); }
+        }
 
         public IEnumerable<SelectListItem> AccountHeadList { get; set; }
     }
