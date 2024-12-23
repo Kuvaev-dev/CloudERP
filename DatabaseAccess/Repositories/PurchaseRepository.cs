@@ -349,8 +349,6 @@ namespace DatabaseAccess.Repositories
 
                     await InsertTransaction(CompanyID, BranchID);
 
-                    transaction.Commit();
-
                     return Localization.Localization.PurchaseSuccessWithPayment;
                 }
                 catch (Exception ex)
@@ -391,7 +389,6 @@ namespace DatabaseAccess.Repositories
 
                         await _query.Insert(entryQuery, entryParams);
                     }
-
                     return Localization.Localization.PurchaseSuccess;
                 }
                 catch (Exception ex)
@@ -428,7 +425,6 @@ namespace DatabaseAccess.Repositories
                     };
 
                     await _query.Insert(paymentQuery, paymentParams);
-
                     return Localization.Localization.WithPayment;
                 }
                 catch (Exception ex)

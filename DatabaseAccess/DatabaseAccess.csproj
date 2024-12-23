@@ -109,6 +109,7 @@
     <Compile Include="Repositories\LedgerRepository.cs" />
     <Compile Include="Repositories\PurchaseCartDetailRepository.cs" />
     <Compile Include="Repositories\PurchaseRepository.cs" />
+    <Compile Include="Repositories\SalaryTransactionRepository.cs" />
     <Compile Include="Repositories\SaleRepository.cs" />
     <Compile Include="Repositories\StockRepository.cs" />
     <Compile Include="Repositories\SupplierInvoiceDetailRepository.cs" />

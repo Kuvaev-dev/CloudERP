@@ -1,23 +1,23 @@
 ﻿using System;
 using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
 using System.Threading.Tasks;
-using DatabaseAccess;
-using DatabaseAccess.Code;
 using DatabaseAccess.Localization;
+using DatabaseAccess.Repositories;
 
 public class SalaryTransaction
 {
-    private readonly CloudDBEntities _db;
-    private readonly DatabaseQuery _query;
     private DataTable _dtEntries = null;
+    private readonly ISalaryTransactionRepository _salaryTransactionRepository;
+    private readonly IEmployeeRepository _employeeRepository;
+    private readonly IFinancialYearRepository _financialYearRepository;
+    private readonly IAccountSettingRepository _accountSettingRepository;
 
-    public SalaryTransaction(CloudDBEntities db, DatabaseQuery query)
+    public SalaryTransaction(ISalaryTransactionRepository salaryTransactionRepository, IEmployeeRepository employeeRepository, IFinancialYearRepository financialYearRepository, IAccountSettingRepository accountSettingRepository)
     {
-        _db = db;
-        InitializeDataTable();
-        _query = query;
+        _salaryTransactionRepository = salaryTransactionRepository;
+        _employeeRepository = employeeRepository;
+        _financialYearRepository = financialYearRepository;
+        _accountSettingRepository = accountSettingRepository;
     }
 
     private void InitializeDataTable()
@@ -48,15 +48,11 @@ public class SalaryTransaction
         string SalaryMonth,
         string SalaryYear)
     {
-        using (var transaction = _db.Database.BeginTransaction())
-        {
             try
             {
-                InitializeDataTable();
-
                 string transectiontitle = Localization.SalaryIsPending;
 
-                var employee = _db.tblEmployee.Find(EmployeeID);
+                var employee = await _employeeRepository.GetByIdAsync(EmployeeID);
                 string employeename = string.Empty;
 
                 if (employee != null)
@@ -65,86 +61,54 @@ public class SalaryTransaction
                     transectiontitle += employeename;
                 }
 
-                var financialYearCheck = await _query.Retrive("select top 1 FinancialYearID from tblFinancialYear where IsActive = 1");
-                string FinancialYearID = (financialYearCheck != null ? Convert.ToString(financialYearCheck.Rows[0][0]) : string.Empty);
+                var financialYearCheck = await _financialYearRepository.GetSingleActiveAsync();
+                string FinancialYearID = financialYearCheck != null ? Convert.ToString(financialYearCheck) : string.Empty;
                 if (string.IsNullOrEmpty(FinancialYearID))
                 {
                     return Localization.CompanyFinancialYearNotSet;
                 }
 
                 // 8 - Sale Return Payment Pending
-                var account = _db.tblAccountSetting
-                    .Where(a => a.tblAccountActivity.AccountActivityID == 8 && a.CompanyID == CompanyID && a.BranchID == BranchID)
-                    .FirstOrDefault();
+                var account = await _accountSettingRepository.GetByActivityAsync(8, CompanyID, BranchID);
                 if (account == null)
                 {
                     return Localization.AccountSettingsNotFoundForTheProvidedCompanyIDAndBranchID;
                 }
 
-                string AccountHeadID = Convert.ToString(account.AccountHeadID);
-                string AccountControlID = Convert.ToString(account.AccountControlID);
-                string AccountSubControlID = Convert.ToString(account.AccountSubControlID);
-
-                SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID.ToString(), "0", Convert.ToString(TransferAmount), DateTime.Now, transectiontitle);
+                SetEntries(FinancialYearID, 
+                    Convert.ToString(account.AccountHeadID), 
+                    Convert.ToString(account.AccountControlID), 
+                    Convert.ToString(account.AccountSubControlID), 
+                    InvoiceNo, 
+                    UserID.ToString(), 
+                    "0", 
+                    Convert.ToString(TransferAmount),
+                    DateTime.Now, 
+                    transectiontitle);
 
                 transectiontitle = Localization.SalarySucceed + employee.Name;
 
-                SetEntries(FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID.ToString(), Convert.ToString(TransferAmount), "0", DateTime.Now, transectiontitle);
+                SetEntries(FinancialYearID, 
+                    Convert.ToString(account.AccountHeadID), 
+                    Convert.ToString(account.AccountControlID), 
+                    Convert.ToString(account.AccountSubControlID), 
+                    InvoiceNo, 
+                    UserID.ToString(), 
+                    Convert.ToString(TransferAmount), 
+                    "0", 
+                    DateTime.Now, 
+                    transectiontitle);
 
-                string paymentDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                string paymentquery = "insert into tblPayroll(EmployeeID,BranchID,CompanyID,TransferAmount,PayrollInvoiceNo,PaymentDate,SalaryMonth,SalaryYear,UserID) " +
-                                      "values(@EmployeeID,@BranchID,@CompanyID,@TransferAmount,@PayrollInvoiceNo,@PaymentDate,@SalaryMonth,@SalaryYear,@UserID)";
-
-                SqlParameter[] paymentParameters = {
-                    new SqlParameter("@EmployeeID", EmployeeID),
-                    new SqlParameter("@BranchID", BranchID),
-                    new SqlParameter("@CompanyID", CompanyID),
-                    new SqlParameter("@TransferAmount", TransferAmount),
-                    new SqlParameter("@PayrollInvoiceNo", InvoiceNo),
-                    new SqlParameter("@PaymentDate", DateTime.Parse(paymentDate)),
-                    new SqlParameter("@SalaryMonth", SalaryMonth),
-                    new SqlParameter("@SalaryYear", SalaryYear),
-                    new SqlParameter("@UserID", UserID)
-                };
-
-                Console.WriteLine($"Executing payment query: {paymentquery}");
-                await _query.Insert(paymentquery, paymentParameters);
-
-                foreach (DataRow entryRow in _dtEntries.Rows)
-                {
-                    string entryDate = Convert.ToDateTime(entryRow["TransectionDate"]).ToString("yyyy-MM-dd HH:mm:ss");
-                    string entryQuery = "insert into tblTransaction(FinancialYearID,AccountHeadID,AccountControlID,AccountSubControlID,InvoiceNo,UserID,Credit,Debit,TransectionDate,TransectionTitle,CompanyID,BranchID) " +
-                                        "values (@FinancialYearID,@AccountHeadID,@AccountControlID,@AccountSubControlID,@InvoiceNo,@UserID,@Credit,@Debit,@TransectionDate,@TransectionTitle,@CompanyID,@BranchID)";
-
-                    SqlParameter[] entryParameters = {
-                        new SqlParameter("@FinancialYearID", Convert.ToString(entryRow[0])),
-                        new SqlParameter("@AccountHeadID", Convert.ToString(entryRow[1])),
-                        new SqlParameter("@AccountControlID", Convert.ToString(entryRow[2])),
-                        new SqlParameter("@AccountSubControlID", Convert.ToString(entryRow[3])),
-                        new SqlParameter("@InvoiceNo", Convert.ToString(entryRow[4])),
-                        new SqlParameter("@UserID", Convert.ToString(entryRow[5])),
-                        new SqlParameter("@Credit", Convert.ToString(entryRow[6])),
-                        new SqlParameter("@Debit", Convert.ToString(entryRow[7])),
-                        new SqlParameter("@TransectionDate", DateTime.Parse(entryDate)),
-                        new SqlParameter("@TransectionTitle", Convert.ToString(entryRow[9])),
-                        new SqlParameter("@CompanyID", CompanyID),
-                        new SqlParameter("@BranchID", BranchID)
-                    };
-
-                    Console.WriteLine($"Executing transaction entry query: {entryQuery}");
-                    await _query.Insert(entryQuery, entryParameters);
-                }
-
-                transaction.Commit();
+                await _salaryTransactionRepository.Confirm(EmployeeID, TransferAmount, UserID, BranchID, CompanyID, InvoiceNo, SalaryMonth, SalaryYear);
+                await _salaryTransactionRepository.InsertTransaction(CompanyID, BranchID);
+                
                 return Localization.SalarySucceed;
             }
             catch (Exception ex)
             {
-                transaction.Rollback();
                 Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
                 return Localization.UnexpectedErrorOccurred;
             }
-        }
     }
 
     private void SetEntries(
