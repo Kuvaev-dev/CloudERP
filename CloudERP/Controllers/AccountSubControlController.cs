@@ -1,35 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
-using CloudERP.Mapping;
-using CloudERP.Mapping.Base;
 using CloudERP.Models;
-using Domain.Models;
-using Domain.Services;
+using Domain.RepositoryAccess;
 
 namespace CloudERP.Controllers
 {
     public class AccountSubControlController : Controller
     {
-        private readonly IAccountSubControlService _service;
-        private readonly IAccountControlService _controlService;
-        private readonly IMapper<AccountSubControl, AccountSubControlMV> _mapper;
+        private readonly IAccountSubControlRepository _accountSubControlRepository;
+        private readonly IAccountControlRepository _accountControlRepository;
+        private readonly IAccountHeadRepository _accountHeadRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public AccountSubControlController(IAccountSubControlService service, IAccountControlService controlService, IMapper<AccountSubControl, AccountSubControlMV> mapper, SessionHelper sessionHelper)
+        public AccountSubControlController(IAccountSubControlRepository accountSubControlRepository, IAccountControlRepository accountControlRepository, IAccountHeadRepository accountHeadRepository, SessionHelper sessionHelper)
         {
-            _service = service;
-            _controlService = controlService;
-            _mapper = mapper;
+            _accountSubControlRepository = accountSubControlRepository;
+            _accountControlRepository = accountControlRepository;
+            _accountHeadRepository = accountHeadRepository;
             _sessionHelper = sessionHelper;
         }
 
         public async Task<ActionResult> Index()
         {
-            var subControls = await _service.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+            var subControls = await _accountSubControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
             return View(subControls);
         }
 
@@ -47,17 +44,17 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(AccountSubControlMV model)
         {
-            var accountHead = await _controlService.GetByIdAsync(model.AccountControlID);
+            var accountHead = await _accountHeadRepository.GetByIdAsync(model.AccountSubControl.AccountControlID);
 
-            model.BranchID = _sessionHelper.BranchID;
-            model.CompanyID = _sessionHelper.CompanyID;
-            model.UserID = _sessionHelper.UserID;
+            model.AccountSubControl.BranchID = _sessionHelper.BranchID;
+            model.AccountSubControl.CompanyID = _sessionHelper.CompanyID;
+            model.AccountSubControl.UserID = _sessionHelper.UserID;
             model.AccountControlList = null;
-            model.AccountHeadID = accountHead.AccountHeadID;
+            model.AccountSubControl.AccountHeadID = accountHead.AccountHeadID;
 
             if (ModelState.IsValid)
             {
-                await _service.CreateAsync(_mapper.MapToDomain(model));
+                await _accountSubControlRepository.AddAsync(model.AccountSubControl);
                 return RedirectToAction("Index");
             }
 
@@ -70,15 +67,20 @@ namespace CloudERP.Controllers
         {
             if (id == null) return RedirectToAction("Index");
 
-            var subControl = await _service.GetByIdAsync(id.Value);
+            var accountControls = await _accountControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+            if (accountControls == null || !accountControls.Any())
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "No Account Controls found.");
+
+            var subControl = await _accountSubControlRepository.GetByIdAsync(id.Value);
             if (subControl == null) return HttpNotFound();
 
-            var model = _mapper.MapToViewModel(subControl);
-            model.BranchID = _sessionHelper.BranchID;
-            model.CompanyID = _sessionHelper.CompanyID;
-            model.UserID = _sessionHelper.UserID;
+            AccountSubControlMV accountSubControlMV = new AccountSubControlMV
+            {
+                AccountSubControl = subControl,
+                AccountControlList = await GetAccountControlList()
+            };
 
-            return View(model);
+            return View(accountSubControlMV);
         }
 
         [HttpPost]
@@ -87,7 +89,7 @@ namespace CloudERP.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _service.UpdateAsync(_mapper.MapToDomain(model));
+                await _accountSubControlRepository.UpdateAsync(model.AccountSubControl);
                 return RedirectToAction("Index");
             }
 
@@ -98,7 +100,7 @@ namespace CloudERP.Controllers
 
         public async Task<IEnumerable<SelectListItem>> GetAccountControlList()
         {
-            var accountControls = await _controlService.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+            var accountControls = await _accountControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
             return accountControls
                 .Select(ah => new SelectListItem
                 {

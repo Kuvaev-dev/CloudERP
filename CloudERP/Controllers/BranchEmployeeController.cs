@@ -1,10 +1,7 @@
 ﻿using CloudERP.Helpers;
-using CloudERP.Mapping.Base;
-using CloudERP.Models;
 using Domain.Models;
-using Domain.Services;
+using Domain.RepositoryAccess;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -12,14 +9,12 @@ namespace CloudERP.Controllers
 {
     public class BranchEmployeeController : Controller
     {
-        private readonly IEmployeeService _service;
-        private readonly IMapper<Employee, EmployeeMV> _mapper;
+        private readonly IEmployeeRepository _employeeRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public BranchEmployeeController(IEmployeeService service, IMapper<Employee, EmployeeMV> mapper, SessionHelper sessionHelper)
+        public BranchEmployeeController(IEmployeeRepository employeeRepository, SessionHelper sessionHelper)
         {
-            _service = service;
-            _mapper = mapper;
+            _employeeRepository = employeeRepository;
             _sessionHelper = sessionHelper;
         }
 
@@ -29,18 +24,18 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            var employees = await _service.GetEmployeesByBranchAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+            var employees = await _employeeRepository.GetByBranchAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
 
-            return View(employees.Select(_mapper.MapToViewModel));
+            return View(employees);
         }
 
         // GET: EmployeeRegistration
-        public ActionResult EmployeeRegistration() => View(new EmployeeMV());
+        public ActionResult EmployeeRegistration() => View(new Employee());
 
         // POST: EmployeeRegistration
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EmployeeRegistration(EmployeeMV model)
+        public async Task<ActionResult> EmployeeRegistration(Employee model)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -52,7 +47,7 @@ namespace CloudERP.Controllers
 
             if (ModelState.IsValid)
             {
-                await _service.CreateAsync(_mapper.MapToDomain(model));
+                await _employeeRepository.AddAsync(model);
                 return RedirectToAction("Employee");
             }
 
@@ -65,23 +60,23 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            var employee = await _service.GetByIdAsync(id);
+            var employee = await _employeeRepository.GetByIdAsync(id);
             if (employee == null) return HttpNotFound();
 
-            return View(_mapper.MapToViewModel(employee));
+            return View(employee);
         }
 
         // POST: EmployeeUpdation
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EmployeeUpdation(EmployeeMV model)
+        public async Task<ActionResult> EmployeeUpdation(Employee model)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
             if (ModelState.IsValid)
             {
-                await _service.UpdateAsync(_mapper.MapToDomain(model));
+                await _employeeRepository.UpdateAsync(model);
                 return RedirectToAction("Employee");
             }
 
@@ -94,11 +89,10 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            var employee = await _service.GetByIdAsync(id);
+            var employee = await _employeeRepository.GetByIdAsync(id);
             if (employee == null) return RedirectToAction("EP404", "EP");
 
-            var viewModel = _mapper.MapToViewModel(employee);
-            return View(viewModel);
+            return View(employee);
         }
     }
 }

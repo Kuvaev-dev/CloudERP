@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DatabaseAccess.Models
+namespace Domain.Models.FinancialModels
 {
     public class JournalModel
     {

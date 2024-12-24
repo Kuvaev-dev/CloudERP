@@ -3,24 +3,19 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
-using CloudERP.Mapping;
-using CloudERP.Mapping.Base;
 using CloudERP.Models;
-using Domain.Models;
-using Domain.Services;
+using Domain.RepositoryAccess;
 
 namespace CloudERP.Controllers
 {
     public class CompanyController : Controller
     {
-        private readonly ICompanyService _service;
-        private readonly IMapper<Company, CompanyMV> _mapper;
+        private readonly ICompanyRepository _companyRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public CompanyController(ICompanyService service, IMapper<Company, CompanyMV> mapper, SessionHelper sessionHelper)
+        public CompanyController(ICompanyRepository companyRepository, SessionHelper sessionHelper)
         {
-            _service = service;
-            _mapper = mapper;
+            _companyRepository = companyRepository;
             _sessionHelper = sessionHelper;
         }
 
@@ -30,10 +25,9 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            var companies = await _service.GetAllAsync();
-            var viewModel = companies.Select(_mapper.MapToViewModel);
+            var companies = await _companyRepository.GetAllAsync();
 
-            return View(viewModel);
+            return View(companies);
         }
 
         // GET: Company/Details/5
@@ -45,11 +39,10 @@ namespace CloudERP.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var company = await _service.GetByIdAsync(id.Value);
+            var company = await _companyRepository.GetByIdAsync(id.Value);
             if (company == null) return HttpNotFound();
 
-            var viewModel = _mapper.MapToViewModel(company);
-            return View(viewModel);
+            return View(company);
         }
 
         // GET: Company/Create
@@ -59,6 +52,12 @@ namespace CloudERP.Controllers
                 return RedirectToAction("Login", "Home");
 
             return View(new CompanyMV());
+        }
+
+        public async Task<bool> CheckCompanyExistsAsync(string name)
+        {
+            var companies = await _companyRepository.GetAllAsync();
+            return companies.Any(c => c.Name == name);
         }
 
         // POST: Company/Create
@@ -73,18 +72,17 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (await _service.CheckCompanyExistsAsync(model.Name))
+                    if (await CheckCompanyExistsAsync(model.Company.Name))
                     {
                         ModelState.AddModelError("Name", Resources.Messages.AlreadyExists);
                         return View(model);
                     }
 
-                    model.Logo = model.LogoFile != null
-                        ? FileHelper.UploadPhoto(model.LogoFile, "~/Content/CompanyLogo", $"{model.Name}.jpg")
+                    model.Company.Logo = model.LogoFile != null
+                        ? FileHelper.UploadPhoto(model.LogoFile, "~/Content/CompanyLogo", $"{model.Company.Name}.jpg")
                         : "~/Content/CompanyLogo/erp-logo.png";
 
-                    var domainModel = _mapper.MapToDomain(model);
-                    await _service.CreateAsync(domainModel);
+                    await _companyRepository.AddAsync(model.Company);
 
                     return RedirectToAction("Index");
                 }
@@ -107,11 +105,10 @@ namespace CloudERP.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var company = await _service.GetByIdAsync(id.Value);
+            var company = await _companyRepository.GetByIdAsync(id.Value);
             if (company == null) return HttpNotFound();
 
-            var viewModel = _mapper.MapToViewModel(company);
-            return View(viewModel);
+            return View(company);
         }
 
         // POST: Company/Edit/5
@@ -128,12 +125,11 @@ namespace CloudERP.Controllers
                 {
                     if (model.LogoFile != null)
                     {
-                        var filePath = FileHelper.UploadPhoto(model.LogoFile, "~/Content/CompanyLogo", $"{model.CompanyID}.jpg");
-                        model.Logo = filePath ?? model.Logo;
+                        var filePath = FileHelper.UploadPhoto(model.LogoFile, "~/Content/CompanyLogo", $"{model.Company.CompanyID}.jpg");
+                        model.Company.Logo = filePath ?? model.Company.Logo;
                     }
 
-                    var domainModel = _mapper.MapToDomain(model);
-                    await _service.UpdateAsync(domainModel);
+                    await _companyRepository.UpdateAsync(model.Company);
 
                     return RedirectToAction("Index");
                 }

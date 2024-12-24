@@ -1,16 +1,16 @@
 ﻿using System;
 
-namespace DatabaseAccess.Models
+namespace Domain.Models.FinancialModels
 {
-    public class SupplierReturnInvoiceModel
+    public class CustomerReturnInvoiceModel
     {
-        public int SupplierPaymentID { get; set; }
-        public int SupplierID { get; set; }
-        public string SupplierName { get; set; }
-        public string SupplierContactNo { get; set; }
-        public string SupplierAddress { get; set; }
-        public int SupplierReturnInvoiceID { get; set; }
-        public int SupplierInvoiceID { get; set; }
+        public int CustomerPaymentID { get; set; }
+        public int CustomerID { get; set; }
+        public string CustomerName { get; set; }
+        public string CustomerContactNo { get; set; }
+        public string CustomerAddress { get; set; }
+        public int CustomerReturnInvoiceID { get; set; }
+        public int CustomerInvoiceID { get; set; }
         public int CompanyID { get; set; }
         public int BranchID { get; set; }
         public DateTime InvoiceDate { get; set; }

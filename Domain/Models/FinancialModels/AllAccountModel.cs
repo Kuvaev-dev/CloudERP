@@ -1,4 +1,4 @@
-﻿namespace DatabaseAccess.Models
+﻿namespace Domain.Models.FinancialModels
 {
     public class AllAccountModel
     {

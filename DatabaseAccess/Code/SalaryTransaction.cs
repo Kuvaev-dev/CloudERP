@@ -3,6 +3,7 @@ using System.Data;
 using System.Threading.Tasks;
 using DatabaseAccess.Localization;
 using DatabaseAccess.Repositories;
+using Domain.RepositoryAccess;
 
 public class SalaryTransaction
 {
@@ -57,7 +58,7 @@ public class SalaryTransaction
 
                 if (employee != null)
                 {
-                    employeename = Localization.To + employee.Name;
+                    employeename = Localization.To + employee.FullName;
                     transectiontitle += employeename;
                 }
 
@@ -86,7 +87,7 @@ public class SalaryTransaction
                     DateTime.Now, 
                     transectiontitle);
 
-                transectiontitle = Localization.SalarySucceed + employee.Name;
+                transectiontitle = Localization.SalarySucceed + employee.FullName;
 
                 SetEntries(FinancialYearID, 
                     Convert.ToString(account.AccountHeadID), 

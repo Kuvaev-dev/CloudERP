@@ -1,8 +1,9 @@
 ﻿using CloudERP.Helpers;
 using CloudERP.Models;
 using DatabaseAccess;
+using Domain.Models;
+using Domain.RepositoryAccess;
 using System;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -13,26 +14,32 @@ namespace CloudERP.Controllers
     {
         private readonly CloudDBEntities _db;
         private readonly SalaryTransaction _salaryTransaction;
+        private readonly SessionHelper _sessionHelper;
+        private readonly EmailService _emailService;
+        private readonly IEmployeeRepository _employeeRepository;
+        private readonly IBranchRepository _branchRepository;
 
-        public CompanyEmployeeController(CloudDBEntities db, SalaryTransaction salaryTransaction)
+        public CompanyEmployeeController(CloudDBEntities db, SalaryTransaction salaryTransaction, IEmployeeRepository employeeRepository, SessionHelper sessionHelper, IBranchRepository branchRepository, EmailService emailService)
         {
             _db = db;
             _salaryTransaction = salaryTransaction;
+            _employeeRepository = employeeRepository;
+            _sessionHelper = sessionHelper;
+            _branchRepository = branchRepository;
+            _emailService = emailService;
         }
 
         // GET: Employees
-        public ActionResult Employees()
+        public async Task<ActionResult> Employees()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!_sessionHelper.IsAuthenticated)
             {
                 return RedirectToAction("Login", "Home");
             }
 
             try
             {
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                var tblEmployee = _db.tblEmployee.Where(c => c.CompanyID == companyID).ToList();
-                return View(tblEmployee);
+                return View(await _employeeRepository.GetByCompanyIdAsync(_sessionHelper.CompanyID));
             }
             catch (Exception ex)
             {
@@ -41,18 +48,17 @@ namespace CloudERP.Controllers
             }
         }
 
-        public ActionResult EmployeeRegistration()
+        public async Task<ActionResult> EmployeeRegistration()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!_sessionHelper.IsAuthenticated)
             {
                 return RedirectToAction("Login", "Home");
             }
 
             try
             {
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                ViewBag.BranchID = new SelectList(_db.tblBranch.Where(b => b.CompanyID == companyID), "BranchID", "BranchName", 0);
-                return View(new tblEmployee());
+                ViewBag.BranchID = new SelectList(await _branchRepository.GetByCompanyAsync(_sessionHelper.CompanyID), "BranchID", "BranchName", 0);
+                return View(new Employee());
             }
             catch (Exception ex)
             {
@@ -63,29 +69,28 @@ namespace CloudERP.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EmployeeRegistration(tblEmployee employee)
+        public async Task<ActionResult> EmployeeRegistration(EmployeeMV employee)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!_sessionHelper.IsAuthenticated)
             {
                 return RedirectToAction("Login", "Home");
             }
 
             try
             {
-                employee.CompanyID = Convert.ToInt32(Session["CompanyID"]);
-                employee.UserID = null;
-                employee.RegistrationDate = DateTime.Now;
-                employee.IsFirstLogin = true;
+                employee.Employee.CompanyID = _sessionHelper.CompanyID;
+                employee.Employee.UserID = null;
+                employee.Employee.RegistrationDate = DateTime.Now;
+                employee.Employee.IsFirstLogin = true;
 
                 if (ModelState.IsValid)
                 {
-                    _db.tblEmployee.Add(employee);
-                    _db.SaveChanges();
+                    await _employeeRepository.AddAsync(employee.Employee);
 
                     if (employee.LogoFile != null)
                     {
                         var folder = "~/Content/EmployeePhoto";
-                        var file = $"{employee.EmployeeID}.jpg";
+                        var file = $"{employee.Employee.CompanyID}.jpg";
 
                         var response = FileHelper.UploadPhoto(employee.LogoFile, folder, file);
                         if (response)
@@ -93,45 +98,41 @@ namespace CloudERP.Controllers
                             var filePath = Server.MapPath($"{folder}/{file}");
                             if (System.IO.File.Exists(filePath))
                             {
-                                employee.Photo = $"{folder}/{file}";
+                                employee.Employee.Photo = $"{folder}/{file}";
                             }
                             else
-                            {
-                                employee.Photo = "~/Content/EmployeePhoto/Default/default.png";
+                            { 
+                                employee.Employee.Photo = "~/Content/EmployeePhoto/Default/default.png";
                             }
-                            _db.Entry(employee).State = EntityState.Modified;
-                            _db.SaveChanges();
+                            await _employeeRepository.UpdateAsync(employee.Employee);
                         }
                         else
                         {
-                            employee.Photo = "~/Content/EmployeePhoto/Default/default.png";
-                            _db.Entry(employee).State = EntityState.Modified;
-                            _db.SaveChanges();
+                            employee.Employee.Photo = "~/Content/EmployeePhoto/Default/default.png";
+                            await _employeeRepository.UpdateAsync(employee.Employee);
                         }
                     }
                     else
                     {
-                        employee.Photo = "~/Content/EmployeePhoto/Default/default.png";
-                        _db.Entry(employee).State = EntityState.Modified;
-                        _db.SaveChanges();
+                        employee.Employee.Photo = "~/Content/EmployeePhoto/Default/default.png";
+                        await _employeeRepository.UpdateAsync(employee.Employee);
                     }
 
                     // Send email
-                    var emailService = new EmailService();
                     var subject = "Employee Registration Successful";
-                    var body = $"<strong>Dear {employee.Name},</strong><br/><br/>" +
+                    var body = $"<strong>Dear {employee.Employee.FullName},</strong><br/><br/>" +
                                $"Your registration is successful. Here are your details:<br/>" +
-                               $"Name: {employee.Name}<br/>" +
-                               $"Email: {employee.Email}<br/>" +
-                               $"Contact No: {employee.ContactNo}<br/>" +
-                               $"Designation: {employee.Designation}<br/><br/>" +
+                               $"Name: {employee.Employee.FullName}<br/>" +
+                               $"Email: {employee.Employee.Email}<br/>" +
+                               $"Contact No: {employee.Employee.ContactNumber}<br/>" +
+                               $"Designation: {employee.Employee.Designation}<br/><br/>" +
                                $"Best regards,<br/>Company Team";
-                    emailService.SendEmail(employee.Email, subject, body);
+                    _emailService.SendEmail(employee.Employee.Email, subject, body);
 
                     return RedirectToAction("Employees");
                 }
 
-                ViewBag.BranchID = new SelectList(_db.tblBranch.Where(b => b.CompanyID == employee.CompanyID), "BranchID", "BranchName", employee.BranchID);
+                ViewBag.BranchID = new SelectList(await _branchRepository.GetByCompanyAsync(_sessionHelper.CompanyID), "BranchID", "BranchName", employee.Employee.BranchID);
             }
             catch (Exception ex)
             {

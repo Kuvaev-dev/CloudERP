@@ -1,7 +1,6 @@
 ﻿using CloudERP.Helpers;
-using DatabaseAccess;
-using DatabaseAccess.Models;
-using DatabaseAccess.Repositories;
+using Domain.Models.FinancialModels;
+using Domain.RepositoryAccess;
 using Domain.Services;
 using System;
 using System.Collections.Generic;

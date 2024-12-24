@@ -810,13 +810,10 @@
     <Compile Include="Helpers\UnityConfig.cs" />
     <Compile Include="Models\AccountControlMV.cs" />
     <Compile Include="Models\AccountControlsMV.cs" />
-    <Compile Include="Models\AccountHeadMV.cs" />
     <Compile Include="Models\AccountSettingMV.cs" />
     <Compile Include="Models\AccountSubControlMV.cs" />
-    <Compile Include="Models\BranchMV.cs" />
     <Compile Include="Models\BranchsCustomersMV.cs" />
     <Compile Include="Models\BranchsSuppliersMV.cs" />
-    <Compile Include="Models\CategoryMV.cs" />
     <Compile Include="Models\CompanyMV.cs" />
     <Compile Include="Models\CompanyRegistrationMV.cs" />
     <Compile Include="Models\CustomerMV.cs" />

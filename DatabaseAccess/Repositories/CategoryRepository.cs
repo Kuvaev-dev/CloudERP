@@ -1,19 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using Domain.Models;
+using Domain.RepositoryAccess;
+using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace DatabaseAccess.Repositories
 {
-    public interface ICategoryRepository
-    {
-        Task<IEnumerable<tblCategory>> GetAllAsync(int companyID, int branchID);
-        Task<tblCategory> GetByIdAsync(int id);
-        Task AddAsync(tblCategory category);
-        Task UpdateAsync(tblCategory category);
-        Task DeleteAsync(tblCategory category);
-    }
-
     public class CategoryRepository : ICategoryRepository
     {
         private readonly CloudDBEntities _dbContext;
@@ -23,44 +17,117 @@ namespace DatabaseAccess.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<tblCategory>> GetAllAsync(int companyID, int branchID)
+        public async Task<IEnumerable<Category>> GetAllAsync(int companyID, int branchID)
         {
-            return await _dbContext.tblCategory
+            try
+            {
+                var entities = await _dbContext.tblCategory
                 .Include(c => c.tblUser)
                 .Where(c => c.CompanyID == companyID && c.BranchID == branchID)
                 .ToListAsync();
+
+                return entities.Select(c => new Category
+                {
+                    CategoryID = c.CategoryID,
+                    CategoryName = c.CategoryName,
+                    BranchID = c.BranchID,
+                    BranchName = c.tblBranch.BranchName,
+                    CompanyID = c.CompanyID,
+                    CompanyName = c.tblCompany.Name,
+                    UserID = c.UserID,
+                    UserName = c.tblUser.UserName
+                });
+            }
+            catch (Exception ex)
+            {
+                LogException(nameof(GetAllAsync), ex);
+                throw new InvalidOperationException("Error retrieving categories.", ex);
+            }
         }
 
-        public async Task<tblCategory> GetByIdAsync(int id)
+        public async Task<Category> GetByIdAsync(int id)
         {
-            return await _dbContext.tblCategory.FindAsync(id);
+            try
+            {
+                var entity = await _dbContext.tblCategory.FindAsync(id);
+
+                return entity == null ? null : new Category
+                {
+                    CategoryID = entity.CategoryID,
+                    CategoryName = entity.CategoryName,
+                    BranchID = entity.BranchID,
+                    BranchName = entity.tblBranch.BranchName,
+                    CompanyID = entity.CompanyID,
+                    CompanyName = entity.tblCompany.Name,
+                    UserID = entity.UserID,
+                    UserName = entity.tblUser.UserName
+                };
+            }
+            catch (Exception ex)
+            {
+                LogException(nameof(GetByIdAsync), ex);
+                throw new InvalidOperationException($"Error retrieving category with ID {id}.", ex);
+            }
         }
 
-        public async Task AddAsync(tblCategory category)
+        public async Task AddAsync(Category category)
         {
-            _dbContext.tblCategory.Add(category);
-            await _dbContext.SaveChangesAsync();
+            try
+            {
+                if (category == null) throw new ArgumentNullException(nameof(category));
+
+                var entity = new tblCategory
+                {
+                    CategoryID = category.CategoryID,
+                    CategoryName = category.CategoryName,
+                    BranchID = category.BranchID,
+                    CompanyID = category.CompanyID,
+                    UserID = category.UserID
+                };
+
+                _dbContext.tblCategory.Add(entity);
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                LogException(nameof(AddAsync), ex);
+                throw new InvalidOperationException("Error adding a new category.", ex);
+            }
         }
 
-        public async Task UpdateAsync(tblCategory category)
+        public async Task UpdateAsync(Category category)
         {
-            var existingCategory = await _dbContext.tblCategory.FindAsync(category.CategoryID);
-            if (existingCategory == null) throw new KeyNotFoundException("Category not found.");
+            try
+            {
+                if (category == null) throw new ArgumentNullException(nameof(category));
 
-            existingCategory.CategoryName = category.CategoryName;
-            existingCategory.UserID = category.UserID;
+                var entity = await _dbContext.tblCategory.FindAsync(category.CategoryID);
+                if (entity == null) throw new KeyNotFoundException("Category not found.");
 
-            _dbContext.Entry(existingCategory).State = EntityState.Modified;
-            await _dbContext.SaveChangesAsync();
+                entity.CategoryID = category.CategoryID;
+                entity.CategoryName = category.CategoryName;
+                entity.CompanyID = category.CompanyID;
+                entity.BranchID = category.BranchID;
+                entity.UserID = category.UserID;
+
+                _dbContext.Entry(entity).State = EntityState.Modified;
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                LogException(nameof(UpdateAsync), ex);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                LogException(nameof(UpdateAsync), ex);
+                throw new InvalidOperationException($"Error updating category with ID {category.CategoryID}.", ex);
+            }
         }
 
-        public async Task DeleteAsync(tblCategory category)
+        private void LogException(string methodName, Exception ex)
         {
-            var existingCategory = await _dbContext.tblCategory.FindAsync(category.CategoryID);
-            if (existingCategory == null) throw new KeyNotFoundException("Category not found.");
-
-            _dbContext.tblCategory.Remove(existingCategory);
-            await _dbContext.SaveChangesAsync();
+            Console.WriteLine($"Error in {methodName}: {ex.Message}\n{ex.StackTrace}");
         }
     }
 }

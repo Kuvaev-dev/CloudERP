@@ -3,21 +3,21 @@ using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
-using CloudERP.Mapping.Base;
 using CloudERP.Models;
 using Domain.Models;
 using Domain.Services;
+using Domain.RepositoryAccess;
+using DatabaseAccess.Repositories;
 
 namespace CloudERP.Controllers
 {
     public class AccountSettingController : Controller
     {
-        private readonly IAccountSettingService _service;
+        private readonly IAccountSettingRepository _accountSettingRepository;
         private readonly IAccountControlService _controlService;
         private readonly IAccountSubControlService _subControlService;
         private readonly IAccountHeadService _headService;
-        private readonly IAccountActivityService _activityService;
-        private readonly IMapper<AccountSetting, AccountSettingMV> _mapper;
+        private readonly IAccountActivityRepository _accountActivityRepository;
         private readonly SessionHelper _sessionHelper;
 
         public AccountSettingController(
@@ -25,7 +25,7 @@ namespace CloudERP.Controllers
             IAccountControlService controlService,
             IAccountSubControlService subControlService,
             IAccountHeadService headService,
-            IAccountActivityService activityService,
+            IAccountActivityRepository accountActivityRepository,
             IMapper<AccountSetting, AccountSettingMV> mapper,
             SessionHelper sessionHelper)
         {
@@ -33,7 +33,7 @@ namespace CloudERP.Controllers
             _controlService = controlService;
             _subControlService = subControlService;
             _headService = headService;
-            _activityService = activityService;
+            _accountActivityRepository = accountActivityRepository;
             _mapper = mapper;
             _sessionHelper = sessionHelper;
         }
@@ -162,7 +162,7 @@ namespace CloudERP.Controllers
         private async Task PopulateDropdowns()
         {
             ViewBag.AccountHeadID = new SelectList(await _headService.GetAllAsync(), "AccountHeadID", "AccountHeadName");
-            ViewBag.AccountActivityID = new SelectList(await _activityService.GetAllAsync(), "AccountActivityID", "Name");
+            ViewBag.AccountActivityID = new SelectList(await _accountActivityRepository.GetAllAsync(), "AccountActivityID", "Name");
         }
     }
 }

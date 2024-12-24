@@ -1,20 +1,14 @@
 ﻿using DatabaseAccess.Code;
-using DatabaseAccess.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
 using System.Threading.Tasks;
+using Domain.RepositoryAccess;
+using Domain.Models.FinancialModels;
 
 namespace DatabaseAccess.Repositories
 {
-    public interface IBalanceSheetRepository
-    {
-        Task<BalanceSheetModel> GetBalanceSheetAsync(int companyId, int branchId, int financialYearId, List<int> headIds);
-        Task<double> GetAccountTotalAmountAsync(int companyId, int branchId, int financialYearId, int headId);
-        Task<AccountHeadTotal> GetHeadAccountsWithTotal(int CompanyID, int BranchID, int FinancialYearID, int HeadID);
-    }
-
     public class BalanceSheetRepository : IBalanceSheetRepository
     {
         private readonly DatabaseQuery _query;

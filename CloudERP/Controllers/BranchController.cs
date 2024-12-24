@@ -2,23 +2,21 @@
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
-using CloudERP.Mapping.Base;
-using CloudERP.Models;
 using Domain.Models;
-using Domain.Services;
+using Domain.RepositoryAccess;
 
 namespace CloudERP.Controllers
 {
     public class BranchController : Controller
     {
-        private readonly IBranchService _service;
-        private readonly IMapper<Branch, BranchMV> _mapper;
+        private readonly IBranchRepository _branchRepository;
+        private readonly IBranchTypeRepository _branchTypeRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public BranchController(IBranchService service, IMapper<Branch, BranchMV> mapper, SessionHelper sessionHelper)
+        public BranchController(IBranchRepository branchRepository, IBranchTypeRepository branchTypeRepository, SessionHelper sessionHelper)
         {
-            _service = service;
-            _mapper = mapper;
+            _branchRepository = branchRepository;
+            _branchTypeRepository = branchTypeRepository;
             _sessionHelper = sessionHelper;
         }
 
@@ -28,9 +26,11 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            var branches = await _service.GetBranchesByFilterAsync(_sessionHelper.CompanyID, _sessionHelper.BranchTypeID, _sessionHelper.BranchID);
+            var branches = _sessionHelper.BranchTypeID == 1
+                ? await _branchRepository.GetByCompanyAsync(_sessionHelper.CompanyID)
+                : await _branchRepository.GetSubBranchAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
 
-            return View(branches.Select(_mapper.MapToViewModel));
+            return View(branches);
         }
 
         // GET: Branch/Create
@@ -41,13 +41,23 @@ namespace CloudERP.Controllers
 
             await PopulateViewBags(_sessionHelper.CompanyID);
 
-            return View(new BranchMV());
+            return View(new Branch());
+        }
+
+        private async Task<bool> CheckBranchExistsAsync(Branch branch, bool isEdit = false)
+        {
+            var branches = await _branchRepository.GetByCompanyAsync(branch.CompanyID);
+            return branches.Any(b =>
+                b.BranchName == branch.BranchName ||
+                b.BranchContact == branch.BranchContact ||
+                b.BranchAddress == branch.BranchAddress &&
+                (!isEdit || b.BranchID != branch.BranchID));
         }
 
         // POST: Branch/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(BranchMV model)
+        public async Task<ActionResult> Create(Branch model)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -56,14 +66,14 @@ namespace CloudERP.Controllers
 
             if (ModelState.IsValid)
             {
-                if (await _service.CheckBranchExistsAsync(_mapper.MapToDomain(model)))
+                if (await CheckBranchExistsAsync(model))
                 {
                     ModelState.AddModelError("", Resources.Messages.BranchEists);
                     await PopulateViewBags(_sessionHelper.CompanyID);
                     return View(model);
                 }
 
-                await _service.CreateAsync(_mapper.MapToDomain(model));
+                await _branchRepository.AddAsync(model);
                 return RedirectToAction("Index");
             }
 
@@ -77,19 +87,18 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            var branch = await _service.GetByIdAsync(id);
+            var branch = await _branchRepository.GetByIdAsync(id);
             if (branch == null) return HttpNotFound();
 
             await PopulateViewBags(_sessionHelper.CompanyID, branch.ParentBranchID, branch.BranchTypeID);
 
-            var viewModel = _mapper.MapToViewModel(branch);
-            return View(viewModel);
+            return View(branch);
         }
 
         // POST: Branch/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(BranchMV model)
+        public async Task<ActionResult> Edit(Branch model)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -98,14 +107,14 @@ namespace CloudERP.Controllers
 
             if (ModelState.IsValid)
             {
-                if (await _service.CheckBranchExistsAsync(_mapper.MapToDomain(model), isEdit: true))
+                if (await CheckBranchExistsAsync(model, isEdit: true))
                 {
                     ModelState.AddModelError("", Resources.Messages.BranchEists);
                     await PopulateViewBags(_sessionHelper.CompanyID, model.ParentBranchID, model.BranchTypeID);
                     return View(model);
                 }
 
-                await _service.UpdateAsync(_mapper.MapToDomain(model));
+                await _branchRepository.UpdateAsync(model);
                 return RedirectToAction("Index");
             }
 
@@ -115,8 +124,8 @@ namespace CloudERP.Controllers
 
         private async Task PopulateViewBags(int companyID, int? selectedParentBranchID = null, int? selectedBranchTypeID = null)
         {
-            var branches = await _service.GetBranchesByCompanyAsync(companyID);
-            var branchTypes = await _service.GetBranchTypesAsync();
+            var branches = await _branchRepository.GetByCompanyAsync(companyID);
+            var branchTypes = await _branchTypeRepository.GetAllAsync();
 
             ViewBag.BrchID = new SelectList(branches, "BranchID", "BranchName", selectedParentBranchID);
             ViewBag.BranchTypeID = new SelectList(branchTypes.Select((type, index) => new { Text = type, Value = index + 1 }), "Value", "Text", selectedBranchTypeID);

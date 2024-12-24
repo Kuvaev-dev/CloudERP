@@ -2,29 +2,26 @@
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
-using CloudERP.Mapping.Base;
 using CloudERP.Models;
 using Domain.Models;
-using Domain.Services;
+using Domain.RepositoryAccess;
 
 namespace CloudERP.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ICategoryService _service;
-        private readonly IMapper<Category, CategoryMV> _mapper;
+        private readonly ICategoryRepository _categoryRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public CategoryController(ICategoryService service, IMapper<Category, CategoryMV> mapper, SessionHelper sessionHelper)
+        public CategoryController(ICategoryRepository categoryRepository, SessionHelper sessionHelper)
         {
-            _service = service;
-            _mapper = mapper;
+            _categoryRepository = categoryRepository;
             _sessionHelper = sessionHelper;
         }
 
         public async Task<ActionResult> Index()
         {
-            var categories = await _service.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+            var categories = await _categoryRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
             return View(categories);
         }
 
@@ -37,7 +34,7 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                var userType = await _service.GetByIdAsync(id);
+                var userType = await _categoryRepository.GetByIdAsync(id);
                 return View(userType);
             }
             catch (Exception ex)
@@ -54,7 +51,7 @@ namespace CloudERP.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(CategoryMV model)
+        public async Task<ActionResult> Create(Category model)
         {
             if (ModelState.IsValid)
             {
@@ -62,7 +59,7 @@ namespace CloudERP.Controllers
                 model.BranchID = _sessionHelper.BranchID;
                 model.UserID = _sessionHelper.UserID;
 
-                await _service.CreateAsync(_mapper.MapToDomain(model));
+                await _categoryRepository.AddAsync(model);
                 return RedirectToAction("Index");
             }
 
@@ -71,16 +68,16 @@ namespace CloudERP.Controllers
 
         public async Task<ActionResult> Edit(int id)
         {
-            var category = await _service.GetByIdAsync(id);
+            var category = await _categoryRepository.GetByIdAsync(id);
             if (category == null) return HttpNotFound();
 
-            return View(_mapper.MapToViewModel(category));
+            return View(category);
         }
 
         // POST: Category/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(CategoryMV model)
+        public async Task<ActionResult> Edit(Category model)
         {
             if (ModelState.IsValid)
             {
@@ -88,7 +85,7 @@ namespace CloudERP.Controllers
                 model.BranchID = _sessionHelper.BranchID;
                 model.UserID = _sessionHelper.UserID;
 
-                await _service.UpdateAsync(_mapper.MapToDomain(model));
+                await _categoryRepository.UpdateAsync(model);
                 return RedirectToAction("Index");
             }
             return View(model);

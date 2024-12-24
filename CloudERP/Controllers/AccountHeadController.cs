@@ -1,45 +1,41 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
-using CloudERP.Mapping.Base;
-using CloudERP.Models;
 using Domain.Models;
-using Domain.Services;
+using Domain.RepositoryAccess;
 
 namespace CloudERP.Controllers
 {
     public class AccountHeadController : Controller
     {
-        private readonly IAccountHeadService _service;
-        private readonly IMapper<AccountHead, AccountHeadMV> _mapper;
+        private readonly IAccountHeadRepository _accountHeadRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public AccountHeadController(IAccountHeadService service, IMapper<AccountHead, AccountHeadMV> mapper, SessionHelper sessionHelper)
+        public AccountHeadController(IAccountHeadRepository accountHeadRepository, SessionHelper sessionHelper)
         {
-            _service = service;
-            _mapper = mapper;
+            _accountHeadRepository = accountHeadRepository;
             _sessionHelper = sessionHelper;
         }
 
         public async Task<ActionResult> Index()
         {
-            var accountHeads = await _service.GetAllAsync();
+            var accountHeads = await _accountHeadRepository.GetAllAsync();
             return View(accountHeads);
         }
 
         public ActionResult Create()
         {
-            return View(new AccountHeadMV());
+            return View(new AccountHead());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(AccountHeadMV model)
+        public async Task<ActionResult> Create(AccountHead model)
         {
             if (ModelState.IsValid)
             {
                 model.UserID = _sessionHelper.UserID;
-                await _service.CreateAsync(_mapper.MapToDomain(model));
+                await _accountHeadRepository.AddAsync(model);
                 return RedirectToAction("Index");
             }
             return View(model);
@@ -47,19 +43,19 @@ namespace CloudERP.Controllers
 
         public async Task<ActionResult> Edit(int id)
         {
-            var accountHead = await _service.GetByIdAsync(id);
+            var accountHead = await _accountHeadRepository.GetByIdAsync(id);
             if (accountHead == null) return HttpNotFound();
 
-            return View(_mapper.MapToViewModel(accountHead));
+            return View(accountHead);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(AccountHeadMV model)
+        public async Task<ActionResult> Edit(AccountHead model)
         {
             if (ModelState.IsValid)
             {
-                await _service.UpdateAsync(_mapper.MapToDomain(model));
+                await _accountHeadRepository.UpdateAsync(model);
                 return RedirectToAction("Index");
             }
             return View(model);

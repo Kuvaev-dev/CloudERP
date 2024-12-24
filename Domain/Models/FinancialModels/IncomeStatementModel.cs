@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DatabaseAccess.Models
+namespace Domain.Models.FinancialModels
 {
     public class IncomeStatementModel
     {
