@@ -1,29 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
-using CloudERP.Mapping;
-using CloudERP.Mapping.Base;
 using CloudERP.Models;
-using Domain.Models;
-using Domain.Services;
+using DatabaseAccess.Repositories;
+using Domain.RepositoryAccess;
 
 namespace CloudERP.Controllers
 {
     public class AccountControlController : Controller
     {
-        private readonly IAccountControlService _service;
-        private readonly IAccountHeadService _headService;
-        private readonly IMapper<AccountControl, AccountControlMV> _mapper;
+        private readonly IAccountControlRepository _accountControlRepository;
+        private readonly IAccountHeadRepository _accountHeadRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public AccountControlController(IAccountControlService service, IAccountHeadService headService, IMapper<AccountControl, AccountControlMV> mapper, SessionHelper sessionHelper)
+        public AccountControlController(IAccountControlRepository accountControlRepository, IAccountHeadRepository accountHeadRepository, SessionHelper sessionHelper)
         {
-            _service = service;
-            _headService = headService;
-            _mapper = mapper;
+            _accountControlRepository = accountControlRepository;
+            _accountHeadRepository = accountHeadRepository;
             _sessionHelper = sessionHelper;
         }
 
@@ -34,18 +30,16 @@ namespace CloudERP.Controllers
                 return RedirectToAction("Login", "Home");
             }
 
-            var accountControls = await _service.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+            var accountControls = await _accountControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
             return View(accountControls);
         }
 
         public async Task<ActionResult> Create()
         {
-            var model = new AccountControlMV
+            return View(new AccountControlMV
             {
                 AccountHeadList = await GetAccountHeadList()
-            };
-
-            return View(model);
+            });
         }
 
         [HttpPost]
@@ -54,12 +48,12 @@ namespace CloudERP.Controllers
         {
             if (ModelState.IsValid)
             {
-                model.BranchID = _sessionHelper.BranchID;
-                model.CompanyID = _sessionHelper.CompanyID;
-                model.UserID = _sessionHelper.UserID;
+                model.AccountControl.BranchID = _sessionHelper.BranchID;
+                model.AccountControl.CompanyID = _sessionHelper.CompanyID;
+                model.AccountControl.UserID = _sessionHelper.UserID;
                 model.AccountHeadList = await GetAccountHeadList();
 
-                await _service.CreateAsync(_mapper.MapToDomain(model));
+                await _accountControlRepository.AddAsync(model.AccountControl);
                 return RedirectToAction("Index");
             }
 
@@ -70,23 +64,25 @@ namespace CloudERP.Controllers
         {
             if (id == null) return RedirectToAction("Index");
 
-            var accountHeads = await _headService.GetAllAsync();
-            var accountControl = await _service.GetByIdAsync(id.Value);
+            var accountHeads = await _accountHeadRepository.GetAllAsync();
+            if (accountHeads == null || !accountHeads.Any())
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "No Account Heads found.");
+
+            var accountControl = await _accountControlRepository.GetByIdAsync(id.Value);
             if (accountControl == null) return HttpNotFound();
 
-            var model = _mapper.MapToViewModel(accountControl);
-            model.BranchID = _sessionHelper.BranchID;
-            model.CompanyID = _sessionHelper.CompanyID;
-            model.UserID = _sessionHelper.UserID;
-            model.AccountHeadList = accountHeads
-                .Select(ah => new SelectListItem
+            AccountControlMV accountControlMV = new AccountControlMV()
+            {
+                AccountControl = accountControl,
+                AccountHeadList = accountHeads.Select(ah => new SelectListItem
                 {
                     Value = ah.AccountHeadID.ToString(),
                     Text = ah.AccountHeadName,
                     Selected = ah.AccountHeadID == accountControl.AccountHeadID
-                }).ToList();
+                }).ToList()
+            };
 
-            return View(model);
+            return View(accountControlMV);
         }
 
         [HttpPost]
@@ -95,7 +91,7 @@ namespace CloudERP.Controllers
         {
             if (ModelState.IsValid)
             {   
-                await _service.UpdateAsync(_mapper.MapToDomain(model));
+                await _accountControlRepository.UpdateAsync(model.AccountControl);
                 return RedirectToAction("Index");
             }
 
@@ -106,7 +102,7 @@ namespace CloudERP.Controllers
 
         public async Task<IEnumerable<SelectListItem>> GetAccountHeadList()
         {
-            var accountHeads = await _headService.GetAllAsync();
+            var accountHeads = await _accountHeadRepository.GetAllAsync();
             return accountHeads
                 .Select(ah => new SelectListItem
                 {

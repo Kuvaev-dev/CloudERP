@@ -265,5 +265,11 @@
     <EmbeddedResource Include="Localization\Localization.ru-RU.resx" />
     <EmbeddedResource Include="Localization\Localization.uk-UA.resx" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj">
+      <Project>{5592d734-aa72-49cb-9c89-f26be58d7457}</Project>
+      <Name>Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
