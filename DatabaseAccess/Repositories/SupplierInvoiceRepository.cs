@@ -6,11 +6,6 @@ using System.Threading.Tasks;
 
 namespace DatabaseAccess.Repositories
 {
-    public interface ISupplierInvoiceRepository
-    {
-        Task AddAsync(tblSupplierInvoice tblSupplierInvoice);
-    }
-
     internal class SupplierInvoiceRepository : ISupplierInvoiceRepository
     {
         private readonly CloudDBEntities _db;

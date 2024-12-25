@@ -1,8 +1,8 @@
-﻿using DatabaseAccess.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System;
-using DatabaseAccess.Repositories;
 using System.Threading.Tasks;
+using Domain.Models.FinancialModels;
+using Domain.RepositoryAccess;
 
 namespace Domain.Services
 {

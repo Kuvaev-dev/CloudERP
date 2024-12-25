@@ -1,21 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using Domain.Models;
+using Domain.RepositoryAccess;
+using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace DatabaseAccess.Repositories
 {
-    public interface IFinancialYearRepository
-    {
-        Task<IEnumerable<tblFinancialYear>> GetAllAsync();
-        Task<IEnumerable<tblFinancialYear>> GetAllActiveAsync();
-        Task<tblFinancialYear> GetSingleActiveAsync();
-        Task<tblFinancialYear> GetByIdAsync(int id);
-        Task AddAsync(tblFinancialYear financialYear);
-        Task UpdateAsync(tblFinancialYear financialYear);
-        Task DeleteAsync(int id);
-    }
-
     public class FinancialYearRepository : IFinancialYearRepository
     {
         private readonly CloudDBEntities _dbContext;
@@ -25,48 +17,162 @@ namespace DatabaseAccess.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<tblFinancialYear>> GetAllAsync()
+        public async Task<IEnumerable<FinancialYear>> GetAllAsync()
         {
-            return await _dbContext.tblFinancialYear.Include(u => u.tblUser).ToListAsync();
+            try
+            {
+                var entities = await _dbContext.tblFinancialYear
+                    .Include(u => u.tblUser)
+                    .ToListAsync();
+
+                return entities.Select(f => new FinancialYear
+                {
+                    FinancialYearID = f.FinancialYearID,
+                    FinancialYearName = f.FinancialYear,
+                    StartDate = f.StartDate,
+                    EndDate = f.EndDate,
+                    IsActive = f.IsActive,
+                    UserID = f.UserID
+                });
+            }
+            catch (Exception ex)
+            {
+                LogException(nameof(GetAllAsync), ex);
+                throw new InvalidOperationException("Error retrieving financial years.", ex);
+            }
         }
 
-        public async Task<IEnumerable<tblFinancialYear>> GetAllActiveAsync()
+        public async Task<IEnumerable<FinancialYear>> GetAllActiveAsync()
         {
-            return await _dbContext.tblFinancialYear.Where(f => f.IsActive).ToListAsync();
+            try
+            {
+                var entities = await _dbContext.tblFinancialYear
+                    .Where(f => f.IsActive)
+                    .ToListAsync();
+
+                return entities.Select(f => new FinancialYear
+                {
+                    FinancialYearID = f.FinancialYearID,
+                    FinancialYearName = f.FinancialYear,
+                    StartDate = f.StartDate,
+                    EndDate = f.EndDate,
+                    IsActive = f.IsActive,
+                    UserID = f.UserID
+                });
+            }
+            catch (Exception ex)
+            {
+                LogException(nameof(GetAllAsync), ex);
+                throw new InvalidOperationException("Error retrieving active financial years.", ex);
+            }
         }
 
-        public async Task<tblFinancialYear> GetSingleActiveAsync()
+        public async Task<FinancialYear> GetSingleActiveAsync()
         {
-            return await _dbContext.tblFinancialYear.FirstOrDefaultAsync(f => f.IsActive);
+            try
+            {
+                var entity = await _dbContext.tblFinancialYear.FirstOrDefaultAsync(f => f.IsActive);
+
+                return entity == null ? null : new FinancialYear
+                {
+                    FinancialYearID = entity.FinancialYearID,
+                    FinancialYearName = entity.FinancialYear,
+                    StartDate = entity.StartDate,
+                    EndDate = entity.EndDate,
+                    IsActive = entity.IsActive,
+                    UserID = entity.UserID
+                };
+            }
+            catch (Exception ex)
+            {
+                LogException(nameof(GetByIdAsync), ex);
+                throw new InvalidOperationException($"Error retrieving active financial year.", ex);
+            }
         }
 
-        public async Task<tblFinancialYear> GetByIdAsync(int id)
+        public async Task<FinancialYear> GetByIdAsync(int id)
         {
-            return await _dbContext.tblFinancialYear.FindAsync(id);
+            try
+            {
+                var entity = await _dbContext.tblFinancialYear.FindAsync(id);
+
+                return entity == null ? null : new FinancialYear
+                {
+                    FinancialYearID = entity.FinancialYearID,
+                    FinancialYearName = entity.FinancialYear,
+                    StartDate = entity.StartDate,
+                    EndDate = entity.EndDate,
+                    IsActive = entity.IsActive,
+                    UserID = entity.UserID
+                };
+            }
+            catch (Exception ex)
+            {
+                LogException(nameof(GetByIdAsync), ex);
+                throw new InvalidOperationException($"Error retrieving financial year.", ex);
+            }
         }
 
-        public async Task AddAsync(tblFinancialYear financialYear)
+        public async Task AddAsync(FinancialYear financialYear)
         {
-            _dbContext.tblFinancialYear.Add(financialYear);
-            await _dbContext.SaveChangesAsync();
+            try
+            {
+                if (financialYear == null) throw new ArgumentNullException(nameof(financialYear));
+
+                var entity = new tblFinancialYear
+                {
+                    FinancialYearID = financialYear.FinancialYearID,
+                    FinancialYear = financialYear.FinancialYearName,
+                    StartDate = financialYear.StartDate,
+                    EndDate = financialYear.EndDate,
+                    IsActive = financialYear.IsActive,
+                    UserID = financialYear.UserID
+                };
+
+                _dbContext.tblFinancialYear.Add(entity);
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                LogException(nameof(AddAsync), ex);
+                throw new InvalidOperationException("Error adding a new financial year.", ex);
+            }
         }
 
-        public async Task UpdateAsync(tblFinancialYear financialYear)
+        public async Task UpdateAsync(FinancialYear financialYear)
         {
-            var existing = await _dbContext.tblFinancialYear.FindAsync(financialYear.FinancialYearID);
-            if (existing == null) throw new KeyNotFoundException("Financial Year not found.");
+            try
+            {
+                if (financialYear == null) throw new ArgumentNullException(nameof(financialYear));
 
-            _dbContext.Entry(existing).CurrentValues.SetValues(financialYear);
-            await _dbContext.SaveChangesAsync();
+                var entity = await _dbContext.tblFinancialYear.FindAsync(financialYear.FinancialYearID);
+                if (entity == null) throw new KeyNotFoundException("Financial year not found.");
+
+                entity.FinancialYearID = financialYear.FinancialYearID;
+                entity.FinancialYear = financialYear.FinancialYearName;
+                entity.StartDate = financialYear.StartDate;
+                entity.EndDate = financialYear.EndDate;
+                entity.IsActive = financialYear.IsActive;
+                entity.UserID = financialYear.UserID;
+
+                _dbContext.Entry(entity).State = EntityState.Modified;
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                LogException(nameof(UpdateAsync), ex);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                LogException(nameof(UpdateAsync), ex);
+                throw new InvalidOperationException($"Error updating financial year with ID {financialYear.FinancialYearID}.", ex);
+            }
         }
 
-        public async Task DeleteAsync(int id)
+        private void LogException(string methodName, Exception ex)
         {
-            var financialYear = await _dbContext.tblFinancialYear.FindAsync(id);
-            if (financialYear == null) throw new KeyNotFoundException("Financial Year not found.");
-
-            _dbContext.tblFinancialYear.Remove(financialYear);
-            await _dbContext.SaveChangesAsync();
+            Console.WriteLine($"Error in {methodName}: {ex.Message}\n{ex.StackTrace}");
         }
     }
 }

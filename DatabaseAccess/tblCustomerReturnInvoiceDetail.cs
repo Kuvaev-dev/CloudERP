@@ -9,31 +9,14 @@
 
 namespace DatabaseAccess
 {
-    using System.ComponentModel.DataAnnotations;
-
     public partial class tblCustomerReturnInvoiceDetail
     {
-        [Key]
         public int CustomerReturnInvoiceDetailID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int CustomerInvoiceDetailID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int CustomerInvoiceID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int CustomerReturnInvoiceID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int ProductID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [Range(1, int.MaxValue, ErrorMessageResourceName = "RangedField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int SaleReturnQuantity { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [Range(0.01, double.MaxValue, ErrorMessageResourceName = "RangedField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public double SaleReturnUnitPrice { get; set; }
 
         public virtual tblCustomerInvoice tblCustomerInvoice { get; set; }

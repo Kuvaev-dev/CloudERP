@@ -9,32 +9,14 @@
 
 namespace DatabaseAccess
 {
-    using System.ComponentModel.DataAnnotations;
-
     public partial class tblPurchaseCartDetail
     {
-        [Key]
         public int PurchaseCartDetailID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int ProductID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [Range(1, int.MaxValue, ErrorMessageResourceName = "RangedField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int PurchaseQuantity { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [DisplayFormat(DataFormatString = "{0:N}", ApplyFormatInEditMode = true)]
-        [Range(0.01, double.MaxValue, ErrorMessageResourceName = "RangedField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public double PurchaseUnitPrice { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int CompanyID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int BranchID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int UserID { get; set; }
 
         public virtual tblBranch tblBranch { get; set; }

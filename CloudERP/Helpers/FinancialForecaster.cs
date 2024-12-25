@@ -1,4 +1,5 @@
 ﻿using CloudERP.Models.Forecasting;
+using Domain.Models.Forecasting;
 using Microsoft.ML;
 using System;
 using System.Collections.Generic;

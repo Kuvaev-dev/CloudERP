@@ -9,6 +9,7 @@ namespace Domain.RepositoryAccess
     {
         Task<IEnumerable<Employee>> GetByBranchAsync(int companyId, int branchId);
         Task<Employee> GetByIdAsync(int id);
+        Task<Employee> GetByTINAsync(string TIN);
         Task<Employee> GetByUserIdAsync(int id);
         Task<Employee> GetByCompanyIdAsync(int id);
         Task<IEnumerable<Employee>> GetEmployeesByDateRangeAsync(DateTime startDate, DateTime endDate, List<int?> branchIDs, int companyID);

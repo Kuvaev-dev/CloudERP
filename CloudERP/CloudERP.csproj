@@ -802,8 +802,8 @@
     <Compile Include="Helpers\CultureHelper.cs" />
     <Compile Include="Helpers\EmailService.cs" />
     <Compile Include="Helpers\FileHelper.cs" />
-    <Compile Include="Helpers\Forecasting\FinancialForecaster.cs" />
-    <Compile Include="Helpers\Forecasting\ForecastingService.cs" />
+    <Compile Include="Helpers\FinancialForecaster.cs" />
+    <Compile Include="Helpers\ForecastingService.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
     <Compile Include="Helpers\ReminderService.cs" />
     <Compile Include="Helpers\SessionHelper.cs" />
@@ -816,10 +816,7 @@
     <Compile Include="Models\BranchsSuppliersMV.cs" />
     <Compile Include="Models\CompanyMV.cs" />
     <Compile Include="Models\CompanyRegistrationMV.cs" />
-    <Compile Include="Models\CustomerMV.cs" />
     <Compile Include="Models\EmployeeMV.cs" />
-    <Compile Include="Models\FinancialYearMV.cs" />
-    <Compile Include="Models\Forecasting\ForecastData.cs" />
     <Compile Include="Models\Forecasting\ForecastInputModel.cs" />
     <Compile Include="Models\Forecasting\ForecastPrediction.cs" />
     <Compile Include="Models\GeneralTransactionMV.cs" />

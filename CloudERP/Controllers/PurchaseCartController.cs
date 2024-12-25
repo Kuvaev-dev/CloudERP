@@ -3,7 +3,7 @@ using CloudERP.Models;
 using DatabaseAccess;
 using DatabaseAccess.Code;
 using DatabaseAccess.Repositories;
-using Domain.Services;
+using Domain.RepositoryAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,18 +15,18 @@ namespace CloudERP.Controllers
     public class PurchaseCartController : Controller
     {
         private readonly IPurchaseEntry _purchaseEntry;
-        private readonly IStockService _stockService;
-        private readonly ISupplierService _supplierService;
+        private readonly IStockRepository _stockRepository;
+        private readonly ISupplierRepository _supplierRepository;
         private readonly IPurchaseCartDetailRepository _purchaseCartDetailRepository;
         private readonly ISupplierInvoiceRepository _supplierInvoiceRepository;
         private readonly ISupplierInvoiceDetailRepository _supplierInvoiceDetailRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public PurchaseCartController(IPurchaseEntry purchaseEntry, IStockService stockService, ISupplierService supplierService, IPurchaseCartDetailRepository purchaseCartDetailRepository, ISupplierInvoiceRepository supplierInvoiceRepository, ISupplierInvoiceDetailRepository supplierInvoiceDetailRepository, SessionHelper sessionHelper)
+        public PurchaseCartController(IPurchaseEntry purchaseEntry, IStockRepository stockRepository, ISupplierRepository supplierRepository, IPurchaseCartDetailRepository purchaseCartDetailRepository, ISupplierInvoiceRepository supplierInvoiceRepository, ISupplierInvoiceDetailRepository supplierInvoiceDetailRepository, SessionHelper sessionHelper)
         {
             _purchaseEntry = purchaseEntry;
-            _stockService = stockService;
-            _supplierService = supplierService;
+            _stockRepository = stockRepository;
+            _supplierRepository = supplierRepository;
             _purchaseCartDetailRepository = purchaseCartDetailRepository;
             _supplierInvoiceRepository = supplierInvoiceRepository;
             _supplierInvoiceDetailRepository = supplierInvoiceDetailRepository;
@@ -47,7 +47,7 @@ namespace CloudERP.Controllers
 
                 ViewBag.TotalAmount = findDetail.Sum(item => item.PurchaseQuantity * item.PurchaseUnitPrice);
 
-                ViewBag.Products = await _stockService.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                ViewBag.Products = await _stockRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
 
                 return View(findDetail);
             }
@@ -63,7 +63,7 @@ namespace CloudERP.Controllers
         {
             try
             {
-                var product = await _stockService.GetByIdAsync(id);
+                var product = await _stockRepository.GetByIdAsync(id);
                 if (product != null)
                 {
                     return Json(new { product.CurrentPurchaseUnitPrice }, JsonRequestBehavior.AllowGet);
@@ -131,7 +131,7 @@ namespace CloudERP.Controllers
                     return Json(new { data = new List<ProductMV>() }, JsonRequestBehavior.AllowGet);
                 }
 
-                var products = await _stockService.GetAllAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID);
+                var products = await _stockRepository.GetAllAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID);
 
                 return Json(new { data = products.Select(item => new ProductMV { Name = item.ProductName, ProductID = item.ProductID }).ToList() }, JsonRequestBehavior.AllowGet);
             }
@@ -218,7 +218,7 @@ namespace CloudERP.Controllers
                     return RedirectToAction("NewPurchase");
                 }
 
-                return View(await _supplierService.GetByCompanyAndBranchAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID));
+                return View(await _supplierRepository.GetByCompanyAndBranchAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID));
             }
             catch (Exception ex)
             {
@@ -267,7 +267,7 @@ namespace CloudERP.Controllers
                     }
                 }
 
-                var supplier = await _supplierService.GetByIdAsync(supplierID);
+                var supplier = await _supplierRepository.GetByIdAsync(supplierID);
                 var purchaseDetails = await _purchaseCartDetailRepository.GetByBranchAndCompanyAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID);
 
                 double totalAmount = purchaseDetails.Sum(item => item.PurchaseQuantity * item.PurchaseUnitPrice);
@@ -309,12 +309,12 @@ namespace CloudERP.Controllers
                 {
                     foreach (var item in purchaseDetails)
                     {
-                        var stockItem = await _stockService.GetByIdAsync(item.ProductID);
+                        var stockItem = await _stockRepository.GetByIdAsync(item.ProductID);
                         if (stockItem != null)
                         {
                             stockItem.CurrentPurchaseUnitPrice = item.PurchaseUnitPrice;
                             stockItem.Quantity += item.PurchaseQuantity;
-                            await _stockService.UpdateAsync(stockItem);
+                            await _stockRepository.UpdateAsync(stockItem);
                         }
                         await _purchaseCartDetailRepository.DeleteAsync(item);
                     }

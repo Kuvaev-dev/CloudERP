@@ -10,49 +10,20 @@
 namespace DatabaseAccess
 {
     using System;
-    using System.ComponentModel.DataAnnotations;
 
     public partial class tblCustomerReturnPayment
     {
-        [Key]
         public int CustomerReturnPaymentID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int CustomerReturnInvoiceID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int CustomerID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int CustomerInvoiceID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int CompanyID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int BranchID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [StringLength(50, ErrorMessageResourceName = "StringLengthField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string InvoiceNo { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [Range(0.01, double.MaxValue, ErrorMessageResourceName = "RangedField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public double TotalAmount { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [Range(0.00, double.MaxValue, ErrorMessageResourceName = "RangedField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public double PaidAmount { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [Range(0.00, double.MaxValue, ErrorMessageResourceName = "RangedField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public double RemainingBalance { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int UserID { get; set; }
-
-        [DataType(DataType.DateTime)]
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public Nullable<System.DateTime> InvoiceDate { get; set; }
     
         public virtual tblBranch tblBranch { get; set; }

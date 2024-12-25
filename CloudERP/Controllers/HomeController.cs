@@ -5,26 +5,26 @@ using System.Web.Mvc;
 using System.Web.Security;
 using System.Threading.Tasks;
 using DatabaseAccess.Repositories;
-using Domain.Services;
+using Domain.RepositoryAccess;
 
 namespace CloudERP.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IDashboardRepository _dashboard;
-        private readonly IUserService _userService;
-        private readonly IEmployeeService _employeeService;
-        private readonly ICompanyService _companyService;
+        private readonly IDashboardRepository _dashboardRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly IEmployeeRepository _employeeRepository;
+        private readonly ICompanyRepository _companyRepository;
         private readonly SessionHelper _sessionHelper;
         private readonly PasswordHelper _passwordHelper;
         private readonly EmailService _emailService;
 
-        public HomeController(IDashboardRepository dashboard, IUserService userService, IEmployeeService employeeService, ICompanyService companyService, SessionHelper sessionHelper, PasswordHelper passwordHelper, EmailService emailService)
+        public HomeController(IDashboardRepository dashboardRepository, IUserRepository userRepository, IEmployeeRepository employeeRepository, ICompanyRepository companyRepository, SessionHelper sessionHelper, PasswordHelper passwordHelper, EmailService emailService)
         {
-            _userService = userService;
-            _dashboard = dashboard;
-            _employeeService = employeeService;
-            _companyService = companyService;
+            _userRepository = userRepository;
+            _dashboardRepository = dashboardRepository;
+            _employeeRepository = employeeRepository;
+            _companyRepository = companyRepository;
             _sessionHelper = sessionHelper;
             _passwordHelper = passwordHelper;
             _emailService = emailService;
@@ -43,7 +43,7 @@ namespace CloudERP.Controllers
                 string fromDate = new DateTime(currentDate.Year, currentDate.Month, 1).ToString("yyyy-MM-dd");
                 string toDate = new DateTime(currentDate.Year, currentDate.Month, DateTime.DaysInMonth(currentDate.Year, currentDate.Month)).ToString("yyyy-MM-dd");
 
-                return View(await _dashboard.GetDashboardValuesAsync(fromDate, toDate, _sessionHelper.BranchID, _sessionHelper.CompanyID));
+                return View(await _dashboardRepository.GetDashboardValuesAsync(fromDate, toDate, _sessionHelper.BranchID, _sessionHelper.CompanyID));
             }
             catch (Exception ex)
             {
@@ -71,7 +71,7 @@ namespace CloudERP.Controllers
         {
             try
             {
-                var user = await _userService.GetByEmailAsync(email);
+                var user = await _userRepository.GetByEmailAsync(email);
                 if (user != null)
                 {
                     bool isPasswordValid = _passwordHelper.VerifyPassword(password, user.Password, user.Salt);
@@ -108,7 +108,7 @@ namespace CloudERP.Controllers
                         Session["Salt"] = user.Salt;
                         Session["IsActive"] = user.IsActive;
 
-                        var employee = await _employeeService.GetByUserIdAsync(user.UserID);
+                        var employee = await _employeeRepository.GetByUserIdAsync(user.UserID);
                         if (employee == null)
                         {
                             ClearSession();
@@ -124,7 +124,7 @@ namespace CloudERP.Controllers
                         Session["BrchID"] = employee.BrchID;
                         Session["CompanyID"] = employee.CompanyID;
 
-                        var company = await _companyService.GetByIdAsync(employee.CompanyID);
+                        var company = await _companyRepository.GetByIdAsync(employee.CompanyID);
                         if (company == null)
                         {
                             ClearSession();
@@ -134,7 +134,7 @@ namespace CloudERP.Controllers
                         Session["CName"] = company.Name;
                         Session["CLogo"] = company.Logo;
 
-                        if (await _employeeService.IsFirstLoginAsync(employee))
+                        if (await _employeeRepository.IsFirstLoginAsync(employee))
                         {
                             Session["StartTour"] = true;
                         }
@@ -201,7 +201,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var user = await _userService.GetByEmailAsync(email);
+                var user = await _userRepository.GetByEmailAsync(email);
                 if (user != null)
                 {
                     if ((DateTime.Now - user.LastPasswordResetRequest)?.TotalMinutes < 5)
@@ -214,7 +214,7 @@ namespace CloudERP.Controllers
                     user.ResetPasswordExpiration = DateTime.Now.AddHours(1);
                     user.LastPasswordResetRequest = DateTime.Now;
 
-                    await _userService.UpdateAsync(user);
+                    await _userRepository.UpdateAsync(user);
 
                     try
                     {
@@ -261,7 +261,7 @@ namespace CloudERP.Controllers
         {
             try
             {
-                var user = await _userService.GetByPasswordCodesAsync(id, DateTime.Now);
+                var user = await _userRepository.GetByPasswordCodesAsync(id, DateTime.Now);
                 if (user != null)
                 {
                     ViewBag.ResetCode = id;
@@ -292,7 +292,7 @@ namespace CloudERP.Controllers
                     return View();
                 }
 
-                var user = await _userService.GetByPasswordCodesAsync(id, DateTime.Now);
+                var user = await _userRepository.GetByPasswordCodesAsync(id, DateTime.Now);
                 if (user != null)
                 {
                     user.Password = _passwordHelper.HashPassword(newPassword, out string salt);
@@ -301,7 +301,7 @@ namespace CloudERP.Controllers
                     user.ResetPasswordExpiration = null;
                     user.LastPasswordResetRequest = null;
 
-                    await _userService.UpdateAsync(user);
+                    await _userRepository.UpdateAsync(user);
 
                     return View("ResetPasswordSuccess");
                 }

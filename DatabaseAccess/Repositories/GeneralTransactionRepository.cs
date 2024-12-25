@@ -1,10 +1,10 @@
 ﻿using DatabaseAccess.Code;
-using DatabaseAccess.Models;
+using Domain.Models.FinancialModels;
+using Domain.RepositoryAccess;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DatabaseAccess.Repositories

@@ -9,35 +9,16 @@
 
 namespace DatabaseAccess
 {
-    using System.ComponentModel.DataAnnotations;
-
     public partial class tblPurchaseCart
     {
-        [Key]
         public int PurchaseCartID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int SupplierID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int CompanyID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int BranchID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int InvoiceNo { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [Range(0.01, double.MaxValue, ErrorMessageResourceName = "RangedField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public double TotalAmount { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public System.DateTime InvoiceDate { get; set; }
-
         public string Description { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int UserID { get; set; }
 
         public virtual tblBranch tblBranch { get; set; }

@@ -1,8 +1,7 @@
 ﻿using CloudERP.Helpers;
-using CloudERP.Mapping.Base;
 using CloudERP.Models;
 using Domain.Models;
-using Domain.Services;
+using Domain.RepositoryAccess;
 using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -11,42 +10,30 @@ namespace CloudERP.Controllers
 {
     public class CompanyRegistrationController : Controller
     {
-        private readonly ICompanyService _companyService;
-        private readonly IBranchService _branchService;
-        private readonly IUserService _userService;
-        private readonly IEmployeeService _employeeService;
-        private readonly IMapper<Company, CompanyMV> _companyMapper;
-        private readonly IMapper<Branch, BranchMV> _branchMapper;
-        private readonly IMapper<User, UserMV> _userMapper;
-        private readonly IMapper<Employee, EmployeeMV> _employeeMapper;
+        private readonly ICompanyRepository _companyRepository;
+        private readonly IBranchRepository _branchRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly IEmployeeRepository _employeeRepository;
         private readonly EmailService _emailService;
         private readonly SessionHelper _sessionHelper;
         private readonly PasswordHelper _passwordHelper;
 
         public CompanyRegistrationController(
-            ICompanyService companyService,
-            IBranchService branchService,
-            IUserService userService,
-            IEmployeeService employeeService,
+            ICompanyRepository companyRepository,
+            IBranchRepository branchRepository,
+            IUserRepository userRepository,
+            IEmployeeRepository employeeRepository,
             EmailService emailService,
             SessionHelper sessionHelper,
-            PasswordHelper passwordHelper,
-            IMapper<Company, CompanyMV> companyMapper,
-            IMapper<Branch, BranchMV> branchMapper,
-            IMapper<User, UserMV> userMapper,
-            IMapper<Employee, EmployeeMV> employeeMapper)
+            PasswordHelper passwordHelper)
         {
-            _companyService = companyService;
-            _branchService = branchService;
-            _userService = userService;
-            _employeeService = employeeService;
+            _companyRepository = companyRepository;
+            _branchRepository = branchRepository;
+            _userRepository = userRepository;
+            _employeeRepository = employeeRepository;
             _emailService = emailService;
             _sessionHelper = sessionHelper;
             _passwordHelper = passwordHelper;
-            _companyMapper = companyMapper;
-            _branchMapper = branchMapper;
-            _userMapper = userMapper;
-            _employeeMapper = employeeMapper;
         }
 
         // GET: CompanyRegistration/RegistrationForm
@@ -78,43 +65,38 @@ namespace CloudERP.Controllers
 
             try
             {
-                // Перевірка існування користувача
-                if (await _userService.GetByEmailAsync(model.EmployeeEmail) != null)
+                if (await _userRepository.GetByEmailAsync(model.EmployeeEmail) != null)
                 {
                     ModelState.AddModelError("", Resources.Messages.UsernameAlreadyExists);
                     return View(model);
                 }
 
-                // Перевірка існування компанії
-                if (await _companyService.CheckCompanyExistsAsync(model.CompanyName))
+                if (await _companyRepository.GetByNameAsync(model.CompanyName) != null)
                 {
                     ModelState.AddModelError("", Resources.Messages.AlreadyExists);
                     return View(model);
                 }
 
-                // Створення компанії
-                var company = _companyMapper.MapToDomain(new CompanyMV
+                var company = new Company
                 {
                     Name = model.CompanyName,
                     Logo = "~/Content/CompanyLogo/erp-logo.png",
                     Description = string.Empty
-                });
-                await _companyService.CreateAsync(company);
+                };
+                await _companyRepository.AddAsync(company);
 
-                // Створення відділення
-                var branch = _branchMapper.MapToDomain(new BranchMV
+                var branch = new Branch
                 {
                     BranchAddress = model.BranchAddress,
                     BranchContact = model.BranchContact,
                     BranchName = model.BranchName,
                     BranchTypeID = 1,
                     CompanyID = company.CompanyID
-                });
-                await _branchService.CreateAsync(branch);
+                };
+                await _branchRepository.AddAsync(branch);
 
-                // Створення користувача
                 string hashedPassword = _passwordHelper.HashPassword(model.EmployeeContactNo, out string salt);
-                var user = _userMapper.MapToDomain(new UserMV
+                var user = new User
                 {
                     ContactNo = model.EmployeeContactNo,
                     Email = model.EmployeeEmail,
@@ -124,11 +106,10 @@ namespace CloudERP.Controllers
                     Salt = salt,
                     UserName = model.UserName,
                     UserTypeID = 2
-                });
-                await _userService.CreateAsync(user);
+                };
+                await _userRepository.AddAsync(user);
 
-                // Створення співробітника
-                var employee = _employeeMapper.MapToDomain(new EmployeeMV
+                var employee = new Employee
                 {
                     Address = model.EmployeeAddress,
                     BranchID = branch.BranchID,
@@ -142,10 +123,9 @@ namespace CloudERP.Controllers
                     FullName = model.EmployeeName,
                     IsFirstLogin = true,
                     Photo = "~/Content/EmployeePhoto/Default/default.png"
-                });
-                await _employeeService.CreateAsync(employee);
+                };
+                await _employeeRepository.AddAsync(employee);
 
-                // Відправлення листа
                 var subject = "Welcome to the Company";
                 var body = $"Hello {employee.FullName},\n\n" +
                            $"Your registration is successful. Here are your details:\n" +

@@ -1,10 +1,9 @@
 ﻿using CloudERP.Helpers;
-using DatabaseAccess.Models;
 using DatabaseAccess.Repositories;
-using Domain.Services;
+using Domain.Models.FinancialModels;
+using Domain.RepositoryAccess;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -13,13 +12,13 @@ namespace CloudERP.Controllers
     public class LedgerController : Controller
     {
         private readonly ILedgerRepository _ledgerRepository;
-        private readonly IFinancialYearService _financialYearService;
+        private readonly IFinancialYearRepository _financialYearRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public LedgerController(ILedgerRepository ledgerRepository, IFinancialYearService financialYearService, SessionHelper sessionHelper)
+        public LedgerController(ILedgerRepository ledgerRepository, IFinancialYearRepository financialYearRepository, SessionHelper sessionHelper)
         {
             _ledgerRepository = ledgerRepository;
-            _financialYearService = financialYearService;
+            _financialYearRepository = financialYearRepository;
             _sessionHelper = sessionHelper;
         }
 
@@ -34,7 +33,7 @@ namespace CloudERP.Controllers
 
                 await PopulateViewBag();
 
-                var defaultFinancialYear = await _financialYearService.GetSingleActiveAsync();
+                var defaultFinancialYear = await _financialYearRepository.GetSingleActiveAsync();
                 if (defaultFinancialYear != null)
                 {
                     return View(await _ledgerRepository.GetLedgerAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID, defaultFinancialYear.FinancialYearID));
@@ -72,12 +71,12 @@ namespace CloudERP.Controllers
 
         private async Task PopulateViewBag()
         {
-            ViewBag.FinancialYears = new SelectList(await _financialYearService.GetAllActiveAsync(), "FinancialYearID", "FinancialYear");
+            ViewBag.FinancialYears = new SelectList(await _financialYearRepository.GetAllActiveAsync(), "FinancialYearID", "FinancialYear");
         }
 
         private async Task PopulateViewBagWithId(int id)
         {
-            ViewBag.FinancialYears = new SelectList(await _financialYearService.GetAllActiveAsync(), "FinancialYearID", "FinancialYear", id);
+            ViewBag.FinancialYears = new SelectList(await _financialYearRepository.GetAllActiveAsync(), "FinancialYearID", "FinancialYear", id);
         }
     }
 }

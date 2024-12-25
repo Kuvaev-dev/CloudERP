@@ -5,15 +5,6 @@ using System.Threading.Tasks;
 
 namespace DatabaseAccess.Repositories
 {
-    public interface ITaskRepository
-    {
-        Task<IEnumerable<tblTask>> GetAllAsync(int companyId, int branchId, int userId);
-        Task<tblTask> GetByIdAsync(int id);
-        Task AddAsync(tblTask task);
-        Task UpdateAsync(tblTask task);
-        Task DeleteAsync(int id);
-    }
-
     public class TaskRepository : ITaskRepository
     {
         private readonly CloudDBEntities _dbContext;

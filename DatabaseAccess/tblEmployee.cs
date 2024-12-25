@@ -11,9 +11,6 @@ namespace DatabaseAccess
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Web;
 
     public partial class tblEmployee
     {
@@ -23,61 +20,21 @@ namespace DatabaseAccess
             this.tblPayroll = new HashSet<tblPayroll>();
         }
 
-        [Key]
         public int EmployeeID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [StringLength(100, ErrorMessageResourceName = "StringLengthField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Name can only contain letters and spaces.")]
         public string Name { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [Phone(ErrorMessageResourceName = "PhoneField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string ContactNo { get; set; }
-
         public string Photo { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [EmailAddress(ErrorMessageResourceName = "EmailAddressField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [AllowedDomains(new string[] { "gmail.com", "ukr.net" }, ErrorMessageResourceName = "DomainField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string Email { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [StringLength(100, ErrorMessageResourceName = "StringLengthField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [DataType(DataType.MultilineText)]
         public string Address { get; set; }
-
-        [StringLength(50, ErrorMessageResourceName = "StringLengthField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string TIN { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [StringLength(100, ErrorMessageResourceName = "StringLengthField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessageResourceName = "RegularField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string Designation { get; set; }
-
-        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [Range(0.01, double.MaxValue, ErrorMessageResourceName = "RangedField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public double MonthlySalary { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [DataType(DataType.DateTime)]
         public Nullable<System.DateTime> RegistrationDate { get; set; }
-
         public Nullable<bool> IsFirstLogin { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int BranchID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int CompanyID { get; set; }
-
         public Nullable<int> UserID { get; set; }
-
-        [NotMapped]
-        public HttpPostedFileBase LogoFile { get; set; }
 
         public virtual tblBranch tblBranch { get; set; }
         public virtual tblCompany tblCompany { get; set; }

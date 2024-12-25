@@ -10,7 +10,6 @@
 namespace DatabaseAccess
 {
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
 
     public partial class tblSupplierReturnInvoice
     {
@@ -21,37 +20,15 @@ namespace DatabaseAccess
             this.tblSupplierReturnPayment = new HashSet<tblSupplierReturnPayment>();
         }
 
-        [Key]
         public int SupplierReturnInvoiceID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int SupplierInvoiceID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int SupplierID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int CompanyID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int BranchID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [StringLength(50, ErrorMessageResourceName = "StringLengthField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string InvoiceNo { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [Range(0.01, double.MaxValue, ErrorMessageResourceName = "RangedField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public double TotalAmount { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [DataType(DataType.Date)]
         public System.DateTime InvoiceDate { get; set; }
-
-        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int UserID { get; set; }
 
         public virtual tblBranch tblBranch { get; set; }

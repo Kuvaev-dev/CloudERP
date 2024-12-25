@@ -11,7 +11,6 @@ namespace DatabaseAccess
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
 
     public partial class tblUser
     {
@@ -43,45 +42,17 @@ namespace DatabaseAccess
             this.tblTransaction = new HashSet<tblTransaction>();
         }
 
-        [Key]
         public int UserID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int UserTypeID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [StringLength(100, ErrorMessageResourceName = "StringLengthField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessageResourceName = "RegularField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string FullName { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [EmailAddress(ErrorMessageResourceName = "EmailAddressField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [AllowedDomains(new string[] { "gmail.com", "ukr.net" }, ErrorMessageResourceName = "DomainField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string Email { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [Phone(ErrorMessageResourceName = "PhoneField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string ContactNo { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [StringLength(50, ErrorMessageResourceName = "StringLengthField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string UserName { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [StringLength(100, ErrorMessageResourceName = "StringLengthField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string Password { get; set; }
-
         public string ResetPasswordCode { get; set; }
-
-        [DataType(DataType.DateTime)]
         public Nullable<System.DateTime> LastPasswordResetRequest { get; set; }
-
-        [DataType(DataType.DateTime)]
         public Nullable<System.DateTime> ResetPasswordExpiration { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public bool IsActive { get; set; }
-
         public string Salt { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

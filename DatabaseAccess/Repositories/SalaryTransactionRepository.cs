@@ -6,20 +6,6 @@ using System.Threading.Tasks;
 
 namespace DatabaseAccess.Repositories
 {
-    public interface ISalaryTransactionRepository
-    {
-        Task<string> Confirm(
-            int EmployeeID,
-            double TransferAmount,
-            int UserID,
-            int BranchID,
-            int CompanyID,
-            string InvoiceNo,
-            string SalaryMonth,
-            string SalaryYear);
-        Task<string> InsertTransaction(int CompanyID, int BranchID);
-    }
-
     public class SalaryTransactionRepository : ISalaryTransactionRepository
     {
         private readonly CloudDBEntities _db;

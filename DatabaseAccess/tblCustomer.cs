@@ -10,7 +10,6 @@
 namespace DatabaseAccess
 {
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
 
     public partial class tblCustomer
     {
@@ -22,29 +21,13 @@ namespace DatabaseAccess
             this.tblCustomerReturnPayment = new HashSet<tblCustomerReturnPayment>();
         }
 
-        [Key]
         public int CustomerID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessageResourceName = "RegularField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string Customername { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [Phone(ErrorMessageResourceName = "PhoneField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string CustomerContact { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string CustomerAddress { get; set; }
-
         public string Description { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int BranchID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int CompanyID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int UserID { get; set; }
 
         public virtual tblBranch tblBranch { get; set; }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CloudERP.Models.Forecasting
+namespace Domain.Models.Forecasting
 {
     public class ForecastData
     {

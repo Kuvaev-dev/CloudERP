@@ -1,19 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DatabaseAccess.Repositories
-{
-    public interface IUserTypeRepository
-    {
-        Task<IEnumerable<tblUserType>> GetAllAsync();
-        Task<tblUserType> GetByIdAsync(int id);
-        Task AddAsync(tblUserType userType);
-        Task UpdateAsync(tblUserType userType);
-        Task DeleteAsync(tblUserType userType);
-    }
-
+{ 
     public class UserTypeRepository : IUserTypeRepository
     {
         private readonly CloudDBEntities _dbContext;

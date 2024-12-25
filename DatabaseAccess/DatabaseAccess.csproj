@@ -96,7 +96,9 @@
     <Compile Include="Repositories\DashboardRepository.cs" />
     <Compile Include="Repositories\EmployeeRepository.cs" />
     <Compile Include="Repositories\FinancialYearRepository.cs" />
+    <Compile Include="Repositories\ForecastingRepository.cs" />
     <Compile Include="Repositories\LedgerRepository.cs" />
+    <Compile Include="Repositories\PayrollRepository.cs" />
     <Compile Include="Repositories\PurchaseCartDetailRepository.cs" />
     <Compile Include="Repositories\PurchaseRepository.cs" />
     <Compile Include="Repositories\SalaryTransactionRepository.cs" />

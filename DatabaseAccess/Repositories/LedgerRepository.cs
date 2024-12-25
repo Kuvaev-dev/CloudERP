@@ -1,18 +1,14 @@
 ﻿using DatabaseAccess.Code;
-using DatabaseAccess.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
 using System.Threading.Tasks;
+using Domain.RepositoryAccess;
+using Domain.Models.FinancialModels;
 
 namespace DatabaseAccess.Repositories
 {
-    public interface ILedgerRepository
-    {
-        Task<List<AccountLedgerModel>> GetLedgerAsync(int companyId, int branchId, int financialYearId);
-    }
-
     public class LedgerRepository : ILedgerRepository
     {
         private readonly CloudDBEntities _db;

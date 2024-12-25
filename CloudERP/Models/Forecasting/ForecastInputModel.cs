@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System;
 
-namespace CloudERP.Models
+namespace Domain.Models.Forecasting
 {
     public class ForecastInputModel
     {

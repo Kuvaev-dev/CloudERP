@@ -10,7 +10,6 @@
 namespace DatabaseAccess
 {
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
 
     public partial class tblFinancialYear
     {
@@ -21,25 +20,11 @@ namespace DatabaseAccess
             this.tblTransaction1 = new HashSet<tblTransaction>();
         }
 
-        [Key]
         public int FinancialYearID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public int UserID { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [StringLength(50, ErrorMessageResourceName = "StringLengthField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public string FinancialYear { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [DataType(DataType.Date)]
         public System.DateTime StartDate { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
-        [DataType(DataType.Date)]
         public System.DateTime EndDate { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Localization.Localization))]
         public bool IsActive { get; set; }
 
         public virtual tblUser tblUser { get; set; }

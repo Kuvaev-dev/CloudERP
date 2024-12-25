@@ -1,17 +1,13 @@
 ﻿using DatabaseAccess.Code;
-using DatabaseAccess.Models;
 using System.Data.SqlClient;
 using System.Data;
 using System;
 using System.Threading.Tasks;
+using Domain.RepositoryAccess;
+using Domain.Models.FinancialModels;
 
 namespace DatabaseAccess.Repositories
 {
-    public interface IDashboardRepository
-    {
-        Task<DashboardModel> GetDashboardValuesAsync(string fromDate, string toDate, int branchID, int companyID);
-    }
-
     public class DashboardRepository : IDashboardRepository
     {
         private readonly DatabaseQuery _query;

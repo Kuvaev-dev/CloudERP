@@ -1,42 +1,37 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
-using CloudERP.Mapping.Base;
-using CloudERP.Models;
 using Domain.Models;
-using Domain.Services;
+using Domain.RepositoryAccess;
 
 namespace CloudERP.Controllers
 {
     public class FinancialYearController : Controller
     {
-        private readonly IFinancialYearService _service;
-        private readonly IMapper<FinancialYear, FinancialYearMV> _mapper;
+        private readonly IFinancialYearRepository _financialYearRepository;
 
-        public FinancialYearController(IFinancialYearService service, IMapper<FinancialYear, FinancialYearMV> mapper)
+        public FinancialYearController(IFinancialYearRepository financialYearRepository)
         {
-            _service = service;
-            _mapper = mapper;
+            _financialYearRepository = financialYearRepository;
         }
 
         public async Task<ActionResult> Index()
         {
-            var financialYears = await _service.GetAllAsync();
+            var financialYears = await _financialYearRepository.GetAllAsync();
             return View(financialYears);
         }
 
         public ActionResult Create()
         {
-            return View(new FinancialYearMV());
+            return View(new FinancialYear());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(FinancialYearMV model)
+        public async Task<ActionResult> Create(FinancialYear model)
         {
             if (ModelState.IsValid)
             {
-                var domainModel = _mapper.MapToDomain(model);
-                await _service.CreateAsync(domainModel);
+                await _financialYearRepository.AddAsync(model);
                 return RedirectToAction("Index");
             }
             return View(model);
@@ -44,20 +39,19 @@ namespace CloudERP.Controllers
 
         public async Task<ActionResult> Edit(int id)
         {
-            var financialYear = await _service.GetByIdAsync(id);
+            var financialYear = await _financialYearRepository.GetByIdAsync(id);
             if (financialYear == null) return HttpNotFound();
 
-            return View(_mapper.MapToViewModel(financialYear));
+            return View(financialYear);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(FinancialYearMV model)
+        public async Task<ActionResult> Edit(FinancialYear model)
         {
             if (ModelState.IsValid)
             {
-                var domainModel = _mapper.MapToDomain(model);
-                await _service.UpdateAsync(domainModel);
+                await _financialYearRepository.UpdateAsync(model);
                 return RedirectToAction("Index");
             }
             return View(model);

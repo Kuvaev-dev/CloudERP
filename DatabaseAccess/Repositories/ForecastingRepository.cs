@@ -1,27 +1,23 @@
-﻿using CloudERP.Models.Forecasting;
-using DatabaseAccess;
-using Microsoft.ML;
+﻿using Domain.Models.Forecasting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CloudERP.Helpers.Forecasting
+namespace DatabaseAccess.Repositories
 {
-    public class ForecastingService
+    public class ForecastingRepository
     {
-        private readonly CloudDBEntities _context;
-        private readonly MLContext _mlContext;
+        private readonly CloudDBEntities _dbContext;
 
-        public ForecastingService(CloudDBEntities context)
+        public ForecastingRepository(CloudDBEntities dbContext)
         {
-            _context = context;
-            _mlContext = new MLContext();
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
         public IEnumerable<ForecastData> GetForecastData(int companyID, int branchID, DateTime startDate, DateTime endDate)
         {
             // Retrieve the data from the database
-            var transactionData = _context.tblTransaction.Where(t => t.CompanyID == companyID &&
+            var transactionData = _dbContext.tblTransaction.Where(t => t.CompanyID == companyID &&
                             t.BranchID == branchID &&
                             t.TransectionDate >= startDate &&
                             t.TransectionDate <= endDate)
@@ -48,27 +44,6 @@ namespace CloudERP.Helpers.Forecasting
                 Date = t.Date,
                 DateAsNumber = (float)(t.Date - new DateTime(2000, 1, 1)).TotalDays
             });
-        }
-
-        public double GenerateForecast(int companyID, int branchID, DateTime startDate, DateTime endDate)
-        {
-            var forecastData = GetForecastData(companyID, branchID, startDate, endDate);
-            if (!forecastData.Any())
-            {
-                throw new InvalidOperationException(Resources.Messages.NoDataAvailableForForecasting);
-            }
-
-            var forecaster = new FinancialForecaster(_mlContext); 
-            var model = forecaster.TrainModel(forecastData);
-
-            var futureDate = DateTime.Now.AddMonths(1);
-            var futureData = new ForecastData
-            {
-                Date = futureDate,
-                DateAsNumber = (float)(futureDate - new DateTime(2000, 1, 1)).TotalDays
-            };
-
-            return forecaster.Predict(model, futureData);
         }
     }
 }

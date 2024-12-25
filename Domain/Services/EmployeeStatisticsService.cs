@@ -1,5 +1,5 @@
-﻿using DatabaseAccess.Repositories;
-using Domain.Models;
+﻿using Domain.Models;
+using Domain.RepositoryAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;

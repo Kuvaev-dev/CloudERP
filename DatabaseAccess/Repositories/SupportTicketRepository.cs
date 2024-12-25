@@ -4,14 +4,6 @@ using System.Threading.Tasks;
 
 namespace DatabaseAccess.Repositories
 {
-    public interface ISupportTicketRepository
-    {
-        Task<IEnumerable<tblSupportTicket>> GetAllAsync();
-        Task<tblSupportTicket> GetByIdAsync(int id);
-        Task AddAsync(tblSupportTicket ticket);
-        Task UpdateAsync(tblSupportTicket ticket);
-    }
-
     public class SupportTicketRepository : ISupportTicketRepository
     {
         private readonly CloudDBEntities _dbContext;

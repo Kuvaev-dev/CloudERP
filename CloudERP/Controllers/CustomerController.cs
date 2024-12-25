@@ -2,24 +2,20 @@
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
-using CloudERP.Mapping;
-using CloudERP.Mapping.Base;
 using CloudERP.Models;
 using Domain.Models;
-using Domain.Services;
+using Domain.RepositoryAccess;
 
 namespace CloudERP.Controllers
 {
     public class CustomerController : Controller
     {
-        private readonly ICustomerService _service;
-        private readonly IMapper<Customer, CustomerMV> _mapper;
+        private readonly ICustomerRepository _customerRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public CustomerController(ICustomerService service, IMapper<Customer, CustomerMV> mapper, SessionHelper sessionHelper)
+        public CustomerController(ICustomerRepository customerRepository, SessionHelper sessionHelper)
         {
-            _service = service;
-            _mapper = mapper;
+            _customerRepository = customerRepository;
             _sessionHelper = sessionHelper;
         }
 
@@ -28,7 +24,7 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            var customers = await _service.GetAllCustomersAsync();
+            var customers = await _customerRepository.GetAllAsync();
             return View(customers);
         }
 
@@ -37,7 +33,7 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            var customers = await _service.GetCustomersByCompanyAndBranchAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+            var customers = await _customerRepository.GetByCompanyAndBranchAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
             return View(customers);
         }
 
@@ -46,13 +42,7 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            int branchId = _sessionHelper.BranchID;
-
-            var customers = await _service.GetSubBranchCustomersAsync(branchId);
-
-            var model = CustomerMapper.MapToBranchsCustomersMV(customers);
-
-            return View(model);
+            return View(await _customerRepository.GetByBranchesAsync(_sessionHelper.BranchID));
         }
 
         public async Task<ActionResult> Details(int? id) => await GetCustomerDetails(id);
@@ -67,10 +57,10 @@ namespace CloudERP.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var customer = await _service.GetCustomerByIdAsync(id.Value);
+            var customer = await _customerRepository.GetByIdAsync(id.Value);
             if (customer == null) return HttpNotFound();
 
-            return View(_mapper.MapToViewModel(customer));
+            return View(customer);
         }
 
         public ActionResult Create()
@@ -78,12 +68,12 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            return View(new CustomerMV());
+            return View(new Customer());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(CustomerMV model)
+        public async Task<ActionResult> Create(Customer model)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -94,7 +84,7 @@ namespace CloudERP.Controllers
                 model.BranchID = _sessionHelper.BranchID;
                 model.UserID = _sessionHelper.UserID;
 
-                await _service.CreateCustomerAsync(_mapper.MapToDomain(model));
+                await _customerRepository.AddAsync(model);
                 return RedirectToAction("Index");
             }
 
@@ -106,22 +96,22 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            var customer = await _service.GetCustomerByIdAsync(id);
+            var customer = await _customerRepository.GetByIdAsync(id);
             if (customer == null) return HttpNotFound();
 
-            return View(_mapper.MapToViewModel(customer));
+            return View(customer);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(CustomerMV model)
+        public async Task<ActionResult> Edit(Customer model)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
             if (ModelState.IsValid)
             {
-                await _service.UpdateCustomerAsync(_mapper.MapToDomain(model));
+                await _customerRepository.UpdateAsync(model);
                 return RedirectToAction("Index");
             }
 

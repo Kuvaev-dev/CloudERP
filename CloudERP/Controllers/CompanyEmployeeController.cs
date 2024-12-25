@@ -18,8 +18,9 @@ namespace CloudERP.Controllers
         private readonly EmailService _emailService;
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IBranchRepository _branchRepository;
+        private readonly IPayrollRepository _payrollRepository;
 
-        public CompanyEmployeeController(CloudDBEntities db, SalaryTransaction salaryTransaction, IEmployeeRepository employeeRepository, SessionHelper sessionHelper, IBranchRepository branchRepository, EmailService emailService)
+        public CompanyEmployeeController(CloudDBEntities db, SalaryTransaction salaryTransaction, IEmployeeRepository employeeRepository, SessionHelper sessionHelper, IBranchRepository branchRepository, IPayrollRepository payrollRepository, EmailService emailService)
         {
             _db = db;
             _salaryTransaction = salaryTransaction;
@@ -27,6 +28,7 @@ namespace CloudERP.Controllers
             _sessionHelper = sessionHelper;
             _branchRepository = branchRepository;
             _emailService = emailService;
+            _payrollRepository = payrollRepository;
         }
 
         // GET: Employees
@@ -93,15 +95,15 @@ namespace CloudERP.Controllers
                         var file = $"{employee.Employee.CompanyID}.jpg";
 
                         var response = FileHelper.UploadPhoto(employee.LogoFile, folder, file);
-                        if (response)
+                        if (!string.IsNullOrEmpty(response))
                         {
-                            var filePath = Server.MapPath($"{folder}/{file}");
+                            var filePath = Server.MapPath(response);
                             if (System.IO.File.Exists(filePath))
                             {
-                                employee.Employee.Photo = $"{folder}/{file}";
+                                employee.Employee.Photo = response;
                             }
                             else
-                            { 
+                            {
                                 employee.Employee.Photo = "~/Content/EmployeePhoto/Default/default.png";
                             }
                             await _employeeRepository.UpdateAsync(employee.Employee);
@@ -145,7 +147,7 @@ namespace CloudERP.Controllers
 
         public ActionResult EmployeeSalary()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!_sessionHelper.IsAuthenticated)
             {
                 return RedirectToAction("Login", "Home");
             }
@@ -160,11 +162,11 @@ namespace CloudERP.Controllers
         }
 
         [HttpPost]
-        public ActionResult EmployeeSalary(SalaryMV salary)
+        public async Task<ActionResult> EmployeeSalary(SalaryMV salary)
         {
             Session["SalaryMessage"] = string.Empty;
 
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!_sessionHelper.IsAuthenticated)
             {
                 return RedirectToAction("Login", "Home");
             }
@@ -172,12 +174,12 @@ namespace CloudERP.Controllers
             try
             {
                 int companyID = Convert.ToInt32(Session["CompanyID"]);
-                var employee = _db.tblEmployee.FirstOrDefault(p => p.TIN == salary.TIN);
+                var employee = await _employeeRepository.GetByTINAsync(salary.TIN);
 
                 if (employee != null)
                 {
                     salary.EmployeeID = employee.EmployeeID;
-                    salary.EmployeeName = employee.Name;
+                    salary.EmployeeName = employee.FullName;
                     salary.Designation = employee.Designation;
                     salary.TIN = employee.TIN;
                     salary.TransferAmount = employee.MonthlySalary;
@@ -205,33 +207,37 @@ namespace CloudERP.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
 
                 salary.SalaryMonth = salary.SalaryMonth.ToLower();
 
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int userID = Convert.ToInt32(Session["UserID"]);
-
-                var emp = _db.tblPayroll.FirstOrDefault(p => p.EmployeeID == salary.EmployeeID &&
-                                                              p.BranchID == branchID &&
-                                                              p.CompanyID == companyID &&
-                                                              p.SalaryMonth == salary.SalaryMonth &&
-                                                              p.SalaryYear == salary.SalaryYear);
-
+                var emp = await _payrollRepository.GetEmployeePayrollAsync(
+                    salary.EmployeeID, 
+                    _sessionHelper.BranchID, 
+                    _sessionHelper.CompanyID, 
+                    salary.SalaryMonth, 
+                    salary.SalaryYear);
                 if (emp == null)
                 {
                     string invoiceNo = $"ESA{DateTime.Now:yyyyMMddHHmmss}{DateTime.Now.Millisecond}";
                     if (ModelState.IsValid)
                     {
-                        string message = await _salaryTransaction.Confirm(salary.EmployeeID, salary.TransferAmount, userID, branchID, companyID, invoiceNo, salary.SalaryMonth, salary.SalaryYear);
+                        string message = await _salaryTransaction.Confirm(
+                            salary.EmployeeID, 
+                            salary.TransferAmount, 
+                            _sessionHelper.UserID, 
+                            _sessionHelper.BranchID, 
+                            _sessionHelper.CompanyID, 
+                            invoiceNo, 
+                            salary.SalaryMonth, 
+                            salary.SalaryYear);
                         if (message.Contains("Succeed"))
                         {
                             Session["SalaryMessage"] = message;
-                            int payrollNo = _db.tblPayroll.Any() ? _db.tblPayroll.Max(p => p.PayrollID) : 0;
+                            int payrollNo = await _payrollRepository.GetLatestPayrollAsync();
                             return RedirectToAction("PrintSalaryInvoice", new { id = payrollNo });
                         }
                         else
@@ -254,23 +260,16 @@ namespace CloudERP.Controllers
             }
         }
 
-        public ActionResult SalaryHistory()
+        public async Task<ActionResult> SalaryHistory()
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!_sessionHelper.IsAuthenticated)
             {
                 return RedirectToAction("Login", "Home");
             }
 
             try
             {
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-
-                var salaryList = _db.tblPayroll.Where(p => p.BranchID == branchID && p.CompanyID == companyID)
-                                               .OrderByDescending(p => p.PayrollID)
-                                               .ToList();
-
-                return View(salaryList);
+                return View(await _payrollRepository.GetSalaryHistoryAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID));
             }
             catch (Exception ex)
             {
@@ -279,17 +278,16 @@ namespace CloudERP.Controllers
             }
         }
 
-        public ActionResult PrintSalaryInvoice(int id)
+        public async Task<ActionResult> PrintSalaryInvoice(int id)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+            if (!_sessionHelper.IsAuthenticated)
             {
                 return RedirectToAction("Login", "Home");
             }
 
             try
             {
-                var salary = _db.tblPayroll.FirstOrDefault(p => p.PayrollID == id);
-                return View(salary);
+                return View(await _payrollRepository.GetByIdAsync(id));
             }
             catch (Exception ex)
             {

@@ -1,26 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
+using System.Linq;\
 using System.Threading.Tasks;
 
 namespace DatabaseAccess.Repositories
 {
-    public interface IPurchaseCartDetailRepository
-    {
-        Task<List<tblPurchaseCartDetail>> GetByDefaultSettingsAsync(int branchId, int companyId, int userId);
-        Task<List<tblPurchaseCartDetail>> GetByBranchAndCompanyAsync(int branchId, int companyId);
-        Task<tblPurchaseCartDetail> GetByProductIdAsync(int branchId, int companyId, int productId);
-        Task<tblPurchaseCartDetail> GetByIdAsync(int PCID);
-        Task AddAsync(tblPurchaseCartDetail tblPurchaseCartDetail);
-        Task UpdateAsync(tblPurchaseCartDetail tblPurchaseCartDetail);
-        Task DeleteAsync(tblPurchaseCartDetail tblPurchaseCartDetail);
-        Task<bool> IsCanceled(int branchId, int companyId, int userId);
-
-    }
-
     public class PurchaseCartDetailRepository : IPurchaseCartDetailRepository
     {
         private readonly CloudDBEntities _db;

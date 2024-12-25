@@ -8,11 +8,6 @@ using System.Threading.Tasks;
 
 namespace DatabaseAccess.Repositories
 {
-    public interface ITrialBalanceRepository
-    {
-        Task<List<TrialBalanceModel>> GetTrialBalanceAsync(int branchId, int companyId, int financialYearId);
-    }
-
     public class TrialBalanceRepository : ITrialBalanceRepository
     {
         private readonly DatabaseQuery _query;

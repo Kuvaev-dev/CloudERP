@@ -120,5 +120,26 @@ namespace DatabaseAccess.Repositories
         {
             Console.WriteLine($"Error in {methodName}: {ex.Message}\n{ex.StackTrace}");
         }
+
+        public async Task<Company> GetByNameAsync(string name)
+        {
+            try
+            {
+                var entity = await _dbContext.tblCompany.FindAsync(name);
+
+                return entity == null ? null : new Company
+                {
+                    CompanyID = entity.CompanyID,
+                    Name = entity.Name,
+                    Logo = entity.Logo,
+                    Description = entity.Description
+                };
+            }
+            catch (Exception ex)
+            {
+                LogException(nameof(GetByIdAsync), ex);
+                throw new InvalidOperationException($"Error retrieving company with name {name}.", ex);
+            }
+        }
     }
 }

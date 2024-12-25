@@ -1,4 +1,4 @@
-﻿using Domain.Services;
+﻿using Domain.RepositoryAccess;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -6,17 +6,17 @@ namespace CloudERP.Controllers
 {
     public class FinancialYearViewController : Controller
     {
-        private readonly IFinancialYearService _service;
+        private readonly IFinancialYearRepository _financialYearRepository;
 
-        public FinancialYearViewController(IFinancialYearService service)
+        public FinancialYearViewController(IFinancialYearRepository financialYearRepository)
         {
-            _service = service;
+            _financialYearRepository = financialYearRepository;
         }
 
         // GET: FinancialYear
         public async Task<ActionResult> Index()
         {
-            var financialYears = await _service.GetAllAsync();
+            var financialYears = await _financialYearRepository.GetAllAsync();
             return View(financialYears);
         }
     }

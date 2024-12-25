@@ -298,5 +298,42 @@ namespace DatabaseAccess.Repositories
                 throw new InvalidOperationException($"Error retrieving employee with ID {id}.", ex);
             }
         }
+
+        public async Task<Employee> GetByTINAsync(string TIN)
+        {
+            try
+            {
+                var entity = await _dbContext.tblEmployee
+                .Where(e => e.TIN == TIN)
+                .FirstOrDefaultAsync();
+
+                return entity == null ? null : new Employee
+                {
+                    EmployeeID = entity.EmployeeID,
+                    FullName = entity.Name,
+                    ContactNumber = entity.ContactNo,
+                    Email = entity.Email,
+                    Address = entity.Address,
+                    Photo = entity.Photo,
+                    TIN = entity.TIN,
+                    Designation = entity.Designation,
+                    Description = entity.Description,
+                    MonthlySalary = entity.MonthlySalary,
+                    IsFirstLogin = entity.IsFirstLogin,
+                    RegistrationDate = entity.RegistrationDate,
+                    CompanyID = entity.CompanyID,
+                    BranchID = entity.BranchID,
+                    BranchTypeID = entity.tblBranch.BranchTypeID,
+                    BrchID = entity.tblBranch.BrchID,
+                    BranchName = entity.tblBranch.BranchName,
+                    UserID = entity.UserID
+                };
+            }
+            catch (Exception ex)
+            {
+                LogException(nameof(GetByIdAsync), ex);
+                throw new InvalidOperationException($"Error retrieving employee with ID {id}.", ex);
+            }
+        }
     }
 }
