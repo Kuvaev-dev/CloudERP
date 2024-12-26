@@ -1,7 +1,6 @@
 ﻿using CloudERP.Helpers;
-using DatabaseAccess;
-using DatabaseAccess.Code;
-using DatabaseAccess.Repositories;
+using Domain.EntryAccess;
+using Domain.RepositoryAccess;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,17 +10,25 @@ namespace CloudERP.Controllers
 {
     public class PurchasePaymentController : Controller
     {
-        private readonly CloudDBEntities _db;
         private readonly SessionHelper _sessionHelper;
         private readonly IPurchaseRepository _purchase;
+        private readonly ISupplierRepository _supplierRepository;
+        private readonly ISupplierInvoiceRepository _supplierInvoiceRepository;
+        private readonly ISupplierPaymentRepository _supplierPaymentRepository;
+        private readonly ISupplierReturnInvoiceRepository _supplierReturnInvoiceRepository;
+        private readonly ISupplierInvoiceDetailRepository _supplierInvoiceDetailRepository;
         private readonly IPurchaseEntry _paymentEntry;
 
-        public PurchasePaymentController(CloudDBEntities db, SessionHelper sessionHelper, IPurchaseRepository purchase, IPurchaseEntry paymentEntry)
+        public PurchasePaymentController(SessionHelper sessionHelper, IPurchaseRepository purchase, ISupplierReturnInvoiceRepository supplierReturnInvoiceRepository, ISupplierPaymentRepository supplierPaymentRepository, IPurchaseEntry paymentEntry, ISupplierInvoiceRepository supplierInvoiceRepository, ISupplierRepository supplierRepository, ISupplierInvoiceDetailRepository supplierInvoiceDetailRepository)
         {
-            _db = db;
             _sessionHelper = sessionHelper;
             _purchase = purchase;
+            _supplierReturnInvoiceRepository = supplierReturnInvoiceRepository;
+            _supplierPaymentRepository = supplierPaymentRepository;
             _paymentEntry = paymentEntry;
+            _supplierInvoiceRepository = supplierInvoiceRepository;
+            _supplierRepository = supplierRepository;
+            _supplierInvoiceDetailRepository = supplierInvoiceDetailRepository;
         }
 
         // GET: PurchasePayment
@@ -55,15 +62,15 @@ namespace CloudERP.Controllers
                 }
 
                 var list = await _purchase.PurchasePaymentHistory((int)id);
-                var returnDetails = _db.tblSupplierReturnInvoice.Where(r => r.SupplierInvoiceID == id).ToList();
-                if (returnDetails != null && returnDetails.Any())
+                var returnDetails = await _supplierReturnInvoiceRepository.GetReturnDetails((int)id);
+                if (returnDetails != null)
                 {
                     ViewData["ReturnPurchaseDetails"] = returnDetails;
                 }
 
                 double remainingAmount = 0;
-                double totalInvoiceAmount = _db.tblSupplierInvoice.Find(id)?.TotalAmount ?? 0;
-                double totalPaidAmount = _db.tblSupplierPayment.Where(p => p.SupplierInvoiceID == id).Sum(p => p.PaymentAmount);
+                double totalInvoiceAmount = await _supplierInvoiceRepository.GetTotalAmountAsync((int)id);
+                double totalPaidAmount = await _supplierPaymentRepository.GetTotalPaidAmount((int)id);
                 remainingAmount = totalInvoiceAmount - totalPaidAmount;
 
                 ViewBag.PreviousRemainingAmount = remainingAmount;
@@ -88,7 +95,7 @@ namespace CloudERP.Controllers
                 }
 
                 var list = await _purchase.PurchasePaymentHistory((int)id);
-                var returnDetails = _db.tblSupplierReturnInvoice.Where(r => r.SupplierInvoiceID == id).ToList();
+                var returnDetails = await _supplierReturnInvoiceRepository.GetReturnDetails((int)id);
                 if (returnDetails != null && returnDetails.Any())
                 {
                     ViewData["ReturnPurchaseDetails"] = returnDetails;
@@ -96,10 +103,10 @@ namespace CloudERP.Controllers
 
                 double remainingAmount = 0;
                 double totalPaidAmount = 0;
-                double totalInvoiceAmount = _db.tblSupplierInvoice.Find(id)?.TotalAmount ?? 0;
-                if (_db.tblSupplierPayment.Any(p => p.SupplierInvoiceID == id))
+                double totalInvoiceAmount = await _supplierInvoiceRepository.GetTotalAmountAsync((int)id);
+                if (await _supplierPaymentRepository.GetByInvoiceIdAsync((int)id))
                 {
-                    totalPaidAmount = _db.tblSupplierPayment.Where(p => p.SupplierInvoiceID == id).Sum(p => p.PaymentAmount);
+                    totalPaidAmount = await _supplierPaymentRepository.GetTotalPaidAmount((int)id);
                 }
                 remainingAmount = totalInvoiceAmount - totalPaidAmount;
 
@@ -129,14 +136,14 @@ namespace CloudERP.Controllers
                 {
                     ViewBag.Message = Resources.Messages.PurchasePaymentRemainingAmountError;
                     var list = await _purchase.PurchasePaymentHistory((int)id);
-                    var returnDetails = _db.tblSupplierReturnInvoice.Where(r => r.SupplierInvoiceID == id).ToList();
+                    var returnDetails = await _supplierReturnInvoiceRepository.GetReturnDetails((int)id);
                     if (returnDetails != null && returnDetails.Any())
                     {
                         ViewData["ReturnPurchaseDetails"] = returnDetails;
                     }
 
-                    double totalInvoiceAmount = _db.tblSupplierInvoice.Find(id)?.TotalAmount ?? 0;
-                    double totalPaidAmount = _db.tblSupplierPayment.Where(p => p.SupplierInvoiceID == id).Sum(p => p.PaymentAmount);
+                    double totalInvoiceAmount = await _supplierInvoiceRepository.GetTotalAmountAsync((int)id);
+                    double totalPaidAmount = await _supplierPaymentRepository.GetTotalPaidAmount((int)id);
                     double remainingAmount = totalInvoiceAmount - totalPaidAmount;
 
                     ViewBag.PreviousRemainingAmount = remainingAmount;
@@ -145,8 +152,9 @@ namespace CloudERP.Controllers
                 }
 
                 string payinvoicenno = "PAY" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
-                var supplier = _db.tblSupplier.Find(_db.tblSupplierInvoice.Find(id)?.SupplierID);
-                var purchaseInvoice = _db.tblSupplierInvoice.Find(id);
+                var supplierID = await _supplierInvoiceRepository.GetSupplierIdFromInvoice((int)id);
+                var supplier = await _supplierRepository.GetByIdAsync(supplierID);
+                var purchaseInvoice = await _supplierInvoiceRepository.GetByIdAsync((int)id);
                 string message = await _paymentEntry.PurchasePayment(_sessionHelper.CompanyID, _sessionHelper.BranchID, _sessionHelper.UserID, payinvoicenno, Convert.ToString(id), (float)purchaseInvoice.TotalAmount,
                     paymentAmount, Convert.ToString(supplier?.SupplierID), supplier?.SupplierName, previousRemainingAmount - paymentAmount);
                 Session["Message"] = message;
@@ -205,7 +213,7 @@ namespace CloudERP.Controllers
             }
         }
 
-        public ActionResult PurchaseItemDetail(int? id)
+        public async Task<ActionResult> PurchaseItemDetail(int? id)
         {
             try
             {
@@ -214,9 +222,7 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                var list = _db.tblSupplierInvoiceDetail.Where(i => i.SupplierInvoiceID == id);
-
-                return View(list.ToList());
+                return View(await _supplierInvoiceDetailRepository.GetListByIdAsync((int)id));
             }
             catch (Exception ex)
             {
@@ -225,18 +231,16 @@ namespace CloudERP.Controllers
             }
         }
 
-        public ActionResult PrintPurchaseInvoice(int? id)
+        public async Task<ActionResult> PrintPurchaseInvoice(int? id)
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
-
-                var list = _db.tblSupplierInvoiceDetail.Where(i => i.SupplierInvoiceID == id);
-
-                return View(list.ToList());
+                
+                return View(await _supplierInvoiceDetailRepository.GetListByIdAsync((int)id));
             }
             catch (Exception ex)
             {

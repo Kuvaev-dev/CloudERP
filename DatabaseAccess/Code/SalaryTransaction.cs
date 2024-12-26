@@ -2,7 +2,6 @@
 using System.Data;
 using System.Threading.Tasks;
 using DatabaseAccess.Localization;
-using DatabaseAccess.Repositories;
 using Domain.RepositoryAccess;
 
 public class SalaryTransaction
@@ -49,67 +48,67 @@ public class SalaryTransaction
         string SalaryMonth,
         string SalaryYear)
     {
-            try
+        try
+        {
+            string transectiontitle = Localization.SalaryIsPending;
+
+            var employee = await _employeeRepository.GetByIdAsync(EmployeeID);
+            string employeename = string.Empty;
+
+            if (employee != null)
             {
-                string transectiontitle = Localization.SalaryIsPending;
+                employeename = Localization.To + employee.FullName;
+                transectiontitle += employeename;
+            }
 
-                var employee = await _employeeRepository.GetByIdAsync(EmployeeID);
-                string employeename = string.Empty;
+            var financialYearCheck = await _financialYearRepository.GetSingleActiveAsync();
+            string FinancialYearID = financialYearCheck != null ? Convert.ToString(financialYearCheck) : string.Empty;
+            if (string.IsNullOrEmpty(FinancialYearID))
+            {
+                return Localization.CompanyFinancialYearNotSet;
+            }
 
-                if (employee != null)
-                {
-                    employeename = Localization.To + employee.FullName;
-                    transectiontitle += employeename;
-                }
+            // 8 - Sale Return Payment Pending
+            var account = await _accountSettingRepository.GetByActivityAsync(8, CompanyID, BranchID);
+            if (account == null)
+            {
+                return Localization.AccountSettingsNotFoundForTheProvidedCompanyIDAndBranchID;
+            }
 
-                var financialYearCheck = await _financialYearRepository.GetSingleActiveAsync();
-                string FinancialYearID = financialYearCheck != null ? Convert.ToString(financialYearCheck) : string.Empty;
-                if (string.IsNullOrEmpty(FinancialYearID))
-                {
-                    return Localization.CompanyFinancialYearNotSet;
-                }
+            SetEntries(FinancialYearID, 
+                Convert.ToString(account.AccountHeadID), 
+                Convert.ToString(account.AccountControlID), 
+                Convert.ToString(account.AccountSubControlID), 
+                InvoiceNo, 
+                UserID.ToString(), 
+                "0", 
+                Convert.ToString(TransferAmount),
+                DateTime.Now, 
+                transectiontitle);
 
-                // 8 - Sale Return Payment Pending
-                var account = await _accountSettingRepository.GetByActivityAsync(8, CompanyID, BranchID);
-                if (account == null)
-                {
-                    return Localization.AccountSettingsNotFoundForTheProvidedCompanyIDAndBranchID;
-                }
+            transectiontitle = Localization.SalarySucceed + employee.FullName;
 
-                SetEntries(FinancialYearID, 
-                    Convert.ToString(account.AccountHeadID), 
-                    Convert.ToString(account.AccountControlID), 
-                    Convert.ToString(account.AccountSubControlID), 
-                    InvoiceNo, 
-                    UserID.ToString(), 
-                    "0", 
-                    Convert.ToString(TransferAmount),
-                    DateTime.Now, 
-                    transectiontitle);
+            SetEntries(FinancialYearID, 
+                Convert.ToString(account.AccountHeadID), 
+                Convert.ToString(account.AccountControlID), 
+                Convert.ToString(account.AccountSubControlID), 
+                InvoiceNo, 
+                UserID.ToString(), 
+                Convert.ToString(TransferAmount), 
+                "0", 
+                DateTime.Now, 
+                transectiontitle);
 
-                transectiontitle = Localization.SalarySucceed + employee.FullName;
-
-                SetEntries(FinancialYearID, 
-                    Convert.ToString(account.AccountHeadID), 
-                    Convert.ToString(account.AccountControlID), 
-                    Convert.ToString(account.AccountSubControlID), 
-                    InvoiceNo, 
-                    UserID.ToString(), 
-                    Convert.ToString(TransferAmount), 
-                    "0", 
-                    DateTime.Now, 
-                    transectiontitle);
-
-                await _salaryTransactionRepository.Confirm(EmployeeID, TransferAmount, UserID, BranchID, CompanyID, InvoiceNo, SalaryMonth, SalaryYear);
-                await _salaryTransactionRepository.InsertTransaction(CompanyID, BranchID);
+            await _salaryTransactionRepository.Confirm(EmployeeID, TransferAmount, UserID, BranchID, CompanyID, InvoiceNo, SalaryMonth, SalaryYear);
+            await _salaryTransactionRepository.InsertTransaction(CompanyID, BranchID);
                 
-                return Localization.SalarySucceed;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
-                return Localization.UnexpectedErrorOccurred;
-            }
+            return Localization.SalarySucceed;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
+            return Localization.UnexpectedErrorOccurred;
+        }
     }
 
     private void SetEntries(

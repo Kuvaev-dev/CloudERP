@@ -27,13 +27,11 @@ namespace CloudERP.Controllers
                 return RedirectToAction("Login", "Home");
             }
 
-            var model = new ForecastInputModel
+            return View(new ForecastInputModel
             {
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now.AddMonths(-1)
-            };
-
-            return View(model);
+            });
         }
 
         [HttpPost]

@@ -1,24 +1,72 @@
-﻿using System;
+﻿using Domain.Models;
+using Domain.RepositoryAccess;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DatabaseAccess.Repositories
 {
     internal class SupplierInvoiceDetailRepository : ISupplierInvoiceDetailRepository
     {
-        private readonly CloudDBEntities _db;
+        private readonly CloudDBEntities _dbContext;
 
-        public SupplierInvoiceDetailRepository(CloudDBEntities db)
+        public SupplierInvoiceDetailRepository(CloudDBEntities dbContext)
         {
-            _db = db;
+            _dbContext = dbContext;
         }
 
-        public async Task AddAsync(tblSupplierInvoiceDetail tblSupplierInvoiceDetail)
+        public async Task AddAsync(SupplierInvoiceDetail supplierInvoiceDetail)
         {
-            _db.tblSupplierInvoiceDetail.Add(tblSupplierInvoiceDetail);
-            await _db.SaveChangesAsync();
+            try
+            {
+                if (supplierInvoiceDetail == null) throw new ArgumentNullException(nameof(supplierInvoiceDetail));
+
+                var entity = new tblSupplierInvoiceDetail
+                {
+                    SupplierInvoiceDetailID = supplierInvoiceDetail.SupplierInvoiceDetailID,
+                    SupplierInvoiceID = supplierInvoiceDetail.SupplierInvoiceDetailID,
+                    ProductID = supplierInvoiceDetail.ProductID,
+                    PurchaseQuantity = supplierInvoiceDetail.PurchaseQuantity,
+                    PurchaseUnitPrice = supplierInvoiceDetail.PurchaseUnitPrice
+                };
+
+                _dbContext.tblSupplierInvoiceDetail.Add(entity);
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                LogException(nameof(AddAsync), ex);
+                throw new InvalidOperationException("Error adding a new supplier invoice detail.", ex);
+            }
+        }
+
+        public async Task<IEnumerable<SupplierInvoiceDetail>> GetListByIdAsync(int id)
+        {
+            try
+            {
+                var entities = await _dbContext.tblSupplierInvoiceDetail.Where(i => i.SupplierInvoiceID == id).ToListAsync();
+
+                return entities.Select(sid => new SupplierInvoiceDetail
+                {
+                    SupplierInvoiceDetailID = sid.SupplierInvoiceDetailID,
+                    SupplierInvoiceID = sid.SupplierInvoiceID,
+                    ProductID = sid.ProductID,
+                    PurchaseQuantity = sid.PurchaseQuantity,
+                    PurchaseUnitPrice = sid.PurchaseUnitPrice
+                });
+            }
+            catch (Exception ex)
+            {
+                LogException(nameof(GetListByIdAsync), ex);
+                throw new InvalidOperationException($"Error retrieving with ID {id}.", ex);
+            }
+        }
+
+        private void LogException(string methodName, Exception ex)
+        {
+            Console.WriteLine($"Error in {methodName}: {ex.Message}\n{ex.StackTrace}");
         }
     }
 }

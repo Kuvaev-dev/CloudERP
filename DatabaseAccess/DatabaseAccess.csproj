@@ -106,7 +106,9 @@
     <Compile Include="Repositories\StockRepository.cs" />
     <Compile Include="Repositories\SupplierInvoiceDetailRepository.cs" />
     <Compile Include="Repositories\SupplierInvoiceRepository.cs" />
+    <Compile Include="Repositories\SupplierPaymentRepository.cs" />
     <Compile Include="Repositories\SupplierRepository.cs" />
+    <Compile Include="Repositories\SupplierReturnInvoiceRepository.cs" />
     <Compile Include="Repositories\SupportTicketRepository.cs" />
     <Compile Include="Repositories\TaskRepository.cs" />
     <Compile Include="Repositories\GeneralTransactionRepository.cs" />

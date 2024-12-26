@@ -809,11 +809,7 @@
     <Compile Include="Helpers\SessionHelper.cs" />
     <Compile Include="Helpers\UnityConfig.cs" />
     <Compile Include="Models\AccountControlMV.cs" />
-    <Compile Include="Models\AccountControlsMV.cs" />
-    <Compile Include="Models\AccountSettingMV.cs" />
     <Compile Include="Models\AccountSubControlMV.cs" />
-    <Compile Include="Models\BranchsCustomersMV.cs" />
-    <Compile Include="Models\BranchsSuppliersMV.cs" />
     <Compile Include="Models\CompanyMV.cs" />
     <Compile Include="Models\CompanyRegistrationMV.cs" />
     <Compile Include="Models\EmployeeMV.cs" />
@@ -823,12 +819,6 @@
     <Compile Include="Models\ProductMV.cs" />
     <Compile Include="Models\RegistrationMV.cs" />
     <Compile Include="Models\SalaryMV.cs" />
-    <Compile Include="Models\StockMV.cs" />
-    <Compile Include="Models\SupplierMV.cs" />
-    <Compile Include="Models\SupportTicketMV.cs" />
-    <Compile Include="Models\TaskMV.cs" />
-    <Compile Include="Models\UserMV.cs" />
-    <Compile Include="Models\UserTypeMV.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

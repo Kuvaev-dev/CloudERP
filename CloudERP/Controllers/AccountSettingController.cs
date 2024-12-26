@@ -4,37 +4,33 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
 using CloudERP.Models;
-using Domain.Models;
-using Domain.Services;
 using Domain.RepositoryAccess;
-using DatabaseAccess.Repositories;
+using Domain.Models;
 
 namespace CloudERP.Controllers
 {
     public class AccountSettingController : Controller
     {
         private readonly IAccountSettingRepository _accountSettingRepository;
-        private readonly IAccountControlService _controlService;
-        private readonly IAccountSubControlService _subControlService;
-        private readonly IAccountHeadService _headService;
+        private readonly IAccountControlRepository _accountControlRepository;
+        private readonly IAccountSubControlRepository _accountSubControlRepository;
+        private readonly IAccountHeadRepository _accountHeadRepository;
         private readonly IAccountActivityRepository _accountActivityRepository;
         private readonly SessionHelper _sessionHelper;
 
         public AccountSettingController(
-            IAccountSettingService service,
-            IAccountControlService controlService,
-            IAccountSubControlService subControlService,
-            IAccountHeadService headService,
+            IAccountSettingRepository accountSettingRepository,
+            IAccountControlRepository accountControlRepository,
+            IAccountSubControlRepository accountSubControlRepository,
+            IAccountHeadRepository accountHeadRepository,
             IAccountActivityRepository accountActivityRepository,
-            IMapper<AccountSetting, AccountSettingMV> mapper,
             SessionHelper sessionHelper)
         {
-            _service = service;
-            _controlService = controlService;
-            _subControlService = subControlService;
-            _headService = headService;
+            _accountSettingRepository = accountSettingRepository;
+            _accountControlRepository = accountControlRepository;
+            _accountSubControlRepository = accountSubControlRepository;
+            _accountHeadRepository = accountHeadRepository;
             _accountActivityRepository = accountActivityRepository;
-            _mapper = mapper;
             _sessionHelper = sessionHelper;
         }
 
@@ -43,7 +39,7 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            var settings = await _service.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+            var settings = await _accountSettingRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
             return View(settings);
         }
 
@@ -52,12 +48,12 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            return View(new AccountSettingMV());
+            return View(new AccountSetting());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(AccountSettingMV model)
+        public async Task<ActionResult> Create(AccountSetting model)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -67,8 +63,7 @@ namespace CloudERP.Controllers
                 model.CompanyID = _sessionHelper.CompanyID;
                 model.BranchID = _sessionHelper.BranchID;
 
-                var domainModel = _mapper.MapToDomain(model);
-                await _service.CreateAsync(domainModel);
+                await _accountSettingRepository.AddAsync(model);
 
                 TempData["SuccessMessage"] = "Account Setting successfully created.";
                 return RedirectToAction("Index");
@@ -82,16 +77,16 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            var setting = await _service.GetByIdAsync(id);
+            var setting = await _accountSettingRepository.GetByIdAsync(id);
             if (setting == null)
                 return HttpNotFound();
 
-            return View(_mapper.MapToViewModel(setting));
+            return View(setting);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(AccountSettingMV model)
+        public async Task<ActionResult> Edit(AccountSetting model)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -101,8 +96,7 @@ namespace CloudERP.Controllers
                 model.CompanyID = _sessionHelper.CompanyID;
                 model.BranchID = _sessionHelper.BranchID;
 
-                var domainModel = _mapper.MapToDomain(model);
-                await _service.UpdateAsync(domainModel);
+                await _accountSettingRepository.UpdateAsync(model);
 
                 TempData["SuccessMessage"] = "Account Setting successfully updated.";
                 return RedirectToAction("Index");
@@ -119,7 +113,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var controls = await _controlService.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                var controls = await _accountControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
                 var filteredControls = controls.Where(c => c.AccountHeadID == id)
                                                .Select(c => new
                                                {
@@ -143,7 +137,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var subControls = await _subControlService.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                var subControls = await _accountSubControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
                 var filteredSubControls = subControls.Where(s => s.AccountControlID == id)
                                                      .Select(s => new
                                                      {
@@ -161,7 +155,7 @@ namespace CloudERP.Controllers
 
         private async Task PopulateDropdowns()
         {
-            ViewBag.AccountHeadID = new SelectList(await _headService.GetAllAsync(), "AccountHeadID", "AccountHeadName");
+            ViewBag.AccountHeadID = new SelectList(await _accountHeadRepository.GetAllAsync(), "AccountHeadID", "AccountHeadName");
             ViewBag.AccountActivityID = new SelectList(await _accountActivityRepository.GetAllAsync(), "AccountActivityID", "Name");
         }
     }

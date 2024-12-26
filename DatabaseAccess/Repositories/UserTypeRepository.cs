@@ -1,5 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Domain.Models;
+using Domain.RepositoryAccess;
+using System;
+using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DatabaseAccess.Repositories
@@ -13,45 +17,96 @@ namespace DatabaseAccess.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<tblUserType>> GetAllAsync()
+        public async Task<IEnumerable<UserType>> GetAllAsync()
         {
-            return await _dbContext.tblUserType.ToListAsync();
-        }
-
-        public async Task<tblUserType> GetByIdAsync(int id)
-        {
-            return await _dbContext.tblUserType.FirstOrDefaultAsync(ut => ut.UserTypeID == id);
-        }
-
-        public async Task AddAsync(tblUserType userType)
-        {
-            _dbContext.tblUserType.Add(userType);
-            await _dbContext.SaveChangesAsync();
-        }
-
-        public async Task UpdateAsync(tblUserType userType)
-        {
-            var existingUserType = await _dbContext.tblUserType.FindAsync(userType.UserTypeID);
-            if (existingUserType == null)
+            try
             {
-                throw new KeyNotFoundException("UserType not found.");
-            }
+                var entities = await _dbContext.tblUserType.ToListAsync();
 
-            existingUserType.UserType = userType.UserType;
-            _dbContext.Entry(existingUserType).State = EntityState.Modified;
-            await _dbContext.SaveChangesAsync();
+                return entities.Select(ut => new UserType
+                {
+                    UserTypeID = ut.UserTypeID,
+                    UserTypeName = ut.UserType
+                });
+            }
+            catch (Exception ex)
+            {
+                LogException(nameof(GetAllAsync), ex);
+                throw new InvalidOperationException("Error retrieving user types.", ex);
+            }
         }
 
-        public async Task DeleteAsync(tblUserType userType)
+        public async Task<UserType> GetByIdAsync(int id)
         {
-            var existingUserType = await _dbContext.tblUserType.FindAsync(userType.UserTypeID);
-            if (existingUserType == null)
+            try
             {
-                throw new KeyNotFoundException("UserType not found.");
-            }
+                var entity = await _dbContext.tblUserType.FirstOrDefaultAsync(ut => ut.UserTypeID == id);
 
-            _dbContext.tblUserType.Remove(existingUserType);
-            await _dbContext.SaveChangesAsync();
+                return entity == null ? null : new UserType
+                {
+                    UserTypeID = entity.UserTypeID,
+                    UserTypeName = entity.UserType
+                };
+            }
+            catch (Exception ex)
+            {
+                LogException(nameof(GetByIdAsync), ex);
+                throw new InvalidOperationException($"Error retrieving user type with ID {id}.", ex);
+            }
+        }
+
+        public async Task AddAsync(UserType userType)
+        {
+            try
+            {
+                if (userType == null) throw new ArgumentNullException(nameof(userType));
+
+                var entity = new tblUserType
+                {
+                    UserTypeID = userType.UserTypeID,
+                    UserType = userType.UserTypeName
+                };
+
+                _dbContext.tblUserType.Add(entity);
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                LogException(nameof(AddAsync), ex);
+                throw new InvalidOperationException("Error adding a new user type.", ex);
+            }
+        }
+
+        public async Task UpdateAsync(UserType userType)
+        {
+            try
+            {
+                if (userType == null) throw new ArgumentNullException(nameof(userType));
+
+                var entity = await _dbContext.tblUserType.FindAsync(userType.UserTypeID);
+                if (entity == null) throw new KeyNotFoundException("User type not found.");
+
+                entity.UserTypeID = userType.UserTypeID;
+                entity.UserType = userType.UserTypeName;
+
+                _dbContext.Entry(entity).State = EntityState.Modified;
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                LogException(nameof(UpdateAsync), ex);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                LogException(nameof(UpdateAsync), ex);
+                throw new InvalidOperationException($"Error updating user type with ID {userType.UserTypeID}.", ex);
+            }
+        }
+
+        private void LogException(string methodName, Exception ex)
+        {
+            Console.WriteLine($"Error in {methodName}: {ex.Message}\n{ex.StackTrace}");
         }
     }
 }

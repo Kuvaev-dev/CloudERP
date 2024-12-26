@@ -1,7 +1,6 @@
 ﻿using CloudERP.Helpers;
 using CloudERP.Models;
-using DatabaseAccess;
-using DatabaseAccess.Repositories;
+using Domain.RepositoryAccess;
 using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -10,7 +9,6 @@ namespace CloudERP.Controllers
 {
     public class GeneralTransactionController : Controller
     {
-        private readonly CloudDBEntities _db;
         private readonly IGeneralTransactionRepository _transactionRepository;
         private readonly SessionHelper _sessionHelper;
 

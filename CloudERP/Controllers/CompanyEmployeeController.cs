@@ -12,7 +12,6 @@ namespace CloudERP.Controllers
 {
     public class CompanyEmployeeController : Controller
     {
-        private readonly CloudDBEntities _db;
         private readonly SalaryTransaction _salaryTransaction;
         private readonly SessionHelper _sessionHelper;
         private readonly EmailService _emailService;
@@ -20,9 +19,8 @@ namespace CloudERP.Controllers
         private readonly IBranchRepository _branchRepository;
         private readonly IPayrollRepository _payrollRepository;
 
-        public CompanyEmployeeController(CloudDBEntities db, SalaryTransaction salaryTransaction, IEmployeeRepository employeeRepository, SessionHelper sessionHelper, IBranchRepository branchRepository, IPayrollRepository payrollRepository, EmailService emailService)
+        public CompanyEmployeeController(SalaryTransaction salaryTransaction, IEmployeeRepository employeeRepository, SessionHelper sessionHelper, IBranchRepository branchRepository, IPayrollRepository payrollRepository, EmailService emailService)
         {
-            _db = db;
             _salaryTransaction = salaryTransaction;
             _employeeRepository = employeeRepository;
             _sessionHelper = sessionHelper;

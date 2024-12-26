@@ -1,8 +1,7 @@
 ﻿using CloudERP.Helpers;
 using CloudERP.Models;
-using DatabaseAccess;
-using DatabaseAccess.Code;
-using DatabaseAccess.Repositories;
+using Domain.EntryAccess;
+using Domain.Models;
 using Domain.RepositoryAccess;
 using System;
 using System.Collections.Generic;
@@ -92,7 +91,7 @@ namespace CloudERP.Controllers
                 {
                     if (PID > 0 && Qty > 0 && Price > 0)
                     {
-                        var newItem = new tblPurchaseCartDetail()
+                        var newItem = new PurchaseCartDetail()
                         {
                             ProductID = PID,
                             PurchaseQuantity = Qty,
@@ -278,7 +277,7 @@ namespace CloudERP.Controllers
                 }
 
                 string invoiceNo = "PUR" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
-                var invoiceHeader = new tblSupplierInvoice()
+                var invoiceHeader = new SupplierInvoice()
                 {
                     BranchID = _sessionHelper.BranchID,
                     CompanyID = _sessionHelper.CompanyID,
@@ -293,7 +292,7 @@ namespace CloudERP.Controllers
 
                 foreach (var item in purchaseDetails)
                 {
-                    var newPurchaseDetails = new tblSupplierInvoiceDetail()
+                    var newPurchaseDetails = new SupplierInvoiceDetail()
                     {
                         ProductID = item.ProductID,
                         PurchaseQuantity = item.PurchaseQuantity,

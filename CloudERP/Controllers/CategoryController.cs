@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
-using CloudERP.Models;
 using Domain.Models;
 using Domain.RepositoryAccess;
 
@@ -46,7 +45,7 @@ namespace CloudERP.Controllers
 
         public ActionResult Create()
         {
-            return View(new CategoryMV());
+            return View(new Category());
         }
 
         [HttpPost]
