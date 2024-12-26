@@ -1,9 +1,7 @@
 ﻿using CloudERP.Helpers;
-using DatabaseAccess;
-using DatabaseAccess.Code;
-using DatabaseAccess.Repositories;
+using Domain.EntryAccess;
+using Domain.RepositoryAccess;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -11,17 +9,21 @@ namespace CloudERP.Controllers
 {
     public class PurchasePaymentReturnController : Controller
     {
-        private readonly CloudDBEntities _db;
         private readonly SessionHelper _sessionHelper;
         private readonly IPurchaseRepository _purchase;
+        private readonly ISupplierRepository _supplierRepository;
+        private readonly ISupplierReturnPaymentRepository _supplierReturnPaymentRepository;
+        private readonly ISupplierReturnInvoiceRepository _supplierReturnInvoiceRepository;
         private readonly IPurchaseEntry _purchaseEntry;
 
-        public PurchasePaymentReturnController(CloudDBEntities db, IPurchaseRepository purchase, IPurchaseEntry purchaseEntry, SessionHelper sessionHelper)
+        public PurchasePaymentReturnController(IPurchaseRepository purchase, ISupplierReturnPaymentRepository supplierReturnPaymentRepository, IPurchaseEntry purchaseEntry, SessionHelper sessionHelper, ISupplierReturnInvoiceRepository supplierReturnInvoiceRepository, ISupplierRepository supplierRepository)
         {
-            _db = db;
             _purchase = purchase;
+            _supplierReturnPaymentRepository = supplierReturnPaymentRepository;
             _purchaseEntry = purchaseEntry;
             _sessionHelper = sessionHelper;
+            _supplierReturnInvoiceRepository = supplierReturnInvoiceRepository;
+            _supplierRepository = supplierRepository;
         }
 
         // GET: PurchasePaymentReturn
@@ -61,7 +63,7 @@ namespace CloudERP.Controllers
             }
         }
 
-        public ActionResult ReturnAmount(int? id)
+        public async Task<ActionResult> ReturnAmount(int? id)
         {
             try
             {
@@ -70,7 +72,7 @@ namespace CloudERP.Controllers
                     return RedirectToAction("AllPurchasesPendingPayment");
                 }
 
-                var list = _db.tblSupplierReturnPayment.Where(r => r.SupplierReturnInvoiceID == id);
+                var list = await _supplierReturnPaymentRepository.GetBySupplierReturnInvoiceId((int)id);
                 double remainingAmount = 0;
 
                 foreach (var item in list)
@@ -84,7 +86,7 @@ namespace CloudERP.Controllers
 
                 if (remainingAmount == 0)
                 {
-                    remainingAmount = _db.tblSupplierReturnInvoice.Find(id)?.TotalAmount ?? 0;
+                    remainingAmount = await _supplierReturnInvoiceRepository.GetTotalAmount((int)id);
                 }
 
                 ViewBag.PreviousRemainingAmount = remainingAmount;
@@ -112,7 +114,7 @@ namespace CloudERP.Controllers
                 if (paymentAmount > previousRemainingAmount)
                 {
                     ViewBag.Message = Resources.Messages.PurchasePaymentRemainingAmountError;
-                    var list = _db.tblSupplierReturnPayment.Where(r => r.SupplierReturnInvoiceID == id);
+                    var list = await _supplierReturnPaymentRepository.GetBySupplierReturnInvoiceId((int)id);
                     double remainingAmount = 0;
 
                     foreach (var item in list)
@@ -122,7 +124,7 @@ namespace CloudERP.Controllers
 
                     if (remainingAmount == 0)
                     {
-                        remainingAmount = _db.tblSupplierReturnInvoice.Find(id)?.TotalAmount ?? 0;
+                        remainingAmount = await _supplierReturnInvoiceRepository.GetTotalAmount((int)id);
                     }
 
                     ViewBag.PreviousRemainingAmount = remainingAmount;
@@ -132,8 +134,9 @@ namespace CloudERP.Controllers
                 }
 
                 string payinvoicenno = "RPP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
-                var supplier = _db.tblSupplier.Find(_db.tblSupplierReturnInvoice.Find(id)?.SupplierID);
-                var purchaseInvoice = _db.tblSupplierReturnInvoice.Find(id);
+                var supplierID = await _supplierReturnInvoiceRepository.GetSupplierIdByInvoice((int)id);
+                var supplier = await _supplierRepository.GetByIdAsync(supplierID);
+                var purchaseInvoice = await _supplierReturnInvoiceRepository.GetById((int)id);
                 
                 Session["Message"] = await _purchaseEntry.ReturnPurchasePayment(_sessionHelper.CompanyID, _sessionHelper.BranchID, _sessionHelper.UserID, payinvoicenno, purchaseInvoice.SupplierInvoiceID.ToString(), purchaseInvoice.SupplierReturnInvoiceID, (float)purchaseInvoice.TotalAmount,
                     paymentAmount, Convert.ToString(supplier?.SupplierID), supplier?.SupplierName, previousRemainingAmount - paymentAmount); ;

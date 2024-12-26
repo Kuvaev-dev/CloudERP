@@ -95,6 +95,27 @@ namespace CloudERP.Helpers
             }
         }
 
+        private string _invoiceNo;
+        public string InvoiceNo
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(_session["InvoiceNo"].ToString()))
+                {
+                    _invoiceNo = _session["InvoiceNo"].ToString();
+                    return _invoiceNo;
+                }
+                return null;
+            }
+            set
+            {
+                if (!string.IsNullOrEmpty(_session["InvoiceNo"].ToString()))
+                {
+                    _invoiceNo = _session["InvoiceNo"].ToString();
+                }
+            }
+        }
+
         public bool IsAuthenticated => _session["CompanyID"] != null && _session["BranchID"] != null;
     }
 }

@@ -1,7 +1,8 @@
 ﻿using Domain.Models;
 using Domain.RepositoryAccess;
 using System;
-using System.ComponentModel.Design;
+using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DatabaseAccess.Repositories
@@ -38,6 +39,34 @@ namespace DatabaseAccess.Repositories
             {
                 LogException(nameof(GetByIdAsync), ex);
                 throw new InvalidOperationException($"Error retrieving supplier invoice with ID {id}.", ex);
+            }
+        }
+
+        public async Task<SupplierInvoice> GetByInvoiceNoAsync(string invoiceNo)
+        {
+            try
+            {
+                var entity = await _dbContext.tblSupplierInvoice
+                    .Where(p => p.InvoiceNo == invoiceNo.Trim())
+                    .FirstOrDefaultAsync();
+
+                return entity == null ? null : new SupplierInvoice
+                {
+                    SupplierInvoiceID = entity.SupplierInvoiceID,
+                    SupplierID = entity.SupplierID,
+                    CompanyID = entity.CompanyID,
+                    BranchID = entity.BranchID,
+                    InvoiceNo = entity.InvoiceNo,
+                    TotalAmount = entity.TotalAmount,
+                    InvoiceDate = entity.InvoiceDate,
+                    Description = entity.Description,
+                    UserID = entity.UserID
+                };
+            }
+            catch (Exception ex)
+            {
+                LogException(nameof(GetByIdAsync), ex);
+                throw new InvalidOperationException($"Error retrieving supplier invoice with NO {invoiceNo}.", ex);
             }
         }
 

@@ -6,7 +6,7 @@ namespace Domain.RepositoryAccess
 {
     public interface ISupplierInvoiceDetailRepository
     {
-        Task<IEnumerable<SupplierInvoiceDetail>> GetListByIdAsync(int id);
+        Task<List<SupplierInvoiceDetail>> GetListByIdAsync(int id);
         Task AddAsync(SupplierInvoiceDetail supplierInvoiceDetail);
     }
 }

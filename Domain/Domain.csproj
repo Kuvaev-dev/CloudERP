@@ -120,6 +120,8 @@
     <Compile Include="Models\SupplierInvoiceDetail.cs" />
     <Compile Include="Models\SupplierPayment.cs" />
     <Compile Include="Models\SupplierReturnInvoice.cs" />
+    <Compile Include="Models\SupplierReturnInvoiceDetail.cs" />
+    <Compile Include="Models\SupplierReturnPayment.cs" />
     <Compile Include="Models\SupportTicket.cs" />
     <Compile Include="Models\TaskModel.cs" />
     <Compile Include="Models\User.cs" />
@@ -152,7 +154,9 @@
     <Compile Include="RepositoryAccess\ISupplierInvoiceRepository.cs" />
     <Compile Include="RepositoryAccess\ISupplierPaymentRepository.cs" />
     <Compile Include="RepositoryAccess\ISupplierRepository.cs" />
+    <Compile Include="RepositoryAccess\ISupplierReturnInvoiceDetailRepository.cs" />
     <Compile Include="RepositoryAccess\ISupplierReturnInvoiceRepository.cs" />
+    <Compile Include="RepositoryAccess\ISupplierReturnPaymentRepository.cs" />
     <Compile Include="RepositoryAccess\ISupportTicketRepository.cs" />
     <Compile Include="RepositoryAccess\ITaskRepository.cs" />
     <Compile Include="RepositoryAccess\ITrialBalanceRepository.cs" />

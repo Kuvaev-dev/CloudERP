@@ -42,7 +42,7 @@ namespace DatabaseAccess.Repositories
             }
         }
 
-        public async Task<IEnumerable<SupplierInvoiceDetail>> GetListByIdAsync(int id)
+        public async Task<List<SupplierInvoiceDetail>> GetListByIdAsync(int id)
         {
             try
             {
@@ -55,7 +55,7 @@ namespace DatabaseAccess.Repositories
                     ProductID = sid.ProductID,
                     PurchaseQuantity = sid.PurchaseQuantity,
                     PurchaseUnitPrice = sid.PurchaseUnitPrice
-                });
+                }).ToList();
             }
             catch (Exception ex)
             {
