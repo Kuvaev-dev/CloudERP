@@ -114,6 +114,7 @@
     <Compile Include="Models\ForecastData.cs" />
     <Compile Include="Models\Payroll.cs" />
     <Compile Include="Models\PurchaseCartDetail.cs" />
+    <Compile Include="Models\SaleCartDetail.cs" />
     <Compile Include="Models\Stock.cs" />
     <Compile Include="Models\Supplier.cs" />
     <Compile Include="Models\SupplierInvoice.cs" />
@@ -148,6 +149,7 @@
     <Compile Include="RepositoryAccess\IPurchaseCartDetailRepository.cs" />
     <Compile Include="RepositoryAccess\IPurchaseRepository.cs" />
     <Compile Include="RepositoryAccess\ISalaryTransactionRepository.cs" />
+    <Compile Include="RepositoryAccess\ISaleCartDetailRepository.cs" />
     <Compile Include="RepositoryAccess\ISaleRepository.cs" />
     <Compile Include="RepositoryAccess\IStockRepository.cs" />
     <Compile Include="RepositoryAccess\ISupplierInvoiceDetailRepository.cs" />

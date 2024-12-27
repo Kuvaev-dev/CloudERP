@@ -1,6 +1,9 @@
 ﻿using Domain.EntryAccess;
+using Domain.Models;
 using Domain.RepositoryAccess;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 
@@ -10,16 +13,20 @@ namespace DatabaseAccess.Code
     {
         private readonly IFinancialYearRepository _financialYearRepository;
         private readonly IAccountSettingRepository _accountSettingRepository;
+        private readonly IStockRepository _stockRepository;
+        private readonly ISaleCartDetailRepository _saleCartDetailRepository;
         private readonly ISaleRepository _saleRepository;
 
         public string selectcustomerid = string.Empty;
         private readonly DataTable _dtEntries = null;
 
-        public SaleEntry(IFinancialYearRepository financialYearRepository, IAccountSettingRepository accountSettingRepository, ISaleRepository saleRepository)
+        public SaleEntry(IFinancialYearRepository financialYearRepository, IAccountSettingRepository accountSettingRepository, ISaleRepository saleRepository, IStockRepository stockRepository, ISaleCartDetailRepository saleCartDetailRepository)
         {
             _financialYearRepository = financialYearRepository;
             _accountSettingRepository = accountSettingRepository;
             _saleRepository = saleRepository;
+            _stockRepository = stockRepository;
+            _saleCartDetailRepository = saleCartDetailRepository;
         }
 
         public async Task<string> ConfirmSale(int CompanyID, int BranchID, int UserID, string InvoiceNo, string CustomerInvoiceID, float Amount, string CustomerID, string CustomerName, bool isPayment)
@@ -361,6 +368,20 @@ namespace DatabaseAccess.Code
                     Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
                     return Localization.Localization.UnexpectedErrorOccurred;
                 }
+        }
+
+        public async Task CompleteSale(IEnumerable<SaleCartDetail> saleDetails)
+        {
+            foreach (var item in saleDetails)
+            {
+                var stockItem = await _stockRepository.GetByIdAsync(item.ProductID);
+                if (stockItem != null)
+                {
+                    stockItem.Quantity += item.SaleQuantity;
+                    await _stockRepository.UpdateAsync(stockItem);
+                }
+                await _saleCartDetailRepository.UpdateAsync(item);
+            }
         }
 
         private void SetEntries(string FinancialYearID, string AccountHeadID, string AccountControlID, string AccountSubControlID, string InvoiceNo, string UserID, string Credit, string Debit, DateTime TransactionDate, string TransectionTitle)

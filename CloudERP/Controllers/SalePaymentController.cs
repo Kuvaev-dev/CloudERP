@@ -1,22 +1,19 @@
-﻿using DatabaseAccess.Code;
-using DatabaseAccess;
-using System;
+﻿using System;
 using System.Linq;
 using System.Web.Mvc;
-using DatabaseAccess.Repositories;
 using System.Threading.Tasks;
+using Domain.RepositoryAccess;
+using Domain.EntryAccess;
 
 namespace CloudERP.Controllers
 {
     public class SalePaymentController : Controller
     {
-        private readonly CloudDBEntities _db;
         private readonly ISaleRepository _sale;
         private readonly ISaleEntry _saleEntry;
 
-        public SalePaymentController(CloudDBEntities db, ISaleRepository sale, ISaleEntry saleEntry)
+        public SalePaymentController(ISaleRepository sale, ISaleEntry saleEntry)
         {
-            _db = db;
             _sale = sale;
             _saleEntry = saleEntry;
         }
