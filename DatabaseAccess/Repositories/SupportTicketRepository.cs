@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net.Sockets;
+using System.Resources;
 using System.Threading.Tasks;
 
 namespace DatabaseAccess.Repositories
@@ -139,6 +141,24 @@ namespace DatabaseAccess.Repositories
         private void LogException(string methodName, Exception ex)
         {
             Console.WriteLine($"Error in {methodName}: {ex.Message}\n{ex.StackTrace}");
+        }
+
+        public async Task ResolveAsync(int id)
+        {
+            try
+            {
+                var ticket = await _dbContext.tblSupportTicket.FindAsync(id);
+                if (ticket != null)
+                {
+                    ticket.IsResolved = true;
+                    await _dbContext.SaveChangesAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogException(nameof(ResolveAsync), ex);
+                throw new InvalidOperationException($"Error resolving ticket with ID {id}.", ex);
+            }
         }
     }
 }

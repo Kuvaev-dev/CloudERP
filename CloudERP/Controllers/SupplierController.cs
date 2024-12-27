@@ -2,23 +2,19 @@
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
-using CloudERP.Models;
-using Domain.Services;
-using CloudERP.Mapping.Base;
 using Domain.Models;
+using Domain.RepositoryAccess;
 
 namespace CloudERP.Controllers
 {
     public class SupplierController : Controller
     {
-        private readonly ISupplierService _supplierService;
-        private readonly IMapper<Supplier, SupplierMV> _mapper;
+        private readonly ISupplierRepository _supplierRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public SupplierController(ISupplierService supplierService, IMapper<Supplier, SupplierMV> mapper, SessionHelper sessionHelper)
+        public SupplierController(ISupplierRepository supplierRepository, SessionHelper sessionHelper)
         {
-            _supplierService = supplierService;
-            _mapper = mapper;
+            _supplierRepository = supplierRepository;
             _sessionHelper = sessionHelper;
         }
 
@@ -28,7 +24,7 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            var suppliers = await _supplierService.GetAllAsync();
+            var suppliers = await _supplierRepository.GetAllAsync();
             return View(suppliers);
         }
 
@@ -41,7 +37,7 @@ namespace CloudERP.Controllers
             int companyID = _sessionHelper.CompanyID;
             int branchID = _sessionHelper.BranchID;
 
-            var suppliers = await _supplierService.GetByCompanyAndBranchAsync(companyID, branchID);
+            var suppliers = await _supplierRepository.GetByCompanyAndBranchAsync(companyID, branchID);
             return View(suppliers);
         }
 
@@ -52,7 +48,7 @@ namespace CloudERP.Controllers
                 return RedirectToAction("Login", "Home");
 
             int branchID = _sessionHelper.BrchID;
-            var branchSuppliers = await _supplierService.GetSuppliersByBranchesAsync(branchID);
+            var branchSuppliers = await _supplierRepository.GetSuppliersByBranchesAsync(branchID);
 
             return View(branchSuppliers);
         }
@@ -63,7 +59,7 @@ namespace CloudERP.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var supplier = await _supplierService.GetByIdAsync(id.Value);
+            var supplier = await _supplierRepository.GetByIdAsync(id.Value);
             if (supplier == null)
                 return HttpNotFound();
 
@@ -76,7 +72,7 @@ namespace CloudERP.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var supplier = await _supplierService.GetByIdAsync(id.Value);
+            var supplier = await _supplierRepository.GetByIdAsync(id.Value);
             if (supplier == null)
                 return HttpNotFound();
 
@@ -86,13 +82,13 @@ namespace CloudERP.Controllers
         // GET: Supplier/Create
         public ActionResult Create()
         {
-            return View(new SupplierMV());
+            return View(new Supplier());
         }
 
         // POST: Supplier/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(SupplierMV model)
+        public async Task<ActionResult> Create(Supplier model)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -103,11 +99,10 @@ namespace CloudERP.Controllers
 
             if (ModelState.IsValid)
             {
-                var existingSupplier = await _supplierService.GetByNameAndContactAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID, model.SupplierName, model.SupplierConatctNo);
+                var existingSupplier = await _supplierRepository.GetByNameAndContactAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID, model.SupplierName, model.SupplierConatctNo);
                 if (existingSupplier == null)
                 {
-                    var supplier = _mapper.MapToDomain(model);
-                    await _supplierService.CreateAsync(supplier);
+                    await _supplierRepository.AddAsync(model);
 
                     return RedirectToAction("Index");
                 }
@@ -126,17 +121,17 @@ namespace CloudERP.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var supplier = await _supplierService.GetByIdAsync(id.Value);
+            var supplier = await _supplierRepository.GetByIdAsync(id.Value);
             if (supplier == null)
                 return HttpNotFound();
 
-            return View(_mapper.MapToViewModel(supplier));
+            return View(supplier);
         }
 
         // POST: Supplier/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(SupplierMV model)
+        public async Task<ActionResult> Edit(Supplier model)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -146,11 +141,10 @@ namespace CloudERP.Controllers
 
             if (ModelState.IsValid)
             {
-                var existingSupplier = await _supplierService.GetByNameAndContactAsync(model.CompanyID, model.BranchID, model.SupplierName, model.SupplierConatctNo);
+                var existingSupplier = await _supplierRepository.GetByNameAndContactAsync(model.CompanyID, model.BranchID, model.SupplierName, model.SupplierConatctNo);
                 if (existingSupplier == null || existingSupplier.SupplierID == model.SupplierID)
                 {
-                    var supplier = _mapper.MapToDomain(model);
-                    await _supplierService.UpdateAsync(supplier);
+                    await _supplierRepository.UpdateAsync(model);
 
                     return RedirectToAction("Index");
                 }

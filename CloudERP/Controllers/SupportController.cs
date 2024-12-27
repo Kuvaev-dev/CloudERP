@@ -1,10 +1,7 @@
 ﻿using CloudERP.Helpers;
-using CloudERP.Mapping.Base;
-using CloudERP.Models;
 using Domain.Models;
-using Domain.Services;
+using Domain.RepositoryAccess;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -12,53 +9,50 @@ namespace CloudERP.Controllers
 {
     public class SupportController : Controller
     {
-        private readonly ISupportTicketService _service;
-        private readonly IMapper<SupportTicket, SupportTicketMV> _mapper;
+        private readonly ISupportTicketRepository _supportTicketRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public SupportController(ISupportTicketService service, IMapper<SupportTicket, SupportTicketMV> mapper, SessionHelper sessionHelper)
+        public SupportController(ISupportTicketRepository supportTicketRepository, SessionHelper sessionHelper)
         {
-            _service = service;
-            _mapper = mapper;
+            _supportTicketRepository = supportTicketRepository;
             _sessionHelper = sessionHelper;
         }
 
         public ActionResult Support()
         {
-            return View(new SupportTicketMV());
+            return View(new SupportTicket());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SubmitTicket(SupportTicketMV model)
+        public async Task<ActionResult> SubmitTicket(SupportTicket model)
         {
             if (ModelState.IsValid)
             {
-                var domainModel = _mapper.MapToDomain(model);
-                domainModel.CompanyID = _sessionHelper.CompanyID;
-                domainModel.BranchID = _sessionHelper.BranchID;
-                domainModel.UserID = _sessionHelper.UserID;
-                domainModel.DateCreated = DateTime.Now;
-                domainModel.IsResolved = false;
+                model.CompanyID = _sessionHelper.CompanyID;
+                model.BranchID = _sessionHelper.BranchID;
+                model.UserID = _sessionHelper.UserID;
+                model.DateCreated = DateTime.Now;
+                model.IsResolved = false;
 
-                await _service.CreateAsync(domainModel);
+                await _supportTicketRepository.AddAsync(model);
                 ViewBag.Message = Resources.Messages.SupportRequestSubmitted;
 
-                return View("Support", new SupportTicketMV());
+                return View("Support", new SupportTicket());
             }
             return View("Support", model);
         }
 
         public async Task<ActionResult> AdminList()
         {
-            var tickets = await _service.GetAllAsync();
-            return View(tickets.Select(_mapper.MapToViewModel));
+            var tickets = await _supportTicketRepository.GetAllAsync();
+            return View(tickets);
         }
 
         [HttpPost]
         public async Task<ActionResult> ResolveTicket(int id)
         {
-            await _service.ResolveAsync(id);
+            await _supportTicketRepository.ResolveAsync(id);
             return RedirectToAction("AdminList");
         }
     }

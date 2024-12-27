@@ -1,7 +1,6 @@
 ﻿using CloudERP.Helpers;
-using CloudERP.Mapping.Base;
-using CloudERP.Models;
-using Domain.Services;
+using Domain.Models;
+using Domain.RepositoryAccess;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -9,44 +8,41 @@ namespace CloudERP.Controllers
 {
     public class TaskController : Controller
     {
-        private readonly ITaskService _service;
-        private readonly IMapper<Domain.Models.TaskModel, TaskMV> _mapper;
+        private readonly ITaskRepository _taskRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public TaskController(ITaskService service, IMapper<Domain.Models.TaskModel, TaskMV> mapper, SessionHelper sessionHelper)
+        public TaskController(ITaskRepository taskRepository, SessionHelper sessionHelper)
         {
-            _service = service;
-            _mapper = mapper;
+            _taskRepository = taskRepository;
             _sessionHelper = sessionHelper;
         }
 
         public async Task<ActionResult> Index()
         {
-            var tasks = await _service.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID, _sessionHelper.UserID);
+            var tasks = await _taskRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID, _sessionHelper.UserID);
             return View(tasks);
         }
 
         public async Task<ActionResult> Details(int id)
         {
-            var task = await _service.GetByIdAsync(id);
+            var task = await _taskRepository.GetByIdAsync(id);
             if (task == null) return HttpNotFound();
 
-            return View(_mapper.MapToViewModel(task));
+            return View(task);
         }
 
         public ActionResult Create()
         {
-            return View(new TaskMV());
+            return View(new TaskModel());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(TaskMV model)
+        public async Task<ActionResult> Create(TaskModel model)
         {
             if (ModelState.IsValid)
             {
-                var domainModel = _mapper.MapToDomain(model);
-                await _service.CreateAsync(domainModel);
+                await _taskRepository.AddAsync(model);
                 return RedirectToAction("Index");
             }
             return View(model);
@@ -54,20 +50,19 @@ namespace CloudERP.Controllers
 
         public async Task<ActionResult> Edit(int id)
         {
-            var task = await _service.GetByIdAsync(id);
+            var task = await _taskRepository.GetByIdAsync(id);
             if (task == null) return HttpNotFound();
 
-            return View(_mapper.MapToViewModel(task));
+            return View(task);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(TaskMV model)
+        public async Task<ActionResult> Edit(TaskModel model)
         {
             if (ModelState.IsValid)
             {
-                var domainModel = _mapper.MapToDomain(model);
-                await _service.UpdateAsync(domainModel);
+                await _taskRepository.UpdateAsync(model);
                 return RedirectToAction("Index");
             }
             return View(model);
@@ -75,17 +70,17 @@ namespace CloudERP.Controllers
 
         public async Task<ActionResult> Delete(int id)
         {
-            var task = await _service.GetByIdAsync(id);
+            var task = await _taskRepository.GetByIdAsync(id);
             if (task == null) return HttpNotFound();
 
-            return View(_mapper.MapToViewModel(task));
+            return View(task);
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            await _service.DeleteAsync(id);
+            await _taskRepository.DeleteAsync(id);
             return RedirectToAction("Index");
         }
     }

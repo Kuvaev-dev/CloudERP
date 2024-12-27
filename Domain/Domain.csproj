@@ -97,6 +97,8 @@
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\CustomerInvoice.cs" />
+    <Compile Include="Models\CustomerInvoiceDetail.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\EmployeeStatistics.cs" />
     <Compile Include="Models\FinancialModels\AccountLedgerModel.cs" />
@@ -138,6 +140,8 @@
     <Compile Include="RepositoryAccess\IBranchTypeRepository.cs" />
     <Compile Include="RepositoryAccess\ICategoryRepository.cs" />
     <Compile Include="RepositoryAccess\ICompanyRepository.cs" />
+    <Compile Include="RepositoryAccess\ICustomerInvoiceDetailRepository.cs" />
+    <Compile Include="RepositoryAccess\ICustomerInvoiceRepository.cs" />
     <Compile Include="RepositoryAccess\ICustomerRepository.cs" />
     <Compile Include="RepositoryAccess\IDashboardRepository.cs" />
     <Compile Include="RepositoryAccess\IEmployeeRepository.cs" />

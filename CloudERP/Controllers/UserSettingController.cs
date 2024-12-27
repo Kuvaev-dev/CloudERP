@@ -1,8 +1,6 @@
 ﻿using CloudERP.Helpers;
-using CloudERP.Mapping.Base;
-using CloudERP.Models;
 using Domain.Models;
-using Domain.Services;
+using Domain.RepositoryAccess;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -12,19 +10,17 @@ namespace CloudERP.Controllers
 {
     public class UserSettingController : Controller
     {
-        private readonly IEmployeeService _employeeService;
-        private readonly IUserService _userService;
-        private readonly IUserTypeService _userTypeService;
-        private readonly IMapper<User, UserMV> _mapper;
+        private readonly IEmployeeRepository _employeeRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly IUserTypeRepository _userTypeRepository;
         private readonly SessionHelper _sessionHelper;
         private readonly PasswordHelper _passwordHelper;
 
-        public UserSettingController(IEmployeeService employeeService, IUserService userService, IUserTypeService userTypeService, IMapper<User, UserMV> mapper, SessionHelper sessionHelper, PasswordHelper passwordHelper)
+        public UserSettingController(IEmployeeRepository employeeRepository, IUserRepository userRepository, IUserTypeRepository userTypeRepository, SessionHelper sessionHelper, PasswordHelper passwordHelper)
         {
-            _employeeService = employeeService;
-            _userService = userService;
-            _userTypeService = userTypeService;
-            _mapper = mapper;
+            _employeeRepository = employeeRepository;
+            _userRepository = userRepository;
+            _userTypeRepository = userTypeRepository;
             _sessionHelper = sessionHelper;
             _passwordHelper = passwordHelper;
         }
@@ -38,7 +34,7 @@ namespace CloudERP.Controllers
             if (employeeID == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var employee = await _employeeService.GetByIdAsync(employeeID.Value);
+            var employee = await _employeeRepository.GetByIdAsync(employeeID.Value);
             if (employee == null)
             {
                 TempData["ErrorMessage"] = Resources.Messages.EmployeeNotFound;
@@ -48,7 +44,7 @@ namespace CloudERP.Controllers
             _sessionHelper.CompanyEmployeeID = employeeID;
             var hashedPassword = _passwordHelper.HashPassword(employee.ContactNumber, out string salt);
 
-            var user = new UserMV
+            var user = new User
             {
                 Email = employee.Email,
                 ContactNo = employee.ContactNumber,
@@ -59,52 +55,51 @@ namespace CloudERP.Controllers
                 UserName = employee.Email
             };
 
-            var userTypes = await _userTypeService.GetAllAsync();
+            var userTypes = await _userTypeRepository.GetAllAsync();
             ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserType");
 
-            return View(_mapper.MapToDomain(user));
+            return View(user);
         }
 
         // POST: CreateUser
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateUser(UserMV userViewModel)
+        public async Task<ActionResult> CreateUser(User user)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
             if (!ModelState.IsValid)
             {
-                var userTypes = await _userTypeService.GetAllAsync();
-                ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserType", userViewModel.UserTypeID);
-                return View(userViewModel);
+                var userTypes = await _userTypeRepository.GetAllAsync();
+                ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserType", user.UserTypeID);
+                return View(user);
             }
 
-            var existingUser = (await _userService.GetAllAsync()).FirstOrDefault(u => u.Email == userViewModel.Email && u.UserID != userViewModel.UserID);
+            var existingUser = (await _userRepository.GetAllAsync()).FirstOrDefault(u => u.Email == user.Email && u.UserID != user.UserID);
             if (existingUser != null)
             {
                 ViewBag.Message = Resources.Messages.EmailIsAlreadyRegistered;
 
-                var userTypes = await _userTypeService.GetAllAsync();
-                ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserType", userViewModel.UserTypeID);
+                var userTypes = await _userTypeRepository.GetAllAsync();
+                ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserType", user.UserTypeID);
 
-                return View(userViewModel);
+                return View(user);
             }
 
-            userViewModel.Password = Request.Form["Password"];
-            userViewModel.Salt = Request.Form["Salt"];
+            user.Password = Request.Form["Password"];
+            user.Salt = Request.Form["Salt"];
 
-            var domainUser = _mapper.MapToDomain(userViewModel);
-            await _userService.CreateAsync(domainUser);
+            await _userRepository.AddAsync(user);
 
             int? employeeID = _sessionHelper.CompanyEmployeeID;
             if (employeeID.HasValue)
             {
-                var employee = await _employeeService.GetByIdAsync(employeeID.Value);
+                var employee = await _employeeRepository.GetByIdAsync(employeeID.Value);
                 if (employee != null)
                 {
-                    employee.UserID = domainUser.UserID;
-                    await _employeeService.UpdateAsync(employee);
+                    employee.UserID = user.UserID;
+                    await _employeeRepository.UpdateAsync(employee);
                 }
                 _sessionHelper.CompanyEmployeeID = null;
             }
@@ -121,48 +116,46 @@ namespace CloudERP.Controllers
             if (userID == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var user = await _userService.GetByIdAsync(userID.Value);
+            var user = await _userRepository.GetByIdAsync(userID.Value);
             if (user == null)
             {
                 TempData["ErrorMessage"] = Resources.Messages.UserNotFound;
                 return RedirectToAction("EP500", "EP");
             }
 
-            var viewModel = _mapper.MapToViewModel(user);
-            var userTypes = await _userTypeService.GetAllAsync();
+            var userTypes = await _userTypeRepository.GetAllAsync();
             ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserType", user.UserTypeID);
 
-            return View(viewModel);
+            return View(user);
         }
 
         // POST: UpdateUser
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> UpdateUser(UserMV userViewModel)
+        public async Task<ActionResult> UpdateUser(User user)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
             if (!ModelState.IsValid)
             {
-                var userTypes = await _userTypeService.GetAllAsync();
-                ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserType", userViewModel.UserTypeID);
-                return View(userViewModel);
+                var userTypes = await _userTypeRepository.GetAllAsync();
+                ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserType", user.UserTypeID);
+                return View(user);
             }
 
-            var existingUser = (await _userService.GetAllAsync()).FirstOrDefault(u => u.Email == userViewModel.Email && u.UserID != userViewModel.UserID);
+            var existingUser = (await _userRepository.GetAllAsync()).FirstOrDefault(u => u.Email == user.Email && u.UserID != user.UserID);
             if (existingUser != null)
             {
                 ViewBag.Message = Resources.Messages.EmailIsAlreadyRegistered;
 
-                var userTypes = await _userTypeService.GetAllAsync();
-                ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserType", userViewModel.UserTypeID);
+                var userTypes = await _userTypeRepository.GetAllAsync();
+                ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserType", user.UserTypeID);
 
-                return View(userViewModel);
+                return View(user);
             }
 
-            var domainUser = _mapper.MapToDomain(userViewModel);
-            await _userService.UpdateAsync(domainUser);
+            await _userRepository.UpdateAsync(user);
 
             return RedirectToAction("Index", "User");
         }

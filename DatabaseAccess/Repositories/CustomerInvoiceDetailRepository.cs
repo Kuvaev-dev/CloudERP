@@ -2,6 +2,7 @@
 using Domain.RepositoryAccess;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -38,6 +39,27 @@ namespace DatabaseAccess.Repositories
             {
                 LogException(nameof(AddSaleDetailsAsync), ex);
                 throw new InvalidOperationException("Error occurred while adding SaleCartDetails.", ex);
+            }
+        }
+
+        public async Task<IEnumerable<CustomerInvoiceDetail>> GetListByIdAsync(int id)
+        {
+            try
+            {
+                var entities = await _dbContext.tblCustomerInvoiceDetail.Where(i => i.CustomerInvoiceID == id).ToListAsync();
+                return entities.Select(ci => new CustomerInvoiceDetail
+                {
+                    CustomerInvoiceDetailID = ci.CustomerInvoiceDetailID,
+                    CustomerInvoiceID = ci.CustomerInvoiceID,
+                    ProductID = ci.ProductID,
+                    SaleQuantity = ci.SaleQuantity,
+                    SaleUnitPrice = ci.SaleUnitPrice
+                });
+            }
+            catch (Exception ex)
+            {
+                LogException(nameof(GetListByIdAsync), ex);
+                throw new InvalidOperationException($"Error retrieving account head with ID {id}.", ex);
             }
         }
 

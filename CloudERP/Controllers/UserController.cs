@@ -1,23 +1,21 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
-using CloudERP.Models;
 using Domain.Models;
 using Domain.RepositoryAccess;
-using Domain.Services;
 
 namespace CloudERP.Controllers
 {
     public class UserController : Controller
     {
         private readonly IUserRepository _userRepository;
-        private readonly IUserTypeService _userTypeService;
+        private readonly IUserTypeRepository _userTypeRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public UserController(IUserRepository userRepository, IUserTypeService userTypeService, SessionHelper sessionHelper)
+        public UserController(IUserRepository userRepository, IUserTypeRepository userTypeRepository, SessionHelper sessionHelper)
         {
             _userRepository = userRepository;
-            _userTypeService = userTypeService;
+            _userTypeRepository = userTypeRepository;
             _sessionHelper = sessionHelper;
         }
 
@@ -43,8 +41,8 @@ namespace CloudERP.Controllers
 
         public async Task<ActionResult> Create()
         {
-            ViewBag.UserTypeID = new SelectList(await _userTypeService.GetAllAsync(), "UserTypeID", "UserType");
-            return View(new UserMV());
+            ViewBag.UserTypeID = new SelectList(await _userTypeRepository.GetAllAsync(), "UserTypeID", "UserType");
+            return View(new User());
         }
 
         [HttpPost]

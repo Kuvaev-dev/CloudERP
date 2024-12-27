@@ -92,11 +92,13 @@
     <Compile Include="Repositories\BranchTypeRepository.cs" />
     <Compile Include="Repositories\CategoryRepository.cs" />
     <Compile Include="Repositories\CompanyRepository.cs" />
+    <Compile Include="Repositories\CustomerInvoiceRepository.cs" />
     <Compile Include="Repositories\CustomerRepository.cs" />
     <Compile Include="Repositories\DashboardRepository.cs" />
     <Compile Include="Repositories\EmployeeRepository.cs" />
     <Compile Include="Repositories\FinancialYearRepository.cs" />
     <Compile Include="Repositories\ForecastingRepository.cs" />
+    <Compile Include="Repositories\CustomerInvoiceDetailRepository.cs" />
     <Compile Include="Repositories\LedgerRepository.cs" />
     <Compile Include="Repositories\PayrollRepository.cs" />
     <Compile Include="Repositories\PurchaseCartDetailRepository.cs" />

@@ -1,0 +1,56 @@
+﻿using Domain.Models;
+using Domain.RepositoryAccess;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace DatabaseAccess.Repositories
+{
+    public class CustomerReturnPaymentRepository : ICustomerReturnPaymentRepository
+    {
+        private readonly CloudDBEntities _dbContext;
+
+        public CustomerReturnPaymentRepository(CloudDBEntities dbContext)
+        {
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+        }
+
+        public async Task<IEnumerable<CustomerReturnPayment>> GetListByReturnInvoiceIdAsync(int id)
+        {
+            try
+            {
+                var entities = await _dbContext.tblCustomerReturnPayment
+                    .Where(r => r.CustomerReturnInvoiceID == id)
+                    .ToListAsync();
+
+                return entities.Select(crp => new CustomerReturnPayment
+                {
+                    CustomerReturnPaymentID = crp.CustomerReturnPaymentID,
+                    CustomerReturnInvoiceID = crp.CustomerReturnInvoiceID,
+                    CustomerID = crp.CustomerID,
+                    CustomerInvoiceID = crp.CustomerInvoiceID,
+                    CompanyID = crp.CompanyID,
+                    BranchID = crp.BranchID,
+                    InvoiceNo = crp.InvoiceNo,
+                    TotalAmount = crp.TotalAmount,
+                    PaidAmount = crp.PaidAmount,
+                    RemainingBalance = crp.RemainingBalance,
+                    UserID = crp.UserID,
+                    InvoiceDate = (DateTime)crp.InvoiceDate
+                });
+            }
+            catch (Exception ex)
+            {
+                LogException(nameof(GetListByReturnInvoiceIdAsync), ex);
+                throw new InvalidOperationException($"Error retrieving account head with ID {id}.", ex);
+            }
+        }
+
+        private void LogException(string methodName, Exception ex)
+        {
+            Console.WriteLine($"Error in {methodName}: {ex.Message}\n{ex.StackTrace}");
+        }
+    }
+}

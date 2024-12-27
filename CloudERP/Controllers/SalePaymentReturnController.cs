@@ -1,6 +1,6 @@
-﻿using DatabaseAccess;
-using DatabaseAccess.Code;
-using DatabaseAccess.Repositories;
+﻿using CloudERP.Helpers;
+using Domain.EntryAccess;
+using Domain.RepositoryAccess;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,32 +10,33 @@ namespace CloudERP.Controllers
 {
     public class SalePaymentReturnController : Controller
     {
-        private readonly CloudDBEntities _db;
         private readonly ISaleRepository _sale;
+        private readonly ICustomerRepository _customerRepository;
+        private readonly ICustomerReturnPaymentRepository _customerReturnPaymentRepository;
+        private readonly ICustomerReturnInvoiceRepository _customerReturnInvoiceRepository;
         private readonly ISaleEntry _saleEntry;
+        private readonly SessionHelper _sessionHelper;
 
-        public SalePaymentReturnController(CloudDBEntities db, ISaleRepository sale, ISaleEntry saleEntry)
+        public SalePaymentReturnController(ISaleRepository sale, ISaleEntry saleEntry, ICustomerReturnPaymentRepository customerReturnPaymentRepository, SessionHelper sessionHelper, ICustomerReturnInvoiceRepository customerReturnInvoiceRepository)
         {
-            _db = db;
             _sale = sale;
             _saleEntry = saleEntry;
+            _customerReturnPaymentRepository = customerReturnPaymentRepository;
+            _sessionHelper = sessionHelper;
+            _customerReturnInvoiceRepository = customerReturnInvoiceRepository;
         }
 
         // GET: SalePaymentReturn
-        public ActionResult ReturnSalePendingAmount()
+        public async Task<ActionResult> ReturnSalePendingAmount()
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
 
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-                int userID = Convert.ToInt32(Session["UserID"]);
-
-                var list = _sale.GetReturnSaleAmountPending(companyID, branchID);
+                var list = await _sale.GetReturnSaleAmountPending(_sessionHelper.CompanyID, _sessionHelper.BranchID);
 
                 return View(list);
             }
@@ -46,20 +47,16 @@ namespace CloudERP.Controllers
             }
         }
 
-        public ActionResult AllReturnSalesPendingAmount()
+        public async Task<ActionResult> AllReturnSalesPendingAmount()
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
 
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-                int userID = Convert.ToInt32(Session["UserID"]);
-
-                var list = _sale.GetReturnSaleAmountPending(companyID, branchID);
+                var list = await _sale.GetReturnSaleAmountPending(_sessionHelper.CompanyID, _sessionHelper.BranchID);
 
                 return View(list);
             }
@@ -70,21 +67,16 @@ namespace CloudERP.Controllers
             }
         }
 
-        public ActionResult ReturnAmount(int? id)
+        public async Task<ActionResult> ReturnAmount(int? id)
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
 
-                if (!id.HasValue)
-                {
-                    return RedirectToAction("AllReturnSalesPendingAmount");
-                }
-
-                var list = _db.tblCustomerReturnPayment.Where(r => r.CustomerReturnInvoiceID == id);
+                var list = await _customerReturnPaymentRepository.GetListByReturnInvoiceIdAsync((int)id);
 
                 double remainingAmount = list.Sum(item => item.RemainingBalance);
                 if (remainingAmount == 0)
@@ -109,24 +101,20 @@ namespace CloudERP.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])) || !id.HasValue)
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
 
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-                int userID = Convert.ToInt32(Session["UserID"]);
-
                 if (paymentAmount > previousRemainingAmount)
                 {
                     ViewBag.Message = Resources.Messages.PurchasePaymentRemainingAmountError;
-                    var list = _db.tblCustomerReturnPayment.Where(r => r.CustomerReturnInvoiceID == id);
+                    var list = await _customerReturnPaymentRepository.GetListByReturnInvoiceIdAsync((int)id);
                     double remainingAmount = list.Sum(item => item.RemainingBalance);
 
                     if (remainingAmount == 0)
                     {
-                        remainingAmount = _db.tblCustomerReturnInvoice.Find(id).TotalAmount;
+                        remainingAmount = await _customerReturnInvoiceRepository.GetTotalAmountByIdAsync((int)id);
                     }
 
                     ViewBag.PreviousRemainingAmount = remainingAmount;
@@ -136,11 +124,21 @@ namespace CloudERP.Controllers
                 }
 
                 string payInvoiceNo = "RIP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
-                var customer = _db.tblCustomer.Find(_db.tblCustomerReturnInvoice.Find(id).CustomerID);
-                var saleInvoice = _db.tblCustomerReturnInvoice.Find(id);
+                var customerFromReturnInvoice = await _customerReturnInvoiceRepository.GetByIdAsync((int)id);
+                var customer = await _customerRepository.GetByIdAsync(customerFromReturnInvoice.CustomerID);
 
-                string message = await _saleEntry.ReturnSalePayment(companyID, branchID, userID, payInvoiceNo, saleInvoice.CustomerInvoiceID.ToString(), saleInvoice.CustomerReturnInvoiceID, (float)saleInvoice.TotalAmount,
-                    paymentAmount, customer.CustomerID.ToString(), customer.Customername, previousRemainingAmount - paymentAmount);
+                string message = await _saleEntry.ReturnSalePayment(
+                    _sessionHelper.CompanyID, 
+                    _sessionHelper.BranchID, 
+                    _sessionHelper.UserID, 
+                    payInvoiceNo, 
+                    customerFromReturnInvoice.CustomerInvoiceID.ToString(), 
+                    customerFromReturnInvoice.CustomerReturnInvoiceID, 
+                    (float)customerFromReturnInvoice.TotalAmount,
+                    paymentAmount, 
+                    customer.CustomerID.ToString(), 
+                    customer.Customername, 
+                    previousRemainingAmount - paymentAmount);
 
                 Session["SaleMessage"] = message;
 

@@ -1,5 +1,7 @@
-﻿using DatabaseAccess;
-using DatabaseAccess.Code;
+﻿using CloudERP.Helpers;
+using Domain.EntryAccess;
+using Domain.Models;
+using Domain.RepositoryAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,42 +12,53 @@ namespace CloudERP.Controllers
 {
     public class SaleReturnController : Controller
     {
-        private readonly CloudDBEntities _db;
-        private readonly SaleEntry _saleEntry;
+        private readonly ISaleEntry _saleEntry;
+        private readonly IStockRepository _stockRepository;
+        private readonly ICustomerRepository _customerRepository;
+        private readonly ICustomerInvoiceRepository _customerInvoiceRepository;
+        private readonly ICustomerInvoiceDetailRepository _customerInvoiceDetailRepository;
+        private readonly ICustomerReturnInvoiceRepository _customerReturnInvoiceRepository;
+        private readonly ICustomerReturnInvoiceDetailRepository _customerReturnInvoiceDetailRepository;
+        private readonly SessionHelper _sessionHelper;
 
-        public SaleReturnController(CloudDBEntities db, SaleEntry saleEntry)
+        public SaleReturnController(ISaleEntry saleEntry, ICustomerInvoiceRepository customerInvoiceRepository, SessionHelper sessionHelper, ICustomerInvoiceDetailRepository customerInvoiceDetailRepository, ICustomerReturnInvoiceRepository customerReturnInvoiceRepository, ICustomerRepository customerRepository, ICustomerReturnInvoiceDetailRepository customerReturnInvoiceDetailRepository, IStockRepository stockRepository)
         {
-            _db = db;
             _saleEntry = saleEntry;
+            _customerInvoiceRepository = customerInvoiceRepository;
+            _sessionHelper = sessionHelper;
+            _customerInvoiceDetailRepository = customerInvoiceDetailRepository;
+            _customerReturnInvoiceRepository = customerReturnInvoiceRepository;
+            _customerRepository = customerRepository;
+            _customerReturnInvoiceDetailRepository = customerReturnInvoiceDetailRepository;
+            _stockRepository = stockRepository;
         }
 
         // GET: SaleReturn
-        public ActionResult FindSale()
+        public async Task<ActionResult> FindSale()
         {
             try
             {
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
 
-                tblCustomerInvoice invoice;
+                CustomerInvoice invoice;
 
                 if (Session["SaleInvoiceNo"] != null)
                 {
-                    var invoiceNo = Convert.ToString(Session["SaleInvoiceNo"]);
-                    if (!string.IsNullOrEmpty(invoiceNo))
+                    if (!string.IsNullOrEmpty(_sessionHelper.SaleInvoiceNo))
                     {
-                        invoice = _db.tblCustomerInvoice.Where(p => p.InvoiceNo == invoiceNo.Trim()).FirstOrDefault();
+                        invoice = await _customerInvoiceRepository.GetByInvoiceNoAsync(_sessionHelper.SaleInvoiceNo);
                     }
                     else
                     {
-                        invoice = _db.tblCustomerInvoice.Find(0);
+                        invoice = await _customerInvoiceRepository.GetByIdAsync(0);
                     }
                 }
                 else
                 {
-                    invoice = _db.tblCustomerInvoice.Find(0);
+                    invoice = await _customerInvoiceRepository.GetByIdAsync(0);
                 }
 
                 return View(invoice);
@@ -58,21 +71,19 @@ namespace CloudERP.Controllers
         }
 
         [HttpPost]
-        public ActionResult FindSale(string invoiceID)
+        public async Task<ActionResult> FindSale(string invoiceID)
         {
             try
             {
                 Session["SaleInvoiceNo"] = string.Empty;
                 Session["SaleReturnMessage"] = string.Empty;
 
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
 
-                var saleInvoice = _db.tblCustomerInvoice.Where(p => p.InvoiceNo == invoiceID).FirstOrDefault();
-
-                return View(saleInvoice);
+                return View(await _customerInvoiceRepository.GetByInvoiceNoAsync(invoiceID));
             }
             catch (Exception ex)
             {
@@ -89,14 +100,10 @@ namespace CloudERP.Controllers
                 Session["SaleInvoiceNo"] = string.Empty;
                 Session["SaleReturnMessage"] = string.Empty;
 
-                if (string.IsNullOrEmpty(Convert.ToString(Session["CompanyID"])))
+                if (!_sessionHelper.IsAuthenticated)
                 {
                     return RedirectToAction("Login", "Home");
                 }
-
-                int companyID = Convert.ToInt32(Session["CompanyID"]);
-                int branchID = Convert.ToInt32(Session["BranchID"]);
-                int userID = Convert.ToInt32(Session["UserID"]);
 
                 int customerID = 0;
                 int CustomerInvoiceID = 0;
@@ -129,19 +136,20 @@ namespace CloudERP.Controllers
                 }
 
                 double TotalAmount = 0;
-                var saleDetails = _db.tblCustomerInvoiceDetail.Where(pd => pd.CustomerInvoiceID == CustomerInvoiceID).ToList();
-                for (int i = 0; i < saleDetails.Count; i++)
+                var saleDetails = await _customerInvoiceDetailRepository.GetListByIdAsync(CustomerInvoiceID);
+                var list = saleDetails.ToList();
+                for (int i = 0; i < saleDetails.Count(); i++)
                 {
                     foreach (var productID in ProductIDs)
                     {
-                        if (productID == saleDetails[i].ProductID)
+                        if (productID == list[i].ProductID)
                         {
-                            TotalAmount += (ReturnQty[i] * saleDetails[i].SaleUnitPrice);
+                            TotalAmount += (ReturnQty[i] * list[i].SaleUnitPrice);
                         }
                     }
                 }
 
-                var customerInvoice = _db.tblCustomerInvoice.Find(CustomerInvoiceID);
+                var customerInvoice = await _customerInvoiceRepository.GetByIdAsync(CustomerInvoiceID);
                 customerID = customerInvoice.CustomerID;
 
                 if (TotalAmount == 0)
@@ -152,52 +160,59 @@ namespace CloudERP.Controllers
                 }
 
                 string invoiceNo = "RIN" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
-                var returnInvoiceHeader = new tblCustomerReturnInvoice()
+                var returnInvoiceHeader = new CustomerReturnInvoice()
                 {
-                    BranchID = branchID,
-                    CompanyID = companyID,
+                    BranchID = _sessionHelper.BranchID,
+                    CompanyID = _sessionHelper.CompanyID,
                     Description = Description,
                     InvoiceDate = DateTime.Now,
                     InvoiceNo = invoiceNo,
                     CustomerID = customerID,
-                    UserID = userID,
+                    UserID = _sessionHelper.UserID,
                     TotalAmount = TotalAmount,
                     CustomerInvoiceID = CustomerInvoiceID
                 };
 
-                _db.tblCustomerReturnInvoice.Add(returnInvoiceHeader);
-                _db.SaveChanges();
+                await _customerReturnInvoiceRepository.AddAsync(returnInvoiceHeader);
 
-                var customer = _db.tblCustomer.Find(customerID);
-                string Message = await _saleEntry.ReturnSale(companyID, branchID, userID, invoiceNo, returnInvoiceHeader.CustomerInvoiceID.ToString(), returnInvoiceHeader.CustomerReturnInvoiceID, (float)TotalAmount, customerID.ToString(), customer.Customername, IsPayment);
-
+                var customer = await _customerRepository.GetByIdAsync(customerID);
+                string Message = await _saleEntry.ReturnSale(
+                    _sessionHelper.CompanyID, 
+                    _sessionHelper.BranchID, 
+                    _sessionHelper.UserID, 
+                    invoiceNo, 
+                    returnInvoiceHeader.CustomerInvoiceID.ToString(), 
+                    returnInvoiceHeader.CustomerReturnInvoiceID, 
+                    (float)TotalAmount, 
+                    customerID.ToString(), 
+                    customer.Customername, 
+                    IsPayment);
+                var saleDetailsList = saleDetails.ToList();
                 if (Message.Contains("Success"))
                 {
-                    for (int i = 0; i < saleDetails.Count; i++)
+                    for (int i = 0; i < saleDetails.Count(); i++)
                     {
                         foreach (var productID in ProductIDs)
                         {
-                            if (productID == saleDetails[i].ProductID)
+                            if (productID == saleDetailsList[i].ProductID)
                             {
                                 if (ReturnQty[i] > 0)
                                 {
-                                    var returnProductDetails = new tblCustomerReturnInvoiceDetail()
+                                    var returnProductDetails = new CustomerReturnInvoiceDetail()
                                     {
                                         CustomerInvoiceID = CustomerInvoiceID,
                                         SaleReturnQuantity = ReturnQty[i],
                                         ProductID = productID,
-                                        SaleReturnUnitPrice = saleDetails[i].SaleUnitPrice,
+                                        SaleReturnUnitPrice = saleDetailsList[i].SaleUnitPrice,
                                         CustomerReturnInvoiceID = returnInvoiceHeader.CustomerReturnInvoiceID,
-                                        CustomerInvoiceDetailID = saleDetails[i].CustomerInvoiceDetailID
+                                        CustomerInvoiceDetailID = saleDetailsList[i].CustomerInvoiceDetailID
                                     };
 
-                                    _db.tblCustomerReturnInvoiceDetail.Add(returnProductDetails);
-                                    _db.SaveChanges();
+                                    await _customerReturnInvoiceDetailRepository.AddAsync(returnProductDetails);
 
-                                    var stock = _db.tblStock.Find(productID);
+                                    var stock = await _stockRepository.GetByIdAsync(productID);
                                     stock.Quantity += ReturnQty[i];
-                                    _db.Entry(stock).State = System.Data.Entity.EntityState.Modified;
-                                    _db.SaveChanges();
+                                    await _stockRepository.UpdateAsync(stock);
                                 }
                             }
                         }

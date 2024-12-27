@@ -2,29 +2,25 @@
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
-using CloudERP.Mapping.Base;
-using CloudERP.Models;
 using Domain.Models;
-using Domain.Services;
+using Domain.RepositoryAccess;
 
 namespace CloudERP.Controllers
 {
     public class UserTypeController : Controller
     {
-        private readonly IUserTypeService _service;
-        private readonly IMapper<UserType, UserTypeMV> _mapper;
+        private readonly IUserTypeRepository _userTypeRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public UserTypeController(IUserTypeService service, IMapper<UserType, UserTypeMV> mapper, SessionHelper sessionHelper)
+        public UserTypeController(IUserTypeRepository userTypeRepository, SessionHelper sessionHelper)
         {
-            _service = service;
-            _mapper = mapper;
+            _userTypeRepository = userTypeRepository;
             _sessionHelper = sessionHelper;
         }
 
         public async Task<ActionResult> Index()
         {
-            var userTypes = await _service.GetAllAsync();
+            var userTypes = await _userTypeRepository.GetAllAsync();
             return View(userTypes);
         }
 
@@ -38,7 +34,7 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                var userType = await _service.GetByIdAsync(id);
+                var userType = await _userTypeRepository.GetByIdAsync(id);
                 return View(userType);
             }
             catch (Exception ex)
@@ -50,16 +46,16 @@ namespace CloudERP.Controllers
 
         public ActionResult Create()
         {
-            return View(new UserTypeMV());
+            return View(new UserType());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(UserTypeMV model)
+        public async Task<ActionResult> Create(UserType model)
         {
             if (ModelState.IsValid)
             {
-                await _service.CreateAsync(_mapper.MapToDomain(model));
+                await _userTypeRepository.AddAsync(model);
                 return RedirectToAction("Index");
             }
             return View(model);
@@ -67,19 +63,19 @@ namespace CloudERP.Controllers
 
         public async Task<ActionResult> Edit(int id)
         {
-            var userType = await _service.GetByIdAsync(id);
+            var userType = await _userTypeRepository.GetByIdAsync(id);
             if (userType == null) return HttpNotFound();
 
-            return View(_mapper.MapToViewModel(userType));
+            return View(userType);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(UserTypeMV model)
+        public async Task<ActionResult> Edit(UserType model)
         {
             if (ModelState.IsValid)
             {
-                await _service.UpdateAsync(_mapper.MapToDomain(model));
+                await _userTypeRepository.UpdateAsync(model);
                 return RedirectToAction("Index");
             }
             return View(model);

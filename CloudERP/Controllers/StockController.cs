@@ -2,25 +2,21 @@
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
-using CloudERP.Mapping.Base;
-using CloudERP.Models;
 using Domain.Models;
-using Domain.Services;
+using Domain.RepositoryAccess;
 
 namespace CloudERP.Controllers
 {
     public class StockController : Controller
     {
-        private readonly IStockService _stockService;
-        private readonly ICategoryService _categoryService;
-        private readonly IMapper<Stock, StockMV> _mapper;
+        private readonly IStockRepository _stockRepository;
+        private readonly ICategoryRepository _categoryRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public StockController(IStockService stockService, ICategoryService categoryService, IMapper<Stock, StockMV> mapper, SessionHelper sessionHelper)
+        public StockController(IStockRepository stockRepository, ICategoryRepository categoryRepository, SessionHelper sessionHelper)
         {
-            _stockService = stockService;
-            _categoryService = categoryService;
-            _mapper = mapper;
+            _stockRepository = stockRepository;
+            _categoryRepository = categoryRepository;
             _sessionHelper = sessionHelper;
         }
 
@@ -30,7 +26,7 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            var stocks = await _stockService.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+            var stocks = await _stockRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
             return View(stocks);
         }
 
@@ -40,7 +36,7 @@ namespace CloudERP.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var stock = await _stockService.GetByIdAsync(id.Value);
+            var stock = await _stockRepository.GetByIdAsync(id.Value);
             if (stock == null)
                 return HttpNotFound();
 
@@ -53,16 +49,16 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            var categories = await _categoryService.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+            var categories = await _categoryRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
             ViewBag.CategoryID = new SelectList(categories, "CategoryID", "CategoryName");
 
-            return View(new StockMV());
+            return View(new Stock());
         }
 
         // POST: Stock/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(StockMV model)
+        public async Task<ActionResult> Create(Stock model)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -73,11 +69,10 @@ namespace CloudERP.Controllers
 
             if (ModelState.IsValid)
             {
-                var existingStock = await _stockService.GetByProductNameAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID, model.ProductName);
+                var existingStock = await _stockRepository.GetByProductNameAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID, model.ProductName);
                 if (existingStock == null)
                 {
-                    var stock = _mapper.MapToDomain(model);
-                    await _stockService.CreateAsync(stock);
+                    await _stockRepository.AddAsync(model);
 
                     return RedirectToAction("Index");
                 }
@@ -87,7 +82,7 @@ namespace CloudERP.Controllers
                 }
             }
 
-            var categories = await _categoryService.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+            var categories = await _categoryRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
             ViewBag.CategoryID = new SelectList(categories, "CategoryID", "CategoryName", model.CategoryID);
 
             return View(model);
@@ -99,11 +94,11 @@ namespace CloudERP.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var stock = await _stockService.GetByIdAsync(id.Value);
+            var stock = await _stockRepository.GetByIdAsync(id.Value);
             if (stock == null)
                 return HttpNotFound();
 
-            var categories = await _categoryService.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+            var categories = await _categoryRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
             ViewBag.CategoryID = new SelectList(categories, "CategoryID", "CategoryName", stock.CategoryID);
 
             return View(stock);
@@ -112,7 +107,7 @@ namespace CloudERP.Controllers
         // POST: Stock/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(StockMV model)
+        public async Task<ActionResult> Edit(Stock model)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -122,11 +117,10 @@ namespace CloudERP.Controllers
 
             if (ModelState.IsValid)
             {
-                var existingStock = await _stockService.GetByProductNameAsync(model.CompanyID, model.BranchID, model.ProductName);
+                var existingStock = await _stockRepository.GetByProductNameAsync(model.CompanyID, model.BranchID, model.ProductName);
                 if (existingStock == null || existingStock.ProductID == model.ProductID)
                 {
-                    var stock = _mapper.MapToDomain(model);
-                    await _stockService.UpdateAsync(stock);
+                    await _stockRepository.UpdateAsync(model);
 
                     return RedirectToAction("Index");
                 }
@@ -136,7 +130,7 @@ namespace CloudERP.Controllers
                 }
             }
 
-            var categories = await _categoryService.GetAllAsync(model.CompanyID, model.BranchID);
+            var categories = await _categoryRepository.GetAllAsync(model.CompanyID, model.BranchID);
             ViewBag.CategoryID = new SelectList(categories, "CategoryID", "CategoryName", model.CategoryID);
 
             return View(model);

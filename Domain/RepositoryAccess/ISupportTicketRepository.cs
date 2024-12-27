@@ -10,5 +10,6 @@ namespace Domain.RepositoryAccess
         Task<SupportTicket> GetByIdAsync(int id);
         Task AddAsync(SupportTicket ticket);
         Task UpdateAsync(SupportTicket ticket);
+        Task ResolveAsync(int id);
     }
 }
