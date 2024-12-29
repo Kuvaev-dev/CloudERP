@@ -1,4 +1,5 @@
 ﻿using DatabaseAccess.Code;
+using Domain.RepositoryAccess;
 using System;
 using System.Data;
 using System.Data.SqlClient;
@@ -22,36 +23,27 @@ namespace DatabaseAccess.Repositories
         {
             using (var transaction = _db.Database.BeginTransaction())
             {
-                try
-                {
-                    InitializeDataTable();
-                    string paymentDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                    string paymentquery = "insert into tblPayroll(EmployeeID,BranchID,CompanyID,TransferAmount,PayrollInvoiceNo,PaymentDate,SalaryMonth,SalaryYear,UserID) values(@EmployeeID,@BranchID,@CompanyID,@TransferAmount,@PayrollInvoiceNo,@PaymentDate,@SalaryMonth,@SalaryYear,@UserID)";
+                InitializeDataTable();
+                string paymentDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                string paymentquery = "insert into tblPayroll(EmployeeID,BranchID,CompanyID,TransferAmount,PayrollInvoiceNo,PaymentDate,SalaryMonth,SalaryYear,UserID) values(@EmployeeID,@BranchID,@CompanyID,@TransferAmount,@PayrollInvoiceNo,@PaymentDate,@SalaryMonth,@SalaryYear,@UserID)";
 
-                    SqlParameter[] paymentParameters = {
-                        new SqlParameter("@EmployeeID", EmployeeID),
-                        new SqlParameter("@BranchID", BranchID),
-                        new SqlParameter("@CompanyID", CompanyID),
-                        new SqlParameter("@TransferAmount", TransferAmount),
-                        new SqlParameter("@PayrollInvoiceNo", InvoiceNo),
-                        new SqlParameter("@PaymentDate", DateTime.Parse(paymentDate)),
-                        new SqlParameter("@SalaryMonth", SalaryMonth),
-                        new SqlParameter("@SalaryYear", SalaryYear),
-                        new SqlParameter("@UserID", UserID)
-                    };
+                SqlParameter[] paymentParameters = {
+                    new SqlParameter("@EmployeeID", EmployeeID),
+                    new SqlParameter("@BranchID", BranchID),
+                    new SqlParameter("@CompanyID", CompanyID),
+                    new SqlParameter("@TransferAmount", TransferAmount),
+                    new SqlParameter("@PayrollInvoiceNo", InvoiceNo),
+                    new SqlParameter("@PaymentDate", DateTime.Parse(paymentDate)),
+                    new SqlParameter("@SalaryMonth", SalaryMonth),
+                    new SqlParameter("@SalaryYear", SalaryYear),
+                    new SqlParameter("@UserID", UserID)
+                };
 
-                    Console.WriteLine($"Executing payment query: {paymentquery}");
-                    await _query.Insert(paymentquery, paymentParameters);
+                Console.WriteLine($"Executing payment query: {paymentquery}");
+                await _query.Insert(paymentquery, paymentParameters);
 
-                    transaction.Commit();
-                    return Localization.Localization.SalarySucceed;
-                }
-                catch (Exception ex)
-                {
-                    transaction.Rollback();
-                    Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
-                    return Localization.Localization.UnexpectedErrorOccurred;
-                }
+                transaction.Commit();
+                return Localization.Localization.SalarySucceed;
             }
         }
 
@@ -59,40 +51,31 @@ namespace DatabaseAccess.Repositories
         {
             using (var transaction = _db.Database.BeginTransaction())
             {
-                try
+                foreach (DataRow entryRow in _dtEntries.Rows)
                 {
-                    foreach (DataRow entryRow in _dtEntries.Rows)
+                    string entryDate = Convert.ToDateTime(entryRow["TransectionDate"]).ToString("yyyy-MM-dd HH:mm:ss");
+                    string entryQuery = "INSERT INTO tblTransaction (FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID, Credit, Debit, TransectionDate, TransectionTitle, CompanyID, BranchID) VALUES (@FinancialYearID, @AccountHeadID, @AccountControlID, @AccountSubControlID, @InvoiceNo, @UserID, @Credit, @Debit, @TransectionDate, @TransectionTitle, @CompanyID, @BranchID)";
+
+                    var entryParams = new[]
                     {
-                        string entryDate = Convert.ToDateTime(entryRow["TransectionDate"]).ToString("yyyy-MM-dd HH:mm:ss");
-                        string entryQuery = "INSERT INTO tblTransaction (FinancialYearID, AccountHeadID, AccountControlID, AccountSubControlID, InvoiceNo, UserID, Credit, Debit, TransectionDate, TransectionTitle, CompanyID, BranchID) VALUES (@FinancialYearID, @AccountHeadID, @AccountControlID, @AccountSubControlID, @InvoiceNo, @UserID, @Credit, @Debit, @TransectionDate, @TransectionTitle, @CompanyID, @BranchID)";
+                        new SqlParameter("@FinancialYearID", Convert.ToString(entryRow["FinancialYearID"])),
+                        new SqlParameter("@AccountHeadID", Convert.ToString(entryRow["AccountHeadID"])),
+                        new SqlParameter("@AccountControlID", Convert.ToString(entryRow["AccountControlID"])),
+                        new SqlParameter("@AccountSubControlID", Convert.ToString(entryRow["AccountSubControlID"])),
+                        new SqlParameter("@InvoiceNo", Convert.ToString(entryRow["InvoiceNo"])),
+                        new SqlParameter("@UserID", Convert.ToString(entryRow["UserID"])),
+                        new SqlParameter("@Credit", Convert.ToDecimal(entryRow["Credit"])),
+                        new SqlParameter("@Debit", Convert.ToDecimal(entryRow["Debit"])),
+                        new SqlParameter("@TransectionDate", DateTime.Parse(entryDate)),
+                        new SqlParameter("@TransectionTitle", Convert.ToString(entryRow["TransectionTitle"])),
+                        new SqlParameter("@CompanyID", CompanyID),
+                        new SqlParameter("@BranchID", BranchID)
+                    };
 
-                        var entryParams = new[]
-                        {
-                            new SqlParameter("@FinancialYearID", Convert.ToString(entryRow["FinancialYearID"])),
-                            new SqlParameter("@AccountHeadID", Convert.ToString(entryRow["AccountHeadID"])),
-                            new SqlParameter("@AccountControlID", Convert.ToString(entryRow["AccountControlID"])),
-                            new SqlParameter("@AccountSubControlID", Convert.ToString(entryRow["AccountSubControlID"])),
-                            new SqlParameter("@InvoiceNo", Convert.ToString(entryRow["InvoiceNo"])),
-                            new SqlParameter("@UserID", Convert.ToString(entryRow["UserID"])),
-                            new SqlParameter("@Credit", Convert.ToDecimal(entryRow["Credit"])),
-                            new SqlParameter("@Debit", Convert.ToDecimal(entryRow["Debit"])),
-                            new SqlParameter("@TransectionDate", DateTime.Parse(entryDate)),
-                            new SqlParameter("@TransectionTitle", Convert.ToString(entryRow["TransectionTitle"])),
-                            new SqlParameter("@CompanyID", CompanyID),
-                            new SqlParameter("@BranchID", BranchID)
-                        };
-
-                        await _query.Insert(entryQuery, entryParams);
-                    }
-                    transaction.Commit();
-                    return Localization.Localization.SalarySucceed;
+                    await _query.Insert(entryQuery, entryParams);
                 }
-                catch (Exception ex)
-                {
-                    transaction.Rollback();
-                    Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
-                    return Localization.Localization.UnexpectedErrorOccurred;
-                }
+                transaction.Commit();
+                return Localization.Localization.SalarySucceed;
             }
         }
 

@@ -5,25 +5,20 @@ using System.Web.Mvc;
 using System.Web.Security;
 using System.Threading.Tasks;
 using Domain.RepositoryAccess;
+using CloudERP.Facades;
 
 namespace CloudERP.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IDashboardRepository _dashboardRepository;
-        private readonly IUserRepository _userRepository;
-        private readonly IEmployeeRepository _employeeRepository;
-        private readonly ICompanyRepository _companyRepository;
+        private readonly HomeFacade _homeFacade;
         private readonly SessionHelper _sessionHelper;
         private readonly PasswordHelper _passwordHelper;
         private readonly EmailService _emailService;
 
-        public HomeController(IDashboardRepository dashboardRepository, IUserRepository userRepository, IEmployeeRepository employeeRepository, ICompanyRepository companyRepository, SessionHelper sessionHelper, PasswordHelper passwordHelper, EmailService emailService)
+        public HomeController(HomeFacade homeFacade, SessionHelper sessionHelper, PasswordHelper passwordHelper, EmailService emailService)
         {
-            _userRepository = userRepository;
-            _dashboardRepository = dashboardRepository;
-            _employeeRepository = employeeRepository;
-            _companyRepository = companyRepository;
+            _homeFacade = homeFacade;
             _sessionHelper = sessionHelper;
             _passwordHelper = passwordHelper;
             _emailService = emailService;
@@ -42,7 +37,7 @@ namespace CloudERP.Controllers
                 string fromDate = new DateTime(currentDate.Year, currentDate.Month, 1).ToString("yyyy-MM-dd");
                 string toDate = new DateTime(currentDate.Year, currentDate.Month, DateTime.DaysInMonth(currentDate.Year, currentDate.Month)).ToString("yyyy-MM-dd");
 
-                return View(await _dashboardRepository.GetDashboardValuesAsync(fromDate, toDate, _sessionHelper.BranchID, _sessionHelper.CompanyID));
+                return View(await _homeFacade.DashboardRepository.GetDashboardValuesAsync(fromDate, toDate, _sessionHelper.BranchID, _sessionHelper.CompanyID));
             }
             catch (Exception ex)
             {
@@ -70,7 +65,7 @@ namespace CloudERP.Controllers
         {
             try
             {
-                var user = await _userRepository.GetByEmailAsync(email);
+                var user = await _homeFacade.UserRepository.GetByEmailAsync(email);
                 if (user != null)
                 {
                     bool isPasswordValid = _passwordHelper.VerifyPassword(password, user.Password, user.Salt);
@@ -107,7 +102,7 @@ namespace CloudERP.Controllers
                         Session["Salt"] = user.Salt;
                         Session["IsActive"] = user.IsActive;
 
-                        var employee = await _employeeRepository.GetByUserIdAsync(user.UserID);
+                        var employee = await _homeFacade.EmployeeRepository.GetByUserIdAsync(user.UserID);
                         if (employee == null)
                         {
                             ClearSession();
@@ -123,7 +118,7 @@ namespace CloudERP.Controllers
                         Session["BrchID"] = employee.BrchID;
                         Session["CompanyID"] = employee.CompanyID;
 
-                        var company = await _companyRepository.GetByIdAsync(employee.CompanyID);
+                        var company = await _homeFacade.CompanyRepository.GetByIdAsync(employee.CompanyID);
                         if (company == null)
                         {
                             ClearSession();
@@ -133,7 +128,7 @@ namespace CloudERP.Controllers
                         Session["CName"] = company.Name;
                         Session["CLogo"] = company.Logo;
 
-                        if (await _employeeRepository.IsFirstLoginAsync(employee))
+                        if (await _homeFacade.EmployeeRepository.IsFirstLoginAsync(employee))
                         {
                             Session["StartTour"] = true;
                         }
@@ -200,7 +195,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var user = await _userRepository.GetByEmailAsync(email);
+                var user = await _homeFacade.UserRepository.GetByEmailAsync(email);
                 if (user != null)
                 {
                     if ((DateTime.Now - user.LastPasswordResetRequest)?.TotalMinutes < 5)
@@ -213,7 +208,7 @@ namespace CloudERP.Controllers
                     user.ResetPasswordExpiration = DateTime.Now.AddHours(1);
                     user.LastPasswordResetRequest = DateTime.Now;
 
-                    await _userRepository.UpdateAsync(user);
+                    await _homeFacade.UserRepository.UpdateAsync(user);
 
                     try
                     {
@@ -260,7 +255,7 @@ namespace CloudERP.Controllers
         {
             try
             {
-                var user = await _userRepository.GetByPasswordCodesAsync(id, DateTime.Now);
+                var user = await _homeFacade.UserRepository.GetByPasswordCodesAsync(id, DateTime.Now);
                 if (user != null)
                 {
                     ViewBag.ResetCode = id;
@@ -291,7 +286,7 @@ namespace CloudERP.Controllers
                     return View();
                 }
 
-                var user = await _userRepository.GetByPasswordCodesAsync(id, DateTime.Now);
+                var user = await _homeFacade.UserRepository.GetByPasswordCodesAsync(id, DateTime.Now);
                 if (user != null)
                 {
                     user.Password = _passwordHelper.HashPassword(newPassword, out string salt);
@@ -300,7 +295,7 @@ namespace CloudERP.Controllers
                     user.ResetPasswordExpiration = null;
                     user.LastPasswordResetRequest = null;
 
-                    await _userRepository.UpdateAsync(user);
+                    await _homeFacade.UserRepository.UpdateAsync(user);
 
                     return View("ResetPasswordSuccess");
                 }

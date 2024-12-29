@@ -3,34 +3,21 @@ using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
-using CloudERP.Models;
-using Domain.RepositoryAccess;
 using Domain.Models;
+using CloudERP.Facades;
 
 namespace CloudERP.Controllers
 {
     public class AccountSettingController : Controller
     {
-        private readonly IAccountSettingRepository _accountSettingRepository;
-        private readonly IAccountControlRepository _accountControlRepository;
-        private readonly IAccountSubControlRepository _accountSubControlRepository;
-        private readonly IAccountHeadRepository _accountHeadRepository;
-        private readonly IAccountActivityRepository _accountActivityRepository;
+        private readonly AccountSettingFacade _accountSettingFacade;
         private readonly SessionHelper _sessionHelper;
 
         public AccountSettingController(
-            IAccountSettingRepository accountSettingRepository,
-            IAccountControlRepository accountControlRepository,
-            IAccountSubControlRepository accountSubControlRepository,
-            IAccountHeadRepository accountHeadRepository,
-            IAccountActivityRepository accountActivityRepository,
+            AccountSettingFacade accountSettingFacade,
             SessionHelper sessionHelper)
         {
-            _accountSettingRepository = accountSettingRepository;
-            _accountControlRepository = accountControlRepository;
-            _accountSubControlRepository = accountSubControlRepository;
-            _accountHeadRepository = accountHeadRepository;
-            _accountActivityRepository = accountActivityRepository;
+            _accountSettingFacade = accountSettingFacade;
             _sessionHelper = sessionHelper;
         }
 
@@ -39,7 +26,7 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            var settings = await _accountSettingRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+            var settings = await _accountSettingFacade.AccountSettingRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
             return View(settings);
         }
 
@@ -63,7 +50,7 @@ namespace CloudERP.Controllers
                 model.CompanyID = _sessionHelper.CompanyID;
                 model.BranchID = _sessionHelper.BranchID;
 
-                await _accountSettingRepository.AddAsync(model);
+                await _accountSettingFacade.AccountSettingRepository.AddAsync(model);
 
                 TempData["SuccessMessage"] = "Account Setting successfully created.";
                 return RedirectToAction("Index");
@@ -77,7 +64,7 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            var setting = await _accountSettingRepository.GetByIdAsync(id);
+            var setting = await _accountSettingFacade.AccountSettingRepository.GetByIdAsync(id);
             if (setting == null)
                 return HttpNotFound();
 
@@ -96,7 +83,7 @@ namespace CloudERP.Controllers
                 model.CompanyID = _sessionHelper.CompanyID;
                 model.BranchID = _sessionHelper.BranchID;
 
-                await _accountSettingRepository.UpdateAsync(model);
+                await _accountSettingFacade.AccountSettingRepository.UpdateAsync(model);
 
                 TempData["SuccessMessage"] = "Account Setting successfully updated.";
                 return RedirectToAction("Index");
@@ -113,7 +100,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var controls = await _accountControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                var controls = await _accountSettingFacade.AccountControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
                 var filteredControls = controls.Where(c => c.AccountHeadID == id)
                                                .Select(c => new
                                                {
@@ -137,7 +124,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var subControls = await _accountSubControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                var subControls = await _accountSettingFacade.AccountSubControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
                 var filteredSubControls = subControls.Where(s => s.AccountControlID == id)
                                                      .Select(s => new
                                                      {
@@ -155,8 +142,8 @@ namespace CloudERP.Controllers
 
         private async Task PopulateDropdowns()
         {
-            ViewBag.AccountHeadID = new SelectList(await _accountHeadRepository.GetAllAsync(), "AccountHeadID", "AccountHeadName");
-            ViewBag.AccountActivityID = new SelectList(await _accountActivityRepository.GetAllAsync(), "AccountActivityID", "Name");
+            ViewBag.AccountHeadID = new SelectList(await _accountSettingFacade.AccountHeadRepository.GetAllAsync(), "AccountHeadID", "AccountHeadName");
+            ViewBag.AccountActivityID = new SelectList(await _accountSettingFacade.AccountActivityRepository.GetAllAsync(), "AccountActivityID", "Name");
         }
     }
 }

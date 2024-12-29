@@ -1,49 +1,127 @@
-﻿using System.Collections.Generic;
+﻿using Domain.Models;
+using Domain.RepositoryAccess;
+using System;
+using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;\
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DatabaseAccess.Repositories
 {
     public class PurchaseCartDetailRepository : IPurchaseCartDetailRepository
     {
-        private readonly CloudDBEntities _db;
+        private readonly CloudDBEntities _dbContext;
 
-        public PurchaseCartDetailRepository(CloudDBEntities db)
+        public PurchaseCartDetailRepository(CloudDBEntities dbContext)
         {
-            _db = db;
+            _dbContext = dbContext;
         }
 
-        public async Task AddAsync(tblPurchaseCartDetail tblPurchaseCartDetail)
+        public async Task AddAsync(PurchaseCartDetail purchaseCartDetail)
         {
-            _db.tblPurchaseCartDetail.Add(tblPurchaseCartDetail);
-            await _db.SaveChangesAsync();
+            if (purchaseCartDetail == null) throw new ArgumentNullException(nameof(purchaseCartDetail));
+
+            var entity = new tblPurchaseCartDetail
+            {
+                PurchaseCartDetailID = purchaseCartDetail.PurchaseCartDetailID,
+                ProductID = purchaseCartDetail.ProductID,
+                PurchaseQuantity = purchaseCartDetail.PurchaseQuantity,
+                PurchaseUnitPrice = purchaseCartDetail.PurchaseUnitPrice,
+                CompanyID = purchaseCartDetail.CompanyID,
+                BranchID = purchaseCartDetail.BranchID,
+                UserID = purchaseCartDetail.UserID
+            };
+
+            _dbContext.tblPurchaseCartDetail.Add(entity);
+            await _dbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(tblPurchaseCartDetail tblPurchaseCartDetail)
+        public async Task DeleteAsync(PurchaseCartDetail purchaseCartDetail)
         {
-            _db.Entry(tblPurchaseCartDetail).State = EntityState.Deleted;
-            await _db.SaveChangesAsync();
+            if (purchaseCartDetail == null) throw new ArgumentNullException(nameof(purchaseCartDetail));
+
+            var entity = await _dbContext.tblPurchaseCartDetail.FindAsync(purchaseCartDetail.PurchaseCartDetailID);
+            if (entity == null) throw new KeyNotFoundException("PurchaseCartDetail not found.");
+
+            entity.PurchaseCartDetailID = purchaseCartDetail.PurchaseCartDetailID;
+            entity.ProductID = purchaseCartDetail.ProductID;
+            entity.PurchaseQuantity = purchaseCartDetail.PurchaseQuantity;
+            entity.PurchaseUnitPrice = purchaseCartDetail.PurchaseUnitPrice;
+            entity.CompanyID = purchaseCartDetail.CompanyID;
+            entity.BranchID = purchaseCartDetail.BranchID;
+            entity.UserID = purchaseCartDetail.UserID;
+
+            _dbContext.Entry(entity).State = EntityState.Deleted;
+            await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<List<tblPurchaseCartDetail>> GetByBranchAndCompanyAsync(int branchId, int companyId)
+        public async Task<IEnumerable<PurchaseCartDetail>> GetByBranchAndCompanyAsync(int branchId, int companyId)
         {
-            return await _db.tblPurchaseCartDetail.Where(pd => pd.BranchID == branchId && pd.CompanyID == companyId).ToListAsync();
+            var entities = await _dbContext.tblPurchaseCartDetail
+                .Where(pd => pd.BranchID == branchId && pd.CompanyID == companyId)
+                .ToListAsync();
+
+            return entities.Select(pcd => new PurchaseCartDetail
+            {
+                PurchaseCartDetailID = pcd.PurchaseCartDetailID,
+                ProductID = pcd.ProductID,
+                PurchaseQuantity = pcd.PurchaseQuantity,
+                PurchaseUnitPrice = pcd.PurchaseUnitPrice,
+                CompanyID = pcd.CompanyID,
+                BranchID = pcd.BranchID,
+                UserID = pcd.UserID
+            });
         }
 
-        public async Task<List<tblPurchaseCartDetail>> GetByDefaultSettingsAsync(int branchId, int companyId, int userId)
+        public async Task<IEnumerable<PurchaseCartDetail>> GetByDefaultSettingsAsync(int branchId, int companyId, int userId)
         {
-            return await _db.tblPurchaseCartDetail.Where(i => i.BranchID == branchId && i.CompanyID == companyId && i.UserID == userId).ToListAsync();
+            var entities = await _dbContext.tblPurchaseCartDetail
+                .Where(i => i.BranchID == branchId && i.CompanyID == companyId && i.UserID == userId)
+                .ToListAsync();
+
+            return entities.Select(pcd => new PurchaseCartDetail
+            {
+                PurchaseCartDetailID = pcd.PurchaseCartDetailID,
+                ProductID = pcd.ProductID,
+                PurchaseQuantity = pcd.PurchaseQuantity,
+                PurchaseUnitPrice = pcd.PurchaseUnitPrice,
+                CompanyID = pcd.CompanyID,
+                BranchID = pcd.BranchID,
+                UserID = pcd.UserID
+            });
         }
 
-        public async Task<tblPurchaseCartDetail> GetByIdAsync(int PCID)
+        public async Task<PurchaseCartDetail> GetByIdAsync(int PCID)
         {
-            return await _db.tblPurchaseCartDetail.FindAsync(PCID);
+            var entity = await _dbContext.tblPurchaseCartDetail.FindAsync(PCID);
+
+            return entity == null ? null : new PurchaseCartDetail
+            {
+                PurchaseCartDetailID = entity.PurchaseCartDetailID,
+                ProductID = entity.ProductID,
+                PurchaseQuantity = entity.PurchaseQuantity,
+                PurchaseUnitPrice = entity.PurchaseUnitPrice,
+                CompanyID = entity.CompanyID,
+                BranchID = entity.BranchID,
+                UserID = entity.UserID
+            };
         }
 
-        public async Task<tblPurchaseCartDetail> GetByProductIdAsync(int branchId, int companyId, int productId)
+        public async Task<PurchaseCartDetail> GetByProductIdAsync(int branchId, int companyId, int productId)
         {
-            return await _db.tblPurchaseCartDetail.FirstOrDefaultAsync(i => i.ProductID == productId && i.BranchID == branchId && i.CompanyID == companyId);
+            var entity = await _dbContext.tblPurchaseCartDetail
+                .FirstOrDefaultAsync(i => i.ProductID == productId && i.BranchID == branchId && i.CompanyID == companyId);
+
+            return entity == null ? null : new PurchaseCartDetail
+            {
+                PurchaseCartDetailID = entity.PurchaseCartDetailID,
+                ProductID = entity.ProductID,
+                PurchaseQuantity = entity.PurchaseQuantity,
+                PurchaseUnitPrice = entity.PurchaseUnitPrice,
+                CompanyID = entity.CompanyID,
+                BranchID = entity.BranchID,
+                UserID = entity.UserID
+            };
         }
 
         public async Task<bool> IsCanceled(int branchId, int companyId, int userId)
@@ -52,8 +130,8 @@ namespace DatabaseAccess.Repositories
 
             foreach (var item in await GetByDefaultSettingsAsync(branchId, companyId, userId))
             {
-                _db.Entry(item).State = EntityState.Deleted;
-                int noofrecords = _db.SaveChanges();
+                _dbContext.Entry(item).State = EntityState.Deleted;
+                int noofrecords = await _dbContext.SaveChangesAsync();
                 if (cancelstatus == false && noofrecords > 0)
                 {
                     cancelstatus = true;
@@ -63,10 +141,23 @@ namespace DatabaseAccess.Repositories
             return cancelstatus;
         }
 
-        public async Task UpdateAsync(tblPurchaseCartDetail tblPurchaseCartDetail)
+        public async Task UpdateAsync(PurchaseCartDetail purchaseCartDetail)
         {
-            _db.tblPurchaseCartDetail.Add(tblPurchaseCartDetail);
-            await _db.SaveChangesAsync();
+            if (purchaseCartDetail == null) throw new ArgumentNullException(nameof(purchaseCartDetail));
+
+            var entity = await _dbContext.tblPurchaseCartDetail.FindAsync(purchaseCartDetail.PurchaseCartDetailID);
+            if (entity == null) throw new KeyNotFoundException("PurchaseCartDetail not found.");
+
+            entity.PurchaseCartDetailID = purchaseCartDetail.PurchaseCartDetailID;
+            entity.ProductID = purchaseCartDetail.ProductID;
+            entity.PurchaseQuantity = purchaseCartDetail.PurchaseQuantity;
+            entity.PurchaseUnitPrice = purchaseCartDetail.PurchaseUnitPrice;
+            entity.CompanyID = purchaseCartDetail.CompanyID;
+            entity.BranchID = purchaseCartDetail.BranchID;
+            entity.UserID = purchaseCartDetail.UserID;
+
+            _dbContext.Entry(entity).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using CloudERP.Helpers;
+﻿using CloudERP.Facades;
+using CloudERP.Helpers;
 using CloudERP.Models;
 using Domain.Models;
 using Domain.RepositoryAccess;
@@ -10,27 +11,18 @@ namespace CloudERP.Controllers
 {
     public class CompanyRegistrationController : Controller
     {
-        private readonly ICompanyRepository _companyRepository;
-        private readonly IBranchRepository _branchRepository;
-        private readonly IUserRepository _userRepository;
-        private readonly IEmployeeRepository _employeeRepository;
+        private readonly CompanyRegistrationFacade _companyRegistrationFacade;
         private readonly EmailService _emailService;
         private readonly SessionHelper _sessionHelper;
         private readonly PasswordHelper _passwordHelper;
 
         public CompanyRegistrationController(
-            ICompanyRepository companyRepository,
-            IBranchRepository branchRepository,
-            IUserRepository userRepository,
-            IEmployeeRepository employeeRepository,
+            CompanyRegistrationFacade companyRegistrationFacade,
             EmailService emailService,
             SessionHelper sessionHelper,
             PasswordHelper passwordHelper)
         {
-            _companyRepository = companyRepository;
-            _branchRepository = branchRepository;
-            _userRepository = userRepository;
-            _employeeRepository = employeeRepository;
+            _companyRegistrationFacade = companyRegistrationFacade;
             _emailService = emailService;
             _sessionHelper = sessionHelper;
             _passwordHelper = passwordHelper;
@@ -65,13 +57,13 @@ namespace CloudERP.Controllers
 
             try
             {
-                if (await _userRepository.GetByEmailAsync(model.EmployeeEmail) != null)
+                if (await _companyRegistrationFacade.UserRepository.GetByEmailAsync(model.EmployeeEmail) != null)
                 {
                     ModelState.AddModelError("", Resources.Messages.UsernameAlreadyExists);
                     return View(model);
                 }
 
-                if (await _companyRepository.GetByNameAsync(model.CompanyName) != null)
+                if (await _companyRegistrationFacade.CompanyRepository.GetByNameAsync(model.CompanyName) != null)
                 {
                     ModelState.AddModelError("", Resources.Messages.AlreadyExists);
                     return View(model);
@@ -83,7 +75,7 @@ namespace CloudERP.Controllers
                     Logo = "~/Content/CompanyLogo/erp-logo.png",
                     Description = string.Empty
                 };
-                await _companyRepository.AddAsync(company);
+                await _companyRegistrationFacade.CompanyRepository.AddAsync(company);
 
                 var branch = new Branch
                 {
@@ -93,7 +85,7 @@ namespace CloudERP.Controllers
                     BranchTypeID = 1,
                     CompanyID = company.CompanyID
                 };
-                await _branchRepository.AddAsync(branch);
+                await _companyRegistrationFacade.BranchRepository.AddAsync(branch);
 
                 string hashedPassword = _passwordHelper.HashPassword(model.EmployeeContactNo, out string salt);
                 var user = new User
@@ -107,7 +99,7 @@ namespace CloudERP.Controllers
                     UserName = model.UserName,
                     UserTypeID = 2
                 };
-                await _userRepository.AddAsync(user);
+                await _companyRegistrationFacade.UserRepository.AddAsync(user);
 
                 var employee = new Employee
                 {
@@ -124,7 +116,7 @@ namespace CloudERP.Controllers
                     IsFirstLogin = true,
                     Photo = "~/Content/EmployeePhoto/Default/default.png"
                 };
-                await _employeeRepository.AddAsync(employee);
+                await _companyRegistrationFacade.EmployeeRepository.AddAsync(employee);
 
                 var subject = "Welcome to the Company";
                 var body = $"Hello {employee.FullName},\n\n" +

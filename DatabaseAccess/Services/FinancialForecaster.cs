@@ -1,4 +1,4 @@
-﻿using CloudERP.Models.Forecasting;
+﻿using DatabaseAccess.Services;
 using Domain.Models.Forecasting;
 using Microsoft.ML;
 using System;
@@ -22,7 +22,7 @@ namespace CloudERP.Helpers
 
             if (dataView.GetRowCount() == 0)
             {
-                throw new InvalidOperationException(Resources.Messages.TrainingSetHasZeroInstances);
+                throw new InvalidOperationException("Training Set Has Zero Instances");
             }
 
             var pipeline = _mlContext.Transforms.Concatenate("Features", "DateAsNumber")

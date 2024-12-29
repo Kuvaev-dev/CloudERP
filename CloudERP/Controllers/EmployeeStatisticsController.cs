@@ -9,9 +9,9 @@ namespace CloudERP.Controllers
     public class EmployeeStatisticsController : Controller
     {
         private readonly SessionHelper _sessionHelper;
-        private readonly IEmployeeStatisticsService _employeeStatsService;
+        private readonly EmployeeStatisticsService _employeeStatsService;
 
-        public EmployeeStatisticsController(SessionHelper sessionHelper, IEmployeeStatisticsService employeeStatsService)
+        public EmployeeStatisticsController(SessionHelper sessionHelper, EmployeeStatisticsService employeeStatsService)
         {
             _sessionHelper = sessionHelper;
             _employeeStatsService = employeeStatsService;

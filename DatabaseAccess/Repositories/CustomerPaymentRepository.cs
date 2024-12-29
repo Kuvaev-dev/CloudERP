@@ -17,22 +17,9 @@ namespace DatabaseAccess.Repositories
 
         public async Task<double> GetTotalPaidAmountById(int id)
         {
-            try
-            {
-                return await _dbContext.tblCustomerPayment
-                    .Where(p => p.CustomerInvoiceID == id)
-                    .SumAsync(p => p.PaidAmount);
-            }
-            catch (Exception ex)
-            {
-                LogException(nameof(GetTotalPaidAmountById), ex);
-                throw new InvalidOperationException($"Error retrieving account head with ID {id}.", ex);
-            }
-        }
-
-        private void LogException(string methodName, Exception ex)
-        {
-            Console.WriteLine($"Error in {methodName}: {ex.Message}\n{ex.StackTrace}");
+            return await _dbContext.tblCustomerPayment
+                .Where(p => p.CustomerInvoiceID == id)
+                .SumAsync(p => p.PaidAmount);
         }
     }
 }

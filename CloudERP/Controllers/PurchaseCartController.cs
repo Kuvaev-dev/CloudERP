@@ -1,4 +1,5 @@
-﻿using CloudERP.Helpers;
+﻿using CloudERP.Facades;
+using CloudERP.Helpers;
 using CloudERP.Models;
 using Domain.EntryAccess;
 using Domain.Models;
@@ -13,22 +14,12 @@ namespace CloudERP.Controllers
 {
     public class PurchaseCartController : Controller
     {
-        private readonly IPurchaseEntry _purchaseEntry;
-        private readonly IStockRepository _stockRepository;
-        private readonly ISupplierRepository _supplierRepository;
-        private readonly IPurchaseCartDetailRepository _purchaseCartDetailRepository;
-        private readonly ISupplierInvoiceRepository _supplierInvoiceRepository;
-        private readonly ISupplierInvoiceDetailRepository _supplierInvoiceDetailRepository;
+        private readonly PurchaseCartFacade _purchaseCartFacade;
         private readonly SessionHelper _sessionHelper;
 
-        public PurchaseCartController(IPurchaseEntry purchaseEntry, IStockRepository stockRepository, ISupplierRepository supplierRepository, IPurchaseCartDetailRepository purchaseCartDetailRepository, ISupplierInvoiceRepository supplierInvoiceRepository, ISupplierInvoiceDetailRepository supplierInvoiceDetailRepository, SessionHelper sessionHelper)
+        public PurchaseCartController(PurchaseCartFacade purchaseCartFacade, SessionHelper sessionHelper)
         {
-            _purchaseEntry = purchaseEntry;
-            _stockRepository = stockRepository;
-            _supplierRepository = supplierRepository;
-            _purchaseCartDetailRepository = purchaseCartDetailRepository;
-            _supplierInvoiceRepository = supplierInvoiceRepository;
-            _supplierInvoiceDetailRepository = supplierInvoiceDetailRepository;
+            _purchaseCartFacade = purchaseCartFacade;
             _sessionHelper = sessionHelper;
         }
 
@@ -42,11 +33,11 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                var findDetail = await _purchaseCartDetailRepository.GetByDefaultSettingsAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID, _sessionHelper.UserID);
+                var findDetail = await _purchaseCartFacade.PurchaseCartDetailRepository.GetByDefaultSettingsAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID, _sessionHelper.UserID);
 
                 ViewBag.TotalAmount = findDetail.Sum(item => item.PurchaseQuantity * item.PurchaseUnitPrice);
 
-                ViewBag.Products = await _stockRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                ViewBag.Products = await _purchaseCartFacade.StockRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
 
                 return View(findDetail);
             }
@@ -62,7 +53,7 @@ namespace CloudERP.Controllers
         {
             try
             {
-                var product = await _stockRepository.GetByIdAsync(id);
+                var product = await _purchaseCartFacade.StockRepository.GetByIdAsync(id);
                 if (product != null)
                 {
                     return Json(new { product.CurrentPurchaseUnitPrice }, JsonRequestBehavior.AllowGet);
@@ -87,7 +78,7 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                if (await _purchaseCartDetailRepository.GetByProductIdAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID, PID) == null)
+                if (await _purchaseCartFacade.PurchaseCartDetailRepository.GetByProductIdAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID, PID) == null)
                 {
                     if (PID > 0 && Qty > 0 && Price > 0)
                     {
@@ -101,7 +92,7 @@ namespace CloudERP.Controllers
                             UserID = _sessionHelper.UserID
                         };
 
-                        await _purchaseCartDetailRepository.AddAsync(newItem);
+                        await _purchaseCartFacade.PurchaseCartDetailRepository.AddAsync(newItem);
                         ViewBag.Message = Resources.Messages.ItemAddedSuccessfully;
                     }
                 }
@@ -130,7 +121,7 @@ namespace CloudERP.Controllers
                     return Json(new { data = new List<ProductMV>() }, JsonRequestBehavior.AllowGet);
                 }
 
-                var products = await _stockRepository.GetAllAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID);
+                var products = await _purchaseCartFacade.StockRepository.GetAllAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID);
 
                 return Json(new { data = products.Select(item => new ProductMV { Name = item.ProductName, ProductID = item.ProductID }).ToList() }, JsonRequestBehavior.AllowGet);
             }
@@ -151,17 +142,17 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                var product = await _purchaseCartDetailRepository.GetByIdAsync(id);
+                var product = await _purchaseCartFacade.PurchaseCartDetailRepository.GetByIdAsync(id);
                 if (product != null)
                 {
-                    await _purchaseCartDetailRepository.UpdateAsync(product);
+                    await _purchaseCartFacade.PurchaseCartDetailRepository.UpdateAsync(product);
                     ViewBag.Message = Resources.Messages.DeletedSuccessfully;
                     return RedirectToAction("NewPurchase");
                 }
 
                 ViewBag.Message = Resources.Messages.UnexpectedIssue;
 
-                return View(await _purchaseCartDetailRepository.GetByDefaultSettingsAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID, _sessionHelper.UserID));
+                return View(await _purchaseCartFacade.PurchaseCartDetailRepository.GetByDefaultSettingsAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID, _sessionHelper.UserID));
             }
             catch (Exception ex)
             {
@@ -181,7 +172,7 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                if (await _purchaseCartDetailRepository.IsCanceled(_sessionHelper.BranchID, _sessionHelper.CompanyID, _sessionHelper.UserID))
+                if (await _purchaseCartFacade.PurchaseCartDetailRepository.IsCanceled(_sessionHelper.BranchID, _sessionHelper.CompanyID, _sessionHelper.UserID))
                 {
                     ViewBag.Message = Resources.Messages.PurchaseIsCanceled;
                 }
@@ -211,13 +202,13 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                if (await _purchaseCartDetailRepository.GetByBranchAndCompanyAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID) == null)
+                if (await _purchaseCartFacade.PurchaseCartDetailRepository.GetByBranchAndCompanyAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID) == null)
                 {
                     Session["ErrorMessagePurchase"] = Resources.Messages.PurchaseCartIsEmpty;
                     return RedirectToAction("NewPurchase");
                 }
 
-                return View(await _supplierRepository.GetByCompanyAndBranchAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID));
+                return View(await _purchaseCartFacade.SupplierRepository.GetByCompanyAndBranchAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID));
             }
             catch (Exception ex)
             {
@@ -266,8 +257,8 @@ namespace CloudERP.Controllers
                     }
                 }
 
-                var supplier = await _supplierRepository.GetByIdAsync(supplierID);
-                var purchaseDetails = await _purchaseCartDetailRepository.GetByBranchAndCompanyAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID);
+                var supplier = await _purchaseCartFacade.SupplierRepository.GetByIdAsync(supplierID);
+                var purchaseDetails = await _purchaseCartFacade.PurchaseCartDetailRepository.GetByBranchAndCompanyAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID);
 
                 double totalAmount = purchaseDetails.Sum(item => item.PurchaseQuantity * item.PurchaseUnitPrice);
                 if (totalAmount == 0)
@@ -288,7 +279,7 @@ namespace CloudERP.Controllers
                     UserID = _sessionHelper.UserID,
                     TotalAmount = totalAmount
                 };
-                await _supplierInvoiceRepository.AddAsync(invoiceHeader);
+                await _purchaseCartFacade.SupplierInvoiceRepository.AddAsync(invoiceHeader);
 
                 foreach (var item in purchaseDetails)
                 {
@@ -299,23 +290,23 @@ namespace CloudERP.Controllers
                         PurchaseUnitPrice = item.PurchaseUnitPrice,
                         SupplierInvoiceID = invoiceHeader.SupplierInvoiceID
                     };
-                    await _supplierInvoiceDetailRepository.AddAsync(newPurchaseDetails);
+                    await _purchaseCartFacade.SupplierInvoiceDetailRepository.AddAsync(newPurchaseDetails);
                 }
 
-                string Message = await _purchaseEntry.ConfirmPurchase(_sessionHelper.CompanyID, _sessionHelper.BranchID, _sessionHelper.UserID, invoiceNo, invoiceHeader.SupplierInvoiceID.ToString(), (float)totalAmount, supplierID.ToString(), supplier.SupplierName, IsPayment);
+                string Message = await _purchaseCartFacade.PurchaseEntry.ConfirmPurchase(_sessionHelper.CompanyID, _sessionHelper.BranchID, _sessionHelper.UserID, invoiceNo, invoiceHeader.SupplierInvoiceID.ToString(), (float)totalAmount, supplierID.ToString(), supplier.SupplierName, IsPayment);
 
                 if (Message.Contains("Success"))
                 {
                     foreach (var item in purchaseDetails)
                     {
-                        var stockItem = await _stockRepository.GetByIdAsync(item.ProductID);
+                        var stockItem = await _purchaseCartFacade.StockRepository.GetByIdAsync(item.ProductID);
                         if (stockItem != null)
                         {
                             stockItem.CurrentPurchaseUnitPrice = item.PurchaseUnitPrice;
                             stockItem.Quantity += item.PurchaseQuantity;
-                            await _stockRepository.UpdateAsync(stockItem);
+                            await _purchaseCartFacade.StockRepository.UpdateAsync(stockItem);
                         }
-                        await _purchaseCartDetailRepository.DeleteAsync(item);
+                        await _purchaseCartFacade.PurchaseCartDetailRepository.DeleteAsync(item);
                     }
                     return RedirectToAction("PrintPurchaseInvoice", "PurchasePayment", new { id = invoiceHeader.SupplierInvoiceID });
                 }

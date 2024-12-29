@@ -79,7 +79,7 @@ namespace CloudERP.Controllers
                     }
 
                     model.Company.Logo = model.LogoFile != null
-                        ? FileHelper.UploadPhoto(model.LogoFile, "~/Content/CompanyLogo", $"{model.Company.Name}.jpg")
+                        ? Domain.Helpers.FileHelper.UploadPhoto(model.LogoFile, "~/Content/CompanyLogo", $"{model.Company.Name}.jpg")
                         : "~/Content/CompanyLogo/erp-logo.png";
 
                     await _companyRepository.AddAsync(model.Company);
@@ -125,7 +125,7 @@ namespace CloudERP.Controllers
                 {
                     if (model.LogoFile != null)
                     {
-                        var filePath = FileHelper.UploadPhoto(model.LogoFile, "~/Content/CompanyLogo", $"{model.Company.CompanyID}.jpg");
+                        var filePath = Domain.Helpers.FileHelper.UploadPhoto(model.LogoFile, "~/Content/CompanyLogo", $"{model.Company.CompanyID}.jpg");
                         model.Company.Logo = filePath ?? model.Company.Logo;
                     }
 

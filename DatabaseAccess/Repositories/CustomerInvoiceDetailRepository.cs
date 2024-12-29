@@ -19,53 +19,29 @@ namespace DatabaseAccess.Repositories
 
         public async Task AddSaleDetailsAsync(IEnumerable<SaleCartDetail> saleDetails, int customerInvoiceId)
         {
-            if (saleDetails == null || !saleDetails.Any())
-                throw new ArgumentNullException(nameof(saleDetails));
-
-            try
+            var newSaleDetails = saleDetails.Select(item => new tblCustomerInvoiceDetail
             {
-                var newSaleDetails = saleDetails.Select(item => new tblCustomerInvoiceDetail
-                {
-                    ProductID = item.ProductID,
-                    SaleQuantity = item.SaleQuantity,
-                    SaleUnitPrice = item.SaleUnitPrice,
-                    CustomerInvoiceID = customerInvoiceId
-                }).ToList();
+                ProductID = item.ProductID,
+                SaleQuantity = item.SaleQuantity,
+                SaleUnitPrice = item.SaleUnitPrice,
+                CustomerInvoiceID = customerInvoiceId
+            }).ToList();
 
-                _dbContext.tblCustomerInvoiceDetail.AddRange(newSaleDetails);
-                await _dbContext.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                LogException(nameof(AddSaleDetailsAsync), ex);
-                throw new InvalidOperationException("Error occurred while adding SaleCartDetails.", ex);
-            }
+            _dbContext.tblCustomerInvoiceDetail.AddRange(newSaleDetails);
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<CustomerInvoiceDetail>> GetListByIdAsync(int id)
         {
-            try
+            var entities = await _dbContext.tblCustomerInvoiceDetail.Where(i => i.CustomerInvoiceID == id).ToListAsync();
+            return entities.Select(ci => new CustomerInvoiceDetail
             {
-                var entities = await _dbContext.tblCustomerInvoiceDetail.Where(i => i.CustomerInvoiceID == id).ToListAsync();
-                return entities.Select(ci => new CustomerInvoiceDetail
-                {
-                    CustomerInvoiceDetailID = ci.CustomerInvoiceDetailID,
-                    CustomerInvoiceID = ci.CustomerInvoiceID,
-                    ProductID = ci.ProductID,
-                    SaleQuantity = ci.SaleQuantity,
-                    SaleUnitPrice = ci.SaleUnitPrice
-                });
-            }
-            catch (Exception ex)
-            {
-                LogException(nameof(GetListByIdAsync), ex);
-                throw new InvalidOperationException($"Error retrieving account head with ID {id}.", ex);
-            }
-        }
-
-        private void LogException(string methodName, Exception ex)
-        {
-            Console.WriteLine($"Error in {methodName}: {ex.Message}\n{ex.StackTrace}");
+                CustomerInvoiceDetailID = ci.CustomerInvoiceDetailID,
+                CustomerInvoiceID = ci.CustomerInvoiceID,
+                ProductID = ci.ProductID,
+                SaleQuantity = ci.SaleQuantity,
+                SaleUnitPrice = ci.SaleUnitPrice
+            });
         }
     }
 }

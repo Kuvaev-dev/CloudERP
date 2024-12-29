@@ -19,160 +19,110 @@ namespace DatabaseAccess.Repositories
 
         public async Task<IEnumerable<AccountSubControl>> GetAllAsync(int companyId, int branchId)
         {
-            try
-            {
-                var entities = await _dbContext.tblAccountSubControl
-                    .AsNoTracking()
-                    .Include(ac => ac.tblUser)
-                    .Include(ac => ac.tblAccountControl)
-                    .Include(ah => ah.tblAccountHead)
-                    .Where(ac => ac.CompanyID == companyId && ac.BranchID == branchId)
-                    .ToListAsync();
+            var entities = await _dbContext.tblAccountSubControl
+                .AsNoTracking()
+                .Include(ac => ac.tblUser)
+                .Include(ac => ac.tblAccountControl)
+                .Include(ah => ah.tblAccountHead)
+                .Where(ac => ac.CompanyID == companyId && ac.BranchID == branchId)
+                .ToListAsync();
 
-                return entities.Select(asc => new AccountSubControl
-                {
-                    AccountSubControlID = asc.AccountSubControlID,
-                    AccountSubControlName = asc.AccountSubControlName,
-                    AccountControlID = asc.AccountControlID,
-                    AccountControlName = asc.tblAccountControl.AccountControlName,
-                    AccountHeadID = asc.AccountHeadID,
-                    AccountHeadName = asc.tblAccountHead.AccountHeadName,
-                    CompanyID = asc.CompanyID,
-                    BranchID = asc.BranchID,
-                    UserID = asc.UserID,
-                    FullName = asc.tblUser.FullName
-                });
-            }
-            catch (Exception ex)
+            return entities.Select(asc => new AccountSubControl
             {
-                LogException(nameof(GetAllAsync), ex);
-                throw new InvalidOperationException("Error retrieving account sub controls.", ex);
-            }
+                AccountSubControlID = asc.AccountSubControlID,
+                AccountSubControlName = asc.AccountSubControlName,
+                AccountControlID = asc.AccountControlID,
+                AccountControlName = asc.tblAccountControl.AccountControlName,
+                AccountHeadID = asc.AccountHeadID,
+                AccountHeadName = asc.tblAccountHead.AccountHeadName,
+                CompanyID = asc.CompanyID,
+                BranchID = asc.BranchID,
+                UserID = asc.UserID,
+                FullName = asc.tblUser.FullName
+            });
         }
 
         public async Task<AccountSubControl> GetByIdAsync(int id)
         {
-            try
-            {
-                var entity = await _dbContext.tblAccountSubControl
-                    .Include(ac => ac.tblUser)
-                    .Include(ac => ac.tblAccountControl)
-                    .Include(ah => ah.tblAccountHead)
-                    .FirstOrDefaultAsync(ac => ac.AccountControlID == id);
+            var entity = await _dbContext.tblAccountSubControl
+                .Include(ac => ac.tblUser)
+                .Include(ac => ac.tblAccountControl)
+                .Include(ah => ah.tblAccountHead)
+                .FirstOrDefaultAsync(ac => ac.AccountControlID == id);
 
-                return entity == null ? null : new AccountSubControl
-                {
-                    AccountSubControlID = entity.AccountSubControlID,
-                    AccountSubControlName = entity.AccountSubControlName,
-                    AccountControlID = entity.AccountControlID,
-                    AccountControlName = entity.tblAccountControl.AccountControlName,
-                    AccountHeadID = entity.AccountHeadID,
-                    AccountHeadName = entity.tblAccountHead.AccountHeadName,
-                    CompanyID = entity.CompanyID,
-                    BranchID = entity.BranchID,
-                    UserID = entity.UserID,
-                    FullName = entity.tblUser.FullName
-                };
-            }
-            catch (Exception ex)
+            return entity == null ? null : new AccountSubControl
             {
-                LogException(nameof(GetByIdAsync), ex);
-                throw new InvalidOperationException($"Error retrieving account sub control with ID {id}.", ex);
-            }
+                AccountSubControlID = entity.AccountSubControlID,
+                AccountSubControlName = entity.AccountSubControlName,
+                AccountControlID = entity.AccountControlID,
+                AccountControlName = entity.tblAccountControl.AccountControlName,
+                AccountHeadID = entity.AccountHeadID,
+                AccountHeadName = entity.tblAccountHead.AccountHeadName,
+                CompanyID = entity.CompanyID,
+                BranchID = entity.BranchID,
+                UserID = entity.UserID,
+                FullName = entity.tblUser.FullName
+            };
         }
 
         public async Task AddAsync(AccountSubControl accountSubControl)
         {
-            try
-            {
-                if (accountSubControl == null) throw new ArgumentNullException(nameof(accountSubControl));
+            if (accountSubControl == null) throw new ArgumentNullException(nameof(accountSubControl));
 
-                var entity = new tblAccountSubControl
-                {
-                    AccountSubControlID = accountSubControl.AccountSubControlID,
-                    AccountSubControlName = accountSubControl.AccountSubControlName,
-                    AccountControlID = accountSubControl.AccountControlID,
-                    AccountHeadID = accountSubControl.AccountHeadID,
-                    CompanyID = accountSubControl.CompanyID,
-                    BranchID = accountSubControl.BranchID,
-                    UserID = accountSubControl.UserID
-                };
-
-                _dbContext.tblAccountSubControl.Add(entity);
-                await _dbContext.SaveChangesAsync();
-            }
-            catch (Exception ex)
+            var entity = new tblAccountSubControl
             {
-                LogException(nameof(AddAsync), ex);
-                throw new InvalidOperationException("Error adding a new account sub control.", ex);
-            }
+                AccountSubControlID = accountSubControl.AccountSubControlID,
+                AccountSubControlName = accountSubControl.AccountSubControlName,
+                AccountControlID = accountSubControl.AccountControlID,
+                AccountHeadID = accountSubControl.AccountHeadID,
+                CompanyID = accountSubControl.CompanyID,
+                BranchID = accountSubControl.BranchID,
+                UserID = accountSubControl.UserID
+            };
+
+            _dbContext.tblAccountSubControl.Add(entity);
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(AccountSubControl accountSubControl)
         {
-            try
-            {
-                if (accountSubControl == null) throw new ArgumentNullException(nameof(accountSubControl));
+            if (accountSubControl == null) throw new ArgumentNullException(nameof(accountSubControl));
 
-                var entity = await _dbContext.tblAccountSubControl.FindAsync(accountSubControl.AccountSubControlID);
-                if (entity == null) throw new KeyNotFoundException("AccountSubControl not found.");
+            var entity = await _dbContext.tblAccountSubControl.FindAsync(accountSubControl.AccountSubControlID);
+            if (entity == null) throw new KeyNotFoundException("AccountSubControl not found.");
 
-                entity.AccountSubControlID = accountSubControl.AccountSubControlID;
-                entity.AccountSubControlName = accountSubControl.AccountSubControlName;
-                entity.AccountControlID = accountSubControl.AccountControlID;
-                entity.AccountHeadID = accountSubControl.AccountHeadID;
-                entity.CompanyID = accountSubControl.CompanyID;
-                entity.BranchID = accountSubControl.BranchID;
-                entity.UserID = accountSubControl.UserID;
+            entity.AccountSubControlID = accountSubControl.AccountSubControlID;
+            entity.AccountSubControlName = accountSubControl.AccountSubControlName;
+            entity.AccountControlID = accountSubControl.AccountControlID;
+            entity.AccountHeadID = accountSubControl.AccountHeadID;
+            entity.CompanyID = accountSubControl.CompanyID;
+            entity.BranchID = accountSubControl.BranchID;
+            entity.UserID = accountSubControl.UserID;
 
-                _dbContext.Entry(entity).State = EntityState.Modified;
-                await _dbContext.SaveChangesAsync();
-            }
-            catch (KeyNotFoundException ex)
-            {
-                LogException(nameof(UpdateAsync), ex);
-                throw;
-            }
-            catch (Exception ex)
-            {
-                LogException(nameof(UpdateAsync), ex);
-                throw new InvalidOperationException($"Error updating account sub control with ID {accountSubControl.AccountSubControlID}.", ex);
-            }
+            _dbContext.Entry(entity).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task<AccountSubControl> GetBySettingAsync(int id, int companyId, int branchId)
         {
-            try
-            {
-                var entity = await _dbContext.tblAccountSubControl.FirstOrDefaultAsync(a =>
-                        a.AccountSubControlID == id &&
-                        a.CompanyID == companyId &&
-                        a.BranchID == branchId);
+            var entity = await _dbContext.tblAccountSubControl.FirstOrDefaultAsync(a =>
+                    a.AccountSubControlID == id &&
+                    a.CompanyID == companyId &&
+                    a.BranchID == branchId);
 
-                return entity == null ? null : new AccountSubControl
-                {
-                    AccountSubControlID = entity.AccountSubControlID,
-                    AccountSubControlName = entity.AccountSubControlName,
-                    AccountControlID = entity.AccountControlID,
-                    AccountControlName = entity.tblAccountControl.AccountControlName,
-                    AccountHeadID = entity.AccountHeadID,
-                    AccountHeadName = entity.tblAccountHead.AccountHeadName,
-                    CompanyID = entity.CompanyID,
-                    BranchID = entity.BranchID,
-                    UserID = entity.UserID,
-                    FullName = entity.tblUser.FullName
-                };
-            }
-            catch (Exception ex)
+            return entity == null ? null : new AccountSubControl
             {
-                LogException(nameof(GetByIdAsync), ex);
-                throw new InvalidOperationException($"Error retrieving account sub control with ID {id}.", ex);
-            }
-        }
-
-        private void LogException(string methodName, Exception ex)
-        {
-            Console.WriteLine($"Error in {methodName}: {ex.Message}\n{ex.StackTrace}");
+                AccountSubControlID = entity.AccountSubControlID,
+                AccountSubControlName = entity.AccountSubControlName,
+                AccountControlID = entity.AccountControlID,
+                AccountControlName = entity.tblAccountControl.AccountControlName,
+                AccountHeadID = entity.AccountHeadID,
+                AccountHeadName = entity.tblAccountHead.AccountHeadName,
+                CompanyID = entity.CompanyID,
+                BranchID = entity.BranchID,
+                UserID = entity.UserID,
+                FullName = entity.tblUser.FullName
+            };
         }
     }
 }

@@ -19,54 +19,33 @@ namespace DatabaseAccess.Repositories
 
         public async Task AddAsync(SupplierInvoiceDetail supplierInvoiceDetail)
         {
-            try
-            {
-                if (supplierInvoiceDetail == null) throw new ArgumentNullException(nameof(supplierInvoiceDetail));
+            if (supplierInvoiceDetail == null) throw new ArgumentNullException(nameof(supplierInvoiceDetail));
 
-                var entity = new tblSupplierInvoiceDetail
-                {
-                    SupplierInvoiceDetailID = supplierInvoiceDetail.SupplierInvoiceDetailID,
-                    SupplierInvoiceID = supplierInvoiceDetail.SupplierInvoiceDetailID,
-                    ProductID = supplierInvoiceDetail.ProductID,
-                    PurchaseQuantity = supplierInvoiceDetail.PurchaseQuantity,
-                    PurchaseUnitPrice = supplierInvoiceDetail.PurchaseUnitPrice
-                };
-
-                _dbContext.tblSupplierInvoiceDetail.Add(entity);
-                await _dbContext.SaveChangesAsync();
-            }
-            catch (Exception ex)
+            var entity = new tblSupplierInvoiceDetail
             {
-                LogException(nameof(AddAsync), ex);
-                throw new InvalidOperationException("Error adding a new supplier invoice detail.", ex);
-            }
+                SupplierInvoiceDetailID = supplierInvoiceDetail.SupplierInvoiceDetailID,
+                SupplierInvoiceID = supplierInvoiceDetail.SupplierInvoiceDetailID,
+                ProductID = supplierInvoiceDetail.ProductID,
+                PurchaseQuantity = supplierInvoiceDetail.PurchaseQuantity,
+                PurchaseUnitPrice = supplierInvoiceDetail.PurchaseUnitPrice
+            };
+
+            _dbContext.tblSupplierInvoiceDetail.Add(entity);
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task<List<SupplierInvoiceDetail>> GetListByIdAsync(int id)
         {
-            try
-            {
-                var entities = await _dbContext.tblSupplierInvoiceDetail.Where(i => i.SupplierInvoiceID == id).ToListAsync();
+            var entities = await _dbContext.tblSupplierInvoiceDetail.Where(i => i.SupplierInvoiceID == id).ToListAsync();
 
-                return entities.Select(sid => new SupplierInvoiceDetail
-                {
-                    SupplierInvoiceDetailID = sid.SupplierInvoiceDetailID,
-                    SupplierInvoiceID = sid.SupplierInvoiceID,
-                    ProductID = sid.ProductID,
-                    PurchaseQuantity = sid.PurchaseQuantity,
-                    PurchaseUnitPrice = sid.PurchaseUnitPrice
-                }).ToList();
-            }
-            catch (Exception ex)
+            return entities.Select(sid => new SupplierInvoiceDetail
             {
-                LogException(nameof(GetListByIdAsync), ex);
-                throw new InvalidOperationException($"Error retrieving with ID {id}.", ex);
-            }
-        }
-
-        private void LogException(string methodName, Exception ex)
-        {
-            Console.WriteLine($"Error in {methodName}: {ex.Message}\n{ex.StackTrace}");
+                SupplierInvoiceDetailID = sid.SupplierInvoiceDetailID,
+                SupplierInvoiceID = sid.SupplierInvoiceID,
+                ProductID = sid.ProductID,
+                PurchaseQuantity = sid.PurchaseQuantity,
+                PurchaseUnitPrice = sid.PurchaseUnitPrice
+            }).ToList();
         }
     }
 }

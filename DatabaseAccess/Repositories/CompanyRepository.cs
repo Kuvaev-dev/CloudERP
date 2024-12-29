@@ -19,127 +19,75 @@ namespace DatabaseAccess.Repositories
 
         public async Task<IEnumerable<Company>> GetAllAsync()
         {
-            try
-            {
-                var entities = await _dbContext.tblCompany
+            var entities = await _dbContext.tblCompany
                 .AsNoTracking()
                 .ToListAsync();
 
-                return entities.Select(c => new Company
-                {
-                    CompanyID = c.CompanyID,
-                    Name = c.Name,
-                    Logo = c.Logo,
-                    Description = c.Description
-                });
-            }
-            catch (Exception ex)
+            return entities.Select(c => new Company
             {
-                LogException(nameof(GetAllAsync), ex);
-                throw new InvalidOperationException("Error retrieving companies.", ex);
-            }
+                CompanyID = c.CompanyID,
+                Name = c.Name,
+                Logo = c.Logo,
+                Description = c.Description
+            });
         }
 
         public async Task<Company> GetByIdAsync(int id)
         {
-            try
-            {
-                var entity = await _dbContext.tblCompany.FindAsync(id);
+            var entity = await _dbContext.tblCompany.FindAsync(id);
 
-                return entity == null ? null : new Company
-                {
-                    CompanyID = entity.CompanyID,
-                    Name = entity.Name,
-                    Logo = entity.Logo,
-                    Description = entity.Description
-                };
-            }
-            catch (Exception ex)
+            return entity == null ? null : new Company
             {
-                LogException(nameof(GetByIdAsync), ex);
-                throw new InvalidOperationException($"Error retrieving company with ID {id}.", ex);
-            }
+                CompanyID = entity.CompanyID,
+                Name = entity.Name,
+                Logo = entity.Logo,
+                Description = entity.Description
+            };
         }
 
         public async Task AddAsync(Company company)
         {
-            try
-            {
-                if (company == null) throw new ArgumentNullException(nameof(company));
+            if (company == null) throw new ArgumentNullException(nameof(company));
 
-                var entity = new tblCompany
-                {
-                    CompanyID = company.CompanyID,
-                    Name = company.Name,
-                    Logo = company.Logo,
-                    Description = company.Description
-                };
-
-                _dbContext.tblCompany.Add(entity);
-                await _dbContext.SaveChangesAsync();
-            }
-            catch (Exception ex)
+            var entity = new tblCompany
             {
-                LogException(nameof(AddAsync), ex);
-                throw new InvalidOperationException("Error adding a new company.", ex);
-            }
+                CompanyID = company.CompanyID,
+                Name = company.Name,
+                Logo = company.Logo,
+                Description = company.Description
+            };
+
+            _dbContext.tblCompany.Add(entity);
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(Company company)
         {
-            try
-            {
-                if (company == null) throw new ArgumentNullException(nameof(company));
+            if (company == null) throw new ArgumentNullException(nameof(company));
 
-                var entity = await _dbContext.tblCompany.FindAsync(company.CompanyID);
-                if (entity == null) throw new KeyNotFoundException("Company not found.");
+            var entity = await _dbContext.tblCompany.FindAsync(company.CompanyID);
+            if (entity == null) throw new KeyNotFoundException("Company not found.");
 
-                entity.CompanyID = company.CompanyID;
-                entity.Name = company.Name;
-                entity.Logo = company.Logo;
-                entity.Description = company.Description;
+            entity.CompanyID = company.CompanyID;
+            entity.Name = company.Name;
+            entity.Logo = company.Logo;
+            entity.Description = company.Description;
 
-                _dbContext.Entry(entity).State = EntityState.Modified;
-                await _dbContext.SaveChangesAsync();
-            }
-            catch (KeyNotFoundException ex)
-            {
-                LogException(nameof(UpdateAsync), ex);
-                throw;
-            }
-            catch (Exception ex)
-            {
-                LogException(nameof(UpdateAsync), ex);
-                throw new InvalidOperationException($"Error updating company with ID {company.CompanyID}.", ex);
-            }
-            _dbContext.Entry(company).State = EntityState.Modified;
+            _dbContext.Entry(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
-        }
-
-        private void LogException(string methodName, Exception ex)
-        {
-            Console.WriteLine($"Error in {methodName}: {ex.Message}\n{ex.StackTrace}");
         }
 
         public async Task<Company> GetByNameAsync(string name)
         {
-            try
-            {
-                var entity = await _dbContext.tblCompany.FindAsync(name);
+            var entity = await _dbContext.tblCompany.FindAsync(name);
 
-                return entity == null ? null : new Company
-                {
-                    CompanyID = entity.CompanyID,
-                    Name = entity.Name,
-                    Logo = entity.Logo,
-                    Description = entity.Description
-                };
-            }
-            catch (Exception ex)
+            return entity == null ? null : new Company
             {
-                LogException(nameof(GetByIdAsync), ex);
-                throw new InvalidOperationException($"Error retrieving company with name {name}.", ex);
-            }
+                CompanyID = entity.CompanyID,
+                Name = entity.Name,
+                Logo = entity.Logo,
+                Description = entity.Description
+            };
         }
     }
 }

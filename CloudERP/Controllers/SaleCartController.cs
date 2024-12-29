@@ -4,32 +4,21 @@ using System.Linq;
 using System.Web.Mvc;
 using CloudERP.Models;
 using System.Threading.Tasks;
-using Domain.EntryAccess;
 using CloudERP.Helpers;
-using Domain.RepositoryAccess;
 using Domain.Models;
+using CloudERP.Facades;
 
 namespace CloudERP.Controllers
 {
     public class SaleCartController : Controller
     {
-        private readonly ISaleEntry _saleEntry;
-        private readonly ISaleCartDetailRepository _saleCartDetailRepository;
-        private readonly IStockRepository _stockRepository;
-        private readonly ICustomerRepository _customerRepository;
-        private readonly ICustomerInvoiceRepository _customerInvoiceRepository;
-        private readonly ICustomerInvoiceDetailRepository _customerInvoiceDetailRepository;
+        private readonly SaleCartFacade _saleCartFacade;
         private readonly SessionHelper _sessionHelper;
 
-        public SaleCartController(ISaleEntry saleEntry, ISaleCartDetailRepository saleCartDetailRepository, IStockRepository stockRepository, ICustomerRepository customerRepository, SessionHelper sessionHelper, ICustomerInvoiceRepository customerInvoiceRepository, ICustomerInvoiceDetailRepository customerInvoiceDetailRepository)
+        public SaleCartController(SaleCartFacade saleCartFacade, SessionHelper sessionHelper)
         {
-            _saleEntry = saleEntry;
-            _saleCartDetailRepository = saleCartDetailRepository;
-            _stockRepository = stockRepository;
-            _customerRepository = customerRepository;
+            _saleCartFacade = saleCartFacade;
             _sessionHelper = sessionHelper;
-            _customerInvoiceRepository = customerInvoiceRepository;
-            _customerInvoiceDetailRepository = customerInvoiceDetailRepository;
         }
 
         // GET: SaleCart/NewSale
@@ -42,12 +31,12 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                var findDetail = await _saleCartDetailRepository.GetByDefaultSettingAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID, _sessionHelper.UserID);
+                var findDetail = await _saleCartFacade.SaleCartDetailRepository.GetByDefaultSettingAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID, _sessionHelper.UserID);
 
                 double totalAmount = findDetail.Sum(item => item.SaleQuantity * item.SaleUnitPrice);
                 ViewBag.TotalAmount = totalAmount;
 
-                ViewBag.Products = await _stockRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                ViewBag.Products = await _saleCartFacade.StockRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
 
                 return View(findDetail);
             }
@@ -62,7 +51,7 @@ namespace CloudERP.Controllers
         {
             try
             {
-                var product = await _stockRepository.GetByIdAsync(id);
+                var product = await _saleCartFacade.StockRepository.GetByIdAsync(id);
                 if (product != null)
                 {
                     return Json(new { data = product.SaleUnitPrice }, JsonRequestBehavior.AllowGet);
@@ -87,14 +76,14 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                var checkQty = await _stockRepository.GetByIdAsync(PID);
+                var checkQty = await _saleCartFacade.StockRepository.GetByIdAsync(PID);
                 if (Qty > checkQty.Quantity)
                 {
                     ViewBag.Message = Resources.Messages.SaleQuantityError;
                     return RedirectToAction("NewSale");
                 }
 
-                var findDetail = await _saleCartDetailRepository.GetByProductIdAsync(PID, _sessionHelper.BranchID, _sessionHelper.CompanyID);
+                var findDetail = await _saleCartFacade.SaleCartDetailRepository.GetByProductIdAsync(PID, _sessionHelper.BranchID, _sessionHelper.CompanyID);
 
                 if (findDetail == null)
                 {
@@ -109,7 +98,7 @@ namespace CloudERP.Controllers
                             CompanyID = _sessionHelper.CompanyID,
                             UserID = _sessionHelper.UserID
                         };
-                        await _saleCartDetailRepository.AddAsync(newItem);
+                        await _saleCartFacade.SaleCartDetailRepository.AddAsync(newItem);
                         ViewBag.Message = Resources.Messages.ItemAddedSuccessfully;
                     }
                 }
@@ -138,10 +127,10 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                var product = await _saleCartDetailRepository.GetByIdAsync(id);
+                var product = await _saleCartFacade.SaleCartDetailRepository.GetByIdAsync(id);
                 if (product != null)
                 {
-                    await _saleCartDetailRepository.UpdateAsync(product);
+                    await _saleCartFacade.SaleCartDetailRepository.UpdateAsync(product);
                     ViewBag.Message = Resources.Messages.DeletedSuccessfully;
                     return RedirectToAction("NewSale");
                 }
@@ -167,7 +156,7 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                var productEntities = await _stockRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                var productEntities = await _saleCartFacade.StockRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
                 List<ProductMV> products = productEntities
                     .Select(item => new ProductMV()
                     {
@@ -191,7 +180,7 @@ namespace CloudERP.Controllers
         {
             try
             {
-                var product = await _stockRepository.GetByIdAsync((int)id);
+                var product = await _saleCartFacade.StockRepository.GetByIdAsync((int)id);
                 if (product != null)
                 {
                     return Json(new { data = product.SaleUnitPrice }, JsonRequestBehavior.AllowGet);
@@ -219,8 +208,8 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                var saleDetails = await _saleCartDetailRepository.GetByDefaultSettingAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID, _sessionHelper.UserID);
-                await _saleCartDetailRepository.DeleteAsync(saleDetails);
+                var saleDetails = await _saleCartFacade.SaleCartDetailRepository.GetByDefaultSettingAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID, _sessionHelper.UserID);
+                await _saleCartFacade.SaleCartDetailRepository.DeleteAsync(saleDetails);
 
                 ViewBag.Message = Resources.Messages.SaleCanceledSuccessfully;
 
@@ -245,7 +234,7 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                var saleDetails = await _saleCartDetailRepository.GetByCompanyAndBranchAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID);
+                var saleDetails = await _saleCartFacade.SaleCartDetailRepository.GetByCompanyAndBranchAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID);
                 if (saleDetails == null)
                 {
                     Session["ErrorMessageSale"] = Resources.Messages.SaleCartEmpty;
@@ -253,7 +242,7 @@ namespace CloudERP.Controllers
                     return RedirectToAction("NewSale");
                 }
 
-                return View(await _customerRepository.GetByCompanyAndBranchAsync(_sessionHelper.CompanyID, _sessionHelper.CompanyID));
+                return View(await _saleCartFacade.CustomerRepository.GetByCompanyAndBranchAsync(_sessionHelper.CompanyID, _sessionHelper.CompanyID));
             }
             catch (Exception ex)
             {
@@ -293,8 +282,8 @@ namespace CloudERP.Controllers
                     IsPayment = collection["IsPayment"].Contains("on");
                 }
 
-                var customer = await _customerRepository.GetByIdAsync(customerID);
-                var saleDetails = await _saleCartDetailRepository.GetAllAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID);
+                var customer = await _saleCartFacade.CustomerRepository.GetByIdAsync(customerID);
+                var saleDetails = await _saleCartFacade.SaleCartDetailRepository.GetAllAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID);
 
                 double totalAmount = saleDetails.Sum(item => item.SaleQuantity * item.SaleUnitPrice);
 
@@ -318,14 +307,14 @@ namespace CloudERP.Controllers
                     TotalAmount = totalAmount
                 };
 
-                await _customerInvoiceRepository.AddAsync(invoiceHeader);
+                await _saleCartFacade.CustomerInvoiceRepository.AddAsync(invoiceHeader);
 
-                await _customerInvoiceDetailRepository.AddSaleDetailsAsync(saleDetails, invoiceHeader.CustomerInvoiceID);
+                await _saleCartFacade.CustomerInvoiceDetailRepository.AddSaleDetailsAsync(saleDetails, invoiceHeader.CustomerInvoiceID);
 
-                string Message = await _saleEntry.ConfirmSale(_sessionHelper.CompanyID, _sessionHelper.BranchID, _sessionHelper.UserID, invoiceNo, invoiceHeader.CustomerInvoiceID.ToString(), (float)totalAmount, customerID.ToString(), customer.Customername, IsPayment);
+                string Message = await _saleCartFacade.SaleEntry.ConfirmSale(_sessionHelper.CompanyID, _sessionHelper.BranchID, _sessionHelper.UserID, invoiceNo, invoiceHeader.CustomerInvoiceID.ToString(), (float)totalAmount, customerID.ToString(), customer.Customername, IsPayment);
                 if (Message.Contains("Success"))
                 {
-                    await _saleEntry.CompleteSale(saleDetails);
+                    await _saleCartFacade.SaleEntry.CompleteSale(saleDetails);
                 }
 
                 if (Message.Contains("Success"))

@@ -18,28 +18,15 @@ namespace DatabaseAccess.Repositories
 
         public async Task<IEnumerable<BranchType>> GetAllAsync()
         {
-            try
-            {
-                var entities = await _dbContext.tblBranchType
+            var entities = await _dbContext.tblBranchType
                 .AsNoTracking()
                 .ToListAsync();
 
-                return entities.Select(bt => new BranchType
-                {
-                    BranchTypeID = bt.BranchTypeID,
-                    BranchTypeName = bt.BranchType
-                });
-            }
-            catch (Exception ex)
+            return entities.Select(bt => new BranchType
             {
-                LogException(nameof(GetAllAsync), ex);
-                throw new InvalidOperationException("Error retrieving account heads.", ex);
-            }
-        }
-
-        private void LogException(string methodName, Exception ex)
-        {
-            Console.WriteLine($"Error in {methodName}: {ex.Message}\n{ex.StackTrace}");
+                BranchTypeID = bt.BranchTypeID,
+                BranchTypeName = bt.BranchType
+            });
         }
     }
 }

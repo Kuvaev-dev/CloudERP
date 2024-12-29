@@ -19,94 +19,52 @@ namespace DatabaseAccess.Repositories
 
         public async Task<IEnumerable<UserType>> GetAllAsync()
         {
-            try
-            {
-                var entities = await _dbContext.tblUserType.ToListAsync();
+            var entities = await _dbContext.tblUserType.ToListAsync();
 
-                return entities.Select(ut => new UserType
-                {
-                    UserTypeID = ut.UserTypeID,
-                    UserTypeName = ut.UserType
-                });
-            }
-            catch (Exception ex)
+            return entities.Select(ut => new UserType
             {
-                LogException(nameof(GetAllAsync), ex);
-                throw new InvalidOperationException("Error retrieving user types.", ex);
-            }
+                UserTypeID = ut.UserTypeID,
+                UserTypeName = ut.UserType
+            });
         }
 
         public async Task<UserType> GetByIdAsync(int id)
         {
-            try
-            {
-                var entity = await _dbContext.tblUserType.FirstOrDefaultAsync(ut => ut.UserTypeID == id);
+            var entity = await _dbContext.tblUserType.FirstOrDefaultAsync(ut => ut.UserTypeID == id);
 
-                return entity == null ? null : new UserType
-                {
-                    UserTypeID = entity.UserTypeID,
-                    UserTypeName = entity.UserType
-                };
-            }
-            catch (Exception ex)
+            return entity == null ? null : new UserType
             {
-                LogException(nameof(GetByIdAsync), ex);
-                throw new InvalidOperationException($"Error retrieving user type with ID {id}.", ex);
-            }
+                UserTypeID = entity.UserTypeID,
+                UserTypeName = entity.UserType
+            };
         }
 
         public async Task AddAsync(UserType userType)
         {
-            try
-            {
-                if (userType == null) throw new ArgumentNullException(nameof(userType));
+            if (userType == null) throw new ArgumentNullException(nameof(userType));
 
-                var entity = new tblUserType
-                {
-                    UserTypeID = userType.UserTypeID,
-                    UserType = userType.UserTypeName
-                };
-
-                _dbContext.tblUserType.Add(entity);
-                await _dbContext.SaveChangesAsync();
-            }
-            catch (Exception ex)
+            var entity = new tblUserType
             {
-                LogException(nameof(AddAsync), ex);
-                throw new InvalidOperationException("Error adding a new user type.", ex);
-            }
+                UserTypeID = userType.UserTypeID,
+                UserType = userType.UserTypeName
+            };
+
+            _dbContext.tblUserType.Add(entity);
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(UserType userType)
         {
-            try
-            {
-                if (userType == null) throw new ArgumentNullException(nameof(userType));
+            if (userType == null) throw new ArgumentNullException(nameof(userType));
 
-                var entity = await _dbContext.tblUserType.FindAsync(userType.UserTypeID);
-                if (entity == null) throw new KeyNotFoundException("User type not found.");
+            var entity = await _dbContext.tblUserType.FindAsync(userType.UserTypeID);
+            if (entity == null) throw new KeyNotFoundException("User type not found.");
 
-                entity.UserTypeID = userType.UserTypeID;
-                entity.UserType = userType.UserTypeName;
+            entity.UserTypeID = userType.UserTypeID;
+            entity.UserType = userType.UserTypeName;
 
-                _dbContext.Entry(entity).State = EntityState.Modified;
-                await _dbContext.SaveChangesAsync();
-            }
-            catch (KeyNotFoundException ex)
-            {
-                LogException(nameof(UpdateAsync), ex);
-                throw;
-            }
-            catch (Exception ex)
-            {
-                LogException(nameof(UpdateAsync), ex);
-                throw new InvalidOperationException($"Error updating user type with ID {userType.UserTypeID}.", ex);
-            }
-        }
-
-        private void LogException(string methodName, Exception ex)
-        {
-            Console.WriteLine($"Error in {methodName}: {ex.Message}\n{ex.StackTrace}");
+            _dbContext.Entry(entity).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

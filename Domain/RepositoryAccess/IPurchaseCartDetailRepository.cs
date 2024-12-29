@@ -6,8 +6,8 @@ namespace Domain.RepositoryAccess
 {
     public interface IPurchaseCartDetailRepository
     {
-        Task<List<PurchaseCartDetail>> GetByDefaultSettingsAsync(int branchId, int companyId, int userId);
-        Task<List<PurchaseCartDetail>> GetByBranchAndCompanyAsync(int branchId, int companyId);
+        Task<IEnumerable<PurchaseCartDetail>> GetByDefaultSettingsAsync(int branchId, int companyId, int userId);
+        Task<IEnumerable<PurchaseCartDetail>> GetByBranchAndCompanyAsync(int branchId, int companyId);
         Task<PurchaseCartDetail> GetByProductIdAsync(int branchId, int companyId, int productId);
         Task<PurchaseCartDetail> GetByIdAsync(int PCID);
         Task AddAsync(PurchaseCartDetail tblPurchaseCartDetail);

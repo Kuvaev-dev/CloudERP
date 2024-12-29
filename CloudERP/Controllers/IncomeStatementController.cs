@@ -9,11 +9,11 @@ namespace CloudERP.Controllers
 {
     public class IncomeStatementController : Controller
     {
-        private readonly IIncomeStatementService _income;
+        private readonly IncomeStatementService _income;
         private readonly IFinancialYearRepository _financialYearRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public IncomeStatementController(IIncomeStatementService income, IFinancialYearRepository financialYearRepository, SessionHelper sessionHelper)
+        public IncomeStatementController(IncomeStatementService income, IFinancialYearRepository financialYearRepository, SessionHelper sessionHelper)
         {
             _income = income;
             _financialYearRepository = financialYearRepository;

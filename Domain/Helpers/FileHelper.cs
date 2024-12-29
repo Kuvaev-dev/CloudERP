@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Web;
 
-namespace CloudERP.Helpers
+namespace Domain.Helpers
 {
     public static class FileHelper
     {

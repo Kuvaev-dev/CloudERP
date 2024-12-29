@@ -25,99 +25,92 @@ namespace DatabaseAccess.Repositories
             var ledger = new List<AccountLedgerModel>();
             int sNo = 1;
 
-            try
+            using (SqlConnection connection = await _query.ConnOpen())
             {
-                using (SqlConnection connection = await _query.ConnOpen())
+                using (SqlCommand command = new SqlCommand("GetLedger", connection))
                 {
-                    using (SqlCommand command = new SqlCommand("GetLedger", connection))
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add(new SqlParameter("@BranchID", branchId));
+                    command.Parameters.Add(new SqlParameter("@CompanyID", companyId));
+                    command.Parameters.Add(new SqlParameter("@FinancialYearID", financialYearId));
+
+                    var dt = new DataTable();
+                    using (SqlDataAdapter da = new SqlDataAdapter(command))
                     {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.Parameters.Add(new SqlParameter("@BranchID", branchId));
-                        command.Parameters.Add(new SqlParameter("@CompanyID", companyId));
-                        command.Parameters.Add(new SqlParameter("@FinancialYearID", financialYearId));
+                        da.Fill(dt);
+                    }
 
-                        var dt = new DataTable();
-                        using (SqlDataAdapter da = new SqlDataAdapter(command))
+                    if (dt.Rows.Count == 0)
+                    {
+                        return ledger;
+                    }
+
+                    decimal totalDebit = 0;
+                    decimal totalCredit = 0;
+                    string currentAccountName = string.Empty;
+
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        var accountName = Convert.ToString(row["AccountTitle"]).Trim();
+                        var debit = Convert.ToDecimal(row["Debit"]);
+                        var credit = Convert.ToDecimal(row["Credit"]);
+
+                        if (accountName != currentAccountName)
                         {
-                            da.Fill(dt);
-                        }
-
-                        if (dt.Rows.Count == 0)
-                        {
-                            return ledger;
-                        }
-
-                        decimal totalDebit = 0;
-                        decimal totalCredit = 0;
-                        string currentAccountName = string.Empty;
-
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var accountName = Convert.ToString(row["AccountTitle"]).Trim();
-                            var debit = Convert.ToDecimal(row["Debit"]);
-                            var credit = Convert.ToDecimal(row["Credit"]);
-
-                            if (accountName != currentAccountName)
+                            if (!string.IsNullOrEmpty(currentAccountName))
                             {
-                                if (!string.IsNullOrEmpty(currentAccountName))
-                                {
-                                    // Add total balance for the previous account
-                                    ledger.Add(new AccountLedgerModel
-                                    {
-                                        SNo = sNo++,
-                                        Date = Localization.Localization.TotalBalance,
-                                        Debit = totalDebit.ToString(),
-                                        Credit = totalCredit.ToString()
-                                    });
-                                }
-
-                                // Add header for the new account
+                                // Add total balance for the previous account
                                 ledger.Add(new AccountLedgerModel
                                 {
                                     SNo = sNo++,
-                                    Account = accountName,
-                                    Date = Localization.Localization.Date,
-                                    Description = Localization.Localization.Description,
-                                    Debit = Localization.Localization.Debit,
-                                    Credit = Localization.Localization.Credit
+                                    Date = Localization.Localization.TotalBalance,
+                                    Debit = totalDebit.ToString(),
+                                    Credit = totalCredit.ToString()
                                 });
-
-                                totalDebit = 0;
-                                totalCredit = 0;
-                                currentAccountName = accountName;
                             }
 
-                            // Add transaction details
+                            // Add header for the new account
                             ledger.Add(new AccountLedgerModel
                             {
                                 SNo = sNo++,
-                                Date = Convert.ToString(row["TransectionDate"]),
-                                Description = Convert.ToString(row["TransectionTitle"]),
-                                Debit = debit.ToString(),
-                                Credit = credit.ToString()
+                                Account = accountName,
+                                Date = Localization.Localization.Date,
+                                Description = Localization.Localization.Description,
+                                Debit = Localization.Localization.Debit,
+                                Credit = Localization.Localization.Credit
                             });
 
-                            totalDebit += debit;
-                            totalCredit += credit;
+                            totalDebit = 0;
+                            totalCredit = 0;
+                            currentAccountName = accountName;
                         }
 
-                        // Add total balance for the last account
-                        if (!string.IsNullOrEmpty(currentAccountName))
+                        // Add transaction details
+                        ledger.Add(new AccountLedgerModel
                         {
-                            ledger.Add(new AccountLedgerModel
-                            {
-                                SNo = sNo++,
-                                Date = Localization.Localization.TotalBalance,
-                                Debit = totalDebit.ToString(),
-                                Credit = totalCredit.ToString()
-                            });
-                        }
+                            SNo = sNo++,
+                            Date = Convert.ToString(row["TransectionDate"]),
+                            Description = Convert.ToString(row["TransectionTitle"]),
+                            Debit = debit.ToString(),
+                            Credit = credit.ToString()
+                        });
+
+                        totalDebit += debit;
+                        totalCredit += credit;
+                    }
+
+                    // Add total balance for the last account
+                    if (!string.IsNullOrEmpty(currentAccountName))
+                    {
+                        ledger.Add(new AccountLedgerModel
+                        {
+                            SNo = sNo++,
+                            Date = Localization.Localization.TotalBalance,
+                            Debit = totalDebit.ToString(),
+                            Credit = totalCredit.ToString()
+                        });
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
             }
 
             return ledger;

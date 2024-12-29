@@ -1,10 +1,9 @@
 ﻿using CloudERP.Helpers;
 using CloudERP.Models;
-using DatabaseAccess;
 using Domain.Models;
 using Domain.RepositoryAccess;
+using Domain.Services;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -12,14 +11,15 @@ namespace CloudERP.Controllers
 {
     public class CompanyEmployeeController : Controller
     {
-        private readonly SalaryTransaction _salaryTransaction;
+
+        private readonly SalaryTransactionService _salaryTransaction;
         private readonly SessionHelper _sessionHelper;
         private readonly EmailService _emailService;
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IBranchRepository _branchRepository;
         private readonly IPayrollRepository _payrollRepository;
 
-        public CompanyEmployeeController(SalaryTransaction salaryTransaction, IEmployeeRepository employeeRepository, SessionHelper sessionHelper, IBranchRepository branchRepository, IPayrollRepository payrollRepository, EmailService emailService)
+        public CompanyEmployeeController(SalaryTransactionService salaryTransaction, IEmployeeRepository employeeRepository, SessionHelper sessionHelper, IBranchRepository branchRepository, IPayrollRepository payrollRepository, EmailService emailService)
         {
             _salaryTransaction = salaryTransaction;
             _employeeRepository = employeeRepository;
@@ -92,7 +92,7 @@ namespace CloudERP.Controllers
                         var folder = "~/Content/EmployeePhoto";
                         var file = $"{employee.Employee.CompanyID}.jpg";
 
-                        var response = FileHelper.UploadPhoto(employee.LogoFile, folder, file);
+                        var response = Domain.Helpers.FileHelper.UploadPhoto(employee.LogoFile, folder, file);
                         if (!string.IsNullOrEmpty(response))
                         {
                             var filePath = Server.MapPath(response);

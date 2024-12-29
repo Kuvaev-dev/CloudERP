@@ -1,6 +1,5 @@
-﻿using CloudERP.Helpers;
-using Domain.EntryAccess;
-using Domain.RepositoryAccess;
+﻿using CloudERP.Facades;
+using CloudERP.Helpers;
 using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -10,20 +9,12 @@ namespace CloudERP.Controllers
     public class PurchasePaymentReturnController : Controller
     {
         private readonly SessionHelper _sessionHelper;
-        private readonly IPurchaseRepository _purchase;
-        private readonly ISupplierRepository _supplierRepository;
-        private readonly ISupplierReturnPaymentRepository _supplierReturnPaymentRepository;
-        private readonly ISupplierReturnInvoiceRepository _supplierReturnInvoiceRepository;
-        private readonly IPurchaseEntry _purchaseEntry;
+        private readonly PurchasePaymentReturnFacade _purchasePaymentReturnFacade;
 
-        public PurchasePaymentReturnController(IPurchaseRepository purchase, ISupplierReturnPaymentRepository supplierReturnPaymentRepository, IPurchaseEntry purchaseEntry, SessionHelper sessionHelper, ISupplierReturnInvoiceRepository supplierReturnInvoiceRepository, ISupplierRepository supplierRepository)
+        public PurchasePaymentReturnController(PurchasePaymentReturnFacade purchasePaymentReturnFacade, SessionHelper sessionHelper)
         {
-            _purchase = purchase;
-            _supplierReturnPaymentRepository = supplierReturnPaymentRepository;
-            _purchaseEntry = purchaseEntry;
+            _purchasePaymentReturnFacade = purchasePaymentReturnFacade;
             _sessionHelper = sessionHelper;
-            _supplierReturnInvoiceRepository = supplierReturnInvoiceRepository;
-            _supplierRepository = supplierRepository;
         }
 
         // GET: PurchasePaymentReturn
@@ -36,7 +27,7 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                return View(await _purchase.PurchaseReturnPaymentPending(id));
+                return View(await _purchasePaymentReturnFacade.PurchaseRepository.PurchaseReturnPaymentPending(id));
             }
             catch (Exception ex)
             {
@@ -54,7 +45,7 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                return View(await _purchase.GetReturnPurchasesPaymentPending(_sessionHelper.CompanyID, _sessionHelper.BranchID));
+                return View(await _purchasePaymentReturnFacade.PurchaseRepository.GetReturnPurchasesPaymentPending(_sessionHelper.CompanyID, _sessionHelper.BranchID));
             }
             catch (Exception ex)
             {
@@ -72,7 +63,7 @@ namespace CloudERP.Controllers
                     return RedirectToAction("AllPurchasesPendingPayment");
                 }
 
-                var list = await _supplierReturnPaymentRepository.GetBySupplierReturnInvoiceId((int)id);
+                var list = await _purchasePaymentReturnFacade.SupplierReturnPaymentRepository.GetBySupplierReturnInvoiceId((int)id);
                 double remainingAmount = 0;
 
                 foreach (var item in list)
@@ -86,7 +77,7 @@ namespace CloudERP.Controllers
 
                 if (remainingAmount == 0)
                 {
-                    remainingAmount = await _supplierReturnInvoiceRepository.GetTotalAmount((int)id);
+                    remainingAmount = await _purchasePaymentReturnFacade.SupplierReturnInvoiceRepository.GetTotalAmount((int)id);
                 }
 
                 ViewBag.PreviousRemainingAmount = remainingAmount;
@@ -114,7 +105,7 @@ namespace CloudERP.Controllers
                 if (paymentAmount > previousRemainingAmount)
                 {
                     ViewBag.Message = Resources.Messages.PurchasePaymentRemainingAmountError;
-                    var list = await _supplierReturnPaymentRepository.GetBySupplierReturnInvoiceId((int)id);
+                    var list = await _purchasePaymentReturnFacade.SupplierReturnPaymentRepository.GetBySupplierReturnInvoiceId((int)id);
                     double remainingAmount = 0;
 
                     foreach (var item in list)
@@ -124,7 +115,7 @@ namespace CloudERP.Controllers
 
                     if (remainingAmount == 0)
                     {
-                        remainingAmount = await _supplierReturnInvoiceRepository.GetTotalAmount((int)id);
+                        remainingAmount = await _purchasePaymentReturnFacade.SupplierReturnInvoiceRepository.GetTotalAmount((int)id);
                     }
 
                     ViewBag.PreviousRemainingAmount = remainingAmount;
@@ -134,11 +125,11 @@ namespace CloudERP.Controllers
                 }
 
                 string payinvoicenno = "RPP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
-                var supplierID = await _supplierReturnInvoiceRepository.GetSupplierIdByInvoice((int)id);
-                var supplier = await _supplierRepository.GetByIdAsync(supplierID);
-                var purchaseInvoice = await _supplierReturnInvoiceRepository.GetById((int)id);
+                var supplierID = await _purchasePaymentReturnFacade.SupplierReturnInvoiceRepository.GetSupplierIdByInvoice((int)id);
+                var supplier = await _purchasePaymentReturnFacade.SupplierRepository.GetByIdAsync(supplierID);
+                var purchaseInvoice = await _purchasePaymentReturnFacade.SupplierReturnInvoiceRepository.GetById((int)id);
                 
-                Session["Message"] = await _purchaseEntry.ReturnPurchasePayment(_sessionHelper.CompanyID, _sessionHelper.BranchID, _sessionHelper.UserID, payinvoicenno, purchaseInvoice.SupplierInvoiceID.ToString(), purchaseInvoice.SupplierReturnInvoiceID, (float)purchaseInvoice.TotalAmount,
+                Session["Message"] = await _purchasePaymentReturnFacade.PurchaseEntry.ReturnPurchasePayment(_sessionHelper.CompanyID, _sessionHelper.BranchID, _sessionHelper.UserID, payinvoicenno, purchaseInvoice.SupplierInvoiceID.ToString(), purchaseInvoice.SupplierReturnInvoiceID, (float)purchaseInvoice.TotalAmount,
                     paymentAmount, Convert.ToString(supplier?.SupplierID), supplier?.SupplierName, previousRemainingAmount - paymentAmount); ;
 
                 return RedirectToAction("PurchasePaymentReturn", new { id });

@@ -1,7 +1,6 @@
-﻿using CloudERP.Helpers;
-using Domain.EntryAccess;
+﻿using CloudERP.Facades;
+using CloudERP.Helpers;
 using Domain.Models;
-using Domain.RepositoryAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,25 +11,13 @@ namespace CloudERP.Controllers
 {
     public class PurchaseReturnController : Controller
     {
-        private readonly IPurchaseEntry _purchaseEntry;
-        private readonly ISupplierRepository _supplierRepository;
-        private readonly ISupplierInvoiceRepository _supplierInvoiceRepository;
-        private readonly ISupplierReturnInvoiceRepository _supplierReturnInvoiceRepository;
-        private readonly ISupplierInvoiceDetailRepository _supplierInvoiceDetailRepository;
-        private readonly ISupplierReturnInvoiceDetailRepository _supplierReturnInvoiceDetailRepository;
-        private readonly IStockRepository _stockRepository;
+        private readonly PurchaseReturnFacade _purchaseReturnFacade;
         private readonly SessionHelper _sessionHelper;
 
-        public PurchaseReturnController(IPurchaseEntry purchaseEntry, ISupplierInvoiceRepository supplierInvoiceRepository, ISupplierReturnInvoiceRepository supplierReturnInvoiceRepository, ISupplierInvoiceDetailRepository supplierInvoiceDetailRepository, SessionHelper sessionHelper, ISupplierRepository supplierRepository, ISupplierReturnInvoiceDetailRepository supplierReturnInvoiceDetailRepository, IStockRepository stockRepository)
+        public PurchaseReturnController(PurchaseReturnFacade purchaseReturnFacade, SessionHelper sessionHelper)
         {
-            _purchaseEntry = purchaseEntry;
-            _supplierInvoiceRepository = supplierInvoiceRepository;
-            _supplierReturnInvoiceRepository = supplierReturnInvoiceRepository;
-            _supplierInvoiceDetailRepository = supplierInvoiceDetailRepository;
+            _purchaseReturnFacade = purchaseReturnFacade;
             _sessionHelper = sessionHelper;
-            _supplierRepository = supplierRepository;
-            _supplierReturnInvoiceDetailRepository = supplierReturnInvoiceDetailRepository;
-            _stockRepository = stockRepository;
         }
 
         // GET: PurchaseReturn
@@ -49,16 +36,16 @@ namespace CloudERP.Controllers
                 {
                     if (!string.IsNullOrEmpty(_sessionHelper.InvoiceNo))
                     {
-                        invoice = await _supplierInvoiceRepository.GetByInvoiceNoAsync(_sessionHelper.InvoiceNo);
+                        invoice = await _purchaseReturnFacade.SupplierInvoiceRepository.GetByInvoiceNoAsync(_sessionHelper.InvoiceNo);
                     }
                     else
                     {
-                        invoice = await _supplierInvoiceRepository.GetByIdAsync(0);
+                        invoice = await _purchaseReturnFacade.SupplierInvoiceRepository.GetByIdAsync(0);
                     }
                 }
                 else
                 {
-                    invoice = await _supplierInvoiceRepository.GetByIdAsync(0);
+                    invoice = await _purchaseReturnFacade.SupplierInvoiceRepository.GetByIdAsync(0);
                 }
 
                 return View(invoice);
@@ -83,7 +70,7 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                return View(await _supplierInvoiceRepository.GetByInvoiceNoAsync(invoiceID));
+                return View(await _purchaseReturnFacade.SupplierInvoiceRepository.GetByInvoiceNoAsync(invoiceID));
             }
             catch (Exception ex)
             {
@@ -141,7 +128,7 @@ namespace CloudERP.Controllers
                 }
 
                 double TotalAmount = 0;
-                var purchaseDetails = await _supplierInvoiceDetailRepository.GetListByIdAsync(SupplierInvoiceID);
+                var purchaseDetails = await _purchaseReturnFacade.SupplierInvoiceDetailRepository.GetListByIdAsync(SupplierInvoiceID);
                 for (int i = 0; i < purchaseDetails.Count(); i++)
                 {
                     foreach (var productID in ProductIDs)
@@ -153,7 +140,7 @@ namespace CloudERP.Controllers
                     }
                 }
 
-                var supplierInvoice = await _supplierInvoiceRepository.GetByIdAsync(SupplierInvoiceID);
+                var supplierInvoice = await _purchaseReturnFacade.SupplierInvoiceRepository.GetByIdAsync(SupplierInvoiceID);
                 supplierID = supplierInvoice.SupplierID;
                 if (TotalAmount == 0)
                 {
@@ -175,10 +162,10 @@ namespace CloudERP.Controllers
                     TotalAmount = TotalAmount,
                     SupplierInvoiceID = SupplierInvoiceID
                 };
-                await _supplierReturnInvoiceRepository.AddAsync(returnInvoiceHeader);
+                await _purchaseReturnFacade.SupplierReturnInvoiceRepository.AddAsync(returnInvoiceHeader);
 
-                var supplier = await _supplierRepository.GetByIdAsync(supplierID);
-                string Message = await _purchaseEntry.ReturnPurchase(_sessionHelper.CompanyID, _sessionHelper.BranchID, _sessionHelper.UserID, invoiceNo, returnInvoiceHeader.SupplierInvoiceID.ToString(), returnInvoiceHeader.SupplierReturnInvoiceID, (float)TotalAmount, supplierID.ToString(), supplier.SupplierName, IsPayment);
+                var supplier = await _purchaseReturnFacade.SupplierRepository.GetByIdAsync(supplierID);
+                string Message = await _purchaseReturnFacade.PurchaseEntry.ReturnPurchase(_sessionHelper.CompanyID, _sessionHelper.BranchID, _sessionHelper.UserID, invoiceNo, returnInvoiceHeader.SupplierInvoiceID.ToString(), returnInvoiceHeader.SupplierReturnInvoiceID, (float)TotalAmount, supplierID.ToString(), supplier.SupplierName, IsPayment);
 
                 if (Message.Contains("Success"))
                 {
@@ -199,14 +186,14 @@ namespace CloudERP.Controllers
                                         SupplierReturnInvoiceID = returnInvoiceHeader.SupplierReturnInvoiceID,
                                         SupplierInvoiceDetailID = purchaseDetails[i].SupplierInvoiceDetailID
                                     };
-                                    await _supplierReturnInvoiceDetailRepository.AddAsync(returnProductDetails);
+                                    await _purchaseReturnFacade.SupplierReturnInvoiceDetailRepository.AddAsync(returnProductDetails);
 
-                                    var stock = await _stockRepository.GetByIdAsync(productID);
+                                    var stock = await _purchaseReturnFacade.StockRepository.GetByIdAsync(productID);
                                     if (stock != null)
                                     {
                                         stock.Quantity -= ReturnQty[i];
 
-                                        await _stockRepository.UpdateAsync(stock);
+                                        await _purchaseReturnFacade.StockRepository.UpdateAsync(stock);
                                     }
                                 }
                             }

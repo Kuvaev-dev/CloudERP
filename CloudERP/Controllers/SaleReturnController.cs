@@ -1,7 +1,6 @@
-﻿using CloudERP.Helpers;
-using Domain.EntryAccess;
+﻿using CloudERP.Facades;
+using CloudERP.Helpers;
 using Domain.Models;
-using Domain.RepositoryAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,25 +11,13 @@ namespace CloudERP.Controllers
 {
     public class SaleReturnController : Controller
     {
-        private readonly ISaleEntry _saleEntry;
-        private readonly IStockRepository _stockRepository;
-        private readonly ICustomerRepository _customerRepository;
-        private readonly ICustomerInvoiceRepository _customerInvoiceRepository;
-        private readonly ICustomerInvoiceDetailRepository _customerInvoiceDetailRepository;
-        private readonly ICustomerReturnInvoiceRepository _customerReturnInvoiceRepository;
-        private readonly ICustomerReturnInvoiceDetailRepository _customerReturnInvoiceDetailRepository;
+        private readonly SaleReturnFacade _saleReturnFacade;
         private readonly SessionHelper _sessionHelper;
 
-        public SaleReturnController(ISaleEntry saleEntry, ICustomerInvoiceRepository customerInvoiceRepository, SessionHelper sessionHelper, ICustomerInvoiceDetailRepository customerInvoiceDetailRepository, ICustomerReturnInvoiceRepository customerReturnInvoiceRepository, ICustomerRepository customerRepository, ICustomerReturnInvoiceDetailRepository customerReturnInvoiceDetailRepository, IStockRepository stockRepository)
+        public SaleReturnController(SessionHelper sessionHelper, SaleReturnFacade saleReturnFacade)
         {
-            _saleEntry = saleEntry;
-            _customerInvoiceRepository = customerInvoiceRepository;
             _sessionHelper = sessionHelper;
-            _customerInvoiceDetailRepository = customerInvoiceDetailRepository;
-            _customerReturnInvoiceRepository = customerReturnInvoiceRepository;
-            _customerRepository = customerRepository;
-            _customerReturnInvoiceDetailRepository = customerReturnInvoiceDetailRepository;
-            _stockRepository = stockRepository;
+            _saleReturnFacade = saleReturnFacade;
         }
 
         // GET: SaleReturn
@@ -49,16 +36,16 @@ namespace CloudERP.Controllers
                 {
                     if (!string.IsNullOrEmpty(_sessionHelper.SaleInvoiceNo))
                     {
-                        invoice = await _customerInvoiceRepository.GetByInvoiceNoAsync(_sessionHelper.SaleInvoiceNo);
+                        invoice = await _saleReturnFacade.CustomerInvoiceRepository.GetByInvoiceNoAsync(_sessionHelper.SaleInvoiceNo);
                     }
                     else
                     {
-                        invoice = await _customerInvoiceRepository.GetByIdAsync(0);
+                        invoice = await _saleReturnFacade.CustomerInvoiceRepository.GetByIdAsync(0);
                     }
                 }
                 else
                 {
-                    invoice = await _customerInvoiceRepository.GetByIdAsync(0);
+                    invoice = await _saleReturnFacade.CustomerInvoiceRepository.GetByIdAsync(0);
                 }
 
                 return View(invoice);
@@ -83,7 +70,7 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                return View(await _customerInvoiceRepository.GetByInvoiceNoAsync(invoiceID));
+                return View(await _saleReturnFacade.CustomerInvoiceRepository.GetByInvoiceNoAsync(invoiceID));
             }
             catch (Exception ex)
             {
@@ -136,7 +123,7 @@ namespace CloudERP.Controllers
                 }
 
                 double TotalAmount = 0;
-                var saleDetails = await _customerInvoiceDetailRepository.GetListByIdAsync(CustomerInvoiceID);
+                var saleDetails = await _saleReturnFacade.CustomerInvoiceDetailRepository.GetListByIdAsync(CustomerInvoiceID);
                 var list = saleDetails.ToList();
                 for (int i = 0; i < saleDetails.Count(); i++)
                 {
@@ -149,7 +136,7 @@ namespace CloudERP.Controllers
                     }
                 }
 
-                var customerInvoice = await _customerInvoiceRepository.GetByIdAsync(CustomerInvoiceID);
+                var customerInvoice = await _saleReturnFacade.CustomerInvoiceRepository.GetByIdAsync(CustomerInvoiceID);
                 customerID = customerInvoice.CustomerID;
 
                 if (TotalAmount == 0)
@@ -173,10 +160,10 @@ namespace CloudERP.Controllers
                     CustomerInvoiceID = CustomerInvoiceID
                 };
 
-                await _customerReturnInvoiceRepository.AddAsync(returnInvoiceHeader);
+                await _saleReturnFacade.CustomerReturnInvoiceRepository.AddAsync(returnInvoiceHeader);
 
-                var customer = await _customerRepository.GetByIdAsync(customerID);
-                string Message = await _saleEntry.ReturnSale(
+                var customer = await _saleReturnFacade.CustomerRepository.GetByIdAsync(customerID);
+                string Message = await _saleReturnFacade.SaleEntry.ReturnSale(
                     _sessionHelper.CompanyID, 
                     _sessionHelper.BranchID, 
                     _sessionHelper.UserID, 
@@ -208,11 +195,11 @@ namespace CloudERP.Controllers
                                         CustomerInvoiceDetailID = saleDetailsList[i].CustomerInvoiceDetailID
                                     };
 
-                                    await _customerReturnInvoiceDetailRepository.AddAsync(returnProductDetails);
+                                    await _saleReturnFacade.CustomerReturnInvoiceDetailRepository.AddAsync(returnProductDetails);
 
-                                    var stock = await _stockRepository.GetByIdAsync(productID);
+                                    var stock = await _saleReturnFacade.StockRepository.GetByIdAsync(productID);
                                     stock.Quantity += ReturnQty[i];
-                                    await _stockRepository.UpdateAsync(stock);
+                                    await _saleReturnFacade.StockRepository.UpdateAsync(stock);
                                 }
                             }
                         }

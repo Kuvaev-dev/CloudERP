@@ -2,33 +2,20 @@
 using System.Linq;
 using System.Web.Mvc;
 using System.Threading.Tasks;
-using Domain.RepositoryAccess;
-using Domain.EntryAccess;
 using CloudERP.Helpers;
+using CloudERP.Facades;
 
 namespace CloudERP.Controllers
 {
     public class SalePaymentController : Controller
     {
-        private readonly ISaleRepository _sale;
-        private readonly ICustomerRepository _customerRepository;
-        private readonly ICustomerInvoiceRepository _customerInvoiceRepository;
-        private readonly ICustomerInvoiceDetailRepository _customerInvoiceDetailRepository;
-        private readonly ICustomerReturnInvoiceRepository _customerReturnInvoiceRepository;
-        private readonly ICustomerPaymentRepository _customerPaymentRepository;
-        private readonly ISaleEntry _saleEntry;
+        private readonly SalePaymentFacade _salePaymentFacade;
         private readonly SessionHelper _sessionHelper;
 
-        public SalePaymentController(ISaleRepository sale, ISaleEntry saleEntry, ICustomerInvoiceRepository customerInvoiceRepository, ICustomerReturnInvoiceRepository customerReturnInvoiceRepository, ICustomerPaymentRepository customerPaymentRepository, SessionHelper sessionHelper, ICustomerRepository customerRepository, ICustomerInvoiceDetailRepository customerInvoiceDetailRepository)
+        public SalePaymentController(SalePaymentFacade salePaymentFacade, SessionHelper sessionHelper)
         {
-            _sale = sale;
-            _saleEntry = saleEntry;
-            _customerInvoiceRepository = customerInvoiceRepository;
-            _customerReturnInvoiceRepository = customerReturnInvoiceRepository;
+            _salePaymentFacade = salePaymentFacade;
             _sessionHelper = sessionHelper;
-            _customerPaymentRepository = customerPaymentRepository;
-            _customerRepository = customerRepository;
-            _customerInvoiceDetailRepository = customerInvoiceDetailRepository;
         }
 
         // GET: PurchasePayment
@@ -41,7 +28,7 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                var list = await _sale.RemainingPaymentList(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                var list = await _salePaymentFacade.SaleRepository.RemainingPaymentList(_sessionHelper.CompanyID, _sessionHelper.BranchID);
 
                 return View(list.ToList());
             }
@@ -61,8 +48,8 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                var list = await _sale.SalePaymentHistory(id.Value);
-                var returnDetails = await _customerReturnInvoiceRepository.GetListByIdAsync((int)id);
+                var list = await _salePaymentFacade.SaleRepository.SalePaymentHistory(id.Value);
+                var returnDetails = await _salePaymentFacade.CustomerReturnInvoiceRepository.GetListByIdAsync((int)id);
 
                 if (returnDetails != null && returnDetails.Count() > 0)
                 {
@@ -70,8 +57,8 @@ namespace CloudERP.Controllers
                 }
 
                 double remainingAmount = 0;
-                double totalInvoiceAmount = await _customerInvoiceRepository.GetTotalAmountByIdAsync((int)id);
-                double totalPaidAmount = await _customerPaymentRepository.GetTotalPaidAmountById((int)id);
+                double totalInvoiceAmount = await _salePaymentFacade.CustomerInvoiceRepository.GetTotalAmountByIdAsync((int)id);
+                double totalPaidAmount = await _salePaymentFacade.CustomerPaymentRepository.GetTotalPaidAmountById((int)id);
 
                 remainingAmount = totalInvoiceAmount - totalPaidAmount;
 
@@ -96,7 +83,7 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                var list = await _sale.SalePaymentHistory(id.Value);
+                var list = await _salePaymentFacade.SaleRepository.SalePaymentHistory(id.Value);
                 double remainingAmount = 0;
 
                 foreach (var item in list)
@@ -106,7 +93,7 @@ namespace CloudERP.Controllers
 
                 if (remainingAmount == 0)
                 {
-                    remainingAmount = await _customerInvoiceRepository.GetTotalAmountByIdAsync((int)id);
+                    remainingAmount = await _salePaymentFacade.CustomerInvoiceRepository.GetTotalAmountByIdAsync((int)id);
                 }
 
                 ViewBag.PreviousRemainingAmount = remainingAmount;
@@ -134,7 +121,7 @@ namespace CloudERP.Controllers
                 if (paidAmount > previousRemainingAmount)
                 {
                     ViewBag.Message = Resources.Messages.PurchasePaymentRemainingAmountError;
-                    var list = await _sale.SalePaymentHistory(id.Value);
+                    var list = await _salePaymentFacade.SaleRepository.SalePaymentHistory(id.Value);
                     double remainingAmount = 0;
 
                     foreach (var item in list)
@@ -144,7 +131,7 @@ namespace CloudERP.Controllers
 
                     if (remainingAmount == 0)
                     {
-                        remainingAmount = await _customerInvoiceRepository.GetTotalAmountByIdAsync((int)id);
+                        remainingAmount = await _salePaymentFacade.CustomerInvoiceRepository.GetTotalAmountByIdAsync((int)id);
                     }
 
                     ViewBag.PreviousRemainingAmount = remainingAmount;
@@ -154,9 +141,9 @@ namespace CloudERP.Controllers
                 }
 
                 string payInvoiceNo = "INP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
-                var customerInvoice = await _customerInvoiceRepository.GetByIdAsync((int)id);
-                var customer = await _customerRepository.GetByIdAsync(customerInvoice.CustomerID);
-                string message = await _saleEntry.SalePayment(
+                var customerInvoice = await _salePaymentFacade.CustomerInvoiceRepository.GetByIdAsync((int)id);
+                var customer = await _salePaymentFacade.CustomerRepository.GetByIdAsync(customerInvoice.CustomerID);
+                string message = await _salePaymentFacade.SaleEntry.SalePayment(
                     _sessionHelper.CompanyID, 
                     _sessionHelper.BranchID, 
                     _sessionHelper.UserID, 
@@ -173,7 +160,7 @@ namespace CloudERP.Controllers
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                var list = await _sale.SalePaymentHistory(id.Value);
+                var list = await _salePaymentFacade.SaleRepository.SalePaymentHistory(id.Value);
                 double remainingAmount = 0;
 
                 foreach (var item in list)
@@ -183,7 +170,7 @@ namespace CloudERP.Controllers
 
                 if (remainingAmount == 0)
                 {
-                    remainingAmount = await _customerInvoiceRepository.GetTotalAmountByIdAsync((int)id);
+                    remainingAmount = await _salePaymentFacade.CustomerInvoiceRepository.GetTotalAmountByIdAsync((int)id);
                 }
 
                 ViewBag.PreviousRemainingAmount = remainingAmount;
@@ -202,7 +189,7 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                var list = await _sale.CustomSalesList(_sessionHelper.CompanyID, _sessionHelper.BranchID, FromDate, ToDate);
+                var list = await _salePaymentFacade.SaleRepository.CustomSalesList(_sessionHelper.CompanyID, _sessionHelper.BranchID, FromDate, ToDate);
 
                 return View(list.ToList());
             }
@@ -222,7 +209,7 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                var list = await _sale.CustomSalesList(_sessionHelper.CompanyID, id ?? _sessionHelper.BranchID, FromDate, ToDate);
+                var list = await _salePaymentFacade.SaleRepository.CustomSalesList(_sessionHelper.CompanyID, id ?? _sessionHelper.BranchID, FromDate, ToDate);
 
                 return View(list.ToList());
             }
@@ -242,7 +229,7 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                var list = await _customerInvoiceDetailRepository.GetListByIdAsync((int)id);
+                var list = await _salePaymentFacade.CustomerInvoiceDetailRepository.GetListByIdAsync((int)id);
 
                 return View(list.ToList());
             }
@@ -262,7 +249,7 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                var list = await _customerInvoiceDetailRepository.GetListByIdAsync((int)id);
+                var list = await _salePaymentFacade.CustomerInvoiceDetailRepository.GetListByIdAsync((int)id);
 
                 return View(list.ToList());
             }

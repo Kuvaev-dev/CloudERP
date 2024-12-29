@@ -19,187 +19,142 @@ namespace DatabaseAccess.Repositories
 
         public async Task<IEnumerable<Employee>> GetByBranchAsync(int companyId, int branchId)
         {
-            try
-            {
-                var entities = await _dbContext.tblEmployee
+            var entities = await _dbContext.tblEmployee
                 .Where(e => e.CompanyID == companyId && e.BranchID == branchId)
                 .ToListAsync();
 
-                return entities.Select(e => new Employee
-                {
-                    EmployeeID = e.EmployeeID,
-                    FullName = e.Name,
-                    ContactNumber = e.ContactNo,
-                    Email = e.Email,
-                    Address = e.Address,
-                    Photo = e.Photo,
-                    TIN = e.TIN,
-                    Designation = e.Designation,
-                    Description = e.Description,
-                    MonthlySalary = e.MonthlySalary,
-                    IsFirstLogin = e.IsFirstLogin,
-                    RegistrationDate = e.RegistrationDate,
-                    CompanyID = e.CompanyID,
-                    BranchID = e.BranchID,
-                    BranchTypeID = e.tblBranch.BranchTypeID,
-                    BrchID = e.tblBranch.BrchID,
-                    BranchName = e.tblBranch.BranchName,
-                    UserID = e.UserID
-                });
-            }
-            catch (Exception ex)
+            return entities.Select(e => new Employee
             {
-                LogException(nameof(GetByBranchAsync), ex);
-                throw new InvalidOperationException("Error retrieving employees.", ex);
-            }
+                EmployeeID = e.EmployeeID,
+                FullName = e.Name,
+                ContactNumber = e.ContactNo,
+                Email = e.Email,
+                Address = e.Address,
+                Photo = e.Photo,
+                TIN = e.TIN,
+                Designation = e.Designation,
+                Description = e.Description,
+                MonthlySalary = e.MonthlySalary,
+                IsFirstLogin = e.IsFirstLogin,
+                RegistrationDate = e.RegistrationDate,
+                CompanyID = e.CompanyID,
+                BranchID = e.BranchID,
+                BranchTypeID = e.tblBranch.BranchTypeID,
+                BrchID = e.tblBranch.BrchID,
+                BranchName = e.tblBranch.BranchName,
+                UserID = e.UserID
+            });
         }
 
         public async Task<Employee> GetByIdAsync(int id)
         {
-            try
-            {
-                var entity = await _dbContext.tblEmployee.FindAsync(id);
+            var entity = await _dbContext.tblEmployee.FindAsync(id);
 
-                return entity == null ? null : new Employee
-                {
-                    EmployeeID = entity.EmployeeID,
-                    FullName = entity.Name,
-                    ContactNumber = entity.ContactNo,
-                    Email = entity.Email,
-                    Address = entity.Address,
-                    Photo = entity.Photo,
-                    TIN = entity.TIN,
-                    Designation = entity.Designation,
-                    Description = entity.Description,
-                    MonthlySalary = entity.MonthlySalary,
-                    IsFirstLogin = entity.IsFirstLogin,
-                    RegistrationDate = entity.RegistrationDate,
-                    CompanyID = entity.CompanyID,
-                    BranchID = entity.BranchID,
-                    BranchTypeID = entity.tblBranch.BranchTypeID,
-                    BrchID = entity.tblBranch.BrchID,
-                    BranchName = entity.tblBranch.BranchName,
-                    UserID = entity.UserID
-                };
-            }
-            catch (Exception ex)
+            return entity == null ? null : new Employee
             {
-                LogException(nameof(GetByIdAsync), ex);
-                throw new InvalidOperationException($"Error retrieving employee with ID {id}.", ex);
-            }
+                EmployeeID = entity.EmployeeID,
+                FullName = entity.Name,
+                ContactNumber = entity.ContactNo,
+                Email = entity.Email,
+                Address = entity.Address,
+                Photo = entity.Photo,
+                TIN = entity.TIN,
+                Designation = entity.Designation,
+                Description = entity.Description,
+                MonthlySalary = entity.MonthlySalary,
+                IsFirstLogin = entity.IsFirstLogin,
+                RegistrationDate = entity.RegistrationDate,
+                CompanyID = entity.CompanyID,
+                BranchID = entity.BranchID,
+                BranchTypeID = entity.tblBranch.BranchTypeID,
+                BrchID = entity.tblBranch.BrchID,
+                BranchName = entity.tblBranch.BranchName,
+                UserID = entity.UserID
+            };
         }
 
         public async Task AddAsync(Employee employee)
         {
-            try
-            {
-                if (employee == null) throw new ArgumentNullException(nameof(employee));
+            if (employee == null) throw new ArgumentNullException(nameof(employee));
 
-                var entity = new tblEmployee
-                {
-                    EmployeeID = employee.EmployeeID,
-                    Name = employee.FullName,
-                    ContactNo = employee.ContactNumber,
-                    Email = employee.Email,
-                    Address = employee.Address,
-                    Photo = employee.Photo,
-                    TIN = employee.TIN,
-                    Designation = employee.Designation,
-                    Description = employee.Description,
-                    MonthlySalary = employee.MonthlySalary,
-                    IsFirstLogin = employee.IsFirstLogin,
-                    RegistrationDate = employee.RegistrationDate,
-                    CompanyID = employee.CompanyID,
-                    BranchID = employee.BranchID,
-                    UserID = employee.UserID
-                };
-
-                _dbContext.tblEmployee.Add(entity);
-                await _dbContext.SaveChangesAsync();
-            }
-            catch (Exception ex)
+            var entity = new tblEmployee
             {
-                LogException(nameof(AddAsync), ex);
-                throw new InvalidOperationException("Error adding a new employee.", ex);
-            }
+                EmployeeID = employee.EmployeeID,
+                Name = employee.FullName,
+                ContactNo = employee.ContactNumber,
+                Email = employee.Email,
+                Address = employee.Address,
+                Photo = employee.Photo,
+                TIN = employee.TIN,
+                Designation = employee.Designation,
+                Description = employee.Description,
+                MonthlySalary = employee.MonthlySalary,
+                IsFirstLogin = employee.IsFirstLogin,
+                RegistrationDate = employee.RegistrationDate,
+                CompanyID = employee.CompanyID,
+                BranchID = employee.BranchID,
+                UserID = employee.UserID
+            };
+
+            _dbContext.tblEmployee.Add(entity);
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(Employee employee)
         {
-            try
-            {
-                if (employee == null) throw new ArgumentNullException(nameof(employee));
+            if (employee == null) throw new ArgumentNullException(nameof(employee));
 
-                var entity = await _dbContext.tblEmployee.FindAsync(employee.EmployeeID);
-                if (entity == null) throw new KeyNotFoundException("Employee not found.");
+            var entity = await _dbContext.tblEmployee.FindAsync(employee.EmployeeID);
+            if (entity == null) throw new KeyNotFoundException("Employee not found.");
 
-                entity.EmployeeID = employee.EmployeeID;
-                entity.Name = employee.FullName;
-                entity.ContactNo = employee.ContactNumber;
-                entity.Email = employee.Email;
-                entity.Address = employee.Address;
-                entity.Photo = employee.Photo;
-                entity.TIN = employee.TIN;
-                entity.Designation = employee.Designation;
-                entity.Description = employee.Description;
-                entity.MonthlySalary = employee.MonthlySalary;
-                entity.IsFirstLogin = employee.IsFirstLogin;
-                entity.RegistrationDate = employee.RegistrationDate;
-                entity.CompanyID = employee.CompanyID;
-                entity.BranchID = employee.BranchID;
-                entity.UserID = employee.UserID;
+            entity.EmployeeID = employee.EmployeeID;
+            entity.Name = employee.FullName;
+            entity.ContactNo = employee.ContactNumber;
+            entity.Email = employee.Email;
+            entity.Address = employee.Address;
+            entity.Photo = employee.Photo;
+            entity.TIN = employee.TIN;
+            entity.Designation = employee.Designation;
+            entity.Description = employee.Description;
+            entity.MonthlySalary = employee.MonthlySalary;
+            entity.IsFirstLogin = employee.IsFirstLogin;
+            entity.RegistrationDate = employee.RegistrationDate;
+            entity.CompanyID = employee.CompanyID;
+            entity.BranchID = employee.BranchID;
+            entity.UserID = employee.UserID;
 
-                _dbContext.Entry(entity).State = EntityState.Modified;
-                await _dbContext.SaveChangesAsync();
-            }
-            catch (KeyNotFoundException ex)
-            {
-                LogException(nameof(UpdateAsync), ex);
-                throw;
-            }
-            catch (Exception ex)
-            {
-                LogException(nameof(UpdateAsync), ex);
-                throw new InvalidOperationException($"Error updating employee with ID {employee.EmployeeID}.", ex);
-            }
+            _dbContext.Entry(entity).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task<Employee> GetByUserIdAsync(int id)
         {
-            try
-            {
-                var entity = await _dbContext.tblEmployee
+            var entity = await _dbContext.tblEmployee
                 .Include(b => b.tblBranch)
                 .Where(e => e.UserID == id)
                 .FirstOrDefaultAsync();
 
-                return entity == null ? null : new Employee
-                {
-                    EmployeeID = entity.EmployeeID,
-                    FullName = entity.Name,
-                    ContactNumber = entity.ContactNo,
-                    Email = entity.Email,
-                    Address = entity.Address,
-                    Photo = entity.Photo,
-                    TIN = entity.TIN,
-                    Designation = entity.Designation,
-                    Description = entity.Description,
-                    MonthlySalary = entity.MonthlySalary,
-                    IsFirstLogin = entity.IsFirstLogin,
-                    RegistrationDate = entity.RegistrationDate,
-                    CompanyID = entity.CompanyID,
-                    BranchID = entity.BranchID,
-                    BranchTypeID = entity.tblBranch.BranchTypeID,
-                    BrchID = entity.tblBranch.BrchID,
-                    BranchName = entity.tblBranch.BranchName,
-                    UserID = entity.UserID
-                };
-            }
-            catch (Exception ex)
+            return entity == null ? null : new Employee
             {
-                LogException(nameof(GetByIdAsync), ex);
-                throw new InvalidOperationException($"Error retrieving employee with ID {id}.", ex);
-            }
+                EmployeeID = entity.EmployeeID,
+                FullName = entity.Name,
+                ContactNumber = entity.ContactNo,
+                Email = entity.Email,
+                Address = entity.Address,
+                Photo = entity.Photo,
+                TIN = entity.TIN,
+                Designation = entity.Designation,
+                Description = entity.Description,
+                MonthlySalary = entity.MonthlySalary,
+                IsFirstLogin = entity.IsFirstLogin,
+                RegistrationDate = entity.RegistrationDate,
+                CompanyID = entity.CompanyID,
+                BranchID = entity.BranchID,
+                BranchTypeID = entity.tblBranch.BranchTypeID,
+                BrchID = entity.tblBranch.BrchID,
+                BranchName = entity.tblBranch.BranchName,
+                UserID = entity.UserID
+            };
         }
 
         public async Task<bool> IsFirstLoginAsync(Employee employee)
@@ -218,9 +173,7 @@ namespace DatabaseAccess.Repositories
 
         public async Task<IEnumerable<Employee>> GetEmployeesByDateRangeAsync(DateTime startDate, DateTime endDate, List<int?> branchIDs, int companyID)
         {
-            try
-            {
-                var entities = await _dbContext.tblEmployee
+            var entities = await _dbContext.tblEmployee
                 .Where(e => e.RegistrationDate.HasValue
                     && e.RegistrationDate.Value >= startDate
                     && e.RegistrationDate.Value <= endDate
@@ -228,112 +181,85 @@ namespace DatabaseAccess.Repositories
                     && branchIDs.Contains(e.BranchID))
                 .ToListAsync();
 
-                return entities.Select(e => new Employee
-                {
-                    EmployeeID = e.EmployeeID,
-                    FullName = e.Name,
-                    ContactNumber = e.ContactNo,
-                    Email = e.Email,
-                    Address = e.Address,
-                    Photo = e.Photo,
-                    TIN = e.TIN,
-                    Designation = e.Designation,
-                    Description = e.Description,
-                    MonthlySalary = e.MonthlySalary,
-                    IsFirstLogin = e.IsFirstLogin,
-                    RegistrationDate = e.RegistrationDate,
-                    CompanyID = e.CompanyID,
-                    BranchID = e.BranchID,
-                    BranchTypeID = e.tblBranch.BranchTypeID,
-                    BrchID = e.tblBranch.BrchID,
-                    BranchName = e.tblBranch.BranchName,
-                    UserID = e.UserID
-                });
-            }
-            catch (Exception ex)
+            return entities.Select(e => new Employee
             {
-                LogException(nameof(GetByIdAsync), ex);
-                throw new InvalidOperationException($"Error retrieving employees.", ex);
-            }
-        }
-
-        private void LogException(string methodName, Exception ex)
-        {
-            Console.WriteLine($"Error in {methodName}: {ex.Message}\n{ex.StackTrace}");
+                EmployeeID = e.EmployeeID,
+                FullName = e.Name,
+                ContactNumber = e.ContactNo,
+                Email = e.Email,
+                Address = e.Address,
+                Photo = e.Photo,
+                TIN = e.TIN,
+                Designation = e.Designation,
+                Description = e.Description,
+                MonthlySalary = e.MonthlySalary,
+                IsFirstLogin = e.IsFirstLogin,
+                RegistrationDate = e.RegistrationDate,
+                CompanyID = e.CompanyID,
+                BranchID = e.BranchID,
+                BranchTypeID = e.tblBranch.BranchTypeID,
+                BrchID = e.tblBranch.BrchID,
+                BranchName = e.tblBranch.BranchName,
+                UserID = e.UserID
+            });
         }
 
         public async Task<Employee> GetByCompanyIdAsync(int id)
         {
-            try
-            {
-                var entity = await _dbContext.tblEmployee
+            var entity = await _dbContext.tblEmployee
                 .Where(e => e.CompanyID == id)
                 .FirstOrDefaultAsync();
 
-                return entity == null ? null : new Employee
-                {
-                    EmployeeID = entity.EmployeeID,
-                    FullName = entity.Name,
-                    ContactNumber = entity.ContactNo,
-                    Email = entity.Email,
-                    Address = entity.Address,
-                    Photo = entity.Photo,
-                    TIN = entity.TIN,
-                    Designation = entity.Designation,
-                    Description = entity.Description,
-                    MonthlySalary = entity.MonthlySalary,
-                    IsFirstLogin = entity.IsFirstLogin,
-                    RegistrationDate = entity.RegistrationDate,
-                    CompanyID = entity.CompanyID,
-                    BranchID = entity.BranchID,
-                    BranchTypeID = entity.tblBranch.BranchTypeID,
-                    BrchID = entity.tblBranch.BrchID,
-                    BranchName = entity.tblBranch.BranchName,
-                    UserID = entity.UserID
-                };
-            }
-            catch (Exception ex)
+            return entity == null ? null : new Employee
             {
-                LogException(nameof(GetByIdAsync), ex);
-                throw new InvalidOperationException($"Error retrieving employee with ID {id}.", ex);
-            }
+                EmployeeID = entity.EmployeeID,
+                FullName = entity.Name,
+                ContactNumber = entity.ContactNo,
+                Email = entity.Email,
+                Address = entity.Address,
+                Photo = entity.Photo,
+                TIN = entity.TIN,
+                Designation = entity.Designation,
+                Description = entity.Description,
+                MonthlySalary = entity.MonthlySalary,
+                IsFirstLogin = entity.IsFirstLogin,
+                RegistrationDate = entity.RegistrationDate,
+                CompanyID = entity.CompanyID,
+                BranchID = entity.BranchID,
+                BranchTypeID = entity.tblBranch.BranchTypeID,
+                BrchID = entity.tblBranch.BrchID,
+                BranchName = entity.tblBranch.BranchName,
+                UserID = entity.UserID
+            };
         }
 
         public async Task<Employee> GetByTINAsync(string TIN)
         {
-            try
-            {
-                var entity = await _dbContext.tblEmployee
+            var entity = await _dbContext.tblEmployee
                 .Where(e => e.TIN == TIN)
                 .FirstOrDefaultAsync();
 
-                return entity == null ? null : new Employee
-                {
-                    EmployeeID = entity.EmployeeID,
-                    FullName = entity.Name,
-                    ContactNumber = entity.ContactNo,
-                    Email = entity.Email,
-                    Address = entity.Address,
-                    Photo = entity.Photo,
-                    TIN = entity.TIN,
-                    Designation = entity.Designation,
-                    Description = entity.Description,
-                    MonthlySalary = entity.MonthlySalary,
-                    IsFirstLogin = entity.IsFirstLogin,
-                    RegistrationDate = entity.RegistrationDate,
-                    CompanyID = entity.CompanyID,
-                    BranchID = entity.BranchID,
-                    BranchTypeID = entity.tblBranch.BranchTypeID,
-                    BrchID = entity.tblBranch.BrchID,
-                    BranchName = entity.tblBranch.BranchName,
-                    UserID = entity.UserID
-                };
-            }
-            catch (Exception ex)
+            return entity == null ? null : new Employee
             {
-                LogException(nameof(GetByIdAsync), ex);
-                throw new InvalidOperationException($"Error retrieving employee with ID {id}.", ex);
-            }
+                EmployeeID = entity.EmployeeID,
+                FullName = entity.Name,
+                ContactNumber = entity.ContactNo,
+                Email = entity.Email,
+                Address = entity.Address,
+                Photo = entity.Photo,
+                TIN = entity.TIN,
+                Designation = entity.Designation,
+                Description = entity.Description,
+                MonthlySalary = entity.MonthlySalary,
+                IsFirstLogin = entity.IsFirstLogin,
+                RegistrationDate = entity.RegistrationDate,
+                CompanyID = entity.CompanyID,
+                BranchID = entity.BranchID,
+                BranchTypeID = entity.tblBranch.BranchTypeID,
+                BrchID = entity.tblBranch.BrchID,
+                BranchName = entity.tblBranch.BranchName,
+                UserID = entity.UserID
+            };
         }
     }
 }
