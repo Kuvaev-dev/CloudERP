@@ -9,11 +9,11 @@ namespace CloudERP.Controllers
 {
     public class IncomeStatementController : Controller
     {
-        private readonly IncomeStatementService _income;
+        private readonly IIncomeStatementService _income;
         private readonly IFinancialYearRepository _financialYearRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public IncomeStatementController(IncomeStatementService income, IFinancialYearRepository financialYearRepository, SessionHelper sessionHelper)
+        public IncomeStatementController(IIncomeStatementService income, IFinancialYearRepository financialYearRepository, SessionHelper sessionHelper)
         {
             _income = income;
             _financialYearRepository = financialYearRepository;
@@ -23,13 +23,11 @@ namespace CloudERP.Controllers
         // GET: IncomeStatement
         public async Task<ActionResult> GetIncomeStatement()
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 await PopulateViewBag();
 
                 var FinancialYear = await _financialYearRepository.GetSingleActiveAsync();
@@ -51,13 +49,11 @@ namespace CloudERP.Controllers
         [HttpPost]
         public async Task<ActionResult> GetIncomeStatement(int? FinancialYearID)
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 await PopulateViewBag();
 
                 return View(await _income.GetIncomeStatementAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID, FinancialYearID ?? 0));
@@ -72,13 +68,11 @@ namespace CloudERP.Controllers
         // GET: IncomeStatement
         public async Task<ActionResult> GetSubIncomeStatement()
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 await PopulateViewBag();
 
                 var FinancialYear = await _financialYearRepository.GetSingleActiveAsync();
@@ -100,13 +94,11 @@ namespace CloudERP.Controllers
         [HttpPost]
         public async Task<ActionResult> GetSubIncomeStatement(int? FinancialYearID)
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 await PopulateViewBag();
 
                 return View(await _income.GetIncomeStatementAsync(_sessionHelper.CompanyID, _sessionHelper.BrchID, FinancialYearID ?? 0));

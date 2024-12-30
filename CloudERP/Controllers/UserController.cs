@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
 using Domain.Models;
@@ -21,60 +22,137 @@ namespace CloudERP.Controllers
 
         public async Task<ActionResult> Index()
         {
-            var users = await _userRepository.GetAllAsync();
-            return View(users);
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            try
+            {
+                var users = await _userRepository.GetAllAsync();
+                return View(users);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         public async Task<ActionResult> SubBranchUser()
         {
-            var users = await _userRepository.GetByBranchAsync(_sessionHelper.CompanyID, _sessionHelper.BranchTypeID, _sessionHelper.BranchID);
-            return View(users);
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            try
+            {
+                var users = await _userRepository.GetByBranchAsync(_sessionHelper.CompanyID, _sessionHelper.BranchTypeID, _sessionHelper.BranchID);
+                return View(users);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         public async Task<ActionResult> Details(int id)
         {
-            var user = await _userRepository.GetByIdAsync(id);
-            if (user == null) return HttpNotFound();
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
 
-            return View(user);
+            try
+            {
+                var user = await _userRepository.GetByIdAsync(id);
+                if (user == null) return HttpNotFound();
+
+                return View(user);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         public async Task<ActionResult> Create()
         {
-            ViewBag.UserTypeID = new SelectList(await _userTypeRepository.GetAllAsync(), "UserTypeID", "UserType");
-            return View(new User());
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            try
+            {
+                ViewBag.UserTypeID = new SelectList(await _userTypeRepository.GetAllAsync(), "UserTypeID", "UserType");
+                return View(new User());
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(User model)
         {
-            if (ModelState.IsValid)
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            try
             {
-                await _userRepository.AddAsync(model);
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    await _userRepository.AddAsync(model);
+                    return RedirectToAction("Index");
+                }
+                return View(model);
             }
-            return View(model);
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         public async Task<ActionResult> Edit(int id)
         {
-            var user = await _userRepository.GetByIdAsync(id);
-            if (user == null) return HttpNotFound();
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
 
-            return View(user);
+            try
+            {
+                var user = await _userRepository.GetByIdAsync(id);
+                if (user == null) return HttpNotFound();
+
+                return View(user);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(User model)
         {
-            if (ModelState.IsValid)
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            try
             {
-                await _userRepository.UpdateAsync(model);
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    await _userRepository.UpdateAsync(model);
+                    return RedirectToAction("Index");
+                }
+                return View(model);
             }
-            return View(model);
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
     }
 }

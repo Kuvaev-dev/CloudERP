@@ -1,6 +1,7 @@
 ﻿using CloudERP.Helpers;
 using Domain.Models;
 using Domain.RepositoryAccess;
+using System;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -16,7 +17,12 @@ namespace CloudERP.Controllers
         private readonly SessionHelper _sessionHelper;
         private readonly PasswordHelper _passwordHelper;
 
-        public UserSettingController(IEmployeeRepository employeeRepository, IUserRepository userRepository, IUserTypeRepository userTypeRepository, SessionHelper sessionHelper, PasswordHelper passwordHelper)
+        public UserSettingController(
+            IEmployeeRepository employeeRepository, 
+            IUserRepository userRepository, 
+            IUserTypeRepository userTypeRepository, 
+            SessionHelper sessionHelper, 
+            PasswordHelper passwordHelper)
         {
             _employeeRepository = employeeRepository;
             _userRepository = userRepository;
@@ -31,34 +37,42 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            if (employeeID == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            var employee = await _employeeRepository.GetByIdAsync(employeeID.Value);
-            if (employee == null)
+            try
             {
-                TempData["ErrorMessage"] = Resources.Messages.EmployeeNotFound;
+                if (employeeID == null)
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+                var employee = await _employeeRepository.GetByIdAsync(employeeID.Value);
+                if (employee == null)
+                {
+                    TempData["ErrorMessage"] = Resources.Messages.EmployeeNotFound;
+                    return RedirectToAction("EP500", "EP");
+                }
+
+                _sessionHelper.CompanyEmployeeID = employeeID;
+                var hashedPassword = _passwordHelper.HashPassword(employee.ContactNumber, out string salt);
+
+                var user = new User
+                {
+                    Email = employee.Email,
+                    ContactNo = employee.ContactNumber,
+                    FullName = employee.FullName,
+                    IsActive = true,
+                    Password = hashedPassword,
+                    Salt = salt,
+                    UserName = employee.Email
+                };
+
+                var userTypes = await _userTypeRepository.GetAllAsync();
+                ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserType");
+
+                return View(user);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
-
-            _sessionHelper.CompanyEmployeeID = employeeID;
-            var hashedPassword = _passwordHelper.HashPassword(employee.ContactNumber, out string salt);
-
-            var user = new User
-            {
-                Email = employee.Email,
-                ContactNo = employee.ContactNumber,
-                FullName = employee.FullName,
-                IsActive = true,
-                Password = hashedPassword,
-                Salt = salt,
-                UserName = employee.Email
-            };
-
-            var userTypes = await _userTypeRepository.GetAllAsync();
-            ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserType");
-
-            return View(user);
         }
 
         // POST: CreateUser
@@ -69,42 +83,50 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            if (!ModelState.IsValid)
+            try
             {
-                var userTypes = await _userTypeRepository.GetAllAsync();
-                ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserType", user.UserTypeID);
-                return View(user);
-            }
-
-            var existingUser = (await _userRepository.GetAllAsync()).FirstOrDefault(u => u.Email == user.Email && u.UserID != user.UserID);
-            if (existingUser != null)
-            {
-                ViewBag.Message = Resources.Messages.EmailIsAlreadyRegistered;
-
-                var userTypes = await _userTypeRepository.GetAllAsync();
-                ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserType", user.UserTypeID);
-
-                return View(user);
-            }
-
-            user.Password = Request.Form["Password"];
-            user.Salt = Request.Form["Salt"];
-
-            await _userRepository.AddAsync(user);
-
-            int? employeeID = _sessionHelper.CompanyEmployeeID;
-            if (employeeID.HasValue)
-            {
-                var employee = await _employeeRepository.GetByIdAsync(employeeID.Value);
-                if (employee != null)
+                if (!ModelState.IsValid)
                 {
-                    employee.UserID = user.UserID;
-                    await _employeeRepository.UpdateAsync(employee);
+                    var userTypes = await _userTypeRepository.GetAllAsync();
+                    ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserType", user.UserTypeID);
+                    return View(user);
                 }
-                _sessionHelper.CompanyEmployeeID = null;
-            }
 
-            return RedirectToAction("Index", "User");
+                var existingUser = (await _userRepository.GetAllAsync()).FirstOrDefault(u => u.Email == user.Email && u.UserID != user.UserID);
+                if (existingUser != null)
+                {
+                    ViewBag.Message = Resources.Messages.EmailIsAlreadyRegistered;
+
+                    var userTypes = await _userTypeRepository.GetAllAsync();
+                    ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserType", user.UserTypeID);
+
+                    return View(user);
+                }
+
+                user.Password = Request.Form["Password"];
+                user.Salt = Request.Form["Salt"];
+
+                await _userRepository.AddAsync(user);
+
+                int? employeeID = _sessionHelper.CompanyEmployeeID;
+                if (employeeID.HasValue)
+                {
+                    var employee = await _employeeRepository.GetByIdAsync(employeeID.Value);
+                    if (employee != null)
+                    {
+                        employee.UserID = user.UserID;
+                        await _employeeRepository.UpdateAsync(employee);
+                    }
+                    _sessionHelper.CompanyEmployeeID = null;
+                }
+
+                return RedirectToAction("Index", "User");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // GET: UpdateUser
@@ -113,20 +135,28 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            if (userID == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            var user = await _userRepository.GetByIdAsync(userID.Value);
-            if (user == null)
+            try
             {
-                TempData["ErrorMessage"] = Resources.Messages.UserNotFound;
+                if (userID == null)
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+                var user = await _userRepository.GetByIdAsync(userID.Value);
+                if (user == null)
+                {
+                    TempData["ErrorMessage"] = Resources.Messages.UserNotFound;
+                    return RedirectToAction("EP500", "EP");
+                }
+
+                var userTypes = await _userTypeRepository.GetAllAsync();
+                ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserType", user.UserTypeID);
+
+                return View(user);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
-
-            var userTypes = await _userTypeRepository.GetAllAsync();
-            ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserType", user.UserTypeID);
-
-            return View(user);
         }
 
         // POST: UpdateUser
@@ -137,27 +167,35 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            if (!ModelState.IsValid)
+            try
             {
-                var userTypes = await _userTypeRepository.GetAllAsync();
-                ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserType", user.UserTypeID);
-                return View(user);
-            }
+                if (!ModelState.IsValid)
+                {
+                    var userTypes = await _userTypeRepository.GetAllAsync();
+                    ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserType", user.UserTypeID);
+                    return View(user);
+                }
 
-            var existingUser = (await _userRepository.GetAllAsync()).FirstOrDefault(u => u.Email == user.Email && u.UserID != user.UserID);
-            if (existingUser != null)
+                var existingUser = (await _userRepository.GetAllAsync()).FirstOrDefault(u => u.Email == user.Email && u.UserID != user.UserID);
+                if (existingUser != null)
+                {
+                    ViewBag.Message = Resources.Messages.EmailIsAlreadyRegistered;
+
+                    var userTypes = await _userTypeRepository.GetAllAsync();
+                    ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserType", user.UserTypeID);
+
+                    return View(user);
+                }
+
+                await _userRepository.UpdateAsync(user);
+
+                return RedirectToAction("Index", "User");
+            }
+            catch (Exception ex)
             {
-                ViewBag.Message = Resources.Messages.EmailIsAlreadyRegistered;
-
-                var userTypes = await _userTypeRepository.GetAllAsync();
-                ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserType", user.UserTypeID);
-
-                return View(user);
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
-
-            await _userRepository.UpdateAsync(user);
-
-            return RedirectToAction("Index", "User");
         }
     }
 }

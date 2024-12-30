@@ -20,19 +20,28 @@ namespace CloudERP.Controllers
 
         public async Task<ActionResult> Index()
         {
-            var categories = await _categoryRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
-            return View(categories);
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            try
+            {
+                var categories = await _categoryRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                return View(categories);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         public async Task<ActionResult> Details(int id)
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 var userType = await _categoryRepository.GetByIdAsync(id);
                 return View(userType);
             }
@@ -52,25 +61,47 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(Category model)
         {
-            if (ModelState.IsValid)
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            try
             {
-                model.CompanyID = _sessionHelper.CompanyID;
-                model.BranchID = _sessionHelper.BranchID;
-                model.UserID = _sessionHelper.UserID;
+                if (ModelState.IsValid)
+                {
+                    model.CompanyID = _sessionHelper.CompanyID;
+                    model.BranchID = _sessionHelper.BranchID;
+                    model.UserID = _sessionHelper.UserID;
 
-                await _categoryRepository.AddAsync(model);
-                return RedirectToAction("Index");
+                    await _categoryRepository.AddAsync(model);
+                    return RedirectToAction("Index");
+                }
+
+                return View(model);
             }
-
-            return View(model);
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         public async Task<ActionResult> Edit(int id)
         {
-            var category = await _categoryRepository.GetByIdAsync(id);
-            if (category == null) return HttpNotFound();
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
 
-            return View(category);
+            try
+            {
+                var category = await _categoryRepository.GetByIdAsync(id);
+                if (category == null) return HttpNotFound();
+
+                return View(category);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // POST: Category/Edit/5
@@ -78,16 +109,27 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(Category model)
         {
-            if (ModelState.IsValid)
-            {
-                model.CompanyID = _sessionHelper.CompanyID;
-                model.BranchID = _sessionHelper.BranchID;
-                model.UserID = _sessionHelper.UserID;
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
 
-                await _categoryRepository.UpdateAsync(model);
-                return RedirectToAction("Index");
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    model.CompanyID = _sessionHelper.CompanyID;
+                    model.BranchID = _sessionHelper.BranchID;
+                    model.UserID = _sessionHelper.UserID;
+
+                    await _categoryRepository.UpdateAsync(model);
+                    return RedirectToAction("Index");
+                }
+                return View(model);
             }
-            return View(model);
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
     }
 }

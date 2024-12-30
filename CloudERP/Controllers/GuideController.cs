@@ -16,9 +16,7 @@ namespace CloudERP.Controllers
         public ActionResult AdminMenuGuide()
         {
             if (!_sessionHelper.IsAuthenticated)
-            {
                 return RedirectToAction("Login");
-            }
 
             return View();
         }
@@ -26,9 +24,7 @@ namespace CloudERP.Controllers
         public ActionResult MainBranchEmployeeGuide()
         {
             if (!_sessionHelper.IsAuthenticated)
-            {
                 return RedirectToAction("Login");
-            }
 
             return View();
         }
@@ -36,9 +32,7 @@ namespace CloudERP.Controllers
         public ActionResult EmployeeGuide()
         {
             if (!_sessionHelper.IsAuthenticated)
-            {
                 return RedirectToAction("Login");
-            }
 
             return View();
         }
@@ -46,9 +40,7 @@ namespace CloudERP.Controllers
         public ActionResult PrivacyPolicy()
         {
             if (!_sessionHelper.IsAuthenticated)
-            {
                 return RedirectToAction("Login");
-            }
 
             return View();
         }

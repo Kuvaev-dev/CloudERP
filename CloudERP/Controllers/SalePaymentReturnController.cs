@@ -21,13 +21,11 @@ namespace CloudERP.Controllers
         // GET: SalePaymentReturn
         public async Task<ActionResult> ReturnSalePendingAmount()
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 var list = await _salePaymentReturnFacade.SaleRepository.GetReturnSaleAmountPending(_sessionHelper.CompanyID, _sessionHelper.BranchID);
 
                 return View(list);
@@ -41,13 +39,11 @@ namespace CloudERP.Controllers
 
         public async Task<ActionResult> AllReturnSalesPendingAmount()
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 var list = await _salePaymentReturnFacade.SaleRepository.GetReturnSaleAmountPending(_sessionHelper.CompanyID, _sessionHelper.BranchID);
 
                 return View(list);
@@ -61,13 +57,11 @@ namespace CloudERP.Controllers
 
         public async Task<ActionResult> ReturnAmount(int? id)
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 var list = await _salePaymentReturnFacade.CustomerReturnPaymentRepository.GetListByReturnInvoiceIdAsync((int)id);
 
                 double remainingAmount = list.Sum(item => item.RemainingBalance);
@@ -91,13 +85,11 @@ namespace CloudERP.Controllers
         [HttpPost]
         public async Task<ActionResult> ReturnAmount(int? id, float previousRemainingAmount, float paymentAmount)
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 if (paymentAmount > previousRemainingAmount)
                 {
                     ViewBag.Message = Resources.Messages.PurchasePaymentRemainingAmountError;

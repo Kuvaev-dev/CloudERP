@@ -4,7 +4,12 @@ using System.Threading.Tasks;
 
 namespace CloudERP.Helpers
 {
-    public class ReminderService
+    public interface IReminderService
+    {
+        Task SendReminders();
+    }
+
+    public class ReminderService : IReminderService
     {
         private readonly IUserRepository _userRepository;
         private readonly ITaskRepository _taskRepository;

@@ -134,8 +134,6 @@
       <DependentUpon>CloudDB.edmx</DependentUpon>
     </Compile>
     <Compile Include="Code\DatabaseQuery.cs" />
-    <Compile Include="Code\PurchaseEntry.cs" />
-    <Compile Include="Code\SaleEntry.cs" />
     <Compile Include="Helpers\BranchHelper.cs" />
     <Compile Include="Localization\Localization.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -154,6 +152,7 @@
     <Compile Include="Repositories\CategoryRepository.cs" />
     <Compile Include="Repositories\CompanyRepository.cs" />
     <Compile Include="Repositories\CustomerInvoiceRepository.cs" />
+    <Compile Include="Repositories\CustomerPaymentRepository.cs" />
     <Compile Include="Repositories\CustomerRepository.cs" />
     <Compile Include="Repositories\DashboardRepository.cs" />
     <Compile Include="Repositories\EmployeeRepository.cs" />

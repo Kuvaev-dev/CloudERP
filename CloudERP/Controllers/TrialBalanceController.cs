@@ -21,13 +21,11 @@ namespace CloudERP.Controllers
 
         public async Task<ActionResult> GetTrialBalance()
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 await PopulateViewBag();
 
                 var financialYear = await _financialYearRepository.GetSingleActiveAsync();
@@ -49,13 +47,11 @@ namespace CloudERP.Controllers
         [HttpPost]
         public async Task<ActionResult> GetTrialBalance(int? id)
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 await PopulateViewBagWithId(id);
 
                 var trialBalance = await _trialBalanceRepository.GetTrialBalanceAsync(

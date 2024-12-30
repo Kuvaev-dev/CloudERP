@@ -1,9 +1,7 @@
 ﻿using CloudERP.Facades;
 using CloudERP.Helpers;
 using CloudERP.Models;
-using Domain.EntryAccess;
 using Domain.Models;
-using Domain.RepositoryAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,13 +24,11 @@ namespace CloudERP.Controllers
         // GET: PurchaseCart/NewPurchase
         public async Task<ActionResult> NewPurchase()
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 var findDetail = await _purchaseCartFacade.PurchaseCartDetailRepository.GetByDefaultSettingsAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID, _sessionHelper.UserID);
 
                 ViewBag.TotalAmount = findDetail.Sum(item => item.PurchaseQuantity * item.PurchaseUnitPrice);
@@ -71,13 +67,11 @@ namespace CloudERP.Controllers
         [HttpPost]
         public async Task<ActionResult> AddItem(int PID, int Qty, float Price)
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 if (await _purchaseCartFacade.PurchaseCartDetailRepository.GetByProductIdAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID, PID) == null)
                 {
                     if (PID > 0 && Qty > 0 && Price > 0)
@@ -117,9 +111,7 @@ namespace CloudERP.Controllers
             try
             {
                 if (!_sessionHelper.IsAuthenticated)
-                {
                     return Json(new { data = new List<ProductMV>() }, JsonRequestBehavior.AllowGet);
-                }
 
                 var products = await _purchaseCartFacade.StockRepository.GetAllAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID);
 
@@ -135,13 +127,11 @@ namespace CloudERP.Controllers
         // GET: PurchaseCart/DeleteConfirm
         public async Task<ActionResult> DeleteConfirm(int id)
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 var product = await _purchaseCartFacade.PurchaseCartDetailRepository.GetByIdAsync(id);
                 if (product != null)
                 {
@@ -165,13 +155,11 @@ namespace CloudERP.Controllers
         [HttpPost]
         public async Task<ActionResult> CancelPurchase()
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 if (await _purchaseCartFacade.PurchaseCartDetailRepository.IsCanceled(_sessionHelper.BranchID, _sessionHelper.CompanyID, _sessionHelper.UserID))
                 {
                     ViewBag.Message = Resources.Messages.PurchaseIsCanceled;
@@ -193,15 +181,13 @@ namespace CloudERP.Controllers
         // GET: PurchaseCart/SelectSupplier
         public async Task<ActionResult> SelectSupplier()
         {
+            Session["ErrorMessagePurchase"] = string.Empty;
+
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                Session["ErrorMessagePurchase"] = string.Empty;
-
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 if (await _purchaseCartFacade.PurchaseCartDetailRepository.GetByBranchAndCompanyAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID) == null)
                 {
                     Session["ErrorMessagePurchase"] = Resources.Messages.PurchaseCartIsEmpty;
@@ -221,13 +207,11 @@ namespace CloudERP.Controllers
         [HttpPost]
         public async Task<ActionResult> PurchaseConfirm(FormCollection collection)
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 int supplierID = 0;
                 bool IsPayment = false;
                 string[] keys = collection.AllKeys;

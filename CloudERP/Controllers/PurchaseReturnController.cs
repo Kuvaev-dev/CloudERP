@@ -23,13 +23,11 @@ namespace CloudERP.Controllers
         // GET: PurchaseReturn
         public async Task<ActionResult> FindPurchase()
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 SupplierInvoice invoice;
 
                 if (_sessionHelper.InvoiceNo != null)
@@ -60,15 +58,13 @@ namespace CloudERP.Controllers
         [HttpPost]
         public async Task<ActionResult> FindPurchase(string invoiceID)
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
                 Session["InvoiceNo"] = string.Empty;
                 Session["ReturnMessage"] = string.Empty;
-
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
 
                 return View(await _purchaseReturnFacade.SupplierInvoiceRepository.GetByInvoiceNoAsync(invoiceID));
             }
@@ -82,15 +78,13 @@ namespace CloudERP.Controllers
         [HttpPost]
         public async Task<ActionResult> ReturnConfirm(FormCollection collection)
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
                 Session["InvoiceNo"] = string.Empty;
                 Session["ReturnMessage"] = string.Empty;
-
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
 
                 int supplierID = 0;
                 int SupplierInvoiceID = 0;

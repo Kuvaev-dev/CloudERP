@@ -14,7 +14,7 @@ namespace DatabaseAccess.Repositories
 
         public AccountSubControlRepository(CloudDBEntities dbContext)
         {
-            _dbContext = dbContext;
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
         public async Task<IEnumerable<AccountSubControl>> GetAllAsync(int companyId, int branchId)

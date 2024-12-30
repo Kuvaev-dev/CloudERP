@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -25,78 +26,128 @@ namespace CloudERP.Controllers
         public async Task<ActionResult> Index()
         {
             if (!_sessionHelper.IsAuthenticated)
-            {
                 return RedirectToAction("Login", "Home");
-            }
 
-            var accountControls = await _accountControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
-            return View(accountControls);
+            try
+            {
+                var accountControls = await _accountControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                return View(accountControls);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         public async Task<ActionResult> Create()
         {
-            return View(new AccountControlMV
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            try
             {
-                AccountHeadList = await GetAccountHeadList()
-            });
+                return View(new AccountControlMV
+                {
+                    AccountHeadList = await GetAccountHeadList()
+                });
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(AccountControlMV model)
         {
-            if (ModelState.IsValid)
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            try
             {
-                model.AccountControl.BranchID = _sessionHelper.BranchID;
-                model.AccountControl.CompanyID = _sessionHelper.CompanyID;
-                model.AccountControl.UserID = _sessionHelper.UserID;
-                model.AccountHeadList = await GetAccountHeadList();
+                if (ModelState.IsValid)
+                {
+                    model.AccountControl.BranchID = _sessionHelper.BranchID;
+                    model.AccountControl.CompanyID = _sessionHelper.CompanyID;
+                    model.AccountControl.UserID = _sessionHelper.UserID;
+                    model.AccountHeadList = await GetAccountHeadList();
 
-                await _accountControlRepository.AddAsync(model.AccountControl);
-                return RedirectToAction("Index");
+                    await _accountControlRepository.AddAsync(model.AccountControl);
+                    return RedirectToAction("Index");
+                }
+
+                return View(model);
             }
-
-            return View(model);
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         public async Task<ActionResult> Edit(int? id)
         {
-            if (id == null) return RedirectToAction("Index");
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
 
-            var accountHeads = await _accountHeadRepository.GetAllAsync();
-            if (accountHeads == null || !accountHeads.Any())
-                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "No Account Heads found.");
-
-            var accountControl = await _accountControlRepository.GetByIdAsync(id.Value);
-            if (accountControl == null) return HttpNotFound();
-
-            AccountControlMV accountControlMV = new AccountControlMV()
+            try
             {
-                AccountControl = accountControl,
-                AccountHeadList = accountHeads.Select(ah => new SelectListItem
-                {
-                    Value = ah.AccountHeadID.ToString(),
-                    Text = ah.AccountHeadName,
-                    Selected = ah.AccountHeadID == accountControl.AccountHeadID
-                }).ToList()
-            };
+                if (id == null) return RedirectToAction("Index");
 
-            return View(accountControlMV);
+                var accountHeads = await _accountHeadRepository.GetAllAsync();
+                if (accountHeads == null || !accountHeads.Any())
+                    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "No Account Heads found.");
+
+                var accountControl = await _accountControlRepository.GetByIdAsync(id.Value);
+                if (accountControl == null) return HttpNotFound();
+
+                AccountControlMV accountControlMV = new AccountControlMV()
+                {
+                    AccountControl = accountControl,
+                    AccountHeadList = accountHeads.Select(ah => new SelectListItem
+                    {
+                        Value = ah.AccountHeadID.ToString(),
+                        Text = ah.AccountHeadName,
+                        Selected = ah.AccountHeadID == accountControl.AccountHeadID
+                    }).ToList()
+                };
+
+                return View(accountControlMV);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(AccountControlMV model)
         {
-            if (ModelState.IsValid)
-            {   
-                await _accountControlRepository.UpdateAsync(model.AccountControl);
-                return RedirectToAction("Index");
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            try
+            {
+                if (ModelState.IsValid)
+                {   
+                    await _accountControlRepository.UpdateAsync(model.AccountControl);
+                    return RedirectToAction("Index");
+                }
+
+                model.AccountHeadList = await GetAccountHeadList();
+
+                return View(model);
             }
-
-            model.AccountHeadList = await GetAccountHeadList();
-
-            return View(model);
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         public async Task<IEnumerable<SelectListItem>> GetAccountHeadList()

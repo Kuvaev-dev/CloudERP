@@ -1,4 +1,6 @@
-﻿using Domain.RepositoryAccess;
+﻿using CloudERP.Helpers;
+using Domain.RepositoryAccess;
+using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -7,17 +9,30 @@ namespace CloudERP.Controllers
     public class FinancialYearViewController : Controller
     {
         private readonly IFinancialYearRepository _financialYearRepository;
+        private readonly SessionHelper _sessionHelper;
 
-        public FinancialYearViewController(IFinancialYearRepository financialYearRepository)
+        public FinancialYearViewController(IFinancialYearRepository financialYearRepository, SessionHelper sessionHelper)
         {
             _financialYearRepository = financialYearRepository;
+            _sessionHelper = sessionHelper;
         }
 
         // GET: FinancialYear
         public async Task<ActionResult> Index()
         {
-            var financialYears = await _financialYearRepository.GetAllAsync();
-            return View(financialYears);
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            try
+            {
+                var financialYears = await _financialYearRepository.GetAllAsync();
+                return View(financialYears);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
     }
 }

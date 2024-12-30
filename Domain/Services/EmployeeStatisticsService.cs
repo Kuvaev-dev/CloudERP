@@ -7,7 +7,12 @@ using System.Threading.Tasks;
 
 namespace Domain.Services
 {
-    public class EmployeeStatisticsService
+    public interface IEmployeeStatisticsService
+    {
+        Task<List<EmployeeStatistics>> GetStatisticsAsync(DateTime startDate, DateTime endDate, int branchID, int companyID);
+    }
+
+    public class EmployeeStatisticsService : IEmployeeStatisticsService
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IBranchRepository _branchRepository;

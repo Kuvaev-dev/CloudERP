@@ -20,13 +20,11 @@ namespace CloudERP.Controllers
         // GET: PurchasePaymentReturn
         public async Task<ActionResult> ReturnPurchasePendingAmount(int? id)
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 return View(await _purchasePaymentReturnFacade.PurchaseRepository.PurchaseReturnPaymentPending(id));
             }
             catch (Exception ex)
@@ -38,13 +36,11 @@ namespace CloudERP.Controllers
 
         public async Task<ActionResult> AllPurchasesPendingPayment()
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 return View(await _purchasePaymentReturnFacade.PurchaseRepository.GetReturnPurchasesPaymentPending(_sessionHelper.CompanyID, _sessionHelper.BranchID));
             }
             catch (Exception ex)
@@ -56,6 +52,9 @@ namespace CloudERP.Controllers
 
         public async Task<ActionResult> ReturnAmount(int? id)
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
                 if (id == null)
@@ -95,13 +94,11 @@ namespace CloudERP.Controllers
         [HttpPost]
         public async Task<ActionResult> ReturnAmount(int? id, float previousRemainingAmount, float paymentAmount)
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 if (paymentAmount > previousRemainingAmount)
                 {
                     ViewBag.Message = Resources.Messages.PurchasePaymentRemainingAmountError;

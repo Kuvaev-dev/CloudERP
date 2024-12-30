@@ -1,11 +1,12 @@
 ﻿using Domain.Models.Forecasting;
+using Domain.RepositoryAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace DatabaseAccess.Repositories
 {
-    public class ForecastingRepository
+    public class ForecastingRepository : IForecastingRepository
     {
         private readonly CloudDBEntities _dbContext;
 

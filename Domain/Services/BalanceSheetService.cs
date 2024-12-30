@@ -5,7 +5,12 @@ using System.Threading.Tasks;
 
 namespace Domain.Services
 {
-    public class BalanceSheetService
+    public interface IBalanceSheetService
+    {
+        Task<BalanceSheetModel> GetBalanceSheetAsync(int companyId, int branchId, int financialYearId, List<int> headIds);
+    }
+
+    public class BalanceSheetService : IBalanceSheetService
     {
         private readonly IBalanceSheetRepository _balanceSheetRepository;
 

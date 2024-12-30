@@ -24,13 +24,11 @@ namespace CloudERP.Controllers
         // GET: SaleCart/NewSale
         public async Task<ActionResult> NewSale()
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 var findDetail = await _saleCartFacade.SaleCartDetailRepository.GetByDefaultSettingAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID, _sessionHelper.UserID);
 
                 double totalAmount = findDetail.Sum(item => item.SaleQuantity * item.SaleUnitPrice);
@@ -69,13 +67,11 @@ namespace CloudERP.Controllers
         [HttpPost]
         public async Task<ActionResult> AddItem(int PID, int Qty, float Price)
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 var checkQty = await _saleCartFacade.StockRepository.GetByIdAsync(PID);
                 if (Qty > checkQty.Quantity)
                 {
@@ -120,13 +116,11 @@ namespace CloudERP.Controllers
         [HttpPost]
         public async Task<ActionResult> DeleteConfirm(int id)
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 var product = await _saleCartFacade.SaleCartDetailRepository.GetByIdAsync(id);
                 if (product != null)
                 {
@@ -149,13 +143,11 @@ namespace CloudERP.Controllers
         [HttpPost]
         public async Task<ActionResult> GetProduct()
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 var productEntities = await _saleCartFacade.StockRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
                 List<ProductMV> products = productEntities
                     .Select(item => new ProductMV()
@@ -178,6 +170,9 @@ namespace CloudERP.Controllers
         [HttpPost]
         public async Task<ActionResult> GetProductDetails(int? id)
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
                 var product = await _saleCartFacade.StockRepository.GetByIdAsync((int)id);
@@ -201,13 +196,11 @@ namespace CloudERP.Controllers
         [HttpPost]
         public async Task<ActionResult> CancelSale()
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 var saleDetails = await _saleCartFacade.SaleCartDetailRepository.GetByDefaultSettingAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID, _sessionHelper.UserID);
                 await _saleCartFacade.SaleCartDetailRepository.DeleteAsync(saleDetails);
 
@@ -225,14 +218,12 @@ namespace CloudERP.Controllers
         // GET: SaleCart/SelectCustomer
         public async Task<ActionResult> SelectCustomer()
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
                 Session["ErrorMessageSale"] = string.Empty;
-
-                if (_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
 
                 var saleDetails = await _saleCartFacade.SaleCartDetailRepository.GetByCompanyAndBranchAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID);
                 if (saleDetails == null)
@@ -255,13 +246,11 @@ namespace CloudERP.Controllers
         [HttpPost]
         public async Task<ActionResult> SaleConfirm(FormCollection collection)
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 int customerID = 0;
                 bool IsPayment = false;
                 string[] keys = collection.AllKeys;

@@ -23,13 +23,11 @@ namespace CloudERP.Controllers
 
         public async Task<ActionResult> GetLedger()
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 await PopulateViewBag();
 
                 var defaultFinancialYear = await _financialYearRepository.GetSingleActiveAsync();
@@ -50,13 +48,11 @@ namespace CloudERP.Controllers
         [HttpPost]
         public async Task<ActionResult> GetLedger(int id)
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 await PopulateViewBagWithId(id);
 
                 return View(await _ledgerRepository.GetLedgerAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID, id));

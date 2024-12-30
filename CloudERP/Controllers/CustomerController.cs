@@ -1,8 +1,8 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
-using CloudERP.Models;
 using Domain.Models;
 using Domain.RepositoryAccess;
 
@@ -24,8 +24,16 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            var customers = await _customerRepository.GetAllAsync();
-            return View(customers);
+            try
+            {
+                var customers = await _customerRepository.GetAllAsync();
+                return View(customers);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         public async Task<ActionResult> Index()
@@ -33,8 +41,16 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            var customers = await _customerRepository.GetByCompanyAndBranchAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
-            return View(customers);
+            try
+            {
+                var customers = await _customerRepository.GetByCompanyAndBranchAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                return View(customers);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         public async Task<ActionResult> SubBranchCustomer()
@@ -42,7 +58,15 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            return View(await _customerRepository.GetByBranchesAsync(_sessionHelper.BranchID));
+            try
+            {
+                return View(await _customerRepository.GetByBranchesAsync(_sessionHelper.BranchID));
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         public async Task<ActionResult> Details(int? id) => await GetCustomerDetails(id);
@@ -54,13 +78,21 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            try
+            {
+                if (id == null)
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var customer = await _customerRepository.GetByIdAsync(id.Value);
-            if (customer == null) return HttpNotFound();
+                var customer = await _customerRepository.GetByIdAsync(id.Value);
+                if (customer == null) return HttpNotFound();
 
-            return View(customer);
+                return View(customer);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         public ActionResult Create()
@@ -78,17 +110,25 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            if (ModelState.IsValid)
+            try
             {
-                model.CompanyID = _sessionHelper.CompanyID;
-                model.BranchID = _sessionHelper.BranchID;
-                model.UserID = _sessionHelper.UserID;
+                if (ModelState.IsValid)
+                {
+                    model.CompanyID = _sessionHelper.CompanyID;
+                    model.BranchID = _sessionHelper.BranchID;
+                    model.UserID = _sessionHelper.UserID;
 
-                await _customerRepository.AddAsync(model);
-                return RedirectToAction("Index");
+                    await _customerRepository.AddAsync(model);
+                    return RedirectToAction("Index");
+                }
+
+                return View(model);
             }
-
-            return View(model);
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         public async Task<ActionResult> Edit(int id)
@@ -96,10 +136,18 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            var customer = await _customerRepository.GetByIdAsync(id);
-            if (customer == null) return HttpNotFound();
+            try
+            {
+                var customer = await _customerRepository.GetByIdAsync(id);
+                if (customer == null) return HttpNotFound();
 
-            return View(customer);
+                return View(customer);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         [HttpPost]
@@ -109,13 +157,21 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            if (ModelState.IsValid)
+            try
             {
-                await _customerRepository.UpdateAsync(model);
-                return RedirectToAction("Index");
-            }
+                if (ModelState.IsValid)
+                {
+                    await _customerRepository.UpdateAsync(model);
+                    return RedirectToAction("Index");
+                }
 
-            return View(model);
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
     }
 }

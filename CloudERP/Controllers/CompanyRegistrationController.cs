@@ -2,7 +2,6 @@
 using CloudERP.Helpers;
 using CloudERP.Models;
 using Domain.Models;
-using Domain.RepositoryAccess;
 using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -12,18 +11,15 @@ namespace CloudERP.Controllers
     public class CompanyRegistrationController : Controller
     {
         private readonly CompanyRegistrationFacade _companyRegistrationFacade;
-        private readonly EmailService _emailService;
         private readonly SessionHelper _sessionHelper;
         private readonly PasswordHelper _passwordHelper;
 
         public CompanyRegistrationController(
             CompanyRegistrationFacade companyRegistrationFacade,
-            EmailService emailService,
             SessionHelper sessionHelper,
             PasswordHelper passwordHelper)
         {
             _companyRegistrationFacade = companyRegistrationFacade;
-            _emailService = emailService;
             _sessionHelper = sessionHelper;
             _passwordHelper = passwordHelper;
         }
@@ -32,9 +28,7 @@ namespace CloudERP.Controllers
         public ActionResult RegistrationForm()
         {
             if (!_sessionHelper.IsAuthenticated)
-            {
                 return RedirectToAction("Login", "Home");
-            }
 
             return View(new RegistrationMV());
         }
@@ -45,9 +39,7 @@ namespace CloudERP.Controllers
         public async Task<ActionResult> RegistrationForm(RegistrationMV model)
         {
             if (!_sessionHelper.IsAuthenticated)
-            {
                 return RedirectToAction("Login", "Home");
-            }
 
             if (!ModelState.IsValid)
             {
@@ -125,7 +117,7 @@ namespace CloudERP.Controllers
                            $"Email: {employee.Email}\n" +
                            $"Contact No: {employee.ContactNumber}\n\n" +
                            $"Best regards,\nCompany Team";
-                _emailService.SendEmail(employee.Email, subject, body);
+                _companyRegistrationFacade.EmailService.SendEmail(employee.Email, subject, body);
 
                 ViewBag.Message = Resources.Messages.RegistrationSuccessful;
                 return RedirectToAction("Login", "Home");

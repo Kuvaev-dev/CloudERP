@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
@@ -24,8 +25,16 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            var suppliers = await _supplierRepository.GetAllAsync();
-            return View(suppliers);
+            try
+            {
+                var suppliers = await _supplierRepository.GetAllAsync();
+                return View(suppliers);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // GET: Supplier
@@ -34,11 +43,16 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            int companyID = _sessionHelper.CompanyID;
-            int branchID = _sessionHelper.BranchID;
-
-            var suppliers = await _supplierRepository.GetByCompanyAndBranchAsync(companyID, branchID);
-            return View(suppliers);
+            try
+            {
+                var suppliers = await _supplierRepository.GetByCompanyAndBranchAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                return View(suppliers);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // GET: Sub Branch Supplier
@@ -47,41 +61,72 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            int branchID = _sessionHelper.BrchID;
-            var branchSuppliers = await _supplierRepository.GetSuppliersByBranchesAsync(branchID);
-
-            return View(branchSuppliers);
+            try
+            {
+                var branchSuppliers = await _supplierRepository.GetSuppliersByBranchesAsync(_sessionHelper.BrchID);
+                return View(branchSuppliers);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // GET: Supplier/Details/5
         public async Task<ActionResult> Details(int? id)
         {
-            if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
 
-            var supplier = await _supplierRepository.GetByIdAsync(id.Value);
-            if (supplier == null)
-                return HttpNotFound();
+            try
+            {
+                if (id == null)
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            return View(supplier);
+                var supplier = await _supplierRepository.GetByIdAsync(id.Value);
+                if (supplier == null)
+                    return HttpNotFound();
+
+                return View(supplier);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // GET: Supplier/SupplierDetails/5
         public async Task<ActionResult> SupplierDetails(int? id)
         {
-            if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
 
-            var supplier = await _supplierRepository.GetByIdAsync(id.Value);
-            if (supplier == null)
-                return HttpNotFound();
+            try
+            {
+                if (id == null)
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            return View(supplier);
+                var supplier = await _supplierRepository.GetByIdAsync(id.Value);
+                if (supplier == null)
+                    return HttpNotFound();
+
+                return View(supplier);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // GET: Supplier/Create
         public ActionResult Create()
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             return View(new Supplier());
         }
 
@@ -93,39 +138,58 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            model.CompanyID = _sessionHelper.CompanyID;
-            model.BranchID = _sessionHelper.BranchID;
-            model.UserID = _sessionHelper.UserID;
-
-            if (ModelState.IsValid)
+            try
             {
-                var existingSupplier = await _supplierRepository.GetByNameAndContactAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID, model.SupplierName, model.SupplierConatctNo);
-                if (existingSupplier == null)
-                {
-                    await _supplierRepository.AddAsync(model);
+                model.CompanyID = _sessionHelper.CompanyID;
+                model.BranchID = _sessionHelper.BranchID;
+                model.UserID = _sessionHelper.UserID;
 
-                    return RedirectToAction("Index");
-                }
-                else
+                if (ModelState.IsValid)
                 {
-                    ViewBag.Message = Resources.Messages.AlreadyExists;
+                    var existingSupplier = await _supplierRepository.GetByNameAndContactAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID, model.SupplierName, model.SupplierConatctNo);
+                    if (existingSupplier == null)
+                    {
+                        await _supplierRepository.AddAsync(model);
+
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ViewBag.Message = Resources.Messages.AlreadyExists;
+                    }
                 }
+
+                return View(model);
             }
-
-            return View(model);
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // GET: Supplier/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
-            if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
 
-            var supplier = await _supplierRepository.GetByIdAsync(id.Value);
-            if (supplier == null)
-                return HttpNotFound();
+            try
+            {
+                if (id == null)
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            return View(supplier);
+                var supplier = await _supplierRepository.GetByIdAsync(id.Value);
+                if (supplier == null)
+                    return HttpNotFound();
+
+                return View(supplier);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // POST: Supplier/Edit/5
@@ -136,25 +200,33 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            int userID = _sessionHelper.UserID;
-            model.UserID = userID;
-
-            if (ModelState.IsValid)
+            try
             {
-                var existingSupplier = await _supplierRepository.GetByNameAndContactAsync(model.CompanyID, model.BranchID, model.SupplierName, model.SupplierConatctNo);
-                if (existingSupplier == null || existingSupplier.SupplierID == model.SupplierID)
-                {
-                    await _supplierRepository.UpdateAsync(model);
+                int userID = _sessionHelper.UserID;
+                model.UserID = userID;
 
-                    return RedirectToAction("Index");
-                }
-                else
+                if (ModelState.IsValid)
                 {
-                    ViewBag.Message = Resources.Messages.AlreadyExists;
+                    var existingSupplier = await _supplierRepository.GetByNameAndContactAsync(model.CompanyID, model.BranchID, model.SupplierName, model.SupplierConatctNo);
+                    if (existingSupplier == null || existingSupplier.SupplierID == model.SupplierID)
+                    {
+                        await _supplierRepository.UpdateAsync(model);
+
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ViewBag.Message = Resources.Messages.AlreadyExists;
+                    }
                 }
+
+                return View(model);
             }
-
-            return View(model);
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
@@ -26,11 +27,19 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            var branches = _sessionHelper.BranchTypeID == 1
+            try
+            {
+                var branches = _sessionHelper.BranchTypeID == 1
                 ? await _branchRepository.GetByCompanyAsync(_sessionHelper.CompanyID)
                 : await _branchRepository.GetSubBranchAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
 
-            return View(branches);
+                return View(branches);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // GET: Branch/Create
@@ -39,9 +48,17 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            await PopulateViewBags(_sessionHelper.CompanyID);
+            try
+            {
+                await PopulateViewBags(_sessionHelper.CompanyID);
 
-            return View(new Branch());
+                return View(new Branch());
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         private async Task<bool> CheckBranchExistsAsync(Branch branch, bool isEdit = false)
@@ -62,23 +79,31 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            model.CompanyID = _sessionHelper.CompanyID;
-
-            if (ModelState.IsValid)
+            try
             {
-                if (await CheckBranchExistsAsync(model))
+                model.CompanyID = _sessionHelper.CompanyID;
+
+                if (ModelState.IsValid)
                 {
-                    ModelState.AddModelError("", Resources.Messages.BranchEists);
-                    await PopulateViewBags(_sessionHelper.CompanyID);
-                    return View(model);
+                    if (await CheckBranchExistsAsync(model))
+                    {
+                        ModelState.AddModelError("", Resources.Messages.BranchEists);
+                        await PopulateViewBags(_sessionHelper.CompanyID);
+                        return View(model);
+                    }
+
+                    await _branchRepository.AddAsync(model);
+                    return RedirectToAction("Index");
                 }
 
-                await _branchRepository.AddAsync(model);
-                return RedirectToAction("Index");
+                await PopulateViewBags(_sessionHelper.CompanyID);
+                return View(model);
             }
-
-            await PopulateViewBags(_sessionHelper.CompanyID);
-            return View(model);
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // GET: Branch/Edit/5
@@ -87,12 +112,20 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            var branch = await _branchRepository.GetByIdAsync(id);
-            if (branch == null) return HttpNotFound();
+            try
+            {
+                var branch = await _branchRepository.GetByIdAsync(id);
+                if (branch == null) return HttpNotFound();
 
-            await PopulateViewBags(_sessionHelper.CompanyID, branch.ParentBranchID, branch.BranchTypeID);
+                await PopulateViewBags(_sessionHelper.CompanyID, branch.ParentBranchID, branch.BranchTypeID);
 
-            return View(branch);
+                return View(branch);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // POST: Branch/Edit/5
@@ -103,23 +136,31 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            model.CompanyID = _sessionHelper.CompanyID;
-
-            if (ModelState.IsValid)
+            try
             {
-                if (await CheckBranchExistsAsync(model, isEdit: true))
+                model.CompanyID = _sessionHelper.CompanyID;
+
+                if (ModelState.IsValid)
                 {
-                    ModelState.AddModelError("", Resources.Messages.BranchEists);
-                    await PopulateViewBags(_sessionHelper.CompanyID, model.ParentBranchID, model.BranchTypeID);
-                    return View(model);
+                    if (await CheckBranchExistsAsync(model, isEdit: true))
+                    {
+                        ModelState.AddModelError("", Resources.Messages.BranchEists);
+                        await PopulateViewBags(_sessionHelper.CompanyID, model.ParentBranchID, model.BranchTypeID);
+                        return View(model);
+                    }
+
+                    await _branchRepository.UpdateAsync(model);
+                    return RedirectToAction("Index");
                 }
 
-                await _branchRepository.UpdateAsync(model);
-                return RedirectToAction("Index");
+                await PopulateViewBags(_sessionHelper.CompanyID, model.ParentBranchID, model.BranchTypeID);
+                return View(model);
             }
-
-            await PopulateViewBags(_sessionHelper.CompanyID, model.ParentBranchID, model.BranchTypeID);
-            return View(model);
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         private async Task PopulateViewBags(int companyID, int? selectedParentBranchID = null, int? selectedBranchTypeID = null)

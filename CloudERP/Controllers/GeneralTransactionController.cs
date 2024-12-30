@@ -22,13 +22,11 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SaveGeneralTransaction(GeneralTransactionMV transaction)
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 if (ModelState.IsValid)
                 {
                     string payInvoiceNo = "GEN" + DateTime.Now.ToString("yyyyMMddHHmmssmm");

@@ -77,6 +77,7 @@
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -85,10 +86,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EntryAccess\IPurchaseEntry.cs" />
-    <Compile Include="EntryAccess\ISaleEntry.cs" />
     <Compile Include="Helpers\AllowedDomainsAttribute.cs" />
-    <Compile Include="Helpers\FileHelper.cs" />
+    <Compile Include="Helpers\PasswordHelper.cs" />
     <Compile Include="Models\AccountActivity.cs" />
     <Compile Include="Models\AccountControl.cs" />
     <Compile Include="Models\AccountHead.cs" />
@@ -101,6 +100,10 @@
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\CustomerInvoice.cs" />
     <Compile Include="Models\CustomerInvoiceDetail.cs" />
+    <Compile Include="Models\CustomerPayment.cs" />
+    <Compile Include="Models\CustomerReturnInvoice.cs" />
+    <Compile Include="Models\CustomerReturnInvoiceDetail.cs" />
+    <Compile Include="Models\CustomerReturnPayment.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\EmployeeStatistics.cs" />
     <Compile Include="Models\FinancialModels\AccountLedgerModel.cs" />
@@ -111,6 +114,7 @@
     <Compile Include="Models\FinancialModels\IncomeStatementModel.cs" />
     <Compile Include="Models\FinancialModels\JournalModel.cs" />
     <Compile Include="Models\FinancialModels\PurchasePaymentModel.cs" />
+    <Compile Include="Models\FinancialModels\Salary.cs" />
     <Compile Include="Models\FinancialModels\SalePaymentModel.cs" />
     <Compile Include="Models\FinancialModels\SupplierReturnInvoiceModel.cs" />
     <Compile Include="Models\FinancialModels\TrialBalanceModel.cs" />
@@ -144,7 +148,11 @@
     <Compile Include="RepositoryAccess\ICompanyRepository.cs" />
     <Compile Include="RepositoryAccess\ICustomerInvoiceDetailRepository.cs" />
     <Compile Include="RepositoryAccess\ICustomerInvoiceRepository.cs" />
+    <Compile Include="RepositoryAccess\ICustomerPaymentRepository.cs" />
     <Compile Include="RepositoryAccess\ICustomerRepository.cs" />
+    <Compile Include="RepositoryAccess\ICustomerReturnInvoiceDetailRepository.cs" />
+    <Compile Include="RepositoryAccess\ICustomerReturnInvoiceRepository.cs" />
+    <Compile Include="RepositoryAccess\ICustomerReturnPaymentRepository.cs" />
     <Compile Include="RepositoryAccess\IDashboardRepository.cs" />
     <Compile Include="RepositoryAccess\IEmployeeRepository.cs" />
     <Compile Include="RepositoryAccess\IFinancialYearRepository.cs" />
@@ -171,11 +179,16 @@
     <Compile Include="RepositoryAccess\IUserRepository.cs" />
     <Compile Include="RepositoryAccess\IUserTypeRepository.cs" />
     <Compile Include="Services\BalanceSheetService.cs" />
+    <Compile Include="Services\EmployeeSalaryService.cs" />
+    <Compile Include="Services\FileService.cs" />
     <Compile Include="Services\IEmailService.cs" />
     <Compile Include="Services\EmployeeStatisticsService.cs" />
+    <Compile Include="Services\IForecastingService.cs" />
     <Compile Include="Services\IncomeStatementService.cs" />
+    <Compile Include="Services\PurchaseEntryService.cs" />
     <Compile Include="Services\ReminderService.cs" />
     <Compile Include="Services\SalaryTransactionService.cs" />
+    <Compile Include="Services\SaleEntryService.cs" />
     <Compile Include="Validations\Validations.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

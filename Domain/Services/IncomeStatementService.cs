@@ -6,7 +6,12 @@ using Domain.RepositoryAccess;
 
 namespace Domain.Services
 {
-    public class IncomeStatementService
+    public interface IIncomeStatementService
+    {
+        Task<IncomeStatementModel> GetIncomeStatementAsync(int companyID, int branchID, int financialYearID);
+    }
+
+    public class IncomeStatementService : IIncomeStatementService
     {
         private readonly IBalanceSheetRepository _balanceSheetRepository;
 

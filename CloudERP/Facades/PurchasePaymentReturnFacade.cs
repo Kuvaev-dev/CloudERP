@@ -1,5 +1,5 @@
-﻿using Domain.EntryAccess;
-using Domain.RepositoryAccess;
+﻿using Domain.RepositoryAccess;
+using Domain.Services;
 
 namespace CloudERP.Facades
 {
@@ -9,14 +9,14 @@ namespace CloudERP.Facades
         private readonly ISupplierRepository _supplierRepository;
         private readonly ISupplierReturnPaymentRepository _supplierReturnPaymentRepository;
         private readonly ISupplierReturnInvoiceRepository _supplierReturnInvoiceRepository;
-        private readonly IPurchaseEntry _purchaseEntry;
+        private readonly IPurchaseEntryService _purchaseEntry;
 
         public PurchasePaymentReturnFacade(
             IPurchaseRepository purchaseRepository,
             ISupplierRepository supplierRepository,
             ISupplierReturnPaymentRepository supplierReturnPaymentRepository,
             ISupplierReturnInvoiceRepository supplierReturnInvoiceRepository,
-            IPurchaseEntry purchaseEntry)
+            IPurchaseEntryService purchaseEntry)
         {
             _purchaseRepository = purchaseRepository;
             _supplierRepository = supplierRepository;
@@ -29,6 +29,6 @@ namespace CloudERP.Facades
         public ISupplierRepository SupplierRepository => _supplierRepository;
         public ISupplierReturnPaymentRepository SupplierReturnPaymentRepository => _supplierReturnPaymentRepository;
         public ISupplierReturnInvoiceRepository SupplierReturnInvoiceRepository => _supplierReturnInvoiceRepository;
-        public IPurchaseEntry PurchaseEntry => _purchaseEntry;
+        public IPurchaseEntryService PurchaseEntry => _purchaseEntry;
     }
 }

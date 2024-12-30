@@ -1,21 +1,25 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
 using CloudERP.Models;
 using Domain.RepositoryAccess;
+using Domain.Services;
 
 namespace CloudERP.Controllers
 {
     public class CompanyController : Controller
     {
         private readonly ICompanyRepository _companyRepository;
+        private readonly IFileService _fileService;
         private readonly SessionHelper _sessionHelper;
 
-        public CompanyController(ICompanyRepository companyRepository, SessionHelper sessionHelper)
+        public CompanyController(ICompanyRepository companyRepository, IFileService fileService, SessionHelper sessionHelper)
         {
             _companyRepository = companyRepository;
+            _fileService = fileService;
             _sessionHelper = sessionHelper;
         }
 
@@ -25,9 +29,16 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            var companies = await _companyRepository.GetAllAsync();
-
-            return View(companies);
+            try
+            {
+                var companies = await _companyRepository.GetAllAsync();
+                return View(companies);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // GET: Company/Details/5
@@ -36,13 +47,21 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            try
+            {
+                if (id == null)
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var company = await _companyRepository.GetByIdAsync(id.Value);
-            if (company == null) return HttpNotFound();
+                var company = await _companyRepository.GetByIdAsync(id.Value);
+                if (company == null) return HttpNotFound();
 
-            return View(company);
+                return View(company);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // GET: Company/Create
@@ -78,22 +97,25 @@ namespace CloudERP.Controllers
                         return View(model);
                     }
 
+                    // Загрузка фото через сервис
+                    var folder = "~/Content/CompanyLogo";
+                    var fileName = $"{model.Company.Name}.jpg";
                     model.Company.Logo = model.LogoFile != null
-                        ? Domain.Helpers.FileHelper.UploadPhoto(model.LogoFile, "~/Content/CompanyLogo", $"{model.Company.Name}.jpg")
-                        : "~/Content/CompanyLogo/erp-logo.png";
+                        ? _fileService.UploadPhoto(model.LogoFile, folder, fileName)
+                        : _fileService.SetDefaultPhotoPath("~/Content/CompanyLogo/erp-logo.png");
 
                     await _companyRepository.AddAsync(model.Company);
 
                     return RedirectToAction("Index");
                 }
+
+                return View(model);
             }
             catch
             {
                 TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage;
                 return RedirectToAction("EP500", "EP");
             }
-
-            return View(model);
         }
 
         // GET: Company/Edit/5
@@ -102,13 +124,21 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            if (id == null)
+            try
+            {
+                if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var company = await _companyRepository.GetByIdAsync(id.Value);
-            if (company == null) return HttpNotFound();
+                var company = await _companyRepository.GetByIdAsync(id.Value);
+                if (company == null) return HttpNotFound();
 
-            return View(company);
+                return View(company);
+            }
+            catch
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // POST: Company/Edit/5
@@ -125,22 +155,25 @@ namespace CloudERP.Controllers
                 {
                     if (model.LogoFile != null)
                     {
-                        var filePath = Domain.Helpers.FileHelper.UploadPhoto(model.LogoFile, "~/Content/CompanyLogo", $"{model.Company.CompanyID}.jpg");
-                        model.Company.Logo = filePath ?? model.Company.Logo;
+                        var folder = "~/Content/CompanyLogo";
+                        var fileName = $"{model.Company.CompanyID}.jpg";
+                        var photoPath = _fileService.UploadPhoto(model.LogoFile, folder, fileName);
+
+                        model.Company.Logo = photoPath ?? model.Company.Logo;
                     }
 
                     await _companyRepository.UpdateAsync(model.Company);
 
                     return RedirectToAction("Index");
                 }
+
+                return View(model);
             }
             catch
             {
                 TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage;
                 return RedirectToAction("EP500", "EP");
             }
-
-            return View(model);
         }
     }
 }

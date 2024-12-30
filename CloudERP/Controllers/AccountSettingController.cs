@@ -26,16 +26,34 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            var settings = await _accountSettingFacade.AccountSettingRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
-            return View(settings);
+            try
+            {
+                var settings = await _accountSettingFacade.AccountSettingRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                return View(settings);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            return View(new AccountSetting());
+            try
+            {
+                await PopulateDropdowns();
+
+                return View(new AccountSetting());
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         [HttpPost]
@@ -45,18 +63,26 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            if (ModelState.IsValid)
+            try
             {
-                model.CompanyID = _sessionHelper.CompanyID;
-                model.BranchID = _sessionHelper.BranchID;
+                if (ModelState.IsValid)
+                {
+                    model.CompanyID = _sessionHelper.CompanyID;
+                    model.BranchID = _sessionHelper.BranchID;
 
-                await _accountSettingFacade.AccountSettingRepository.AddAsync(model);
+                    await _accountSettingFacade.AccountSettingRepository.AddAsync(model);
 
-                TempData["SuccessMessage"] = "Account Setting successfully created.";
-                return RedirectToAction("Index");
+                    TempData["SuccessMessage"] = "Account Setting successfully created.";
+                    return RedirectToAction("Index");
+                }
+
+                return View(model);
             }
-
-            return View(model);
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         public async Task<ActionResult> Edit(int id)
@@ -64,11 +90,19 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            var setting = await _accountSettingFacade.AccountSettingRepository.GetByIdAsync(id);
-            if (setting == null)
-                return HttpNotFound();
+            try
+            {
+                var setting = await _accountSettingFacade.AccountSettingRepository.GetByIdAsync(id);
+                if (setting == null)
+                    return HttpNotFound();
 
-            return View(setting);
+                return View(setting);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         [HttpPost]
@@ -78,18 +112,26 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            if (ModelState.IsValid)
+            try
             {
-                model.CompanyID = _sessionHelper.CompanyID;
-                model.BranchID = _sessionHelper.BranchID;
+                if (ModelState.IsValid)
+                {
+                    model.CompanyID = _sessionHelper.CompanyID;
+                    model.BranchID = _sessionHelper.BranchID;
 
-                await _accountSettingFacade.AccountSettingRepository.UpdateAsync(model);
+                    await _accountSettingFacade.AccountSettingRepository.UpdateAsync(model);
 
-                TempData["SuccessMessage"] = "Account Setting successfully updated.";
-                return RedirectToAction("Index");
+                    TempData["SuccessMessage"] = "Account Setting successfully updated.";
+                    return RedirectToAction("Index");
+                }
+
+                return View(model);
             }
-
-            return View(model);
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         [HttpGet]

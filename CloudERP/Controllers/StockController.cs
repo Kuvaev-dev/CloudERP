@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
@@ -26,21 +27,40 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            var stocks = await _stockRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
-            return View(stocks);
+            try
+            {
+                var stocks = await _stockRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                return View(stocks);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // GET: Stock/Details/5
         public async Task<ActionResult> Details(int? id)
         {
-            if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
 
-            var stock = await _stockRepository.GetByIdAsync(id.Value);
-            if (stock == null)
-                return HttpNotFound();
+            try
+            {
+                if (id == null)
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            return View(stock);
+                var stock = await _stockRepository.GetByIdAsync(id.Value);
+                if (stock == null)
+                    return HttpNotFound();
+
+                return View(stock);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // GET: Stock/Create
@@ -49,10 +69,18 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            var categories = await _categoryRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
-            ViewBag.CategoryID = new SelectList(categories, "CategoryID", "CategoryName");
+            try
+            {
+                var categories = await _categoryRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                ViewBag.CategoryID = new SelectList(categories, "CategoryID", "CategoryName");
 
-            return View(new Stock());
+                return View(new Stock());
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // POST: Stock/Create
@@ -63,45 +91,64 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            model.CompanyID = _sessionHelper.CompanyID;
-            model.BranchID = _sessionHelper.BranchID;
-            model.UserID = _sessionHelper.UserID;
-
-            if (ModelState.IsValid)
+            try
             {
-                var existingStock = await _stockRepository.GetByProductNameAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID, model.ProductName);
-                if (existingStock == null)
-                {
-                    await _stockRepository.AddAsync(model);
+                model.CompanyID = _sessionHelper.CompanyID;
+                model.BranchID = _sessionHelper.BranchID;
+                model.UserID = _sessionHelper.UserID;
 
-                    return RedirectToAction("Index");
-                }
-                else
+                if (ModelState.IsValid)
                 {
-                    ViewBag.Message = Resources.Messages.AlreadyExists;
+                    var existingStock = await _stockRepository.GetByProductNameAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID, model.ProductName);
+                    if (existingStock == null)
+                    {
+                        await _stockRepository.AddAsync(model);
+
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ViewBag.Message = Resources.Messages.AlreadyExists;
+                    }
                 }
+
+                var categories = await _categoryRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                ViewBag.CategoryID = new SelectList(categories, "CategoryID", "CategoryName", model.CategoryID);
+
+                return View(model);
             }
-
-            var categories = await _categoryRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
-            ViewBag.CategoryID = new SelectList(categories, "CategoryID", "CategoryName", model.CategoryID);
-
-            return View(model);
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // GET: Stock/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
-            if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
 
-            var stock = await _stockRepository.GetByIdAsync(id.Value);
-            if (stock == null)
-                return HttpNotFound();
+            try
+            {
+                if (id == null)
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var categories = await _categoryRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
-            ViewBag.CategoryID = new SelectList(categories, "CategoryID", "CategoryName", stock.CategoryID);
+                var stock = await _stockRepository.GetByIdAsync(id.Value);
+                if (stock == null)
+                    return HttpNotFound();
 
-            return View(stock);
+                var categories = await _categoryRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                ViewBag.CategoryID = new SelectList(categories, "CategoryID", "CategoryName", stock.CategoryID);
+
+                return View(stock);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // POST: Stock/Edit/5
@@ -112,28 +159,36 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            int userID = _sessionHelper.UserID;
-            model.UserID = userID;
-
-            if (ModelState.IsValid)
+            try
             {
-                var existingStock = await _stockRepository.GetByProductNameAsync(model.CompanyID, model.BranchID, model.ProductName);
-                if (existingStock == null || existingStock.ProductID == model.ProductID)
-                {
-                    await _stockRepository.UpdateAsync(model);
+                int userID = _sessionHelper.UserID;
+                model.UserID = userID;
 
-                    return RedirectToAction("Index");
-                }
-                else
+                if (ModelState.IsValid)
                 {
-                    ViewBag.Message = Resources.Messages.AlreadyExists;
+                    var existingStock = await _stockRepository.GetByProductNameAsync(model.CompanyID, model.BranchID, model.ProductName);
+                    if (existingStock == null || existingStock.ProductID == model.ProductID)
+                    {
+                        await _stockRepository.UpdateAsync(model);
+
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ViewBag.Message = Resources.Messages.AlreadyExists;
+                    }
                 }
+
+                var categories = await _categoryRepository.GetAllAsync(model.CompanyID, model.BranchID);
+                ViewBag.CategoryID = new SelectList(categories, "CategoryID", "CategoryName", model.CategoryID);
+
+                return View(model);
             }
-
-            var categories = await _categoryRepository.GetAllAsync(model.CompanyID, model.BranchID);
-            ViewBag.CategoryID = new SelectList(categories, "CategoryID", "CategoryName", model.CategoryID);
-
-            return View(model);
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
     }
 }

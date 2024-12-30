@@ -1,13 +1,18 @@
-﻿using DatabaseAccess.Services;
-using Domain.Models.Forecasting;
+﻿using Domain.Models.Forecasting;
 using Microsoft.ML;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CloudERP.Helpers
+namespace DatabaseAccess.Services
 {
-    public class FinancialForecaster
+    public interface IFinancialForecaster
+    {
+        ITransformer TrainModel(IEnumerable<ForecastData> data);
+        double Predict(ITransformer model, ForecastData data);
+    }
+
+    public class FinancialForecaster : IFinancialForecaster
     {
         private readonly MLContext _mlContext;
 

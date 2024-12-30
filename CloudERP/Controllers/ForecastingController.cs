@@ -1,6 +1,7 @@
 ﻿using CloudERP.Helpers;
 using Domain.Models.Forecasting;
 using Domain.RepositoryAccess;
+using Domain.Services;
 using System;
 using System.Linq;
 using System.Web.Mvc;
@@ -10,10 +11,10 @@ namespace CloudERP.Controllers
     public class ForecastingController : Controller
     {
         private readonly IForecastingRepository _forecastingRepository;
-        private readonly ForecastingService _forecastingService;
+        private readonly IForecastingService _forecastingService;
         private readonly SessionHelper _sessionHelper;
 
-        public ForecastingController(IForecastingRepository forecastingRepository, ForecastingService forecastingService, SessionHelper sessionHelper)
+        public ForecastingController(IForecastingRepository forecastingRepository, IForecastingService forecastingService, SessionHelper sessionHelper)
         {
             _forecastingRepository = forecastingRepository;
             _forecastingService = forecastingService;
@@ -23,9 +24,7 @@ namespace CloudERP.Controllers
         public ActionResult Index()
         {
             if (!_sessionHelper.IsAuthenticated)
-            {
                 return RedirectToAction("Login", "Home");
-            }
 
             return View(new ForecastInputModel
             {
@@ -38,9 +37,7 @@ namespace CloudERP.Controllers
         public ActionResult GenerateForecast(ForecastInputModel inputModel)
         {
             if (!_sessionHelper.IsAuthenticated)
-            {
                 return RedirectToAction("Login", "Home");
-            }
 
             try
             {

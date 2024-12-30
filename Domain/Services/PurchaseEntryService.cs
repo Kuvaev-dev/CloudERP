@@ -1,12 +1,19 @@
-﻿using Domain.EntryAccess;
-using Domain.RepositoryAccess;
+﻿using Domain.RepositoryAccess;
 using System;
 using System.Data;
 using System.Threading.Tasks;
 
-namespace DatabaseAccess.Code
+namespace Domain.Services
 {
-    public class PurchaseEntry : IPurchaseEntry
+    public interface IPurchaseEntryService
+    {
+        Task<string> ConfirmPurchase(int CompanyID, int BranchID, int UserID, string InvoiceNo, string SupplierInvoiceID, float Amount, string SupplierID, string SupplierName, bool isPayment);
+        Task<string> PurchasePayment(int CompanyID, int BranchID, int UserID, string InvoiceNo, string SupplierInvoiceID, float TotalAmount, float Amount, string SupplierID, string SupplierName, float RemainingBalance);
+        Task<string> ReturnPurchase(int CompanyID, int BranchID, int UserID, string InvoiceNo, string SupplierInvoiceID, int SupplierReturnInvoiceID, float Amount, string SupplierID, string SupplierName, bool isPayment);
+        Task<string> ReturnPurchasePayment(int CompanyID, int BranchID, int UserID, string InvoiceNo, string SupplierInvoiceID, int SupplierReturnInvoiceID, float TotalAmount, float Amount, string SupplierID, string SupplierName, float RemainingBalance);
+    }
+
+    internal class PurchaseEntryService : IPurchaseEntryService
     {
         private readonly IAccountSettingRepository _accountSettingRepository;
         private readonly IPurchaseRepository _purchaseRepository;
@@ -15,7 +22,7 @@ namespace DatabaseAccess.Code
         public string selectsupplierid = string.Empty;
         private readonly DataTable _dtEntries = null;
 
-        public PurchaseEntry(IAccountSettingRepository accountSettingRepository, IPurchaseRepository purchaseRepository, IFinancialYearRepository financialYearRepository)
+        public PurchaseEntryService(IAccountSettingRepository accountSettingRepository, IPurchaseRepository purchaseRepository, IFinancialYearRepository financialYearRepository)
         {
             _accountSettingRepository = accountSettingRepository;
             _purchaseRepository = purchaseRepository;
@@ -43,14 +50,14 @@ namespace DatabaseAccess.Code
                 {
                     return Localization.Localization.AccountSettingsForPurchaseNotFound;
                 }
-                SetEntries(FinancialYearID, 
-                    purchaseAccount.AccountHeadID.ToString(), 
-                    purchaseAccount.AccountControlID.ToString(), 
-                    purchaseAccount.AccountSubControlID.ToString(), 
-                    InvoiceNo, UserID.ToString(), 
-                    "0", 
-                    Amount.ToString(), 
-                    DateTime.Now, 
+                SetEntries(FinancialYearID,
+                    purchaseAccount.AccountHeadID.ToString(),
+                    purchaseAccount.AccountControlID.ToString(),
+                    purchaseAccount.AccountSubControlID.ToString(),
+                    InvoiceNo, UserID.ToString(),
+                    "0",
+                    Amount.ToString(),
+                    DateTime.Now,
                     purchaseTitle);
 
                 // Credit Entry Purchase Payment Pending
@@ -60,15 +67,15 @@ namespace DatabaseAccess.Code
                 {
                     return Localization.Localization.AccountSettingsForPurchasePaymentPendingNotFound;
                 }
-                SetEntries(FinancialYearID, 
-                    purchaseAccount.AccountHeadID.ToString(), 
-                    purchaseAccount.AccountControlID.ToString(), 
+                SetEntries(FinancialYearID,
+                    purchaseAccount.AccountHeadID.ToString(),
+                    purchaseAccount.AccountControlID.ToString(),
                     purchaseAccount.AccountSubControlID.ToString(),
-                    InvoiceNo, 
-                    UserID.ToString(), 
-                    Amount.ToString(), 
-                    "0", 
-                    DateTime.Now, 
+                    InvoiceNo,
+                    UserID.ToString(),
+                    Amount.ToString(),
+                    "0",
+                    DateTime.Now,
                     SupplierName + ", Purchase Payment is Pending!");
 
                 if (isPayment)
@@ -82,15 +89,15 @@ namespace DatabaseAccess.Code
                     {
                         return Localization.Localization.AccountSettingsForPurchasePaymentPaidNotFound;
                     }
-                    SetEntries(FinancialYearID, 
-                        purchaseAccount.AccountHeadID.ToString(), 
-                        purchaseAccount.AccountControlID.ToString(), 
-                        purchaseAccount.AccountSubControlID.ToString(), 
-                        payInvoiceNo, 
-                        UserID.ToString(), 
-                        "0", 
-                        Amount.ToString(), 
-                        DateTime.Now, 
+                    SetEntries(FinancialYearID,
+                        purchaseAccount.AccountHeadID.ToString(),
+                        purchaseAccount.AccountControlID.ToString(),
+                        purchaseAccount.AccountSubControlID.ToString(),
+                        payInvoiceNo,
+                        UserID.ToString(),
+                        "0",
+                        Amount.ToString(),
+                        DateTime.Now,
                         "Payment Paid to " + SupplierName);
 
                     // Credit Entry Purchase Payment Success
@@ -100,15 +107,15 @@ namespace DatabaseAccess.Code
                     {
                         return Localization.Localization.AccountSettingsForPurchasePaymentSuccessNotFound;
                     }
-                    SetEntries(FinancialYearID, 
-                        purchaseAccount.AccountHeadID.ToString(), 
-                        purchaseAccount.AccountControlID.ToString(), 
-                        purchaseAccount.AccountSubControlID.ToString(), 
-                        payInvoiceNo, 
-                        UserID.ToString(), 
-                        Amount.ToString(), 
-                        "0", 
-                        DateTime.Now, 
+                    SetEntries(FinancialYearID,
+                        purchaseAccount.AccountHeadID.ToString(),
+                        purchaseAccount.AccountControlID.ToString(),
+                        purchaseAccount.AccountSubControlID.ToString(),
+                        payInvoiceNo,
+                        UserID.ToString(),
+                        Amount.ToString(),
+                        "0",
+                        DateTime.Now,
                         SupplierName + ", Purchase Payment is Succeed!");
 
                     return await _purchaseRepository.ConfirmPurchase(CompanyID, BranchID, UserID, SupplierInvoiceID, Amount, SupplierID, payInvoiceNo, 0);
@@ -144,15 +151,15 @@ namespace DatabaseAccess.Code
                 {
                     return Localization.Localization.AccountSettingsForPurchaseNotFound;
                 }
-                SetEntries(FinancialYearID, 
+                SetEntries(FinancialYearID,
                     purchaseAccount.AccountHeadID.ToString(),
                     purchaseAccount.AccountControlID.ToString(),
-                    purchaseAccount.AccountSubControlID.ToString(), 
-                    InvoiceNo, 
-                    UserID.ToString(), 
-                    "0", 
-                    Amount.ToString(), 
-                    DateTime.Now, 
+                    purchaseAccount.AccountSubControlID.ToString(),
+                    InvoiceNo,
+                    UserID.ToString(),
+                    "0",
+                    Amount.ToString(),
+                    DateTime.Now,
                     pruchaseTitle);
 
                 // Credit Entry Purchase Payment Pending
@@ -162,15 +169,15 @@ namespace DatabaseAccess.Code
                 {
                     return Localization.Localization.AccountSettingsForPurchasePaymentPendingNotFound;
                 }
-                SetEntries(FinancialYearID, 
-                    purchaseAccount.AccountHeadID.ToString(), 
-                    purchaseAccount.AccountControlID.ToString(), 
-                    purchaseAccount.AccountSubControlID.ToString(), 
-                    InvoiceNo, 
-                    UserID.ToString(), 
-                    Amount.ToString(), 
-                    "0", 
-                    DateTime.Now, 
+                SetEntries(FinancialYearID,
+                    purchaseAccount.AccountHeadID.ToString(),
+                    purchaseAccount.AccountControlID.ToString(),
+                    purchaseAccount.AccountSubControlID.ToString(),
+                    InvoiceNo,
+                    UserID.ToString(),
+                    Amount.ToString(),
+                    "0",
+                    DateTime.Now,
                     SupplierName + ", Purchase Payment is Pending!");
 
                 // Payment Process
@@ -185,15 +192,15 @@ namespace DatabaseAccess.Code
                     {
                         return Localization.Localization.AccountSettingsForPurchasePaymentPaidNotFound;
                     }
-                    SetEntries(FinancialYearID, 
-                        purchaseAccount.AccountHeadID.ToString(), 
-                        purchaseAccount.AccountControlID.ToString(), 
-                        purchaseAccount.AccountSubControlID.ToString(), 
-                        payInvoiceNo, 
-                        UserID.ToString(), 
-                        "0", 
-                        Amount.ToString(), 
-                        DateTime.Now, 
+                    SetEntries(FinancialYearID,
+                        purchaseAccount.AccountHeadID.ToString(),
+                        purchaseAccount.AccountControlID.ToString(),
+                        purchaseAccount.AccountSubControlID.ToString(),
+                        payInvoiceNo,
+                        UserID.ToString(),
+                        "0",
+                        Amount.ToString(),
+                        DateTime.Now,
                         "Payment Paid to " + SupplierName);
 
                     // Debit Entry Purchase Payment Success
@@ -203,15 +210,15 @@ namespace DatabaseAccess.Code
                     {
                         return Localization.Localization.AccountSettingsForPurchasePaymentSuccessNotFound;
                     }
-                    SetEntries(FinancialYearID, 
-                        purchaseAccount.AccountHeadID.ToString(), 
-                        purchaseAccount.AccountControlID.ToString(), 
-                        purchaseAccount.AccountSubControlID.ToString(), 
-                        payInvoiceNo, 
-                        UserID.ToString(), 
-                        Amount.ToString(), 
-                        "0", 
-                        DateTime.Now, 
+                    SetEntries(FinancialYearID,
+                        purchaseAccount.AccountHeadID.ToString(),
+                        purchaseAccount.AccountControlID.ToString(),
+                        purchaseAccount.AccountSubControlID.ToString(),
+                        payInvoiceNo,
+                        UserID.ToString(),
+                        Amount.ToString(),
+                        "0",
+                        DateTime.Now,
                         SupplierName + ", Purchase Payment is Succeed!");
 
                     // Insert payment record
@@ -252,15 +259,15 @@ namespace DatabaseAccess.Code
                 {
                     return Localization.Localization.AccountSettingsАForReturnPurchaseNotFound;
                 }
-                SetEntries(FinancialYearID, 
-                    returnPurchaseAccount.AccountHeadID.ToString(), 
-                    returnPurchaseAccount.AccountControlID.ToString(), 
-                    returnPurchaseAccount.AccountSubControlID.ToString(), 
-                    InvoiceNo, 
-                    UserID.ToString(), 
-                    Amount.ToString(), 
-                    "0", 
-                    DateTime.Now, 
+                SetEntries(FinancialYearID,
+                    returnPurchaseAccount.AccountHeadID.ToString(),
+                    returnPurchaseAccount.AccountControlID.ToString(),
+                    returnPurchaseAccount.AccountSubControlID.ToString(),
+                    InvoiceNo,
+                    UserID.ToString(),
+                    Amount.ToString(),
+                    "0",
+                    DateTime.Now,
                     returnPurchaseTitle);
 
                 // Debit Entry Return Purchase Payment Pending
@@ -271,15 +278,15 @@ namespace DatabaseAccess.Code
                     return Localization.Localization.AccountSettingsForPurchaseReturnPaymentPendingNotFound;
                 }
                 string pendingPaymentTitle = SupplierName + ", Return Purchase Payment is Pending!";
-                SetEntries(FinancialYearID, 
-                    returnPurchaseAccount.AccountHeadID.ToString(), 
-                    returnPurchaseAccount.AccountControlID.ToString(), 
-                    returnPurchaseAccount.AccountSubControlID.ToString(), 
-                    InvoiceNo, 
-                    UserID.ToString(), 
-                    "0", 
-                    Amount.ToString(), 
-                    DateTime.Now, 
+                SetEntries(FinancialYearID,
+                    returnPurchaseAccount.AccountHeadID.ToString(),
+                    returnPurchaseAccount.AccountControlID.ToString(),
+                    returnPurchaseAccount.AccountSubControlID.ToString(),
+                    InvoiceNo,
+                    UserID.ToString(),
+                    "0",
+                    Amount.ToString(),
+                    DateTime.Now,
                     pendingPaymentTitle);
 
                 if (isPayment)
@@ -294,15 +301,15 @@ namespace DatabaseAccess.Code
                         return Localization.Localization.AccountSettingsForPurchaseReturnPaymentPendingNotFound;
                     }
                     string paymentFromTitle = "Return Payment from " + SupplierName;
-                    SetEntries(FinancialYearID, 
-                        returnPurchaseAccount.AccountHeadID.ToString(), 
-                        returnPurchaseAccount.AccountControlID.ToString(), 
-                        returnPurchaseAccount.AccountSubControlID.ToString(), 
-                        payInvoiceNo, 
-                        UserID.ToString(), 
-                        Amount.ToString(), 
-                        "0", 
-                        DateTime.Now, 
+                    SetEntries(FinancialYearID,
+                        returnPurchaseAccount.AccountHeadID.ToString(),
+                        returnPurchaseAccount.AccountControlID.ToString(),
+                        returnPurchaseAccount.AccountSubControlID.ToString(),
+                        payInvoiceNo,
+                        UserID.ToString(),
+                        Amount.ToString(),
+                        "0",
+                        DateTime.Now,
                         paymentFromTitle);
 
                     // Credit Entry Purchase Return Payment Succeed
@@ -313,15 +320,15 @@ namespace DatabaseAccess.Code
                         return Localization.Localization.AccountSettingsForPurchaseReturnPaymentSucceedNotFound;
                     }
                     string paymentSuccessTitle = SupplierName + Localization.Localization.ReturnPurchasePaymentIsSucceed;
-                    SetEntries(FinancialYearID, 
-                        returnPurchaseAccount.AccountHeadID.ToString(), 
-                        returnPurchaseAccount.AccountControlID.ToString(), 
+                    SetEntries(FinancialYearID,
+                        returnPurchaseAccount.AccountHeadID.ToString(),
+                        returnPurchaseAccount.AccountControlID.ToString(),
                         returnPurchaseAccount.AccountSubControlID.ToString(),
-                        payInvoiceNo, 
-                        UserID.ToString(), 
-                        "0", 
-                        Amount.ToString(), 
-                        DateTime.Now, 
+                        payInvoiceNo,
+                        UserID.ToString(),
+                        "0",
+                        Amount.ToString(),
+                        DateTime.Now,
                         paymentSuccessTitle);
 
                     successMessage += await _purchaseRepository.ConfirmPurchaseReturn(CompanyID, BranchID, UserID, SupplierInvoiceID, SupplierReturnInvoiceID, Amount, SupplierID, payInvoiceNo);
@@ -337,79 +344,79 @@ namespace DatabaseAccess.Code
                 Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
                 return Localization.Localization.UnexpectedErrorOccurred;
             }
-            
+
         }
 
         public async Task<string> ReturnPurchasePayment(int CompanyID, int BranchID, int UserID, string InvoiceNo, string SupplierInvoiceID, int SupplierReturnInvoiceID, float TotalAmount, float Amount, string SupplierID, string SupplierName, float RemainingBalance)
         {
-                try
+            try
+            {
+                string returnPurchaseTitle = Localization.Localization.ReturnPurchaseTo + SupplierName.Trim();
+                string payInvoiceNo = "RPP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
+                // Retrieve the active financial year
+                var financialYearCheck = await _financialYearRepository.GetSingleActiveAsync();
+                string FinancialYearID = financialYearCheck != null ? Convert.ToString(financialYearCheck) : string.Empty;
+
+                if (string.IsNullOrEmpty(FinancialYearID))
                 {
-                    string returnPurchaseTitle = Localization.Localization.ReturnPurchaseTo + SupplierName.Trim();
-                    string payInvoiceNo = "RPP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
-                    // Retrieve the active financial year
-                    var financialYearCheck = await _financialYearRepository.GetSingleActiveAsync();
-                    string FinancialYearID = financialYearCheck != null ? Convert.ToString(financialYearCheck) : string.Empty;
-
-                    if (string.IsNullOrEmpty(FinancialYearID))
-                    {
-                        return Localization.Localization.CompanyFinancialYearNotSet;
-                    }
-
-                    string AccountHeadID = string.Empty;
-                    string AccountControlID = string.Empty;
-                    string AccountSubControlID = string.Empty;
-                    string transactionTitle = string.Empty;
-
-                    // Retrieve account settings for Purchase Return Payment Pending
-                    // 6 - Purchase Return Payment Pending
-                    var returnPurchaseAccount = await _accountSettingRepository.GetByActivityAsync(6, CompanyID, BranchID);
-                    if (returnPurchaseAccount == null)
-                    {
-                        return Localization.Localization.AccountSettingsForPurchaseReturnPaymentPendingNotFound;
-                    }
-                    SetEntries(FinancialYearID, 
-                        returnPurchaseAccount.AccountHeadID.ToString(), 
-                        returnPurchaseAccount.AccountControlID.ToString(), 
-                        returnPurchaseAccount.AccountSubControlID.ToString(), 
-                        InvoiceNo, 
-                        UserID.ToString(), 
-                        Amount.ToString(), 
-                        "0", 
-                        DateTime.Now, 
-                        "Return Payment from " + SupplierName);
-
-                    // Retrieve account settings for Purchase Return Payment Succeed
-                    // 7 - Purchase Return Payment Succeed
-                    returnPurchaseAccount = await _accountSettingRepository.GetByActivityAsync(7, CompanyID, BranchID);
-                    if (returnPurchaseAccount == null)
-                    {
-                        return Localization.Localization.AccountSettingsForPurchaseReturnPaymentSucceedNotFound;
-                    }
-                    SetEntries(FinancialYearID, 
-                        returnPurchaseAccount.AccountHeadID.ToString(), 
-                        returnPurchaseAccount.AccountControlID.ToString(), 
-                        returnPurchaseAccount.AccountSubControlID.ToString(), 
-                        InvoiceNo, 
-                        UserID.ToString(), 
-                        "0", 
-                        Amount.ToString(), 
-                        DateTime.Now, 
-                        SupplierName + ", Return Purchase Payment is Succeed!");
-
-                    // Insert supplier return payment record
-                    await _purchaseRepository.ConfirmPurchaseReturn(CompanyID, BranchID, UserID, SupplierInvoiceID, SupplierReturnInvoiceID, Amount, SupplierID, payInvoiceNo);
-
-                    // Insert transaction entries
-                    await _purchaseRepository.InsertTransaction(CompanyID, BranchID);
-
-                    return Localization.Localization.ReturnPurchasePaymentIsSucceed;
+                    return Localization.Localization.CompanyFinancialYearNotSet;
                 }
-                catch (Exception ex)
+
+                string AccountHeadID = string.Empty;
+                string AccountControlID = string.Empty;
+                string AccountSubControlID = string.Empty;
+                string transactionTitle = string.Empty;
+
+                // Retrieve account settings for Purchase Return Payment Pending
+                // 6 - Purchase Return Payment Pending
+                var returnPurchaseAccount = await _accountSettingRepository.GetByActivityAsync(6, CompanyID, BranchID);
+                if (returnPurchaseAccount == null)
                 {
-                    Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
-                    return Localization.Localization.UnexpectedErrorOccurred;
+                    return Localization.Localization.AccountSettingsForPurchaseReturnPaymentPendingNotFound;
                 }
-            
+                SetEntries(FinancialYearID,
+                    returnPurchaseAccount.AccountHeadID.ToString(),
+                    returnPurchaseAccount.AccountControlID.ToString(),
+                    returnPurchaseAccount.AccountSubControlID.ToString(),
+                    InvoiceNo,
+                    UserID.ToString(),
+                    Amount.ToString(),
+                    "0",
+                    DateTime.Now,
+                    "Return Payment from " + SupplierName);
+
+                // Retrieve account settings for Purchase Return Payment Succeed
+                // 7 - Purchase Return Payment Succeed
+                returnPurchaseAccount = await _accountSettingRepository.GetByActivityAsync(7, CompanyID, BranchID);
+                if (returnPurchaseAccount == null)
+                {
+                    return Localization.Localization.AccountSettingsForPurchaseReturnPaymentSucceedNotFound;
+                }
+                SetEntries(FinancialYearID,
+                    returnPurchaseAccount.AccountHeadID.ToString(),
+                    returnPurchaseAccount.AccountControlID.ToString(),
+                    returnPurchaseAccount.AccountSubControlID.ToString(),
+                    InvoiceNo,
+                    UserID.ToString(),
+                    "0",
+                    Amount.ToString(),
+                    DateTime.Now,
+                    SupplierName + ", Return Purchase Payment is Succeed!");
+
+                // Insert supplier return payment record
+                await _purchaseRepository.ConfirmPurchaseReturn(CompanyID, BranchID, UserID, SupplierInvoiceID, SupplierReturnInvoiceID, Amount, SupplierID, payInvoiceNo);
+
+                // Insert transaction entries
+                await _purchaseRepository.InsertTransaction(CompanyID, BranchID);
+
+                return Localization.Localization.ReturnPurchasePaymentIsSucceed;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
+                return Localization.Localization.UnexpectedErrorOccurred;
+            }
+
         }
 
         private void SetEntries(string FinancialYearID, string AccountHeadID, string AccountControlID, string AccountSubControlID, string InvoiceNo, string UserID, string Credit, string Debit, DateTime TransactionDate, string TransectionTitle)

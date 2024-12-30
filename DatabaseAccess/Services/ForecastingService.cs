@@ -1,20 +1,23 @@
 ﻿using Domain.Models.Forecasting;
 using Domain.RepositoryAccess;
+using Domain.Services;
 using Microsoft.ML;
 using System;
 using System.Linq;
 
-namespace CloudERP.Helpers
+namespace DatabaseAccess.Services
 {
-    public class ForecastingService
+    public class ForecastingService : IForecastingService
     {
         private readonly IForecastingRepository _forecastingRepository;
+        private readonly IFinancialForecaster _financialForecaster;
         private readonly MLContext _mlContext;
 
         public ForecastingService(IForecastingRepository forecastingRepository)
         {
             _forecastingRepository = forecastingRepository;
             _mlContext = new MLContext();
+            _financialForecaster = new FinancialForecaster(_mlContext);
         }
 
         public double GenerateForecast(int companyID, int branchID, DateTime startDate, DateTime endDate)
@@ -25,8 +28,7 @@ namespace CloudERP.Helpers
                 throw new InvalidOperationException("No data avaliable for forecasting");
             }
 
-            var forecaster = new FinancialForecaster(_mlContext);
-            var model = forecaster.TrainModel(forecastData);
+            var model = _financialForecaster.TrainModel(forecastData);
 
             var futureDate = DateTime.Now.AddMonths(1);
             var futureData = new ForecastData
@@ -35,7 +37,7 @@ namespace CloudERP.Helpers
                 DateAsNumber = (float)(futureDate - new DateTime(2000, 1, 1)).TotalDays
             };
 
-            return forecaster.Predict(model, futureData);
+            return _financialForecaster.Predict(model, futureData);
         }
     }
 }

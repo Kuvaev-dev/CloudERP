@@ -9,9 +9,9 @@ namespace CloudERP.Controllers
     public class EmployeeStatisticsController : Controller
     {
         private readonly SessionHelper _sessionHelper;
-        private readonly EmployeeStatisticsService _employeeStatsService;
+        private readonly IEmployeeStatisticsService _employeeStatsService;
 
-        public EmployeeStatisticsController(SessionHelper sessionHelper, EmployeeStatisticsService employeeStatsService)
+        public EmployeeStatisticsController(SessionHelper sessionHelper, IEmployeeStatisticsService employeeStatsService)
         {
             _sessionHelper = sessionHelper;
             _employeeStatsService = employeeStatsService;
@@ -22,11 +22,6 @@ namespace CloudERP.Controllers
         {
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 DateTime start = startDate ?? DateTime.Now.AddMonths(-1);
                 DateTime end = endDate ?? DateTime.Now;
 

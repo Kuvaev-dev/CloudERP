@@ -1,4 +1,5 @@
 ﻿using Domain.Models;
+using Domain.RepositoryAccess;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DatabaseAccess.Repositories
 {
-    internal class BranchTypeRepository
+    internal class BranchTypeRepository : IBranchTypeRepository
     {
         private readonly CloudDBEntities _dbContext;
 

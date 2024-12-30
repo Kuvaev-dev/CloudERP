@@ -24,9 +24,17 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            var employees = await _employeeRepository.GetByBranchAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+            try
+            {
+                var employees = await _employeeRepository.GetByBranchAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
 
-            return View(employees);
+                return View(employees);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // GET: EmployeeRegistration
@@ -40,18 +48,26 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            model.CompanyID = _sessionHelper.CompanyID;
-            model.BranchID = _sessionHelper.BranchID;
-            model.RegistrationDate = DateTime.Now;
-            model.IsFirstLogin = true;
-
-            if (ModelState.IsValid)
+            try
             {
-                await _employeeRepository.AddAsync(model);
-                return RedirectToAction("Employee");
-            }
+                model.CompanyID = _sessionHelper.CompanyID;
+                model.BranchID = _sessionHelper.BranchID;
+                model.RegistrationDate = DateTime.Now;
+                model.IsFirstLogin = true;
 
-            return View(model);
+                if (ModelState.IsValid)
+                {
+                    await _employeeRepository.AddAsync(model);
+                    return RedirectToAction("Employee");
+                }
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // GET: EmployeeUpdation
@@ -60,10 +76,18 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            var employee = await _employeeRepository.GetByIdAsync(id);
-            if (employee == null) return HttpNotFound();
+            try
+            {
+                var employee = await _employeeRepository.GetByIdAsync(id);
+                if (employee == null) return HttpNotFound();
 
-            return View(employee);
+                return View(employee);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // POST: EmployeeUpdation
@@ -74,13 +98,21 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            if (ModelState.IsValid)
+            try
             {
-                await _employeeRepository.UpdateAsync(model);
-                return RedirectToAction("Employee");
-            }
+                if (ModelState.IsValid)
+                {
+                    await _employeeRepository.UpdateAsync(model);
+                    return RedirectToAction("Employee");
+                }
 
-            return View(model);
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         // GET: ViewProfile
@@ -89,10 +121,18 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            var employee = await _employeeRepository.GetByIdAsync(id);
-            if (employee == null) return RedirectToAction("EP404", "EP");
+            try
+            {
+                var employee = await _employeeRepository.GetByIdAsync(id);
+                if (employee == null) return RedirectToAction("EP404", "EP");
 
-            return View(employee);
+                return View(employee);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
     }
 }

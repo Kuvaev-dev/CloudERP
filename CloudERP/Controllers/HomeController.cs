@@ -4,7 +4,6 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using System.Threading.Tasks;
-using Domain.RepositoryAccess;
 using CloudERP.Facades;
 
 namespace CloudERP.Controllers
@@ -14,25 +13,21 @@ namespace CloudERP.Controllers
         private readonly HomeFacade _homeFacade;
         private readonly SessionHelper _sessionHelper;
         private readonly PasswordHelper _passwordHelper;
-        private readonly EmailService _emailService;
 
-        public HomeController(HomeFacade homeFacade, SessionHelper sessionHelper, PasswordHelper passwordHelper, EmailService emailService)
+        public HomeController(HomeFacade homeFacade, SessionHelper sessionHelper, PasswordHelper passwordHelper)
         {
             _homeFacade = homeFacade;
             _sessionHelper = sessionHelper;
             _passwordHelper = passwordHelper;
-            _emailService = emailService;
         }
 
         public async Task<ActionResult> Index()
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login");
-                }
-
                 DateTime currentDate = DateTime.Today;
                 string fromDate = new DateTime(currentDate.Year, currentDate.Month, 1).ToString("yyyy-MM-dd");
                 string toDate = new DateTime(currentDate.Year, currentDate.Month, DateTime.DaysInMonth(currentDate.Year, currentDate.Month)).ToString("yyyy-MM-dd");
@@ -242,7 +237,7 @@ namespace CloudERP.Controllers
                 var subject = "Password Reset";
                 var body = $"<strong>Please reset your password by clicking the following link: <a href='{resetLink}'>Reset Password</a></strong>";
 
-                _emailService.SendEmail(email, subject, body);
+                _homeFacade.EmailService.SendEmail(email, subject, body);
             }
             catch (Exception ex)
             {

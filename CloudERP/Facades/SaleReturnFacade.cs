@@ -1,11 +1,11 @@
-﻿using Domain.EntryAccess;
-using Domain.RepositoryAccess;
+﻿using Domain.RepositoryAccess;
+using Domain.Services;
 
 namespace CloudERP.Facades
 {
     public class SaleReturnFacade
     {
-        private readonly ISaleEntry _saleEntry;
+        private readonly ISaleEntryService _saleEntry;
         private readonly IStockRepository _stockRepository;
         private readonly ICustomerRepository _customerRepository;
         private readonly ICustomerInvoiceRepository _customerInvoiceRepository;
@@ -14,7 +14,7 @@ namespace CloudERP.Facades
         private readonly ICustomerReturnInvoiceDetailRepository _customerReturnInvoiceDetailRepository;
 
         public SaleReturnFacade(
-            ISaleEntry saleEntry, 
+            ISaleEntryService saleEntry, 
             IStockRepository stockRepository, 
             ICustomerRepository customerRepository,
             ICustomerInvoiceRepository customerInvoiceRepository,
@@ -31,7 +31,7 @@ namespace CloudERP.Facades
             _customerReturnInvoiceDetailRepository = customerReturnInvoiceDetailRepository;
         }
 
-        public ISaleEntry SaleEntry => _saleEntry;
+        public ISaleEntryService SaleEntry => _saleEntry;
         public IStockRepository StockRepository => _stockRepository;
         public ICustomerRepository CustomerRepository => _customerRepository;
         public ICustomerInvoiceRepository CustomerInvoiceRepository => _customerInvoiceRepository;

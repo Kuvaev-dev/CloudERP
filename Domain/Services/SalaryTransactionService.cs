@@ -5,7 +5,20 @@ using System.Threading.Tasks;
 
 namespace Domain.Services
 {
-    public class SalaryTransactionService
+    public interface ISalaryTransactionService
+    {
+        Task<string> Confirm(
+            int EmployeeID,
+            double TransferAmount,
+            int UserID,
+            int BranchID,
+            int CompanyID,
+            string InvoiceNo,
+            string SalaryMonth,
+            string SalaryYear);
+    }
+
+    public class SalaryTransactionService : ISalaryTransactionService
     {
         private DataTable _dtEntries = null;
         private readonly ISalaryTransactionRepository _salaryTransactionRepository;

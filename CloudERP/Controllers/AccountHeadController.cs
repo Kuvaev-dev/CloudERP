@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
 using Domain.Models;
@@ -19,12 +20,26 @@ namespace CloudERP.Controllers
 
         public async Task<ActionResult> Index()
         {
-            var accountHeads = await _accountHeadRepository.GetAllAsync();
-            return View(accountHeads);
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            try
+            {
+                var accountHeads = await _accountHeadRepository.GetAllAsync();
+                return View(accountHeads);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         public ActionResult Create()
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             return View(new AccountHead());
         }
 
@@ -32,33 +47,66 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(AccountHead model)
         {
-            if (ModelState.IsValid)
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            try
             {
-                model.UserID = _sessionHelper.UserID;
-                await _accountHeadRepository.AddAsync(model);
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    model.UserID = _sessionHelper.UserID;
+                    await _accountHeadRepository.AddAsync(model);
+                    return RedirectToAction("Index");
+                }
+                return View(model);
             }
-            return View(model);
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         public async Task<ActionResult> Edit(int id)
         {
-            var accountHead = await _accountHeadRepository.GetByIdAsync(id);
-            if (accountHead == null) return HttpNotFound();
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
 
-            return View(accountHead);
+            try
+            {
+                var accountHead = await _accountHeadRepository.GetByIdAsync(id);
+                if (accountHead == null) return HttpNotFound();
+
+                return View(accountHead);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(AccountHead model)
         {
-            if (ModelState.IsValid)
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            try
             {
-                await _accountHeadRepository.UpdateAsync(model);
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    await _accountHeadRepository.UpdateAsync(model);
+                    return RedirectToAction("Index");
+                }
+                return View(model);
             }
-            return View(model);
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
         }
     }
 }

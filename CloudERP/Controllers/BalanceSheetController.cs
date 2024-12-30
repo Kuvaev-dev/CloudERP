@@ -11,11 +11,11 @@ namespace CloudERP.Controllers
 {
     public class BalanceSheetController : Controller
     {
-        private readonly BalanceSheetService _balanceSheetService;
+        private readonly IBalanceSheetService _balanceSheetService;
         private readonly IFinancialYearRepository _financialYearRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public BalanceSheetController(BalanceSheetService balanceSheetService, IFinancialYearRepository financialYearRepository, SessionHelper sessionHelper)
+        public BalanceSheetController(IBalanceSheetService balanceSheetService, IFinancialYearRepository financialYearRepository, SessionHelper sessionHelper)
         {
             _balanceSheetService = balanceSheetService;
             _financialYearRepository = financialYearRepository;
@@ -26,9 +26,7 @@ namespace CloudERP.Controllers
         public async Task<ActionResult> GetBalanceSheet()
         {
             if (!_sessionHelper.IsAuthenticated)
-            {
                 return RedirectToAction("Login", "Home");
-            }
 
             try
             {
@@ -55,9 +53,7 @@ namespace CloudERP.Controllers
         public async Task<ActionResult> GetBalanceSheet(int? id)
         {
             if (!_sessionHelper.IsAuthenticated)
-            {
                 return RedirectToAction("Login", "Home");
-            }
 
             if (!id.HasValue)
             {
@@ -82,9 +78,7 @@ namespace CloudERP.Controllers
         public async Task<ActionResult> GetSubBalanceSheet()
         {
             if (!_sessionHelper.IsAuthenticated)
-            {
                 return RedirectToAction("Login", "Home");
-            }
 
             try
             {
@@ -111,9 +105,7 @@ namespace CloudERP.Controllers
         public async Task<ActionResult> GetSubBalanceSheet(int? id)
         {
             if (!_sessionHelper.IsAuthenticated)
-            {
                 return RedirectToAction("Login", "Home");
-            }
 
             if (!id.HasValue)
             {

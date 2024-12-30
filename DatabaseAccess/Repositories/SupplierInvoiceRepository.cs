@@ -86,5 +86,15 @@ namespace DatabaseAccess.Repositories
             var entity = await _dbContext.tblSupplierInvoice.FindAsync(id);
             return entity.TotalAmount;
         }
+
+        public async Task<int> GetLatestIdAsync(int supplierId)
+        {
+            var latestInvoice = await _dbContext.tblSupplierInvoice
+                .Where(invoice => invoice.SupplierID == supplierId)
+                .OrderByDescending(invoice => invoice.InvoiceDate)
+                .FirstOrDefaultAsync();
+
+            return latestInvoice.SupplierInvoiceID;
+        }
     }
 }

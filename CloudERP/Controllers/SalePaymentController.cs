@@ -21,13 +21,11 @@ namespace CloudERP.Controllers
         // GET: PurchasePayment
         public async Task<ActionResult> RemainingPaymentList()
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 var list = await _salePaymentFacade.SaleRepository.RemainingPaymentList(_sessionHelper.CompanyID, _sessionHelper.BranchID);
 
                 return View(list.ToList());
@@ -41,13 +39,11 @@ namespace CloudERP.Controllers
 
         public async Task<ActionResult> PaidHistory(int? id)
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 var list = await _salePaymentFacade.SaleRepository.SalePaymentHistory(id.Value);
                 var returnDetails = await _salePaymentFacade.CustomerReturnInvoiceRepository.GetListByIdAsync((int)id);
 
@@ -76,13 +72,11 @@ namespace CloudERP.Controllers
 
         public async Task<ActionResult> PaidAmount(int? id)
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 var list = await _salePaymentFacade.SaleRepository.SalePaymentHistory(id.Value);
                 double remainingAmount = 0;
 
@@ -111,13 +105,11 @@ namespace CloudERP.Controllers
         [HttpPost]
         public async Task<ActionResult> PaidAmount(int? id, float previousRemainingAmount, float paidAmount)
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 if (paidAmount > previousRemainingAmount)
                 {
                     ViewBag.Message = Resources.Messages.PurchasePaymentRemainingAmountError;
@@ -182,13 +174,11 @@ namespace CloudERP.Controllers
 
         public async Task<ActionResult> CustomSalesHistory(DateTime FromDate, DateTime ToDate)
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 var list = await _salePaymentFacade.SaleRepository.CustomSalesList(_sessionHelper.CompanyID, _sessionHelper.BranchID, FromDate, ToDate);
 
                 return View(list.ToList());
@@ -202,13 +192,11 @@ namespace CloudERP.Controllers
 
         public async Task<ActionResult> SubCustomSalesHistory(DateTime FromDate, DateTime ToDate, int? id)
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 var list = await _salePaymentFacade.SaleRepository.CustomSalesList(_sessionHelper.CompanyID, id ?? _sessionHelper.BranchID, FromDate, ToDate);
 
                 return View(list.ToList());
@@ -222,15 +210,12 @@ namespace CloudERP.Controllers
 
         public async Task<ActionResult> SaleItemDetail(int? id)
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 var list = await _salePaymentFacade.CustomerInvoiceDetailRepository.GetListByIdAsync((int)id);
-
                 return View(list.ToList());
             }
             catch (Exception ex)
@@ -242,15 +227,12 @@ namespace CloudERP.Controllers
 
         public async Task<ActionResult> PrintSaleInvoice(int? id)
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 var list = await _salePaymentFacade.CustomerInvoiceDetailRepository.GetListByIdAsync((int)id);
-
                 return View(list.ToList());
             }
             catch (Exception ex)

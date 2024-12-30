@@ -23,13 +23,11 @@ namespace CloudERP.Controllers
         // GET: SaleReturn
         public async Task<ActionResult> FindSale()
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
                 CustomerInvoice invoice;
 
                 if (Session["SaleInvoiceNo"] != null)
@@ -60,15 +58,13 @@ namespace CloudERP.Controllers
         [HttpPost]
         public async Task<ActionResult> FindSale(string invoiceID)
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
                 Session["SaleInvoiceNo"] = string.Empty;
                 Session["SaleReturnMessage"] = string.Empty;
-
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
 
                 return View(await _saleReturnFacade.CustomerInvoiceRepository.GetByInvoiceNoAsync(invoiceID));
             }
@@ -82,15 +78,13 @@ namespace CloudERP.Controllers
         [HttpPost]
         public async Task<ActionResult> ReturnConfirm(FormCollection collection)
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
                 Session["SaleInvoiceNo"] = string.Empty;
                 Session["SaleReturnMessage"] = string.Empty;
-
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
 
                 int customerID = 0;
                 int CustomerInvoiceID = 0;

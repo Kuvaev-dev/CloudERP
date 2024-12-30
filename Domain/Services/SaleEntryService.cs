@@ -1,15 +1,22 @@
-﻿using Domain.EntryAccess;
-using Domain.Models;
+﻿using Domain.Models;
 using Domain.RepositoryAccess;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 
-namespace DatabaseAccess.Code
+namespace Domain.Services
 {
-    public class SaleEntry : ISaleEntry
+    public interface ISaleEntryService
+    {
+        Task<string> ConfirmSale(int CompanyID, int BranchID, int UserID, string InvoiceNo, string CustomerInvoiceID, float Amount, string CustomerID, string CustomerName, bool isPayment);
+        Task<string> SalePayment(int CompanyID, int BranchID, int UserID, string InvoiceNo, string CustomerInvoiceID, float TotalAmount, float Amount, string CustomerID, string CustomerName, float RemainingBalance);
+        Task<string> ReturnSale(int CompanyID, int BranchID, int UserID, string InvoiceNo, string CustomerInvoiceID, int CustomerReturnInvoiceID, float Amount, string CustomerID, string Customername, bool isPayment);
+        Task<string> ReturnSalePayment(int CompanyID, int BranchID, int UserID, string InvoiceNo, string CustomerInvoiceID, int CustomerReturnInvoiceID, float TotalAmount, float Amount, string CustomerID, string Customername, float RemainingBalance);
+        Task CompleteSale(IEnumerable<SaleCartDetail> saleDetails);
+    }
+
+    public class SaleEntryService : ISaleEntryService
     {
         private readonly IFinancialYearRepository _financialYearRepository;
         private readonly IAccountSettingRepository _accountSettingRepository;
@@ -20,7 +27,7 @@ namespace DatabaseAccess.Code
         public string selectcustomerid = string.Empty;
         private readonly DataTable _dtEntries = null;
 
-        public SaleEntry(IFinancialYearRepository financialYearRepository, IAccountSettingRepository accountSettingRepository, ISaleRepository saleRepository, IStockRepository stockRepository, ISaleCartDetailRepository saleCartDetailRepository)
+        public SaleEntryService(IFinancialYearRepository financialYearRepository, IAccountSettingRepository accountSettingRepository, ISaleRepository saleRepository, IStockRepository stockRepository, ISaleCartDetailRepository saleCartDetailRepository)
         {
             _financialYearRepository = financialYearRepository;
             _accountSettingRepository = accountSettingRepository;
@@ -50,15 +57,15 @@ namespace DatabaseAccess.Code
                 {
                     return Localization.Localization.AccountSettingsForSaleNotFound;
                 }
-                SetEntries(FinancialYearID, 
-                    saleAccount.AccountHeadID.ToString(), 
-                    saleAccount.AccountControlID.ToString(), 
-                    saleAccount.AccountSubControlID.ToString(), 
-                    InvoiceNo, 
-                    UserID.ToString(), 
-                    Amount.ToString(), 
+                SetEntries(FinancialYearID,
+                    saleAccount.AccountHeadID.ToString(),
+                    saleAccount.AccountControlID.ToString(),
+                    saleAccount.AccountSubControlID.ToString(),
+                    InvoiceNo,
+                    UserID.ToString(),
+                    Amount.ToString(),
                     "0",
-                    DateTime.Now, 
+                    DateTime.Now,
                     saleTitle);
 
                 // Debit Entry Sale
@@ -68,15 +75,15 @@ namespace DatabaseAccess.Code
                 {
                     return Localization.Localization.AccountSettingsForSalePaymentPendingNotFound;
                 }
-                SetEntries(FinancialYearID, 
-                    saleAccount.AccountHeadID.ToString(), 
-                    saleAccount.AccountControlID.ToString(), 
-                    saleAccount.AccountSubControlID.ToString(), 
-                    InvoiceNo, 
-                    UserID.ToString(), 
-                    "0", 
-                    Amount.ToString(), 
-                    DateTime.Now, 
+                SetEntries(FinancialYearID,
+                    saleAccount.AccountHeadID.ToString(),
+                    saleAccount.AccountControlID.ToString(),
+                    saleAccount.AccountSubControlID.ToString(),
+                    InvoiceNo,
+                    UserID.ToString(),
+                    "0",
+                    Amount.ToString(),
+                    DateTime.Now,
                     CustomerName + ", Sale Payment is Pending!");
 
                 if (isPayment)
@@ -90,15 +97,15 @@ namespace DatabaseAccess.Code
                     {
                         return Localization.Localization.AccountSettingsForSalePaymentPaidNotFound;
                     }
-                    SetEntries(FinancialYearID, 
-                        saleAccount.AccountHeadID.ToString(), 
-                        saleAccount.AccountControlID.ToString(), 
-                        saleAccount.AccountSubControlID.ToString(), 
-                        payInvoiceNo, 
-                        UserID.ToString(), 
-                        Amount.ToString(), 
-                        "0", 
-                        DateTime.Now, 
+                    SetEntries(FinancialYearID,
+                        saleAccount.AccountHeadID.ToString(),
+                        saleAccount.AccountControlID.ToString(),
+                        saleAccount.AccountSubControlID.ToString(),
+                        payInvoiceNo,
+                        UserID.ToString(),
+                        Amount.ToString(),
+                        "0",
+                        DateTime.Now,
                         "Sale Payment Paid By " + CustomerName);
 
                     // Debit Entry Sale Payment Success
@@ -108,15 +115,15 @@ namespace DatabaseAccess.Code
                     {
                         return Localization.Localization.AccountSettingsForSalePaymentSuccessNotFound;
                     }
-                    SetEntries(FinancialYearID, 
-                        saleAccount.AccountHeadID.ToString(), 
+                    SetEntries(FinancialYearID,
+                        saleAccount.AccountHeadID.ToString(),
                         saleAccount.AccountControlID.ToString(),
                         saleAccount.AccountSubControlID.ToString(),
-                        payInvoiceNo, 
-                        UserID.ToString(), 
-                        "0", 
-                        Amount.ToString(), 
-                        DateTime.Now, 
+                        payInvoiceNo,
+                        UserID.ToString(),
+                        "0",
+                        Amount.ToString(),
+                        DateTime.Now,
                         CustomerName + ", Sale Payment is Succeed!");
 
                     // Insert payment record
@@ -154,15 +161,15 @@ namespace DatabaseAccess.Code
                 {
                     return Localization.Localization.AccountSettingsForSalePaymentPaidNotFound;
                 }
-                SetEntries(FinancialYearID, 
-                    saleAccount.AccountHeadID.ToString(), 
-                    saleAccount.AccountControlID.ToString(), 
-                    saleAccount.AccountSubControlID.ToString(), 
+                SetEntries(FinancialYearID,
+                    saleAccount.AccountHeadID.ToString(),
+                    saleAccount.AccountControlID.ToString(),
+                    saleAccount.AccountSubControlID.ToString(),
                     InvoiceNo,
-                    UserID.ToString(), 
-                    Amount.ToString(), 
-                    "0", 
-                    DateTime.Now, 
+                    UserID.ToString(),
+                    Amount.ToString(),
+                    "0",
+                    DateTime.Now,
                     "Sale Payment Paid By " + CustomerName);
 
                 // Debit Entry Sale Payment Success
@@ -172,15 +179,15 @@ namespace DatabaseAccess.Code
                 {
                     return Localization.Localization.AccountSettingsForSalePaymentSuccessNotFound;
                 }
-                SetEntries(FinancialYearID, 
-                    saleAccount.AccountHeadID.ToString(), 
-                    saleAccount.AccountControlID.ToString(), 
-                    saleAccount.AccountSubControlID.ToString(), 
-                    InvoiceNo, 
-                    UserID.ToString(), 
-                    "0", 
-                    Amount.ToString(), 
-                    DateTime.Now, 
+                SetEntries(FinancialYearID,
+                    saleAccount.AccountHeadID.ToString(),
+                    saleAccount.AccountControlID.ToString(),
+                    saleAccount.AccountSubControlID.ToString(),
+                    InvoiceNo,
+                    UserID.ToString(),
+                    "0",
+                    Amount.ToString(),
+                    DateTime.Now,
                     CustomerName + ", Sale Payment is Succeed!");
 
                 // Insert payment record
@@ -219,15 +226,15 @@ namespace DatabaseAccess.Code
                 {
                     return Localization.Localization.AccountSettingsForSaleReturnNotFound;
                 }
-                SetEntries(FinancialYearID, 
-                    returnSaleAccount.AccountHeadID.ToString(), 
-                    returnSaleAccount.AccountControlID.ToString(), 
-                    returnSaleAccount.AccountSubControlID.ToString(), 
-                    InvoiceNo, 
-                    UserID.ToString(), 
-                    "0", 
-                    Amount.ToString(), 
-                    DateTime.Now, 
+                SetEntries(FinancialYearID,
+                    returnSaleAccount.AccountHeadID.ToString(),
+                    returnSaleAccount.AccountControlID.ToString(),
+                    returnSaleAccount.AccountSubControlID.ToString(),
+                    InvoiceNo,
+                    UserID.ToString(),
+                    "0",
+                    Amount.ToString(),
+                    DateTime.Now,
                     returnSaleTitle);
 
                 // Credit Entry Return Sale
@@ -237,15 +244,15 @@ namespace DatabaseAccess.Code
                 {
                     return Localization.Localization.AccountSettingsForSaleReturnPaymentPendingNotFound;
                 }
-                SetEntries(FinancialYearID, 
-                    returnSaleAccount.AccountHeadID.ToString(), 
-                    returnSaleAccount.AccountControlID.ToString(), 
-                    returnSaleAccount.AccountSubControlID.ToString(), 
-                    InvoiceNo, 
-                    UserID.ToString(), 
-                    Amount.ToString(), 
-                    "0", 
-                    DateTime.Now, 
+                SetEntries(FinancialYearID,
+                    returnSaleAccount.AccountHeadID.ToString(),
+                    returnSaleAccount.AccountControlID.ToString(),
+                    returnSaleAccount.AccountSubControlID.ToString(),
+                    InvoiceNo,
+                    UserID.ToString(),
+                    Amount.ToString(),
+                    "0",
+                    DateTime.Now,
                     Customername + ", Return Sale Payment is Pending!");
 
                 if (isPayment)
@@ -259,15 +266,15 @@ namespace DatabaseAccess.Code
                     {
                         return Localization.Localization.AccountSettingsForSaleReturnPaymentPaidNotFound;
                     }
-                    SetEntries(FinancialYearID, 
-                        returnSaleAccount.AccountHeadID.ToString(), 
-                        returnSaleAccount.AccountControlID.ToString(), 
-                        returnSaleAccount.AccountSubControlID.ToString(), 
-                        payInvoiceNo, 
-                        UserID.ToString(), 
-                        "0", 
-                        Amount.ToString(), 
-                        DateTime.Now, 
+                    SetEntries(FinancialYearID,
+                        returnSaleAccount.AccountHeadID.ToString(),
+                        returnSaleAccount.AccountControlID.ToString(),
+                        returnSaleAccount.AccountSubControlID.ToString(),
+                        payInvoiceNo,
+                        UserID.ToString(),
+                        "0",
+                        Amount.ToString(),
+                        DateTime.Now,
                         "Return Sale Payment Paid to " + Customername);
 
                     // Debit Entry Return Sale Payment Success
@@ -277,15 +284,15 @@ namespace DatabaseAccess.Code
                     {
                         return Localization.Localization.AccountSettingsForSalePaymentSuccessNotFound;
                     }
-                    SetEntries(FinancialYearID, 
-                        returnSaleAccount.AccountHeadID.ToString(), 
-                        returnSaleAccount.AccountControlID.ToString(), 
-                        returnSaleAccount.AccountSubControlID.ToString(), 
-                        payInvoiceNo, 
-                        UserID.ToString(), 
-                        "0", 
-                        Amount.ToString(), 
-                        DateTime.Now, 
+                    SetEntries(FinancialYearID,
+                        returnSaleAccount.AccountHeadID.ToString(),
+                        returnSaleAccount.AccountControlID.ToString(),
+                        returnSaleAccount.AccountSubControlID.ToString(),
+                        payInvoiceNo,
+                        UserID.ToString(),
+                        "0",
+                        Amount.ToString(),
+                        DateTime.Now,
                         Customername + ", Return Sale Payment is Succeed!");
 
                     return await _saleRepository.ReturnSale(CompanyID, BranchID, UserID, CustomerInvoiceID, CustomerReturnInvoiceID, Amount, CustomerID, payInvoiceNo, 0);
@@ -302,72 +309,72 @@ namespace DatabaseAccess.Code
 
         public async Task<string> ReturnSalePayment(int CompanyID, int BranchID, int UserID, string InvoiceNo, string CustomerInvoiceID, int CustomerReturnInvoiceID, float TotalAmount, float Amount, string CustomerID, string Customername, float RemainingBalance)
         {
-                try
+            try
+            {
+                string saleTitle = Localization.Localization.ReturnSaleFrom + Customername.Trim();
+                string payInvoiceNo = "RIP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
+
+                // Retrieve the active financial year
+                var financialYearCheck = await _financialYearRepository.GetSingleActiveAsync();
+                string FinancialYearID = financialYearCheck != null ? Convert.ToString(financialYearCheck) : string.Empty;
+                if (string.IsNullOrEmpty(FinancialYearID))
                 {
-                    string saleTitle = Localization.Localization.ReturnSaleFrom + Customername.Trim();
-                    string payInvoiceNo = "RIP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
-
-                    // Retrieve the active financial year
-                    var financialYearCheck = await _financialYearRepository.GetSingleActiveAsync();
-                    string FinancialYearID = financialYearCheck != null ? Convert.ToString(financialYearCheck) : string.Empty;
-                    if (string.IsNullOrEmpty(FinancialYearID))
-                    {
-                        return Localization.Localization.CompanyFinancialYearNotSet;
-                    }
-
-                    string transactionTitle;
-
-                    // Credit Entry Return Sale Payment Paid
-                    // 15 - Sale Return Payment Paid
-                    var returnSaleAccount = await _accountSettingRepository.GetByActivityAsync(16, CompanyID, BranchID);
-                    if (returnSaleAccount == null)
-                    {
-                        return Localization.Localization.AccountSettingsForSaleReturnPaymentPaidNotFound;
-                    }
-
-                    transactionTitle = Localization.Localization.ReturnSalePaymentPaidTo + Customername;
-                    SetEntries(FinancialYearID,
-                        returnSaleAccount.AccountHeadID.ToString(),
-                        returnSaleAccount.AccountControlID.ToString(),
-                        returnSaleAccount.AccountSubControlID.ToString(), 
-                        InvoiceNo, 
-                        UserID.ToString(), 
-                        "0", 
-                        Amount.ToString(), 
-                        DateTime.Now, 
-                        transactionTitle);
-
-                    // Debit Entry Return Sale Payment Success
-                    // 16 - Sale Return Payment Succeed
-                    returnSaleAccount = await _accountSettingRepository.GetByActivityAsync(16, CompanyID, BranchID);
-                    if (returnSaleAccount == null)
-                    {
-                        return Localization.Localization.AccountSettingsForSaleReturnPaymentSuccessNotFound;
-                    }
-                    transactionTitle = Customername + Localization.Localization.ReturnSalePaymentSsSucceed;
-                    SetEntries(FinancialYearID, 
-                        returnSaleAccount.AccountHeadID.ToString(), 
-                        returnSaleAccount.AccountControlID.ToString(), 
-                        returnSaleAccount.AccountSubControlID.ToString(), 
-                        InvoiceNo, 
-                        UserID.ToString(), 
-                        Amount.ToString(), 
-                        "0", 
-                        DateTime.Now, 
-                        transactionTitle);
-
-                    // Insert return payment record
-                    await _saleRepository.ReturnSalePayment(CompanyID, BranchID, UserID, InvoiceNo, CustomerInvoiceID, CustomerReturnInvoiceID, TotalAmount, Amount, CustomerID, RemainingBalance);
-                    // Insert transaction records
-                    await _saleRepository.InsertTransaction(CompanyID, BranchID);
-                    
-                    return Localization.Localization.PaidSuccessfully;
+                    return Localization.Localization.CompanyFinancialYearNotSet;
                 }
-                catch (Exception ex)
+
+                string transactionTitle;
+
+                // Credit Entry Return Sale Payment Paid
+                // 15 - Sale Return Payment Paid
+                var returnSaleAccount = await _accountSettingRepository.GetByActivityAsync(16, CompanyID, BranchID);
+                if (returnSaleAccount == null)
                 {
-                    Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
-                    return Localization.Localization.UnexpectedErrorOccurred;
+                    return Localization.Localization.AccountSettingsForSaleReturnPaymentPaidNotFound;
                 }
+
+                transactionTitle = Localization.Localization.ReturnSalePaymentPaidTo + Customername;
+                SetEntries(FinancialYearID,
+                    returnSaleAccount.AccountHeadID.ToString(),
+                    returnSaleAccount.AccountControlID.ToString(),
+                    returnSaleAccount.AccountSubControlID.ToString(),
+                    InvoiceNo,
+                    UserID.ToString(),
+                    "0",
+                    Amount.ToString(),
+                    DateTime.Now,
+                    transactionTitle);
+
+                // Debit Entry Return Sale Payment Success
+                // 16 - Sale Return Payment Succeed
+                returnSaleAccount = await _accountSettingRepository.GetByActivityAsync(16, CompanyID, BranchID);
+                if (returnSaleAccount == null)
+                {
+                    return Localization.Localization.AccountSettingsForSaleReturnPaymentSuccessNotFound;
+                }
+                transactionTitle = Customername + Localization.Localization.ReturnSalePaymentSsSucceed;
+                SetEntries(FinancialYearID,
+                    returnSaleAccount.AccountHeadID.ToString(),
+                    returnSaleAccount.AccountControlID.ToString(),
+                    returnSaleAccount.AccountSubControlID.ToString(),
+                    InvoiceNo,
+                    UserID.ToString(),
+                    Amount.ToString(),
+                    "0",
+                    DateTime.Now,
+                    transactionTitle);
+
+                // Insert return payment record
+                await _saleRepository.ReturnSalePayment(CompanyID, BranchID, UserID, InvoiceNo, CustomerInvoiceID, CustomerReturnInvoiceID, TotalAmount, Amount, CustomerID, RemainingBalance);
+                // Insert transaction records
+                await _saleRepository.InsertTransaction(CompanyID, BranchID);
+
+                return Localization.Localization.PaidSuccessfully;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
+                return Localization.Localization.UnexpectedErrorOccurred;
+            }
         }
 
         public async Task CompleteSale(IEnumerable<SaleCartDetail> saleDetails)
