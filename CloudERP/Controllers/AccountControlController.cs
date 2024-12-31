@@ -16,7 +16,10 @@ namespace CloudERP.Controllers
         private readonly IAccountHeadRepository _accountHeadRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public AccountControlController(IAccountControlRepository accountControlRepository, IAccountHeadRepository accountHeadRepository, SessionHelper sessionHelper)
+        public AccountControlController(
+            IAccountControlRepository accountControlRepository, 
+            IAccountHeadRepository accountHeadRepository, 
+            SessionHelper sessionHelper)
         {
             _accountControlRepository = accountControlRepository;
             _accountHeadRepository = accountHeadRepository;
@@ -98,8 +101,7 @@ namespace CloudERP.Controllers
                 if (id == null) return RedirectToAction("Index");
 
                 var accountHeads = await _accountHeadRepository.GetAllAsync();
-                if (accountHeads == null || !accountHeads.Any())
-                    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "No Account Heads found.");
+                if (accountHeads == null) return HttpNotFound();
 
                 var accountControl = await _accountControlRepository.GetByIdAsync(id.Value);
                 if (accountControl == null) return HttpNotFound();

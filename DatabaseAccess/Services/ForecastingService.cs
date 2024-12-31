@@ -23,10 +23,6 @@ namespace DatabaseAccess.Services
         public double GenerateForecast(int companyID, int branchID, DateTime startDate, DateTime endDate)
         {
             var forecastData = _forecastingRepository.GetForecastData(companyID, branchID, startDate, endDate);
-            if (!forecastData.Any())
-            {
-                throw new InvalidOperationException("No data avaliable for forecasting");
-            }
 
             var model = _financialForecaster.TrainModel(forecastData);
 

@@ -75,8 +75,6 @@ namespace DatabaseAccess.Repositories
 
         public async Task AddAsync(Employee employee)
         {
-            if (employee == null) throw new ArgumentNullException(nameof(employee));
-
             var entity = new tblEmployee
             {
                 EmployeeID = employee.EmployeeID,
@@ -102,10 +100,7 @@ namespace DatabaseAccess.Repositories
 
         public async Task UpdateAsync(Employee employee)
         {
-            if (employee == null) throw new ArgumentNullException(nameof(employee));
-
             var entity = await _dbContext.tblEmployee.FindAsync(employee.EmployeeID);
-            if (entity == null) throw new KeyNotFoundException("Employee not found.");
 
             entity.EmployeeID = employee.EmployeeID;
             entity.Name = employee.FullName;

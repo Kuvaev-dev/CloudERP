@@ -1,6 +1,5 @@
 ﻿using Domain.Models;
 using Domain.RepositoryAccess;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -14,7 +13,7 @@ namespace DatabaseAccess.Repositories
 
         public PayrollRepository(CloudDBEntities dbContext)
         {
-            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+            _dbContext = dbContext;
         }
 
         public async Task<Payroll> GetByIdAsync(int id)

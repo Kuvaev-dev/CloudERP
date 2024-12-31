@@ -1,13 +1,12 @@
 ﻿using Domain.Models;
 using Domain.RepositoryAccess;
-using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace DatabaseAccess.Repositories
 {
-    internal class SupplierInvoiceRepository : ISupplierInvoiceRepository
+    public class SupplierInvoiceRepository : ISupplierInvoiceRepository
     {
         private readonly CloudDBEntities _dbContext;
 
@@ -56,8 +55,6 @@ namespace DatabaseAccess.Repositories
 
         public async Task AddAsync(SupplierInvoice supplierInvoice)
         {
-            if (supplierInvoice == null) throw new ArgumentNullException(nameof(supplierInvoice));
-
             var entity = new tblSupplierInvoice
             {
                 SupplierInvoiceID = supplierInvoice.SupplierInvoiceID,

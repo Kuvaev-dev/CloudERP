@@ -64,14 +64,14 @@ namespace Domain.Services
         {
             try
             {
-                string transectiontitle = "Salary Is Pending";
+                string transectiontitle = Localization.Localization.SalaryIsPending;
 
                 var employee = await _employeeRepository.GetByIdAsync(EmployeeID);
                 string employeename = string.Empty;
 
                 if (employee != null)
                 {
-                    employeename = "To " + employee.FullName;
+                    employeename = Localization.Localization.To + employee.FullName;
                     transectiontitle += employeename;
                 }
 
@@ -79,14 +79,14 @@ namespace Domain.Services
                 string FinancialYearID = financialYearCheck != null ? Convert.ToString(financialYearCheck) : string.Empty;
                 if (string.IsNullOrEmpty(FinancialYearID))
                 {
-                    return "Company Financial Year Not Set";
+                    return Localization.Localization.CompanyFinancialYearNotSet;
                 }
 
                 // 8 - Sale Return Payment Pending
                 var account = await _accountSettingRepository.GetByActivityAsync(8, CompanyID, BranchID);
                 if (account == null)
                 {
-                    return "Account Settings Not Found For The Provided CompanyID And BranchID";
+                    return Localization.Localization.AccountSettingsNotFoundForTheProvidedCompanyIDAndBranchID;
                 }
 
                 SetEntries(FinancialYearID,
@@ -100,7 +100,7 @@ namespace Domain.Services
                     DateTime.Now,
                     transectiontitle);
 
-                transectiontitle = "Salary Succeed " + employee.FullName;
+                transectiontitle = $"{Localization.Localization.SalarySucceed} {employee.FullName}";
 
                 SetEntries(FinancialYearID,
                     Convert.ToString(account.AccountHeadID),
@@ -116,12 +116,12 @@ namespace Domain.Services
                 await _salaryTransactionRepository.Confirm(EmployeeID, TransferAmount, UserID, BranchID, CompanyID, InvoiceNo, SalaryMonth, SalaryYear);
                 await _salaryTransactionRepository.InsertTransaction(CompanyID, BranchID);
 
-                return "Salary Succeed";
+                return Localization.Localization.SalarySucceed;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
-                return "Unexpected Error Occurred";
+                return Localization.Localization.UnexpectedErrorOccurred;
             }
         }
 

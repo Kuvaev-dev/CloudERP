@@ -1,6 +1,5 @@
 ﻿using Domain.Models;
 using Domain.RepositoryAccess;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -8,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DatabaseAccess.Repositories
 {
-    internal class SupplierInvoiceDetailRepository : ISupplierInvoiceDetailRepository
+    public class SupplierInvoiceDetailRepository : ISupplierInvoiceDetailRepository
     {
         private readonly CloudDBEntities _dbContext;
 
@@ -19,8 +18,6 @@ namespace DatabaseAccess.Repositories
 
         public async Task AddAsync(SupplierInvoiceDetail supplierInvoiceDetail)
         {
-            if (supplierInvoiceDetail == null) throw new ArgumentNullException(nameof(supplierInvoiceDetail));
-
             var entity = new tblSupplierInvoiceDetail
             {
                 SupplierInvoiceDetailID = supplierInvoiceDetail.SupplierInvoiceDetailID,

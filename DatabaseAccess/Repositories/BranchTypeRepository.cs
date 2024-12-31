@@ -1,6 +1,5 @@
 ﻿using Domain.Models;
 using Domain.RepositoryAccess;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -8,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace DatabaseAccess.Repositories
 {
-    internal class BranchTypeRepository : IBranchTypeRepository
+    public class BranchTypeRepository : IBranchTypeRepository
     {
         private readonly CloudDBEntities _dbContext;
 
         public BranchTypeRepository(CloudDBEntities dbContext)
         {
-            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+            _dbContext = dbContext;
         }
 
         public async Task<IEnumerable<BranchType>> GetAllAsync()

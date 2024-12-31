@@ -97,7 +97,6 @@ namespace CloudERP.Controllers
                         return View(model);
                     }
 
-                    // Загрузка фото через сервис
                     var folder = "~/Content/CompanyLogo";
                     var fileName = $"{model.Company.Name}.jpg";
                     model.Company.Logo = model.LogoFile != null

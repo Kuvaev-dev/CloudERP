@@ -1,22 +1,20 @@
-﻿using DatabaseAccess.Code;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
 using System.Threading.Tasks;
 using Domain.RepositoryAccess;
 using Domain.Models.FinancialModels;
+using DatabaseAccess.Helpers;
 
 namespace DatabaseAccess.Repositories
 {
     public class LedgerRepository : ILedgerRepository
     {
-        private readonly CloudDBEntities _db;
         private readonly DatabaseQuery _query;
 
-        public LedgerRepository(CloudDBEntities db, DatabaseQuery query)
+        public LedgerRepository(DatabaseQuery query)
         {
-            _db = db;
             _query = query;
         }
 
@@ -59,7 +57,6 @@ namespace DatabaseAccess.Repositories
                         {
                             if (!string.IsNullOrEmpty(currentAccountName))
                             {
-                                // Add total balance for the previous account
                                 ledger.Add(new AccountLedgerModel
                                 {
                                     SNo = sNo++,
@@ -69,7 +66,6 @@ namespace DatabaseAccess.Repositories
                                 });
                             }
 
-                            // Add header for the new account
                             ledger.Add(new AccountLedgerModel
                             {
                                 SNo = sNo++,
@@ -85,7 +81,6 @@ namespace DatabaseAccess.Repositories
                             currentAccountName = accountName;
                         }
 
-                        // Add transaction details
                         ledger.Add(new AccountLedgerModel
                         {
                             SNo = sNo++,
@@ -99,7 +94,6 @@ namespace DatabaseAccess.Repositories
                         totalCredit += credit;
                     }
 
-                    // Add total balance for the last account
                     if (!string.IsNullOrEmpty(currentAccountName))
                     {
                         ledger.Add(new AccountLedgerModel

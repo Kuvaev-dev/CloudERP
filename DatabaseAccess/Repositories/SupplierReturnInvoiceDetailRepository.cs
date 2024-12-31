@@ -1,6 +1,5 @@
 ﻿using Domain.Models;
 using Domain.RepositoryAccess;
-using System;
 using System.Threading.Tasks;
 
 namespace DatabaseAccess.Repositories
@@ -11,13 +10,11 @@ namespace DatabaseAccess.Repositories
 
         public SupplierReturnInvoiceDetailRepository(CloudDBEntities dbContext)
         {
-            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+            _dbContext = dbContext;
         }
 
         public async Task AddAsync(SupplierReturnInvoiceDetail supplierReturnInvoiceDetail)
         {
-            if (supplierReturnInvoiceDetail == null) throw new ArgumentNullException(nameof(supplierReturnInvoiceDetail));
-
             var entity = new tblSupplierReturnInvoiceDetail
             {
                 SupplierReturnInvoiceDetailID = supplierReturnInvoiceDetail.SupplierReturnInvoiceDetailID,

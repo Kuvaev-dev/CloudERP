@@ -1,4 +1,4 @@
-﻿using DatabaseAccess.Code;
+﻿using DatabaseAccess.Helpers;
 using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
 using System;
@@ -14,6 +14,7 @@ namespace DatabaseAccess.Repositories
         private readonly CloudDBEntities _db;
         private readonly DatabaseQuery _query;
         private readonly IAccountSubControlRepository _accountSubControlRepository;
+
         private DataTable _dtEntries;
 
         public GeneralTransactionRepository(CloudDBEntities db, DatabaseQuery query, IAccountSubControlRepository accountSubControlRepository)
@@ -55,10 +56,7 @@ namespace DatabaseAccess.Repositories
             {
                 InitializeDataTable();
 
-                // Заголовок транзакции
                 string transactionTitle = reason;
-
-                // Проверка финансового года
                 var financialYearCheck = await _query.Retrive("SELECT TOP 1 FinancialYearID FROM tblFinancialYear WHERE IsActive = 1");
                 string financialYearId = Convert.ToString(financialYearCheck.Rows[0][0]);
 
@@ -67,9 +65,7 @@ namespace DatabaseAccess.Repositories
                     return Localization.Localization.CompanyFinancialYearNotSet;
                 }
 
-                // Дебетовая запись
                 var debitAccount = await _accountSubControlRepository.GetBySettingAsync(debitAccountControlId, companyId, branchId);
-
                 if (debitAccount == null)
                 {
                     return Localization.Localization.DebitAccountNotFound;
@@ -80,9 +76,7 @@ namespace DatabaseAccess.Repositories
                     invoiceNo, userId.ToString(), "0", transferAmount.ToString(),
                     DateTime.Now, transactionTitle);
 
-                // Кредитовая запись
                 var creditAccount = await _accountSubControlRepository.GetBySettingAsync(creditAccountControlId, companyId, branchId);
-
                 if (creditAccount == null)
                 {
                     return Localization.Localization.CreditAccountNotFound;
@@ -95,7 +89,6 @@ namespace DatabaseAccess.Repositories
                     invoiceNo, userId.ToString(), transferAmount.ToString(), "0",
                     DateTime.Now, transactionTitle);
 
-                // Сохранение транзакций в базу данных
                 foreach (DataRow entryRow in _dtEntries.Rows)
                 {
                     string entryDate = Convert.ToDateTime(entryRow["TransectionDate"]).ToString("yyyy-MM-dd HH:mm:ss");
@@ -209,7 +202,6 @@ namespace DatabaseAccess.Repositories
             return journalEntries;
         }
     
-
         private void AddEntry(string financialYearId, string accountHeadId, string accountControlId, string accountSubControlId, string invoiceNo, string userId, string credit, string debit, DateTime transactionDate, string transactionTitle)
         {
             InitializeDataTable();

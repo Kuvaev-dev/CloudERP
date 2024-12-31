@@ -1,6 +1,5 @@
 ﻿using Domain.Models;
 using Domain.RepositoryAccess;
-using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,13 +12,11 @@ namespace DatabaseAccess.Repositories
 
         public CustomerInvoiceRepository(CloudDBEntities dbContext)
         {
-            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+            _dbContext = dbContext;
         }
 
         public async Task AddAsync(CustomerInvoice customerInvoice)
         {
-            if (customerInvoice == null) throw new ArgumentNullException(nameof(customerInvoice));
-
             var entity = new tblCustomerInvoice
             {
                 CustomerInvoiceID = customerInvoice.CustomerInvoiceID,
@@ -61,6 +58,7 @@ namespace DatabaseAccess.Repositories
             var entity = await _dbContext.tblCustomerInvoice
                 .Where(p => p.InvoiceNo == invoiceNo.Trim())
                 .FirstOrDefaultAsync();
+
             return entity == null ? null : new CustomerInvoice
             {
                 CustomerInvoiceID = entity.CustomerInvoiceID,

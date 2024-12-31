@@ -57,8 +57,6 @@ namespace DatabaseAccess.Repositories
 
         public async Task AddAsync(TaskModel task)
         {
-            if (task == null) throw new ArgumentNullException(nameof(task));
-
             var entity = new tblTask
             {
                 TaskID = task.TaskID,
@@ -78,10 +76,7 @@ namespace DatabaseAccess.Repositories
 
         public async Task UpdateAsync(TaskModel task)
         {
-            if (task == null) throw new ArgumentNullException(nameof(task));
-
             var entity = await _dbContext.tblTask.FindAsync(task.TaskID);
-            if (entity == null) throw new KeyNotFoundException("Task not found.");
 
             entity.TaskID = task.TaskID;
             entity.Title = task.Title;

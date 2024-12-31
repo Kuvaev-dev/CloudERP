@@ -40,7 +40,7 @@ namespace Domain.Services
         public string SetDefaultPhotoPath(string defaultPath)
         {
             return string.IsNullOrEmpty(defaultPath)
-                ? throw new Exception("Default photo path not found")
+                ? throw new Exception(Localization.Localization.DefaultPhotoPathNotFound)
                 : defaultPath;
         }
     }

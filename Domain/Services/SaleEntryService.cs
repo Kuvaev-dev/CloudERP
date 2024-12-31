@@ -84,7 +84,7 @@ namespace Domain.Services
                     "0",
                     Amount.ToString(),
                     DateTime.Now,
-                    CustomerName + ", Sale Payment is Pending!");
+                    CustomerName + $", {Localization.Localization.SalePaymentIsPending}");
 
                 if (isPayment)
                 {
@@ -106,7 +106,7 @@ namespace Domain.Services
                         Amount.ToString(),
                         "0",
                         DateTime.Now,
-                        "Sale Payment Paid By " + CustomerName);
+                        $"{Localization.Localization.SalePaymentPaidBy} " + CustomerName);
 
                     // Debit Entry Sale Payment Success
                     // 12 - Sale Payment Success
@@ -124,7 +124,7 @@ namespace Domain.Services
                         "0",
                         Amount.ToString(),
                         DateTime.Now,
-                        CustomerName + ", Sale Payment is Succeed!");
+                        CustomerName + $", {Localization.Localization.SalePaymentIsSucceed}");
 
                     // Insert payment record
                     return await _saleRepository.ConfirmSale(CompanyID, BranchID, UserID, CustomerInvoiceID, Amount, CustomerID, payInvoiceNo, 0);
@@ -170,7 +170,7 @@ namespace Domain.Services
                     Amount.ToString(),
                     "0",
                     DateTime.Now,
-                    "Sale Payment Paid By " + CustomerName);
+                    $"{Localization.Localization.SalePaymentPaidBy} " + CustomerName);
 
                 // Debit Entry Sale Payment Success
                 // 12 - Sale Payment Success
@@ -188,7 +188,7 @@ namespace Domain.Services
                     "0",
                     Amount.ToString(),
                     DateTime.Now,
-                    CustomerName + ", Sale Payment is Succeed!");
+                    CustomerName + $", {Localization.Localization.SalePaymentIsSucceed}");
 
                 // Insert payment record
                 await _saleRepository.ConfirmSale(CompanyID, BranchID, UserID, CustomerInvoiceID, Amount, CustomerID, payInvoiceNo, RemainingBalance);
@@ -253,7 +253,7 @@ namespace Domain.Services
                     Amount.ToString(),
                     "0",
                     DateTime.Now,
-                    Customername + ", Return Sale Payment is Pending!");
+                    Customername + $", {Localization.Localization.ReturnSalePaymentIsPending}");
 
                 if (isPayment)
                 {
@@ -275,7 +275,7 @@ namespace Domain.Services
                         "0",
                         Amount.ToString(),
                         DateTime.Now,
-                        "Return Sale Payment Paid to " + Customername);
+                        $"{Localization.Localization.ReturnSalePaymentPaidTo} " + Customername);
 
                     // Debit Entry Return Sale Payment Success
                     // 16 - Sale Return Payment Succeed
@@ -293,7 +293,7 @@ namespace Domain.Services
                         "0",
                         Amount.ToString(),
                         DateTime.Now,
-                        Customername + ", Return Sale Payment is Succeed!");
+                        Customername + $", {Localization.Localization.ReturnSalePaymentIsSucceed}");
 
                     return await _saleRepository.ReturnSale(CompanyID, BranchID, UserID, CustomerInvoiceID, CustomerReturnInvoiceID, Amount, CustomerID, payInvoiceNo, 0);
                 }

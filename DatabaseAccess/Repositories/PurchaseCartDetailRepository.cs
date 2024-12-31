@@ -1,6 +1,5 @@
 ﻿using Domain.Models;
 using Domain.RepositoryAccess;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -19,8 +18,6 @@ namespace DatabaseAccess.Repositories
 
         public async Task AddAsync(PurchaseCartDetail purchaseCartDetail)
         {
-            if (purchaseCartDetail == null) throw new ArgumentNullException(nameof(purchaseCartDetail));
-
             var entity = new tblPurchaseCartDetail
             {
                 PurchaseCartDetailID = purchaseCartDetail.PurchaseCartDetailID,
@@ -38,10 +35,7 @@ namespace DatabaseAccess.Repositories
 
         public async Task DeleteAsync(PurchaseCartDetail purchaseCartDetail)
         {
-            if (purchaseCartDetail == null) throw new ArgumentNullException(nameof(purchaseCartDetail));
-
             var entity = await _dbContext.tblPurchaseCartDetail.FindAsync(purchaseCartDetail.PurchaseCartDetailID);
-            if (entity == null) throw new KeyNotFoundException("PurchaseCartDetail not found.");
 
             entity.PurchaseCartDetailID = purchaseCartDetail.PurchaseCartDetailID;
             entity.ProductID = purchaseCartDetail.ProductID;
@@ -143,10 +137,7 @@ namespace DatabaseAccess.Repositories
 
         public async Task UpdateAsync(PurchaseCartDetail purchaseCartDetail)
         {
-            if (purchaseCartDetail == null) throw new ArgumentNullException(nameof(purchaseCartDetail));
-
             var entity = await _dbContext.tblPurchaseCartDetail.FindAsync(purchaseCartDetail.PurchaseCartDetailID);
-            if (entity == null) throw new KeyNotFoundException("PurchaseCartDetail not found.");
 
             entity.PurchaseCartDetailID = purchaseCartDetail.PurchaseCartDetailID;
             entity.ProductID = purchaseCartDetail.ProductID;

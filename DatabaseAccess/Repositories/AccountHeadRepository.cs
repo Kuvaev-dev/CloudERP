@@ -1,6 +1,5 @@
 ﻿using Domain.Models;
 using Domain.RepositoryAccess;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -14,7 +13,7 @@ namespace DatabaseAccess.Repositories
 
         public AccountHeadRepository(CloudDBEntities dbContext)
         {
-            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+            _dbContext = dbContext;
         }
 
         public async Task<IEnumerable<AccountHead>> GetAllAsync()
@@ -52,8 +51,6 @@ namespace DatabaseAccess.Repositories
 
         public async Task AddAsync(AccountHead accountHead)
         {
-            if (accountHead == null) throw new ArgumentNullException(nameof(accountHead));
-
             var entity = new tblAccountHead
             {
                 AccountHeadID = accountHead.AccountHeadID,
@@ -68,10 +65,7 @@ namespace DatabaseAccess.Repositories
 
         public async Task UpdateAsync(AccountHead accountHead)
         {
-            if (accountHead == null) throw new ArgumentNullException(nameof(accountHead));
-
             var entity = await _dbContext.tblAccountHead.FindAsync(accountHead.AccountHeadID);
-            if (entity == null) throw new KeyNotFoundException("AccountHead not found.");
 
             entity.AccountHeadID = accountHead.AccountHeadID;
             entity.AccountHeadName = accountHead.AccountHeadName;

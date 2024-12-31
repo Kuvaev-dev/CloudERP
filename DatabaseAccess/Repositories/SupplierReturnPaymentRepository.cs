@@ -1,6 +1,5 @@
 ﻿using Domain.Models;
 using Domain.RepositoryAccess;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -14,7 +13,7 @@ namespace DatabaseAccess.Repositories
 
         public SupplierReturnPaymentRepository(CloudDBEntities dbContext)
         {
-            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+            _dbContext = dbContext;
         }
 
         public async Task<IEnumerable<SupplierReturnPayment>> GetBySupplierReturnInvoiceId(int id)
@@ -34,7 +33,7 @@ namespace DatabaseAccess.Repositories
                 PaymentAmount = srp.PaymentAmount,
                 RemainingBalance = srp.RemainingBalance,
                 UserID = srp.UserID,
-                InvoiceDate = (DateTime)srp.InvoiceDate
+                InvoiceDate = (System.DateTime)srp.InvoiceDate
             });
         }
     }

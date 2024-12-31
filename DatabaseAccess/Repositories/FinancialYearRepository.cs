@@ -1,6 +1,5 @@
 ﻿using Domain.Models;
 using Domain.RepositoryAccess;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -83,8 +82,6 @@ namespace DatabaseAccess.Repositories
 
         public async Task AddAsync(FinancialYear financialYear)
         {
-            if (financialYear == null) throw new ArgumentNullException(nameof(financialYear));
-
             var entity = new tblFinancialYear
             {
                 FinancialYearID = financialYear.FinancialYearID,
@@ -101,10 +98,7 @@ namespace DatabaseAccess.Repositories
 
         public async Task UpdateAsync(FinancialYear financialYear)
         {
-            if (financialYear == null) throw new ArgumentNullException(nameof(financialYear));
-
             var entity = await _dbContext.tblFinancialYear.FindAsync(financialYear.FinancialYearID);
-            if (entity == null) throw new KeyNotFoundException("Financial year not found.");
 
             entity.FinancialYearID = financialYear.FinancialYearID;
             entity.FinancialYear = financialYear.FinancialYearName;

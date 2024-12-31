@@ -1,6 +1,5 @@
 ﻿using Domain.Models;
 using Domain.RepositoryAccess;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -41,8 +40,6 @@ namespace DatabaseAccess.Repositories
 
         public async Task AddAsync(UserType userType)
         {
-            if (userType == null) throw new ArgumentNullException(nameof(userType));
-
             var entity = new tblUserType
             {
                 UserTypeID = userType.UserTypeID,
@@ -55,10 +52,7 @@ namespace DatabaseAccess.Repositories
 
         public async Task UpdateAsync(UserType userType)
         {
-            if (userType == null) throw new ArgumentNullException(nameof(userType));
-
             var entity = await _dbContext.tblUserType.FindAsync(userType.UserTypeID);
-            if (entity == null) throw new KeyNotFoundException("User type not found.");
 
             entity.UserTypeID = userType.UserTypeID;
             entity.UserType = userType.UserTypeName;

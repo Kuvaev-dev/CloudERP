@@ -1,6 +1,5 @@
 ﻿using Domain.Models;
 using Domain.RepositoryAccess;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -78,8 +77,6 @@ namespace DatabaseAccess.Repositories
 
         public async Task AddAsync(AccountSetting accountSetting)
         {
-            if (accountSetting == null) throw new ArgumentNullException(nameof(accountSetting));
-
             var entity = new tblAccountSetting
             {
                 AccountSettingID = accountSetting.AccountSettingID,
@@ -97,10 +94,7 @@ namespace DatabaseAccess.Repositories
 
         public async Task UpdateAsync(AccountSetting accountSetting)
         {
-            if (accountSetting == null) throw new ArgumentNullException(nameof(accountSetting));
-
             var entity = await _dbContext.tblAccountSetting.FindAsync(accountSetting.AccountSettingID);
-            if (entity == null) throw new KeyNotFoundException("Account setting not found.");
 
             entity.AccountSettingID = entity.AccountSettingID;
             entity.AccountHeadID = entity.AccountHeadID;

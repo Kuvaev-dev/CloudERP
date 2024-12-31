@@ -1,9 +1,7 @@
 ﻿using DatabaseAccess.Helpers;
 using Domain.Models;
 using Domain.RepositoryAccess;
-using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -122,8 +120,6 @@ namespace DatabaseAccess.Repositories
 
         public async Task AddAsync(Supplier supplier)
         {
-            if (supplier == null) throw new ArgumentNullException(nameof(supplier));
-
             var entity = new tblSupplier
             {
                 SupplierID = supplier.SupplierID,
@@ -143,10 +139,7 @@ namespace DatabaseAccess.Repositories
 
         public async Task UpdateAsync(Supplier supplier)
         {
-            if (supplier == null) throw new ArgumentNullException(nameof(supplier));
-
             var entity = await _dbContext.tblSupplier.FindAsync(supplier.SupplierID);
-            if (entity == null) throw new KeyNotFoundException("Supplier not found.");
 
             entity.SupplierID = supplier.SupplierID;
             entity.SupplierName = supplier.SupplierName;

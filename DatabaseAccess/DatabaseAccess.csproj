@@ -133,12 +133,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CloudDB.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Code\DatabaseQuery.cs" />
+    <Compile Include="Helpers\DatabaseQuery.cs" />
     <Compile Include="Helpers\BranchHelper.cs" />
     <Compile Include="Localization\Localization.Designer.cs">
+      <DependentUpon>Localization.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Localization.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AccountActivityRepository.cs" />
@@ -154,6 +154,9 @@
     <Compile Include="Repositories\CustomerInvoiceRepository.cs" />
     <Compile Include="Repositories\CustomerPaymentRepository.cs" />
     <Compile Include="Repositories\CustomerRepository.cs" />
+    <Compile Include="Repositories\CustomerReturnInvoiceDetailRepository.cs" />
+    <Compile Include="Repositories\CustomerReturnInvoiceRepository.cs" />
+    <Compile Include="Repositories\CustomerReturnPaymentRepository.cs" />
     <Compile Include="Repositories\DashboardRepository.cs" />
     <Compile Include="Repositories\EmployeeRepository.cs" />
     <Compile Include="Repositories\FinancialYearRepository.cs" />

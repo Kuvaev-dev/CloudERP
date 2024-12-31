@@ -1,6 +1,5 @@
 ﻿using Domain.Models;
 using Domain.RepositoryAccess;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -14,7 +13,7 @@ namespace DatabaseAccess.Repositories
 
         public AccountControlRepository(CloudDBEntities dbContext)
         {
-            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+            _dbContext = dbContext;
         }
 
         public async Task<IEnumerable<AccountControl>> GetAllAsync(int companyId, int branchId)
@@ -57,8 +56,6 @@ namespace DatabaseAccess.Repositories
 
         public async Task AddAsync(AccountControl accountControl)
         {
-            if (accountControl == null) throw new ArgumentNullException(nameof(accountControl));
-
             var entity = new tblAccountControl
             {
                 AccountControlID = accountControl.AccountControlID,
@@ -75,10 +72,7 @@ namespace DatabaseAccess.Repositories
 
         public async Task UpdateAsync(AccountControl accountControl)
         {
-            if (accountControl == null) throw new ArgumentNullException(nameof(accountControl));
-
             var entity = await _dbContext.tblAccountControl.FindAsync(accountControl.AccountControlID);
-            if (entity == null) throw new KeyNotFoundException("AccountControl not found.");
 
             entity.AccountControlName = accountControl.AccountControlName;
             entity.AccountHeadID = accountControl.AccountHeadID;

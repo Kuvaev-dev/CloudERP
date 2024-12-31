@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using Domain.Localization;
+using Domain.Models;
 using Domain.RepositoryAccess;
 using System.Threading.Tasks;
 
@@ -41,7 +42,7 @@ namespace CloudERP.Helpers
 
         private void SendEmailReminder(TaskModel task, string email)
         {
-            string subject = $"Reminder: {task.Title}";
+            string subject = $"{Localization.Reminder}: {task.Title}";
             string body = BuildEmailBody(task);
             string toEmail = email;
 
@@ -51,10 +52,10 @@ namespace CloudERP.Helpers
         private string BuildEmailBody(TaskModel task)
         {
             return $@"
-            <h1>Reminder for Task: {task.Title}</h1>
+            <h1>{Localization.ReminderForTask}: {task.Title}</h1>
             <p>{task.Description}</p>
-            <p>Due Date: {task.DueDate:g}</p>
-            <p>Please make sure to complete this task on time.</p>";
+            <p>{Localization.DueDate}: {task.DueDate:g}</p>
+            <p>{Localization.MakeSureToCompleteTask}.</p>";
         }
     }
 }

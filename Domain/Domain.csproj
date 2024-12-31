@@ -88,6 +88,11 @@
   <ItemGroup>
     <Compile Include="Helpers\AllowedDomainsAttribute.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
+    <Compile Include="Localization\Localization.Designer.cs">
+      <DependentUpon>Localization.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Models\AccountActivity.cs" />
     <Compile Include="Models\AccountControl.cs" />
     <Compile Include="Models\AccountHead.cs" />
@@ -189,23 +194,15 @@
     <Compile Include="Services\ReminderService.cs" />
     <Compile Include="Services\SalaryTransactionService.cs" />
     <Compile Include="Services\SaleEntryService.cs" />
-    <Compile Include="Validations\Validations.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Validations.resx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ILLink\ILLink.Descriptors.LibraryBuild.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Validations\Validations.resx">
+    <EmbeddedResource Include="Localization\Localization.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Validations.Designer.cs</LastGenOutput>
+      <LastGenOutput>Localization.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

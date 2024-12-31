@@ -1,4 +1,4 @@
-﻿using DatabaseAccess.Code;
+﻿using DatabaseAccess.Helpers;
 using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
 using System;
@@ -13,9 +13,10 @@ namespace DatabaseAccess.Repositories
     {
         private readonly CloudDBEntities _db;
         private readonly DatabaseQuery _query;
-        private DataTable _dtEntries = null;
         private readonly ICustomerRepository _customerRepository;
         private readonly IUserRepository _userRepository;
+
+        private DataTable _dtEntries = null;
 
         public SaleRepository(CloudDBEntities db, DatabaseQuery query, ICustomerRepository customerRepository, IUserRepository userRepository)
         {
@@ -78,12 +79,6 @@ namespace DatabaseAccess.Repositories
                         var customerID = Convert.ToInt32(row["CustomerID"]);
                         var customer = await _customerRepository.GetByIdAsync(customerID);
 
-                        if (customer == null)
-                        {
-                            Console.WriteLine($"Warning: Customer with ID {customerID} not found.");
-                            continue;
-                        }
-
                         var payment = new SalePaymentModel
                         {
                             CustomerInvoiceID = Convert.ToInt32(row["CustomerInvoiceID"]),
@@ -133,12 +128,6 @@ namespace DatabaseAccess.Repositories
                     {
                         var customerID = Convert.ToInt32(row["CustomerID"]);
                         var customer = await _customerRepository.GetByIdAsync(customerID);
-
-                        if (customer == null)
-                        {
-                            Console.WriteLine($"Warning: Customer with ID {customerID} not found.");
-                            continue;
-                        }
 
                         var payment = new SalePaymentModel
                         {
@@ -220,12 +209,6 @@ namespace DatabaseAccess.Repositories
                     {
                         var customerID = Convert.ToInt32(row["CustomerID"]);
                         var customer = await _customerRepository.GetByIdAsync(customerID);
-
-                        if (customer == null)
-                        {
-                            Console.WriteLine($"Warning: Customer with ID {customerID} not found.");
-                            continue;
-                        }
 
                         var payment = new SalePaymentModel
                         {
@@ -326,12 +309,6 @@ namespace DatabaseAccess.Repositories
                         var userID = Convert.ToInt32(row["UserID"]);
                         var customer = await _customerRepository.GetByIdAsync(customerID);
                         var user = await _userRepository.GetByIdAsync(userID);
-
-                        if (customer == null || user == null)
-                        {
-                            Console.WriteLine($"Warning: Customer with ID {customerID} or User with ID {userID} not found.");
-                            continue;
-                        }
 
                         var payment = new SalePaymentModel
                         {

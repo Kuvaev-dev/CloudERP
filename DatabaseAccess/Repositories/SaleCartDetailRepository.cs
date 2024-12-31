@@ -1,6 +1,5 @@
 ﻿using Domain.Models;
 using Domain.RepositoryAccess;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -14,13 +13,11 @@ namespace DatabaseAccess.Repositories
 
         public SaleCartDetailRepository(CloudDBEntities dbContext)
         {
-            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+            _dbContext = dbContext;
         }
 
         public async Task AddAsync(SaleCartDetail saleCartDetail)
         {
-            if (saleCartDetail == null) throw new ArgumentNullException(nameof(saleCartDetail));
-
             var entity = new tblSaleCartDetail
             {
                 SaleCartDetailID = saleCartDetail.SaleCartDetailID,
@@ -133,10 +130,7 @@ namespace DatabaseAccess.Repositories
 
         public async Task UpdateAsync(SaleCartDetail saleCartDetail)
         {
-            if (saleCartDetail == null) throw new ArgumentNullException(nameof(saleCartDetail));
-
             var entity = await _dbContext.tblSaleCartDetail.FindAsync(saleCartDetail.SaleCartDetailID);
-            if (entity == null) throw new KeyNotFoundException("Sale cart detail not found.");
 
             entity.SaleCartDetailID = saleCartDetail.SaleCartDetailID;
             entity.ProductID = saleCartDetail.ProductID;

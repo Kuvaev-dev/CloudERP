@@ -67,7 +67,7 @@ namespace Domain.Services
 
             TotalReturnEarning = TotalRevenue - TotalExpenses;
 
-            BalanceSheet.Title = "Total Balance";
+            BalanceSheet.Title = Localization.Localization.TrialBalance;
             BalanceSheet.ReturnEarning = TotalReturnEarning;
             BalanceSheet.Total_Liabilities_OwnerEquity_ReturnEarning = TotalLiabilities + TotalOwnerEquity + TotalReturnEarning;
             BalanceSheet.TotalAssets = TotalAssets;

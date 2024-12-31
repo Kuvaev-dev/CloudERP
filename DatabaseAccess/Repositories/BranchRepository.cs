@@ -1,6 +1,5 @@
 ﻿using Domain.Models;
 using Domain.RepositoryAccess;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -14,7 +13,7 @@ namespace DatabaseAccess.Repositories
 
         public BranchRepository(CloudDBEntities dbContext)
         {
-            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+            _dbContext = dbContext;
         }
 
         public async Task<IEnumerable<Branch>> GetByCompanyAsync(int companyId)
@@ -78,8 +77,6 @@ namespace DatabaseAccess.Repositories
 
         public async Task AddAsync(Branch branch)
         {
-            if (branch == null) throw new ArgumentNullException(nameof(branch));
-
             var entity = new tblBranch
             {
                 BranchID = branch.BranchID,
@@ -97,10 +94,7 @@ namespace DatabaseAccess.Repositories
 
         public async Task UpdateAsync(Branch branch)
         {
-            if (branch == null) throw new ArgumentNullException(nameof(branch));
-
             var entity = await _dbContext.tblBranch.FindAsync(branch.BranchID);
-            if (entity == null) throw new KeyNotFoundException("Branch not found.");
 
             entity.BranchID = branch.BranchID;
             entity.BranchTypeID = branch.BranchTypeID;

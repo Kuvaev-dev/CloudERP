@@ -1,4 +1,4 @@
-﻿using DatabaseAccess.Code;
+﻿using DatabaseAccess.Helpers;
 using Domain.RepositoryAccess;
 using System;
 using System.Data;
@@ -11,6 +11,7 @@ namespace DatabaseAccess.Repositories
     {
         private readonly CloudDBEntities _db;
         private readonly DatabaseQuery _query;
+
         private DataTable _dtEntries = null;
 
         public SalaryTransactionRepository(CloudDBEntities db, DatabaseQuery query)
@@ -39,7 +40,6 @@ namespace DatabaseAccess.Repositories
                     new SqlParameter("@UserID", UserID)
                 };
 
-                Console.WriteLine($"Executing payment query: {paymentquery}");
                 await _query.Insert(paymentquery, paymentParameters);
 
                 transaction.Commit();

@@ -1,6 +1,5 @@
 ﻿using Domain.Models.Forecasting;
 using Microsoft.ML;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -24,11 +23,6 @@ namespace DatabaseAccess.Services
         public ITransformer TrainModel(IEnumerable<ForecastData> data)
         {
             var dataView = _mlContext.Data.LoadFromEnumerable(data);
-
-            if (dataView.GetRowCount() == 0)
-            {
-                throw new InvalidOperationException("Training Set Has Zero Instances");
-            }
 
             var pipeline = _mlContext.Transforms.Concatenate("Features", "DateAsNumber")
                 .Append(_mlContext.Regression.Trainers.Sdca(labelColumnName: "Value", maximumNumberOfIterations: 100));

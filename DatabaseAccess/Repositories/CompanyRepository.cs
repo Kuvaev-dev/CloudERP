@@ -1,6 +1,5 @@
 ﻿using Domain.Models;
 using Domain.RepositoryAccess;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -47,8 +46,6 @@ namespace DatabaseAccess.Repositories
 
         public async Task AddAsync(Company company)
         {
-            if (company == null) throw new ArgumentNullException(nameof(company));
-
             var entity = new tblCompany
             {
                 CompanyID = company.CompanyID,
@@ -63,10 +60,7 @@ namespace DatabaseAccess.Repositories
 
         public async Task UpdateAsync(Company company)
         {
-            if (company == null) throw new ArgumentNullException(nameof(company));
-
             var entity = await _dbContext.tblCompany.FindAsync(company.CompanyID);
-            if (entity == null) throw new KeyNotFoundException("Company not found.");
 
             entity.CompanyID = company.CompanyID;
             entity.Name = company.Name;

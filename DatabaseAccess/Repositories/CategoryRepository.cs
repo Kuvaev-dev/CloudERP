@@ -1,6 +1,5 @@
 ﻿using Domain.Models;
 using Domain.RepositoryAccess;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -20,9 +19,9 @@ namespace DatabaseAccess.Repositories
         public async Task<IEnumerable<Category>> GetAllAsync(int companyID, int branchID)
         {
             var entities = await _dbContext.tblCategory
-            .Include(c => c.tblUser)
-            .Where(c => c.CompanyID == companyID && c.BranchID == branchID)
-            .ToListAsync();
+                .Include(c => c.tblUser)
+                .Where(c => c.CompanyID == companyID && c.BranchID == branchID)
+                .ToListAsync();
 
             return entities.Select(c => new Category
             {
@@ -56,8 +55,6 @@ namespace DatabaseAccess.Repositories
 
         public async Task AddAsync(Category category)
         {
-            if (category == null) throw new ArgumentNullException(nameof(category));
-
             var entity = new tblCategory
             {
                 CategoryID = category.CategoryID,
@@ -73,10 +70,7 @@ namespace DatabaseAccess.Repositories
 
         public async Task UpdateAsync(Category category)
         {
-            if (category == null) throw new ArgumentNullException(nameof(category));
-
             var entity = await _dbContext.tblCategory.FindAsync(category.CategoryID);
-            if (entity == null) throw new KeyNotFoundException("Category not found.");
 
             entity.CategoryID = category.CategoryID;
             entity.CategoryName = category.CategoryName;

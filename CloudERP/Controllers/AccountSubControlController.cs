@@ -111,8 +111,7 @@ namespace CloudERP.Controllers
                 if (id == null) return RedirectToAction("Index");
 
                 var accountControls = await _accountControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
-                if (accountControls == null || !accountControls.Any())
-                    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "No Account Controls found.");
+                if (accountControls == null) return HttpNotFound();
 
                 var subControl = await _accountSubControlRepository.GetByIdAsync(id.Value);
                 if (subControl == null) return HttpNotFound();

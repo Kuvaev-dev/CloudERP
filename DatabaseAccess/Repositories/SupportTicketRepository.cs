@@ -1,11 +1,8 @@
 ﻿using Domain.Models;
 using Domain.RepositoryAccess;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Net.Sockets;
-using System.Resources;
 using System.Threading.Tasks;
 
 namespace DatabaseAccess.Repositories
@@ -59,8 +56,6 @@ namespace DatabaseAccess.Repositories
 
         public async Task AddAsync(SupportTicket ticket)
         {
-            if (ticket == null) throw new ArgumentNullException(nameof(ticket));
-
             var entity = new tblSupportTicket
             {
                 TicketID = ticket.TicketID,
@@ -81,10 +76,7 @@ namespace DatabaseAccess.Repositories
 
         public async Task UpdateAsync(SupportTicket ticket)
         {
-            if (ticket == null) throw new ArgumentNullException(nameof(ticket));
-
             var entity = await _dbContext.tblSupportTicket.FindAsync(ticket.TicketID);
-            if (entity == null) throw new KeyNotFoundException("Support Ticket not found.");
 
             entity.TicketID = ticket.TicketID;
             entity.Subject = ticket.Subject;

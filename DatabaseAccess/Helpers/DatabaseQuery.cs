@@ -2,7 +2,7 @@
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 
-namespace DatabaseAccess.Code
+namespace DatabaseAccess.Helpers
 {
     public class DatabaseQuery
     {

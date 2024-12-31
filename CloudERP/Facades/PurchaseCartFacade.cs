@@ -1,11 +1,11 @@
-﻿using Domain.EntryAccess;
-using Domain.RepositoryAccess;
+﻿using Domain.RepositoryAccess;
+using Domain.Services;
 
 namespace CloudERP.Facades
 {
     public class PurchaseCartFacade
     {
-        private readonly IPurchaseEntry _purchaseEntry;
+        private readonly IPurchaseEntryService _purchaseEntry;
         private readonly IStockRepository _stockRepository;
         private readonly ISupplierRepository _supplierRepository;
         private readonly IPurchaseCartDetailRepository _purchaseCartDetailRepository;
@@ -13,7 +13,7 @@ namespace CloudERP.Facades
         private readonly ISupplierInvoiceDetailRepository _supplierInvoiceDetailRepository;
 
         public PurchaseCartFacade(
-            IPurchaseEntry purchaseEntry,
+            IPurchaseEntryService purchaseEntry,
             IStockRepository stockRepository,
             ISupplierRepository supplierRepository,
             IPurchaseCartDetailRepository purchaseCartDetailRepository,
@@ -28,7 +28,7 @@ namespace CloudERP.Facades
             _supplierInvoiceDetailRepository = supplierInvoiceDetailRepository;
         }
 
-        public IPurchaseEntry PurchaseEntry => _purchaseEntry;
+        public IPurchaseEntryService PurchaseEntry => _purchaseEntry;
         public IStockRepository StockRepository => _stockRepository;
         public ISupplierRepository SupplierRepository => _supplierRepository;
         public IPurchaseCartDetailRepository PurchaseCartDetailRepository => _purchaseCartDetailRepository;

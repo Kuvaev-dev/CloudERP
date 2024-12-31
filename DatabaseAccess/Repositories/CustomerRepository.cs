@@ -1,7 +1,6 @@
 ﻿using DatabaseAccess.Helpers;
 using Domain.Models;
 using Domain.RepositoryAccess;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -120,8 +119,6 @@ namespace DatabaseAccess.Repositories
 
         public async Task AddAsync(Customer customer)
         {
-            if (customer == null) throw new ArgumentNullException(nameof(customer));
-
             var entity = new tblCustomer
             {
                 CustomerID = customer.CustomerID,
@@ -140,10 +137,7 @@ namespace DatabaseAccess.Repositories
 
         public async Task UpdateAsync(Customer customer)
         {
-            if (customer == null) throw new ArgumentNullException(nameof(customer));
-
             var entity = await _dbContext.tblCustomer.FindAsync(customer.CustomerID);
-            if (entity == null) throw new KeyNotFoundException("Customer not found.");
 
             entity.CustomerID = customer.CustomerID;
             entity.Customername = customer.Customername;
