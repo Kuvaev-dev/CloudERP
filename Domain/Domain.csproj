@@ -185,9 +185,9 @@
     <Compile Include="RepositoryAccess\IUserTypeRepository.cs" />
     <Compile Include="Services\BalanceSheetService.cs" />
     <Compile Include="Services\EmployeeSalaryService.cs" />
-    <Compile Include="Services\FileService.cs" />
     <Compile Include="Services\IEmailService.cs" />
     <Compile Include="Services\EmployeeStatisticsService.cs" />
+    <Compile Include="Services\IFileService.cs" />
     <Compile Include="Services\IForecastingService.cs" />
     <Compile Include="Services\IncomeStatementService.cs" />
     <Compile Include="Services\PurchaseEntryService.cs" />

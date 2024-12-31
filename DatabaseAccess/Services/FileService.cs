@@ -1,15 +1,10 @@
-﻿using System;
+﻿using Domain.Services;
+using System;
 using System.IO;
 using System.Web;
 
-namespace Domain.Services
+namespace DatabaseAccess.Services
 {
-    public interface IFileService
-    {
-        string UploadPhoto(HttpPostedFileBase file, string folderPath, string fileName);
-        string SetDefaultPhotoPath(string defaultPath);
-    }
-
     public class FileService : IFileService
     {
         public string UploadPhoto(HttpPostedFileBase file, string folderPath, string fileName)
@@ -40,7 +35,7 @@ namespace Domain.Services
         public string SetDefaultPhotoPath(string defaultPath)
         {
             return string.IsNullOrEmpty(defaultPath)
-                ? throw new Exception(Localization.Localization.DefaultPhotoPathNotFound)
+                ? throw new Exception("Default Photo Path Not Found")
                 : defaultPath;
         }
     }

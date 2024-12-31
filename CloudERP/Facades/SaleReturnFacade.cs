@@ -14,8 +14,8 @@ namespace CloudERP.Facades
         private readonly ICustomerReturnInvoiceDetailRepository _customerReturnInvoiceDetailRepository;
 
         public SaleReturnFacade(
-            ISaleEntryService saleEntry, 
-            IStockRepository stockRepository, 
+            ISaleEntryService saleEntry,
+            IStockRepository stockRepository,
             ICustomerRepository customerRepository,
             ICustomerInvoiceRepository customerInvoiceRepository,
             ICustomerInvoiceDetailRepository customerInvoiceDetailRepository,

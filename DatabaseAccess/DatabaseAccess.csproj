@@ -183,6 +183,7 @@
     <Compile Include="Repositories\TrialBalanceRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Repositories\UserTypeRepository.cs" />
+    <Compile Include="Services\FileService.cs" />
     <Compile Include="Services\FinancialForecaster.cs" />
     <Compile Include="Services\ForecastingService.cs" />
     <Compile Include="Services\ForecastPrediction.cs" />
