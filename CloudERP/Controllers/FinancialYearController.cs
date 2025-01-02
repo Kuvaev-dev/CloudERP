@@ -35,10 +35,7 @@ namespace CloudERP.Controllers
             }
         }
 
-        public ActionResult Create()
-        {
-            return View(new FinancialYear());
-        }
+        public ActionResult Create() => View(new FinancialYear());
 
         [HttpPost]
         [ValidateAntiForgeryToken]

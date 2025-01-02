@@ -1,5 +1,7 @@
-﻿using CloudERP.Facades;
-using CloudERP.Helpers;
+﻿using CloudERP.Helpers;
+using Domain.Models.FinancialModels;
+using Domain.RepositoryAccess;
+using Domain.Services;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,12 +11,20 @@ namespace CloudERP.Controllers
 {
     public class SalePaymentReturnController : Controller
     {
-        private readonly SalePaymentReturnFacade _salePaymentReturnFacade;
+        private readonly ISaleRepository _saleRepository;
+        private readonly ICustomerReturnPaymentRepository _customerReturnPaymentRepository;
+        private readonly ISalePaymentReturnService _salePaymentReturnService;
         private readonly SessionHelper _sessionHelper;
 
-        public SalePaymentReturnController(SalePaymentReturnFacade salePaymentReturnFacade, SessionHelper sessionHelper)
+        public SalePaymentReturnController(
+            ISaleRepository saleRepository,
+            ICustomerReturnPaymentRepository customerReturnPaymentRepository,
+            ISalePaymentReturnService salePaymentReturnService,
+            SessionHelper sessionHelper)
         {
-            _salePaymentReturnFacade = salePaymentReturnFacade;
+            _saleRepository = saleRepository;
+            _customerReturnPaymentRepository = customerReturnPaymentRepository;
+            _salePaymentReturnService = salePaymentReturnService;
             _sessionHelper = sessionHelper;
         }
 
@@ -26,7 +36,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var list = await _salePaymentReturnFacade.SaleRepository.GetReturnSaleAmountPending(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                var list = await _saleRepository.GetReturnSaleAmountPending(_sessionHelper.CompanyID, _sessionHelper.BranchID);
 
                 return View(list);
             }
@@ -44,7 +54,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var list = await _salePaymentReturnFacade.SaleRepository.GetReturnSaleAmountPending(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                var list = await _saleRepository.GetReturnSaleAmountPending(_sessionHelper.CompanyID, _sessionHelper.BranchID);
 
                 return View(list);
             }
@@ -62,7 +72,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var list = await _salePaymentReturnFacade.CustomerReturnPaymentRepository.GetListByReturnInvoiceIdAsync((int)id);
+                var list = await _customerReturnPaymentRepository.GetListByReturnInvoiceIdAsync((int)id);
 
                 double remainingAmount = list.Sum(item => item.RemainingBalance);
                 if (remainingAmount == 0)
@@ -90,41 +100,29 @@ namespace CloudERP.Controllers
 
             try
             {
-                if (paymentAmount > previousRemainingAmount)
+                var paymentReturnDto = new SalePaymentReturn
                 {
-                    ViewBag.Message = Resources.Messages.PurchasePaymentRemainingAmountError;
-                    var list = await _salePaymentReturnFacade.CustomerReturnPaymentRepository.GetListByReturnInvoiceIdAsync((int)id);
-                    double remainingAmount = list.Sum(item => item.RemainingBalance);
+                    InvoiceId = (int)id,
+                    PreviousRemainingAmount = previousRemainingAmount,
+                    PaymentAmount = paymentAmount
+                };
 
-                    if (remainingAmount == 0)
-                    {
-                        remainingAmount = await _salePaymentReturnFacade.CustomerReturnInvoiceRepository.GetTotalAmountByIdAsync((int)id);
-                    }
+                var result = await _salePaymentReturnService.ProcessReturnAmountAsync(
+                    paymentReturnDto,
+                    _sessionHelper.BranchID,
+                    _sessionHelper.CompanyID,
+                    _sessionHelper.UserID);
 
-                    ViewBag.PreviousRemainingAmount = remainingAmount;
+                if (!result.IsSuccess)
+                {
+                    ViewBag.Message = result.Message;
+                    ViewBag.PreviousRemainingAmount = result.RemainingAmount;
                     ViewBag.InvoiceID = id;
 
-                    return View(list);
+                    return View(result.Items);
                 }
 
-                string payInvoiceNo = "RIP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
-                var customerFromReturnInvoice = await _salePaymentReturnFacade.CustomerReturnInvoiceRepository.GetByIdAsync((int)id);
-                var customer = await _salePaymentReturnFacade.CustomerRepository.GetByIdAsync(customerFromReturnInvoice.CustomerID);
-
-                string message = await _salePaymentReturnFacade.SaleEntry.ReturnSalePayment(
-                    _sessionHelper.CompanyID, 
-                    _sessionHelper.BranchID, 
-                    _sessionHelper.UserID, 
-                    payInvoiceNo, 
-                    customerFromReturnInvoice.CustomerInvoiceID.ToString(), 
-                    customerFromReturnInvoice.CustomerReturnInvoiceID, 
-                    (float)customerFromReturnInvoice.TotalAmount,
-                    paymentAmount, 
-                    customer.CustomerID.ToString(), 
-                    customer.Customername, 
-                    previousRemainingAmount - paymentAmount);
-
-                Session["SaleMessage"] = message;
+                Session["SaleMessage"] = result.Message;
 
                 return RedirectToAction("PurchasePaymentReturn", new { id });
             }

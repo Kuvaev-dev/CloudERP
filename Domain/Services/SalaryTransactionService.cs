@@ -1,4 +1,4 @@
-﻿using Domain.RepositoryAccess;
+﻿using Domain.Facades;
 using System;
 using System.Data;
 using System.Threading.Tasks;
@@ -21,17 +21,11 @@ namespace Domain.Services
     public class SalaryTransactionService : ISalaryTransactionService
     {
         private DataTable _dtEntries = null;
-        private readonly ISalaryTransactionRepository _salaryTransactionRepository;
-        private readonly IEmployeeRepository _employeeRepository;
-        private readonly IFinancialYearRepository _financialYearRepository;
-        private readonly IAccountSettingRepository _accountSettingRepository;
+        private readonly SalaryTransactionFacade _salaryTransactionFacade;
 
-        public SalaryTransactionService(ISalaryTransactionRepository salaryTransactionRepository, IEmployeeRepository employeeRepository, IFinancialYearRepository financialYearRepository, IAccountSettingRepository accountSettingRepository)
+        public SalaryTransactionService(SalaryTransactionFacade salaryTransactionFacade)
         {
-            _salaryTransactionRepository = salaryTransactionRepository;
-            _employeeRepository = employeeRepository;
-            _financialYearRepository = financialYearRepository;
-            _accountSettingRepository = accountSettingRepository;
+            _salaryTransactionFacade = salaryTransactionFacade;
         }
 
         private void InitializeDataTable()
@@ -66,7 +60,7 @@ namespace Domain.Services
             {
                 string transectiontitle = Localization.Localization.SalaryIsPending;
 
-                var employee = await _employeeRepository.GetByIdAsync(EmployeeID);
+                var employee = await _salaryTransactionFacade.EmployeeRepository.GetByIdAsync(EmployeeID);
                 string employeename = string.Empty;
 
                 if (employee != null)
@@ -75,7 +69,7 @@ namespace Domain.Services
                     transectiontitle += employeename;
                 }
 
-                var financialYearCheck = await _financialYearRepository.GetSingleActiveAsync();
+                var financialYearCheck = await _salaryTransactionFacade.FinancialYearRepository.GetSingleActiveAsync();
                 string FinancialYearID = financialYearCheck != null ? Convert.ToString(financialYearCheck) : string.Empty;
                 if (string.IsNullOrEmpty(FinancialYearID))
                 {
@@ -83,7 +77,7 @@ namespace Domain.Services
                 }
 
                 // 8 - Sale Return Payment Pending
-                var account = await _accountSettingRepository.GetByActivityAsync(8, CompanyID, BranchID);
+                var account = await _salaryTransactionFacade.AccountSettingRepository.GetByActivityAsync(8, CompanyID, BranchID);
                 if (account == null)
                 {
                     return Localization.Localization.AccountSettingsNotFoundForTheProvidedCompanyIDAndBranchID;
@@ -113,8 +107,8 @@ namespace Domain.Services
                     DateTime.Now,
                     transectiontitle);
 
-                await _salaryTransactionRepository.Confirm(EmployeeID, TransferAmount, UserID, BranchID, CompanyID, InvoiceNo, SalaryMonth, SalaryYear);
-                await _salaryTransactionRepository.InsertTransaction(CompanyID, BranchID);
+                await _salaryTransactionFacade.SalaryTransactionRepository.Confirm(EmployeeID, TransferAmount, UserID, BranchID, CompanyID, InvoiceNo, SalaryMonth, SalaryYear);
+                await _salaryTransactionFacade.SalaryTransactionRepository.InsertTransaction(CompanyID, BranchID);
 
                 return Localization.Localization.SalarySucceed;
             }

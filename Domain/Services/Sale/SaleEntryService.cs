@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using Domain.Facades;
+using Domain.Models;
 using Domain.RepositoryAccess;
 using System;
 using System.Collections.Generic;
@@ -18,22 +19,13 @@ namespace Domain.Services
 
     public class SaleEntryService : ISaleEntryService
     {
-        private readonly IFinancialYearRepository _financialYearRepository;
-        private readonly IAccountSettingRepository _accountSettingRepository;
-        private readonly IStockRepository _stockRepository;
-        private readonly ISaleCartDetailRepository _saleCartDetailRepository;
-        private readonly ISaleRepository _saleRepository;
-
+        private readonly SaleEntryFacade _saleEntryFacade;
         public string selectcustomerid = string.Empty;
         private readonly DataTable _dtEntries = null;
 
-        public SaleEntryService(IFinancialYearRepository financialYearRepository, IAccountSettingRepository accountSettingRepository, ISaleRepository saleRepository, IStockRepository stockRepository, ISaleCartDetailRepository saleCartDetailRepository)
+        public SaleEntryService(SaleEntryFacade saleEntryFacade)
         {
-            _financialYearRepository = financialYearRepository;
-            _accountSettingRepository = accountSettingRepository;
-            _saleRepository = saleRepository;
-            _stockRepository = stockRepository;
-            _saleCartDetailRepository = saleCartDetailRepository;
+            _saleEntryFacade = saleEntryFacade;
         }
 
         public async Task<string> ConfirmSale(int CompanyID, int BranchID, int UserID, string InvoiceNo, string CustomerInvoiceID, float Amount, string CustomerID, string CustomerName, bool isPayment)
@@ -43,7 +35,7 @@ namespace Domain.Services
                 string saleTitle = Localization.Localization.SaleTo + CustomerName.Trim();
 
                 // Retrieve the active financial year
-                var financialYearCheck = await _financialYearRepository.GetSingleActiveAsync();
+                var financialYearCheck = await _saleEntryFacade.FinancialYearRepository.GetSingleActiveAsync();
                 string FinancialYearID = financialYearCheck != null ? Convert.ToString(financialYearCheck) : string.Empty;
                 if (string.IsNullOrEmpty(FinancialYearID))
                 {
@@ -52,7 +44,7 @@ namespace Domain.Services
 
                 // Credit Entry Sale
                 // 9 - Sale
-                var saleAccount = await _accountSettingRepository.GetByActivityAsync(9, CompanyID, BranchID);
+                var saleAccount = await _saleEntryFacade.AccountSettingRepository.GetByActivityAsync(9, CompanyID, BranchID);
                 if (saleAccount == null)
                 {
                     return Localization.Localization.AccountSettingsForSaleNotFound;
@@ -70,7 +62,7 @@ namespace Domain.Services
 
                 // Debit Entry Sale
                 // 10 - Sale Payment Pending
-                saleAccount = await _accountSettingRepository.GetByActivityAsync(10, CompanyID, BranchID);
+                saleAccount = await _saleEntryFacade.AccountSettingRepository.GetByActivityAsync(10, CompanyID, BranchID);
                 if (saleAccount == null)
                 {
                     return Localization.Localization.AccountSettingsForSalePaymentPendingNotFound;
@@ -92,7 +84,7 @@ namespace Domain.Services
 
                     // Credit Entry Sale Payment Paid
                     // 11 - Sale Payment Paid
-                    saleAccount = await _accountSettingRepository.GetByActivityAsync(11, CompanyID, BranchID);
+                    saleAccount = await _saleEntryFacade.AccountSettingRepository.GetByActivityAsync(11, CompanyID, BranchID);
                     if (saleAccount == null)
                     {
                         return Localization.Localization.AccountSettingsForSalePaymentPaidNotFound;
@@ -110,7 +102,7 @@ namespace Domain.Services
 
                     // Debit Entry Sale Payment Success
                     // 12 - Sale Payment Success
-                    saleAccount = await _accountSettingRepository.GetByActivityAsync(12, CompanyID, BranchID);
+                    saleAccount = await _saleEntryFacade.AccountSettingRepository.GetByActivityAsync(12, CompanyID, BranchID);
                     if (saleAccount == null)
                     {
                         return Localization.Localization.AccountSettingsForSalePaymentSuccessNotFound;
@@ -127,10 +119,10 @@ namespace Domain.Services
                         CustomerName + $", {Localization.Localization.SalePaymentIsSucceed}");
 
                     // Insert payment record
-                    return await _saleRepository.ConfirmSale(CompanyID, BranchID, UserID, CustomerInvoiceID, Amount, CustomerID, payInvoiceNo, 0);
+                    return await _saleEntryFacade.SaleRepository.ConfirmSale(CompanyID, BranchID, UserID, CustomerInvoiceID, Amount, CustomerID, payInvoiceNo, 0);
                 }
 
-                return await _saleRepository.InsertTransaction(CompanyID, BranchID);
+                return await _saleEntryFacade.SaleRepository.InsertTransaction(CompanyID, BranchID);
             }
             catch (Exception ex)
             {
@@ -147,7 +139,7 @@ namespace Domain.Services
                 string saleTitle = Localization.Localization.SaleTo + CustomerName.Trim();
 
                 // Retrieve the active financial year
-                var financialYearCheck = await _financialYearRepository.GetSingleActiveAsync();
+                var financialYearCheck = await _saleEntryFacade.FinancialYearRepository.GetSingleActiveAsync();
                 string FinancialYearID = financialYearCheck != null ? Convert.ToString(financialYearCheck) : string.Empty;
                 if (string.IsNullOrEmpty(FinancialYearID))
                 {
@@ -156,7 +148,7 @@ namespace Domain.Services
 
                 // Credit Entry Sale Payment Paid
                 // 11 - Sale Payment Paid
-                var saleAccount = await _accountSettingRepository.GetByActivityAsync(11, CompanyID, BranchID);
+                var saleAccount = await _saleEntryFacade.AccountSettingRepository.GetByActivityAsync(11, CompanyID, BranchID);
                 if (saleAccount == null)
                 {
                     return Localization.Localization.AccountSettingsForSalePaymentPaidNotFound;
@@ -174,7 +166,7 @@ namespace Domain.Services
 
                 // Debit Entry Sale Payment Success
                 // 12 - Sale Payment Success
-                saleAccount = await _accountSettingRepository.GetByActivityAsync(12, CompanyID, BranchID);
+                saleAccount = await _saleEntryFacade.AccountSettingRepository.GetByActivityAsync(12, CompanyID, BranchID);
                 if (saleAccount == null)
                 {
                     return Localization.Localization.AccountSettingsForSalePaymentSuccessNotFound;
@@ -191,9 +183,9 @@ namespace Domain.Services
                     CustomerName + $", {Localization.Localization.SalePaymentIsSucceed}");
 
                 // Insert payment record
-                await _saleRepository.ConfirmSale(CompanyID, BranchID, UserID, CustomerInvoiceID, Amount, CustomerID, payInvoiceNo, RemainingBalance);
+                await _saleEntryFacade.SaleRepository.ConfirmSale(CompanyID, BranchID, UserID, CustomerInvoiceID, Amount, CustomerID, payInvoiceNo, RemainingBalance);
                 // Insert transaction
-                await _saleRepository.InsertTransaction(CompanyID, BranchID);
+                await _saleEntryFacade.SaleRepository.InsertTransaction(CompanyID, BranchID);
 
                 return Localization.Localization.PaidSuccessfully;
             }
@@ -212,7 +204,7 @@ namespace Domain.Services
                 string returnSaleTitle = Localization.Localization.ReturnSaleFrom + Customername.Trim();
 
                 // Retrieve the active financial year
-                var financialYearCheck = await _financialYearRepository.GetSingleActiveAsync();
+                var financialYearCheck = await _saleEntryFacade.FinancialYearRepository.GetSingleActiveAsync();
                 string FinancialYearID = financialYearCheck != null ? Convert.ToString(financialYearCheck) : string.Empty;
                 if (string.IsNullOrEmpty(FinancialYearID))
                 {
@@ -221,7 +213,7 @@ namespace Domain.Services
 
                 // Debit Entry Return Sale
                 // 13 - Sale Return
-                var returnSaleAccount = await _accountSettingRepository.GetByActivityAsync(13, CompanyID, BranchID);
+                var returnSaleAccount = await _saleEntryFacade.AccountSettingRepository.GetByActivityAsync(13, CompanyID, BranchID);
                 if (returnSaleAccount == null)
                 {
                     return Localization.Localization.AccountSettingsForSaleReturnNotFound;
@@ -239,7 +231,7 @@ namespace Domain.Services
 
                 // Credit Entry Return Sale
                 // 8 - Sale Return Payment Pending
-                returnSaleAccount = await _accountSettingRepository.GetByActivityAsync(8, CompanyID, BranchID);
+                returnSaleAccount = await _saleEntryFacade.AccountSettingRepository.GetByActivityAsync(8, CompanyID, BranchID);
                 if (returnSaleAccount == null)
                 {
                     return Localization.Localization.AccountSettingsForSaleReturnPaymentPendingNotFound;
@@ -261,7 +253,7 @@ namespace Domain.Services
 
                     // Credit Entry Return Sale Payment Paid
                     // 15 - Sale Return Payment Paid
-                    returnSaleAccount = await _accountSettingRepository.GetByActivityAsync(15, CompanyID, BranchID);
+                    returnSaleAccount = await _saleEntryFacade.AccountSettingRepository.GetByActivityAsync(15, CompanyID, BranchID);
                     if (returnSaleAccount == null)
                     {
                         return Localization.Localization.AccountSettingsForSaleReturnPaymentPaidNotFound;
@@ -279,7 +271,7 @@ namespace Domain.Services
 
                     // Debit Entry Return Sale Payment Success
                     // 16 - Sale Return Payment Succeed
-                    returnSaleAccount = await _accountSettingRepository.GetByActivityAsync(16, CompanyID, BranchID);
+                    returnSaleAccount = await _saleEntryFacade.AccountSettingRepository.GetByActivityAsync(16, CompanyID, BranchID);
                     if (returnSaleAccount == null)
                     {
                         return Localization.Localization.AccountSettingsForSalePaymentSuccessNotFound;
@@ -295,10 +287,10 @@ namespace Domain.Services
                         DateTime.Now,
                         Customername + $", {Localization.Localization.ReturnSalePaymentIsSucceed}");
 
-                    return await _saleRepository.ReturnSale(CompanyID, BranchID, UserID, CustomerInvoiceID, CustomerReturnInvoiceID, Amount, CustomerID, payInvoiceNo, 0);
+                    return await _saleEntryFacade.SaleRepository.ReturnSale(CompanyID, BranchID, UserID, CustomerInvoiceID, CustomerReturnInvoiceID, Amount, CustomerID, payInvoiceNo, 0);
                 }
 
-                return await _saleRepository.InsertTransaction(CompanyID, BranchID);
+                return await _saleEntryFacade.SaleRepository.InsertTransaction(CompanyID, BranchID);
             }
             catch (Exception ex)
             {
@@ -315,7 +307,7 @@ namespace Domain.Services
                 string payInvoiceNo = "RIP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
 
                 // Retrieve the active financial year
-                var financialYearCheck = await _financialYearRepository.GetSingleActiveAsync();
+                var financialYearCheck = await _saleEntryFacade.FinancialYearRepository.GetSingleActiveAsync();
                 string FinancialYearID = financialYearCheck != null ? Convert.ToString(financialYearCheck) : string.Empty;
                 if (string.IsNullOrEmpty(FinancialYearID))
                 {
@@ -326,7 +318,7 @@ namespace Domain.Services
 
                 // Credit Entry Return Sale Payment Paid
                 // 15 - Sale Return Payment Paid
-                var returnSaleAccount = await _accountSettingRepository.GetByActivityAsync(16, CompanyID, BranchID);
+                var returnSaleAccount = await _saleEntryFacade.AccountSettingRepository.GetByActivityAsync(16, CompanyID, BranchID);
                 if (returnSaleAccount == null)
                 {
                     return Localization.Localization.AccountSettingsForSaleReturnPaymentPaidNotFound;
@@ -346,7 +338,7 @@ namespace Domain.Services
 
                 // Debit Entry Return Sale Payment Success
                 // 16 - Sale Return Payment Succeed
-                returnSaleAccount = await _accountSettingRepository.GetByActivityAsync(16, CompanyID, BranchID);
+                returnSaleAccount = await _saleEntryFacade.AccountSettingRepository.GetByActivityAsync(16, CompanyID, BranchID);
                 if (returnSaleAccount == null)
                 {
                     return Localization.Localization.AccountSettingsForSaleReturnPaymentSuccessNotFound;
@@ -364,9 +356,9 @@ namespace Domain.Services
                     transactionTitle);
 
                 // Insert return payment record
-                await _saleRepository.ReturnSalePayment(CompanyID, BranchID, UserID, InvoiceNo, CustomerInvoiceID, CustomerReturnInvoiceID, TotalAmount, Amount, CustomerID, RemainingBalance);
+                await _saleEntryFacade.SaleRepository.ReturnSalePayment(CompanyID, BranchID, UserID, InvoiceNo, CustomerInvoiceID, CustomerReturnInvoiceID, TotalAmount, Amount, CustomerID, RemainingBalance);
                 // Insert transaction records
-                await _saleRepository.InsertTransaction(CompanyID, BranchID);
+                await _saleEntryFacade.SaleRepository.InsertTransaction(CompanyID, BranchID);
 
                 return Localization.Localization.PaidSuccessfully;
             }
@@ -381,13 +373,13 @@ namespace Domain.Services
         {
             foreach (var item in saleDetails)
             {
-                var stockItem = await _stockRepository.GetByIdAsync(item.ProductID);
+                var stockItem = await _saleEntryFacade.StockRepository.GetByIdAsync(item.ProductID);
                 if (stockItem != null)
                 {
                     stockItem.Quantity += item.SaleQuantity;
-                    await _stockRepository.UpdateAsync(stockItem);
+                    await _saleEntryFacade.StockRepository.UpdateAsync(stockItem);
                 }
-                await _saleCartDetailRepository.UpdateAsync(item);
+                await _saleEntryFacade.SaleCartDetailRepository.UpdateAsync(item);
             }
         }
 

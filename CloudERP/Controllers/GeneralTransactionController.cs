@@ -1,6 +1,7 @@
 ﻿using CloudERP.Helpers;
 using CloudERP.Models;
 using Domain.RepositoryAccess;
+using Domain.Services;
 using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -9,13 +10,15 @@ namespace CloudERP.Controllers
 {
     public class GeneralTransactionController : Controller
     {
-        private readonly IGeneralTransactionRepository _transactionRepository;
+        private readonly IGeneralTransactionService _generalTransactionService;
+        private readonly IGeneralTransactionRepository _generalTransactionRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public GeneralTransactionController(IGeneralTransactionRepository transactionRepository, SessionHelper sessionHelper)
+        public GeneralTransactionController(IGeneralTransactionService generalTransactionService, SessionHelper sessionHelper, IGeneralTransactionRepository generalTransactionRepository)
         {
-            _transactionRepository = transactionRepository;
+            _generalTransactionService = generalTransactionService;
             _sessionHelper = sessionHelper;
+            _generalTransactionRepository = generalTransactionRepository;
         }
 
         [HttpPost]
@@ -29,13 +32,11 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    string payInvoiceNo = "GEN" + DateTime.Now.ToString("yyyyMMddHHmmssmm");
-                    var message = await _transactionRepository.ConfirmGeneralTransaction(
+                    var message = await _generalTransactionService.ConfirmTransactionAsync(
                         transaction.TransferAmount,
                         _sessionHelper.UserID,
                         _sessionHelper.BranchID,
                         _sessionHelper.CompanyID,
-                        payInvoiceNo,
                         transaction.DebitAccountControlID,
                         transaction.CreditAccountControlID,
                         transaction.Reason);
@@ -50,11 +51,11 @@ namespace CloudERP.Controllers
                 }
 
                 ViewBag.CreditAccountControlID = new SelectList(
-                    await _transactionRepository.GetAllAccounts(_sessionHelper.CompanyID, _sessionHelper.BranchID),
+                    await _generalTransactionRepository.GetAllAccounts(_sessionHelper.CompanyID, _sessionHelper.BranchID),
                     "AccountSubControlID", "AccountSubControl", "0");
 
                 ViewBag.DebitAccountControlID = new SelectList(
-                    await _transactionRepository.GetAllAccounts(_sessionHelper.CompanyID, _sessionHelper.BranchID),
+                    await _generalTransactionRepository.GetAllAccounts(_sessionHelper.CompanyID, _sessionHelper.BranchID),
                     "AccountSubControlID", "AccountSubControl", "0");
 
                 return RedirectToAction("GeneralTransaction", new { transaction });

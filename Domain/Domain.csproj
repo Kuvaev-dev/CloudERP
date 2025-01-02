@@ -86,6 +86,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Facades\PurchasePaymentFacade.cs" />
+    <Compile Include="Facades\PurchaseReturnFacade.cs" />
+    <Compile Include="Facades\SalaryTransactionFacade.cs" />
+    <Compile Include="Facades\SaleCartFacade.cs" />
+    <Compile Include="Facades\SaleEntryFacade.cs" />
     <Compile Include="Helpers\AllowedDomainsAttribute.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
     <Compile Include="Localization\Localization.Designer.cs">
@@ -118,9 +123,17 @@
     <Compile Include="Models\FinancialModels\DashboardModel.cs" />
     <Compile Include="Models\FinancialModels\IncomeStatementModel.cs" />
     <Compile Include="Models\FinancialModels\JournalModel.cs" />
-    <Compile Include="Models\FinancialModels\PurchasePaymentModel.cs" />
+    <Compile Include="Models\FinancialModels\Purchase\PurchaseConfirm.cs" />
+    <Compile Include="Models\FinancialModels\Purchase\PurchasePaymentModel.cs" />
+    <Compile Include="Models\FinancialModels\Purchase\PurchaseReturnAmount.cs" />
+    <Compile Include="Models\FinancialModels\Purchase\PurchaseReturnConfirm.cs" />
+    <Compile Include="Models\FinancialModels\Result.cs" />
     <Compile Include="Models\FinancialModels\Salary.cs" />
-    <Compile Include="Models\FinancialModels\SalePaymentModel.cs" />
+    <Compile Include="Models\FinancialModels\Sale\SaleConfirm.cs" />
+    <Compile Include="Models\FinancialModels\Sale\SalePayment.cs" />
+    <Compile Include="Models\FinancialModels\Sale\SalePaymentModel.cs" />
+    <Compile Include="Models\FinancialModels\Sale\SalePaymentReturn.cs" />
+    <Compile Include="Models\FinancialModels\Sale\SaleReturnConfirm.cs" />
     <Compile Include="Models\FinancialModels\SupplierReturnInvoiceModel.cs" />
     <Compile Include="Models\FinancialModels\TrialBalanceModel.cs" />
     <Compile Include="Models\FinancialYear.cs" />
@@ -141,6 +154,7 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Facades\PurchaseCartFacade.cs" />
     <Compile Include="RepositoryAccess\IAccountActivityRepository.cs" />
     <Compile Include="RepositoryAccess\IAccountControlRepository.cs" />
     <Compile Include="RepositoryAccess\IAccountHeadRepository.cs" />
@@ -183,17 +197,28 @@
     <Compile Include="RepositoryAccess\ITrialBalanceRepository.cs" />
     <Compile Include="RepositoryAccess\IUserRepository.cs" />
     <Compile Include="RepositoryAccess\IUserTypeRepository.cs" />
+    <Compile Include="Services\AuthService.cs" />
     <Compile Include="Services\BalanceSheetService.cs" />
+    <Compile Include="Services\DashboardService.cs" />
     <Compile Include="Services\EmployeeSalaryService.cs" />
+    <Compile Include="Services\GeneralTransactionService.cs" />
     <Compile Include="Services\IEmailService.cs" />
     <Compile Include="Services\EmployeeStatisticsService.cs" />
     <Compile Include="Services\IFileService.cs" />
     <Compile Include="Services\IForecastingService.cs" />
     <Compile Include="Services\IncomeStatementService.cs" />
-    <Compile Include="Services\PurchaseEntryService.cs" />
+    <Compile Include="Services\Purchase\PurchaseCartService.cs" />
+    <Compile Include="Services\Purchase\PurchaseEntryService.cs" />
+    <Compile Include="Services\Purchase\PurchasePaymentReturnService.cs" />
+    <Compile Include="Services\Purchase\PurchasePaymentService.cs" />
+    <Compile Include="Services\Purchase\PurchaseReturnService.cs" />
     <Compile Include="Services\ReminderService.cs" />
     <Compile Include="Services\SalaryTransactionService.cs" />
-    <Compile Include="Services\SaleEntryService.cs" />
+    <Compile Include="Services\Sale\SaleCartService.cs" />
+    <Compile Include="Services\Sale\SaleEntryService.cs" />
+    <Compile Include="Services\Sale\SalePaymentReturnService.cs" />
+    <Compile Include="Services\Sale\SalePaymentService.cs" />
+    <Compile Include="Services\Sale\SaleReturnService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -205,5 +230,6 @@
       <LastGenOutput>Localization.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

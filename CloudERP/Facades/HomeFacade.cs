@@ -1,34 +1,34 @@
 ﻿using Domain.RepositoryAccess;
+using Domain.Services;
 
 namespace CloudERP.Facades
 {
     public class HomeFacade
     {
-        private readonly IDashboardRepository _dashboardRepository;
         private readonly IUserRepository _userRepository;
         private readonly IEmployeeRepository _employeeRepository;
         private readonly ICompanyRepository _companyRepository;
-        private readonly IEmailService _emailService;
+        private readonly IAuthService _authService;
+        private readonly IDashboardService _dashboardService;
 
         public HomeFacade(
-            IDashboardRepository dashboardRepository,
+            IDashboardService dashboardService,
             IUserRepository userRepository,
             IEmployeeRepository employeeRepository,
             ICompanyRepository companyRepository,
-            IEmailService emailService)
+            IAuthService authService)
         {
-            _dashboardRepository = dashboardRepository;
+            _dashboardService = dashboardService;
             _userRepository = userRepository;
             _employeeRepository = employeeRepository;
             _companyRepository = companyRepository;
-            _emailService = emailService;
-
+            _authService = authService;
         }
 
-        public IDashboardRepository DashboardRepository => _dashboardRepository;
+        public IDashboardService DashboardService => _dashboardService;
         public IUserRepository UserRepository => _userRepository;
         public IEmployeeRepository EmployeeRepository => _employeeRepository;
         public ICompanyRepository CompanyRepository => _companyRepository;
-        public IEmailService EmailService => _emailService;
+        public IAuthService AuthService => _authService;
     }
 }

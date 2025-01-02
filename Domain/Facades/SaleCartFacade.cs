@@ -1,38 +1,34 @@
 ﻿using Domain.RepositoryAccess;
 using Domain.Services;
 
-namespace CloudERP.Facades
+namespace Domain.Facades
 {
     public class SaleCartFacade
     {
-        private readonly ISaleEntryService _saleEntry;
-        private readonly ISaleCartDetailRepository _saleCartDetailRepository;
-        private readonly IStockRepository _stockRepository;
         private readonly ICustomerRepository _customerRepository;
         private readonly ICustomerInvoiceRepository _customerInvoiceRepository;
         private readonly ICustomerInvoiceDetailRepository _customerInvoiceDetailRepository;
+        private readonly ISaleCartDetailRepository _saleCartDetailRepository;
+        private readonly ISaleEntryService _saleEntryService;
 
         public SaleCartFacade(
-            ISaleEntryService saleEntry,
-            ISaleCartDetailRepository saleCartDetailRepository,
-            IStockRepository stockRepository,
             ICustomerRepository customerRepository,
             ICustomerInvoiceRepository customerInvoiceRepository,
-            ICustomerInvoiceDetailRepository customerInvoiceDetailRepository)
+            ICustomerInvoiceDetailRepository customerInvoiceDetailRepository,
+            ISaleCartDetailRepository saleCartDetailRepository,
+            ISaleEntryService saleEntryService)
         {
-            _saleEntry = saleEntry;
-            _saleCartDetailRepository = saleCartDetailRepository;
-            _stockRepository = stockRepository;
             _customerRepository = customerRepository;
             _customerInvoiceRepository = customerInvoiceRepository;
             _customerInvoiceDetailRepository = customerInvoiceDetailRepository;
+            _saleCartDetailRepository = saleCartDetailRepository;
+            _saleEntryService = saleEntryService;
         }
 
-        public ISaleEntryService SaleEntry => _saleEntry;
-        public ISaleCartDetailRepository SaleCartDetailRepository => _saleCartDetailRepository;
-        public IStockRepository StockRepository => _stockRepository;
         public ICustomerRepository CustomerRepository => _customerRepository;
         public ICustomerInvoiceRepository CustomerInvoiceRepository => _customerInvoiceRepository;
         public ICustomerInvoiceDetailRepository CustomerInvoiceDetailRepository => _customerInvoiceDetailRepository;
+        public ISaleCartDetailRepository SaleCartDetailRepository => _saleCartDetailRepository;
+        public ISaleEntryService SaleEntryService => _saleEntryService;
     }
 }

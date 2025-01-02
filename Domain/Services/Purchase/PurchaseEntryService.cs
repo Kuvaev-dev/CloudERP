@@ -22,7 +22,10 @@ namespace Domain.Services
         public string selectsupplierid = string.Empty;
         private readonly DataTable _dtEntries = null;
 
-        public PurchaseEntryService(IAccountSettingRepository accountSettingRepository, IPurchaseRepository purchaseRepository, IFinancialYearRepository financialYearRepository)
+        public PurchaseEntryService(
+            IAccountSettingRepository accountSettingRepository, 
+            IPurchaseRepository purchaseRepository, 
+            IFinancialYearRepository financialYearRepository)
         {
             _accountSettingRepository = accountSettingRepository;
             _purchaseRepository = purchaseRepository;

@@ -28,11 +28,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                DateTime currentDate = DateTime.Today;
-                string fromDate = new DateTime(currentDate.Year, currentDate.Month, 1).ToString("yyyy-MM-dd");
-                string toDate = new DateTime(currentDate.Year, currentDate.Month, DateTime.DaysInMonth(currentDate.Year, currentDate.Month)).ToString("yyyy-MM-dd");
-
-                return View(await _homeFacade.DashboardRepository.GetDashboardValuesAsync(fromDate, toDate, _sessionHelper.BranchID, _sessionHelper.CompanyID));
+                return View(await _homeFacade.DashboardService.GetDashboardValues(_sessionHelper.BranchID, _sessionHelper.CompanyID));
             }
             catch (Exception ex)
             {
@@ -60,76 +56,72 @@ namespace CloudERP.Controllers
         {
             try
             {
-                var user = await _homeFacade.UserRepository.GetByEmailAsync(email);
+                var user = await _homeFacade.AuthService.AuthenticateUserAsync(email, password);
                 if (user != null)
                 {
-                    bool isPasswordValid = _passwordHelper.VerifyPassword(password, user.Password, user.Salt);
-                    if (isPasswordValid)
+                    FormsAuthentication.SetAuthCookie(user.Email, false);
+
+                    if (rememberMe.HasValue && rememberMe.Value)
                     {
-                        FormsAuthentication.SetAuthCookie(user.Email, false);
-
-                        if (rememberMe.HasValue && rememberMe.Value)
+                        var cookie = new HttpCookie("RememberMe")
                         {
-                            var cookie = new HttpCookie("RememberMe")
-                            {
-                                Values = { ["Email"] = email },
-                                Expires = DateTime.Now.AddDays(30),
-                                HttpOnly = true
-                            };
-                            Response.Cookies.Add(cookie);
-                        }
-                        else
-                        {
-                            var cookie = new HttpCookie("RememberMe")
-                            {
-                                Expires = DateTime.Now.AddDays(-1)
-                            };
-                            Response.Cookies.Add(cookie);
-                        }
-
-                        Session["UserID"] = user.UserID;
-                        Session["UserTypeID"] = user.UserTypeID;
-                        Session["FullName"] = user.FullName;
-                        Session["Email"] = user.Email;
-                        Session["ContactNo"] = user.ContactNo;
-                        Session["UserName"] = user.UserName;
-                        Session["Password"] = user.Password;
-                        Session["Salt"] = user.Salt;
-                        Session["IsActive"] = user.IsActive;
-
-                        var employee = await _homeFacade.EmployeeRepository.GetByUserIdAsync(user.UserID);
-                        if (employee == null)
-                        {
-                            ClearSession();
-                            return RedirectToAction("Login", "Home");
-                        }
-
-                        Session["EName"] = employee.FullName;
-                        Session["EPhoto"] = employee.Photo;
-                        Session["ERegistrationDate"] = employee.RegistrationDate;
-                        Session["Designation"] = employee.Designation;
-                        Session["BranchID"] = employee.BranchID;
-                        Session["BranchTypeID"] = employee.BranchTypeID;
-                        Session["BrchID"] = employee.BrchID;
-                        Session["CompanyID"] = employee.CompanyID;
-
-                        var company = await _homeFacade.CompanyRepository.GetByIdAsync(employee.CompanyID);
-                        if (company == null)
-                        {
-                            ClearSession();
-                            return RedirectToAction("Login", "Home");
-                        }
-
-                        Session["CName"] = company.Name;
-                        Session["CLogo"] = company.Logo;
-
-                        if (await _homeFacade.EmployeeRepository.IsFirstLoginAsync(employee))
-                        {
-                            Session["StartTour"] = true;
-                        }
-
-                        return user.UserTypeID == 1 ? RedirectToAction("AdminMenuGuide", "Guide") : RedirectToAction("Index", "Home");
+                            Values = { ["Email"] = email },
+                            Expires = DateTime.Now.AddDays(30),
+                            HttpOnly = true
+                        };
+                        Response.Cookies.Add(cookie);
                     }
+                    else
+                    {
+                        var cookie = new HttpCookie("RememberMe")
+                        {
+                            Expires = DateTime.Now.AddDays(-1)
+                        };
+                        Response.Cookies.Add(cookie);
+                    }
+
+                    Session["UserID"] = user.UserID;
+                    Session["UserTypeID"] = user.UserTypeID;
+                    Session["FullName"] = user.FullName;
+                    Session["Email"] = user.Email;
+                    Session["ContactNo"] = user.ContactNo;
+                    Session["UserName"] = user.UserName;
+                    Session["Password"] = user.Password;
+                    Session["Salt"] = user.Salt;
+                    Session["IsActive"] = user.IsActive;
+
+                    var employee = await _homeFacade.EmployeeRepository.GetByUserIdAsync(user.UserID);
+                    if (employee == null)
+                    {
+                        ClearSession();
+                        return RedirectToAction("Login", "Home");
+                    }
+
+                    Session["EName"] = employee.FullName;
+                    Session["EPhoto"] = employee.Photo;
+                    Session["ERegistrationDate"] = employee.RegistrationDate;
+                    Session["Designation"] = employee.Designation;
+                    Session["BranchID"] = employee.BranchID;
+                    Session["BranchTypeID"] = employee.BranchTypeID;
+                    Session["BrchID"] = employee.BrchID;
+                    Session["CompanyID"] = employee.CompanyID;
+
+                    var company = await _homeFacade.CompanyRepository.GetByIdAsync(employee.CompanyID);
+                    if (company == null)
+                    {
+                        ClearSession();
+                        return RedirectToAction("Login", "Home");
+                    }
+
+                    Session["CName"] = company.Name;
+                    Session["CLogo"] = company.Logo;
+
+                    if (await _homeFacade.EmployeeRepository.IsFirstLoginAsync(employee))
+                    {
+                        Session["StartTour"] = true;
+                    }
+
+                    return user.UserTypeID == 1 ? RedirectToAction("AdminMenuGuide", "Guide") : RedirectToAction("Index", "Home");
                 }
 
                 ViewBag.Message = Resources.Messages.PleaseProvideCorrectDetails;
@@ -190,15 +182,15 @@ namespace CloudERP.Controllers
 
             try
             {
+                if (await _homeFacade.AuthService.IsPasswordResetRequestedRecentlyAsync(email))
+                {
+                    ModelState.AddModelError("", Resources.Messages.PasswordResetAlreadyRequested);
+                    return View();
+                }
+
                 var user = await _homeFacade.UserRepository.GetByEmailAsync(email);
                 if (user != null)
                 {
-                    if ((DateTime.Now - user.LastPasswordResetRequest)?.TotalMinutes < 5)
-                    {
-                        ModelState.AddModelError("", Resources.Messages.PasswordResetAlreadyRequested);
-                        return View();
-                    }
-
                     user.ResetPasswordCode = Guid.NewGuid().ToString();
                     user.ResetPasswordExpiration = DateTime.Now.AddHours(1);
                     user.LastPasswordResetRequest = DateTime.Now;
@@ -207,7 +199,8 @@ namespace CloudERP.Controllers
 
                     try
                     {
-                        SendPasswordResetEmail(user.Email, user.ResetPasswordCode);
+                        var resetLink = Url.Action("ResetPassword", "Home", new { id = user.ResetPasswordCode }, protocol: Request.Url.Scheme);
+                        _homeFacade.AuthService.SendPasswordResetEmailAsync(resetLink, user.Email, user.ResetPasswordCode);
                     }
                     catch (Exception ex)
                     {
@@ -217,31 +210,13 @@ namespace CloudERP.Controllers
 
                     return View("ForgotPasswordEmailSent");
                 }
-                else
-                {
-                    return View("ForgotPasswordEmailSent");
-                }
+
+                return View("ForgotPasswordEmailSent");
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
-            }
-        }
-
-        private void SendPasswordResetEmail(string email, string resetCode)
-        {
-            try
-            {
-                var resetLink = Url.Action("ResetPassword", "Home", new { id = resetCode }, protocol: Request.Url.Scheme);
-                var subject = "Password Reset";
-                var body = $"<strong>Please reset your password by clicking the following link: <a href='{resetLink}'>Reset Password</a></strong>";
-
-                _homeFacade.EmailService.SendEmail(email, subject, body);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(Resources.Messages.UnexpectedErrorMessage + ex.Message);
             }
         }
 
@@ -275,29 +250,13 @@ namespace CloudERP.Controllers
         {
             try
             {
-                if (newPassword != confirmPassword)
+                if (!await _homeFacade.AuthService.ResetPasswordAsync(id, newPassword, confirmPassword))
                 {
-                    ModelState.AddModelError("", "Passwords do not match.");
+                    ModelState.AddModelError("", "Passwords do not match or link expired.");
                     return View();
                 }
 
-                var user = await _homeFacade.UserRepository.GetByPasswordCodesAsync(id, DateTime.Now);
-                if (user != null)
-                {
-                    user.Password = _passwordHelper.HashPassword(newPassword, out string salt);
-                    user.Salt = salt;
-                    user.ResetPasswordCode = null;
-                    user.ResetPasswordExpiration = null;
-                    user.LastPasswordResetRequest = null;
-
-                    await _homeFacade.UserRepository.UpdateAsync(user);
-
-                    return View("ResetPasswordSuccess");
-                }
-                else
-                {
-                    return View("ResetPasswordLinkExpired");
-                }
+                return View("ResetPasswordSuccess");
             }
             catch (Exception ex)
             {

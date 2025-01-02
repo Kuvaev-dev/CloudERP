@@ -1,42 +1,38 @@
 ﻿using Domain.RepositoryAccess;
 using Domain.Services;
 
-namespace CloudERP.Facades
+namespace Domain.Facades
 {
     public class PurchasePaymentFacade
     {
         private readonly IPurchaseRepository _purchaseRepository;
         private readonly ISupplierRepository _supplierRepository;
+        private readonly ISupplierReturnInvoiceRepository _supplierReturnInvoiceRepository;
         private readonly ISupplierInvoiceRepository _supplierInvoiceRepository;
         private readonly ISupplierPaymentRepository _supplierPaymentRepository;
-        private readonly ISupplierReturnInvoiceRepository _supplierReturnInvoiceRepository;
-        private readonly ISupplierInvoiceDetailRepository _supplierInvoiceDetailRepository;
-        private readonly IPurchaseEntryService _paymentEntry;
+        private readonly IPurchaseEntryService _purchaseEntryService;
 
         public PurchasePaymentFacade(
             IPurchaseRepository purchaseRepository,
             ISupplierRepository supplierRepository,
+            ISupplierReturnInvoiceRepository supplierReturnInvoiceRepository,
             ISupplierInvoiceRepository supplierInvoiceRepository,
             ISupplierPaymentRepository supplierPaymentRepository,
-            ISupplierReturnInvoiceRepository supplierReturnInvoiceRepository,
-            ISupplierInvoiceDetailRepository supplierInvoiceDetailRepository,
-            IPurchaseEntryService purchaseEntry)
+            IPurchaseEntryService purchaseEntryService)
         {
             _purchaseRepository = purchaseRepository;
             _supplierRepository = supplierRepository;
+            _supplierReturnInvoiceRepository = supplierReturnInvoiceRepository;
             _supplierInvoiceRepository = supplierInvoiceRepository;
             _supplierPaymentRepository = supplierPaymentRepository;
-            _supplierReturnInvoiceRepository = supplierReturnInvoiceRepository;
-            _supplierInvoiceDetailRepository = supplierInvoiceDetailRepository;
-            _paymentEntry = purchaseEntry;
+            _purchaseEntryService = purchaseEntryService;
         }
 
         public IPurchaseRepository PurchaseRepository => _purchaseRepository;
         public ISupplierRepository SupplierRepository => _supplierRepository;
+        public ISupplierReturnInvoiceRepository SupplierReturnInvoiceRepository => _supplierReturnInvoiceRepository;
         public ISupplierInvoiceRepository SupplierInvoiceRepository => _supplierInvoiceRepository;
         public ISupplierPaymentRepository SupplierPaymentRepository => _supplierPaymentRepository;
-        public ISupplierReturnInvoiceRepository SupplierReturnInvoiceRepository => _supplierReturnInvoiceRepository;
-        public ISupplierInvoiceDetailRepository SupplierInvoiceDetailRepository => _supplierInvoiceDetailRepository;
-        public IPurchaseEntryService PurchaseEntry => _paymentEntry;
+        public IPurchaseEntryService PurchaseEntryService => _purchaseEntryService;
     }
 }

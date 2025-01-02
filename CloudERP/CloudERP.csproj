@@ -814,14 +814,6 @@
     <Compile Include="Facades\CompanyEmployeeFacade.cs" />
     <Compile Include="Facades\CompanyRegistrationFacade.cs" />
     <Compile Include="Facades\HomeFacade.cs" />
-    <Compile Include="Facades\PurchaseCartFacade.cs" />
-    <Compile Include="Facades\PurchasePaymentFacade.cs" />
-    <Compile Include="Facades\PurchasePaymentReturnFacade.cs" />
-    <Compile Include="Facades\PurchaseReturnFacade.cs" />
-    <Compile Include="Facades\SaleCartFacade.cs" />
-    <Compile Include="Facades\SalePaymentFacade.cs" />
-    <Compile Include="Facades\SalePaymentReturnFacade.cs" />
-    <Compile Include="Facades\SaleReturnFacade.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

@@ -61,16 +61,6 @@ namespace CloudERP.Controllers
             }
         }
 
-        private async Task<bool> CheckBranchExistsAsync(Branch branch, bool isEdit = false)
-        {
-            var branches = await _branchRepository.GetByCompanyAsync(branch.CompanyID);
-            return branches.Any(b =>
-                b.BranchName == branch.BranchName ||
-                b.BranchContact == branch.BranchContact ||
-                b.BranchAddress == branch.BranchAddress &&
-                (!isEdit || b.BranchID != branch.BranchID));
-        }
-
         // POST: Branch/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -85,13 +75,6 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    if (await CheckBranchExistsAsync(model))
-                    {
-                        ModelState.AddModelError("", Resources.Messages.BranchEists);
-                        await PopulateViewBags(_sessionHelper.CompanyID);
-                        return View(model);
-                    }
-
                     await _branchRepository.AddAsync(model);
                     return RedirectToAction("Index");
                 }
@@ -142,13 +125,6 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    if (await CheckBranchExistsAsync(model, isEdit: true))
-                    {
-                        ModelState.AddModelError("", Resources.Messages.BranchEists);
-                        await PopulateViewBags(_sessionHelper.CompanyID, model.ParentBranchID, model.BranchTypeID);
-                        return View(model);
-                    }
-
                     await _branchRepository.UpdateAsync(model);
                     return RedirectToAction("Index");
                 }
