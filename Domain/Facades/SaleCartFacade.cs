@@ -1,5 +1,6 @@
 ﻿using Domain.RepositoryAccess;
-using Domain.Services;
+using Domain.Services.Sale;
+using System;
 
 namespace Domain.Facades
 {
@@ -18,11 +19,11 @@ namespace Domain.Facades
             ISaleCartDetailRepository saleCartDetailRepository,
             ISaleEntryService saleEntryService)
         {
-            _customerRepository = customerRepository;
-            _customerInvoiceRepository = customerInvoiceRepository;
-            _customerInvoiceDetailRepository = customerInvoiceDetailRepository;
-            _saleCartDetailRepository = saleCartDetailRepository;
-            _saleEntryService = saleEntryService;
+            _customerRepository = customerRepository ?? throw new ArgumentNullException(nameof(ICustomerRepository));
+            _customerInvoiceRepository = customerInvoiceRepository ?? throw new ArgumentNullException(nameof(ICustomerInvoiceRepository));
+            _customerInvoiceDetailRepository = customerInvoiceDetailRepository ?? throw new ArgumentNullException(nameof(ICustomerInvoiceDetailRepository));
+            _saleCartDetailRepository = saleCartDetailRepository ?? throw new ArgumentNullException(nameof(ISaleCartDetailRepository));
+            _saleEntryService = saleEntryService ?? throw new ArgumentNullException(nameof(ISaleEntryService));
         }
 
         public ICustomerRepository CustomerRepository => _customerRepository;

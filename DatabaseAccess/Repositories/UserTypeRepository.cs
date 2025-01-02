@@ -1,5 +1,7 @@
-﻿using Domain.Models;
+﻿using DatabaseAccess.Helpers;
+using Domain.Models;
 using Domain.RepositoryAccess;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -13,7 +15,7 @@ namespace DatabaseAccess.Repositories
 
         public UserTypeRepository(CloudDBEntities dbContext)
         {
-            _dbContext = dbContext;
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(DatabaseQuery));
         }
 
         public async Task<IEnumerable<UserType>> GetAllAsync()

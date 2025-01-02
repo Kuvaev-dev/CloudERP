@@ -19,8 +19,8 @@ namespace Domain.Services
 
         public EmployeeStatisticsService(IEmployeeRepository employeeRepository, IBranchRepository branchRepository)
         {
-            _employeeRepository = employeeRepository;
-            _branchRepository = branchRepository;
+            _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(IEmployeeRepository));
+            _branchRepository = branchRepository ?? throw new ArgumentNullException(nameof(IBranchRepository));
         }
 
         public async Task<List<EmployeeStatistics>> GetStatisticsAsync(DateTime startDate, DateTime endDate, int branchID, int companyID)

@@ -17,7 +17,7 @@ namespace Domain.Services
 
         public IncomeStatementService(IBalanceSheetRepository balanceSheetRepository)
         {
-            _balanceSheetRepository = balanceSheetRepository;
+            _balanceSheetRepository = balanceSheetRepository ?? throw new ArgumentNullException(nameof(IBalanceSheetRepository));
         }
 
         public async Task<IncomeStatementModel> GetIncomeStatementAsync(int companyID, int branchID, int financialYearID)

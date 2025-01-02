@@ -17,8 +17,8 @@ namespace CloudERP.Controllers
             AccountSettingFacade accountSettingFacade,
             SessionHelper sessionHelper)
         {
-            _accountSettingFacade = accountSettingFacade;
-            _sessionHelper = sessionHelper;
+            _accountSettingFacade = accountSettingFacade ?? throw new ArgumentNullException(nameof(AccountSettingFacade));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
         public async Task<ActionResult> Index()

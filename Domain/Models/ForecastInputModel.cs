@@ -1,8 +1,8 @@
-﻿using CloudERP.Models.Forecasting;
-using System.Collections.Generic;
+﻿using Domain.Models.Forecasting;
 using System;
+using System.Collections.Generic;
 
-namespace Domain.Models.Forecasting
+namespace Domain.Models
 {
     public class ForecastInputModel
     {

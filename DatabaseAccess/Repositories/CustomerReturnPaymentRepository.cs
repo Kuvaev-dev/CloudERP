@@ -14,7 +14,7 @@ namespace DatabaseAccess.Repositories
 
         public CustomerReturnPaymentRepository(CloudDBEntities dbContext)
         {
-            _dbContext = dbContext;
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(CloudDBEntities));
         }
 
         public async Task<IEnumerable<CustomerReturnPayment>> GetListByReturnInvoiceIdAsync(int id)

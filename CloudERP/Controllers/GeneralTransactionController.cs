@@ -14,11 +14,14 @@ namespace CloudERP.Controllers
         private readonly IGeneralTransactionRepository _generalTransactionRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public GeneralTransactionController(IGeneralTransactionService generalTransactionService, SessionHelper sessionHelper, IGeneralTransactionRepository generalTransactionRepository)
+        public GeneralTransactionController(
+            IGeneralTransactionService generalTransactionService, 
+            SessionHelper sessionHelper, 
+            IGeneralTransactionRepository generalTransactionRepository)
         {
-            _generalTransactionService = generalTransactionService;
-            _sessionHelper = sessionHelper;
-            _generalTransactionRepository = generalTransactionRepository;
+            _generalTransactionService = generalTransactionService ?? throw new ArgumentNullException(nameof(IGeneralTransactionService));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _generalTransactionRepository = generalTransactionRepository ?? throw new ArgumentNullException(nameof(IGeneralTransactionRepository));
         }
 
         [HttpPost]

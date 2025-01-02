@@ -1,5 +1,6 @@
 ﻿using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -16,7 +17,7 @@ namespace Domain.Services
 
         public BalanceSheetService(IBalanceSheetRepository balanceSheetRepository)
         {
-            _balanceSheetRepository = balanceSheetRepository;
+            _balanceSheetRepository = balanceSheetRepository ?? throw new ArgumentNullException(nameof(IBalanceSheetRepository));
         }
 
         public async Task<BalanceSheetModel> GetBalanceSheetAsync(int companyId, int branchId, int financialYearId, List<int> headIds)

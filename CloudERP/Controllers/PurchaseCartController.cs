@@ -2,7 +2,7 @@
 using CloudERP.Models;
 using Domain.Models;
 using Domain.RepositoryAccess;
-using Domain.Services;
+using Domain.Services.Purchase;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,11 +26,11 @@ namespace CloudERP.Controllers
             SessionHelper sessionHelper, 
             IPurchaseCartService purchaseCartService)
         {
-            _purchaseCartDetailRepository = purchaseCartDetailRepository;
-            _stockRepository = stockRepository;
-            _supplierRepository = supplierRepository;
-            _sessionHelper = sessionHelper;
-            _purchaseCartService = purchaseCartService;
+            _purchaseCartDetailRepository = purchaseCartDetailRepository ?? throw new ArgumentNullException(nameof(IPurchaseCartDetailRepository));
+            _stockRepository = stockRepository ?? throw new ArgumentNullException(nameof(IStockRepository));
+            _supplierRepository = supplierRepository ?? throw new ArgumentNullException(nameof(ISupplierRepository));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _purchaseCartService = purchaseCartService ?? throw new ArgumentNullException(nameof(IPurchaseCartService));
         }
 
         // GET: PurchaseCart/NewPurchase

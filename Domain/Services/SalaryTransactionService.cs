@@ -25,7 +25,7 @@ namespace Domain.Services
 
         public SalaryTransactionService(SalaryTransactionFacade salaryTransactionFacade)
         {
-            _salaryTransactionFacade = salaryTransactionFacade;
+            _salaryTransactionFacade = salaryTransactionFacade ?? throw new ArgumentNullException(nameof(SalaryTransactionFacade));
         }
 
         private void InitializeDataTable()

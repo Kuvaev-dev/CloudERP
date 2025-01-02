@@ -15,7 +15,7 @@ namespace Domain.Services
 
         public GeneralTransactionService(IGeneralTransactionRepository generalTransactionRepository)
         {
-            _generalTransactionRepository = generalTransactionRepository;
+            _generalTransactionRepository = generalTransactionRepository ?? throw new ArgumentNullException(nameof(IGeneralTransactionRepository));
         }
 
         public async Task<string> ConfirmTransactionAsync(

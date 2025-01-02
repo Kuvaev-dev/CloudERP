@@ -1,4 +1,5 @@
 ﻿using Domain.RepositoryAccess;
+using System;
 
 namespace Domain.Facades
 {
@@ -17,11 +18,11 @@ namespace Domain.Facades
             IStockRepository stockRepository, 
             ISaleCartDetailRepository saleCartDetailRepository)
         {
-            _financialYearRepository = financialYearRepository;
-            _accountSettingRepository = accountSettingRepository;
-            _saleRepository = saleRepository;
-            _stockRepository = stockRepository;
-            _saleCartDetailRepository = saleCartDetailRepository;
+            _financialYearRepository = financialYearRepository ?? throw new ArgumentNullException(nameof(IFinancialYearRepository));
+            _accountSettingRepository = accountSettingRepository ?? throw new ArgumentNullException(nameof(IAccountSettingRepository));
+            _saleRepository = saleRepository ?? throw new ArgumentNullException(nameof(ISaleRepository));
+            _stockRepository = stockRepository ?? throw new ArgumentNullException(nameof(IStockRepository));
+            _saleCartDetailRepository = saleCartDetailRepository ?? throw new ArgumentNullException(nameof(ISaleCartDetailRepository));
         }
 
         public IFinancialYearRepository FinancialYearRepository => _financialYearRepository;

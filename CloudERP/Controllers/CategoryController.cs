@@ -14,8 +14,8 @@ namespace CloudERP.Controllers
 
         public CategoryController(ICategoryRepository categoryRepository, SessionHelper sessionHelper)
         {
-            _categoryRepository = categoryRepository;
-            _sessionHelper = sessionHelper;
+            _categoryRepository = categoryRepository ?? throw new ArgumentNullException(nameof(ICategoryRepository));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
         public async Task<ActionResult> Index()

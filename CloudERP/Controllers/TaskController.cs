@@ -14,8 +14,8 @@ namespace CloudERP.Controllers
 
         public TaskController(ITaskRepository taskRepository, SessionHelper sessionHelper)
         {
-            _taskRepository = taskRepository;
-            _sessionHelper = sessionHelper;
+            _taskRepository = taskRepository ?? throw new ArgumentNullException(nameof(ITaskRepository));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
         public async Task<ActionResult> Index()

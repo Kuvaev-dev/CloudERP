@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace Domain.Helpers
@@ -9,7 +10,7 @@ namespace Domain.Helpers
 
         public AllowedDomainsAttribute(string[] allowedDomains)
         {
-            _allowedDomains = allowedDomains;
+            _allowedDomains = allowedDomains ?? throw new ArgumentNullException(nameof(allowedDomains));
         }
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)

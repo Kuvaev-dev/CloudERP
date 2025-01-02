@@ -53,37 +53,10 @@
       <HintPath>..\packages\Microsoft.Extensions.Primitives.9.0.0\lib\net462\Microsoft.Extensions.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
-    </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Diagnostics.DiagnosticSource, Version=9.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.9.0.0\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Facades\PurchasePaymentFacade.cs" />
@@ -138,6 +111,7 @@
     <Compile Include="Models\FinancialModels\TrialBalanceModel.cs" />
     <Compile Include="Models\FinancialYear.cs" />
     <Compile Include="Models\ForecastData.cs" />
+    <Compile Include="Models\ForecastInputModel.cs" />
     <Compile Include="Models\Payroll.cs" />
     <Compile Include="Models\PurchaseCartDetail.cs" />
     <Compile Include="Models\SaleCartDetail.cs" />
@@ -202,10 +176,13 @@
     <Compile Include="Services\DashboardService.cs" />
     <Compile Include="Services\EmployeeSalaryService.cs" />
     <Compile Include="Services\GeneralTransactionService.cs" />
-    <Compile Include="Services\IEmailService.cs" />
+    <Compile Include="Services\Interfaces\IConnectionStringProvider.cs" />
+    <Compile Include="Services\Interfaces\IEmailService.cs" />
     <Compile Include="Services\EmployeeStatisticsService.cs" />
-    <Compile Include="Services\IFileService.cs" />
-    <Compile Include="Services\IForecastingService.cs" />
+    <Compile Include="Services\Interfaces\IFile.cs" />
+    <Compile Include="Services\Interfaces\IFileService.cs" />
+    <Compile Include="Services\Interfaces\IFinancialForecastAdapter.cs" />
+    <Compile Include="Services\Interfaces\IForecastingService.cs" />
     <Compile Include="Services\IncomeStatementService.cs" />
     <Compile Include="Services\Purchase\PurchaseCartService.cs" />
     <Compile Include="Services\Purchase\PurchaseEntryService.cs" />

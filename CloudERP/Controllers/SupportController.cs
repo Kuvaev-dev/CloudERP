@@ -14,8 +14,8 @@ namespace CloudERP.Controllers
 
         public SupportController(ISupportTicketRepository supportTicketRepository, SessionHelper sessionHelper)
         {
-            _supportTicketRepository = supportTicketRepository;
-            _sessionHelper = sessionHelper;
+            _supportTicketRepository = supportTicketRepository ?? throw new ArgumentNullException(nameof(ISupportTicketRepository));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
         public ActionResult Support()

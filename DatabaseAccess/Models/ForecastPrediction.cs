@@ -1,6 +1,6 @@
 ﻿using Microsoft.ML.Data;
 
-namespace DatabaseAccess.Services
+namespace DatabaseAccess.Models
 {
     public class ForecastPrediction
     {

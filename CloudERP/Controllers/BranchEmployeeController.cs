@@ -14,8 +14,8 @@ namespace CloudERP.Controllers
 
         public BranchEmployeeController(IEmployeeRepository employeeRepository, SessionHelper sessionHelper)
         {
-            _employeeRepository = employeeRepository;
-            _sessionHelper = sessionHelper;
+            _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(IEmployeeRepository));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
         // GET: Employee

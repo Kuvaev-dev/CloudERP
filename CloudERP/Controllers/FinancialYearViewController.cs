@@ -11,10 +11,12 @@ namespace CloudERP.Controllers
         private readonly IFinancialYearRepository _financialYearRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public FinancialYearViewController(IFinancialYearRepository financialYearRepository, SessionHelper sessionHelper)
+        public FinancialYearViewController(
+            IFinancialYearRepository financialYearRepository, 
+            SessionHelper sessionHelper)
         {
-            _financialYearRepository = financialYearRepository;
-            _sessionHelper = sessionHelper;
+            _financialYearRepository = financialYearRepository ?? throw new ArgumentNullException(nameof(IFinancialYearRepository));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
         // GET: FinancialYear

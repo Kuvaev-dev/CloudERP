@@ -14,12 +14,12 @@ namespace Domain.Services
     public class EmployeeSalaryService : IEmployeeSalaryService
     {
         private readonly IPayrollRepository _payrollRepository;
-        private readonly SalaryTransactionService _salaryTransaction;
+        private readonly ISalaryTransactionService _salaryTransaction;
 
-        public EmployeeSalaryService(IPayrollRepository payrollRepository, SalaryTransactionService salaryTransaction)
+        public EmployeeSalaryService(IPayrollRepository payrollRepository, ISalaryTransactionService salaryTransaction)
         {
-            _payrollRepository = payrollRepository;
-            _salaryTransaction = salaryTransaction;
+            _payrollRepository = payrollRepository ?? throw new ArgumentNullException(nameof(IPayrollRepository));
+            _salaryTransaction = salaryTransaction ?? throw new ArgumentNullException(nameof(ISalaryTransactionService));
         }
 
         public async Task<string> ConfirmSalaryAsync(Salary salary, int userId, int branchId, int companyId)

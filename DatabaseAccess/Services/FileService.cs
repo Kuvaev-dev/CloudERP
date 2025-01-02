@@ -7,7 +7,7 @@ namespace DatabaseAccess.Services
 {
     public class FileService : IFileService
     {
-        public string UploadPhoto(HttpPostedFileBase file, string folderPath, string fileName)
+        public string UploadPhoto(IFile file, string folderPath, string fileName)
         {
             if (file == null || file.ContentLength <= 0)
                 return null;

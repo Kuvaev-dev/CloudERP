@@ -11,10 +11,12 @@ namespace CloudERP.Controllers
         private readonly SessionHelper _sessionHelper;
         private readonly IEmployeeStatisticsService _employeeStatsService;
 
-        public EmployeeStatisticsController(SessionHelper sessionHelper, IEmployeeStatisticsService employeeStatsService)
+        public EmployeeStatisticsController(
+            SessionHelper sessionHelper, 
+            IEmployeeStatisticsService employeeStatsService)
         {
-            _sessionHelper = sessionHelper;
-            _employeeStatsService = employeeStatsService;
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _employeeStatsService = employeeStatsService ?? throw new ArgumentNullException(nameof(IEmployeeStatisticsService));
         }
 
         // GET: EmployeeStatistics

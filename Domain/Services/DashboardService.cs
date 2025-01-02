@@ -16,7 +16,7 @@ namespace Domain.Services
 
         public DashboardService(IDashboardRepository dashboardRepository)
         {
-            _dashboardRepository = dashboardRepository;
+            _dashboardRepository = dashboardRepository ?? throw new ArgumentNullException(nameof(IDashboardRepository));
         }
 
         public async Task<DashboardModel> GetDashboardValues(int branchId, int companyId)

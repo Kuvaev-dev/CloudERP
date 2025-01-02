@@ -14,8 +14,8 @@ namespace CloudERP.Controllers
 
         public UserTypeController(IUserTypeRepository userTypeRepository, SessionHelper sessionHelper)
         {
-            _userTypeRepository = userTypeRepository;
-            _sessionHelper = sessionHelper;
+            _userTypeRepository = userTypeRepository ?? throw new ArgumentNullException(nameof(IUserTypeRepository));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
         public async Task<ActionResult> Index()

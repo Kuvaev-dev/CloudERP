@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
@@ -21,9 +20,9 @@ namespace CloudERP.Controllers
             IAccountHeadRepository accountHeadRepository, 
             SessionHelper sessionHelper)
         {
-            _accountControlRepository = accountControlRepository;
-            _accountHeadRepository = accountHeadRepository;
-            _sessionHelper = sessionHelper;
+            _accountControlRepository = accountControlRepository ?? throw new ArgumentNullException(nameof(IAccountControlRepository));
+            _accountHeadRepository = accountHeadRepository ?? throw new ArgumentNullException(nameof(IAccountHeadRepository));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
         public async Task<ActionResult> Index()

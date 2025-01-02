@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Domain.Services
+namespace Domain.Services.Sale
 {
     public interface ISalePaymentService
     {
@@ -29,11 +29,11 @@ namespace Domain.Services
             ICustomerRepository customerRepository,
             ISaleEntryService saleEntryService)
         {
-            _saleRepository = saleRepository;
-            _customerInvoiceRepository = customerInvoiceRepository;
-            _customerPaymentRepository = customerPaymentRepository;
-            _customerRepository = customerRepository;
-            _saleEntryService = saleEntryService;
+            _saleRepository = saleRepository ?? throw new ArgumentNullException(nameof(ISaleRepository));
+            _customerInvoiceRepository = customerInvoiceRepository ?? throw new ArgumentNullException(nameof(ICustomerInvoiceRepository));
+            _customerPaymentRepository = customerPaymentRepository ?? throw new ArgumentNullException(nameof(ICustomerPaymentRepository));
+            _customerRepository = customerRepository ?? throw new ArgumentNullException(nameof(ICustomerRepository));
+            _saleEntryService = saleEntryService ?? throw new ArgumentNullException(nameof(ISaleEntryService));
         }
 
         public async Task<List<SalePaymentModel>> GetSalePaymentHistoryAsync(int invoiceId)

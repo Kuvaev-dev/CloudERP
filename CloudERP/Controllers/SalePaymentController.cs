@@ -4,8 +4,8 @@ using System.Web.Mvc;
 using System.Threading.Tasks;
 using CloudERP.Helpers;
 using Domain.Models.FinancialModels;
-using Domain.Services;
 using Domain.RepositoryAccess;
+using Domain.Services.Sale;
 
 namespace CloudERP.Controllers
 {
@@ -24,11 +24,11 @@ namespace CloudERP.Controllers
             SessionHelper sessionHelper,
             ISalePaymentService salePaymentService)
         {
-            _saleRepository = saleRepository;
-            _customerReturnInvoiceRepository = customerReturnInvoiceRepository;
-            _customerInvoiceDetailRepository = customerInvoiceDetailRepository;
-            _sessionHelper = sessionHelper;
-            _salePaymentService = salePaymentService;
+            _saleRepository = saleRepository ?? throw new ArgumentNullException(nameof(ISaleRepository));
+            _customerReturnInvoiceRepository = customerReturnInvoiceRepository ?? throw new ArgumentNullException(nameof(ICustomerReturnInvoiceRepository));
+            _customerInvoiceDetailRepository = customerInvoiceDetailRepository ?? throw new ArgumentNullException(nameof(ICustomerInvoiceDetailRepository));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _salePaymentService = salePaymentService ?? throw new ArgumentNullException(nameof(ISalePaymentService));
         }
 
         // GET: PurchasePayment

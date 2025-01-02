@@ -1,5 +1,8 @@
-﻿using Domain.RepositoryAccess;
+﻿using CloudERP.Factories;
+using Domain.RepositoryAccess;
 using Domain.Services;
+using Domain.Services.Interfaces;
+using System;
 
 namespace CloudERP.Facades
 {
@@ -9,6 +12,7 @@ namespace CloudERP.Facades
         private readonly IEmployeeSalaryService _employeeSalaryService;
         private readonly IEmailService _emailService;
         private readonly IFileService _fileService;
+        private readonly IFileAdapterFactory _fileAdapterFactory;
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IBranchRepository _branchRepository;
         private readonly IPayrollRepository _payrollRepository;
@@ -20,15 +24,17 @@ namespace CloudERP.Facades
             IFileService fileService,
             IEmployeeRepository employeeRepository,
             IBranchRepository branchRepository,
-            IPayrollRepository payrollRepository)
+            IPayrollRepository payrollRepository,
+            IFileAdapterFactory fileAdapterFactory)
         {
-            _salaryTransactionService = salaryTransactionService;
-            _employeeSalaryService = employeeSalaryService;
-            _emailService = emailService;
-            _fileService = fileService;
-            _employeeRepository = employeeRepository;
-            _branchRepository = branchRepository;
-            _payrollRepository = payrollRepository;
+            _salaryTransactionService = salaryTransactionService ?? throw new ArgumentNullException(nameof(ISalaryTransactionService));
+            _employeeSalaryService = employeeSalaryService ?? throw new ArgumentNullException(nameof(IEmployeeSalaryService));
+            _emailService = emailService ?? throw new ArgumentNullException(nameof(IEmailService));
+            _fileService = fileService ?? throw new ArgumentNullException(nameof(IFileService));
+            _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(IEmployeeRepository));
+            _branchRepository = branchRepository ?? throw new ArgumentNullException(nameof(IBranchRepository));
+            _payrollRepository = payrollRepository ?? throw new ArgumentNullException(nameof(IPayrollRepository));
+            _fileAdapterFactory = fileAdapterFactory ?? throw new ArgumentNullException(nameof(IFileAdapterFactory));
         }
 
         public ISalaryTransactionService SalaryTransactionService => _salaryTransactionService;
@@ -38,5 +44,6 @@ namespace CloudERP.Facades
         public IEmployeeRepository EmployeeRepository => _employeeRepository;
         public IBranchRepository BranchRepository => _branchRepository;
         public IPayrollRepository PayrollRepository => _payrollRepository;
+        public IFileAdapterFactory FileAdapterFactory => _fileAdapterFactory;
     }
 }

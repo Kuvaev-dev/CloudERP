@@ -13,11 +13,14 @@ namespace CloudERP.Controllers
         private readonly IFinancialYearRepository _financialYearRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public IncomeStatementController(IIncomeStatementService income, IFinancialYearRepository financialYearRepository, SessionHelper sessionHelper)
+        public IncomeStatementController(
+            IIncomeStatementService income, 
+            IFinancialYearRepository financialYearRepository, 
+            SessionHelper sessionHelper)
         {
-            _income = income;
-            _financialYearRepository = financialYearRepository;
-            _sessionHelper = sessionHelper;
+            _income = income ?? throw new ArgumentNullException(nameof(IIncomeStatementService));
+            _financialYearRepository = financialYearRepository ?? throw new ArgumentNullException(nameof(IFinancialYearRepository));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
         // GET: IncomeStatement

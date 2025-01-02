@@ -23,10 +23,10 @@ namespace CloudERP.Controllers
             IAccountHeadRepository accountHeadRepository, 
             SessionHelper sessionHelper)
         {
-            _accountSubControlRepository = accountSubControlRepository;
-            _accountControlRepository = accountControlRepository;
-            _accountHeadRepository = accountHeadRepository;
-            _sessionHelper = sessionHelper;
+            _accountSubControlRepository = accountSubControlRepository ?? throw new ArgumentNullException(nameof(IAccountSubControlRepository));
+            _accountControlRepository = accountControlRepository ?? throw new ArgumentNullException(nameof(IAccountControlRepository));
+            _accountHeadRepository = accountHeadRepository ?? throw new ArgumentNullException(nameof(IAccountHeadRepository));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
         public async Task<ActionResult> Index()

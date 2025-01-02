@@ -19,9 +19,9 @@ namespace CloudERP.Controllers
             SessionHelper sessionHelper,
             PasswordHelper passwordHelper)
         {
-            _companyRegistrationFacade = companyRegistrationFacade;
-            _sessionHelper = sessionHelper;
-            _passwordHelper = passwordHelper;
+            _companyRegistrationFacade = companyRegistrationFacade ?? throw new ArgumentNullException(nameof(CompanyRegistrationFacade));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _passwordHelper = passwordHelper ?? throw new ArgumentNullException(nameof(PasswordHelper));
         }
 
         // GET: CompanyRegistration/RegistrationForm

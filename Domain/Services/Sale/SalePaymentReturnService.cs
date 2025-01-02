@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Domain.Services
+namespace Domain.Services.Sale
 {
     public interface ISalePaymentReturnService
     {
@@ -26,10 +26,10 @@ namespace Domain.Services
             ICustomerRepository customerRepository,
             ISaleEntryService saleEntryService)
         {
-            _customerReturnPaymentRepository = customerReturnPaymentRepository;
-            _customerReturnInvoiceRepository = customerReturnInvoiceRepository;
-            _customerRepository = customerRepository;
-            _saleEntryService = saleEntryService;
+            _customerReturnPaymentRepository = customerReturnPaymentRepository ?? throw new ArgumentNullException(nameof(ICustomerReturnPaymentRepository));
+            _customerReturnInvoiceRepository = customerReturnInvoiceRepository ?? throw new ArgumentNullException(nameof(ICustomerReturnInvoiceRepository));
+            _customerRepository = customerRepository ?? throw new ArgumentNullException(nameof(ICustomerRepository));
+            _saleEntryService = saleEntryService ?? throw new ArgumentNullException(nameof(ISaleEntryService));
         }
 
         public async Task<(bool IsSuccess, string Message, IEnumerable<CustomerReturnPayment> Items, double RemainingAmount)> ProcessReturnAmountAsync(SalePaymentReturn paymentReturnDto, int branchId, int companyId, int userId)

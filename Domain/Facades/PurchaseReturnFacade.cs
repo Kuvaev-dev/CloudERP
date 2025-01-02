@@ -1,5 +1,6 @@
 ﻿using Domain.RepositoryAccess;
-using Domain.Services;
+using Domain.Services.Purchase;
+using System;
 
 namespace Domain.Facades
 {
@@ -22,13 +23,13 @@ namespace Domain.Facades
             IStockRepository stockRepository,
             IPurchaseEntryService purchaseEntryService)
         {
-            _supplierInvoiceDetailRepository = supplierInvoiceDetailRepository;
-            _supplierInvoiceRepository = supplierInvoiceRepository;
-            _supplierReturnInvoiceRepository = supplierReturnInvoiceRepository;
-            _supplierReturnInvoiceDetailRepository = supplierReturnInvoiceDetailRepository;
-            _supplierRepository = supplierRepository;
-            _stockRepository = stockRepository;
-            _purchaseEntryService = purchaseEntryService;
+            _supplierInvoiceDetailRepository = supplierInvoiceDetailRepository ?? throw new ArgumentNullException(nameof(ISupplierInvoiceDetailRepository));
+            _supplierInvoiceRepository = supplierInvoiceRepository ?? throw new ArgumentNullException(nameof(ISupplierInvoiceRepository));
+            _supplierReturnInvoiceRepository = supplierReturnInvoiceRepository ?? throw new ArgumentNullException(nameof(ISupplierReturnInvoiceRepository));
+            _supplierReturnInvoiceDetailRepository = supplierReturnInvoiceDetailRepository ?? throw new ArgumentNullException(nameof(ISupplierReturnInvoiceDetailRepository));
+            _supplierRepository = supplierRepository ?? throw new ArgumentNullException(nameof(ISupplierRepository));
+            _stockRepository = stockRepository ?? throw new ArgumentNullException(nameof(IStockRepository));
+            _purchaseEntryService = purchaseEntryService ?? throw new ArgumentNullException(nameof(IPurchaseEntryService));
         }
 
         public ISupplierInvoiceDetailRepository SupplierInvoiceDetailRepository => _supplierInvoiceDetailRepository;

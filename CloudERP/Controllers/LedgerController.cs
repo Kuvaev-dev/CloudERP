@@ -14,11 +14,14 @@ namespace CloudERP.Controllers
         private readonly IFinancialYearRepository _financialYearRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public LedgerController(ILedgerRepository ledgerRepository, IFinancialYearRepository financialYearRepository, SessionHelper sessionHelper)
+        public LedgerController(
+            ILedgerRepository ledgerRepository, 
+            IFinancialYearRepository financialYearRepository, 
+            SessionHelper sessionHelper)
         {
-            _ledgerRepository = ledgerRepository;
-            _financialYearRepository = financialYearRepository;
-            _sessionHelper = sessionHelper;
+            _ledgerRepository = ledgerRepository ?? throw new ArgumentNullException(nameof(ILedgerRepository));
+            _financialYearRepository = financialYearRepository ?? throw new ArgumentNullException(nameof(financialYearRepository));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
         public async Task<ActionResult> GetLedger()

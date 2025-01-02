@@ -14,11 +14,14 @@ namespace CloudERP.Controllers
         private readonly IBranchTypeRepository _branchTypeRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public BranchController(IBranchRepository branchRepository, IBranchTypeRepository branchTypeRepository, SessionHelper sessionHelper)
+        public BranchController(
+            IBranchRepository branchRepository, 
+            IBranchTypeRepository branchTypeRepository, 
+            SessionHelper sessionHelper)
         {
-            _branchRepository = branchRepository;
-            _branchTypeRepository = branchTypeRepository;
-            _sessionHelper = sessionHelper;
+            _branchRepository = branchRepository ?? throw new ArgumentNullException(nameof(IBranchRepository));
+            _branchTypeRepository = branchTypeRepository ?? throw new ArgumentNullException(nameof(IBranchTypeRepository));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
         // GET: Branch

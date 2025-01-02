@@ -1,6 +1,6 @@
 ﻿using CloudERP.Helpers;
 using Domain.RepositoryAccess;
-using Domain.Services;
+using Domain.Services.Purchase;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,10 +21,10 @@ namespace CloudERP.Controllers
             ISupplierInvoiceDetailRepository supplierInvoiceDetailRepository, 
             IPurchasePaymentService purchasePaymentService)
         {
-            _sessionHelper = sessionHelper;
-            _purchaseRepository = purchaseRepository;
-            _supplierInvoiceDetailRepository = supplierInvoiceDetailRepository;
-            _purchasePaymentService = purchasePaymentService;
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _purchaseRepository = purchaseRepository ?? throw new ArgumentNullException(nameof(IPurchaseRepository));
+            _supplierInvoiceDetailRepository = supplierInvoiceDetailRepository ?? throw new ArgumentNullException(nameof(ISupplierInvoiceDetailRepository));
+            _purchasePaymentService = purchasePaymentService ?? throw new ArgumentNullException(nameof(IPurchasePaymentService));
         }
 
         // GET: PurchasePayment

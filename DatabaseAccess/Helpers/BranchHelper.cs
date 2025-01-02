@@ -6,7 +6,7 @@ namespace DatabaseAccess.Helpers
 {
     public class BranchHelper
     {
-        public static List<int> GetBranchsIDs(int? brnchId, CloudDBEntities db)
+        public List<int> GetBranchsIDs(int? brnchId, CloudDBEntities db)
         {
             List<int> branchIDs = new List<int>();
             List<int> isSubBranchsFirst = new List<int>();

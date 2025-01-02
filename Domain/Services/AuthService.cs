@@ -1,9 +1,8 @@
 ﻿using CloudERP.Helpers;
 using Domain.Models;
 using Domain.RepositoryAccess;
+using Domain.Services.Interfaces;
 using System;
-using System.Resources;
-using System.Security.Policy;
 using System.Threading.Tasks;
 
 namespace Domain.Services
@@ -22,11 +21,14 @@ namespace Domain.Services
         private readonly IEmailService _emailService;
         private readonly PasswordHelper _passwordHelper;
 
-        public AuthService(IUserRepository userRepository, PasswordHelper passwordHelper, IEmailService emailService)
+        public AuthService(
+            IUserRepository userRepository, 
+            PasswordHelper passwordHelper, 
+            IEmailService emailService)
         {
-            _userRepository = userRepository;
-            _passwordHelper = passwordHelper;
-            _emailService = emailService;
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(IUserRepository));
+            _passwordHelper = passwordHelper ?? throw new ArgumentNullException(nameof(PasswordHelper));
+            _emailService = emailService ?? throw new ArgumentNullException(nameof(IEmailService));
         }
 
         public async Task<User> AuthenticateUserAsync(string email, string password)

@@ -14,11 +14,14 @@ namespace CloudERP.Controllers
         private readonly ICategoryRepository _categoryRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public StockController(IStockRepository stockRepository, ICategoryRepository categoryRepository, SessionHelper sessionHelper)
+        public StockController(
+            IStockRepository stockRepository, 
+            ICategoryRepository categoryRepository, 
+            SessionHelper sessionHelper)
         {
-            _stockRepository = stockRepository;
-            _categoryRepository = categoryRepository;
-            _sessionHelper = sessionHelper;
+            _stockRepository = stockRepository ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _categoryRepository = categoryRepository ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
         // GET: Stock

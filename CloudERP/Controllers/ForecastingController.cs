@@ -1,9 +1,8 @@
 ﻿using CloudERP.Helpers;
-using Domain.Models.Forecasting;
+using Domain.Models;
 using Domain.RepositoryAccess;
 using Domain.Services;
 using System;
-using System.Linq;
 using System.Web.Mvc;
 
 namespace CloudERP.Controllers
@@ -14,11 +13,14 @@ namespace CloudERP.Controllers
         private readonly IForecastingService _forecastingService;
         private readonly SessionHelper _sessionHelper;
 
-        public ForecastingController(IForecastingRepository forecastingRepository, IForecastingService forecastingService, SessionHelper sessionHelper)
+        public ForecastingController(
+            IForecastingRepository forecastingRepository,
+            IForecastingService forecastingService,
+            SessionHelper sessionHelper)
         {
-            _forecastingRepository = forecastingRepository;
-            _forecastingService = forecastingService;
-            _sessionHelper = sessionHelper;
+            _forecastingRepository = forecastingRepository ?? throw new ArgumentNullException(nameof(IForecastingRepository));
+            _forecastingService = forecastingService ?? throw new ArgumentNullException(nameof(IForecastingService));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
         public ActionResult Index()
@@ -41,20 +43,14 @@ namespace CloudERP.Controllers
 
             try
             {
-                inputModel.StartDate = DateTime.Now;
-
-                var forecastData = _forecastingRepository.GetForecastData(_sessionHelper.CompanyID, _sessionHelper.BranchID, inputModel.StartDate, inputModel.EndDate);
                 var forecastValue = _forecastingService.GenerateForecast(_sessionHelper.CompanyID, _sessionHelper.BranchID, inputModel.StartDate, inputModel.EndDate);
-
                 TempData["Message"] = $"{Resources.Messages.ForecastHasBeenGenerated} {forecastValue}";
-                inputModel.ForecastData = forecastData;
-                return View("Index", inputModel);
+                return RedirectToAction("Index");
             }
             catch (InvalidOperationException ex)
             {
                 TempData["Message"] = ex.Message;
-                inputModel.ForecastData = Enumerable.Empty<ForecastData>();
-                return View("Index", inputModel);
+                return RedirectToAction("Index");
             }
         }
     }

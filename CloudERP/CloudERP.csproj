@@ -821,16 +821,16 @@
     <Compile Include="Helpers\EmailService.cs" />
     <Compile Include="Helpers\SessionHelper.cs" />
     <Compile Include="Helpers\UnityConfig.cs" />
+    <Compile Include="Helpers\WebConfigConnectionStringProvider.cs" />
     <Compile Include="Models\AccountControlMV.cs" />
     <Compile Include="Models\AccountSubControlMV.cs" />
     <Compile Include="Models\CompanyMV.cs" />
     <Compile Include="Models\CompanyRegistrationMV.cs" />
     <Compile Include="Models\EmployeeMV.cs" />
-    <Compile Include="Models\Forecasting\ForecastInputModel.cs" />
-    <Compile Include="Models\Forecasting\ForecastPrediction.cs" />
     <Compile Include="Models\GeneralTransactionMV.cs" />
     <Compile Include="Models\ProductMV.cs" />
     <Compile Include="Models\RegistrationMV.cs" />
+    <Compile Include="Models\ReturnConfirmVM.cs" />
     <Compile Include="Models\SalaryMV.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

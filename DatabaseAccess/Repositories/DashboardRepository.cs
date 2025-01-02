@@ -14,7 +14,7 @@ namespace DatabaseAccess.Repositories
 
         public DashboardRepository(DatabaseQuery query)
         {
-            _query = query;
+            _query = query ?? throw new ArgumentNullException(nameof(DatabaseQuery));
         }
 
         public async Task<DashboardModel> GetDashboardValuesAsync(string fromDate, string toDate, int branchID, int companyID)

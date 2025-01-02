@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 
-namespace Domain.Services
+namespace Domain.Services.Sale
 {
     public interface ISaleEntryService
     {
@@ -20,12 +20,12 @@ namespace Domain.Services
     public class SaleEntryService : ISaleEntryService
     {
         private readonly SaleEntryFacade _saleEntryFacade;
-        public string selectcustomerid = string.Empty;
+        private string selectcustomerid = string.Empty;
         private readonly DataTable _dtEntries = null;
 
         public SaleEntryService(SaleEntryFacade saleEntryFacade)
         {
-            _saleEntryFacade = saleEntryFacade;
+            _saleEntryFacade = saleEntryFacade ?? throw new ArgumentNullException(nameof(SaleEntryFacade));
         }
 
         public async Task<string> ConfirmSale(int CompanyID, int BranchID, int UserID, string InvoiceNo, string CustomerInvoiceID, float Amount, string CustomerID, string CustomerName, bool isPayment)

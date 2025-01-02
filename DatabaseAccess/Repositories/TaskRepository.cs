@@ -14,7 +14,7 @@ namespace DatabaseAccess.Repositories
 
         public TaskRepository(CloudDBEntities dbContext)
         {
-            _dbContext = dbContext;
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(CloudDBEntities));
         }
 
         public async Task<IEnumerable<TaskModel>> GetAllAsync(int companyId, int branchId, int userId)

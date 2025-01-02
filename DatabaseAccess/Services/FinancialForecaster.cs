@@ -1,4 +1,5 @@
-﻿using Domain.Models.Forecasting;
+﻿using DatabaseAccess.Models;
+using Domain.Models.Forecasting;
 using Microsoft.ML;
 using System.Collections.Generic;
 using System.Linq;

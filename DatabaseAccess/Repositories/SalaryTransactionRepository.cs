@@ -9,20 +9,20 @@ namespace DatabaseAccess.Repositories
 {
     public class SalaryTransactionRepository : ISalaryTransactionRepository
     {
-        private readonly CloudDBEntities _db;
+        private readonly CloudDBEntities _dbContext;
         private readonly DatabaseQuery _query;
 
         private DataTable _dtEntries = null;
 
-        public SalaryTransactionRepository(CloudDBEntities db, DatabaseQuery query)
+        public SalaryTransactionRepository(CloudDBEntities dbContext, DatabaseQuery query)
         {
-            _db = db;
-            _query = query;
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(CloudDBEntities));
+            _query = query ?? throw new ArgumentNullException(nameof(DatabaseQuery));
         }
 
         public async Task<string> Confirm(int EmployeeID, double TransferAmount, int UserID, int BranchID, int CompanyID, string InvoiceNo, string SalaryMonth, string SalaryYear)
         {
-            using (var transaction = _db.Database.BeginTransaction())
+            using (var transaction = _dbContext.Database.BeginTransaction())
             {
                 InitializeDataTable();
                 string paymentDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -49,7 +49,7 @@ namespace DatabaseAccess.Repositories
 
         public async Task<string> InsertTransaction(int CompanyID, int BranchID)
         {
-            using (var transaction = _db.Database.BeginTransaction())
+            using (var transaction = _dbContext.Database.BeginTransaction())
             {
                 foreach (DataRow entryRow in _dtEntries.Rows)
                 {

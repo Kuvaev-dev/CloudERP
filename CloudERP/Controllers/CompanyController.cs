@@ -3,8 +3,10 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using CloudERP.Factories;
 using CloudERP.Helpers;
 using CloudERP.Models;
+using DatabaseAccess.Adapters;
 using Domain.RepositoryAccess;
 using Domain.Services;
 
@@ -14,13 +16,19 @@ namespace CloudERP.Controllers
     {
         private readonly ICompanyRepository _companyRepository;
         private readonly IFileService _fileService;
+        private readonly IFileAdapterFactory _fileAdapterFactory;
         private readonly SessionHelper _sessionHelper;
 
-        public CompanyController(ICompanyRepository companyRepository, IFileService fileService, SessionHelper sessionHelper)
+        public CompanyController(
+            ICompanyRepository companyRepository, 
+            IFileService fileService,
+            IFileAdapterFactory fileAdapterFactory, 
+            SessionHelper sessionHelper)
         {
-            _companyRepository = companyRepository;
-            _fileService = fileService;
-            _sessionHelper = sessionHelper;
+            _companyRepository = companyRepository ?? throw new ArgumentNullException(nameof(ICompanyRepository));
+            _fileService = fileService ?? throw new ArgumentNullException(nameof(IFileService));
+            _fileAdapterFactory = fileAdapterFactory ?? throw new ArgumentNullException(nameof(IFileAdapterFactory));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
         // GET: Company
@@ -99,9 +107,17 @@ namespace CloudERP.Controllers
 
                     var folder = "~/Content/CompanyLogo";
                     var fileName = $"{model.Company.Name}.jpg";
-                    model.Company.Logo = model.LogoFile != null
-                        ? _fileService.UploadPhoto(model.LogoFile, folder, fileName)
-                        : _fileService.SetDefaultPhotoPath("~/Content/CompanyLogo/erp-logo.png");
+
+                    if (model.LogoFile != null)
+                    {
+                        var fileAdapter = _fileAdapterFactory.Create(model.LogoFile);
+
+                        model.Company.Logo = _fileService.UploadPhoto(fileAdapter, folder, fileName);
+                    }
+                    else
+                    {
+                        model.Company.Logo = _fileService.SetDefaultPhotoPath("~/Content/CompanyLogo/erp-logo.png");
+                    }
 
                     await _companyRepository.AddAsync(model.Company);
 
@@ -156,7 +172,9 @@ namespace CloudERP.Controllers
                     {
                         var folder = "~/Content/CompanyLogo";
                         var fileName = $"{model.Company.CompanyID}.jpg";
-                        var photoPath = _fileService.UploadPhoto(model.LogoFile, folder, fileName);
+
+                        var fileAdapter = _fileAdapterFactory.Create(model.LogoFile);
+                        var photoPath = _fileService.UploadPhoto(fileAdapter, folder, fileName);
 
                         model.Company.Logo = photoPath ?? model.Company.Logo;
                     }

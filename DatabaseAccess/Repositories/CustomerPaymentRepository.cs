@@ -1,4 +1,5 @@
 ﻿using Domain.RepositoryAccess;
+using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace DatabaseAccess.Repositories
 
         public CustomerPaymentRepository(CloudDBEntities dbContext)
         {
-            _dbContext = dbContext;
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(CloudDBEntities));
         }
 
         public async Task<double> GetTotalPaidAmountById(int id)

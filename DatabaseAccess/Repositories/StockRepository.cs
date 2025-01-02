@@ -1,5 +1,6 @@
 ﻿using Domain.Models;
 using Domain.RepositoryAccess;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace DatabaseAccess.Repositories
 
         public StockRepository(CloudDBEntities dbContext)
         {
-            _dbContext = dbContext;
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(CloudDBEntities));
         }
 
         public async Task<IEnumerable<Stock>> GetAllAsync(int companyID, int branchID)

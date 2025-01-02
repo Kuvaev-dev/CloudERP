@@ -15,7 +15,7 @@ namespace DatabaseAccess.Repositories
 
         public TrialBalanceRepository(DatabaseQuery query)
         {
-            _query = query;
+            _query = query ?? throw new ArgumentNullException(nameof(DatabaseQuery));
         }
 
         public async Task<List<TrialBalanceModel>> GetTrialBalanceAsync(int branchId, int companyId, int financialYearId)

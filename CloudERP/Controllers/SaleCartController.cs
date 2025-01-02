@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 using CloudERP.Helpers;
 using Domain.Models;
 using Domain.Models.FinancialModels;
-using Domain.Services;
 using Domain.RepositoryAccess;
+using Domain.Services.Sale;
 
 namespace CloudERP.Controllers
 {
@@ -27,11 +27,11 @@ namespace CloudERP.Controllers
             SessionHelper sessionHelper, 
             ISaleCartService saleCartService)
         {
-            _saleCartDetailRepository = saleCartDetailRepository;
-            _customerRepository = customerRepository;
-            _stockRepository = stockRepository;
-            _sessionHelper = sessionHelper;
-            _saleCartService = saleCartService;
+            _saleCartDetailRepository = saleCartDetailRepository ?? throw new ArgumentNullException(nameof(ISaleCartDetailRepository));
+            _customerRepository = customerRepository ?? throw new ArgumentNullException(nameof(ICustomerRepository));
+            _stockRepository = stockRepository ?? throw new ArgumentNullException(nameof(IStockRepository));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _saleCartService = saleCartService ?? throw new ArgumentNullException(nameof(ISaleCartService));
         }
 
         // GET: SaleCart/NewSale

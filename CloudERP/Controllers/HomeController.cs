@@ -12,13 +12,16 @@ namespace CloudERP.Controllers
     {
         private readonly HomeFacade _homeFacade;
         private readonly SessionHelper _sessionHelper;
-        private readonly PasswordHelper _passwordHelper;
+        private readonly ResourceManagerHelper _resourceManagerHelper;
 
-        public HomeController(HomeFacade homeFacade, SessionHelper sessionHelper, PasswordHelper passwordHelper)
+        public HomeController(
+            HomeFacade homeFacade, 
+            SessionHelper sessionHelper, 
+            ResourceManagerHelper resourceManagerHelper)
         {
-            _homeFacade = homeFacade;
-            _sessionHelper = sessionHelper;
-            _passwordHelper = passwordHelper;
+            _homeFacade = homeFacade ?? throw new ArgumentNullException(nameof(HomeFacade));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _resourceManagerHelper = resourceManagerHelper ?? throw new ArgumentNullException(nameof(ResourceManagerHelper));
         }
 
         public async Task<ActionResult> Index()
@@ -151,7 +154,7 @@ namespace CloudERP.Controllers
         {
             try
             {
-                ResourceManagerHelper.SetCulture(culture);
+                _resourceManagerHelper.SetCulture(culture);
                 Session["Culture"] = culture;
             }
             catch (Exception ex)

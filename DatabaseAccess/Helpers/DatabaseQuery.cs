@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using Domain.Services.Interfaces;
+using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 
@@ -6,11 +7,16 @@ namespace DatabaseAccess.Helpers
 {
     public class DatabaseQuery
     {
-        private static readonly string connectionString = "data source=localhost\\sqlexpress;initial catalog=CloudErp;integrated security=True;";
+        private readonly IConnectionStringProvider _connectionStringProvider;
+
+        public DatabaseQuery(IConnectionStringProvider connectionStringProvider)
+        {
+            _connectionStringProvider = connectionStringProvider;
+        }
 
         public async Task<SqlConnection> ConnOpen()
         {
-            var connection = new SqlConnection(connectionString);
+            var connection = new SqlConnection(_connectionStringProvider.GetConnectionString("CloudDBEntities"));
             await connection.OpenAsync();
             return connection;
         }

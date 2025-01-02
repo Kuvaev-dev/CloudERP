@@ -11,17 +11,20 @@ namespace DatabaseAccess.Repositories
 { 
     public class GeneralTransactionRepository : IGeneralTransactionRepository
     {
-        private readonly CloudDBEntities _db;
+        private readonly CloudDBEntities _dbContext;
         private readonly DatabaseQuery _query;
         private readonly IAccountSubControlRepository _accountSubControlRepository;
 
         private DataTable _dtEntries;
 
-        public GeneralTransactionRepository(CloudDBEntities db, DatabaseQuery query, IAccountSubControlRepository accountSubControlRepository)
+        public GeneralTransactionRepository(
+            CloudDBEntities dbContext, 
+            DatabaseQuery query, 
+            IAccountSubControlRepository accountSubControlRepository)
         {
-            _db = db;
-            _query = query;
-            _accountSubControlRepository = accountSubControlRepository;
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(CloudDBEntities));
+            _query = query ?? throw new ArgumentNullException(nameof(DatabaseQuery));
+            _accountSubControlRepository = accountSubControlRepository ?? throw new ArgumentNullException(nameof(IAccountSubControlRepository));
         }
 
         private void InitializeDataTable()
@@ -52,7 +55,7 @@ namespace DatabaseAccess.Repositories
             int creditAccountControlId,
             string reason)
         {
-            using (var transaction = _db.Database.BeginTransaction())
+            using (var transaction = _dbContext.Database.BeginTransaction())
             {
                 InitializeDataTable();
 

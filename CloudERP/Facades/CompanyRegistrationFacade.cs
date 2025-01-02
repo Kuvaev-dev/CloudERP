@@ -1,4 +1,6 @@
 ﻿using Domain.RepositoryAccess;
+using Domain.Services.Interfaces;
+using System;
 
 namespace CloudERP.Facades
 {
@@ -17,12 +19,11 @@ namespace CloudERP.Facades
             IEmployeeRepository employeeRepository,
             IEmailService emailService)
         {
-            _companyRepository = companyRepository;
-            _branchRepository = branchRepository;
-            _userRepository = userRepository;
-            _employeeRepository = employeeRepository;
-            _emailService = emailService;
-
+            _companyRepository = companyRepository ?? throw new ArgumentNullException(nameof(ICompanyRepository));
+            _branchRepository = branchRepository ?? throw new ArgumentNullException(nameof(IBranchRepository));
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(IUserRepository));
+            _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(IEmployeeRepository));
+            _emailService = emailService ?? throw new ArgumentNullException(nameof(IEmailService));
         }
 
         public ICompanyRepository CompanyRepository => _companyRepository;

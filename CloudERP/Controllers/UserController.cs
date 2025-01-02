@@ -13,11 +13,14 @@ namespace CloudERP.Controllers
         private readonly IUserTypeRepository _userTypeRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public UserController(IUserRepository userRepository, IUserTypeRepository userTypeRepository, SessionHelper sessionHelper)
+        public UserController(
+            IUserRepository userRepository, 
+            IUserTypeRepository userTypeRepository, 
+            SessionHelper sessionHelper)
         {
-            _userRepository = userRepository;
-            _userTypeRepository = userTypeRepository;
-            _sessionHelper = sessionHelper;
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(IUserRepository));
+            _userTypeRepository = userTypeRepository ?? throw new ArgumentNullException(nameof(IUserTypeRepository));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
         public async Task<ActionResult> Index()

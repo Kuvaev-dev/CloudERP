@@ -11,24 +11,28 @@ namespace DatabaseAccess.Repositories
 {
     public class SaleRepository : ISaleRepository
     {
-        private readonly CloudDBEntities _db;
+        private readonly CloudDBEntities _dbContext;
         private readonly DatabaseQuery _query;
         private readonly ICustomerRepository _customerRepository;
         private readonly IUserRepository _userRepository;
 
         private DataTable _dtEntries = null;
 
-        public SaleRepository(CloudDBEntities db, DatabaseQuery query, ICustomerRepository customerRepository, IUserRepository userRepository)
+        public SaleRepository(
+            CloudDBEntities dbContext, 
+            DatabaseQuery query, 
+            ICustomerRepository customerRepository, 
+            IUserRepository userRepository)
         {
-            _db = db;
-            _query = query;
-            _customerRepository = customerRepository;
-            _userRepository = userRepository;
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(CloudDBEntities));
+            _query = query ?? throw new ArgumentNullException(nameof(DatabaseQuery));
+            _customerRepository = customerRepository ?? throw new ArgumentNullException(nameof(ICustomerRepository));
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(IUserRepository));
         }
 
         public async Task<string> ConfirmSale(int CompanyID, int BranchID, int UserID, string CustomerInvoiceID, float Amount, string CustomerID, string payInvoiceNo, float RemainingBalance)
         {
-            using (var transaction = _db.Database.BeginTransaction())
+            using (var transaction = _dbContext.Database.BeginTransaction())
             {
                 InitializeDataTable();
 
@@ -158,7 +162,7 @@ namespace DatabaseAccess.Repositories
 
         public async Task<string> InsertTransaction(int CompanyID, int BranchID)
         {
-            using (var transaction = _db.Database.BeginTransaction())
+            using (var transaction = _dbContext.Database.BeginTransaction())
             {
                 foreach (DataRow entryRow in _dtEntries.Rows)
                 {
@@ -236,7 +240,7 @@ namespace DatabaseAccess.Repositories
 
         public async Task<string> ReturnSale(int CompanyID, int BranchID, int UserID, string CustomerInvoiceID, int CustomerReturnInvoiceID, float Amount, string CustomerID, string payInvoiceNo, float RemainingBalance)
         {
-            using (var transaction = _db.Database.BeginTransaction())
+            using (var transaction = _dbContext.Database.BeginTransaction())
             {
                 InitializeDataTable();
                 string paymentQuery = "INSERT INTO tblCustomerReturnPayment (CustomerID, CustomerInvoiceID, UserID, InvoiceNo, TotalAmount, PaidAmount, RemainingBalance, CompanyID, BranchID, CustomerReturnInvoiceID, InvoiceDate) " +
@@ -263,7 +267,7 @@ namespace DatabaseAccess.Repositories
 
         public async Task ReturnSalePayment(int CompanyID, int BranchID, int UserID, string InvoiceNo, string CustomerInvoiceID, int CustomerReturnInvoiceID, float TotalAmount, float Amount, string CustomerID, float RemainingBalance)
         {
-            using (var transaction = _db.Database.BeginTransaction())
+            using (var transaction = _dbContext.Database.BeginTransaction())
             {
                 InitializeDataTable();
                 string paymentQuery = "INSERT INTO tblCustomerReturnPayment (CustomerID, CustomerInvoiceID, UserID, InvoiceNo, TotalAmount, PaidAmount, RemainingBalance, CompanyID, BranchID, CustomerReturnInvoiceID, InvoiceDate) " +

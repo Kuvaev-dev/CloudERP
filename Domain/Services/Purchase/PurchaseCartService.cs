@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Domain.Services
+namespace Domain.Services.Purchase
 {
     public interface IPurchaseCartService
     {
@@ -19,7 +19,7 @@ namespace Domain.Services
 
         public PurchaseCartService(PurchaseCartFacade purchaseCartFacade)
         {
-            _purchaseCartFacade = purchaseCartFacade;
+            _purchaseCartFacade = purchaseCartFacade ?? throw new ArgumentNullException(nameof(PurchaseCartFacade));
         }
 
         public async Task<string> ConfirmPurchase(PurchaseConfirm dto, int companyId, int branchId, int userId)

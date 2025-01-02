@@ -11,19 +11,23 @@ namespace DatabaseAccess.Repositories
 {
     public class PurchaseRepository : IPurchaseRepository
     {
-        private readonly CloudDBEntities _db;
+        private readonly CloudDBEntities _dbContext;
         private readonly DatabaseQuery _query;
         private readonly ISupplierRepository _suppliers;
         private readonly IUserRepository _users;
 
         private DataTable _dtEntries = null;
 
-        public PurchaseRepository(CloudDBEntities db, DatabaseQuery query, ISupplierRepository suppliers, IUserRepository users)
+        public PurchaseRepository(
+            CloudDBEntities dbContext, 
+            DatabaseQuery query, 
+            ISupplierRepository suppliers, 
+            IUserRepository users)
         {
-            _db = db;
-            _query = query;
-            _suppliers = suppliers;
-            _users = users;
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(CloudDBEntities));
+            _query = query ?? throw new ArgumentNullException(nameof(DatabaseQuery));
+            _suppliers = suppliers ?? throw new ArgumentNullException(nameof(ISupplierRepository));
+            _users = users ?? throw new ArgumentNullException(nameof(IUserRepository));
         }
 
         public async Task<List<PurchasePaymentModel>> RemainingPaymentList(int CompanyID, int BranchID)
@@ -276,7 +280,7 @@ namespace DatabaseAccess.Repositories
 
         public async Task<string> ConfirmPurchase(int CompanyID, int BranchID, int UserID, string SupplierInvoiceID, float Amount, string SupplierID, string payInvoiceNo, float RemainingBalance)
         {
-            using (var transaction = _db.Database.BeginTransaction())
+            using (var transaction = _dbContext.Database.BeginTransaction())
             {
                 InitializeDataTable();
 
@@ -307,7 +311,7 @@ namespace DatabaseAccess.Repositories
 
         public async Task<string> InsertTransaction(int CompanyID, int BranchID)
         {
-            using (var transaction = _db.Database.BeginTransaction())
+            using (var transaction = _dbContext.Database.BeginTransaction())
             {
                 foreach (DataRow entryRow in _dtEntries.Rows)
                 {
@@ -338,7 +342,7 @@ namespace DatabaseAccess.Repositories
 
         public async Task<string> ConfirmPurchaseReturn(int CompanyID, int BranchID, int UserID, string SupplierInvoiceID, int SupplierReturnInvoiceID, float Amount, string SupplierID, string payInvoiceNo)
         {
-            using (var transaction = _db.Database.BeginTransaction())
+            using (var transaction = _dbContext.Database.BeginTransaction())
             {
                 string paymentQuery = "INSERT INTO tblSupplierReturnPayment (SupplierID, SupplierInvoiceID, UserID, InvoiceNo, TotalAmount, PaymentAmount, RemainingBalance, CompanyID, BranchID, SupplierReturnInvoiceID, InvoiceDate) " +
                                             "VALUES (@SupplierID, @SupplierInvoiceID, @UserID, @InvoiceNo, @TotalAmount, @PaymentAmount, @RemainingBalance, @CompanyID, @BranchID, @SupplierReturnInvoiceID, @InvoiceDate)";

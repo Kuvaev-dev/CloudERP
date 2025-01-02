@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Domain.Services
+namespace Domain.Services.Purchase
 {
     public interface IPurchaseReturnService
     {
@@ -18,7 +18,7 @@ namespace Domain.Services
 
         public PurchaseReturnService(PurchaseReturnFacade purchaseReturnFacade)
         {
-            _purchaseReturnFacade = purchaseReturnFacade;
+            _purchaseReturnFacade = purchaseReturnFacade ?? throw new ArgumentNullException(nameof(PurchaseReturnFacade));
         }
 
         public async Task<Result> ProcessReturnAsync(PurchaseReturnConfirm returnDto, int branchId, int companyId, int userId)

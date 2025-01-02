@@ -12,10 +12,12 @@ namespace CloudERP.Controllers
         private readonly IAccountHeadRepository _accountHeadRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public AccountHeadController(IAccountHeadRepository accountHeadRepository, SessionHelper sessionHelper)
+        public AccountHeadController(
+            IAccountHeadRepository accountHeadRepository, 
+            SessionHelper sessionHelper)
         {
-            _accountHeadRepository = accountHeadRepository;
-            _sessionHelper = sessionHelper;
+            _accountHeadRepository = accountHeadRepository ?? throw new ArgumentNullException(nameof(IAccountHeadRepository));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
         public async Task<ActionResult> Index()

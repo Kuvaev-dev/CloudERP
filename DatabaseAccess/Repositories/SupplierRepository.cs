@@ -1,6 +1,7 @@
 ﻿using DatabaseAccess.Helpers;
 using Domain.Models;
 using Domain.RepositoryAccess;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -11,10 +12,12 @@ namespace DatabaseAccess.Repositories
     public class SupplierRepository : ISupplierRepository
     {
         private readonly CloudDBEntities _dbContext;
+        private readonly BranchHelper _branchHelper;
 
-        public SupplierRepository(CloudDBEntities dbContext)
+        public SupplierRepository(CloudDBEntities dbContext, BranchHelper branchHelper)
         {
-            _dbContext = dbContext;
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(CloudDBEntities));
+            _branchHelper = branchHelper ?? throw new ArgumentNullException(nameof(BranchHelper));
         }
 
         public async Task<IEnumerable<Supplier>> GetAllAsync()
@@ -98,7 +101,7 @@ namespace DatabaseAccess.Repositories
 
         public async Task<IEnumerable<Supplier>> GetSuppliersByBranchesAsync(int branchID)
         {
-            List<int> branchIDs = BranchHelper.GetBranchsIDs(branchID, _dbContext);
+            List<int> branchIDs = _branchHelper.GetBranchsIDs(branchID, _dbContext);
 
             var entities = await _dbContext.tblSupplier
                 .Where(s => branchIDs.Contains(s.BranchID))

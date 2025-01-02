@@ -5,7 +5,7 @@ namespace CloudERP.Helpers
 {
     public class ResourceManagerHelper
     {
-        public static void SetCulture(string cultureCode)
+        public void SetCulture(string cultureCode)
         {
             try
             {

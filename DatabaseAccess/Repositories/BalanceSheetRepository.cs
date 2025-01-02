@@ -16,8 +16,8 @@ namespace DatabaseAccess.Repositories
 
         public BalanceSheetRepository(DatabaseQuery query, IAccountHeadRepository accountHeadRepository)
         {
-            _query = query;
-            _accountHeadRepository = accountHeadRepository;
+            _query = query ?? throw new ArgumentNullException(nameof(DatabaseQuery));
+            _accountHeadRepository = accountHeadRepository ?? throw new ArgumentNullException(nameof(IAccountHeadRepository));
         }
 
         public async Task<double> GetAccountTotalAmountAsync(int companyId, int branchId, int financialYearId, int headId)

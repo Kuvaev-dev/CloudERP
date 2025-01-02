@@ -4,7 +4,7 @@
     ViewBag.Title = Resources.Sale.SearchSaleByInvoiceNo.ToString();
 }
 
-@using (Html.BeginForm("FindSale", "SaleReturn", FormMethod.Post, null))
+@using (Html.BeginForm("FindSale", "SaleReturn", FormMethod.Post, new { @class = "form-inline" }))
 {
     @Html.AntiForgeryToken()
 
@@ -12,149 +12,81 @@
     <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
 
     <div class="form-group">
-        <label class="control-label col-md-2">@Resources.Sale.EnterSaleInvoice.ToString() №</label>
-        <div class="col-md-5">
-            <input type="text" class="form-control" id="invoiceID" name="invoiceID" placeholder="Enter Sale Invoice..." required />
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Find Sale" class="btn btn-success" />
-        </div>
+        <label for="invoiceID" class="control-label">@Resources.Sale.EnterSaleInvoice.ToString() №</label>
+        <input type="text" class="form-control ml-2" id="invoiceID" name="invoiceID" placeholder="Enter Sale Invoice..." required />
+        <input type="submit" value="Find Sale" class="btn btn-success ml-2" />
     </div>
 }
-@{
-    if (Model != null)
+
+@if (Model != null && Model.InvoiceNo != null)
+{
+    using (Html.BeginForm("ReturnConfirm", "SaleReturn", FormMethod.Post))
     {
-        try
-        {
-            double total = 0;
-            if (Model.InvoiceNo != null)
-            {
-                using (Html.BeginForm("ReturnConfirm", "SaleReturn", FormMethod.Post, null))
-                {
-                    @Html.AntiForgeryToken()
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center">
-                                <h3 class="m-0">@Resources.Sale.Invoice.ToString() №: @Html.DisplayFor(model => model.InvoiceNo)</h3>
-                                <h3 class="m-0 text-danger">&nbsp;(@Session["SaleReturnMessage"])</h3>
-                                <h3 class="ml-auto">@Resources.Sale.SaleInvoice.ToString()</h3>
-                                <input style="display:none;" id="customerInvoiceID" name="customerInvoiceID" value="@Model.CustomerInvoiceID" />
-                            </div>
-                            <hr>
-                            <div class="row mb-3">
-                                <div class="col-xl-4 col-6 br py-2">
-                                    <div class="row">
-                                        <div class="col-lg-2 text-center d-none d-lg-block">
-                                            <img src="@Url.Content(Model.tblCompany.Logo)" width="50" height="50">
-                                        </div>
-                                        <div class="col-lg-10">
-                                            <h4>@Resources.Sale.Company.ToString():</h4>
-                                            <hr />
-                                            <h4>@Html.DisplayFor(model => model.tblCompany.Name) - @Html.DisplayFor(model => model.tblBranch.BranchName)</h4>
-                                            <address></address>@Resources.Sale.Address.ToString(): @Html.DisplayFor(model => model.tblBranch.BranchAddress)
-                                            <br>@Resources.Sale.ContactNo.ToString(): @Html.DisplayFor(model => model.tblBranch.BranchContact)
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-4 col-6 br py-2">
-                                    <div class="row">
-                                        <div class="col-lg-2 text-center d-none d-lg-block">
-                                            <em class="fa fa-truck fa-3x text-muted"></em>
-                                        </div>
-                                        <div class="col-lg-10">
-                                            <h4>@Resources.Sale.Customer.ToString():</h4>
-                                            <hr />
-                                            <h4>@Html.DisplayFor(model => model.tblCustomer.Customername)</h4>
-                                            <address></address>@Html.DisplayFor(model => model.tblCustomer.CustomerAddress)
-                                            <br>@Html.DisplayFor(model => model.tblCustomer.CustomerContact)
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="col-xl-4 col-12 py-2">
-                                    <h4>@Resources.Sale.Invoice.ToString():</h4>
-                                    <hr />
-                                    <div class="clearfix">
-                                        <p class="float-left">@Resources.Sale.Invoice.ToString() №</p>
-                                        <p class="float-right mr-2">@Html.DisplayFor(model => model.InvoiceNo)</p>
-                                    </div>
-                                    <div class="clearfix">
-                                        <p class="float-left">@Resources.Sale.InvoiceDate.ToString()</p>
-                                        <p class="float-right mr-2">@Html.DisplayFor(model => model.InvoiceDate)</p>
-                                    </div>
-                                    <div class="clearfix">
-                                        <p class="float-left">@Resources.Sale.CreatedBy.ToString()</p>
-                                        <p class="float-right mr-2">@Html.DisplayFor(model => model.tblUser.FullName)</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="table-responsive table-bordered mb-3">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>@Resources.Sale.Product.ToString()</th>
-                                            <th>@Resources.Sale.SaleQty.ToString()</th>
-                                            <th>@Resources.Sale.ReturnQty.ToString()</th>
-                                            <th>@Resources.Sale.UnitPrice.ToString()</th>
-                                            <th>@Resources.Sale.ItemCost.ToString()</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in Model.tblCustomerInvoiceDetail)
-                                        {
-                                            int qty = 0;
-                                            double itemCost = 0;
-                                            qty = item.SaleQuantity - item.tblCustomerReturnInvoiceDetail.Where(q => q.ProductID == item.ProductID).Sum(q => q.SaleReturnQuantity);
-                                            itemCost = qty * item.SaleUnitPrice;
-                                            total += itemCost;
+        @Html.AntiForgeryToken()
 
-                                            <tr>
-                                                <td>@Html.DisplayFor(modelItem => item.tblStock.ProductName)</td>
-                                                <td>@qty</td>
-                                                <td><input type="number" id="ProductID @item.ProductID" name="ProductID @item.ProductID" value="0" min="0" max="@qty" /></td>
-                                                <td>@Html.DisplayFor(modelItem => item.SaleUnitPrice)</td>
-                                                <td class="text-left">@itemCost</td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6"></div>
-                                <div class="col-lg-6 py-2">
-                                    <div class="row mb-3 align-items-center">
-                                        <div class="col-7">
-                                            <div class="h5">@Resources.Sale.IsReturnSalePaymentPaid.ToString()</div>
-                                        </div>
-                                        <div class="col-5">
-                                            <div class="text-right h3"><input type="checkbox" name="IsPayment" /></div>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3 align-items-center">
-                                        <div class="col-7">
-                                            <div class="h3">@Resources.Sale.GRANDTOTAL.ToString()</div>
-                                        </div>
-                                        <div class="col-5">
-                                            <div class="text-right h3">@total.ToString("F2")</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr class="d-print-none">
-                            <div class="clearfix">
-                                <button class="btn btn-success float-right" type="submit">@Resources.Sale.SubmitReturn.ToString()</button>
-                            </div>
-                        </div>
+        <input type="hidden" name="CustomerInvoiceID" value="@Model.CustomerInvoiceID" />
+
+        <div class="card mt-4">
+            <div class="card-header">
+                <h3>@Resources.Sale.Invoice.ToString() №: @Model.InvoiceNo</h3>
+                <h3 class="text-danger">@Session["SaleReturnMessage"]</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4>@Resources.Sale.Company.ToString():</h4>
+                        <p>@Model.tblCompany.Name - @Model.tblBranch.BranchName</p>
+                        <p>@Resources.Sale.Address.ToString(): @Model.tblBranch.BranchAddress</p>
+                        <p>@Resources.Sale.ContactNo.ToString(): @Model.tblBranch.BranchContact</p>
                     </div>
-                }
-            }
-        }
-        catch
-        {
+                    <div class="col-md-6">
+                        <h4>@Resources.Sale.Customer.ToString():</h4>
+                        <p>@Model.tblCustomer.Customername</p>
+                        <p>@Model.tblCustomer.CustomerAddress</p>
+                        <p>@Model.tblCustomer.CustomerContact</p>
+                    </div>
+                </div>
 
-        }
+                <table class="table table-bordered mt-4">
+                    <thead>
+                        <tr>
+                            <th>@Resources.Sale.Product.ToString()</th>
+                            <th>@Resources.Sale.SaleQty.ToString()</th>
+                            <th>@Resources.Sale.ReturnQty.ToString()</th>
+                            <th>@Resources.Sale.UnitPrice.ToString()</th>
+                            <th>@Resources.Sale.ItemCost.ToString()</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.tblCustomerInvoiceDetail)
+                        {
+                            var qty = item.SaleQuantity -
+                                      item.tblCustomerReturnInvoiceDetail
+                                          .Where(q => q.ProductID == item.ProductID)
+                                          .Sum(q => q.SaleReturnQuantity);
+                            var itemCost = qty * item.SaleUnitPrice;
+
+                            <tr>
+                                <td>@item.tblStock.ProductName</td>
+                                <td>@qty</td>
+                                <td>
+                                    <input type="hidden" name="ProductReturns[@item.ProductID].ProductID" value="@item.ProductID" />
+                                    <input type="number" class="form-control" name="ProductReturns[@item.ProductID].ReturnQty" value="0" min="0" max="@qty" />
+                                </td>
+                                <td>@item.SaleUnitPrice.ToString("F2")</td>
+                                <td>@itemCost.ToString("F2")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <div class="form-check mt-3">
+                    <input type="checkbox" class="form-check-input" id="IsPayment" name="IsPayment" />
+                    <label class="form-check-label" for="IsPayment">@Resources.Sale.IsReturnSalePaymentPaid.ToString()</label>
+                </div>
+
+                <button type="submit" class="btn btn-success mt-3">@Resources.Sale.SubmitReturn.ToString()</button>
+            </div>
+        </div>
     }
 }

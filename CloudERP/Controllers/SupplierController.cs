@@ -15,8 +15,8 @@ namespace CloudERP.Controllers
 
         public SupplierController(ISupplierRepository supplierRepository, SessionHelper sessionHelper)
         {
-            _supplierRepository = supplierRepository;
-            _sessionHelper = sessionHelper;
+            _supplierRepository = supplierRepository ?? throw new ArgumentNullException(nameof(ISupplierRepository));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
         // GET: All Suppliers

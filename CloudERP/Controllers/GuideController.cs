@@ -1,4 +1,5 @@
 ﻿using CloudERP.Helpers;
+using System;
 using System.Web.Mvc;
 
 namespace CloudERP.Controllers
@@ -9,7 +10,7 @@ namespace CloudERP.Controllers
 
         public GuideController(SessionHelper sessionHelper)
         {
-            _sessionHelper = sessionHelper;
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
         // GET: Guide

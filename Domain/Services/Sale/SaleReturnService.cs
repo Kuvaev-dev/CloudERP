@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Domain.Services
+namespace Domain.Services.Sale
 {
     public interface ISaleReturnService
     {
@@ -31,13 +31,13 @@ namespace Domain.Services
             IStockRepository stockRepository,
             ISaleEntryService saleEntryService)
         {
-            _customerInvoiceDetailRepository = customerInvoiceDetailRepository;
-            _customerInvoiceRepository = customerInvoiceRepository;
-            _customerReturnInvoiceRepository = customerReturnInvoiceRepository;
-            _customerReturnInvoiceDetailRepository = customerReturnInvoiceDetailRepository;
-            _customerRepository = customerRepository;
-            _stockRepository = stockRepository;
-            _saleEntryService = saleEntryService;
+            _customerInvoiceDetailRepository = customerInvoiceDetailRepository ?? throw new ArgumentNullException(nameof(ICustomerInvoiceDetailRepository));
+            _customerInvoiceRepository = customerInvoiceRepository ?? throw new ArgumentNullException(nameof(ICustomerInvoiceRepository));
+            _customerReturnInvoiceRepository = customerReturnInvoiceRepository ?? throw new ArgumentNullException(nameof(ICustomerReturnInvoiceRepository));
+            _customerReturnInvoiceDetailRepository = customerReturnInvoiceDetailRepository ?? throw new ArgumentNullException(nameof(ICustomerReturnInvoiceDetailRepository));
+            _customerRepository = customerRepository ?? throw new ArgumentNullException(nameof(ICustomerRepository));
+            _stockRepository = stockRepository ?? throw new ArgumentNullException(nameof(IStockRepository));
+            _saleEntryService = saleEntryService ?? throw new ArgumentNullException(nameof(ISaleEntryService));
         }
 
         public async Task<(bool IsSuccess, string Message, string InvoiceNo)> ProcessReturnConfirmAsync(SaleReturnConfirm returnConfirmDto, int branchId, int companyId, int userId)

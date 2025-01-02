@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web;
 
 namespace CloudERP.Helpers
@@ -9,7 +10,7 @@ namespace CloudERP.Helpers
 
         public SessionHelper(HttpSessionStateBase session)
         {
-            _session = session;
+            _session = session ?? throw new ArgumentNullException(nameof(HttpSessionStateBase));
         }
 
         public int CompanyID

@@ -5,20 +5,20 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Domain.Services
+namespace Domain.Services.Sale
 {
     public interface ISaleCartService
     {
         Task<Result> ConfirmSaleAsync(SaleConfirm saleConfirmDto, int branchId, int companyId, int userId);
     }
 
-    internal class SaleCartService : ISaleCartService
+    public class SaleCartService : ISaleCartService
     {
         private readonly SaleCartFacade _saleCartFacade;
 
         public SaleCartService(SaleCartFacade saleCartFacade)
         {
-            _saleCartFacade = saleCartFacade;
+            _saleCartFacade = saleCartFacade ?? throw new ArgumentNullException(nameof(SaleCartFacade));
         }
 
         public async Task<Result> ConfirmSaleAsync(SaleConfirm saleConfirmDto, int branchId, int companyId, int userId)

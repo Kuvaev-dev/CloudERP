@@ -15,7 +15,7 @@ namespace DatabaseAccess.Repositories
 
         public LedgerRepository(DatabaseQuery query)
         {
-            _query = query;
+            _query = query ?? throw new ArgumentNullException(nameof(DatabaseQuery));
         }
 
         public async Task<List<AccountLedgerModel>> GetLedgerAsync(int companyId, int branchId, int financialYearId)

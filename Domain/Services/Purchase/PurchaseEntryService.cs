@@ -3,7 +3,7 @@ using System;
 using System.Data;
 using System.Threading.Tasks;
 
-namespace Domain.Services
+namespace Domain.Services.Purchase
 {
     public interface IPurchaseEntryService
     {
@@ -19,7 +19,7 @@ namespace Domain.Services
         private readonly IPurchaseRepository _purchaseRepository;
         private readonly IFinancialYearRepository _financialYearRepository;
 
-        public string selectsupplierid = string.Empty;
+        private string selectsupplierid = string.Empty;
         private readonly DataTable _dtEntries = null;
 
         public PurchaseEntryService(
@@ -27,9 +27,9 @@ namespace Domain.Services
             IPurchaseRepository purchaseRepository, 
             IFinancialYearRepository financialYearRepository)
         {
-            _accountSettingRepository = accountSettingRepository;
-            _purchaseRepository = purchaseRepository;
-            _financialYearRepository = financialYearRepository;
+            _accountSettingRepository = accountSettingRepository ?? throw new ArgumentNullException(nameof(IAccountSettingRepository));
+            _purchaseRepository = purchaseRepository ?? throw new ArgumentNullException(nameof(IPurchaseRepository));
+            _financialYearRepository = financialYearRepository ?? throw new ArgumentNullException(nameof(IFinancialYearRepository));
         }
 
         public async Task<string> ConfirmPurchase(int CompanyID, int BranchID, int UserID, string InvoiceNo, string SupplierInvoiceID, float Amount, string SupplierID, string SupplierName, bool isPayment)

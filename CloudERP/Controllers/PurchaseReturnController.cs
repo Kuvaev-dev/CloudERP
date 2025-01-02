@@ -2,7 +2,7 @@
 using Domain.Models;
 using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
-using Domain.Services;
+using Domain.Services.Purchase;
 using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -20,9 +20,9 @@ namespace CloudERP.Controllers
             IPurchaseReturnService purchaseReturnService, 
             SessionHelper sessionHelper)
         {
-            _supplierInvoiceRepository = supplierInvoiceRepository;
-            _purchaseReturnService = purchaseReturnService;
-            _sessionHelper = sessionHelper;
+            _supplierInvoiceRepository = supplierInvoiceRepository ?? throw new ArgumentNullException(nameof(ISupplierInvoiceRepository));
+            _purchaseReturnService = purchaseReturnService ?? throw new ArgumentNullException(nameof(IPurchaseReturnService));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
         // GET: PurchaseReturn

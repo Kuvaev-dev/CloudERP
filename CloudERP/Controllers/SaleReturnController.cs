@@ -1,10 +1,11 @@
 ﻿using CloudERP.Helpers;
+using CloudERP.Models;
 using Domain.Models;
 using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
-using Domain.Services;
+using Domain.Services.Sale;
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -16,11 +17,14 @@ namespace CloudERP.Controllers
         private readonly SessionHelper _sessionHelper;
         private readonly ISaleReturnService _saleReturnService;
 
-        public SaleReturnController(ICustomerInvoiceRepository customerInvoiceRepository, SessionHelper sessionHelper, ISaleReturnService saleReturnService)
+        public SaleReturnController(
+            ICustomerInvoiceRepository customerInvoiceRepository, 
+            SessionHelper sessionHelper, 
+            ISaleReturnService saleReturnService)
         {
-            _customerInvoiceRepository = customerInvoiceRepository;
-            _sessionHelper = sessionHelper;
-            _saleReturnService = saleReturnService;
+            _customerInvoiceRepository = customerInvoiceRepository ?? throw new ArgumentNullException(nameof(ICustomerInvoiceRepository));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _saleReturnService = saleReturnService ?? throw new ArgumentNullException(nameof(ISaleReturnService));
         }
 
         // GET: SaleReturn
@@ -79,7 +83,7 @@ namespace CloudERP.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> ReturnConfirm(FormCollection collection)
+        public async Task<ActionResult> ReturnConfirm(ReturnConfirmVM model)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -91,23 +95,11 @@ namespace CloudERP.Controllers
 
                 var returnConfirmDto = new SaleReturnConfirm
                 {
-                    ProductIDs = new List<int>(),
-                    ReturnQty = new List<int>(),
-                    CustomerInvoiceID = Convert.ToInt32(collection["customerInvoiceID"].Split(',')[0]),
-                    IsPayment = collection["IsPayment"] != null && collection["IsPayment"].Contains("on")
+                    CustomerInvoiceID = model.CustomerInvoiceID,
+                    IsPayment = model.IsPayment,
+                    ProductIDs = model.ProductReturns.Select(x => x.ProductID).ToList(),
+                    ReturnQty = model.ProductReturns.Select(x => x.ReturnQty).ToList()
                 };
-
-                string[] keys = collection.AllKeys;
-                foreach (var name in keys)
-                {
-                    if (name.Contains("ProductID "))
-                    {
-                        string idName = name;
-                        string[] valueIDs = idName.Split(' ');
-                        returnConfirmDto.ProductIDs.Add(Convert.ToInt32(valueIDs[1]));
-                        returnConfirmDto.ReturnQty.Add(Convert.ToInt32(collection[idName].Split(',')[0]));
-                    }
-                }
 
                 var result = await _saleReturnService.ProcessReturnConfirmAsync(
                     returnConfirmDto,
@@ -131,5 +123,6 @@ namespace CloudERP.Controllers
                 return RedirectToAction("EP500", "EP");
             }
         }
+
     }
 }

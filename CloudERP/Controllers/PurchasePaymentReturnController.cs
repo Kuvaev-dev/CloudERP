@@ -1,7 +1,7 @@
 ﻿using CloudERP.Helpers;
 using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
-using Domain.Services;
+using Domain.Services.Purchase;
 using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -16,13 +16,15 @@ namespace CloudERP.Controllers
         private readonly IPurchaseRepository _purchaseRepository;
 
         public PurchasePaymentReturnController(
-            IPurchaseReturnService purchaseReturnService, 
+            IPurchaseReturnService purchaseReturnService,
+            IPurchasePaymentReturnService purchasePaymentReturnService, 
             IPurchaseRepository purchaseRepository, 
             SessionHelper sessionHelper)
         {
-            _purchaseReturnService = purchaseReturnService;
-            _purchaseRepository = purchaseRepository;
-            _sessionHelper = sessionHelper;
+            _purchaseReturnService = purchaseReturnService ?? throw new ArgumentNullException(nameof(IPurchaseReturnService));
+            _purchasePaymentReturnService = purchasePaymentReturnService ?? throw new ArgumentNullException(nameof(IPurchasePaymentReturnService));
+            _purchaseRepository = purchaseRepository ?? throw new ArgumentNullException(nameof(IPurchaseRepository));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
         // GET: PurchasePaymentReturn

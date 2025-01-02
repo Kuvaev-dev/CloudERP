@@ -8,26 +8,56 @@ using System.Web;
 using Domain.RepositoryAccess;
 using Domain.Services;
 using DatabaseAccess.Services;
+using DatabaseAccess.Helpers;
+using System.Configuration;
+using Domain.Services.Interfaces;
+using Domain.Services.Purchase;
+using Domain.Services.Sale;
+using DatabaseAccess.Adapters;
+using Domain.Facades;
+using CloudERP.Facades;
+using CloudERP.Factories;
 
 namespace CloudERP.Helpers
 {
     public static class UnityConfig
     {
-        public static void RegisterComponents()
+        public static void RegisterComponents(IUnityContainer container)
         {
-            var container = new UnityContainer();
+            #region DbContext
+            // Main DB Context
+            container.RegisterType<CloudDBEntities>();
+            #endregion
 
-            // DbContext
-            container.RegisterType<CloudDBEntities>(
-                new InjectionFactory(c => new CloudDBEntities())
-            );
+            #region Helpers
+            // Session Helper
+            container.RegisterFactory<SessionHelper>(c => new SessionHelper(new HttpSessionStateWrapper(HttpContext.Current.Session)));
+            // Database Query Helper
+            container.RegisterType<DatabaseQuery>(new InjectionConstructor(ConfigurationManager.ConnectionStrings["CloudDBEntities"].ConnectionString));
+            // Branch Helper
+            container.RegisterType<BranchHelper>();
+            // Password Helper
+            container.RegisterType<PasswordHelper>();
+            // Culture Helper
+            container.RegisterType<ResourceManagerHelper>();
+            #endregion
 
-            // Session
-            container.RegisterType<SessionHelper>(
-                new InjectionFactory(c => new SessionHelper(new HttpSessionStateWrapper(HttpContext.Current.Session)))
-            );
+            #region Facades
+            // Domain
+            container.RegisterType<PurchaseCartFacade>();
+            container.RegisterType<PurchasePaymentFacade>();
+            container.RegisterType<PurchaseReturnFacade>();
+            container.RegisterType<SalaryTransactionFacade>();
+            container.RegisterType<SaleCartFacade>();
+            container.RegisterType<SaleEntryFacade>();
+            // Cloud ERP
+            container.RegisterType<AccountSettingFacade>();
+            container.RegisterType<CompanyEmployeeFacade>();
+            container.RegisterType<CompanyRegistrationFacade>();
+            container.RegisterType<HomeFacade>();
+            #endregion
 
-            // Repositories
+            #region Repositories
             // Account
             container.RegisterType<IAccountActivityRepository, AccountActivityRepository>();
             container.RegisterType<IAccountControlRepository, AccountControlRepository>();
@@ -91,19 +121,52 @@ namespace CloudERP.Helpers
             // User
             container.RegisterType<IUserRepository, UserRepository>();
             container.RegisterType<IUserTypeRepository, UserTypeRepository>();
+            #endregion
 
-            // Services
+            #region Services
+            // Main
+            container.RegisterType<IAuthService, AuthService>();
             container.RegisterType<IBalanceSheetService, BalanceSheetService>();
+            container.RegisterType<IDashboardService, DashboardService>();
             container.RegisterType<IEmployeeSalaryService, EmployeeSalaryService>();
             container.RegisterType<IEmployeeStatisticsService, EmployeeStatisticsService>();
+            container.RegisterType<IGeneralTransactionService, GeneralTransactionService>();
+            container.RegisterType<IIncomeStatementService, IncomeStatementService>();
+            container.RegisterType<IReminderService, ReminderService>();
+            container.RegisterType<ISalaryTransactionService, SalaryTransactionService>();
+            // Purchase
+            container.RegisterType<IPurchaseCartService, PurchaseCartService>();
+            container.RegisterType<IPurchaseEntryService, PurchaseEntryService>();
+            container.RegisterType<IPurchasePaymentReturnService, PurchasePaymentReturnService>();
+            container.RegisterType<IPurchasePaymentService, PurchasePaymentService>();
+            container.RegisterType<IPurchaseReturnService, PurchaseReturnService>();
+            // Sale
+            container.RegisterType<ISaleCartService, SaleCartService>();
+            container.RegisterType<ISaleEntryService, SaleEntryService>();
+            container.RegisterType<ISalePaymentReturnService, SalePaymentReturnService>();
+            container.RegisterType<ISalePaymentService, SalePaymentService>();
+            container.RegisterType<ISaleReturnService, SaleReturnService>();
+            // Miscellaneous
             container.RegisterType<IFileService, FileService>();
             container.RegisterType<IEmailService, EmailService>();
             container.RegisterType<IForecastingService, ForecastingService>();
-            container.RegisterType<IIncomeStatementService, IncomeStatementService>();
             container.RegisterType<IPurchaseEntryService, PurchaseEntryService>();
-            container.RegisterType<IReminderService, ReminderService>();
-            container.RegisterType<ISalaryTransactionService, SalaryTransactionService>();
             container.RegisterType<ISaleEntryService, SaleEntryService>();
+            container.RegisterType<IFinancialForecaster, FinancialForecaster>();
+            #endregion
+
+            #region Adapters
+            // Forecasting
+            container.RegisterType<IFinancialForecastAdapter, FinancialForecastAdapter>();
+            // File Upload
+            container.RegisterType<IFile, HttpPostedFileAdapter>();
+            container.RegisterType<IFileAdapterFactory, FileAdapterFactory>();
+            #endregion
+
+            #region Providers
+            // DB Connection String
+            container.RegisterType<IConnectionStringProvider, WebConfigConnectionStringProvider>();
+            #endregion
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

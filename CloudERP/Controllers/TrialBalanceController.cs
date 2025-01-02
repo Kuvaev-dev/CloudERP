@@ -12,11 +12,14 @@ namespace CloudERP.Controllers
         private readonly IFinancialYearRepository _financialYearRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public TrialBalanceController(ITrialBalanceRepository trialBalanceRepository, IFinancialYearRepository financialYearRepository, SessionHelper sessionHelper)
+        public TrialBalanceController(
+            ITrialBalanceRepository trialBalanceRepository, 
+            IFinancialYearRepository financialYearRepository, 
+            SessionHelper sessionHelper)
         {
-            _trialBalanceRepository = trialBalanceRepository;
-            _financialYearRepository = financialYearRepository;
-            _sessionHelper = sessionHelper;
+            _trialBalanceRepository = trialBalanceRepository ?? throw new ArgumentNullException(nameof(ITrialBalanceRepository));
+            _financialYearRepository = financialYearRepository ?? throw new ArgumentNullException(nameof(IFinancialYearRepository));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
         public async Task<ActionResult> GetTrialBalance()

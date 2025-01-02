@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Domain.Services
+namespace Domain.Services.Purchase
 {
     public interface IPurchasePaymentService
     {
@@ -17,7 +17,7 @@ namespace Domain.Services
 
         public PurchasePaymentService(PurchasePaymentFacade purchasePaymentFacade)
         {
-            _purchasePaymentFacade = purchasePaymentFacade;
+            _purchasePaymentFacade = purchasePaymentFacade ?? throw new ArgumentNullException(nameof(PurchasePaymentFacade));
         }
 
         public async Task<(IEnumerable<object> PaymentHistory, IEnumerable<object> ReturnDetails, double RemainingAmount)> GetPaymentDetailsAsync(int invoiceId)

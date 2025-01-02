@@ -1,5 +1,6 @@
 ﻿using Domain.RepositoryAccess;
 using Domain.Services;
+using System;
 
 namespace CloudERP.Facades
 {
@@ -18,11 +19,11 @@ namespace CloudERP.Facades
             ICompanyRepository companyRepository,
             IAuthService authService)
         {
-            _dashboardService = dashboardService;
-            _userRepository = userRepository;
-            _employeeRepository = employeeRepository;
-            _companyRepository = companyRepository;
-            _authService = authService;
+            _dashboardService = dashboardService ?? throw new ArgumentNullException(nameof(IDashboardService));
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(IUserRepository));
+            _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(IEmployeeRepository));
+            _companyRepository = companyRepository ?? throw new ArgumentNullException(nameof(ICompanyRepository));
+            _authService = authService ?? throw new ArgumentNullException(nameof(IAuthService));
         }
 
         public IDashboardService DashboardService => _dashboardService;

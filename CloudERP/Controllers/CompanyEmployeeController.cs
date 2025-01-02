@@ -1,6 +1,7 @@
 ﻿using CloudERP.Facades;
 using CloudERP.Helpers;
 using CloudERP.Models;
+using DatabaseAccess.Adapters;
 using Domain.Models;
 using Domain.Models.FinancialModels;
 using System;
@@ -14,10 +15,12 @@ namespace CloudERP.Controllers
         private readonly SessionHelper _sessionHelper;
         private readonly CompanyEmployeeFacade _companyEmployeeFacade;
 
-        public CompanyEmployeeController(SessionHelper sessionHelper, CompanyEmployeeFacade companyEmployeeFacade)
+        public CompanyEmployeeController(
+            SessionHelper sessionHelper, 
+            CompanyEmployeeFacade companyEmployeeFacade)
         {
-            _sessionHelper = sessionHelper;
-            _companyEmployeeFacade = companyEmployeeFacade;
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _companyEmployeeFacade = companyEmployeeFacade ?? throw new ArgumentNullException(nameof(CompanyEmployeeFacade));
         }
 
         // GET: Employees
@@ -73,19 +76,18 @@ namespace CloudERP.Controllers
                     await _companyEmployeeFacade.EmployeeRepository.AddAsync(employee.Employee);
 
                     var defaultPhotoPath = "~/Content/EmployeePhoto/Default/default.png";
+                    string photoPath = null;
 
                     if (employee.LogoFile != null)
                     {
                         var folder = "~/Content/EmployeePhoto";
                         var fileName = $"{employee.Employee.CompanyID}.jpg";
 
-                        var photoPath = _companyEmployeeFacade.FileService.UploadPhoto(employee.LogoFile, folder, fileName);
-                        employee.Employee.Photo = photoPath ?? _companyEmployeeFacade.FileService.SetDefaultPhotoPath(defaultPhotoPath);
+                        var fileAdapter = _companyEmployeeFacade.FileAdapterFactory.Create(employee.LogoFile);
+                        photoPath = _companyEmployeeFacade.FileService.UploadPhoto(fileAdapter, folder, fileName);
                     }
-                    else
-                    {
-                        employee.Employee.Photo = _companyEmployeeFacade.FileService.SetDefaultPhotoPath(defaultPhotoPath);
-                    }
+
+                    employee.Employee.Photo = photoPath ?? _companyEmployeeFacade.FileService.SetDefaultPhotoPath(defaultPhotoPath);
 
                     await _companyEmployeeFacade.EmployeeRepository.UpdateAsync(employee.Employee);
 

@@ -15,11 +15,14 @@ namespace CloudERP.Controllers
         private readonly IFinancialYearRepository _financialYearRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public BalanceSheetController(IBalanceSheetService balanceSheetService, IFinancialYearRepository financialYearRepository, SessionHelper sessionHelper)
+        public BalanceSheetController(
+            IBalanceSheetService balanceSheetService, 
+            IFinancialYearRepository financialYearRepository, 
+            SessionHelper sessionHelper)
         {
-            _balanceSheetService = balanceSheetService;
-            _financialYearRepository = financialYearRepository;
-            _sessionHelper = sessionHelper;
+            _balanceSheetService = balanceSheetService ?? throw new ArgumentNullException(nameof(IBalanceSheetService));
+            _financialYearRepository = financialYearRepository ?? throw new ArgumentNullException(nameof(IFinancialYearRepository));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
         // GET: BalanceSheet

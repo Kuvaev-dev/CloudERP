@@ -24,11 +24,11 @@ namespace CloudERP.Controllers
             SessionHelper sessionHelper, 
             PasswordHelper passwordHelper)
         {
-            _employeeRepository = employeeRepository;
-            _userRepository = userRepository;
-            _userTypeRepository = userTypeRepository;
-            _sessionHelper = sessionHelper;
-            _passwordHelper = passwordHelper;
+            _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(IEmployeeRepository));
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(IUserRepository));
+            _userTypeRepository = userTypeRepository ?? throw new ArgumentNullException(nameof(IUserTypeRepository));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _passwordHelper = passwordHelper ?? throw new ArgumentNullException(nameof(PasswordHelper));
         }
 
         // GET: CreateUser

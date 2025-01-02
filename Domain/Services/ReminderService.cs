@@ -1,6 +1,8 @@
 ﻿using Domain.Localization;
 using Domain.Models;
 using Domain.RepositoryAccess;
+using Domain.Services.Interfaces;
+using System;
 using System.Threading.Tasks;
 
 namespace CloudERP.Helpers
@@ -16,11 +18,14 @@ namespace CloudERP.Helpers
         private readonly ITaskRepository _taskRepository;
         private readonly IEmailService _emailService;
 
-        public ReminderService(IEmailService emailService, IUserRepository userRepository, ITaskRepository taskRepository)
+        public ReminderService(
+            IEmailService emailService, 
+            IUserRepository userRepository, 
+            ITaskRepository taskRepository)
         {
-            _emailService = emailService;
-            _userRepository = userRepository;
-            _taskRepository = taskRepository;
+            _emailService = emailService ?? throw new ArgumentNullException(nameof(IEmailService));
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(IUserRepository));
+            _taskRepository = taskRepository ?? throw new ArgumentNullException(nameof(ITaskRepository));
         }
 
         public async Task SendReminders()

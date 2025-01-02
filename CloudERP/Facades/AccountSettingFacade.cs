@@ -1,4 +1,5 @@
 ﻿using Domain.RepositoryAccess;
+using System;
 
 namespace CloudERP.Facades
 {
@@ -17,11 +18,11 @@ namespace CloudERP.Facades
             IAccountHeadRepository accountHeadRepository,
             IAccountActivityRepository accountActivityRepository)
         {
-            _accountSettingRepository = accountSettingRepository;
-            _accountControlRepository = accountControlRepository;
-            _accountSubControlRepository = accountSubControlRepository;
-            _accountHeadRepository = accountHeadRepository;
-            _accountActivityRepository = accountActivityRepository;
+            _accountSettingRepository = accountSettingRepository ?? throw new ArgumentNullException(nameof(IAccountSettingRepository));
+            _accountControlRepository = accountControlRepository ?? throw new ArgumentNullException(nameof(IAccountControlRepository));
+            _accountSubControlRepository = accountSubControlRepository ?? throw new ArgumentNullException(nameof(IAccountSubControlRepository));
+            _accountHeadRepository = accountHeadRepository ?? throw new ArgumentNullException(nameof(IAccountHeadRepository));
+            _accountActivityRepository = accountActivityRepository ?? throw new ArgumentNullException(nameof(IAccountActivityRepository));
         }
 
         public IAccountSettingRepository AccountSettingRepository => _accountSettingRepository;
