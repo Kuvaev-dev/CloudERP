@@ -1,7 +1,6 @@
-﻿using Domain.Models.Forecasting;
+﻿using Domain.Interfaces;
+using Domain.Models.Forecasting;
 using Domain.RepositoryAccess;
-using Domain.Services;
-using Domain.Services.Interfaces;
 using System;
 using System.Linq;
 

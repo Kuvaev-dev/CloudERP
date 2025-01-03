@@ -1,6 +1,6 @@
 ﻿using DatabaseAccess.Services;
+using Domain.Interfaces;
 using Domain.Models.Forecasting;
-using Domain.Services.Interfaces;
 using Microsoft.ML;
 using System.Collections.Generic;
 

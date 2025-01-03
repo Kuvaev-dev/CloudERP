@@ -1,5 +1,5 @@
 ﻿using DatabaseAccess.Adapters;
-using Domain.Services;
+using Domain.Interfaces;
 using System.Web;
 
 namespace CloudERP.Factories

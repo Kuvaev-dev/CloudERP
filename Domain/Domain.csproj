@@ -66,6 +66,7 @@
     <Compile Include="Facades\SaleEntryFacade.cs" />
     <Compile Include="Helpers\AllowedDomainsAttribute.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
+    <Compile Include="Helpers\Result.cs" />
     <Compile Include="Localization\Localization.Designer.cs">
       <DependentUpon>Localization.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -100,7 +101,6 @@
     <Compile Include="Models\FinancialModels\Purchase\PurchasePaymentModel.cs" />
     <Compile Include="Models\FinancialModels\Purchase\PurchaseReturnAmount.cs" />
     <Compile Include="Models\FinancialModels\Purchase\PurchaseReturnConfirm.cs" />
-    <Compile Include="Models\FinancialModels\Result.cs" />
     <Compile Include="Models\FinancialModels\Salary.cs" />
     <Compile Include="Models\FinancialModels\Sale\SaleConfirm.cs" />
     <Compile Include="Models\FinancialModels\Sale\SalePayment.cs" />
@@ -176,13 +176,13 @@
     <Compile Include="Services\DashboardService.cs" />
     <Compile Include="Services\EmployeeSalaryService.cs" />
     <Compile Include="Services\GeneralTransactionService.cs" />
-    <Compile Include="Services\Interfaces\IConnectionStringProvider.cs" />
-    <Compile Include="Services\Interfaces\IEmailService.cs" />
+    <Compile Include="Interfaces\IConnectionStringProvider.cs" />
+    <Compile Include="Interfaces\IEmailService.cs" />
     <Compile Include="Services\EmployeeStatisticsService.cs" />
-    <Compile Include="Services\Interfaces\IFile.cs" />
-    <Compile Include="Services\Interfaces\IFileService.cs" />
-    <Compile Include="Services\Interfaces\IFinancialForecastAdapter.cs" />
-    <Compile Include="Services\Interfaces\IForecastingService.cs" />
+    <Compile Include="Interfaces\IFile.cs" />
+    <Compile Include="Interfaces\IFileService.cs" />
+    <Compile Include="Interfaces\IFinancialForecastAdapter.cs" />
+    <Compile Include="Interfaces\IForecastingService.cs" />
     <Compile Include="Services\IncomeStatementService.cs" />
     <Compile Include="Services\Purchase\PurchaseCartService.cs" />
     <Compile Include="Services\Purchase\PurchaseEntryService.cs" />

@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Domain.Services
+namespace Domain.Interfaces
 {
     public interface IFile
     {

@@ -1,7 +1,7 @@
-﻿using Domain.Localization;
+﻿using Domain.Interfaces;
+using Domain.Localization;
 using Domain.Models;
 using Domain.RepositoryAccess;
-using Domain.Services.Interfaces;
 using System;
 using System.Threading.Tasks;
 

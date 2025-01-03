@@ -10,13 +10,13 @@ using Domain.Services;
 using DatabaseAccess.Services;
 using DatabaseAccess.Helpers;
 using System.Configuration;
-using Domain.Services.Interfaces;
 using Domain.Services.Purchase;
 using Domain.Services.Sale;
 using DatabaseAccess.Adapters;
 using Domain.Facades;
 using CloudERP.Facades;
 using CloudERP.Factories;
+using Domain.Interfaces;
 
 namespace CloudERP.Helpers
 {

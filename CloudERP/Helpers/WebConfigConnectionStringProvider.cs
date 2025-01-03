@@ -1,5 +1,4 @@
-﻿using Domain.Services;
-using Domain.Services.Interfaces;
+﻿using Domain.Interfaces;
 using System;
 using System.Configuration;
 

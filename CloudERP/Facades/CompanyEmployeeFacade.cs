@@ -1,7 +1,7 @@
 ﻿using CloudERP.Factories;
+using Domain.Interfaces;
 using Domain.RepositoryAccess;
 using Domain.Services;
-using Domain.Services.Interfaces;
 using System;
 
 namespace CloudERP.Facades

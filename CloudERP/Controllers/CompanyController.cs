@@ -6,9 +6,8 @@ using System.Web.Mvc;
 using CloudERP.Factories;
 using CloudERP.Helpers;
 using CloudERP.Models;
-using DatabaseAccess.Adapters;
+using Domain.Interfaces;
 using Domain.RepositoryAccess;
-using Domain.Services;
 
 namespace CloudERP.Controllers
 {

@@ -1,7 +1,7 @@
 ﻿using CloudERP.Helpers;
+using Domain.Interfaces;
 using Domain.Models;
 using Domain.RepositoryAccess;
-using Domain.Services;
 using System;
 using System.Web.Mvc;
 

@@ -1,4 +1,4 @@
-﻿namespace Domain.Services.Interfaces
+﻿namespace Domain.Interfaces
 {
     public interface IEmailService
     {

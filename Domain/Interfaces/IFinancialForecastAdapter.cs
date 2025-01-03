@@ -1,7 +1,7 @@
 ﻿using Domain.Models.Forecasting;
 using System.Collections.Generic;
 
-namespace Domain.Services.Interfaces
+namespace Domain.Interfaces
 {
     public interface IFinancialForecastAdapter
     {

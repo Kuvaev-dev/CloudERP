@@ -1,4 +1,4 @@
-﻿namespace Domain.Services
+﻿namespace Domain.Interfaces
 {
     public interface IFileService
     {

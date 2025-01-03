@@ -89,13 +89,13 @@ namespace CloudERP.Controllers
                 _sessionHelper.CompanyID,
                 _sessionHelper.UserID);
 
-            if (result.Success)
+            if (result.IsSuccess)
             {
-                return RedirectToAction("FindPurchase", new { InvoiceNo = returnDto.SupplierInvoiceID, ReturnMessage = result.Message });
+                return RedirectToAction("FindPurchase", new { InvoiceNo = returnDto.SupplierInvoiceID, ReturnMessage = result.Value });
             }
             else
             {
-                ModelState.AddModelError("", result.Message);
+                ModelState.AddModelError("", result.ErrorMessage);
                 return View(returnDto);
             }
         }

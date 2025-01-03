@@ -270,12 +270,12 @@ namespace CloudERP.Controllers
                     _sessionHelper.CompanyID,
                     _sessionHelper.UserID);
 
-                if (result.Success)
+                if (result.IsSuccess)
                 {
-                    return RedirectToAction("PrintSaleInvoice", "SalePayment", new { id = result.Message });
+                    return RedirectToAction("PrintSaleInvoice", "SalePayment", new { id = result.Value });
                 }
 
-                TempData["ErrorMessage"] = result.Message;
+                TempData["ErrorMessage"] = result.ErrorMessage;
                 return RedirectToAction("NewSale");
             }
             catch (Exception ex)

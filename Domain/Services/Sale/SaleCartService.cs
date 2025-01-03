@@ -1,4 +1,5 @@
 ﻿using Domain.Facades;
+using Domain.Helpers;
 using Domain.Models;
 using Domain.Models.FinancialModels;
 using System;
@@ -9,7 +10,7 @@ namespace Domain.Services.Sale
 {
     public interface ISaleCartService
     {
-        Task<Result> ConfirmSaleAsync(SaleConfirm saleConfirmDto, int branchId, int companyId, int userId);
+        Task<Result<int>> ConfirmSaleAsync(SaleConfirm saleConfirmDto, int branchId, int companyId, int userId);
     }
 
     public class SaleCartService : ISaleCartService
@@ -18,10 +19,10 @@ namespace Domain.Services.Sale
 
         public SaleCartService(SaleCartFacade saleCartFacade)
         {
-            _saleCartFacade = saleCartFacade ?? throw new ArgumentNullException(nameof(SaleCartFacade));
+            _saleCartFacade = saleCartFacade ?? throw new ArgumentNullException(nameof(saleCartFacade));
         }
 
-        public async Task<Result> ConfirmSaleAsync(SaleConfirm saleConfirmDto, int branchId, int companyId, int userId)
+        public async Task<Result<int>> ConfirmSaleAsync(SaleConfirm saleConfirmDto, int branchId, int companyId, int userId)
         {
             try
             {
@@ -32,7 +33,7 @@ namespace Domain.Services.Sale
 
                 if (totalAmount == 0)
                 {
-                    return new Result(false, "Корзина продаж пуста.");
+                    return Result<int>.Failure("Корзина продаж пуста.");
                 }
 
                 string invoiceNo = "INV" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
@@ -66,15 +67,16 @@ namespace Domain.Services.Sale
                 if (message.Contains("Success"))
                 {
                     await _saleCartFacade.SaleEntryService.CompleteSale(saleDetails);
-                    return new Result(true, invoiceHeader.CustomerInvoiceID.ToString());
+                    return Result<int>.Success(invoiceHeader.CustomerInvoiceID);
                 }
 
-                return new Result(false, message);
+                return Result<int>.Failure(message);
             }
             catch (Exception ex)
             {
-                return new Result(false, "Произошла непредвиденная ошибка: " + ex.Message);
+                return Result<int>.Failure("Произошла непредвиденная ошибка: " + ex.Message);
             }
         }
     }
+
 }

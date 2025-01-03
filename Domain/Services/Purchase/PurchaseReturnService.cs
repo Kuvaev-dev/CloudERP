@@ -1,4 +1,5 @@
 ﻿using Domain.Facades;
+using Domain.Helpers;
 using Domain.Models;
 using Domain.Models.FinancialModels;
 using System;
@@ -9,7 +10,7 @@ namespace Domain.Services.Purchase
 {
     public interface IPurchaseReturnService
     {
-        Task<Result> ProcessReturnAsync(PurchaseReturnConfirm returnDto, int branchId, int companyId, int userId);
+        Task<Result<string>> ProcessReturnAsync(PurchaseReturnConfirm returnDto, int branchId, int companyId, int userId);
     }
 
     public class PurchaseReturnService : IPurchaseReturnService
@@ -18,10 +19,10 @@ namespace Domain.Services.Purchase
 
         public PurchaseReturnService(PurchaseReturnFacade purchaseReturnFacade)
         {
-            _purchaseReturnFacade = purchaseReturnFacade ?? throw new ArgumentNullException(nameof(PurchaseReturnFacade));
+            _purchaseReturnFacade = purchaseReturnFacade ?? throw new ArgumentNullException(nameof(purchaseReturnFacade));
         }
 
-        public async Task<Result> ProcessReturnAsync(PurchaseReturnConfirm returnDto, int branchId, int companyId, int userId)
+        public async Task<Result<string>> ProcessReturnAsync(PurchaseReturnConfirm returnDto, int branchId, int companyId, int userId)
         {
             try
             {
@@ -29,7 +30,7 @@ namespace Domain.Services.Purchase
                 var purchaseDetails = await _purchaseReturnFacade.SupplierInvoiceDetailRepository.GetListByIdAsync(returnDto.SupplierInvoiceID);
                 if (purchaseDetails == null || !purchaseDetails.Any())
                 {
-                    return new Result(false, "Детали счета не найдены.");
+                    return Result<string>.Failure("Supplier Invoice Details Not Found");
                 }
 
                 foreach (var productReturn in returnDto.ProductReturns)
@@ -46,7 +47,7 @@ namespace Domain.Services.Purchase
 
                 if (totalAmount == 0)
                 {
-                    return new Result(false, "Количество возвращаемых товаров должно быть больше нуля.");
+                    return Result<string>.Failure("Total Amount Must Be Greater Than Zero");
                 }
 
                 string invoiceNo = "RPU" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
@@ -104,15 +105,16 @@ namespace Domain.Services.Purchase
                         }
                     }
 
-                    return new Result(true, "Возврат успешно обработан.");
+                    return Result<string>.Success("Return Successfully");
                 }
 
-                return new Result(false, "Произошла ошибка при обработке возврата.");
+                return Result<string>.Failure("Return Failed");
             }
             catch (Exception ex)
             {
-                return new Result(false, "Произошла непредвиденная ошибка: " + ex.Message);
+                return Result<string>.Failure("Unexpected Issue Occurred: " + ex.Message);
             }
         }
     }
+
 }

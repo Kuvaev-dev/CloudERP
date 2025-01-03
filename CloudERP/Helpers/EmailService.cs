@@ -1,4 +1,4 @@
-﻿using Domain.Services.Interfaces;
+﻿using Domain.Interfaces;
 using MailKit.Net.Smtp;
 using MimeKit;
 using System.Configuration;

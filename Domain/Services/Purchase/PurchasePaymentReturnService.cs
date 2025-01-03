@@ -56,7 +56,7 @@ namespace Domain.Services.Purchase
         {
             if (returnAmountDto.PaymentAmount > returnAmountDto.PreviousRemainingAmount)
             {
-                throw new InvalidOperationException("Purchase Payment Remaining Amount Error");
+                return "Purchase Payment Remaining Amount Error";
             }
 
             string payInvoiceNo = "RPP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;

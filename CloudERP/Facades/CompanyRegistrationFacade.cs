@@ -1,5 +1,5 @@
-﻿using Domain.RepositoryAccess;
-using Domain.Services.Interfaces;
+﻿using Domain.Interfaces;
+using Domain.RepositoryAccess;
 using System;
 
 namespace CloudERP.Facades
