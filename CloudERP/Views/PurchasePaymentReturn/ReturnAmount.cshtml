@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DatabaseAccess.tblSupplierReturnPayment>
+﻿@model IEnumerable<Domain.Models.SupplierReturnPayment>
 
 @{
     double remainingBalance = (double)ViewBag.PreviousRemainingAmount;
@@ -74,7 +74,7 @@
                     {
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelItem => item.tblSupplier.SupplierName)
+                                @Html.DisplayFor(modelItem => item.SupplierName)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.InvoiceNo)
@@ -92,7 +92,7 @@
                                 @Html.DisplayFor(modelItem => item.RemainingBalance)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.tblUser.FullName)
+                                @Html.DisplayFor(modelItem => item.UserName)
                             </td>
                         </tr>
                     }

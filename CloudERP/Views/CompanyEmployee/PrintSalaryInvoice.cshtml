@@ -1,4 +1,4 @@
-﻿@model DatabaseAccess.tblPayroll
+﻿@model Domain.Models.Payroll
 
 @{
     ViewBag.Title = Resources.Company.PrintSalaryInvoice;
@@ -46,7 +46,7 @@
                             <div class="row">
                                 <div class="col-lg-2 text-center d-none d-lg-block">
                                     @{
-                                        string imgurl = Model.tblCompany.Logo;
+                                        string imgurl = Model.CompanyLogo;
                                         if (string.IsNullOrEmpty(imgurl))
                                         {
                                             imgurl = "~/Content/CompanyLogo/erp-logo.png";
@@ -55,7 +55,7 @@
                                     <img src="@Url.Content(imgurl)" alt="Image" style="width: 50px; height: 50px; max-width: 100%; height: auto;"/>
                                 </div>
                                 <div class="col-lg-10">
-                                    <h4>@Model.tblCompany.Name</h4>
+                                    <h4>@Model.CompanyName</h4>
                                 </div>
                             </div>
                         </div>
@@ -68,9 +68,9 @@
                                     <img src="@Url.Content(branchimgurl)" alt="Image" style="width: 50px; height: 50px; max-width: 100%; height: auto;" />
                                 </div>
                                 <div class="col-lg-10">
-                                    <h4>@Model.tblBranch.BranchName</h4>
+                                    <h4>@Model.BranchName</h4>
                                     <h5>@Html.Raw(HttpUtility.HtmlDecode(Resources.User.ContactNo)): @Model.tblBranch.BranchContact</h5>
-                                    <address>@Model.tblBranch.BranchAddress</address>
+                                    <address>@Model.BranchAddress</address>
                                 </div>
                             </div>
                         </div>
@@ -102,10 +102,10 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>@Model.tblEmployee.Name</td>
+                                    <td>@Model.EmployeeName</td>
                                     <td>@Model.SalaryMonth</td>
                                     <td>@Model.SalaryYear</td>
-                                    <td>@Model.tblUser.UserName</td>
+                                    <td>@Model.UserName</td>
                                 </tr>
                             </tbody>
                         </table>

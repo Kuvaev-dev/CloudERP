@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DatabaseAccess.tblCustomerInvoiceDetail>
+﻿@model IEnumerable<Domain.Models.CustomerInvoiceDetail>
 
 @{
     ViewBag.Title = Resources.Sale.SaleDetails;
@@ -31,6 +31,7 @@
 
                     @foreach (var item in Model)
                     {
+                        //!!!!!!!!
                         ViewBag.Title = Resources.Sale.SaleInvoiceNo + item.tblCustomerInvoice.InvoiceNo;
                         int qty = 0;
                         double itemCost = 0;
@@ -40,7 +41,7 @@
 
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelItem => item.tblStock.ProductName)
+                                @Html.DisplayFor(modelItem => item.ProductName)
                             </td>
                             <td>
                                 @qty
@@ -102,6 +103,7 @@
 
                             @foreach (var itemProduct in item.tblCustomerReturnInvoiceDetail)
                             {
+                                // !!!!
                                 int qty = 0;
                                 double itemCost = 0;
                                 qty = itemProduct.SaleReturnQuantity;
@@ -110,7 +112,7 @@
 
                                 <tr>
                                     <td>
-                                        @Html.DisplayFor(modelItem => itemProduct.tblStock.ProductName)
+                                        @Html.DisplayFor(modelItem => itemProduct.ProductName)
                                     </td>
                                     <td>
                                         @qty

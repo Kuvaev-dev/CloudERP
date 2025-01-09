@@ -1,9 +1,9 @@
-﻿@model IEnumerable<DatabaseAccess.Models.AccountLedgerModel>
+﻿@model IEnumerable<Domain.Models.FinancialModels.AccountLedgerModel>
 @{
     ViewBag.Title = Resources.Miscellaneous.AccountsLedger.ToString();
 }
 
-<script src="~/Scripts/jquery-3.7.1.js"></script>
+<script src="~/Scripts/jQuery/jquery-3.7.1.js"></script>
 
 @using (Html.BeginForm("GetLedger", "Ledger", FormMethod.Post))
 {

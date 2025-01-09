@@ -1,11 +1,11 @@
-﻿@model IEnumerable<DatabaseAccess.Models.PurchasePaymentModel>
+﻿@model IEnumerable<Domain.Models.FinancialModels.PurchasePaymentModel>
 
 @{
     double remainingBalance = 0;
     ViewBag.Title = Resources.Purchase.PurchasePaidDetails.ToString();
 }
 
-<script src="~/Scripts/jquery-3.7.1.js"></script>
+<script src="~/Scripts/jQuery/jquery-3.7.1.js"></script>
 
 <div class="card card-default col-md-12">
     <div class="card-header">

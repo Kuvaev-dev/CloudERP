@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DatabaseAccess.tblSaleCartDetail>
+﻿@model IEnumerable<Domain.Models.SupplierInvoiceDetail>
 
 @{
     ViewBag.Title = Resources.Sale.NewSale.ToString();
@@ -7,7 +7,7 @@
 
 <!-- Tables Sorting-->
 <link href="https://cdn.datatables.net/1.11.6/css/jquery.dataTables.min.css" rel="stylesheet" />
-<script src="~/Scripts/jquery-3.7.1.js"></script>
+<script src="~/Scripts/jQuery/jquery-3.7.1.js"></script>
 <script src="https://cdn.datatables.net/1.11.6/js/jquery.dataTables.min.js"></script>
 
 <style>
@@ -111,11 +111,11 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>@Html.DisplayFor(modelItem => item.tblStock.ProductName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
                             <td>@Html.DisplayFor(modelItem => item.SaleQuantity)</td>
                             <td>@Html.DisplayFor(modelItem => item.SaleUnitPrice)</td>
                             <td>@(string.Format("{0:0.000}", Math.Truncate(item.SaleQuantity * item.SaleUnitPrice * 10) / 10))</td>
-                            <td>@Html.DisplayFor(modelItem => item.tblUser.UserName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.UserName)</td>
                             <td>
                                 @using (Html.BeginForm("DeleteConfirm", "SaleCart", FormMethod.Post))
                                 {

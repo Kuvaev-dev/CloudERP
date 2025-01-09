@@ -1,9 +1,9 @@
-﻿@model DatabaseAccess.Models.IncomeStatementModel
+﻿@model Domain.Models.FinancialModels.IncomeStatementModel
 @{
     ViewBag.Title = Resources.Miscellaneous.IncomeStatementStr.ToString();
 }
 
-<script src="~/Scripts/jquery-3.7.1.js"></script>
+<script src="~/Scripts/jQuery/jquery-3.7.1.js"></script>
 
 @using (Html.BeginForm("GetIncomeStatement", "IncomeStatement", FormMethod.Post))
 {

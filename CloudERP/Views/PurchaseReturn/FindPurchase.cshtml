@@ -1,4 +1,4 @@
-﻿@model DatabaseAccess.tblSupplierInvoice
+﻿@model Domain.Models.SupplierInvoice
 
 @{
     ViewBag.Title = Resources.Purchase.SearchPurchaseByInvoiceNo;
@@ -46,14 +46,14 @@
                                 <div class="col-xl-4 col-6 br py-2">
                                     <div class="row">
                                         <div class="col-lg-2 text-center d-none d-lg-block">
-                                            <img src="@Url.Content(Model.tblCompany.Logo)" width="50" height="50">
+                                            <img src="@Url.Content(Model.CompanyLogo)" width="50" height="50">
                                         </div>
                                         <div class="col-lg-10">
                                             <h4>@Resources.Company.CompanyTitle:</h4>
                                             <hr />
-                                            <h4>@Html.DisplayFor(model => model.tblCompany.Name) - @Html.DisplayFor(model => model.tblBranch.BranchName)</h4>
-                                            <address></address>@Resources.Miscellaneous.Address: @Html.DisplayFor(model => model.tblBranch.BranchAddress)
-                                            <br>@Resources.User.ContactNo: @Html.DisplayFor(model => model.tblBranch.BranchContact)
+                                            <h4>@Html.DisplayFor(model => model.CompanyName) - @Html.DisplayFor(model => model.BranchName)</h4>
+                                            <address></address>@Resources.Miscellaneous.Address: @Html.DisplayFor(model => model.BranchAddress)
+                                            <br>@Resources.User.ContactNo: @Html.DisplayFor(model => model.BranchContact)
                                         </div>
                                     </div>
                                 </div>
@@ -65,10 +65,10 @@
                                         <div class="col-lg-10">
                                             <h4>@Resources.Supplier.SupplierDetails:</h4>
                                             <hr />
-                                            <h4>@Html.DisplayFor(model => model.tblSupplier.SupplierName)</h4>
+                                            <h4>@Html.DisplayFor(model => model.SupplierName)</h4>
                                             <address></address>@Html.DisplayFor(model => model.tblSupplier.SupplierAddress)
-                                            <br>@Html.DisplayFor(model => model.tblSupplier.SupplierConatctNo)
-                                            <br>@Html.DisplayFor(model => model.tblSupplier.SupplierEmail)
+                                            <br>@Html.DisplayFor(model => model.SupplierConatctNo)
+                                            <br>@Html.DisplayFor(model => model.SupplierEmail)
                                         </div>
                                     </div>
                                 </div>
@@ -86,7 +86,7 @@
                                     </div>
                                     <div class="clearfix">
                                         <p class="float-left">@Resources.Purchase.CreatedBy</p>
-                                        <p class="float-right mr-2">@Html.DisplayFor(model => model.tblUser.FullName)</p>
+                                        <p class="float-right mr-2">@Html.DisplayFor(model => model.UserName)</p>
                                     </div>
                                 </div>
                             </div>
@@ -102,7 +102,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach (var item in Model.tblSupplierInvoiceDetail)
+                                        @foreach (var item in Model.SupplierInvoices)
                                         {
                                             int qty = 0;
                                             double itemCost = 0;
@@ -111,7 +111,7 @@
                                             total += itemCost;
 
                                             <tr>
-                                                <td>@Html.DisplayFor(modelItem => item.tblStock.ProductName)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
                                                 <td>@qty</td>
                                                 <td><input type="number" id="ProductID @item.ProductID" name="ProductID @item.ProductID" value="0" min="0" max="@qty" /></td>
                                                 <td>@Html.DisplayFor(modelItem => item.PurchaseUnitPrice)</td>

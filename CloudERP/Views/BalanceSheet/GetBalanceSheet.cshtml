@@ -1,9 +1,9 @@
-﻿@model DatabaseAccess.Models.BalanceSheetModel
+﻿@model Domain.Models.FinancialModels.BalanceSheetModel
 @{
     ViewBag.Title = Resources.Financial.BalanceSheetStr.ToString();
 }
 
-<script src="~/Scripts/jquery-3.7.1.js"></script>
+<script src="~/Scripts/jQuery/jquery-3.7.1.js"></script>
 
 @using (Html.BeginForm("GetBalanceSheet", "BalanceSheet", FormMethod.Post))
 {
