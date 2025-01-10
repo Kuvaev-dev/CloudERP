@@ -132,6 +132,7 @@ namespace CloudERP.Helpers
             container.RegisterType<IEmployeeStatisticsService, EmployeeStatisticsService>();
             container.RegisterType<IGeneralTransactionService, GeneralTransactionService>();
             container.RegisterType<IIncomeStatementService, IncomeStatementService>();
+            container.RegisterType<IProductQualityService, ProductQualityService>();
             container.RegisterType<IReminderService, ReminderService>();
             container.RegisterType<ISalaryTransactionService, SalaryTransactionService>();
             // Purchase

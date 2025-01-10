@@ -776,7 +776,7 @@
     <Compile Include="Controllers\Account\AccountSettingController.cs" />
     <Compile Include="Controllers\Account\AccountSubControlController.cs" />
     <Compile Include="Controllers\Miscellaneous\AddressController.cs" />
-    <Compile Include="Controllers\Financial\Transactions\BalanceSheetController.cs" />
+    <Compile Include="Controllers\Financial\Reports\BalanceSheetController.cs" />
     <Compile Include="Controllers\Branch\BranchController.cs" />
     <Compile Include="Controllers\Branch\BranchEmployeeController.cs" />
     <Compile Include="Controllers\Stock\CategoryController.cs" />
@@ -792,7 +792,7 @@
     <Compile Include="Controllers\Financial\Transactions\GeneralTransactionController.cs" />
     <Compile Include="Controllers\Miscellaneous\GuideController.cs" />
     <Compile Include="Controllers\General\HomeController.cs" />
-    <Compile Include="Controllers\Financial\Transactions\IncomeStatementController.cs" />
+    <Compile Include="Controllers\Financial\Reports\IncomeStatementController.cs" />
     <Compile Include="Controllers\Financial\Reports\LedgerController.cs" />
     <Compile Include="Controllers\Purchase\Cart\PurchaseCartController.cs" />
     <Compile Include="Controllers\Purchase\Payment\PurchasePaymentController.cs" />
@@ -3586,6 +3586,7 @@
     <Content Include="Views\Task\Delete.cshtml" />
     <Content Include="Views\EmployeeStatistics\Index.cshtml" />
     <Content Include="Views\Forecasting\Index.cshtml" />
+    <Content Include="Views\Stock\ProductQuality.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

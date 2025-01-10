@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using CloudERP.Helpers;
 using Domain.Models;
 using Domain.RepositoryAccess;
+using Domain.Services;
 
 namespace CloudERP.Controllers
 {
@@ -12,15 +13,18 @@ namespace CloudERP.Controllers
     {
         private readonly IStockRepository _stockRepository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IProductQualityService _productQualityService;
         private readonly SessionHelper _sessionHelper;
 
         public StockController(
             IStockRepository stockRepository, 
-            ICategoryRepository categoryRepository, 
+            ICategoryRepository categoryRepository,
+            IProductQualityService productQualityService,
             SessionHelper sessionHelper)
         {
-            _stockRepository = stockRepository ?? throw new ArgumentNullException(nameof(SessionHelper));
-            _categoryRepository = categoryRepository ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _stockRepository = stockRepository ?? throw new ArgumentNullException(nameof(IStockRepository));
+            _categoryRepository = categoryRepository ?? throw new ArgumentNullException(nameof(ICategoryRepository));
+            _productQualityService = productQualityService ?? throw new ArgumentNullException(nameof(IProductQualityService));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
@@ -186,6 +190,23 @@ namespace CloudERP.Controllers
                 ViewBag.CategoryID = new SelectList(categories, "CategoryID", "CategoryName", model.CategoryID);
 
                 return View(model);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ProductQualityList()
+        {
+            try
+            {
+                var allProducts = await _productQualityService
+                    .GetAllProductsQualityAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID);
+
+                return View(allProducts);
             }
             catch (Exception ex)
             {
