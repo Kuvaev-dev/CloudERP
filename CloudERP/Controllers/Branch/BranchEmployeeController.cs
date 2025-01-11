@@ -12,7 +12,9 @@ namespace CloudERP.Controllers
         private readonly IEmployeeRepository _employeeRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public BranchEmployeeController(IEmployeeRepository employeeRepository, SessionHelper sessionHelper)
+        public BranchEmployeeController(
+            IEmployeeRepository employeeRepository, 
+            SessionHelper sessionHelper)
         {
             _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(IEmployeeRepository));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));

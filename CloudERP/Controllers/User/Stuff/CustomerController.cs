@@ -13,7 +13,9 @@ namespace CloudERP.Controllers
         private readonly ICustomerRepository _customerRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public CustomerController(ICustomerRepository customerRepository, SessionHelper sessionHelper)
+        public CustomerController(
+            ICustomerRepository customerRepository, 
+            SessionHelper sessionHelper)
         {
             _customerRepository = customerRepository ?? throw new ArgumentNullException(nameof(ICustomerRepository));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));

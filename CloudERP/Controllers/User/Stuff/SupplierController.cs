@@ -13,7 +13,9 @@ namespace CloudERP.Controllers
         private readonly ISupplierRepository _supplierRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public SupplierController(ISupplierRepository supplierRepository, SessionHelper sessionHelper)
+        public SupplierController(
+            ISupplierRepository supplierRepository, 
+            SessionHelper sessionHelper)
         {
             _supplierRepository = supplierRepository ?? throw new ArgumentNullException(nameof(ISupplierRepository));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));

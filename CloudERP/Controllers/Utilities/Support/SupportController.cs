@@ -12,7 +12,9 @@ namespace CloudERP.Controllers
         private readonly ISupportTicketRepository _supportTicketRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public SupportController(ISupportTicketRepository supportTicketRepository, SessionHelper sessionHelper)
+        public SupportController(
+            ISupportTicketRepository supportTicketRepository, 
+            SessionHelper sessionHelper)
         {
             _supportTicketRepository = supportTicketRepository ?? throw new ArgumentNullException(nameof(ISupportTicketRepository));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));

@@ -12,7 +12,9 @@ namespace CloudERP.Controllers
         private readonly ITaskRepository _taskRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public TaskController(ITaskRepository taskRepository, SessionHelper sessionHelper)
+        public TaskController(
+            ITaskRepository taskRepository, 
+            SessionHelper sessionHelper)
         {
             _taskRepository = taskRepository ?? throw new ArgumentNullException(nameof(ITaskRepository));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));

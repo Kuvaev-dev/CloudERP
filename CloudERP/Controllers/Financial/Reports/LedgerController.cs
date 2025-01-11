@@ -20,7 +20,7 @@ namespace CloudERP.Controllers
             SessionHelper sessionHelper)
         {
             _ledgerRepository = ledgerRepository ?? throw new ArgumentNullException(nameof(ILedgerRepository));
-            _financialYearRepository = financialYearRepository ?? throw new ArgumentNullException(nameof(financialYearRepository));
+            _financialYearRepository = financialYearRepository ?? throw new ArgumentNullException(nameof(IFinancialYearRepository));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 

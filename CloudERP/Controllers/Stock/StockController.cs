@@ -199,7 +199,7 @@ namespace CloudERP.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> ProductQualityList()
+        public async Task<ActionResult> ProductQuality()
         {
             try
             {

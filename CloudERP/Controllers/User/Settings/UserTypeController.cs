@@ -12,7 +12,9 @@ namespace CloudERP.Controllers
         private readonly IUserTypeRepository _userTypeRepository;
         private readonly SessionHelper _sessionHelper;
 
-        public UserTypeController(IUserTypeRepository userTypeRepository, SessionHelper sessionHelper)
+        public UserTypeController(
+            IUserTypeRepository userTypeRepository, 
+            SessionHelper sessionHelper)
         {
             _userTypeRepository = userTypeRepository ?? throw new ArgumentNullException(nameof(IUserTypeRepository));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
