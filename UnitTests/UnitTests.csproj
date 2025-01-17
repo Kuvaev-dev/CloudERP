@@ -54,6 +54,20 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CloudERP\CloudERP.csproj">
+      <Project>{e7bfe552-962e-4c3c-a6b6-bd764fb13ea9}</Project>
+      <Name>CloudERP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DatabaseAccess\DatabaseAccess.csproj">
+      <Project>{e0eace6c-1dc7-4469-bd76-5c4813baf619}</Project>
+      <Name>DatabaseAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain\Domain.csproj">
+      <Project>{5592d734-aa72-49cb-9c89-f26be58d7457}</Project>
+      <Name>Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
