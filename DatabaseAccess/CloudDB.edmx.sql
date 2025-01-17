@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 07/30/2024 22:07:16
--- Generated from EDMX file: D:\FINAL_YEAR_PROJ\Application\CloudERP\DatabaseAccess\CloudDB.edmx
+-- Date Created: 01/17/2025 18:11:43
+-- Generated from EDMX file: D:\Projects\CloudERP\DatabaseAccess\CloudDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [CloudErpV1];
+USE [CloudERP];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -302,6 +302,24 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_tblSupplierReturnPayment_tblUser]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[tblSupplierReturnPayment] DROP CONSTRAINT [FK_tblSupplierReturnPayment_tblUser];
 GO
+IF OBJECT_ID(N'[dbo].[FK_tblSupportTicket_tblBranch]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[tblSupportTicket] DROP CONSTRAINT [FK_tblSupportTicket_tblBranch];
+GO
+IF OBJECT_ID(N'[dbo].[FK_tblSupportTicket_tblCompany]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[tblSupportTicket] DROP CONSTRAINT [FK_tblSupportTicket_tblCompany];
+GO
+IF OBJECT_ID(N'[dbo].[FK_tblSupportTicket_tblUser]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[tblSupportTicket] DROP CONSTRAINT [FK_tblSupportTicket_tblUser];
+GO
+IF OBJECT_ID(N'[dbo].[FK_tblTask_tblBranch]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[tblTask] DROP CONSTRAINT [FK_tblTask_tblBranch];
+GO
+IF OBJECT_ID(N'[dbo].[FK_tblTask_tblCompany]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[tblTask] DROP CONSTRAINT [FK_tblTask_tblCompany];
+GO
+IF OBJECT_ID(N'[dbo].[FK_tblTask_tblUser]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[tblTask] DROP CONSTRAINT [FK_tblTask_tblUser];
+GO
 IF OBJECT_ID(N'[dbo].[FK_tblTransaction_tblAccountControl]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[tblTransaction] DROP CONSTRAINT [FK_tblTransaction_tblAccountControl];
 GO
@@ -421,6 +439,12 @@ GO
 IF OBJECT_ID(N'[dbo].[tblSupplierReturnPayment]', 'U') IS NOT NULL
     DROP TABLE [dbo].[tblSupplierReturnPayment];
 GO
+IF OBJECT_ID(N'[dbo].[tblSupportTicket]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[tblSupportTicket];
+GO
+IF OBJECT_ID(N'[dbo].[tblTask]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[tblTask];
+GO
 IF OBJECT_ID(N'[dbo].[tblTransaction]', 'U') IS NOT NULL
     DROP TABLE [dbo].[tblTransaction];
 GO
@@ -529,7 +553,6 @@ CREATE TABLE [dbo].[tblCustomer] (
     [CustomerID] int IDENTITY(1,1) NOT NULL,
     [Customername] varchar(150)  NOT NULL,
     [CustomerContact] nvarchar(150)  NOT NULL,
-    [CustomerArea] varchar(50)  NOT NULL,
     [CustomerAddress] varchar(300)  NOT NULL,
     [Description] varchar(300)  NOT NULL,
     [BranchID] int  NOT NULL,
@@ -635,6 +658,8 @@ CREATE TABLE [dbo].[tblEmployee] (
     [Designation] nvarchar(150)  NOT NULL,
     [Description] nvarchar(300)  NOT NULL,
     [MonthlySalary] float  NOT NULL,
+    [RegistrationDate] datetime  NULL,
+    [IsFirstLogin] bit  NULL,
     [BranchID] int  NOT NULL,
     [CompanyID] int  NOT NULL,
     [UserID] int  NULL
@@ -819,6 +844,35 @@ CREATE TABLE [dbo].[tblSupplierReturnPayment] (
     [RemainingBalance] float  NOT NULL,
     [UserID] int  NOT NULL,
     [InvoiceDate] datetime  NULL
+);
+GO
+
+-- Creating table 'tblSupportTicket'
+CREATE TABLE [dbo].[tblSupportTicket] (
+    [TicketID] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(50)  NOT NULL,
+    [Email] nvarchar(50)  NOT NULL,
+    [Subject] nvarchar(100)  NOT NULL,
+    [Message] nvarchar(400)  NOT NULL,
+    [DateCreated] datetime  NOT NULL,
+    [IsResolved] bit  NOT NULL,
+    [BranchID] int  NOT NULL,
+    [CompanyID] int  NOT NULL,
+    [UserID] int  NOT NULL
+);
+GO
+
+-- Creating table 'tblTask'
+CREATE TABLE [dbo].[tblTask] (
+    [TaskID] int IDENTITY(1,1) NOT NULL,
+    [Title] nvarchar(50)  NOT NULL,
+    [Description] nvarchar(max)  NOT NULL,
+    [DueDate] datetime  NOT NULL,
+    [ReminderDate] datetime  NULL,
+    [IsCompleted] bit  NOT NULL,
+    [CompanyID] int  NOT NULL,
+    [BranchID] int  NOT NULL,
+    [UserID] int  NOT NULL
 );
 GO
 
@@ -1046,6 +1100,18 @@ GO
 ALTER TABLE [dbo].[tblSupplierReturnPayment]
 ADD CONSTRAINT [PK_tblSupplierReturnPayment]
     PRIMARY KEY CLUSTERED ([SupplierReturnPaymentID] ASC);
+GO
+
+-- Creating primary key on [TicketID] in table 'tblSupportTicket'
+ALTER TABLE [dbo].[tblSupportTicket]
+ADD CONSTRAINT [PK_tblSupportTicket]
+    PRIMARY KEY CLUSTERED ([TicketID] ASC);
+GO
+
+-- Creating primary key on [TaskID] in table 'tblTask'
+ALTER TABLE [dbo].[tblTask]
+ADD CONSTRAINT [PK_tblTask]
+    PRIMARY KEY CLUSTERED ([TaskID] ASC);
 GO
 
 -- Creating primary key on [TransactionID] in table 'tblTransaction'
@@ -1595,6 +1661,36 @@ ON [dbo].[tblSupplierReturnPayment]
     ([BranchID]);
 GO
 
+-- Creating foreign key on [BranchID] in table 'tblSupportTicket'
+ALTER TABLE [dbo].[tblSupportTicket]
+ADD CONSTRAINT [FK_tblSupportTicket_tblBranch]
+    FOREIGN KEY ([BranchID])
+    REFERENCES [dbo].[tblBranch]
+        ([BranchID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_tblSupportTicket_tblBranch'
+CREATE INDEX [IX_FK_tblSupportTicket_tblBranch]
+ON [dbo].[tblSupportTicket]
+    ([BranchID]);
+GO
+
+-- Creating foreign key on [BranchID] in table 'tblTask'
+ALTER TABLE [dbo].[tblTask]
+ADD CONSTRAINT [FK_tblTask_tblBranch]
+    FOREIGN KEY ([BranchID])
+    REFERENCES [dbo].[tblBranch]
+        ([BranchID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_tblTask_tblBranch'
+CREATE INDEX [IX_FK_tblTask_tblBranch]
+ON [dbo].[tblTask]
+    ([BranchID]);
+GO
+
 -- Creating foreign key on [CompanyID] in table 'tblCategory'
 ALTER TABLE [dbo].[tblCategory]
 ADD CONSTRAINT [FK_tblCategory_tblCompany]
@@ -1862,6 +1958,36 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_tblSupplierReturnPayment_tblCompany'
 CREATE INDEX [IX_FK_tblSupplierReturnPayment_tblCompany]
 ON [dbo].[tblSupplierReturnPayment]
+    ([CompanyID]);
+GO
+
+-- Creating foreign key on [CompanyID] in table 'tblSupportTicket'
+ALTER TABLE [dbo].[tblSupportTicket]
+ADD CONSTRAINT [FK_tblSupportTicket_tblCompany]
+    FOREIGN KEY ([CompanyID])
+    REFERENCES [dbo].[tblCompany]
+        ([CompanyID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_tblSupportTicket_tblCompany'
+CREATE INDEX [IX_FK_tblSupportTicket_tblCompany]
+ON [dbo].[tblSupportTicket]
+    ([CompanyID]);
+GO
+
+-- Creating foreign key on [CompanyID] in table 'tblTask'
+ALTER TABLE [dbo].[tblTask]
+ADD CONSTRAINT [FK_tblTask_tblCompany]
+    FOREIGN KEY ([CompanyID])
+    REFERENCES [dbo].[tblCompany]
+        ([CompanyID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_tblTask_tblCompany'
+CREATE INDEX [IX_FK_tblTask_tblCompany]
+ON [dbo].[tblTask]
     ([CompanyID]);
 GO
 
@@ -2582,6 +2708,36 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_tblSupplierReturnPayment_tblUser'
 CREATE INDEX [IX_FK_tblSupplierReturnPayment_tblUser]
 ON [dbo].[tblSupplierReturnPayment]
+    ([UserID]);
+GO
+
+-- Creating foreign key on [UserID] in table 'tblSupportTicket'
+ALTER TABLE [dbo].[tblSupportTicket]
+ADD CONSTRAINT [FK_tblSupportTicket_tblUser]
+    FOREIGN KEY ([UserID])
+    REFERENCES [dbo].[tblUser]
+        ([UserID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_tblSupportTicket_tblUser'
+CREATE INDEX [IX_FK_tblSupportTicket_tblUser]
+ON [dbo].[tblSupportTicket]
+    ([UserID]);
+GO
+
+-- Creating foreign key on [UserID] in table 'tblTask'
+ALTER TABLE [dbo].[tblTask]
+ADD CONSTRAINT [FK_tblTask_tblUser]
+    FOREIGN KEY ([UserID])
+    REFERENCES [dbo].[tblUser]
+        ([UserID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_tblTask_tblUser'
+CREATE INDEX [IX_FK_tblTask_tblUser]
+ON [dbo].[tblTask]
     ([UserID]);
 GO
 

@@ -9,6 +9,9 @@
 
 namespace DatabaseAccess
 {
+    using System;
+    using System.Collections.Generic;
+    
     public partial class tblSaleCartDetail
     {
         public int SaleCartDetailID { get; set; }
@@ -18,7 +21,7 @@ namespace DatabaseAccess
         public int CompanyID { get; set; }
         public int BranchID { get; set; }
         public int UserID { get; set; }
-
+    
         public virtual tblBranch tblBranch { get; set; }
         public virtual tblCompany tblCompany { get; set; }
         public virtual tblStock tblStock { get; set; }

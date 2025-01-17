@@ -10,7 +10,8 @@
 namespace DatabaseAccess
 {
     using System;
-
+    using System.Collections.Generic;
+    
     public partial class tblCustomerReturnPayment
     {
         public int CustomerReturnPaymentID { get; set; }

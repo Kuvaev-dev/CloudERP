@@ -20,9 +20,9 @@ namespace DatabaseAccess.Repositories
         public async Task<IEnumerable<AccountHead>> GetAllAsync()
         {
             var entities = await _dbContext.tblAccountHead
-            .AsNoTracking()
-            .Include(e => e.tblUser)
-            .ToListAsync();
+                .AsNoTracking()
+                .Include(e => e.tblUser)
+                .ToListAsync();
 
             return entities.Select(ah => new AccountHead
             {

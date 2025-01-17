@@ -39,6 +39,7 @@ namespace DatabaseAccess.Repositories
         public async Task<CustomerInvoice> GetByIdAsync(int id)
         {
             var entity = await _dbContext.tblCustomerInvoice.FindAsync(id);
+
             return entity == null ? null : new CustomerInvoice
             {
                 CustomerInvoiceID = entity.CustomerInvoiceID,

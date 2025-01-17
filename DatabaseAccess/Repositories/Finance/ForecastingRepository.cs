@@ -18,7 +18,8 @@ namespace DatabaseAccess.Repositories
         public IEnumerable<ForecastData> GetForecastData(int companyID, int branchID, DateTime startDate, DateTime endDate)
         {
             // Retrieve the data from the database
-            var transactionData = _dbContext.tblTransaction.Where(t => t.CompanyID == companyID &&
+            var transactionData = _dbContext.tblTransaction
+                .Where(t => t.CompanyID == companyID &&
                             t.BranchID == branchID &&
                             t.TransectionDate >= startDate &&
                             t.TransectionDate <= endDate)

@@ -74,7 +74,7 @@ namespace DatabaseAccess.Repositories
                     return Localization.Localization.DebitAccountNotFound;
                 }
 
-                AddEntry(financialYearId, debitAccount.AccountHeadID.ToString(),
+                SetEntries(financialYearId, debitAccount.AccountHeadID.ToString(),
                     debitAccount.AccountControlID.ToString(), debitAccount.AccountSubControlID.ToString(),
                     invoiceNo, userId.ToString(), "0", transferAmount.ToString(),
                     DateTime.Now, transactionTitle);
@@ -87,7 +87,7 @@ namespace DatabaseAccess.Repositories
 
                 transactionTitle = Localization.Localization.GeneralTransactionSucceed;
 
-                AddEntry(financialYearId, creditAccount.AccountHeadID.ToString(),
+                SetEntries(financialYearId, creditAccount.AccountHeadID.ToString(),
                     creditAccount.AccountControlID.ToString(), creditAccount.AccountSubControlID.ToString(),
                     invoiceNo, userId.ToString(), transferAmount.ToString(), "0",
                     DateTime.Now, transactionTitle);
@@ -205,7 +205,7 @@ namespace DatabaseAccess.Repositories
             return journalEntries;
         }
     
-        private void AddEntry(string financialYearId, string accountHeadId, string accountControlId, string accountSubControlId, string invoiceNo, string userId, string credit, string debit, DateTime transactionDate, string transactionTitle)
+        private void SetEntries(string financialYearId, string accountHeadId, string accountControlId, string accountSubControlId, string invoiceNo, string userId, string credit, string debit, DateTime transactionDate, string transactionTitle)
         {
             InitializeDataTable();
 

@@ -10,7 +10,8 @@
 namespace DatabaseAccess
 {
     using System;
-
+    using System.Collections.Generic;
+    
     public partial class tblSupportTicket
     {
         public int TicketID { get; set; }
@@ -18,12 +19,12 @@ namespace DatabaseAccess
         public string Email { get; set; }
         public string Subject { get; set; }
         public string Message { get; set; }
-        public DateTime DateCreated { get; set; }
+        public System.DateTime DateCreated { get; set; }
         public bool IsResolved { get; set; }
-        public int CompanyID { get; set; }
         public int BranchID { get; set; }
+        public int CompanyID { get; set; }
         public int UserID { get; set; }
-
+    
         public virtual tblBranch tblBranch { get; set; }
         public virtual tblCompany tblCompany { get; set; }
         public virtual tblUser tblUser { get; set; }

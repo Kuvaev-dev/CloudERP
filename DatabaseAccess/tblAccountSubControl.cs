@@ -9,8 +9,9 @@
 
 namespace DatabaseAccess
 {
+    using System;
     using System.Collections.Generic;
-
+    
     public partial class tblAccountSubControl
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,7 +20,7 @@ namespace DatabaseAccess
             this.tblAccountSetting = new HashSet<tblAccountSetting>();
             this.tblTransaction = new HashSet<tblTransaction>();
         }
-
+    
         public int AccountSubControlID { get; set; }
         public int AccountHeadID { get; set; }
         public int AccountControlID { get; set; }
@@ -27,7 +28,7 @@ namespace DatabaseAccess
         public int BranchID { get; set; }
         public string AccountSubControlName { get; set; }
         public int UserID { get; set; }
-
+    
         public virtual tblAccountControl tblAccountControl { get; set; }
         public virtual tblAccountHead tblAccountHead { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -9,8 +9,9 @@
 
 namespace DatabaseAccess
 {
-    using System.ComponentModel.DataAnnotations;
-
+    using System;
+    using System.Collections.Generic;
+    
     public partial class tblPayroll
     {
         public int PayrollID { get; set; }
@@ -23,7 +24,7 @@ namespace DatabaseAccess
         public string SalaryMonth { get; set; }
         public string SalaryYear { get; set; }
         public int UserID { get; set; }
-
+    
         public virtual tblBranch tblBranch { get; set; }
         public virtual tblCompany tblCompany { get; set; }
         public virtual tblEmployee tblEmployee { get; set; }

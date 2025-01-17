@@ -19,7 +19,9 @@ namespace DatabaseAccess.Repositories
 
         public async Task<IEnumerable<SupplierReturnPayment>> GetBySupplierReturnInvoiceId(int id)
         {
-            var entities = await _dbContext.tblSupplierReturnPayment.Where(r => r.SupplierReturnInvoiceID == id).ToListAsync();
+            var entities = await _dbContext.tblSupplierReturnPayment
+                .Where(r => r.SupplierReturnInvoiceID == id)
+                .ToListAsync();
 
             return entities.Select(srp => new SupplierReturnPayment
             {

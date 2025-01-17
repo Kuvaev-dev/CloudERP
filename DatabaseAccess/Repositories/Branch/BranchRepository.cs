@@ -20,9 +20,9 @@ namespace DatabaseAccess.Repositories
         public async Task<IEnumerable<Branch>> GetByCompanyAsync(int companyId)
         {
             var entities = await _dbContext.tblBranch
-            .Include(b => b.tblBranchType)
-            .Where(b => b.CompanyID == companyId)
-            .ToListAsync();
+                .Include(b => b.tblBranchType)
+                .Where(b => b.CompanyID == companyId)
+                .ToListAsync();
 
             return entities.Select(b => new Branch
             {

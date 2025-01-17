@@ -9,6 +9,9 @@
 
 namespace DatabaseAccess
 {
+    using System;
+    using System.Collections.Generic;
+    
     public partial class tblPurchaseCart
     {
         public int PurchaseCartID { get; set; }
@@ -20,7 +23,7 @@ namespace DatabaseAccess
         public System.DateTime InvoiceDate { get; set; }
         public string Description { get; set; }
         public int UserID { get; set; }
-
+    
         public virtual tblBranch tblBranch { get; set; }
         public virtual tblCompany tblCompany { get; set; }
         public virtual tblUser tblUser { get; set; }

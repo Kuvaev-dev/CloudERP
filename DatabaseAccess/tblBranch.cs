@@ -11,7 +11,7 @@ namespace DatabaseAccess
 {
     using System;
     using System.Collections.Generic;
-
+    
     public partial class tblBranch
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -39,7 +39,7 @@ namespace DatabaseAccess
             this.tblSupportTicket = new HashSet<tblSupportTicket>();
             this.tblTask = new HashSet<tblTask>();
         }
-
+    
         public int BranchID { get; set; }
         public int BranchTypeID { get; set; }
         public string BranchName { get; set; }
@@ -47,7 +47,7 @@ namespace DatabaseAccess
         public string BranchAddress { get; set; }
         public int CompanyID { get; set; }
         public Nullable<int> BrchID { get; set; }
-
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblAccountControl> tblAccountControl { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

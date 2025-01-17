@@ -14,7 +14,9 @@ namespace DatabaseAccess.Repositories
         private readonly DatabaseQuery _query;
         private readonly IAccountHeadRepository _accountHeadRepository;
 
-        public BalanceSheetRepository(DatabaseQuery query, IAccountHeadRepository accountHeadRepository)
+        public BalanceSheetRepository(
+            DatabaseQuery query, 
+            IAccountHeadRepository accountHeadRepository)
         {
             _query = query ?? throw new ArgumentNullException(nameof(DatabaseQuery));
             _accountHeadRepository = accountHeadRepository ?? throw new ArgumentNullException(nameof(IAccountHeadRepository));

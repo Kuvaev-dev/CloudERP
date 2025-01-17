@@ -114,6 +114,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CloudDB.edmx</DependentUpon>
     </Compile>
+    <Content Include="CloudDBFullDump.sql" />
+    <Content Include="CloudDBOperations.sql" />
     <Compile Include="Factories\FileAdapterFactory.cs" />
     <Compile Include="Helpers\DatabaseQuery.cs" />
     <Compile Include="Helpers\BranchHelper.cs" />
@@ -328,6 +330,7 @@
       <Name>Domain</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

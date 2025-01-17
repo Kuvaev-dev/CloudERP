@@ -9,6 +9,9 @@
 
 namespace DatabaseAccess
 {
+    using System;
+    using System.Collections.Generic;
+    
     public partial class tblTransaction
     {
         public int TransactionID { get; set; }
@@ -24,7 +27,7 @@ namespace DatabaseAccess
         public System.DateTime TransectionDate { get; set; }
         public string TransectionTitle { get; set; }
         public int UserID { get; set; }
-
+    
         public virtual tblAccountControl tblAccountControl { get; set; }
         public virtual tblAccountHead tblAccountHead { get; set; }
         public virtual tblAccountHead tblAccountHead1 { get; set; }

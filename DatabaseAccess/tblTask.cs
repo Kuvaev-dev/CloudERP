@@ -10,21 +10,20 @@
 namespace DatabaseAccess
 {
     using System;
-
+    using System.Collections.Generic;
+    
     public partial class tblTask
     {
         public int TaskID { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public DateTime DueDate { get; set; }
+        public System.DateTime DueDate { get; set; }
         public Nullable<System.DateTime> ReminderDate { get; set; }
         public bool IsCompleted { get; set; }
-        public int AssignedByUserID { get; set; }
-        public int AssignedToUserID { get; set; }
         public int CompanyID { get; set; }
         public int BranchID { get; set; }
         public int UserID { get; set; }
-
+    
         public virtual tblBranch tblBranch { get; set; }
         public virtual tblCompany tblCompany { get; set; }
         public virtual tblUser tblUser { get; set; }

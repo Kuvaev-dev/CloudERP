@@ -9,8 +9,9 @@
 
 namespace DatabaseAccess
 {
+    using System;
     using System.Collections.Generic;
-
+    
     public partial class tblCustomerInvoiceDetail
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -18,13 +19,13 @@ namespace DatabaseAccess
         {
             this.tblCustomerReturnInvoiceDetail = new HashSet<tblCustomerReturnInvoiceDetail>();
         }
-
+    
         public int CustomerInvoiceDetailID { get; set; }
         public int CustomerInvoiceID { get; set; }
         public int ProductID { get; set; }
         public int SaleQuantity { get; set; }
         public double SaleUnitPrice { get; set; }
-
+    
         public virtual tblCustomerInvoice tblCustomerInvoice { get; set; }
         public virtual tblStock tblStock { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

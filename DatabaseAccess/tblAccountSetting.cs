@@ -9,6 +9,9 @@
 
 namespace DatabaseAccess
 {
+    using System;
+    using System.Collections.Generic;
+    
     public partial class tblAccountSetting
     {
         public int AccountSettingID { get; set; }
@@ -18,7 +21,7 @@ namespace DatabaseAccess
         public int AccountActivityID { get; set; }
         public int CompanyID { get; set; }
         public int BranchID { get; set; }
-
+    
         public virtual tblAccountActivity tblAccountActivity { get; set; }
         public virtual tblAccountControl tblAccountControl { get; set; }
         public virtual tblAccountHead tblAccountHead { get; set; }

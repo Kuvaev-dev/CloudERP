@@ -17,7 +17,9 @@ namespace Domain.Services
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IBranchRepository _branchRepository;
 
-        public EmployeeStatisticsService(IEmployeeRepository employeeRepository, IBranchRepository branchRepository)
+        public EmployeeStatisticsService(
+            IEmployeeRepository employeeRepository, 
+            IBranchRepository branchRepository)
         {
             _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(IEmployeeRepository));
             _branchRepository = branchRepository ?? throw new ArgumentNullException(nameof(IBranchRepository));

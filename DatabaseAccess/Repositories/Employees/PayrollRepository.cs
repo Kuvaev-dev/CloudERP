@@ -38,7 +38,8 @@ namespace DatabaseAccess.Repositories
 
         public async Task<Payroll> GetEmployeePayrollAsync(int employeeID, int branchID, int companyID, string salaryMonth, string salaryYear)
         {
-            var entity = await _dbContext.tblPayroll.FirstOrDefaultAsync(p => p.EmployeeID == employeeID &&
+            var entity = await _dbContext.tblPayroll.FirstOrDefaultAsync(p => 
+                p.EmployeeID == employeeID &&
                 p.BranchID == branchID &&
                 p.CompanyID == companyID &&
                 p.SalaryMonth == salaryMonth &&
@@ -66,9 +67,10 @@ namespace DatabaseAccess.Repositories
 
         public async Task<IEnumerable<Payroll>> GetSalaryHistoryAsync(int branchID, int companyID)
         {
-            var entities = await _dbContext.tblPayroll.Where(p => p.BranchID == branchID && p.CompanyID == companyID)
-                                            .OrderByDescending(p => p.PayrollID)
-                                            .ToListAsync();
+            var entities = await _dbContext.tblPayroll
+                .Where(p => p.BranchID == branchID && p.CompanyID == companyID)
+                .OrderByDescending(p => p.PayrollID)
+                .ToListAsync();
 
             return entities.Select(p => new Payroll
             {

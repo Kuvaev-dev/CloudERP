@@ -10,7 +10,8 @@
 namespace DatabaseAccess
 {
     using System;
-
+    using System.Collections.Generic;
+    
     public partial class tblCustomerPayment
     {
         public int CustomerPaymentID { get; set; }
@@ -24,7 +25,7 @@ namespace DatabaseAccess
         public double RemainingBalance { get; set; }
         public int UserID { get; set; }
         public Nullable<System.DateTime> InvoiceDate { get; set; }
-
+    
         public virtual tblBranch tblBranch { get; set; }
         public virtual tblCompany tblCompany { get; set; }
         public virtual tblCustomerInvoice tblCustomerInvoice { get; set; }

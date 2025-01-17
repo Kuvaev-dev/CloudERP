@@ -97,7 +97,7 @@ namespace DatabaseAccess.Repositories
         public async Task<SaleCartDetail> GetByProductIdAsync(int productId, int branchId, int companyId)
         {
             var entity = await _dbContext.tblSaleCartDetail
-            .FirstOrDefaultAsync(i => i.ProductID == productId && i.BranchID == branchId && i.CompanyID == companyId);
+                .FirstOrDefaultAsync(i => i.ProductID == productId && i.BranchID == branchId && i.CompanyID == companyId);
 
             return entity == null ? null : new SaleCartDetail
             {

@@ -9,8 +9,9 @@
 
 namespace DatabaseAccess
 {
+    using System;
     using System.Collections.Generic;
-
+    
     public partial class tblBranchType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -18,10 +19,10 @@ namespace DatabaseAccess
         {
             this.tblBranch = new HashSet<tblBranch>();
         }
-
+    
         public int BranchTypeID { get; set; }
         public string BranchType { get; set; }
-
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblBranch> tblBranch { get; set; }
     }

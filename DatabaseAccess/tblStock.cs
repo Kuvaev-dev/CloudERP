@@ -11,7 +11,7 @@ namespace DatabaseAccess
 {
     using System;
     using System.Collections.Generic;
-
+    
     public partial class tblStock
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -24,7 +24,7 @@ namespace DatabaseAccess
             this.tblSupplierInvoiceDetail = new HashSet<tblSupplierInvoiceDetail>();
             this.tblSupplierReturnInvoiceDetail = new HashSet<tblSupplierReturnInvoiceDetail>();
         }
-
+    
         public int ProductID { get; set; }
         public int CategoryID { get; set; }
         public int CompanyID { get; set; }
@@ -39,7 +39,7 @@ namespace DatabaseAccess
         public string Description { get; set; }
         public int UserID { get; set; }
         public Nullable<bool> IsActive { get; set; }
-
+    
         public virtual tblBranch tblBranch { get; set; }
         public virtual tblCategory tblCategory { get; set; }
         public virtual tblCompany tblCompany { get; set; }

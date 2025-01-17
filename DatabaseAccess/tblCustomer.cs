@@ -9,8 +9,9 @@
 
 namespace DatabaseAccess
 {
+    using System;
     using System.Collections.Generic;
-
+    
     public partial class tblCustomer
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,7 +21,7 @@ namespace DatabaseAccess
             this.tblCustomerReturnInvoice = new HashSet<tblCustomerReturnInvoice>();
             this.tblCustomerReturnPayment = new HashSet<tblCustomerReturnPayment>();
         }
-
+    
         public int CustomerID { get; set; }
         public string Customername { get; set; }
         public string CustomerContact { get; set; }
@@ -29,7 +30,7 @@ namespace DatabaseAccess
         public int BranchID { get; set; }
         public int CompanyID { get; set; }
         public int UserID { get; set; }
-
+    
         public virtual tblBranch tblBranch { get; set; }
         public virtual tblCompany tblCompany { get; set; }
         public virtual tblUser tblUser { get; set; }

@@ -14,7 +14,9 @@ namespace DatabaseAccess.Repositories
         private readonly CloudDBEntities _dbContext;
         private readonly BranchHelper _branchHelper;
 
-        public CustomerRepository(CloudDBEntities dbContext, BranchHelper branchHelper)
+        public CustomerRepository(
+            CloudDBEntities dbContext, 
+            BranchHelper branchHelper)
         {
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(CloudDBEntities));
             _branchHelper = branchHelper ?? throw new ArgumentNullException(nameof(BranchHelper));
@@ -23,10 +25,10 @@ namespace DatabaseAccess.Repositories
         public async Task<IEnumerable<Customer>> GetAllAsync()
         {
             var entities = await _dbContext.tblCustomer
-            .Include(c => c.tblBranch)
-            .Include(c => c.tblCompany)
-            .Include(c => c.tblUser)
-            .ToListAsync();
+                .Include(c => c.tblBranch)
+                .Include(c => c.tblCompany)
+                .Include(c => c.tblUser)
+                .ToListAsync();
 
             return entities.Select(c => new Customer
             {

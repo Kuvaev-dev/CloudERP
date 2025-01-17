@@ -34,6 +34,7 @@ namespace DatabaseAccess.Repositories
         public async Task<IEnumerable<CustomerInvoiceDetail>> GetListByIdAsync(int id)
         {
             var entities = await _dbContext.tblCustomerInvoiceDetail.Where(i => i.CustomerInvoiceID == id).ToListAsync();
+            
             return entities.Select(ci => new CustomerInvoiceDetail
             {
                 CustomerInvoiceDetailID = ci.CustomerInvoiceDetailID,

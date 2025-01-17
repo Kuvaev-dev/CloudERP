@@ -14,7 +14,9 @@ namespace DatabaseAccess.Repositories
         private readonly CloudDBEntities _dbContext;
         private readonly BranchHelper _branchHelper;
 
-        public SupplierRepository(CloudDBEntities dbContext, BranchHelper branchHelper)
+        public SupplierRepository(
+            CloudDBEntities dbContext, 
+            BranchHelper branchHelper)
         {
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(CloudDBEntities));
             _branchHelper = branchHelper ?? throw new ArgumentNullException(nameof(BranchHelper));

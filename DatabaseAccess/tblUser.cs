@@ -11,7 +11,7 @@ namespace DatabaseAccess
 {
     using System;
     using System.Collections.Generic;
-
+    
     public partial class tblUser
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -41,7 +41,7 @@ namespace DatabaseAccess
             this.tblTask = new HashSet<tblTask>();
             this.tblTransaction = new HashSet<tblTransaction>();
         }
-
+    
         public int UserID { get; set; }
         public int UserTypeID { get; set; }
         public string FullName { get; set; }
@@ -54,7 +54,7 @@ namespace DatabaseAccess
         public Nullable<System.DateTime> ResetPasswordExpiration { get; set; }
         public bool IsActive { get; set; }
         public string Salt { get; set; }
-
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblAccountControl> tblAccountControl { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

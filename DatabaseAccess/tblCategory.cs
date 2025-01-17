@@ -9,8 +9,9 @@
 
 namespace DatabaseAccess
 {
+    using System;
     using System.Collections.Generic;
-
+    
     public partial class tblCategory
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -18,13 +19,13 @@ namespace DatabaseAccess
         {
             this.tblStock = new HashSet<tblStock>();
         }
-
+    
         public int CategoryID { get; set; }
         public string CategoryName { get; set; }
         public int BranchID { get; set; }
         public int CompanyID { get; set; }
         public int UserID { get; set; }
-
+    
         public virtual tblBranch tblBranch { get; set; }
         public virtual tblCompany tblCompany { get; set; }
         public virtual tblUser tblUser { get; set; }

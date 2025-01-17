@@ -9,6 +9,9 @@
 
 namespace DatabaseAccess
 {
+    using System;
+    using System.Collections.Generic;
+    
     public partial class tblSupplierReturnInvoiceDetail
     {
         public int SupplierReturnInvoiceDetailID { get; set; }
@@ -18,7 +21,7 @@ namespace DatabaseAccess
         public int ProductID { get; set; }
         public int PurchaseReturnQuantity { get; set; }
         public double PurchaseReturnUnitPrice { get; set; }
-
+    
         public virtual tblStock tblStock { get; set; }
         public virtual tblSupplierInvoice tblSupplierInvoice { get; set; }
         public virtual tblSupplierInvoiceDetail tblSupplierInvoiceDetail { get; set; }

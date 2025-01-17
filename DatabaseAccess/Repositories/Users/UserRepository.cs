@@ -68,7 +68,6 @@ namespace DatabaseAccess.Repositories
             return entities;
         }
 
-
         public async Task<User> GetByIdAsync(int id)
         {
             var entity = await _dbContext.tblUser.FindAsync(id);
@@ -152,7 +151,8 @@ namespace DatabaseAccess.Repositories
 
         public async Task<User> GetByPasswordCodesAsync(string id, DateTime expiration)
         {
-            var entity = await _dbContext.tblUser.FirstOrDefaultAsync(u => u.ResetPasswordCode == id && u.ResetPasswordExpiration > expiration);
+            var entity = await _dbContext.tblUser
+                .FirstOrDefaultAsync(u => u.ResetPasswordCode == id && u.ResetPasswordExpiration > expiration);
 
             return entity == null ? null : new User
             {
