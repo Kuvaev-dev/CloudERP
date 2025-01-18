@@ -142,6 +142,23 @@ namespace CloudERP.Controllers
             }
         }
 
+        public async Task<ActionResult> BranchesMap()
+        {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            try
+            {
+                var branches = await _branchRepository.GetByCompanyAsync(_sessionHelper.CompanyID);
+                return View(branches);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
+        }
+
         private async Task PopulateViewBags(int companyID, int? selectedParentBranchID = null, int? selectedBranchTypeID = null)
         {
             var branches = await _branchRepository.GetByCompanyAsync(companyID);

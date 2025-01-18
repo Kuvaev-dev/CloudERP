@@ -21,6 +21,12 @@ namespace Domain.Models
         [StringLength(200, ErrorMessage = "Branch Address cannot exceed 200 characters.")]
         public string BranchAddress { get; set; }
 
+        [Required(ErrorMessage = "Latitude is required.")]
+        public double Latitude { get; set; }
+
+        [Required(ErrorMessage = "Longitude is required.")]
+        public double Longitude { get; set; }
+
         [Required(ErrorMessage = "Company ID is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "Company ID must be a positive integer.")]
         public int CompanyID { get; set; }

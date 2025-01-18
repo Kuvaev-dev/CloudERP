@@ -3587,6 +3587,7 @@
     <Content Include="Views\EmployeeStatistics\Index.cshtml" />
     <Content Include="Views\Forecasting\Index.cshtml" />
     <Content Include="Views\Stock\ProductQuality.cshtml" />
+    <Content Include="Views\Branch\BranchesMap.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

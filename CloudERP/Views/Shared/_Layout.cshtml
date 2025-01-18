@@ -296,6 +296,12 @@
                                                 <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.Users))</span>
                                             </a>
                                         </li>
+                                        <li>
+                                            <a href="@Url.Action("BranchesMap", "Branch")" title="Branches` Map" class="d-flex align-items-center">
+                                                <em class="bi bi-info-circle mr-1"></em>
+                                                <span class="align-middle">Branches` Map</span>
+                                            </a>
+                                        </li>
 
                                         var branchTypeID = Convert.ToInt32(Convert.ToString(Session["BranchTypeID"]));
                                         @*Main Branch*@

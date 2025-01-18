@@ -45,6 +45,8 @@ namespace DatabaseAccess
         public string BranchName { get; set; }
         public string BranchContact { get; set; }
         public string BranchAddress { get; set; }
+        public Nullable<double> Latitude { get; set; }
+        public Nullable<double> Longitude { get; set; }
         public int CompanyID { get; set; }
         public Nullable<int> BrchID { get; set; }
     
