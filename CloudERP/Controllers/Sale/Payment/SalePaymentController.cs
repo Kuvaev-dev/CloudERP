@@ -109,6 +109,7 @@ namespace CloudERP.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> PaidAmount(int? id, float previousRemainingAmount, float paidAmount)
         {
             if (!_sessionHelper.IsAuthenticated)

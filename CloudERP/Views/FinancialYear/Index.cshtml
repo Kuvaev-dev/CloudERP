@@ -51,7 +51,7 @@
                     {
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelItem => item.FinancialYear)
+                                @Html.DisplayFor(modelItem => item.FinancialYearName)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.StartDate)
@@ -63,7 +63,7 @@
                                 @Html.DisplayFor(modelItem => item.IsActive)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.tblUser.FullName)
+                                @Html.DisplayFor(modelItem => item.UserName)
                             </td>
                             <td>
                                 @Html.ActionLink(Resources.Common.Edit.ToString(), "Edit", new { id = item.FinancialYearID }, new { @class = "btn btn-primary" })

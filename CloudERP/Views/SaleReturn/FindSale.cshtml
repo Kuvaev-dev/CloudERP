@@ -35,15 +35,15 @@
                 <div class="row">
                     <div class="col-md-6">
                         <h4>@Resources.Sale.Company.ToString():</h4>
-                        <p>@Model.CompanyName - @Model.BranchName</p>
-                        <p>@Resources.Sale.Address.ToString(): @Model.BranchAddress</p>
-                        <p>@Resources.Sale.ContactNo.ToString(): @Model.BranchContact</p>
+                        <p>@Model.Company.Name - @Model.Branch.BranchName</p>
+                        <p>@Resources.Sale.Address.ToString(): @Model.Branch.BranchAddress</p>
+                        <p>@Resources.Sale.ContactNo.ToString(): @Model.Branch.BranchContact</p>
                     </div>
                     <div class="col-md-6">
                         <h4>@Resources.Sale.Customer.ToString():</h4>
-                        <p>@Model.CustomerName</p>
-                        <p>@Model.CustomerAddress</p>
-                        <p>@Model.CustomerContact</p>
+                        <p>@Model.Customer.Customername</p>
+                        <p>@Model.Customer.CustomerAddress</p>
+                        <p>@Model.Customer.CustomerContact</p>
                     </div>
                 </div>
 
@@ -58,7 +58,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model.tblCustomerInvoiceDetail)
+                        @foreach (var item in Model.CustomerInvoiceDetail)
                         {
                             var qty = item.SaleQuantity -
                                       item.CustomerReturnInvoiceDetail

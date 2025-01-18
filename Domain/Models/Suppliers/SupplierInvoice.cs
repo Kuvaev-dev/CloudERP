@@ -14,6 +14,9 @@ namespace Domain.Models
         [Required(ErrorMessage = "Supplier Name is required.")]
         [StringLength(100, ErrorMessage = "Supplier Name cannot be longer than 100 characters.")]
         public string SupplierName { get; set; }
+        [Required(ErrorMessage = "Supplier Address is required.")]
+        [StringLength(100, ErrorMessage = "Supplier Address cannot be longer than 100 characters.")]
+        public string SupplierAddress { get; set; }
 
         [Phone(ErrorMessage = "Invalid phone number format.")]
         [StringLength(15, ErrorMessage = "Supplier Contact No cannot be longer than 15 characters.")]

@@ -68,6 +68,7 @@ namespace CloudERP.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> ResolveTicket(int id)
         {
             try

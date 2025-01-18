@@ -48,6 +48,7 @@ namespace CloudERP.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> GetTrialBalance(int? id)
         {
             if (!_sessionHelper.IsAuthenticated)

@@ -15,6 +15,8 @@ namespace Domain.Models
 
         [Required(ErrorMessage = "Supplier ID is required.")]
         public int SupplierID { get; set; }
+        [Required(ErrorMessage = "Supplier Name is required.")]
+        public int SupplierName { get; set; }
 
         [Required(ErrorMessage = "Company ID is required.")]
         public int CompanyID { get; set; }
@@ -37,6 +39,8 @@ namespace Domain.Models
 
         [Required(ErrorMessage = "User ID is required.")]
         public int UserID { get; set; }
+        [Required(ErrorMessage = "User Name is required.")]
+        public int UserName { get; set; }
 
         [Required(ErrorMessage = "Invoice Date is required.")]
         public DateTime InvoiceDate { get; set; }

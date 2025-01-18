@@ -47,10 +47,10 @@
                                     <div class="col-lg-10">
                                         <h4>@Resources.Supplier.SupplierName</h4>
                                         <hr class="w-100"/>
-                                        <h4>@Model.FirstOrDefault().tblSupplierInvoice.tblSupplier.SupplierName</h4>
-                                        <h5>@Resources.User.ContactNo: @Model.FirstOrDefault().tblSupplierInvoice.tblSupplier.SupplierConatctNo</h5>
-                                        <address>@Model.FirstOrDefault().tblSupplierInvoice.tblSupplier.SupplierAddress</address>
-                                        <h4>@Model.FirstOrDefault().tblSupplierInvoice.tblCompany.Name</h4>
+                                        <h4>@Model.FirstOrDefault().Supplier.SupplierName</h4>
+                                        <h5>@Resources.User.ContactNo: @Model.FirstOrDefault().SupplierInvoice.Supplier.SupplierConatctNo</h5>
+                                        <address>@Model.FirstOrDefault().SupplierInvoice.Supplier.SupplierAddress</address>
+                                        <h4>@Model.FirstOrDefault().SupplierInvoice.Company.CompanyName</h4>
                                     </div>
                                 </div>
                             </div>
@@ -63,9 +63,9 @@
                                         <img src="@Url.Content(branchimgurl)" alt="Image" style="width: 100px; height: 100px; max-width: 100%; height: auto;" />
                                     </div>
                                     <div class="col-lg-10">
-                                        <h4>@Model.FirstOrDefault().tblSupplierInvoice.tblBranch.BranchName</h4>
-                                        <h5>@Resources.User.ContactNo: @Model.FirstOrDefault().tblSupplierInvoice.tblBranch.BranchContact</h5>
-                                        <address>@Model.FirstOrDefault().tblSupplierInvoice.tblBranch.BranchAddress</address>
+                                        <h4>@Model.FirstOrDefault().SupplierInvoice.tblBranch.BranchName</h4>
+                                        <h5>@Resources.User.ContactNo: @Model.FirstOrDefault().SupplierInvoice.Branch.BranchContact</h5>
+                                        <address>@Model.FirstOrDefault().SupplierInvoice.Branch.BranchAddress</address>
                                     </div>
                                 </div>
                             </div>
@@ -73,11 +73,11 @@
                             <div class="col-xl-4 col-12 py-2">
                                 <div class="clearfix">
                                     <p class="float-left">@Resources.Purchase.InvoiceNo</p>
-                                    <p class="float-right mr-2">@Model.FirstOrDefault().tblSupplierInvoice.InvoiceNo</p>
+                                    <p class="float-right mr-2">@Model.FirstOrDefault().SupplierInvoice.InvoiceNo</p>
                                 </div>
                                 <div class="clearfix">
                                     <p class="float-left">@Resources.Purchase.InvoiceDate</p>
-                                    <p class="float-right mr-2">@Model.FirstOrDefault().tblSupplierInvoice.InvoiceDate.ToString("dd/MM/yyyy")</p>
+                                    <p class="float-right mr-2">@Model.FirstOrDefault().SupplierInvoice.InvoiceDate.ToString("dd/MM/yyyy")</p>
                                 </div>
                                 <div class="clearfix">
                                     <p class="float-left">@Resources.Purchase.PrintDate</p>
@@ -98,16 +98,16 @@
                                 <tbody>
                                     @foreach (var item in Model)
                                     {
-                                        ViewBag.Title = "Sale Invoice №: " + item.tblSupplierInvoice.InvoiceNo;
+                                        ViewBag.Title = "Sale Invoice №: " + item.SupplierInvoice.InvoiceNo;
                                         int qty = 0;
                                         double itemCost = 0;
-                                        qty = item.PurchaseQuantity - item.tblSupplierReturnInvoiceDetail.Where(q => q.ProductID == item.ProductID).Sum(q => q.PurchaseReturnQuantity);
+                                        qty = item.PurchaseQuantity - item.SupplierReturnInvoiceDetail.Where(q => q.ProductID == item.ProductID).Sum(q => q.PurchaseReturnQuantity);
                                         itemCost = qty * item.PurchaseUnitPrice;
                                         total += itemCost;
 
                                         <tr>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.tblStock.ProductName)
+                                                @Html.DisplayFor(modelItem => item.Stock.ProductName)
                                             </td>
                                             <td>
                                                 @qty
@@ -140,7 +140,7 @@
                         @{
                             foreach (var item in Model)
                             {
-                                if (item.tblSupplierReturnInvoiceDetail.Where(s => s.SupplierInvoiceID == item.SupplierInvoiceID).FirstOrDefault() != null)
+                                if (item.SupplierReturnInvoiceDetail.Where(s => s.SupplierInvoiceID == item.SupplierInvoiceID).FirstOrDefault() != null)
                                 {
                                     double returnTotal = 0;
                                     <div class="d-flex align-items-center">
@@ -151,11 +151,11 @@
                                         <div class="col-xl-4 col-12 py-2">
                                             <div class="clearfix">
                                                 <p class="float-left">Return Invoice №</p>
-                                                <p class="float-right mr-2">@item.tblSupplierReturnInvoiceDetail.FirstOrDefault().tblSupplierReturnInvoice.InvoiceNo</p>
+                                                <p class="float-right mr-2">@item.SupplierReturnInvoiceDetail.FirstOrDefault().tblSupplierReturnInvoice.InvoiceNo</p>
                                             </div>
                                             <div class="clearfix">
                                                 <p class="float-left">Return Invoice Date</p>
-                                                <p class="float-right mr-2">@item.tblSupplierReturnInvoiceDetail.FirstOrDefault().tblSupplierReturnInvoice.InvoiceDate.ToString("dd/MM/yyyy")</p>
+                                                <p class="float-right mr-2">@item.SupplierReturnInvoiceDetail.FirstOrDefault().tblSupplierReturnInvoice.InvoiceDate.ToString("dd/MM/yyyy")</p>
                                             </div>
                                         </div>
                                     </div>
@@ -170,7 +170,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach (var itemProduct in item.tblSupplierReturnInvoiceDetail)
+                                                @foreach (var itemProduct in item.SupplierReturnInvoiceDetail)
                                                 {
                                                     int qty = 0;
                                                     double itemCost = 0;

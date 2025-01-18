@@ -1,0 +1,42 @@
+@model CloudERP.Models.TaskAssignmentVM
+
+@{
+    ViewBag.Title = "Create Task";
+}
+
+<h2>Create Task</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(m => m.TaskModel.BranchID)
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.TaskModel.Title)
+        @Html.TextBoxFor(m => m.TaskModel.Title, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.TaskModel.Title)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.TaskModel.Description)
+        @Html.TextAreaFor(m => m.TaskModel.Description, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.TaskModel.Description)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.TaskModel.DueDate)
+        @Html.TextBoxFor(m => m.TaskModel.DueDate, "{0:yyyy-MM-dd}", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.TaskModel.DueDate)
+    </div>
+
+    <div class="form-group">
+        <label for="AssignedTo">Assign Task To</label>
+        <select id="AssignedTo" name="AssignedToUserID" class="form-control">
+            @foreach (var employee in Model.AvailableEmployees)
+            {
+                <option value="@employee.EmployeeID">@employee.FullName</option>
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Assign Task</button>
+}

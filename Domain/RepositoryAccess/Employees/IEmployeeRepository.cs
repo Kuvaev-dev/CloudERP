@@ -8,6 +8,7 @@ namespace Domain.RepositoryAccess
     public interface IEmployeeRepository
     {
         Task<IEnumerable<Employee>> GetByBranchAsync(int companyId, int branchId);
+        Task<IEnumerable<Employee>> GetEmployeesForTaskAssignmentAsync(int branchId);
         Task<Employee> GetByIdAsync(int id);
         Task<Employee> GetByTINAsync(string TIN);
         Task<Employee> GetByUserIdAsync(int id);

@@ -832,6 +832,7 @@
     <Compile Include="Models\RegistrationMV.cs" />
     <Compile Include="Models\ReturnConfirmVM.cs" />
     <Compile Include="Models\SalaryMV.cs" />
+    <Compile Include="Models\TaskAssignmentVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -3588,6 +3589,7 @@
     <Content Include="Views\Forecasting\Index.cshtml" />
     <Content Include="Views\Stock\ProductQuality.cshtml" />
     <Content Include="Views\Branch\BranchesMap.cshtml" />
+    <Content Include="Views\Task\AssignTask.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

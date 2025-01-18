@@ -8,6 +8,8 @@ namespace Domain.Models
 
         [Required(ErrorMessage = "Product ID is required.")]
         public int ProductID { get; set; }
+        [Required(ErrorMessage = "Product Name is required.")]
+        public int ProductName { get; set; }
 
         [Required(ErrorMessage = "Purchase Quantity is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "Purchase Quantity must be greater than 0.")]
@@ -25,5 +27,7 @@ namespace Domain.Models
 
         [Required(ErrorMessage = "User ID is required.")]
         public int UserID { get; set; }
+        [Required(ErrorMessage = "User Name is required.")]
+        public int UserName { get; set; }
     }
 }

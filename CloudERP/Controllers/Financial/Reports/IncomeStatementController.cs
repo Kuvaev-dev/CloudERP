@@ -50,6 +50,7 @@ namespace CloudERP.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> GetIncomeStatement(int? FinancialYearID)
         {
             if (!_sessionHelper.IsAuthenticated)
@@ -95,6 +96,7 @@ namespace CloudERP.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> GetSubIncomeStatement(int? FinancialYearID)
         {
             if (!_sessionHelper.IsAuthenticated)

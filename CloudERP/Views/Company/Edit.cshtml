@@ -19,7 +19,7 @@
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.CompanyID)
+        @Html.HiddenFor(model => model.Company.CompanyID)
 
         <div class="form-group">
             @Html.LabelFor(model => model.Company.Name, Resources.Company.EnterNewCompanyTitle.ToString(), htmlAttributes: new { @class = "control-label col-md-7" })

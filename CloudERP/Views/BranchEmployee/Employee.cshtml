@@ -51,13 +51,13 @@
                     {
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelItem => item.tblBranch.BranchName)
+                                @Html.DisplayFor(modelItem => item.BranchName)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Name)
+                                @Html.DisplayFor(modelItem => item.FullName)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.ContactNo)
+                                @Html.DisplayFor(modelItem => item.ContactNumber)
                             </td>
                             <td>
                                 @if (!string.IsNullOrEmpty(item.Photo))

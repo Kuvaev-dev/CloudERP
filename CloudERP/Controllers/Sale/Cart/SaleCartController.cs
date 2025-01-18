@@ -78,6 +78,7 @@ namespace CloudERP.Controllers
 
         // POST: SaleCart/AddItem
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddItem(int PID, int Qty, float Price)
         {
             if (!_sessionHelper.IsAuthenticated)
@@ -127,6 +128,7 @@ namespace CloudERP.Controllers
 
         // POST: SaleCart/DeleteConfirm/5
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirm(int id)
         {
             if (!_sessionHelper.IsAuthenticated)
@@ -154,6 +156,7 @@ namespace CloudERP.Controllers
 
         // POST: SaleCart/GetProduct
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> GetProduct()
         {
             if (!_sessionHelper.IsAuthenticated)
@@ -181,6 +184,7 @@ namespace CloudERP.Controllers
 
         // POST: SaleCart/GetProductDetails/5
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> GetProductDetails(int? id)
         {
             if (!_sessionHelper.IsAuthenticated)
@@ -207,6 +211,7 @@ namespace CloudERP.Controllers
 
         // POST: SaleCart/CancelSale
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> CancelSale()
         {
             if (!_sessionHelper.IsAuthenticated)
@@ -257,6 +262,7 @@ namespace CloudERP.Controllers
 
         // POST: SaleCart/SaleConfirm
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> SaleConfirm(SaleConfirm saleConfirmDto)
         {
             if (!_sessionHelper.IsAuthenticated)

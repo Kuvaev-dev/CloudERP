@@ -27,16 +27,16 @@
 
                     @foreach (var item in Model)
                     {
-                        ViewBag.Title = Resources.Purchase.InvoiceNo + item.tblSupplierInvoice.InvoiceNo;
+                        ViewBag.Title = Resources.Purchase.InvoiceNo + item.SupplierInvoice.InvoiceNo;
                         int qty = 0;
                         double itemCost = 0;
-                        qty = item.PurchaseQuantity - item.tblSupplierReturnInvoiceDetail.Where(q => q.ProductID == item.ProductID).Sum(q => q.PurchaseReturnQuantity);
+                        qty = item.PurchaseQuantity - item.SupplierReturnInvoiceDetail.Where(q => q.ProductID == item.ProductID).Sum(q => q.PurchaseReturnQuantity);
                         itemCost = qty * item.PurchaseUnitPrice;
                         total += itemCost;
 
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelItem => item.tblStock.ProductName)
+                                @Html.DisplayFor(modelItem => item.Stock.ProductName)
                             </td>
                             <td>
                                 @qty
@@ -70,7 +70,7 @@
 
     foreach (var item in Model)
     {
-        if (item.tblSupplierReturnInvoiceDetail.Where(s => s.SupplierInvoiceID == item.SupplierInvoiceID).FirstOrDefault() != null)
+        if (item.SupplierReturnInvoiceDetail.Where(s => s.SupplierInvoiceID == item.SupplierInvoiceID).FirstOrDefault() != null)
         {
             double returnTotal = 0;
 
@@ -96,7 +96,7 @@
                                 </th>
                             </tr>
 
-                            @foreach (var itemProduct in item.tblSupplierReturnInvoiceDetail)
+                            @foreach (var itemProduct in item.SupplierReturnInvoiceDetail)
                             {
                                 int qty = 0;
                                 double itemCost = 0;

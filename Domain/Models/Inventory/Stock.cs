@@ -48,12 +48,18 @@ namespace Domain.Models
 
         [Required(ErrorMessage = "User ID is required.")]
         public int UserID { get; set; }
+        [Required(ErrorMessage = "User Name is required.")]
+        public string UserName { get; set; }
 
         [Required(ErrorMessage = "Branch ID is required.")]
         public int BranchID { get; set; }
+        [Required(ErrorMessage = "Branch Name is required.")]
+        public string BranchName { get; set; }
 
         [Required(ErrorMessage = "Company ID is required.")]
         public int CompanyID { get; set; }
+        [Required(ErrorMessage = "Company Name is required.")]
+        public string CompanyName { get; set; }
 
         public bool? IsActive { get; set; }
     }

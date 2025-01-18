@@ -25,6 +25,9 @@ namespace Domain.Models
         [Required(ErrorMessage = "Branch Address is required.")]
         [StringLength(200, ErrorMessage = "Branch Address cannot exceed 200 characters.")]
         public string BranchAddress { get; set; }
+        [Required(ErrorMessage = "Branch Contact is required.")]
+        [StringLength(200, ErrorMessage = "Branch Contact cannot exceed 200 characters.")]
+        public string BranchContact { get; set; }
 
         [Required(ErrorMessage = "Company ID is required.")]
         public int CompanyID { get; set; }

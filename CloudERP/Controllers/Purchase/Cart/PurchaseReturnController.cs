@@ -61,6 +61,7 @@ namespace CloudERP.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> FindPurchase(string invoiceID)
         {
             if (!_sessionHelper.IsAuthenticated)
@@ -81,6 +82,7 @@ namespace CloudERP.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> ReturnConfirm(PurchaseReturnConfirm returnDto)
         {
             var result = await _purchaseReturnService.ProcessReturnAsync(

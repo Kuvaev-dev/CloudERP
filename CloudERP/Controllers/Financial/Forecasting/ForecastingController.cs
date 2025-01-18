@@ -36,6 +36,7 @@ namespace CloudERP.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult GenerateForecast(ForecastInputModel inputModel)
         {
             if (!_sessionHelper.IsAuthenticated)

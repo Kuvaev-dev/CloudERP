@@ -63,6 +63,7 @@ namespace CloudERP.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> FindSale(string invoiceID)
         {
             if (!_sessionHelper.IsAuthenticated)
@@ -83,6 +84,7 @@ namespace CloudERP.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> ReturnConfirm(ReturnConfirmVM model)
         {
             if (!_sessionHelper.IsAuthenticated)
@@ -123,6 +125,5 @@ namespace CloudERP.Controllers
                 return RedirectToAction("EP500", "EP");
             }
         }
-
     }
 }

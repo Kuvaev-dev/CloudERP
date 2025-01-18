@@ -46,6 +46,21 @@ namespace DatabaseAccess.Repositories
             });
         }
 
+        public async Task<IEnumerable<Employee>> GetEmployeesForTaskAssignmentAsync(int branchId)
+        {
+            var employees = await _dbContext.tblEmployee
+                .Where(e => e.tblBranch.BranchID == branchId && e.tblBranch.BranchTypeID == 2)
+                .ToListAsync();
+
+            return employees.Select(e => new Employee
+            {
+                EmployeeID = e.EmployeeID,
+                FullName = e.Name,
+                BranchID = e.BranchID,
+                CompanyID = e.CompanyID
+            });
+        }
+
         public async Task<Employee> GetByIdAsync(int id)
         {
             var entity = await _dbContext.tblEmployee.FindAsync(id);

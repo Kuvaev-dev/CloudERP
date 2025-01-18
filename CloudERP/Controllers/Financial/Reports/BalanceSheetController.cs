@@ -53,6 +53,7 @@ namespace CloudERP.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> GetBalanceSheet(int? id)
         {
             if (!_sessionHelper.IsAuthenticated)
@@ -105,6 +106,7 @@ namespace CloudERP.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> GetSubBalanceSheet(int? id)
         {
             if (!_sessionHelper.IsAuthenticated)

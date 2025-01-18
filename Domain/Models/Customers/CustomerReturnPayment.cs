@@ -13,6 +13,8 @@ namespace Domain.Models
 
         [Required(ErrorMessage = "Customer ID is required.")]
         public int CustomerID { get; set; }
+        [Required(ErrorMessage = "Customer Name is required.")]
+        public string CustomerName { get; set; }
 
         [Required(ErrorMessage = "Customer Invoice ID is required.")]
         public int CustomerInvoiceID { get; set; }
@@ -41,6 +43,8 @@ namespace Domain.Models
 
         [Required(ErrorMessage = "User ID is required.")]
         public int UserID { get; set; }
+        [Required(ErrorMessage = "User Name is required.")]
+        public string UserName { get; set; }
 
         [Required(ErrorMessage = "Invoice Date is required.")]
         [DataType(DataType.Date, ErrorMessage = "Invalid date format.")]

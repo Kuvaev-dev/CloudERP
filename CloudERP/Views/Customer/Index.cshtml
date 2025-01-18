@@ -49,10 +49,10 @@
                     {
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelItem => item.tblCompany.Name)
+                                @Html.DisplayFor(modelItem => item.CompanyName)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.tblBranch.BranchName)
+                                @Html.DisplayFor(modelItem => item.BranchName)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Customername)
@@ -64,7 +64,7 @@
                                 @Html.DisplayFor(modelItem => item.CustomerAddress)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.tblUser.FullName)
+                                @Html.DisplayFor(modelItem => item.UserName)
                             </td>
                             <td>
                                 @Html.ActionLink(Resources.Common.Update.ToString(), "Edit", new { id = item.CustomerID }, new { @class = "btn btn-primary" })

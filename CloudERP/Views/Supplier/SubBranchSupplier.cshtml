@@ -1,4 +1,4 @@
-﻿﻿@model IEnumerable<CloudERP.Models.BranchsSuppliersMV>
+﻿﻿@model IEnumerable<Domain.Models.Supplier>
 
 @{
     ViewBag.Title = Resources.Supplier.SubBranchSuppliers;
@@ -70,7 +70,7 @@
                                 @Html.DisplayFor(modelItem => item.SupplierAddress)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.User)
+                                @Html.DisplayFor(modelItem => item.UserName)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Discription)

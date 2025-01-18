@@ -27,9 +27,16 @@ namespace Domain.Models
 
         [Range(0, double.MaxValue, ErrorMessage = "Purchase Unit Price must be a positive value.")]
         public double PurchaseUnitPrice { get; set; }
-
         [Required(ErrorMessage = "User Name is required.")]
-        [StringLength(100, ErrorMessage = "User Name cannot be longer than 100 characters.")]
-        public double UserName { get; set; }
+        public string UserName { get; set; }
+        [Required(ErrorMessage = "Sale Cart Detail ID is required.")]
+        public int SaleCartDetailID { get; set; }
+
+        public Company Company { get; set; }
+        public Supplier Supplier { get; set; }
+        public SupplierInvoice SupplierInvoice { get; set; }
+        public Branch Branch { get; set; }
+        public SupplierReturnInvoiceDetail SupplierReturnInvoiceDetail { get; set; }
+        public Stock Stock { get; set; }
     }
 }

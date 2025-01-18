@@ -28,5 +28,6 @@ namespace Domain.Models
 
         [Required(ErrorMessage = "User ID is required.")]
         public int UserID { get; set; }
+        public int UserName { get; set; }
     }
 }

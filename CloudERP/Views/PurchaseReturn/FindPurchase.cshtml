@@ -66,7 +66,7 @@
                                             <h4>@Resources.Supplier.SupplierDetails:</h4>
                                             <hr />
                                             <h4>@Html.DisplayFor(model => model.SupplierName)</h4>
-                                            <address></address>@Html.DisplayFor(model => model.tblSupplier.SupplierAddress)
+                                            <address></address>@Html.DisplayFor(model => model.SupplierAddress)
                                             <br>@Html.DisplayFor(model => model.SupplierConatctNo)
                                             <br>@Html.DisplayFor(model => model.SupplierEmail)
                                         </div>
@@ -106,7 +106,7 @@
                                         {
                                             int qty = 0;
                                             double itemCost = 0;
-                                            qty = item.PurchaseQuantity - item.tblSupplierReturnInvoiceDetail.Where(q => q.ProductID == item.ProductID).Sum(q => q.PurchaseReturnQuantity);
+                                            qty = item.PurchaseQuantity - item.SupplierReturnInvoiceDetail.Where(q => q.ProductID == item.ProductID).Sum(q => q.PurchaseReturnQuantity);
                                             itemCost = qty * item.PurchaseUnitPrice;
                                             total += itemCost;
 

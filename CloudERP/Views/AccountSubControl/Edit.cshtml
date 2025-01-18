@@ -26,16 +26,16 @@
         <div class="form-group">
             @Html.LabelFor(model => model.AccountSubControl.AccountControlID, Resources.Account.SelectControlAccount.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-5">
-                @Html.DropDownListFor(model => model.AccountControlID, Model.AccountControlList, Resources.Account.ControlAccount.ToString(), new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.AccountControlID, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(model => model.AccountSubControl.AccountControlID, Model.AccountControlList, Resources.Account.ControlAccount.ToString(), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.AccountSubControl.AccountControlID, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.AccountSubControl.AccountSubControlName, Resources.Account.NewAccountSubControlName.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-5">
-                @Html.EditorFor(model => model.AccountSubControlName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.AccountSubControlName, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.AccountSubControl.AccountSubControlName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.AccountSubControl.AccountSubControlName, "", new { @class = "text-danger" })
             </div>
         </div>
 

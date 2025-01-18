@@ -130,6 +130,7 @@ namespace CloudERP.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> EmployeeSalary(SalaryMV salary)
         {
             Session["SalaryMessage"] = string.Empty;
@@ -169,6 +170,7 @@ namespace CloudERP.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> EmployeeSalaryConfirm(SalaryMV salaryMV)
         {
             if (!_sessionHelper.IsAuthenticated)

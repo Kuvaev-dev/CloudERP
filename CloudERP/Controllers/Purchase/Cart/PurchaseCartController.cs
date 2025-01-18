@@ -77,6 +77,7 @@ namespace CloudERP.Controllers
 
         // POST: PurchaseCart/AddItem
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddItem(int PID, int Qty, float Price)
         {
             if (!_sessionHelper.IsAuthenticated)
@@ -118,6 +119,7 @@ namespace CloudERP.Controllers
 
         // POST: PurchaseCart/GetProduct
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> GetProduct()
         {
             try
@@ -165,6 +167,7 @@ namespace CloudERP.Controllers
 
         // POST: PurchaseCart/CancelPurchase
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> CancelPurchase()
         {
             if (!_sessionHelper.IsAuthenticated)
@@ -217,6 +220,7 @@ namespace CloudERP.Controllers
 
         // POST: PurchaseCart/PurchaseConfirm
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> PurchaseConfirm(FormCollection collection)
         {
             if (!_sessionHelper.IsAuthenticated)

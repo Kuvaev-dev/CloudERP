@@ -32,10 +32,10 @@
                     @foreach (var item in Model)
                     {
                         //!!!!!!!!
-                        ViewBag.Title = Resources.Sale.SaleInvoiceNo + item.tblCustomerInvoice.InvoiceNo;
+                        ViewBag.Title = Resources.Sale.SaleInvoiceNo + item.CustomerInvoice.InvoiceNo;
                         int qty = 0;
                         double itemCost = 0;
-                        qty = item.SaleQuantity - item.tblCustomerReturnInvoiceDetail.Where(q => q.ProductID == item.ProductID).Sum(q => q.SaleReturnQuantity);
+                        qty = item.SaleQuantity - item.CustomerReturnInvoiceDetail.Where(q => q.ProductID == item.ProductID).Sum(q => q.SaleReturnQuantity);
                         itemCost = qty * item.SaleUnitPrice;
                         total += itemCost;
 
@@ -75,7 +75,7 @@
 
     foreach (var item in Model)
     {
-        if (item.tblCustomerReturnInvoiceDetail.Where(s => s.CustomerInvoiceID == item.CustomerInvoiceID).FirstOrDefault() != null)
+        if (item.CustomerReturnInvoiceDetail.Where(s => s.CustomerInvoiceID == item.CustomerInvoiceID).FirstOrDefault() != null)
         {
             double returnTotal = 0;
 
@@ -101,7 +101,7 @@
                                 </th>
                             </tr>
 
-                            @foreach (var itemProduct in item.tblCustomerReturnInvoiceDetail)
+                            @foreach (var itemProduct in item.CustomerReturnInvoiceDetail)
                             {
                                 // !!!!
                                 int qty = 0;

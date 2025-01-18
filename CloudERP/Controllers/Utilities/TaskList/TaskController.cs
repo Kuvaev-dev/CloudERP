@@ -1,4 +1,5 @@
 ﻿using CloudERP.Helpers;
+using CloudERP.Models;
 using Domain.Models;
 using Domain.RepositoryAccess;
 using System;
@@ -10,14 +11,17 @@ namespace CloudERP.Controllers
     public class TaskController : Controller
     {
         private readonly ITaskRepository _taskRepository;
+        private readonly IEmployeeRepository _employeeRepository;
         private readonly SessionHelper _sessionHelper;
 
         public TaskController(
             ITaskRepository taskRepository, 
-            SessionHelper sessionHelper)
+            SessionHelper sessionHelper,
+            IEmployeeRepository employeeRepository)
         {
             _taskRepository = taskRepository ?? throw new ArgumentNullException(nameof(ITaskRepository));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _employeeRepository = employeeRepository;
         }
 
         public async Task<ActionResult> Index()
@@ -85,6 +89,38 @@ namespace CloudERP.Controllers
                 TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
+        }
+
+        public async Task<ActionResult> AssignTask(int branchId)
+        {
+            var employees = await _employeeRepository.GetEmployeesForTaskAssignmentAsync(branchId);
+            var model = new TaskAssignmentVM
+            {
+                AvailableEmployees = employees,
+                BranchID = branchId
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AssignTask(TaskModel taskModel)
+        {
+            if (ModelState.IsValid)
+            {
+                await _taskRepository.AddAsync(taskModel);
+                return View();
+            }
+
+            var employees = await _employeeRepository.GetEmployeesForTaskAssignmentAsync(taskModel.BranchID);
+            var model = new TaskAssignmentVM
+            {
+                AvailableEmployees = employees,
+                TaskModel = taskModel,
+                BranchID = taskModel.BranchID
+            };
+
+            return View(model);
         }
 
         public async Task<ActionResult> Edit(int id)

@@ -64,7 +64,7 @@
                                 @Html.DisplayFor(modelItem => item.IsActive)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.tblUserType.UserType)
+                                @Html.DisplayFor(modelItem => item.UserTypeName)
                             </td>
                             <td>
                                 @Html.ActionLink(Resources.Common.Edit.ToString(), "Edit", new { id = item.UserID }, new { @class = "btn btn-primary" })
