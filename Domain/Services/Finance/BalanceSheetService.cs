@@ -41,15 +41,15 @@ namespace Domain.Services
 
                 if (AccountHead != null && AccountHead.AccountHeadDetails != null)
                 {
-                    if (HeadID == 3) // Total Assets
+                    if (HeadID == 2) // Total Assets
                     {
                         TotalAssets = await _balanceSheetRepository.GetAccountTotalAmountAsync(companyId, branchId, financialYearId, HeadID);
                     }
-                    else if (HeadID == 4) // Total Liabilities
+                    else if (HeadID == 3) // Total Liabilities
                     {
                         TotalLiabilities = await _balanceSheetRepository.GetAccountTotalAmountAsync(companyId, branchId, financialYearId, HeadID);
                     }
-                    else if (HeadID == 7) // Total Owner Equity
+                    else if (HeadID == 4) // Total Owner Equity
                     {
                         TotalOwnerEquity = await _balanceSheetRepository.GetAccountTotalAmountAsync(companyId, branchId, financialYearId, HeadID);
                     }

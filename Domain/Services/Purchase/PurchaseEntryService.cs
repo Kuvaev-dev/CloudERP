@@ -246,7 +246,7 @@ namespace Domain.Services.Purchase
             string successMessage = Localization.Localization.ReturnPurchaseSuccess;
 
             // Credit Entry Return Purchase
-            // 5 - Return Purchase
+            // 5 - Purchase Return
             var returnPurchaseAccount = await _accountSettingRepository.GetByActivityAsync(5, CompanyID, BranchID);
             if (returnPurchaseAccount == null)
             {

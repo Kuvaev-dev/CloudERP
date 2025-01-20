@@ -1,22 +1,22 @@
 ﻿using DatabaseAccess;
+using DatabaseAccess.Helpers;
+using DatabaseAccess.Adapters;
+using DatabaseAccess.Services;
 using DatabaseAccess.Repositories;
-using System.Web.Mvc;
+using Domain.Facades;
+using Domain.Services;
+using Domain.Interfaces;
+using Domain.Services.Sale;
+using Domain.Services.Purchase;
+using Domain.RepositoryAccess;
+using CloudERP.Facades;
+using CloudERP.Factories;
 using Unity.AspNet.Mvc;
 using Unity;
 using Unity.Injection;
 using System.Web;
-using Domain.RepositoryAccess;
-using Domain.Services;
-using DatabaseAccess.Services;
-using DatabaseAccess.Helpers;
+using System.Web.Mvc;
 using System.Configuration;
-using Domain.Services.Purchase;
-using Domain.Services.Sale;
-using DatabaseAccess.Adapters;
-using Domain.Facades;
-using CloudERP.Facades;
-using CloudERP.Factories;
-using Domain.Interfaces;
 
 namespace CloudERP.Helpers
 {
@@ -27,6 +27,11 @@ namespace CloudERP.Helpers
             #region DbContext
             // Main DB Context
             container.RegisterType<CloudDBEntities>();
+            #endregion
+
+            #region Providers
+            // DB Connection String
+            container.RegisterType<IConnectionStringProvider, WebConfigConnectionStringProvider>();
             #endregion
 
             #region Helpers
@@ -162,11 +167,6 @@ namespace CloudERP.Helpers
             // File Upload
             container.RegisterType<IFile, HttpPostedFileAdapter>();
             container.RegisterType<IFileAdapterFactory, FileAdapterFactory>();
-            #endregion
-
-            #region Providers
-            // DB Connection String
-            container.RegisterType<IConnectionStringProvider, WebConfigConnectionStringProvider>();
             #endregion
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));

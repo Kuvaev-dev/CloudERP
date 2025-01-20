@@ -252,8 +252,8 @@ namespace Domain.Services.Sale
                     string payInvoiceNo = "RIP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
 
                     // Credit Entry Return Sale Payment Paid
-                    // 15 - Sale Return Payment Paid
-                    returnSaleAccount = await _saleEntryFacade.AccountSettingRepository.GetByActivityAsync(15, CompanyID, BranchID);
+                    // 14 - Sale Return Payment Paid
+                    returnSaleAccount = await _saleEntryFacade.AccountSettingRepository.GetByActivityAsync(14, CompanyID, BranchID);
                     if (returnSaleAccount == null)
                     {
                         return Localization.Localization.AccountSettingsForSaleReturnPaymentPaidNotFound;
@@ -270,8 +270,8 @@ namespace Domain.Services.Sale
                         $"{Localization.Localization.ReturnSalePaymentPaidTo} " + Customername);
 
                     // Debit Entry Return Sale Payment Success
-                    // 16 - Sale Return Payment Succeed
-                    returnSaleAccount = await _saleEntryFacade.AccountSettingRepository.GetByActivityAsync(16, CompanyID, BranchID);
+                    // 15 - Sale Return Payment Succeed
+                    returnSaleAccount = await _saleEntryFacade.AccountSettingRepository.GetByActivityAsync(15, CompanyID, BranchID);
                     if (returnSaleAccount == null)
                     {
                         return Localization.Localization.AccountSettingsForSalePaymentSuccessNotFound;
@@ -317,8 +317,8 @@ namespace Domain.Services.Sale
                 string transactionTitle;
 
                 // Credit Entry Return Sale Payment Paid
-                // 15 - Sale Return Payment Paid
-                var returnSaleAccount = await _saleEntryFacade.AccountSettingRepository.GetByActivityAsync(16, CompanyID, BranchID);
+                // 14 - Sale Return Payment Paid
+                var returnSaleAccount = await _saleEntryFacade.AccountSettingRepository.GetByActivityAsync(14, CompanyID, BranchID);
                 if (returnSaleAccount == null)
                 {
                     return Localization.Localization.AccountSettingsForSaleReturnPaymentPaidNotFound;
@@ -337,8 +337,8 @@ namespace Domain.Services.Sale
                     transactionTitle);
 
                 // Debit Entry Return Sale Payment Success
-                // 16 - Sale Return Payment Succeed
-                returnSaleAccount = await _saleEntryFacade.AccountSettingRepository.GetByActivityAsync(16, CompanyID, BranchID);
+                // 15 - Sale Return Payment Succeed
+                returnSaleAccount = await _saleEntryFacade.AccountSettingRepository.GetByActivityAsync(15, CompanyID, BranchID);
                 if (returnSaleAccount == null)
                 {
                     return Localization.Localization.AccountSettingsForSaleReturnPaymentSuccessNotFound;
