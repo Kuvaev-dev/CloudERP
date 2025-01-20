@@ -11,5 +11,8 @@ namespace Domain.RepositoryAccess
         Task AddAsync(SupportTicket ticket);
         Task UpdateAsync(SupportTicket ticket);
         Task ResolveAsync(int id);
+        Task<int> GetTotalSupportTicketsByCompany(int companyId);
+        Task<int> GetTotalResolvedSupportTicketsByCompany(int companyId);
+        Task<int> GetTotalPendingSupportTicketsByCompany(int companyId);
     }
 }

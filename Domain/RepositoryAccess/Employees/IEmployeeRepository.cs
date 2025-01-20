@@ -17,5 +17,8 @@ namespace Domain.RepositoryAccess
         Task AddAsync(Employee employee);
         Task UpdateAsync(Employee employee);
         Task<bool> IsFirstLoginAsync(Employee employee);
+        Task<int> GetCountByCompanyAsync(int companyId);
+        Task<int> GetMonthNewEmployeesCountByCompanyAsync(int companyId);
+        Task<int> GetYearNewEmployeesCountByCompanyAsync(int companyId);
     }
 }

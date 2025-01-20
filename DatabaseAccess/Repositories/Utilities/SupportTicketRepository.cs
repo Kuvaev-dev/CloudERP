@@ -103,5 +103,20 @@ namespace DatabaseAccess.Repositories
                 await _dbContext.SaveChangesAsync();
             }
         }
+
+        public Task<int> GetTotalSupportTicketsByCompany(int companyId)
+        {
+            return _dbContext.tblSupportTicket.CountAsync(t => t.CompanyID == companyId);
+        }
+
+        public Task<int> GetTotalResolvedSupportTicketsByCompany(int companyId)
+        {
+            return _dbContext.tblSupportTicket.CountAsync(t => t.CompanyID == companyId && t.IsResolved);
+        }
+
+        public Task<int> GetTotalPendingSupportTicketsByCompany(int companyId)
+        {
+            return _dbContext.tblSupportTicket.CountAsync(t => t.CompanyID == companyId && !t.IsResolved);
+        }
     }
 }

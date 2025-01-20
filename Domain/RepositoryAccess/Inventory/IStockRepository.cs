@@ -11,5 +11,8 @@ namespace Domain.RepositoryAccess
         Task<Stock> GetByProductNameAsync(int companyID, int branchID, string productName);
         Task AddAsync(Stock stock);
         Task UpdateAsync(Stock stock);
+        Task<int> GetTotalStockItemsByCompanyAsync(int companyID);
+        Task<int> GetTotalAvaliableItemsByCompanyAsync(int companyID);
+        Task<int> GetTotalExpiredItemsByCompanyAsync(int companyID);
     }
 }

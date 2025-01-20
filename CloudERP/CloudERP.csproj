@@ -783,6 +783,7 @@
     <Compile Include="Controllers\Company\CompanyController.cs" />
     <Compile Include="Controllers\Company\CompanyEmployeeController.cs" />
     <Compile Include="Controllers\Company\CompanyRegistrationController.cs" />
+    <Compile Include="Controllers\User\Analytics\AnalyticsController.cs" />
     <Compile Include="Controllers\User\Stuff\CustomerController.cs" />
     <Compile Include="Controllers\User\Analytics\EmployeeStatisticsController.cs" />
     <Compile Include="Controllers\General\EPController.cs" />
@@ -3590,6 +3591,7 @@
     <Content Include="Views\Stock\ProductQuality.cshtml" />
     <Content Include="Views\Branch\BranchesMap.cshtml" />
     <Content Include="Views\Task\AssignTask.cshtml" />
+    <Content Include="Views\Analytics\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

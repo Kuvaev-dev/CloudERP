@@ -1,0 +1,88 @@
+﻿@model Domain.Models.AnalyticsModel
+@{
+    ViewBag.Title = "Analytics";
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4">System Analytics</h1>
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">Users Activity</div>
+                <div class="card-body">
+                    <canvas id="usersChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Склад -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-info text-white">Stock</div>
+                <div class="card-body">
+                    <canvas id="stockChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <!-- Поддержка -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-secondary text-white">Support</div>
+                <div class="card-body">
+                    <canvas id="supportChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const chartData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.ChartData));
+
+    // Users
+    const usersCtx = document.getElementById('usersChart').getContext('2d');
+    new Chart(usersCtx, {
+        type: 'bar',
+        data: {
+            labels: ['All', 'New in a Month', 'New'],
+            datasets: [{
+                label: 'Users',
+                data: [chartData.Users.Total, chartData.Users.NewInAMonth, chartData.Users.NewInAYear],
+                backgroundColor: ['#007bff', '#28a745', '#ffc107']
+            }]
+        }
+    });
+
+    // Stock
+    const stockCtx = document.getElementById('stockChart').getContext('2d');
+    new Chart(stockCtx, {
+        type: 'pie',
+        data: {
+            labels: ['All', 'In Stock'],
+            datasets: [{
+                label: 'Stock',
+                data: [chartData.Stock.TotalItems, chartData.Stock.Available, chartData.Stock.Expired],
+                backgroundColor: ['#17a2b8', '#6c757d']
+            }]
+        }
+    });
+
+    // Support
+    const supportCtx = document.getElementById('supportChart').getContext('2d');
+    new Chart(supportCtx, {
+        type: 'polarArea',
+        data: {
+            labels: ['All', 'Resolved', 'Pending'],
+            datasets: [{
+                label: 'Support',
+                data: [chartData.Support.TotalTickets, chartData.Support.Resolved, chartData.Support.Pending],
+                backgroundColor: ['#6c757d', '#28a745', '#ffc107']
+            }]
+        }
+    });
+</script>

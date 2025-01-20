@@ -271,5 +271,30 @@ namespace DatabaseAccess.Repositories
                 UserID = entity.UserID
             };
         }
+
+        public Task<int> GetCountByCompanyAsync(int companyId)
+        {
+            return _dbContext.tblEmployee
+                .Where(e => e.CompanyID == companyId)
+                .CountAsync();
+        }
+
+        public Task<int> GetMonthNewEmployeesCountByCompanyAsync(int companyId)
+        {
+            return _dbContext.tblEmployee
+                .Where(e => e.CompanyID == companyId 
+                         && e.RegistrationDate.HasValue 
+                         && e.RegistrationDate.Value.Date == DateTime.Now.Date)
+                .CountAsync();
+        }
+
+        public Task<int> GetYearNewEmployeesCountByCompanyAsync(int companyId)
+        {
+            return _dbContext.tblEmployee
+                .Where(e => e.CompanyID == companyId
+                         && e.RegistrationDate.HasValue
+                         && e.RegistrationDate.Value.Year == DateTime.Now.Year)
+                .CountAsync();
+        }
     }
 }

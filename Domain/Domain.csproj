@@ -124,6 +124,7 @@
     <Compile Include="Models\Suppliers\SupplierReturnInvoice.cs" />
     <Compile Include="Models\Suppliers\SupplierReturnInvoiceDetail.cs" />
     <Compile Include="Models\Suppliers\SupplierReturnPayment.cs" />
+    <Compile Include="Models\Utils\AnalyticsModel.cs" />
     <Compile Include="Models\Utils\SupportTicket.cs" />
     <Compile Include="Models\Utils\TaskModel.cs" />
     <Compile Include="Models\Users\User.cs" />
