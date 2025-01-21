@@ -148,11 +148,11 @@
     <Compile Include="Repositories\Customers\CustomerInvoiceDetailRepository.cs" />
     <Compile Include="Repositories\Finance\LedgerRepository.cs" />
     <Compile Include="Repositories\Employees\PayrollRepository.cs" />
-    <Compile Include="Repositories\Inventory\PurchaseCartDetailRepository.cs" />
-    <Compile Include="Repositories\Inventory\PurchaseRepository.cs" />
+    <Compile Include="Repositories\Purchase\PurchaseCartDetailRepository.cs" />
+    <Compile Include="Repositories\Purchase\PurchaseRepository.cs" />
     <Compile Include="Repositories\Employees\SalaryTransactionRepository.cs" />
-    <Compile Include="Repositories\Inventory\SaleCartDetailRepository.cs" />
-    <Compile Include="Repositories\Inventory\SaleRepository.cs" />
+    <Compile Include="Repositories\Sale\SaleCartDetailRepository.cs" />
+    <Compile Include="Repositories\Sale\SaleRepository.cs" />
     <Compile Include="Repositories\Inventory\StockRepository.cs" />
     <Compile Include="Repositories\Suppliers\SupplierInvoiceDetailRepository.cs" />
     <Compile Include="Repositories\Suppliers\SupplierInvoiceRepository.cs" />
