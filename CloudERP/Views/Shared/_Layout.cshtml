@@ -139,12 +139,26 @@
                             }
                         </div>
                     </li>
+                    <!-- START Currency Dropdown -->
+                    <li class="nav-item dropdown" id="currencyDropdown">
+                        <form method="post" asp-action="SetCurrency" asp-controller="Currency">
+                            <select id="currencySelect" class="form-control" name="currencyCode" onchange="this.form.submit()">
+                                @foreach (var currency in ViewBag.Currencies)
+                                {
+                                    <option value="@currency.Code" @(currency.Code == (Session["SelectedCurrency"]?.ToString()) ? "selected" : "")>
+                                        @currency.Name (@currency.Code)
+                                    </option>
+                                }
+                            </select>
+                        </form>
+                    </li>
+                    <!-- END Currency Dropdown -->
+                    <!-- END Language list -->
                     <li class="nav-item" id="step7">
                         <div class="nav-link container">
                             <i class="bi bi-person-walking" onclick="startTour()"></i>
                         </div>
                     </li>
-                    <!-- END Language list -->
                 </ul>
                 <!-- END Right Navbar-->
             </nav>

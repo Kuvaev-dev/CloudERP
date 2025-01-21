@@ -1,4 +1,5 @@
-﻿using Domain.RepositoryAccess;
+﻿using Domain.Interfaces;
+using Domain.RepositoryAccess;
 using Domain.Services;
 using System;
 

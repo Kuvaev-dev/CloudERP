@@ -67,6 +67,7 @@
     <Compile Include="Helpers\AllowedDomainsAttribute.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
     <Compile Include="Helpers\Result.cs" />
+    <Compile Include="Interfaces\ICurrencyService.cs" />
     <Compile Include="Localization\Localization.Designer.cs">
       <DependentUpon>Localization.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -111,8 +112,8 @@
     <Compile Include="Models\Finance\FinancialModels\SupplierReturnInvoiceModel.cs" />
     <Compile Include="Models\Finance\FinancialModels\TrialBalanceModel.cs" />
     <Compile Include="Models\Finance\FinancialYear.cs" />
-    <Compile Include="Models\Finance\ForecastData.cs" />
-    <Compile Include="Models\Finance\ForecastInputModel.cs" />
+    <Compile Include="Models\Finance\Forecasting\ForecastData.cs" />
+    <Compile Include="Models\Finance\Forecasting\ForecastInputModel.cs" />
     <Compile Include="Models\Employees\Payroll.cs" />
     <Compile Include="Models\Inventory\PurchaseCartDetail.cs" />
     <Compile Include="Models\Inventory\SaleCartDetail.cs" />

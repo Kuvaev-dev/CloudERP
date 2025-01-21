@@ -779,6 +779,7 @@
     <Compile Include="Controllers\Financial\Reports\BalanceSheetController.cs" />
     <Compile Include="Controllers\Branch\BranchController.cs" />
     <Compile Include="Controllers\Branch\BranchEmployeeController.cs" />
+    <Compile Include="Controllers\Miscellaneous\CurrencyController.cs" />
     <Compile Include="Controllers\Stock\CategoryController.cs" />
     <Compile Include="Controllers\Company\CompanyController.cs" />
     <Compile Include="Controllers\Company\CompanyEmployeeController.cs" />
@@ -819,6 +820,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\CultureHelper.cs" />
+    <Compile Include="Helpers\CurrencyService.cs" />
     <Compile Include="Helpers\EmailService.cs" />
     <Compile Include="Helpers\SessionHelper.cs" />
     <Compile Include="Helpers\UnityConfig.cs" />
