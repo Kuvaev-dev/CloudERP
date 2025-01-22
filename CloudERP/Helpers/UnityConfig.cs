@@ -38,7 +38,7 @@ namespace CloudERP.Helpers
             // Session Helper
             container.RegisterFactory<SessionHelper>(c => new SessionHelper(new HttpSessionStateWrapper(HttpContext.Current.Session)));
             // Database Query Helper
-            container.RegisterType<DatabaseQuery>(new InjectionConstructor(ConfigurationManager.ConnectionStrings["CloudDBEntities"].ConnectionString));
+            container.RegisterType<DatabaseQuery>();
             // Branch Helper
             container.RegisterType<BranchHelper>();
             // Password Helper
@@ -159,6 +159,7 @@ namespace CloudERP.Helpers
             container.RegisterType<IPurchaseEntryService, PurchaseEntryService>();
             container.RegisterType<ISaleEntryService, SaleEntryService>();
             container.RegisterType<IFinancialForecaster, FinancialForecaster>();
+            container.RegisterType<ICurrencyService, CurrencyService>();
             #endregion
 
             #region Adapters

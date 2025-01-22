@@ -5,6 +5,9 @@ using System.Web.Mvc;
 using System.Web.Security;
 using System.Threading.Tasks;
 using CloudERP.Facades;
+using Domain.Interfaces;
+using System.Configuration;
+using System.Linq;
 
 namespace CloudERP.Controllers
 {
@@ -123,6 +126,10 @@ namespace CloudERP.Controllers
                     {
                         Session["StartTour"] = true;
                     }
+
+                    var rates = await _homeFacade.CurrencyService.GetExchangeRatesAsync(ConfigurationManager.AppSettings["DefaultCurrency"]);
+
+                    ViewBag.Currencies = rates.Keys.Select(k => new { Code = k, Name = k }).ToList();
 
                     return user.UserTypeID == 1 ? RedirectToAction("AdminMenuGuide", "Guide") : RedirectToAction("Index", "Home");
                 }

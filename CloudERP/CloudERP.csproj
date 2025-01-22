@@ -769,11 +769,11 @@
     <Compile Include="Controllers\Account\AccountHeadController.cs" />
     <Compile Include="Controllers\Account\AccountSettingController.cs" />
     <Compile Include="Controllers\Account\AccountSubControlController.cs" />
-    <Compile Include="Controllers\Miscellaneous\AddressController.cs" />
+    <Compile Include="Controllers\Utilities\API\AddressController.cs" />
     <Compile Include="Controllers\Financial\Reports\BalanceSheetController.cs" />
     <Compile Include="Controllers\Branch\BranchController.cs" />
     <Compile Include="Controllers\Branch\BranchEmployeeController.cs" />
-    <Compile Include="Controllers\Miscellaneous\CurrencyController.cs" />
+    <Compile Include="Controllers\Utilities\API\CurrencyController.cs" />
     <Compile Include="Controllers\Stock\CategoryController.cs" />
     <Compile Include="Controllers\Company\CompanyController.cs" />
     <Compile Include="Controllers\Company\CompanyEmployeeController.cs" />

@@ -146,7 +146,7 @@ namespace CloudERP.Controllers
                 var company = await _companyRepository.GetByIdAsync(id.Value);
                 if (company == null) return HttpNotFound();
 
-                return View(company);
+                return View(new CompanyMV { Company = company });
             }
             catch
             {

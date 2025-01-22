@@ -143,11 +143,14 @@
                     <li class="nav-item dropdown" id="currencyDropdown">
                         <form method="post" asp-action="SetCurrency" asp-controller="Currency">
                             <select id="currencySelect" class="form-control" name="currencyCode" onchange="this.form.submit()">
-                                @foreach (var currency in ViewBag.Currencies)
+                                @if (ViewBag.Currencies != null && ViewBag.Currencies.Count > 0)
                                 {
-                                    <option value="@currency.Code" @(currency.Code == (Session["SelectedCurrency"]?.ToString()) ? "selected" : "")>
-                                        @currency.Name (@currency.Code)
-                                    </option>
+                                    foreach (var currency in ViewBag.Currencies)
+                                    {
+                                        <option value="@currency.Code" @(currency.Code == (Session["SelectedCurrency"] as string) ? "selected" : "")>
+                                            @currency.Name (@currency.Code)
+                                        </option>
+                                    }
                                 }
                             </select>
                         </form>
@@ -232,7 +235,7 @@
                                         </li>
                                         <li>
                                             <a href="@Url.Action("Index", "Analytics")" title="Analytics" class="d-flex align-items-center">
-                                                <em class="bi bi-person-fill mr-1"></em>
+                                                <em class="bi bi-graph-up-arrow mr-1"></em>
                                                 <span class="align-middle">Analytics</span>
                                             </a>
                                         </li>
@@ -755,7 +758,6 @@
     <script src="~/Content/Template/vendor/jszip/dist/jszip.js"></script>
     <script src="~/Content/Template/vendor/pdfmake/build/pdfmake.js"></script>
     <script src="~/Content/Template/vendor/pdfmake/build/vfs_fonts.js"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/shepherd.js/8.0.1/js/shepherd.min.js"></script>
     <!-- Themes-->
     @*TODO: Dark Theme

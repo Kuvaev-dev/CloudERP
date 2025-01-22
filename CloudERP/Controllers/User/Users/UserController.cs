@@ -126,6 +126,11 @@ namespace CloudERP.Controllers
                 var user = await _userRepository.GetByIdAsync(id);
                 if (user == null) return HttpNotFound();
 
+                var userTypes = await _userTypeRepository.GetAllAsync();
+                if (userTypes == null) return HttpNotFound();
+
+                ViewBag.UserTypeList = new SelectList(userTypes, "UserTypeId", "UserTypeName", user.UserTypeID);
+
                 return View(user);
             }
             catch (Exception ex)

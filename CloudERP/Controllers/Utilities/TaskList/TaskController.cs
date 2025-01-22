@@ -1,5 +1,6 @@
 ﻿using CloudERP.Helpers;
 using CloudERP.Models;
+using DatabaseAccess.Repositories;
 using Domain.Models;
 using Domain.RepositoryAccess;
 using System;
@@ -79,6 +80,10 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    model.CompanyID = _sessionHelper.CompanyID;
+                    model.BranchID = _sessionHelper.BranchID;
+                    model.UserID = _sessionHelper.UserID;
+
                     await _taskRepository.AddAsync(model);
                     return RedirectToAction("Index");
                 }
@@ -131,7 +136,7 @@ namespace CloudERP.Controllers
             try
             {
                 var task = await _taskRepository.GetByIdAsync(id);
-                if (task == null) return HttpNotFound();
+                if (task == null) return RedirectToAction("EP404", "EP");
 
                 return View(task);
             }
@@ -165,6 +170,28 @@ namespace CloudERP.Controllers
             }
         }
 
+        public async Task<ActionResult> Complete(int id)
+        {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            try
+            {
+                var task = await _taskRepository.GetByIdAsync(id);
+                if (task == null) return RedirectToAction("EP404", "EP");
+                task.IsCompleted = true;
+
+                await _taskRepository.UpdateAsync(task);
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
+        }
+
         public async Task<ActionResult> Delete(int id)
         {
             if (!_sessionHelper.IsAuthenticated)
@@ -173,7 +200,7 @@ namespace CloudERP.Controllers
             try
             {
                 var task = await _taskRepository.GetByIdAsync(id);
-                if (task == null) return HttpNotFound();
+                if (task == null) return RedirectToAction("EP404", "EP");
 
                 return View(task);
             }

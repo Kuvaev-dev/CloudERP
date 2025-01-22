@@ -282,9 +282,9 @@ namespace DatabaseAccess.Repositories
         public Task<int> GetMonthNewEmployeesCountByCompanyAsync(int companyId)
         {
             return _dbContext.tblEmployee
-                .Where(e => e.CompanyID == companyId 
-                         && e.RegistrationDate.HasValue 
-                         && e.RegistrationDate.Value.Date == DateTime.Now.Date)
+                .Where(e => e.CompanyID == companyId
+                         && e.RegistrationDate.HasValue
+                         && DbFunctions.TruncateTime(e.RegistrationDate.Value) == DbFunctions.TruncateTime(DateTime.Now))
                 .CountAsync();
         }
 

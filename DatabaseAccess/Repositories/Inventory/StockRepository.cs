@@ -137,25 +137,31 @@ namespace DatabaseAccess.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public Task<int> GetTotalStockItemsByCompanyAsync(int companyID)
+        public async Task<int> GetTotalStockItemsByCompanyAsync(int companyID)
         {
-            return _dbContext.tblStock
+            return await _dbContext.tblStock
                 .Where(s => s.CompanyID == companyID)
-                .SumAsync(s => s.Quantity);
+                .Select(s => s.Quantity)
+                .DefaultIfEmpty(0)
+                .SumAsync();
         }
 
-        public Task<int> GetTotalAvaliableItemsByCompanyAsync(int companyID)
+        public async Task<int> GetTotalAvaliableItemsByCompanyAsync(int companyID)
         {
-            return _dbContext.tblStock
+            return await _dbContext.tblStock
                 .Where(s => s.CompanyID == companyID && s.IsActive == true)
-                .SumAsync(s => s.Quantity);
+                .Select(s => s.Quantity)
+                .DefaultIfEmpty(0)
+                .SumAsync();
         }
 
-        public Task<int> GetTotalExpiredItemsByCompanyAsync(int companyID)
+        public async Task<int> GetTotalExpiredItemsByCompanyAsync(int companyID)
         {
-            return _dbContext.tblStock
+            return await _dbContext.tblStock
                 .Where(s => s.CompanyID == companyID && s.ExpiryDate < DateTime.Now)
-                .SumAsync(s => s.Quantity);
+                .Select(s => s.Quantity)
+                .DefaultIfEmpty(0)
+                .SumAsync();
         }
     }
 }

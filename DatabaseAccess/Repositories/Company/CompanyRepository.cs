@@ -49,7 +49,6 @@ namespace DatabaseAccess.Repositories
         {
             var entity = new tblCompany
             {
-                CompanyID = company.CompanyID,
                 Name = company.Name,
                 Logo = company.Logo,
                 Description = company.Description
