@@ -73,7 +73,7 @@ namespace DatabaseAccess.Repositories
 
         public async Task<Company> GetByNameAsync(string name)
         {
-            var entity = await _dbContext.tblCompany.FindAsync(name);
+            var entity = await _dbContext.tblCompany.FirstOrDefaultAsync(c => c.Name == name);
 
             return entity == null ? null : new Company
             {

@@ -8,9 +8,11 @@ namespace Domain.Models
         public int CustomerInvoiceDetailID { get; set; }
 
         [Required(ErrorMessage = "Customer Invoice ID is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Customer Invoice ID must be a positive integer.")]
         public int CustomerInvoiceID { get; set; }
 
         [Required(ErrorMessage = "Product ID is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Product ID must be a positive integer.")]
         public int ProductID { get; set; }
 
         [Required(ErrorMessage = "Sale Quantity is required.")]
@@ -31,7 +33,6 @@ namespace Domain.Models
         public string ProductName { get; set; }
 
         public CustomerInvoice CustomerInvoice { get; set; }
-
         public CustomerReturnInvoiceDetail CustomerReturnInvoiceDetail { get; set; }
     }
 }

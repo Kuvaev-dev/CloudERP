@@ -51,7 +51,7 @@ namespace CloudERP.Controllers
             {
                 if (await _companyRegistrationFacade.UserRepository.GetByEmailAsync(model.EmployeeEmail) != null)
                 {
-                    ModelState.AddModelError("", Resources.Messages.UsernameAlreadyExists);
+                    ModelState.AddModelError("", Resources.Messages.AlreadyExists);
                     return View(model);
                 }
 

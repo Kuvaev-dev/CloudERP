@@ -14,11 +14,10 @@ namespace Domain.Models
         [Range(0, int.MaxValue, ErrorMessage = "Code must be a positive number.")]
         public int Code { get; set; }
 
-        [Required(ErrorMessage = "UserID is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "UserID must be a positive integer.")]
+        [Required(ErrorMessage = "User ID is required.")]
+        [Range(0, int.MaxValue, ErrorMessage = "User ID must be a positive integer.")]
         public int UserID { get; set; }
 
-        [StringLength(100, ErrorMessage = "Full name cannot exceed 100 characters.")]
         public string FullName { get; set; }
     }
 }

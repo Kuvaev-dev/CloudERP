@@ -12,6 +12,7 @@ namespace Domain.Models
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Company ID is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Company ID must be a positive integer.")]
         public int CompanyID { get; set; }
 
         [Required(ErrorMessage = "Company Name is required.")]
@@ -19,6 +20,7 @@ namespace Domain.Models
         public string CompanyName { get; set; }
 
         [Required(ErrorMessage = "Branch ID is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Branch ID must be a positive integer.")]
         public int BranchID { get; set; }
 
         [Required(ErrorMessage = "Branch Name is required.")]

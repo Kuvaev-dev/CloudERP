@@ -30,6 +30,7 @@ namespace DatabaseAccess.Repositories
                 AccountControlID = ac.AccountControlID,
                 AccountControlName = ac.AccountControlName,
                 AccountHeadID = ac.AccountHeadID,
+                AccountHeadName = ac.tblAccountHead.AccountHeadName,
                 BranchID = ac.BranchID,
                 CompanyID = ac.CompanyID,
                 UserID = ac.UserID,

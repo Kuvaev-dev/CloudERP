@@ -48,7 +48,7 @@ namespace DatabaseAccess.Repositories
                 .Include(ac => ac.tblUser)
                 .Include(ac => ac.tblAccountControl)
                 .Include(ah => ah.tblAccountHead)
-                .FirstOrDefaultAsync(ac => ac.AccountControlID == id);
+                .FirstOrDefaultAsync(ac => ac.AccountSubControlID == id);
 
             return entity == null ? null : new AccountSubControl
             {
@@ -86,7 +86,6 @@ namespace DatabaseAccess.Repositories
         {
             var entity = await _dbContext.tblAccountSubControl.FindAsync(accountSubControl.AccountSubControlID);
 
-            entity.AccountSubControlID = accountSubControl.AccountSubControlID;
             entity.AccountSubControlName = accountSubControl.AccountSubControlName;
             entity.AccountControlID = accountSubControl.AccountControlID;
             entity.AccountHeadID = accountSubControl.AccountHeadID;

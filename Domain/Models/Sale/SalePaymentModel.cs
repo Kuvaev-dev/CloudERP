@@ -6,9 +6,11 @@ namespace Domain.Models.FinancialModels
     public class SalePaymentModel
     {
         [Required(ErrorMessage = "Customer Payment ID is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Customer Payment ID must be a positive integer.")]
         public int CustomerPaymentID { get; set; }
 
         [Required(ErrorMessage = "Customer ID is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Customer ID must be a positive integer.")]
         public int CustomerID { get; set; }
 
         [Required(ErrorMessage = "Customer Name is required.")]
@@ -23,12 +25,15 @@ namespace Domain.Models.FinancialModels
         public string CustomerAddress { get; set; }
 
         [Required(ErrorMessage = "Customer Invoice ID is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Customer Invoice ID must be a positive integer.")]
         public int CustomerInvoiceID { get; set; }
 
         [Required(ErrorMessage = "Company ID is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Company ID must be a positive integer.")]
         public int CompanyID { get; set; }
 
         [Required(ErrorMessage = "Branch ID is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Branch ID must be a positive integer.")]
         public int BranchID { get; set; }
 
         [Required(ErrorMessage = "Invoice Date is required.")]
@@ -57,6 +62,7 @@ namespace Domain.Models.FinancialModels
         public double RemainingBalance { get; set; }
 
         [Required(ErrorMessage = "User ID is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "User ID must be a positive integer.")]
         public int UserID { get; set; }
 
         [Required(ErrorMessage = "User Name is required.")]

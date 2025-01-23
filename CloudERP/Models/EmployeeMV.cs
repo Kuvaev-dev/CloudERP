@@ -9,7 +9,7 @@ namespace CloudERP.Models
 
         public Employee Employee
         {
-            get { return _employee ?? new Employee(); }
+            get { return _employee; }
             set { _employee = value; }
         }
 

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace CloudERP.Models
+﻿namespace CloudERP.Models
 {
     public class SalaryMV
     {
@@ -8,7 +6,6 @@ namespace CloudERP.Models
         public string EmployeeName { get; set; }
         public string TIN { get; set; }
         public string Designation { get; set; }
-        [DataType(DataType.Currency)]
         public double TransferAmount { get; set; }
         public string SalaryMonth { get; set; }
         public string SalaryYear { get; set; }

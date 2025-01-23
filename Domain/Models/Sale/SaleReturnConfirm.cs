@@ -12,6 +12,7 @@ namespace Domain.Models.FinancialModels
         public List<int> ReturnQty { get; set; }
 
         [Required(ErrorMessage = "Customer Invoice ID is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Customer Invoice ID must be a positive integer.")]
         public int CustomerInvoiceID { get; set; }
 
         [Required(ErrorMessage = "Payment status is required.")]

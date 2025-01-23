@@ -5,6 +5,7 @@ namespace Domain.Models.FinancialModels
     public class PurchaseReturnAmount
     {
         [Required(ErrorMessage = "Invoice ID is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Invoice ID must be a positive integer.")]
         public int InvoiceId { get; set; }
 
         [Required(ErrorMessage = "Previous Remaining Amount is required.")]

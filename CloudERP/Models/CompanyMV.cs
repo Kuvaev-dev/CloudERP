@@ -9,7 +9,7 @@ namespace CloudERP.Models
 
         public Company Company
         {
-            get { return _company ?? new Company(); }
+            get { return _company; }
             set { _company = value; }
         }
 

@@ -20,14 +20,17 @@ namespace Domain.Models
         [Required(ErrorMessage = "End Date is required.")]
         [DataType(DataType.Date, ErrorMessage = "Invalid End Date format.")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [Compare("StartDate", ErrorMessage = "End Date should be greater than or equal to Start Date.")]
         public DateTime EndDate { get; set; }
 
         [Required(ErrorMessage = "IsActive status is required.")]
         public bool IsActive { get; set; }
-
-        [Required(ErrorMessage = "User ID is required.")]
         public int UserID { get; set; }
-        public int UserName { get; set; }
+        public string UserName { get; set; }
+
+        public FinancialYear()
+        {
+            StartDate = DateTime.Now;
+            EndDate = DateTime.Now.AddDays(1);
+        }
     }
 }

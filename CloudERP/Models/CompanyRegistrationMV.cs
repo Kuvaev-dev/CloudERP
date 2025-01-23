@@ -14,7 +14,6 @@ namespace CloudERP.Models
         public bool UserStatus { get; set; }
 
         // Company Details
-        [Required(ErrorMessage = "*Required")]
         public string CName { get; set; }
 
         // Branch Details

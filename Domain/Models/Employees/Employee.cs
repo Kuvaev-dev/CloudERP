@@ -41,15 +41,12 @@ namespace Domain.Models
 
         public DateTime? RegistrationDate { get; set; }
 
-        [Required(ErrorMessage = "Company ID is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "Company ID must be a positive integer.")]
         public int CompanyID { get; set; }
 
-        [Required(ErrorMessage = "Branch ID is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "Branch ID must be a positive integer.")]
         public int BranchID { get; set; }
 
-        [Required(ErrorMessage = "Branch Type ID is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "Branch Type ID must be a positive integer.")]
         public int BranchTypeID { get; set; }
 

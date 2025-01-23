@@ -30,7 +30,8 @@ namespace DatabaseAccess.Repositories
                 StartDate = f.StartDate,
                 EndDate = f.EndDate,
                 IsActive = f.IsActive,
-                UserID = f.UserID
+                UserID = f.UserID,
+                UserName = f.tblUser.UserName
             });
         }
 

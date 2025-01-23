@@ -66,12 +66,12 @@ namespace CloudERP.Controllers
 
             try
             {
+                model.CompanyID = _sessionHelper.CompanyID;
+                model.BranchID = _sessionHelper.BranchID;
+                model.UserID = _sessionHelper.UserID;
+
                 if (ModelState.IsValid)
                 {
-                    model.CompanyID = _sessionHelper.CompanyID;
-                    model.BranchID = _sessionHelper.BranchID;
-                    model.UserID = _sessionHelper.UserID;
-
                     await _categoryRepository.AddAsync(model);
                     return RedirectToAction("Index");
                 }
@@ -114,12 +114,12 @@ namespace CloudERP.Controllers
 
             try
             {
+                model.CompanyID = _sessionHelper.CompanyID;
+                model.BranchID = _sessionHelper.BranchID;
+                model.UserID = _sessionHelper.UserID;
+
                 if (ModelState.IsValid)
                 {
-                    model.CompanyID = _sessionHelper.CompanyID;
-                    model.BranchID = _sessionHelper.BranchID;
-                    model.UserID = _sessionHelper.UserID;
-
                     await _categoryRepository.UpdateAsync(model);
                     return RedirectToAction("Index");
                 }

@@ -5,6 +5,7 @@ namespace Domain.Models
 {
     public class SupportTicket
     {
+        [Key]
         public int TicketID { get; set; }
 
         [Required(ErrorMessage = "Subject is required.")]

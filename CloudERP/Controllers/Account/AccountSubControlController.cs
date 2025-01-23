@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
@@ -76,21 +75,25 @@ namespace CloudERP.Controllers
 
             try
             {
-                var accountHead = await _accountHeadRepository.GetByIdAsync(model.AccountSubControl.AccountControlID);
-
                 model.AccountSubControl.BranchID = _sessionHelper.BranchID;
                 model.AccountSubControl.CompanyID = _sessionHelper.CompanyID;
                 model.AccountSubControl.UserID = _sessionHelper.UserID;
-                model.AccountControlList = null;
-                model.AccountSubControl.AccountHeadID = accountHead.AccountHeadID;
+                model.AccountControlList = await GetAccountControlList();
+
+                if (model.AccountSubControl.AccountControlID > 0)
+                {
+                    var accountControl = await _accountControlRepository.GetByIdAsync(model.AccountSubControl.AccountControlID);
+                    if (accountControl != null)
+                    {
+                        model.AccountSubControl.AccountHeadID = accountControl.AccountHeadID;
+                    }
+                }
 
                 if (ModelState.IsValid)
                 {
                     await _accountSubControlRepository.AddAsync(model.AccountSubControl);
                     return RedirectToAction("Index");
                 }
-
-                model.AccountControlList = await GetAccountControlList();
 
                 return View(model);
             }
@@ -111,10 +114,10 @@ namespace CloudERP.Controllers
                 if (id == null) return RedirectToAction("Index");
 
                 var accountControls = await _accountControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
-                if (accountControls == null) return HttpNotFound();
+                if (accountControls == null) return RedirectToAction("EP404", "EP");
 
                 var subControl = await _accountSubControlRepository.GetByIdAsync(id.Value);
-                if (subControl == null) return HttpNotFound();
+                if (subControl == null) return RedirectToAction("EP404", "EP");
 
                 AccountSubControlMV accountSubControlMV = new AccountSubControlMV
                 {
@@ -140,13 +143,25 @@ namespace CloudERP.Controllers
 
             try
             {
+                model.AccountSubControl.BranchID = _sessionHelper.BranchID;
+                model.AccountSubControl.CompanyID = _sessionHelper.CompanyID;
+                model.AccountSubControl.UserID = _sessionHelper.UserID;
+                model.AccountControlList = await GetAccountControlList();
+
+                if (model.AccountSubControl.AccountControlID > 0)
+                {
+                    var accountControl = await _accountControlRepository.GetByIdAsync(model.AccountSubControl.AccountControlID);
+                    if (accountControl != null)
+                    {
+                        model.AccountSubControl.AccountHeadID = accountControl.AccountHeadID;
+                    }
+                }
+
                 if (ModelState.IsValid)
                 {
                     await _accountSubControlRepository.UpdateAsync(model.AccountSubControl);
                     return RedirectToAction("Index");
                 }
-
-                model.AccountControlList = await GetAccountControlList();
 
                 return View(model);
             }
@@ -163,8 +178,8 @@ namespace CloudERP.Controllers
             return accountControls
                 .Select(ah => new SelectListItem
                 {
-                    Value = ah.AccountHeadID.ToString(),
-                    Text = ah.AccountHeadName
+                    Value = ah.AccountControlID.ToString(),
+                    Text = ah.AccountControlName
                 })
                 .ToList();
         }

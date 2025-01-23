@@ -7,7 +7,6 @@ namespace Domain.Models
         [Key]
         public int BranchID { get; set; }
 
-        [Required(ErrorMessage = "Branch Code (BrchID) is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "Branch Code (BrchID) must be a positive integer.")]
         public int BrchID { get; set; }
 
@@ -21,10 +20,7 @@ namespace Domain.Models
         [StringLength(200, ErrorMessage = "Branch Address cannot exceed 200 characters.")]
         public string BranchAddress { get; set; }
 
-        [Required(ErrorMessage = "Latitude is required.")]
         public double Latitude { get; set; }
-
-        [Required(ErrorMessage = "Longitude is required.")]
         public double Longitude { get; set; }
 
         [Required(ErrorMessage = "Company ID is required.")]

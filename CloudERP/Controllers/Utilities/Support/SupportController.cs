@@ -31,14 +31,14 @@ namespace CloudERP.Controllers
         {
             try
             {
+                model.CompanyID = _sessionHelper.CompanyID;
+                model.BranchID = _sessionHelper.BranchID;
+                model.UserID = _sessionHelper.UserID;
+                model.DateCreated = DateTime.Now;
+                model.IsResolved = false;
+
                 if (ModelState.IsValid)
                 {
-                    model.CompanyID = _sessionHelper.CompanyID;
-                    model.BranchID = _sessionHelper.BranchID;
-                    model.UserID = _sessionHelper.UserID;
-                    model.DateCreated = DateTime.Now;
-                    model.IsResolved = false;
-
                     await _supportTicketRepository.AddAsync(model);
                     ViewBag.Message = Resources.Messages.SupportRequestSubmitted;
 

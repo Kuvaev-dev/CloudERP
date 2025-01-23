@@ -6,6 +6,7 @@ namespace Domain.Models.FinancialModels
     public class PurchaseReturnConfirm
     {
         [Required(ErrorMessage = "Supplier Invoice ID is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Supplier Invoice ID must be a positive integer.")]
         public int SupplierInvoiceID { get; set; }
 
         [Required(ErrorMessage = "Payment status (IsPayment) is required.")]
@@ -24,6 +25,7 @@ namespace Domain.Models.FinancialModels
     public class ProductReturnDetail
     {
         [Required(ErrorMessage = "Product ID is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Product ID must be a positive integer.")]
         public int ProductID { get; set; }
 
         [Required(ErrorMessage = "Return quantity is required.")]

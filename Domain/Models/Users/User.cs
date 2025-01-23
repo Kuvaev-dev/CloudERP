@@ -5,6 +5,7 @@ namespace Domain.Models
 {
     public class User
     {
+        [Key]
         public int UserID { get; set; }
 
         [Required(ErrorMessage = "Full Name is required.")]
@@ -31,6 +32,7 @@ namespace Domain.Models
         public string Salt { get; set; }
 
         [Required(ErrorMessage = "User Type ID is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "User Type ID must be a positive integer.")]
         public int UserTypeID { get; set; }
 
         public bool IsActive { get; set; }

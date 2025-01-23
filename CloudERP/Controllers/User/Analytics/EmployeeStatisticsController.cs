@@ -22,6 +22,9 @@ namespace CloudERP.Controllers
         // GET: EmployeeStatistics
         public async Task<ActionResult> Index(DateTime? startDate, DateTime? endDate)
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
                 DateTime start = startDate ?? DateTime.Now.AddMonths(-1);

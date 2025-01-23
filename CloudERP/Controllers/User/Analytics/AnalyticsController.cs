@@ -28,6 +28,9 @@ namespace CloudERP.Controllers
 
         public async Task<ActionResult> Index()
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
                 var model = new AnalyticsModel

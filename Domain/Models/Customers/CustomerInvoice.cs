@@ -8,12 +8,15 @@ namespace Domain.Models
         public int CustomerInvoiceID { get; set; }
 
         [Required(ErrorMessage = "Customer ID is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Customer ID must be a positive integer.")]
         public int CustomerID { get; set; }
 
         [Required(ErrorMessage = "Company ID is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Company ID must be a positive integer.")]
         public int CompanyID { get; set; }
 
         [Required(ErrorMessage = "Branch ID is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Branch ID must be a positive integer.")]
         public int BranchID { get; set; }
 
         [Required(ErrorMessage = "Invoice Number is required.")]
@@ -36,6 +39,7 @@ namespace Domain.Models
         public string Description { get; set; }
 
         [Required(ErrorMessage = "User ID is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "User ID must be a positive integer.")]
         public int UserID { get; set; }
 
         public Company Company { get; set; }

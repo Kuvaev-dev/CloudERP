@@ -4,6 +4,7 @@ namespace Domain.Models
 {
     public class UserType
     {
+        [Key]
         public int UserTypeID { get; set; }
 
         [Required(ErrorMessage = "User Type Name is required.")]

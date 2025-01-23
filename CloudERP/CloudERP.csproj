@@ -3500,7 +3500,6 @@
     <Content Include="Views\AccountControl\Edit.cshtml" />
     <Content Include="Views\AccountControl\Index.cshtml" />
     <Content Include="Views\AccountSubControl\Create.cshtml" />
-    <Content Include="Views\AccountSubControl\Edit.cshtml" />
     <Content Include="Views\AccountSubControl\Index.cshtml" />
     <Content Include="Views\FinancialYear\Create.cshtml" />
     <Content Include="Views\FinancialYear\Edit.cshtml" />
@@ -3588,6 +3587,7 @@
     <Content Include="Views\Branch\BranchesMap.cshtml" />
     <Content Include="Views\Task\AssignTask.cshtml" />
     <Content Include="Views\Analytics\Index.cshtml" />
+    <Content Include="Views\AccountSubControl\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

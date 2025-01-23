@@ -54,12 +54,14 @@ namespace CloudERP.Controllers
 
             try
             {
+                model.UserID = _sessionHelper.UserID;
+
                 if (ModelState.IsValid)
                 {
-                    model.UserID = _sessionHelper.UserID;
                     await _accountHeadRepository.AddAsync(model);
                     return RedirectToAction("Index");
                 }
+
                 return View(model);
             }
             catch (Exception ex)
@@ -97,6 +99,8 @@ namespace CloudERP.Controllers
 
             try
             {
+                model.UserID = _sessionHelper.UserID;
+
                 if (ModelState.IsValid)
                 {
                     await _accountHeadRepository.UpdateAsync(model);

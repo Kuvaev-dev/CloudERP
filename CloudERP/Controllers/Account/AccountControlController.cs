@@ -70,13 +70,13 @@ namespace CloudERP.Controllers
 
             try
             {
+                model.AccountControl.BranchID = _sessionHelper.BranchID;
+                model.AccountControl.CompanyID = _sessionHelper.CompanyID;
+                model.AccountControl.UserID = _sessionHelper.UserID;
+                model.AccountHeadList = await GetAccountHeadList();
+
                 if (ModelState.IsValid)
                 {
-                    model.AccountControl.BranchID = _sessionHelper.BranchID;
-                    model.AccountControl.CompanyID = _sessionHelper.CompanyID;
-                    model.AccountControl.UserID = _sessionHelper.UserID;
-                    model.AccountHeadList = await GetAccountHeadList();
-
                     await _accountControlRepository.AddAsync(model.AccountControl);
                     return RedirectToAction("Index");
                 }

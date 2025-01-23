@@ -51,9 +51,6 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            if (!id.HasValue)
-                return RedirectToAction("EP500", "EP");
-
             try
             {
                 var (paymentHistory, returnDetails, remainingAmount) = await _purchasePaymentService.GetPaymentDetailsAsync(id.Value);
@@ -74,9 +71,6 @@ namespace CloudERP.Controllers
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
-
-            if (!id.HasValue)
-                return RedirectToAction("EP500", "EP");
 
             try
             {
@@ -100,9 +94,6 @@ namespace CloudERP.Controllers
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
-
-            if (!id.HasValue)
-                return RedirectToAction("EP500", "EP");
 
             try
             {

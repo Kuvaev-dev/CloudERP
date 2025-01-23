@@ -9,7 +9,7 @@ namespace CloudERP.Models
         private AccountSubControl _accountSubControl;
         public AccountSubControl AccountSubControl
         {
-            get { return _accountSubControl ?? new AccountSubControl(); }
+            get { return _accountSubControl; }
             set { _accountSubControl = value; }
         }
 

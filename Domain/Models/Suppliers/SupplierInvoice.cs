@@ -6,14 +6,17 @@ namespace Domain.Models
 {
     public class SupplierInvoice
     {
+        [Key]
         public int SupplierInvoiceID { get; set; }
 
         [Required(ErrorMessage = "Supplier ID is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Supplier ID must be a positive integer.")]
         public int SupplierID { get; set; }
 
         [Required(ErrorMessage = "Supplier Name is required.")]
         [StringLength(100, ErrorMessage = "Supplier Name cannot be longer than 100 characters.")]
         public string SupplierName { get; set; }
+
         [Required(ErrorMessage = "Supplier Address is required.")]
         [StringLength(100, ErrorMessage = "Supplier Address cannot be longer than 100 characters.")]
         public string SupplierAddress { get; set; }
@@ -27,6 +30,7 @@ namespace Domain.Models
         public string SupplierEmail { get; set; }
 
         [Required(ErrorMessage = "Company ID is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Company ID must be a positive integer.")]
         public int CompanyID { get; set; }
 
         [StringLength(250, ErrorMessage = "Company Logo cannot be longer than 250 characters.")]
@@ -37,6 +41,7 @@ namespace Domain.Models
         public string CompanyName { get; set; }
 
         [Required(ErrorMessage = "Branch ID is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Branch ID must be a positive integer.")]
         public int BranchID { get; set; }
 
         [StringLength(150, ErrorMessage = "Branch Name cannot be longer than 150 characters.")]
@@ -63,6 +68,7 @@ namespace Domain.Models
         public string Description { get; set; }
 
         [Required(ErrorMessage = "User ID is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "User ID must be a positive integer.")]
         public int UserID { get; set; }
 
         [Required(ErrorMessage = "User Name is required.")]

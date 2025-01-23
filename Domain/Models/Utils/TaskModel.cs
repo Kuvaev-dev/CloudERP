@@ -5,6 +5,7 @@ namespace Domain.Models
 {
     public class TaskModel
     {
+        [Key]
         public int TaskID { get; set; }
 
         [Required(ErrorMessage = "Title is required.")]

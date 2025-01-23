@@ -97,13 +97,12 @@ namespace DatabaseAccess.Repositories
         {
             var entity = await _dbContext.tblAccountSetting.FindAsync(accountSetting.AccountSettingID);
 
-            entity.AccountSettingID = entity.AccountSettingID;
-            entity.AccountHeadID = entity.AccountHeadID;
-            entity.AccountControlID = entity.AccountControlID;
-            entity.AccountSubControlID = entity.AccountSubControlID;
-            entity.AccountActivityID = entity.AccountActivityID;
-            entity.CompanyID = entity.CompanyID;
-            entity.BranchID = entity.BranchID;
+            entity.AccountHeadID = accountSetting.AccountHeadID;
+            entity.AccountControlID = accountSetting.AccountControlID;
+            entity.AccountSubControlID = accountSetting.AccountSubControlID;
+            entity.AccountActivityID = accountSetting.AccountActivityID;
+            entity.CompanyID = accountSetting.CompanyID;
+            entity.BranchID = accountSetting.BranchID;
 
             _dbContext.Entry(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
