@@ -37,16 +37,9 @@ namespace CloudERP.Controllers
             {
                 CustomerInvoice invoice;
 
-                if (Session["SaleInvoiceNo"] != null)
+                if (!string.IsNullOrEmpty(_sessionHelper.SaleInvoiceNo))
                 {
-                    if (!string.IsNullOrEmpty(_sessionHelper.SaleInvoiceNo))
-                    {
-                        invoice = await _customerInvoiceRepository.GetByInvoiceNoAsync(_sessionHelper.SaleInvoiceNo);
-                    }
-                    else
-                    {
-                        invoice = await _customerInvoiceRepository.GetByIdAsync(0);
-                    }
+                    invoice = await _customerInvoiceRepository.GetByInvoiceNoAsync(_sessionHelper.SaleInvoiceNo);
                 }
                 else
                 {

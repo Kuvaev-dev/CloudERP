@@ -1,7 +1,6 @@
 ﻿using CloudERP.Facades;
 using CloudERP.Helpers;
 using CloudERP.Models;
-using DatabaseAccess.Adapters;
 using Domain.Models;
 using Domain.Models.FinancialModels;
 using System;
@@ -14,6 +13,9 @@ namespace CloudERP.Controllers
     {
         private readonly SessionHelper _sessionHelper;
         private readonly CompanyEmployeeFacade _companyEmployeeFacade;
+
+        private const string DEFAULT_PHOTO_PATH = "~/Content/EmployeePhoto/Default/default.png";
+        private const string PHOTO_FOLDER_PATH = "~/Content/EmployeePhoto";
 
         public CompanyEmployeeController(
             SessionHelper sessionHelper, 
@@ -75,19 +77,17 @@ namespace CloudERP.Controllers
                 {
                     await _companyEmployeeFacade.EmployeeRepository.AddAsync(employee.Employee);
 
-                    var defaultPhotoPath = "~/Content/EmployeePhoto/Default/default.png";
                     string photoPath = null;
 
                     if (employee.LogoFile != null)
                     {
-                        var folder = "~/Content/EmployeePhoto";
                         var fileName = $"{employee.Employee.CompanyID}.jpg";
 
                         var fileAdapter = _companyEmployeeFacade.FileAdapterFactory.Create(employee.LogoFile);
-                        photoPath = _companyEmployeeFacade.FileService.UploadPhoto(fileAdapter, folder, fileName);
+                        photoPath = _companyEmployeeFacade.FileService.UploadPhoto(fileAdapter, PHOTO_FOLDER_PATH, fileName);
                     }
 
-                    employee.Employee.Photo = photoPath ?? _companyEmployeeFacade.FileService.SetDefaultPhotoPath(defaultPhotoPath);
+                    employee.Employee.Photo = photoPath ?? _companyEmployeeFacade.FileService.SetDefaultPhotoPath(DEFAULT_PHOTO_PATH);
 
                     await _companyEmployeeFacade.EmployeeRepository.UpdateAsync(employee.Employee);
 

@@ -100,10 +100,10 @@ namespace CloudERP.Controllers
                 if (id == null) return RedirectToAction("Index");
 
                 var accountHeads = await _accountHeadRepository.GetAllAsync();
-                if (accountHeads == null) return HttpNotFound();
+                if (accountHeads == null) return RedirectToAction("EP404", "EP");
 
                 var accountControl = await _accountControlRepository.GetByIdAsync(id.Value);
-                if (accountControl == null) return HttpNotFound();
+                if (accountControl == null) return RedirectToAction("EP404", "EP");
 
                 AccountControlMV accountControlMV = new AccountControlMV()
                 {

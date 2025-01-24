@@ -18,6 +18,9 @@ namespace CloudERP.Controllers
         private readonly IFileAdapterFactory _fileAdapterFactory;
         private readonly SessionHelper _sessionHelper;
 
+        private const string COMPANY_LOGO_PATH = "~/Content/CompanyLogo";
+        private const string DEFAULT_COMPANY_LOGO_PATH = "~/Content/CompanyLogo/erp-logo.png";
+
         public CompanyController(
             ICompanyRepository companyRepository, 
             IFileService fileService,
@@ -60,7 +63,7 @@ namespace CloudERP.Controllers
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
                 var company = await _companyRepository.GetByIdAsync(id.Value);
-                if (company == null) return HttpNotFound();
+                if (company == null) return RedirectToAction("EP404", "EP");
 
                 return View(company);
             }
@@ -104,18 +107,17 @@ namespace CloudERP.Controllers
                         return View(model);
                     }
 
-                    var folder = "~/Content/CompanyLogo";
                     var fileName = $"{model.Company.Name}.jpg";
 
                     if (model.LogoFile != null)
                     {
                         var fileAdapter = _fileAdapterFactory.Create(model.LogoFile);
 
-                        model.Company.Logo = _fileService.UploadPhoto(fileAdapter, folder, fileName);
+                        model.Company.Logo = _fileService.UploadPhoto(fileAdapter, COMPANY_LOGO_PATH, fileName);
                     }
                     else
                     {
-                        model.Company.Logo = _fileService.SetDefaultPhotoPath("~/Content/CompanyLogo/erp-logo.png");
+                        model.Company.Logo = _fileService.SetDefaultPhotoPath(DEFAULT_COMPANY_LOGO_PATH);
                     }
 
                     await _companyRepository.AddAsync(model.Company);
@@ -144,7 +146,7 @@ namespace CloudERP.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
                 var company = await _companyRepository.GetByIdAsync(id.Value);
-                if (company == null) return HttpNotFound();
+                if (company == null) return RedirectToAction("EP404", "EP");
 
                 return View(new CompanyMV { Company = company });
             }
@@ -169,11 +171,10 @@ namespace CloudERP.Controllers
                 {
                     if (model.LogoFile != null)
                     {
-                        var folder = "~/Content/CompanyLogo";
                         var fileName = $"{model.Company.CompanyID}.jpg";
 
                         var fileAdapter = _fileAdapterFactory.Create(model.LogoFile);
-                        var photoPath = _fileService.UploadPhoto(fileAdapter, folder, fileName);
+                        var photoPath = _fileService.UploadPhoto(fileAdapter, COMPANY_LOGO_PATH, fileName);
 
                         model.Company.Logo = photoPath ?? model.Company.Logo;
                     }

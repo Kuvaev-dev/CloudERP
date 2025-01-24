@@ -39,8 +39,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                if (employeeID == null)
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (employeeID == null) return RedirectToAction("EP404", "EP");
 
                 var employee = await _employeeRepository.GetByIdAsync(employeeID.Value);
                 if (employee == null)
@@ -137,8 +136,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                if (userID == null)
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (userID == null) return RedirectToAction("EP404", "EP");
 
                 var user = await _userRepository.GetByIdAsync(userID.Value);
                 if (user == null)

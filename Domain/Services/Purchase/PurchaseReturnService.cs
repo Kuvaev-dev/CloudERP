@@ -55,7 +55,7 @@ namespace Domain.Services.Purchase
                 {
                     BranchID = branchId,
                     CompanyID = companyId,
-                    Description = "Возврат покупки",
+                    Description = "Purchase Return",
                     InvoiceDate = DateTime.Now,
                     InvoiceNo = invoiceNo,
                     SupplierID = supplierID,
@@ -116,5 +116,4 @@ namespace Domain.Services.Purchase
             }
         }
     }
-
 }

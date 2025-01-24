@@ -1,5 +1,6 @@
 ﻿using Domain.Interfaces;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -8,6 +9,8 @@ namespace CloudERP.Helpers
 {
     public class CurrencyService : ICurrencyService
     {
+        private readonly string _apiUrl = ConfigurationManager.AppSettings["ExchangeRateApiUrl"];
+
         private readonly HttpClient _httpClient;
 
         public CurrencyService(HttpClient httpClient)
@@ -17,7 +20,7 @@ namespace CloudERP.Helpers
 
         public async Task<Dictionary<string, decimal>> GetExchangeRatesAsync(string baseCurrency = "USD")
         {
-            var apiUrl = $"https://api.exchangerate-api.com/v4/latest/{baseCurrency}";
+            var apiUrl = $"{_apiUrl}/latest/{baseCurrency}";
             var response = await _httpClient.GetAsync(apiUrl);
 
             if (!response.IsSuccessStatusCode)

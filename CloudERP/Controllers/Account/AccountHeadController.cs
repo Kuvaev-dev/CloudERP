@@ -79,7 +79,7 @@ namespace CloudERP.Controllers
             try
             {
                 var accountHead = await _accountHeadRepository.GetByIdAsync(id);
-                if (accountHead == null) return HttpNotFound();
+                if (accountHead == null) return RedirectToAction("EP404", "EP");
 
                 return View(accountHead);
             }

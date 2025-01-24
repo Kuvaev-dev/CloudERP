@@ -93,7 +93,7 @@ namespace CloudERP.Controllers
             try
             {
                 var category = await _categoryRepository.GetByIdAsync(id);
-                if (category == null) return HttpNotFound();
+                if (category == null) return RedirectToAction("EP404", "EP");
 
                 return View(category);
             }

@@ -91,7 +91,7 @@ namespace CloudERP.Controllers
             try
             {
                 var userType = await _userTypeRepository.GetByIdAsync(id);
-                if (userType == null) return HttpNotFound();
+                if (userType == null) return RedirectToAction("EP404", "EP");
 
                 return View(userType);
             }

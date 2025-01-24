@@ -83,12 +83,10 @@ namespace CloudERP.Controllers
 
             try
             {
-                if (id == null)
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null) return RedirectToAction("EP404", "EP");;
 
                 var supplier = await _supplierRepository.GetByIdAsync(id.Value);
-                if (supplier == null)
-                    return HttpNotFound();
+                if (supplier == null) return RedirectToAction("EP404", "EP");
 
                 return View(supplier);
             }
@@ -107,12 +105,10 @@ namespace CloudERP.Controllers
 
             try
             {
-                if (id == null)
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null) return RedirectToAction("EP404", "EP");;
 
                 var supplier = await _supplierRepository.GetByIdAsync(id.Value);
-                if (supplier == null)
-                    return HttpNotFound();
+                if (supplier == null) return RedirectToAction("EP404", "EP");
 
                 return View(supplier);
             }
@@ -148,17 +144,20 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var existingSupplier = await _supplierRepository.GetByNameAndContactAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID, model.SupplierName, model.SupplierConatctNo);
-                    if (existingSupplier == null)
-                    {
-                        await _supplierRepository.AddAsync(model);
+                    var existingSupplier = await _supplierRepository.GetByNameAndContactAsync(
+                        _sessionHelper.CompanyID,
+                        _sessionHelper.BranchID,
+                        model.SupplierName,
+                        model.SupplierConatctNo);
 
-                        return RedirectToAction("Index");
-                    }
-                    else
+                    if (existingSupplier != null)
                     {
                         ViewBag.Message = Resources.Messages.AlreadyExists;
+                        return View(model);
                     }
+
+                    await _supplierRepository.AddAsync(model);
+                    return RedirectToAction("Index");
                 }
 
                 return View(model);
@@ -178,12 +177,10 @@ namespace CloudERP.Controllers
 
             try
             {
-                if (id == null)
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null) return RedirectToAction("EP404", "EP");;
 
                 var supplier = await _supplierRepository.GetByIdAsync(id.Value);
-                if (supplier == null)
-                    return HttpNotFound();
+                if (supplier == null) return RedirectToAction("EP404", "EP");
 
                 return View(supplier);
             }
@@ -209,17 +206,20 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var existingSupplier = await _supplierRepository.GetByNameAndContactAsync(model.CompanyID, model.BranchID, model.SupplierName, model.SupplierConatctNo);
-                    if (existingSupplier == null || existingSupplier.SupplierID == model.SupplierID)
-                    {
-                        await _supplierRepository.UpdateAsync(model);
+                    var existingSupplier = await _supplierRepository.GetByNameAndContactAsync(
+                        model.CompanyID,
+                        model.BranchID,
+                        model.SupplierName,
+                        model.SupplierConatctNo);
 
-                        return RedirectToAction("Index");
-                    }
-                    else
+                    if (existingSupplier != null && existingSupplier.SupplierID != model.SupplierID)
                     {
                         ViewBag.Message = Resources.Messages.AlreadyExists;
+                        return View(model);
                     }
+
+                    await _supplierRepository.UpdateAsync(model);
+                    return RedirectToAction("Index");
                 }
 
                 return View(model);

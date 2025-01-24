@@ -65,7 +65,7 @@ namespace CloudERP.Controllers
             try
             {
                 var user = await _userRepository.GetByIdAsync(id);
-                if (user == null) return HttpNotFound();
+                if (user == null) return RedirectToAction("EP404", "EP");
 
                 return View(user);
             }
@@ -124,10 +124,10 @@ namespace CloudERP.Controllers
             try
             {
                 var user = await _userRepository.GetByIdAsync(id);
-                if (user == null) return HttpNotFound();
+                if (user == null) return RedirectToAction("EP404", "EP");
 
                 var userTypes = await _userTypeRepository.GetAllAsync();
-                if (userTypes == null) return HttpNotFound();
+                if (userTypes == null) return RedirectToAction("EP404", "EP");
 
                 ViewBag.UserTypeList = new SelectList(userTypes, "UserTypeId", "UserTypeName", user.UserTypeID);
 

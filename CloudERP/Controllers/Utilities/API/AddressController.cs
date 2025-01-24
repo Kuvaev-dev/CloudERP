@@ -8,6 +8,7 @@ namespace CloudERP.Controllers
     public class AddressController : Controller
     {
         private readonly string apiKey = System.Configuration.ConfigurationManager.AppSettings["GeoapifyApiKey"];
+        private readonly string apiUrl = System.Configuration.ConfigurationManager.AppSettings["GeoapifyApiUrl"];
 
         public async Task<ActionResult> Autocomplete(string query)
         {
@@ -15,7 +16,7 @@ namespace CloudERP.Controllers
             {
                 using (var client = new HttpClient())
                 {
-                    var response = await client.GetAsync($"https://api.geoapify.com/v1/geocode/autocomplete?text={query}&apiKey={apiKey}");
+                    var response = await client.GetAsync($"{apiUrl}/autocomplete?text={query}&apiKey={apiKey}");
                     if (response.IsSuccessStatusCode)
                     {
                         var content = await response.Content.ReadAsStringAsync();
@@ -41,7 +42,7 @@ namespace CloudERP.Controllers
             {
                 using (var client = new HttpClient())
                 {
-                    var response = await client.GetAsync($"https://api.geoapify.com/v1/geocode/reverse?lat={latitude}&lon={longitude}&apiKey={apiKey}");
+                    var response = await client.GetAsync($"{apiUrl}/reverse?lat={latitude}&lon={longitude}&apiKey={apiKey}");
                     if (response.IsSuccessStatusCode)
                     {
                         var content = await response.Content.ReadAsStringAsync();

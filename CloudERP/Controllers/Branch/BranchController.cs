@@ -14,6 +14,8 @@ namespace CloudERP.Controllers
         private readonly IBranchTypeRepository _branchTypeRepository;
         private readonly SessionHelper _sessionHelper;
 
+        private const int MAIN_BRANCH_TYPE_ID = 1;
+
         public BranchController(
             IBranchRepository branchRepository, 
             IBranchTypeRepository branchTypeRepository, 
@@ -32,7 +34,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var branches = _sessionHelper.BranchTypeID == 1
+                var branches = _sessionHelper.BranchTypeID == MAIN_BRANCH_TYPE_ID
                 ? await _branchRepository.GetByCompanyAsync(_sessionHelper.CompanyID)
                 : await _branchRepository.GetSubBranchAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
 
@@ -101,7 +103,7 @@ namespace CloudERP.Controllers
             try
             {
                 var branch = await _branchRepository.GetByIdAsync(id);
-                if (branch == null) return HttpNotFound();
+                if (branch == null) return RedirectToAction("EP404", "EP");
 
                 await PopulateViewBags(_sessionHelper.CompanyID, branch.ParentBranchID, branch.BranchTypeID);
 

@@ -94,7 +94,7 @@ namespace CloudERP.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ReturnAmount(int? id, float previousRemainingAmount, float paymentAmount)
+        public async Task<ActionResult> ReturnAmount(int id, float previousRemainingAmount, float paymentAmount)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -103,7 +103,7 @@ namespace CloudERP.Controllers
             {
                 var paymentReturnDto = new SalePaymentReturn
                 {
-                    InvoiceId = (int)id,
+                    InvoiceId = id,
                     PreviousRemainingAmount = previousRemainingAmount,
                     PaymentAmount = paymentAmount
                 };

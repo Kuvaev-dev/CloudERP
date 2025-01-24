@@ -20,10 +20,6 @@ namespace DatabaseAccess.Services
         public double GenerateForecast(int companyID, int branchID, DateTime startDate, DateTime endDate)
         {
             var forecastData = _forecastingRepository.GetForecastData(companyID, branchID, startDate, endDate);
-            if (forecastData == null || !forecastData.Any())
-            {
-                throw new InvalidOperationException("Insufficient data to train the model.");
-            }
 
             _financialForecastAdapter.Train(forecastData);
 

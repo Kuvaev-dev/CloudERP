@@ -74,9 +74,8 @@ namespace Domain.Services.Sale
             }
             catch (Exception ex)
             {
-                return Result<int>.Failure("Произошла непредвиденная ошибка: " + ex.Message);
+                return Result<int>.Failure("Unexpected Issue Is Occured: " + ex.Message);
             }
         }
     }
-
 }

@@ -14,6 +14,11 @@ namespace CloudERP.Controllers
         private readonly SessionHelper _sessionHelper;
         private readonly PasswordHelper _passwordHelper;
 
+        private const string DEFAULT_COMPANY_LOGO_PATH = "~/Content/CompanyLogo/erp-logo.png";
+        private const string DEFAULT_EMPLOYEE_PHOTO_PATH = "~/Content/EmployeePhoto/Default/default.png";
+        private const int MAIN_BRANCH_ID = 1;
+        private const int DEFAULT_USER_TYPE_ID = 2;
+
         public CompanyRegistrationController(
             CompanyRegistrationFacade companyRegistrationFacade,
             SessionHelper sessionHelper,
@@ -64,7 +69,7 @@ namespace CloudERP.Controllers
                 var company = new Company
                 {
                     Name = model.CompanyName,
-                    Logo = "~/Content/CompanyLogo/erp-logo.png",
+                    Logo = DEFAULT_COMPANY_LOGO_PATH,
                     Description = string.Empty
                 };
                 await _companyRegistrationFacade.CompanyRepository.AddAsync(company);
@@ -74,7 +79,7 @@ namespace CloudERP.Controllers
                     BranchAddress = model.BranchAddress,
                     BranchContact = model.BranchContact,
                     BranchName = model.BranchName,
-                    BranchTypeID = 1,
+                    BranchTypeID = MAIN_BRANCH_ID,
                     CompanyID = company.CompanyID
                 };
                 await _companyRegistrationFacade.BranchRepository.AddAsync(branch);
@@ -89,7 +94,7 @@ namespace CloudERP.Controllers
                     Password = hashedPassword,
                     Salt = salt,
                     UserName = model.UserName,
-                    UserTypeID = 2
+                    UserTypeID = DEFAULT_USER_TYPE_ID
                 };
                 await _companyRegistrationFacade.UserRepository.AddAsync(user);
 
@@ -106,7 +111,7 @@ namespace CloudERP.Controllers
                     UserID = user.UserID,
                     FullName = model.EmployeeName,
                     IsFirstLogin = true,
-                    Photo = "~/Content/EmployeePhoto/Default/default.png"
+                    Photo = DEFAULT_EMPLOYEE_PHOTO_PATH
                 };
                 await _companyRegistrationFacade.EmployeeRepository.AddAsync(employee);
 

@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using CloudERP.Helpers;
 using Domain.Models;
 using CloudERP.Facades;
+using System.Collections.Generic;
 
 namespace CloudERP.Controllers
 {
@@ -92,7 +93,7 @@ namespace CloudERP.Controllers
             try
             {
                 var setting = await _accountSettingFacade.AccountSettingRepository.GetByIdAsync(id);
-                if (setting == null) return HttpNotFound();
+                if (setting == null) return RedirectToAction("EP404", "EP");
 
                 await PopulateDropdownsWithModel(setting);
 
@@ -134,45 +135,61 @@ namespace CloudERP.Controllers
             }
         }
 
+        private async Task<SelectList> CreateSelectListAsync<T>(
+            Func<Task<IEnumerable<T>>> getDataFunc,
+            string dataValueField,
+            string dataTextField,
+            object selectedValue = null)
+        {
+            var data = await getDataFunc();
+            return new SelectList(data, dataValueField, dataTextField, selectedValue);
+        }
+
         private async Task PopulateDropdowns()
         {
-            ViewBag.AccountHeadList = new SelectList(
-                await _accountSettingFacade.AccountHeadRepository.GetAllAsync(), 
-                "AccountHeadID", 
+            ViewBag.AccountHeadList = await CreateSelectListAsync(
+                _accountSettingFacade.AccountHeadRepository.GetAllAsync,
+                "AccountHeadID",
                 "AccountHeadName");
-            ViewBag.AccountControlList = new SelectList(
-                await _accountSettingFacade.AccountControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID), 
-                "AccountControlID", 
+
+            ViewBag.AccountControlList = await CreateSelectListAsync(
+                () => _accountSettingFacade.AccountControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID),
+                "AccountControlID",
                 "AccountControlName");
-            ViewBag.AccountSubControlList = new SelectList(
-                await _accountSettingFacade.AccountSubControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID), 
-                "AccountSubControlID", 
+
+            ViewBag.AccountSubControlList = await CreateSelectListAsync(
+                () => _accountSettingFacade.AccountSubControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID),
+                "AccountSubControlID",
                 "AccountSubControlName");
-            ViewBag.AccountActivityList = new SelectList(
-                await _accountSettingFacade.AccountActivityRepository.GetAllAsync(), 
-                "AccountActivityID", 
+
+            ViewBag.AccountActivityList = await CreateSelectListAsync(
+                _accountSettingFacade.AccountActivityRepository.GetAllAsync,
+                "AccountActivityID",
                 "Name");
         }
 
         private async Task PopulateDropdownsWithModel(AccountSetting model)
         {
-            ViewBag.AccountHeadList = new SelectList(
-                await _accountSettingFacade.AccountHeadRepository.GetAllAsync(),
+            ViewBag.AccountHeadList = await CreateSelectListAsync(
+                _accountSettingFacade.AccountHeadRepository.GetAllAsync,
                 "AccountHeadID",
-                "AccountHeadName", 
+                "AccountHeadName",
                 model.AccountHeadID);
-            ViewBag.AccountControlList = new SelectList(
-                await _accountSettingFacade.AccountControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID),
+
+            ViewBag.AccountControlList = await CreateSelectListAsync(
+                () => _accountSettingFacade.AccountControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID),
                 "AccountControlID",
                 "AccountControlName",
                 model.AccountControlID);
-            ViewBag.AccountSubControlList = new SelectList(
-                await _accountSettingFacade.AccountSubControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID),
+
+            ViewBag.AccountSubControlList = await CreateSelectListAsync(
+                () => _accountSettingFacade.AccountSubControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID),
                 "AccountSubControlID",
                 "AccountSubControlName",
                 model.AccountSubControlID);
-            ViewBag.AccountActivityList = new SelectList(
-                await _accountSettingFacade.AccountActivityRepository.GetAllAsync(),
+
+            ViewBag.AccountActivityList = await CreateSelectListAsync(
+                _accountSettingFacade.AccountActivityRepository.GetAllAsync,
                 "AccountActivityID",
                 "Name",
                 model.AccountActivityID);

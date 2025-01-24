@@ -174,7 +174,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                return View(await _supplierInvoiceDetailRepository.GetListByIdAsync((int)id));
+                return View(await _supplierInvoiceDetailRepository.GetListByIdAsync(id.Value));
             }
             catch (Exception ex)
             {
@@ -190,7 +190,7 @@ namespace CloudERP.Controllers
 
             try
             {    
-                return View(await _supplierInvoiceDetailRepository.GetListByIdAsync((int)id));
+                return View(await _supplierInvoiceDetailRepository.GetListByIdAsync(id.Value));
             }
             catch (Exception ex)
             {

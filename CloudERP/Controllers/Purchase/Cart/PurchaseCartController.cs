@@ -57,11 +57,11 @@ namespace CloudERP.Controllers
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetProductDetails(int id)
+        public async Task<JsonResult> GetProductDetails(int? id)
         {
             try
             {
-                var product = await _stockRepository.GetByIdAsync(id);
+                var product = await _stockRepository.GetByIdAsync(id.Value);
                 if (product != null)
                 {
                     return Json(new { product.CurrentPurchaseUnitPrice }, JsonRequestBehavior.AllowGet);
@@ -78,22 +78,22 @@ namespace CloudERP.Controllers
         // POST: PurchaseCart/AddItem
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddItem(int PID, int Qty, float Price)
+        public async Task<ActionResult> AddItem(int? PID, int? Qty, float? Price)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
             try
             {
-                if (await _purchaseCartDetailRepository.GetByProductIdAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID, PID) == null)
+                if (await _purchaseCartDetailRepository.GetByProductIdAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID, PID.Value) == null)
                 {
                     if (PID > 0 && Qty > 0 && Price > 0)
                     {
                         var newItem = new PurchaseCartDetail()
                         {
-                            ProductID = PID,
-                            PurchaseQuantity = Qty,
-                            PurchaseUnitPrice = Price,
+                            ProductID = PID.Value,
+                            PurchaseQuantity = Qty.Value,
+                            PurchaseUnitPrice = Price.Value,
                             BranchID = _sessionHelper.BranchID,
                             CompanyID = _sessionHelper.CompanyID,
                             UserID = _sessionHelper.UserID
@@ -139,14 +139,14 @@ namespace CloudERP.Controllers
         }
 
         // GET: PurchaseCart/DeleteConfirm
-        public async Task<ActionResult> DeleteConfirm(int id)
+        public async Task<ActionResult> DeleteConfirm(int? id)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
             try
             {
-                var product = await _purchaseCartDetailRepository.GetByIdAsync(id);
+                var product = await _purchaseCartDetailRepository.GetByIdAsync(id.Value);
                 if (product != null)
                 {
                     await _purchaseCartDetailRepository.UpdateAsync(product);
@@ -178,10 +178,6 @@ namespace CloudERP.Controllers
                 if (await _purchaseCartDetailRepository.IsCanceled(_sessionHelper.BranchID, _sessionHelper.CompanyID, _sessionHelper.UserID))
                 {
                     ViewBag.Message = Resources.Messages.PurchaseIsCanceled;
-                }
-                else
-                {
-                    ViewBag.Message = Resources.Messages.UnexpectedIssue;
                 }
 
                 return RedirectToAction("NewPurchase");

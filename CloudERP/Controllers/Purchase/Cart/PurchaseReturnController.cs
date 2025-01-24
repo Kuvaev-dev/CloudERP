@@ -35,23 +35,12 @@ namespace CloudERP.Controllers
             {
                 SupplierInvoice invoice;
 
-                if (_sessionHelper.InvoiceNo != null)
-                {
-                    if (!string.IsNullOrEmpty(_sessionHelper.InvoiceNo))
-                    {
-                        invoice = await _supplierInvoiceRepository.GetByInvoiceNoAsync(_sessionHelper.InvoiceNo);
-                    }
-                    else
-                    {
-                        invoice = await _supplierInvoiceRepository.GetByIdAsync(0);
-                    }
-                }
-                else
-                {
-                    invoice = await _supplierInvoiceRepository.GetByIdAsync(0);
-                }
+                invoice = !string.IsNullOrEmpty(_sessionHelper.InvoiceNo)
+                    ? await _supplierInvoiceRepository.GetByInvoiceNoAsync(_sessionHelper.InvoiceNo)
+                    : await _supplierInvoiceRepository.GetByIdAsync(0);
 
                 return View(invoice);
+
             }
             catch (Exception ex)
             {

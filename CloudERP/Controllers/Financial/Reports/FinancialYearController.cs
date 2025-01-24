@@ -73,7 +73,7 @@ namespace CloudERP.Controllers
             try
             {
                 var financialYear = await _financialYearRepository.GetByIdAsync(id);
-                if (financialYear == null) return HttpNotFound();
+                if (financialYear == null) return RedirectToAction("EP404", "EP");
 
                 return View(financialYear);
             }

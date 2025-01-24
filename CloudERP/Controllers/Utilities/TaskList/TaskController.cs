@@ -50,7 +50,7 @@ namespace CloudERP.Controllers
             try
             {
                 var task = await _taskRepository.GetByIdAsync(id);
-                if (task == null) return HttpNotFound();
+                if (task == null) return RedirectToAction("EP404", "EP");
 
                 return View(task);
             }

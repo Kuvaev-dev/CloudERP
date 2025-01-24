@@ -60,20 +60,20 @@ namespace CloudERP.Controllers
             }
         }
 
-        public async Task<ActionResult> ReturnAmount(int? id)
+        public async Task<ActionResult> ReturnAmount(int id)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
             try
             {
-                if (id == null)
+                if (id == 0)
                 {
                     return RedirectToAction("AllPurchasesPendingPayment");
                 }
 
-                var list = await _purchasePaymentReturnService.GetSupplierReturnPaymentsAsync((int)id);
-                double remainingAmount = await _purchasePaymentReturnService.GetRemainingAmountAsync((int)id);
+                var list = await _purchasePaymentReturnService.GetSupplierReturnPaymentsAsync(id);
+                double remainingAmount = await _purchasePaymentReturnService.GetRemainingAmountAsync(id);
 
                 ViewBag.PreviousRemainingAmount = remainingAmount;
                 ViewBag.InvoiceID = id;
@@ -89,7 +89,7 @@ namespace CloudERP.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ReturnAmount(int? id, float previousRemainingAmount, float paymentAmount)
+        public async Task<ActionResult> ReturnAmount(int id, float previousRemainingAmount, float paymentAmount)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -98,7 +98,7 @@ namespace CloudERP.Controllers
             {
                 var returnAmountDto = new PurchaseReturnAmount
                 {
-                    InvoiceId = (int)id,
+                    InvoiceId = id,
                     PreviousRemainingAmount = previousRemainingAmount,
                     PaymentAmount = paymentAmount
                 };
@@ -116,8 +116,8 @@ namespace CloudERP.Controllers
             catch (InvalidOperationException ex)
             {
                 ViewBag.Message = ex.Message;
-                var list = await _purchasePaymentReturnService.GetSupplierReturnPaymentsAsync((int)id);
-                double remainingAmount = await _purchasePaymentReturnService.GetRemainingAmountAsync((int)id);
+                var list = await _purchasePaymentReturnService.GetSupplierReturnPaymentsAsync(id);
+                double remainingAmount = await _purchasePaymentReturnService.GetRemainingAmountAsync(id);
 
                 ViewBag.PreviousRemainingAmount = remainingAmount;
                 ViewBag.InvoiceID = id;

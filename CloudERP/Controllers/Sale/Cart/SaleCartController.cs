@@ -197,10 +197,8 @@ namespace CloudERP.Controllers
                 {
                     return Json(new { data = product.SaleUnitPrice }, JsonRequestBehavior.AllowGet);
                 }
-                else
-                {
-                    return Json(new { error = Resources.Messages.ProductNotFound });
-                }
+
+                return Json(new { error = Resources.Messages.ProductNotFound }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

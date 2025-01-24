@@ -81,7 +81,7 @@ namespace CloudERP.Controllers
             try
             {
                 var employee = await _employeeRepository.GetByIdAsync(id);
-                if (employee == null) return HttpNotFound();
+                if (employee == null) return RedirectToAction("EP404", "EP");
 
                 return View(employee);
             }

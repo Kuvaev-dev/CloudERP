@@ -5,7 +5,6 @@ using System.Web.Mvc;
 using System.Web.Security;
 using System.Threading.Tasks;
 using CloudERP.Facades;
-using Domain.Interfaces;
 using System.Configuration;
 using System.Linq;
 
@@ -16,6 +15,8 @@ namespace CloudERP.Controllers
         private readonly HomeFacade _homeFacade;
         private readonly SessionHelper _sessionHelper;
         private readonly ResourceManagerHelper _resourceManagerHelper;
+
+        private const int MAIN_BRANCH_TYPE_ID = 1;
 
         public HomeController(
             HomeFacade homeFacade, 
@@ -131,7 +132,7 @@ namespace CloudERP.Controllers
 
                     ViewBag.Currencies = rates.Keys.Select(k => new { Code = k, Name = k }).ToList();
 
-                    return user.UserTypeID == 1 ? RedirectToAction("AdminMenuGuide", "Guide") : RedirectToAction("Index", "Home");
+                    return user.UserTypeID == MAIN_BRANCH_TYPE_ID ? RedirectToAction("AdminMenuGuide", "Guide") : RedirectToAction("Index", "Home");
                 }
 
                 ViewBag.Message = Resources.Messages.PleaseProvideCorrectDetails;
@@ -241,10 +242,8 @@ namespace CloudERP.Controllers
                     ViewBag.ResetCode = id;
                     return View();
                 }
-                else
-                {
-                    return View("ResetPasswordLinkExpired");
-                }
+
+                return View("ResetPasswordLinkExpired");
             }
             catch (Exception ex)
             {

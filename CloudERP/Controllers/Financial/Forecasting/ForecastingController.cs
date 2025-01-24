@@ -50,8 +50,8 @@ namespace CloudERP.Controllers
             }
             catch (InvalidOperationException ex)
             {
-                TempData["Message"] = ex.Message;
-                return RedirectToAction("Index");
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
         }
     }

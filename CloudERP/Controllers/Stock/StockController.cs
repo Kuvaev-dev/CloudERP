@@ -58,8 +58,7 @@ namespace CloudERP.Controllers
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
                 var stock = await _stockRepository.GetByIdAsync(id.Value);
-                if (stock == null)
-                    return HttpNotFound();
+                if (stock == null) return RedirectToAction("EP404", "EP");
 
                 return View(stock);
             }
@@ -107,16 +106,14 @@ namespace CloudERP.Controllers
                 if (ModelState.IsValid)
                 {
                     var existingStock = await _stockRepository.GetByProductNameAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID, model.ProductName);
-                    if (existingStock == null)
-                    {
-                        await _stockRepository.AddAsync(model);
-
-                        return RedirectToAction("Index");
-                    }
-                    else
+                    if (existingStock != null)
                     {
                         ViewBag.Message = Resources.Messages.AlreadyExists;
+                        return View(model);
                     }
+
+                    await _stockRepository.AddAsync(model);
+                    return RedirectToAction("Index");
                 }
 
                 var categories = await _categoryRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
@@ -143,8 +140,7 @@ namespace CloudERP.Controllers
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
                 var stock = await _stockRepository.GetByIdAsync(id.Value);
-                if (stock == null)
-                    return HttpNotFound();
+                if (stock == null) return RedirectToAction("EP404", "EP");
 
                 var categories = await _categoryRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
                 ViewBag.CategoryID = new SelectList(categories, "CategoryID", "CategoryName", stock.CategoryID);
@@ -174,16 +170,15 @@ namespace CloudERP.Controllers
                 if (ModelState.IsValid)
                 {
                     var existingStock = await _stockRepository.GetByProductNameAsync(model.CompanyID, model.BranchID, model.ProductName);
-                    if (existingStock == null || existingStock.ProductID == model.ProductID)
-                    {
-                        await _stockRepository.UpdateAsync(model);
 
-                        return RedirectToAction("Index");
-                    }
-                    else
+                    if (existingStock != null && existingStock.ProductID != model.ProductID)
                     {
                         ViewBag.Message = Resources.Messages.AlreadyExists;
+                        return View(model);
                     }
+
+                    await _stockRepository.UpdateAsync(model);
+                    return RedirectToAction("Index");
                 }
 
                 var categories = await _categoryRepository.GetAllAsync(model.CompanyID, model.BranchID);

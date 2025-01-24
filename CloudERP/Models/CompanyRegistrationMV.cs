@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace CloudERP.Models
+﻿namespace CloudERP.Models
 {
     public class CompanyRegistrationMV
     {

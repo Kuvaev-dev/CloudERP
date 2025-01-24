@@ -15,6 +15,12 @@ namespace Domain.Services
     {
         private readonly IBalanceSheetRepository _balanceSheetRepository;
 
+        private const int ASSETS_HEAD_ID = 2;
+        private const int LIABILITIES_HEAD_ID = 3;
+        private const int OWNER_EQUITY_HEAD_ID = 4;
+        private const int EXPENSES_HEAD_ID = 5;
+        private const int REVENUE_HEAD_ID = 6;
+
         public BalanceSheetService(IBalanceSheetRepository balanceSheetRepository)
         {
             _balanceSheetRepository = balanceSheetRepository ?? throw new ArgumentNullException(nameof(IBalanceSheetRepository));
@@ -41,23 +47,23 @@ namespace Domain.Services
 
                 if (AccountHead != null && AccountHead.AccountHeadDetails != null)
                 {
-                    if (HeadID == 2) // Total Assets
+                    if (HeadID == ASSETS_HEAD_ID) // Total Assets
                     {
                         TotalAssets = await _balanceSheetRepository.GetAccountTotalAmountAsync(companyId, branchId, financialYearId, HeadID);
                     }
-                    else if (HeadID == 3) // Total Liabilities
+                    else if (HeadID == LIABILITIES_HEAD_ID) // Total Liabilities
                     {
                         TotalLiabilities = await _balanceSheetRepository.GetAccountTotalAmountAsync(companyId, branchId, financialYearId, HeadID);
                     }
-                    else if (HeadID == 4) // Total Owner Equity
+                    else if (HeadID == OWNER_EQUITY_HEAD_ID) // Total Owner Equity
                     {
                         TotalOwnerEquity = await _balanceSheetRepository.GetAccountTotalAmountAsync(companyId, branchId, financialYearId, HeadID);
                     }
-                    else if (HeadID == 5) // Total Expenses
+                    else if (HeadID == EXPENSES_HEAD_ID) // Total Expenses
                     {
                         TotalExpenses = AccountHead.TotalAmount;
                     }
-                    else if (HeadID == 6) // Total Revenue
+                    else if (HeadID == REVENUE_HEAD_ID) // Total Revenue
                     {
                         TotalRevenue = AccountHead.TotalAmount;
                     }

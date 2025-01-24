@@ -93,7 +93,7 @@ namespace CloudERP.Controllers
 
                 if (remainingAmount == 0)
                 {
-                    remainingAmount = await _salePaymentService.GetTotalAmountByIdAsync((int)id);
+                    remainingAmount = await _salePaymentService.GetTotalAmountByIdAsync(id.Value);
                 }
 
                 ViewBag.PreviousRemainingAmount = remainingAmount;
@@ -188,14 +188,14 @@ namespace CloudERP.Controllers
             }
         }
 
-        public async Task<ActionResult> SaleItemDetail(int? id)
+        public async Task<ActionResult> SaleItemDetail(int id)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
             try
             {
-                var list = await _customerInvoiceDetailRepository.GetListByIdAsync((int)id);
+                var list = await _customerInvoiceDetailRepository.GetListByIdAsync(id);
                 return View(list.ToList());
             }
             catch (Exception ex)
@@ -205,14 +205,14 @@ namespace CloudERP.Controllers
             }
         }
 
-        public async Task<ActionResult> PrintSaleInvoice(int? id)
+        public async Task<ActionResult> PrintSaleInvoice(int id)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
             try
             {
-                var list = await _customerInvoiceDetailRepository.GetListByIdAsync((int)id);
+                var list = await _customerInvoiceDetailRepository.GetListByIdAsync(id);
                 return View(list.ToList());
             }
             catch (Exception ex)
