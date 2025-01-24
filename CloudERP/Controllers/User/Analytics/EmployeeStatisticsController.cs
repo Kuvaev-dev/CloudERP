@@ -1,6 +1,7 @@
 ﻿using CloudERP.Helpers;
 using Domain.Services;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -12,7 +13,7 @@ namespace CloudERP.Controllers
         private readonly IEmployeeStatisticsService _employeeStatsService;
 
         public EmployeeStatisticsController(
-            SessionHelper sessionHelper, 
+            SessionHelper sessionHelper,
             IEmployeeStatisticsService employeeStatsService)
         {
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
@@ -30,7 +31,21 @@ namespace CloudERP.Controllers
                 DateTime start = startDate ?? DateTime.Now.AddMonths(-1);
                 DateTime end = endDate ?? DateTime.Now;
 
-                return View(await _employeeStatsService.GetStatisticsAsync(start, end, _sessionHelper.BranchID, _sessionHelper.CompanyID));
+                var statistics = await _employeeStatsService.GetStatisticsAsync(
+                    start,
+                    end,
+                    _sessionHelper.BranchID,
+                    _sessionHelper.CompanyID
+                );
+
+                var chartData = new
+                {
+                    Labels = statistics.Select(s => s.Date.ToString("yyyy-MM-dd")).ToList(),
+                    Data = statistics.Select(s => s.NumberOfRegistrations).ToList()
+                };
+
+                ViewBag.ChartData = chartData;
+                return View(statistics);
             }
             catch (Exception ex)
             {

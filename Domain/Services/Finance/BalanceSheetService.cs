@@ -17,7 +17,7 @@ namespace Domain.Services
 
         private const int ASSETS_HEAD_ID = 2;
         private const int LIABILITIES_HEAD_ID = 3;
-        private const int OWNER_EQUITY_HEAD_ID = 4;
+        private const int CAPITAL_HEAD_ID = 4;
         private const int EXPENSES_HEAD_ID = 5;
         private const int REVENUE_HEAD_ID = 6;
 
@@ -55,7 +55,7 @@ namespace Domain.Services
                     {
                         TotalLiabilities = await _balanceSheetRepository.GetAccountTotalAmountAsync(companyId, branchId, financialYearId, HeadID);
                     }
-                    else if (HeadID == OWNER_EQUITY_HEAD_ID) // Total Owner Equity
+                    else if (HeadID == CAPITAL_HEAD_ID) // Total Capital
                     {
                         TotalOwnerEquity = await _balanceSheetRepository.GetAccountTotalAmountAsync(companyId, branchId, financialYearId, HeadID);
                     }

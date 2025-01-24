@@ -49,7 +49,7 @@ namespace DatabaseAccess.Repositories
         public async Task<IEnumerable<Employee>> GetEmployeesForTaskAssignmentAsync(int branchId)
         {
             var employees = await _dbContext.tblEmployee
-                .Where(e => e.tblBranch.BranchID == branchId && e.tblBranch.BranchTypeID == 2)
+                .Where(e => e.tblBranch.BrchID == branchId && e.tblBranch.BranchTypeID == 2)
                 .ToListAsync();
 
             return employees.Select(e => new Employee
@@ -58,6 +58,35 @@ namespace DatabaseAccess.Repositories
                 FullName = e.Name,
                 BranchID = e.BranchID,
                 CompanyID = e.CompanyID
+            });
+        }
+
+        public async Task<IEnumerable<Employee>> GetByCompanyIdAsync(int companyId)
+        {
+            var entities = await _dbContext.tblEmployee
+                .Where(e => e.CompanyID == companyId)
+                .ToListAsync();
+
+            return entities.Select(e => new Employee
+            {
+                EmployeeID = e.EmployeeID,
+                FullName = e.Name,
+                ContactNumber = e.ContactNo,
+                Email = e.Email,
+                Address = e.Address,
+                Photo = e.Photo,
+                TIN = e.TIN,
+                Designation = e.Designation,
+                Description = e.Description,
+                MonthlySalary = e.MonthlySalary,
+                IsFirstLogin = e.IsFirstLogin,
+                RegistrationDate = e.RegistrationDate,
+                CompanyID = e.CompanyID,
+                BranchID = e.BranchID,
+                BranchTypeID = e.tblBranch.BranchTypeID,
+                BrchID = e.tblBranch.BrchID,
+                BranchName = e.tblBranch.BranchName,
+                UserID = e.UserID
             });
         }
 
@@ -181,7 +210,7 @@ namespace DatabaseAccess.Repositories
             return false;
         }
 
-        public async Task<IEnumerable<Employee>> GetEmployeesByDateRangeAsync(DateTime startDate, DateTime endDate, List<int?> branchIDs, int companyID)
+        public async Task<IEnumerable<Employee>> GetEmployeesByDateRangeAsync(DateTime startDate, DateTime endDate, List<int> branchIDs, int companyID)
         {
             var entities = await _dbContext.tblEmployee
                 .Where(e => e.RegistrationDate.HasValue
@@ -212,35 +241,6 @@ namespace DatabaseAccess.Repositories
                 BranchName = e.tblBranch.BranchName,
                 UserID = e.UserID
             });
-        }
-
-        public async Task<Employee> GetByCompanyIdAsync(int id)
-        {
-            var entity = await _dbContext.tblEmployee
-                .Where(e => e.CompanyID == id)
-                .FirstOrDefaultAsync();
-
-            return entity == null ? null : new Employee
-            {
-                EmployeeID = entity.EmployeeID,
-                FullName = entity.Name,
-                ContactNumber = entity.ContactNo,
-                Email = entity.Email,
-                Address = entity.Address,
-                Photo = entity.Photo,
-                TIN = entity.TIN,
-                Designation = entity.Designation,
-                Description = entity.Description,
-                MonthlySalary = entity.MonthlySalary,
-                IsFirstLogin = entity.IsFirstLogin,
-                RegistrationDate = entity.RegistrationDate,
-                CompanyID = entity.CompanyID,
-                BranchID = entity.BranchID,
-                BranchTypeID = entity.tblBranch.BranchTypeID,
-                BrchID = entity.tblBranch.BrchID,
-                BranchName = entity.tblBranch.BranchName,
-                UserID = entity.UserID
-            };
         }
 
         public async Task<Employee> GetByTINAsync(string TIN)

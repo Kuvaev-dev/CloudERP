@@ -109,11 +109,11 @@ namespace DatabaseAccess.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<List<int?>> GetBranchIDsAsync(int branchID)
+        public async Task<List<int>> GetBranchIDsAsync(int branchID)
         {
             var branchIDs = await _dbContext.tblBranch
                 .Where(b => b.BrchID == branchID || b.BranchID == branchID)
-                .Select(b => b.BrchID)
+                .Select(b => b.BranchID)
                 .ToListAsync();
 
             branchIDs.Add(branchID);

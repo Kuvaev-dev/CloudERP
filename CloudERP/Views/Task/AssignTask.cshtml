@@ -1,42 +1,63 @@
 @model CloudERP.Models.TaskAssignmentVM
 
 @{
-    ViewBag.Title = "Create Task";
+    ViewBag.Title = "Assign Task To Employee";
 }
-
-<h2>Create Task</h2>
 
 @using (Html.BeginForm())
 {
-    @Html.HiddenFor(m => m.TaskModel.BranchID)
+    @Html.AntiForgeryToken()
 
-    <div class="form-group">
-        @Html.LabelFor(m => m.TaskModel.Title)
-        @Html.TextBoxFor(m => m.TaskModel.Title, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.TaskModel.Title)
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(m => m.TaskModel.BranchID)
+
+        <h2 class="text-danger">@ViewBag.Message</h2>
+        <h2 class="text-danger">@ViewBag.ErrorMessage</h2>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.TaskModel.Title, "Task Title", htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-5">
+                @Html.TextBoxFor(m => m.TaskModel.Title, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.TaskModel.Title, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.TaskModel.Description, "Task Title", htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-5">
+                @Html.TextAreaFor(m => m.TaskModel.Description, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.TaskModel.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.TaskModel.DueDate, "Task Title", htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-5">
+                @Html.TextBoxFor(m => m.TaskModel.DueDate, "{0:yyyy-MM-dd}", new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.TaskModel.DueDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.TaskModel.DueDate, "Assign Task To", htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-5">
+                <select id="AssignedTo" name="AssignedToUserID" class="form-control">
+                    @foreach (var employee in Model.AvailableEmployees)
+                    {
+                        <option value="@employee.EmployeeID">@employee.FullName</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="@Resources.Common.Save.ToString()" class="btn btn-success" />
+                <button id="voiceRecognitionButton" class="btn btn-link" type="button">
+                    <i class="fas fa-microphone" style="font-size: 1.5em; color: gray;"></i>
+                </button>
+            </div>
+        </div>
     </div>
-
-    <div class="form-group">
-        @Html.LabelFor(m => m.TaskModel.Description)
-        @Html.TextAreaFor(m => m.TaskModel.Description, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.TaskModel.Description)
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(m => m.TaskModel.DueDate)
-        @Html.TextBoxFor(m => m.TaskModel.DueDate, "{0:yyyy-MM-dd}", new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.TaskModel.DueDate)
-    </div>
-
-    <div class="form-group">
-        <label for="AssignedTo">Assign Task To</label>
-        <select id="AssignedTo" name="AssignedToUserID" class="form-control">
-            @foreach (var employee in Model.AvailableEmployees)
-            {
-                <option value="@employee.EmployeeID">@employee.FullName</option>
-            }
-        </select>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Assign Task</button>
 }

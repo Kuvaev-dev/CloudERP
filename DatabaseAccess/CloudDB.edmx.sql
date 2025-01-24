@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 01/17/2025 18:11:43
--- Generated from EDMX file: D:\Projects\CloudERP\DatabaseAccess\CloudDB.edmx
+-- Date Created: 01/24/2025 20:01:14
+-- Generated from EDMX file: D:\FINAL_YEAR_PROJ\CloudERP\DatabaseAccess\CloudDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [CloudERP];
+USE [CloudErp];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -17,6 +17,9 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[FK_tblAccountControl_tblAccountHead]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[tblAccountControl] DROP CONSTRAINT [FK_tblAccountControl_tblAccountHead];
+GO
 IF OBJECT_ID(N'[dbo].[FK_tblAccountControl_tblBranch]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[tblAccountControl] DROP CONSTRAINT [FK_tblAccountControl_tblBranch];
 GO
@@ -1149,6 +1152,21 @@ GO
 CREATE INDEX [IX_FK_tblAccountSetting_tblAccountActivity]
 ON [dbo].[tblAccountSetting]
     ([AccountActivityID]);
+GO
+
+-- Creating foreign key on [AccountHeadID] in table 'tblAccountControl'
+ALTER TABLE [dbo].[tblAccountControl]
+ADD CONSTRAINT [FK_tblAccountControl_tblAccountHead]
+    FOREIGN KEY ([AccountHeadID])
+    REFERENCES [dbo].[tblAccountHead]
+        ([AccountHeadID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_tblAccountControl_tblAccountHead'
+CREATE INDEX [IX_FK_tblAccountControl_tblAccountHead]
+ON [dbo].[tblAccountControl]
+    ([AccountHeadID]);
 GO
 
 -- Creating foreign key on [BranchID] in table 'tblAccountControl'

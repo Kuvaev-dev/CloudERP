@@ -4,6 +4,8 @@ using CloudERP.Models;
 using Domain.Models;
 using Domain.Models.FinancialModels;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -49,8 +51,10 @@ namespace CloudERP.Controllers
 
             try
             {
-                ViewBag.BranchID = new SelectList(await _companyEmployeeFacade.BranchRepository.GetByCompanyAsync(_sessionHelper.CompanyID), "BranchID", "BranchName", 0);
-                return View(new Employee());
+                return View(new EmployeeMV()
+                {
+                    BranchesList = await GetBranchesList()
+                });
             }
             catch (Exception ex)
             {
@@ -241,6 +245,18 @@ namespace CloudERP.Controllers
                 TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
+        }
+
+        public async Task<IEnumerable<SelectListItem>> GetBranchesList()
+        {
+            var branches = await _companyEmployeeFacade.BranchRepository.GetByCompanyAsync(_sessionHelper.CompanyID);
+            return branches
+                .Select(b => new SelectListItem
+                {
+                    Value = b.BranchID.ToString(),
+                    Text = b.BranchName
+                })
+                .ToList();
         }
     }
 }

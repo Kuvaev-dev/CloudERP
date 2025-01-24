@@ -36,7 +36,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Employee.ContactNumber, Resources.User.ContactNo.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
-                @Html.EditorFor(model => model.Employee.ContactNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Employee.ContactNumber, new { htmlAttributes = new { @class = "form-control", @id = "PhoneNumber" } })
                 @Html.ValidationMessageFor(model => model.Employee.ContactNumber, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -100,18 +100,12 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.LogoFile, Resources.Company.Photo.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-5">
-                <span class="btn btn-default btn-file">
-                    @Html.TextBoxFor(model => model.LogoFile, new { type = "file" })
-                </span>
-            </div>
-        </div>
-
-        <div class="form-group">
             @Html.LabelFor(model => model.Employee.BranchID, Resources.Company.SelectBranch.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
-                @Html.DropDownList("BranchID", null, Resources.Company.SelectBranch.ToString(), htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.Employee.BranchID,
+                    Model.BranchesList,
+                    Resources.Company.SelectBranch,
+                    new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Employee.BranchID, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -127,3 +121,26 @@
         </div>
     </div>
 }
+<script>
+    $(document).ready(function () {
+        var input = document.querySelector("#PhoneNumber");
+        var iti = window.intlTelInput(input, {
+            initialCountry: "@ViewBag.SelectedCountryCode",
+            separateDialCode: true,
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+        });
+
+        iti.setNumber("@Model.Employee.ContactNumber");
+
+        $('form').submit(function (e) {
+            var countryCode = iti.getSelectedCountryData().dialCode;
+            var phoneNumber = iti.getNumber();
+            if (!iti.isValidNumber()) {
+                e.preventDefault();
+                alert("Please enter a valid phone number.");
+            } else {
+                $('#PhoneNumber').val(phoneNumber);
+            }
+        });
+    });
+</script>

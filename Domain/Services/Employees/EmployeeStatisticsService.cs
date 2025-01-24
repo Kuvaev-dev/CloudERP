@@ -9,7 +9,7 @@ namespace Domain.Services
 {
     public interface IEmployeeStatisticsService
     {
-        Task<List<EmployeeStatistics>> GetStatisticsAsync(DateTime startDate, DateTime endDate, int branchID, int companyID);
+        Task<IEnumerable<EmployeeStatistics>> GetStatisticsAsync(DateTime startDate, DateTime endDate, int branchID, int companyID);
     }
 
     public class EmployeeStatisticsService : IEmployeeStatisticsService
@@ -25,7 +25,7 @@ namespace Domain.Services
             _branchRepository = branchRepository ?? throw new ArgumentNullException(nameof(IBranchRepository));
         }
 
-        public async Task<List<EmployeeStatistics>> GetStatisticsAsync(DateTime startDate, DateTime endDate, int branchID, int companyID)
+        public async Task<IEnumerable<EmployeeStatistics>> GetStatisticsAsync(DateTime startDate, DateTime endDate, int branchID, int companyID)
         {
             var branchIDs = await _branchRepository.GetBranchIDsAsync(branchID);
             var employees = await _employeeRepository.GetEmployeesByDateRangeAsync(startDate, endDate, branchIDs, companyID);

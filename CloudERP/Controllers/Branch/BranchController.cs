@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
@@ -151,7 +150,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var branches = await _branchRepository.GetByCompanyAsync(_sessionHelper.CompanyID);
+                var branches = await _branchRepository.GetSubBranchAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
                 return View(branches);
             }
             catch (Exception ex)
@@ -167,7 +166,7 @@ namespace CloudERP.Controllers
             var branchTypes = await _branchTypeRepository.GetAllAsync();
 
             ViewBag.BrchID = new SelectList(branches, "BranchID", "BranchName", selectedParentBranchID);
-            ViewBag.BranchTypeID = new SelectList(branchTypes.Select((type, index) => new { Text = type, Value = index + 1 }), "Value", "Text", selectedBranchTypeID);
+            ViewBag.BranchTypeID = new SelectList(branchTypes, "BranchTypeID", "BranchTypeName", selectedBranchTypeID);
         }
     }
 }

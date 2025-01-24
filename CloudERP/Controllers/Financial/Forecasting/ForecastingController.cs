@@ -44,14 +44,14 @@ namespace CloudERP.Controllers
 
             try
             {
+                inputModel.StartDate = DateTime.Now;
                 var forecastValue = _forecastingService.GenerateForecast(_sessionHelper.CompanyID, _sessionHelper.BranchID, inputModel.StartDate, inputModel.EndDate);
                 TempData["Message"] = $"{Resources.Messages.ForecastHasBeenGenerated} {forecastValue}";
                 return RedirectToAction("Index");
             }
-            catch (InvalidOperationException ex)
+            catch
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
+                return RedirectToAction("Index", "Forecasting");
             }
         }
     }

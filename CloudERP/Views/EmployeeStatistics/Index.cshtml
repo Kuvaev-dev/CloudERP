@@ -1,7 +1,8 @@
-﻿@model IEnumerable<Domain.Models.EmployeeStatistics>
+﻿@model List<Domain.Models.EmployeeStatistics>
 
 @{
     ViewBag.Title = Resources.User.EmployeeRegistrationStatistics.ToString();
+    var chartData = ViewBag.ChartData;
 }
 
 <!-- Date Selection Form -->
@@ -9,8 +10,7 @@
     <div class="card card-float">
         <div class="card-header">
             <h4>@Html.Raw(HttpUtility.HtmlDecode(Resources.User.SelectRangeFromDateAndToDate.ToString()))</h4>
-            <h3 class="text-danger">@ViewBag.Message</h3>
-            <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
+            <h3 class="text-danger">@TempData["ErrorMessage"]</h3>
         </div>
         <div class="card-body">
             @using (Html.BeginForm("Index", "EmployeeStatistics", FormMethod.Get))
@@ -37,7 +37,6 @@
 <div class="card card-default col-md-12">
     <div class="card-header">
         <h5>@Resources.User.Statistics.ToString()</h5>
-        <h5 style="float:left;">@Session["Message"]</h5>
     </div>
     <div class="card-body">
         <canvas id="chartContainer" style="height: 400px; width: 100%;"></canvas>
@@ -47,35 +46,31 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        var chartData = @Html.Raw(Json.Encode(chartData));
         var canvas = document.getElementById('chartContainer');
+
         if (canvas) {
             var ctx = canvas.getContext('2d');
-            if (ctx) {
-                var chartData = {
-                    labels: @Html.Raw(Json.Encode(Model.Select(m => m.Date.ToString("yyyy-MM-dd")))),
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: chartData.Labels,
                     datasets: [{
                         label: '@Resources.User.NumberOfRegistrations.ToString()',
-                        data: @Html.Raw(Json.Encode(Model.Select(m => m.NumberOfRegistrations))),
+                        data: chartData.Data,
                         backgroundColor: 'rgba(75, 192, 192, 0.2)',
                         borderColor: 'rgba(75, 192, 192, 1)',
                         borderWidth: 1
                     }]
-                };
-                console.log('@Resources.User.ChartData.ToString():', chartData);
-                new Chart(ctx, {
-                    type: 'bar',
-                    data: chartData,
-                    options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
                         }
                     }
-                });
-            } else {
-                console.error('@Resources.User.CanvasContextNotFound.ToString().');
-            }
+                }
+            });
         } else {
             console.error('@Resources.User.CanvasElementWithIdChartContainerNotFound.ToString().');
         }

@@ -117,7 +117,7 @@ and isnull(cast([RCI].[TotalAmount] as decimal(10, 2)), 0) - isnull([CP].[SPayme
 end;
 GO
 /****** Object:  StoredProcedure [dbo].[GetDashboardValues]    Script Date: 01.05.2024 22:58:01 ******/
-CREATE proc [dbo].[GetDashboardValues](@FromDate as nvarchar(20), @ToDate as nvarchar(20), @BranchID as int, @CompanyID as int)
+CREATE proc [dbo].[GetDashboardValues](@FromDate as date, @ToDate as date, @BranchID as int, @CompanyID as int)
 as
 begin
 	declare @CurrentMonthRevenue as float = 0;
@@ -129,109 +129,301 @@ begin
 	declare @TotalPayable as float = 0;
 	declare @Capital as float = 0;
 
+    DECLARE @TotalSalesToday FLOAT = 0;
+    DECLARE @SalesPaymentPendingToday FLOAT = 0;
+    DECLARE @SalesPaymentPaidToday FLOAT = 0;
+    DECLARE @TotalPurchasesToday FLOAT = 0;
+    DECLARE @PurchasesPaymentPendingToday FLOAT = 0;
+    DECLARE @PurchasesPaymentPaidToday FLOAT = 0;
+    DECLARE @TotalReturnSalesToday FLOAT = 0;
+    DECLARE @ReturnSalesPaymentPendingToday FLOAT = 0;
+    DECLARE @ReturnSalesPaymentPaidToday FLOAT = 0;
+    DECLARE @TotalReturnPurchasesToday FLOAT = 0;
+    DECLARE @ReturnPurchasesPaymentPendingToday FLOAT = 0;
+    DECLARE @ReturnPurchasesPaymentPaidToday FLOAT = 0;
+
+    DECLARE @TotalSalesCurrentMonth FLOAT = 0;
+    DECLARE @SalesPaymentPendingCurrentMonth FLOAT = 0;
+    DECLARE @SalesPaymentPaidCurrentMonth FLOAT = 0;
+    DECLARE @TotalPurchasesCurrentMonth FLOAT = 0;
+    DECLARE @PurchasesPaymentPendingCurrentMonth FLOAT = 0;
+    DECLARE @PurchasesPaymentPaidCurrentMonth FLOAT = 0;
+    DECLARE @TotalReturnSalesCurrentMonth FLOAT = 0;
+    DECLARE @ReturnSalesPaymentPendingCurrentMonth FLOAT = 0;
+    DECLARE @ReturnSalesPaymentPaidCurrentMonth FLOAT = 0;
+    DECLARE @TotalReturnPurchasesCurrentMonth FLOAT = 0;
+    DECLARE @ReturnPurchasesPaymentPendingCurrentMonth FLOAT = 0;
+    DECLARE @ReturnPurchasesPaymentPaidCurrentMonth FLOAT = 0;
+
 	-- Current Month Revenue
-	set @CurrentMonthRevenue = (select (sum([Credit]) - sum([Debit])) as [TotalAmount] from [v_Transaction]
-	where [TransectionDate] > dateadd(day, -1, @FromDate) 
-		  and [TransectionDate] < dateadd(day, -1, @ToDate)
-		  and [AccountHeadID] = 5
-		  and [BranchID] = @BranchID 
-		  and [CompanyID] = @CompanyID)
+	-- 6 - Revenue
+	SET @CurrentMonthRevenue = ISNULL((
+		SELECT SUM([Credit]) - SUM([Debit]) AS [TotalAmount]
+		FROM [v_Transaction]
+		WHERE [TransectionDate] >= @FromDate 
+		  AND [TransectionDate] <= @ToDate
+		  AND [AccountHeadID] = 6
+		  AND [BranchID] = @BranchID 
+		  AND [CompanyID] = @CompanyID
+	), 0);
 
 	-- Current Month Expenses
-	set @CurrentMonthExpenses = (select (sum([Debit]) - sum([Credit])) as [TotalAmount] from [v_Transaction]
-	where [TransectionDate] > dateadd(day, -1, @FromDate) 
-		  and [TransectionDate] < dateadd(day, -1, @ToDate)
-		  and [AccountHeadID] = 3
-		  and [BranchID] = @BranchID 
-		  and [CompanyID] = @CompanyID)
+	-- 5 - Expenses
+	SET @CurrentMonthExpenses = ISNULL((
+		SELECT SUM([Debit]) - SUM([Credit]) AS [TotalAmount]
+		FROM [v_Transaction]
+		WHERE [TransectionDate] >= @FromDate 
+		  AND [TransectionDate] <= @ToDate
+		  AND [AccountHeadID] = 5
+		  AND [BranchID] = @BranchID 
+		  AND [CompanyID] = @CompanyID
+	), 0);
 
-	-- Current Net Income/Loss
-	set @NetIncome = ((select (sum([Credit]) - sum([Debit])) as [TotalAmount] from [v_Transaction]
-	where [AccountHeadID] = 5
-		  and [BranchID] = @BranchID 
-		  and [CompanyID] = @CompanyID) - (select (sum([Debit]) - sum([Credit])) as [TotalAmount] from [v_Transaction]
-	where [AccountHeadID] = 3
-		  and [BranchID] = @BranchID 
-		  and [CompanyID] = @CompanyID))
-
-	-- Current Month Recovery
-	-- 17 - Account Receivable, 18 - Note Receivable
-	declare @TotalAccountR as float = (select sum([Credit]) as [TotalAmount] from [v_Transaction]
-	where [TransectionDate] > dateadd(day, -1, @FromDate) 
-		  and [TransectionDate] < dateadd(day, -1, @ToDate)
-		  and [AccountControlID] = (select top 1 [AccountControlID] from [tblAccountSetting] where [AccountActivityID] = 17)
-		  and [BranchID] = @BranchID 
-		  and [CompanyID] = @CompanyID)
-	declare @TotalNoteR as float = (select sum([Credit]) as [TotalAmount] from [v_Transaction]
-	where [TransectionDate] > dateadd(day, -1, @FromDate) 
-		  and [TransectionDate] < dateadd(day, -1, @ToDate)
-		  and [AccountControlID] = (select top 1 [AccountControlID] from [tblAccountSetting] where [AccountActivityID] = 18)
-		  and [BranchID] = @BranchID 
-		  and [CompanyID] = @CompanyID)
-	set @CurrentMonthRecovery = isnull(@TotalAccountR, 0) + isnull(@TotalNoteR, 0)
-
-	-- Current Cash/Bank Balance
-	-- 21 - Total Cash Balance
-	set @CashplusBankaccountBalance = (select (sum([Debit]) - sum([Credit])) as [TotalAmount] from [v_Transaction]
-	where [AccountHeadID] = (select top 1 [AccountControlID] from [tblAccountSetting] where [AccountActivityID] = 21)
-		  and [BranchID] = @BranchID 
-		  and [CompanyID] = @CompanyID)
-
-	-- Total Receivable 
-	-- 17 - Account Receivable, 18 - Note Receivable
-	declare @TotalAccountRPending as float = (select (sum([Debit]) - sum([Credit])) as [TotalAmount] from [v_Transaction]
-	where [TransectionDate] > dateadd(day, -1, @FromDate) 
-		  and [TransectionDate] < dateadd(day, -1, @ToDate)
-		  and [AccountControlID] = (select top 1 [AccountControlID] from [tblAccountSetting] where [AccountActivityID] = 17)
-		  and [BranchID] = @BranchID 
-		  and [CompanyID] = @CompanyID)
-	declare @TotalNoteRPending as float = (select (sum([Debit]) - sum([Credit])) as [TotalAmount] from [v_Transaction]
-	where [TransectionDate] > dateadd(day, -1, @FromDate) 
-		  and [TransectionDate] < dateadd(day, -1, @ToDate)
-		  and [AccountControlID] = (select top 1 [AccountControlID] from [tblAccountSetting] where [AccountActivityID] = 18)
-		  and [BranchID] = @BranchID 
-		  and [CompanyID] = @CompanyID)
-	set @TotalReceivable = isnull(@TotalAccountRPending, 0) + isnull(@TotalNoteRPending, 0)
-
-	-- Total Payable 
-	-- 19 - Account Payable, 20 - Note Payable
-	declare @TotalAccountPPending as float = (select (sum([Credit]) - sum([Debit])) as [TotalAmount] from [v_Transaction]
-	where [TransectionDate] > dateadd(day, -1, @FromDate) 
-		  and [TransectionDate] < dateadd(day, -1, @ToDate)
-		  and [AccountControlID] = (select top 1 [AccountControlID] from [tblAccountSetting] where [AccountActivityID] = 19)
-		  and [BranchID] = @BranchID 
-		  and [CompanyID] = @CompanyID)
-	declare @TotalNotePPending as float = (select (sum([Credit]) - sum([Debit])) as [TotalAmount] from [v_Transaction]
-	where [TransectionDate] > dateadd(day, -1, @FromDate) 
-		  and [TransectionDate] < dateadd(day, -1, @ToDate)
-		  and [AccountControlID] = (select top 1 [AccountControlID] from [tblAccountSetting] where [AccountActivityID] = 20)
-		  and [BranchID] = @BranchID 
-		  and [CompanyID] = @CompanyID)
-	set @TotalPayable =isnull(@TotalAccountPPending, 0) + isnull(@TotalNotePPending, 0)
+	-- Current Month Net Income/Loss
+	SET @NetIncome = @CurrentMonthRevenue - @CurrentMonthExpenses;
 
 	-- Total Capital
 	-- 4 - Capital
-	set @Capital = (select
-	case when sum([TA].[Debit]) > sum([TA].[Credit]) then sum([TA].[Debit]) - sum([TA].[Credit])
-		 when sum([TA].[Debit]) < sum([TA].[Credit]) then sum([TA].[Credit]) - sum([TA].[Debit]) else 0 end as TOTAL
-	from (select
-	case when sum([v_Transaction].[Debit]) > sum([v_Transaction].[Credit]) then isnull(sum([v_Transaction].[Debit]) - sum([v_Transaction].[Credit]), 0) else 0 end as [Debit],
-	case when sum([v_Transaction].[Debit]) < sum([v_Transaction].[Credit]) then isnull(sum([v_Transaction].[Credit]) - sum([v_Transaction].[Debit]), 0) else 0 end as [Credit]
-	from [v_Transaction] where [v_Transaction].[AccountHeadID] = 4
-						 and [v_Transaction].[BranchID] = @BranchID
-						 and [v_Transaction].[CompanyID] = @CompanyID
-	group by [v_Transaction].[AccountTitle]) [TA])
+	SET @Capital = ISNULL((
+		SELECT CASE 
+			WHEN SUM([TA].[Debit]) > SUM([TA].[Credit]) THEN SUM([TA].[Debit]) - SUM([TA].[Credit])
+			WHEN SUM([TA].[Debit]) < SUM([TA].[Credit]) THEN SUM([TA].[Credit]) - SUM([TA].[Debit])
+			ELSE 0 
+		END AS TOTAL
+		FROM (
+			SELECT 
+				ISNULL(SUM([v_Transaction].[Debit]) - SUM([v_Transaction].[Credit]), 0) AS [Debit],
+				ISNULL(SUM([v_Transaction].[Credit]) - SUM([v_Transaction].[Debit]), 0) AS [Credit]
+			FROM [v_Transaction]
+			WHERE [AccountHeadID] = 4
+			  AND [BranchID] = @BranchID
+			  AND [CompanyID] = @CompanyID
+			GROUP BY [AccountTitle]
+		) AS [TA]
+	), 0);
 
-	select @CurrentMonthRevenue as [Current Month Revenue],
+	-- Current Month Recovery
+	-- 16 - Account Receivable, 17 - Note Receivable
+	DECLARE @TotalAccountR FLOAT = ISNULL((
+		SELECT SUM([Credit]) AS [TotalAmount]
+		FROM [v_Transaction]
+		WHERE [TransectionDate] >= @FromDate 
+		  AND [TransectionDate] <= @ToDate
+		  AND [AccountControlID] = (
+			  SELECT TOP 1 [AccountControlID] 
+			  FROM [tblAccountSetting] 
+			  WHERE [AccountActivityID] = 16
+		  )
+		  AND [BranchID] = @BranchID 
+		  AND [CompanyID] = @CompanyID
+	), 0);
+
+	DECLARE @TotalNoteR FLOAT = ISNULL((
+		SELECT SUM([Credit]) AS [TotalAmount]
+		FROM [v_Transaction]
+		WHERE [TransectionDate] >= @FromDate 
+		  AND [TransectionDate] <= @ToDate
+		  AND [AccountControlID] = (
+			  SELECT TOP 1 [AccountControlID] 
+			  FROM [tblAccountSetting] 
+			  WHERE [AccountActivityID] = 17
+		  )
+		  AND [BranchID] = @BranchID 
+		  AND [CompanyID] = @CompanyID
+	), 0);
+
+	SET @CurrentMonthRecovery = @TotalAccountR + @TotalNoteR;
+
+	-- Current Cash/Bank Balance
+	-- 18 - Total Cash Balance
+	SET @CashplusBankaccountBalance = ISNULL((
+		SELECT SUM([Debit]) - SUM([Credit]) AS [TotalAmount]
+		FROM [v_Transaction]
+		WHERE [AccountHeadID] = (
+			SELECT TOP 1 [AccountControlID] 
+			FROM [tblAccountSetting] 
+			WHERE [AccountActivityID] = 18
+		)
+		  AND [BranchID] = @BranchID 
+		  AND [CompanyID] = @CompanyID
+	), 0);
+
+	-- Total Receivable
+	-- 16 - Account Receivable, 17 - Note Receivable
+	DECLARE @TotalAccountRPending FLOAT = ISNULL((
+		SELECT SUM([Debit]) - SUM([Credit]) AS [TotalAmount]
+		FROM [v_Transaction]
+		WHERE [TransectionDate] >= @FromDate 
+		  AND [TransectionDate] <= @ToDate
+		  AND [AccountControlID] = (
+			  SELECT TOP 1 [AccountControlID] 
+			  FROM [tblAccountSetting] 
+			  WHERE [AccountActivityID] = 16
+		  )
+		  AND [BranchID] = @BranchID 
+		  AND [CompanyID] = @CompanyID
+	), 0);
+
+	DECLARE @TotalNoteRPending FLOAT = ISNULL((
+		SELECT SUM([Debit]) - SUM([Credit]) AS [TotalAmount]
+		FROM [v_Transaction]
+		WHERE [TransectionDate] >= @FromDate 
+		  AND [TransectionDate] <= @ToDate
+		  AND [AccountControlID] = (
+			  SELECT TOP 1 [AccountControlID] 
+			  FROM [tblAccountSetting] 
+			  WHERE [AccountActivityID] = 17
+		  )
+		  AND [BranchID] = @BranchID 
+		  AND [CompanyID] = @CompanyID
+	), 0);
+
+	SET @TotalReceivable = @TotalAccountRPending + @TotalNoteRPending;
+
+	-- Total Payable
+	-- 19 - Account Payable, 20 - Note Payable
+	DECLARE @TotalAccountPPending FLOAT = ISNULL((
+		SELECT SUM([Credit]) - SUM([Debit]) AS [TotalAmount]
+		FROM [v_Transaction]
+		WHERE [TransectionDate] >= @FromDate 
+		  AND [TransectionDate] <= @ToDate
+		  AND [AccountControlID] = (
+			  SELECT TOP 1 [AccountControlID] 
+			  FROM [tblAccountSetting] 
+			  WHERE [AccountActivityID] = 19
+		  )
+		  AND [BranchID] = @BranchID 
+		  AND [CompanyID] = @CompanyID
+	), 0);
+
+	DECLARE @TotalNotePPending FLOAT = ISNULL((
+		SELECT SUM([Credit]) - SUM([Debit]) AS [TotalAmount]
+		FROM [v_Transaction]
+		WHERE [TransectionDate] >= @FromDate 
+		  AND [TransectionDate] <= @ToDate
+		  AND [AccountControlID] = (
+			  SELECT TOP 1 [AccountControlID] 
+			  FROM [tblAccountSetting] 
+			  WHERE [AccountActivityID] = 20
+		  )
+		  AND [BranchID] = @BranchID 
+		  AND [CompanyID] = @CompanyID
+	), 0);
+
+	SET @TotalPayable = @TotalAccountPPending + @TotalNotePPending;
+
+	-- For Today
+    SELECT 
+        @TotalSalesToday = ISNULL(SUM(TotalAmount), 0),
+        @SalesPaymentPendingToday = ISNULL(SUM(RemainingBalance), 0),
+        @SalesPaymentPaidToday = ISNULL(SUM(PaidAmount), 0)
+    FROM tblCustomerPayment
+    WHERE CAST(InvoiceDate AS DATE) = CAST(GETDATE() AS DATE)
+        AND BranchID = @BranchID
+        AND CompanyID = @CompanyID;
+
+    SELECT 
+        @TotalPurchasesToday = ISNULL(SUM(TotalAmount), 0),
+        @PurchasesPaymentPendingToday = ISNULL(SUM(RemainingBalance), 0),
+        @PurchasesPaymentPaidToday = ISNULL(SUM(PaymentAmount), 0)
+    FROM tblSupplierPayment
+    WHERE CAST(InvoiceDate AS DATE) = CAST(GETDATE() AS DATE)
+        AND BranchID = @BranchID
+        AND CompanyID = @CompanyID;
+
+    SELECT 
+        @TotalReturnSalesToday = ISNULL(SUM(TotalAmount), 0),
+        @ReturnSalesPaymentPendingToday = ISNULL(SUM(RemainingBalance), 0),
+        @ReturnSalesPaymentPaidToday = ISNULL(SUM(PaidAmount), 0)
+    FROM tblCustomerReturnPayment
+    WHERE CAST(InvoiceDate AS DATE) = CAST(GETDATE() AS DATE)
+        AND BranchID = @BranchID
+        AND CompanyID = @CompanyID;
+
+    SELECT 
+        @TotalReturnPurchasesToday = ISNULL(SUM(TotalAmount), 0),
+        @ReturnPurchasesPaymentPendingToday = ISNULL(SUM(RemainingBalance), 0),
+        @ReturnPurchasesPaymentPaidToday = ISNULL(SUM(PaymentAmount), 0)
+    FROM tblSupplierReturnPayment
+    WHERE CAST(InvoiceDate AS DATE) = CAST(GETDATE() AS DATE)
+        AND BranchID = @BranchID
+        AND CompanyID = @CompanyID;
+
+    -- For A Month
+    SELECT 
+        @TotalSalesCurrentMonth = ISNULL(SUM(TotalAmount), 0),
+        @SalesPaymentPendingCurrentMonth = ISNULL(SUM(RemainingBalance), 0),
+        @SalesPaymentPaidCurrentMonth = ISNULL(SUM(PaidAmount), 0)
+    FROM tblCustomerPayment
+    WHERE MONTH(InvoiceDate) = MONTH(GETDATE())
+        AND YEAR(InvoiceDate) = YEAR(GETDATE())
+        AND BranchID = @BranchID
+        AND CompanyID = @CompanyID;
+
+    SELECT 
+        @TotalPurchasesCurrentMonth = ISNULL(SUM(TotalAmount), 0),
+        @PurchasesPaymentPendingCurrentMonth = ISNULL(SUM(RemainingBalance), 0),
+        @PurchasesPaymentPaidCurrentMonth = ISNULL(SUM(PaymentAmount), 0)
+    FROM tblSupplierPayment
+    WHERE MONTH(InvoiceDate) = MONTH(GETDATE())
+        AND YEAR(InvoiceDate) = YEAR(GETDATE())
+        AND BranchID = @BranchID
+        AND CompanyID = @CompanyID;
+
+    SELECT 
+        @TotalReturnSalesCurrentMonth = ISNULL(SUM(TotalAmount), 0),
+        @ReturnSalesPaymentPendingCurrentMonth = ISNULL(SUM(RemainingBalance), 0),
+        @ReturnSalesPaymentPaidCurrentMonth = ISNULL(SUM(PaidAmount), 0)
+    FROM tblCustomerReturnPayment
+    WHERE MONTH(InvoiceDate) = MONTH(GETDATE())
+        AND YEAR(InvoiceDate) = YEAR(GETDATE())
+        AND BranchID = @BranchID
+        AND CompanyID = @CompanyID;
+
+    SELECT 
+        @TotalReturnPurchasesCurrentMonth = ISNULL(SUM(TotalAmount), 0),
+        @ReturnPurchasesPaymentPendingCurrentMonth = ISNULL(SUM(RemainingBalance), 0),
+        @ReturnPurchasesPaymentPaidCurrentMonth = ISNULL(SUM(PaymentAmount), 0)
+    FROM tblSupplierReturnPayment
+    WHERE MONTH(InvoiceDate) = MONTH(GETDATE())
+        AND YEAR(InvoiceDate) = YEAR(GETDATE())
+        AND BranchID = @BranchID
+        AND CompanyID = @CompanyID;
+
+	select 
+	@CurrentMonthRevenue as [Current Month Revenue],
 	@CurrentMonthExpenses as [Current Month Expenses],
 	@NetIncome as [Net Income],
 	@Capital as [Capital],
 	@CurrentMonthRecovery as [Current Month Recovery],
 	@CashplusBankaccountBalance as [Cash/Bank Balance],
 	@TotalReceivable as [Total Receivable],
-	@TotalPayable as [Total Payable]
+	@TotalPayable as [Total Payable],
+	@TotalSalesToday AS [Total Sales Today],
+    @SalesPaymentPendingToday AS [Sales Payment Pending Today],
+    @SalesPaymentPaidToday AS [Sales Payment Paid Today],
+    @TotalPurchasesToday AS [Total Purchases Today],
+    @PurchasesPaymentPendingToday AS [Purchases Payment Pending Today],
+    @PurchasesPaymentPaidToday AS [Purchases Payment Paid Today],
+    @TotalReturnSalesToday AS [Total Return Sales Today],
+    @ReturnSalesPaymentPendingToday AS [Return Sales Payment Pending Today],
+    @ReturnSalesPaymentPaidToday AS [Return Sales Payment Paid Today],
+    @TotalReturnPurchasesToday AS [Total Return Purchases Today],
+    @ReturnPurchasesPaymentPendingToday AS [Return Purchases Payment Pending Today],
+    @ReturnPurchasesPaymentPaidToday AS [Return Purchases Payment Paid Today],
+    @TotalSalesCurrentMonth AS [Total Sales Current Month],
+    @SalesPaymentPendingCurrentMonth AS [Sales Payment Pending Current Month],
+    @SalesPaymentPaidCurrentMonth AS [Sales Payment Paid Current Month],
+    @TotalPurchasesCurrentMonth AS [Total Purchases Current Month],
+    @PurchasesPaymentPendingCurrentMonth AS [Purchases Payment Pending Current Month],
+    @PurchasesPaymentPaidCurrentMonth AS [Purchases Payment Paid Current Month],
+    @TotalReturnSalesCurrentMonth AS [Total Return Sales Current Month],
+    @ReturnSalesPaymentPendingCurrentMonth AS [Return Sales Payment Pending Current Month],
+    @ReturnSalesPaymentPaidCurrentMonth AS [Return Sales Payment Paid Current Month],
+    @TotalReturnPurchasesCurrentMonth AS [Total Return Purchases Current Month],
+    @ReturnPurchasesPaymentPendingCurrentMonth AS [Return Purchases Payment Pending Current Month],
+    @ReturnPurchasesPaymentPaidCurrentMonth AS [Return Purchases Payment Paid Current Month];
 end
-GO
 /****** Object:  StoredProcedure [dbo].[GetJournal]    Script Date: 01.05.2024 22:58:01 ******/
 CREATE proc [dbo].[GetJournal](@BranchID as int, @CompanyID as int, @FromDate as Date, @ToDate as Date)
 as

@@ -13,7 +13,6 @@ namespace Domain.Models
         public string FullName { get; set; }
 
         [StringLength(15, ErrorMessage = "Contact Number cannot exceed 15 characters.")]
-        [Phone(ErrorMessage = "Contact Number must be a valid phone number.")]
         public string ContactNumber { get; set; }
 
         [EmailAddress(ErrorMessage = "Invalid Email Address.")]
@@ -34,29 +33,14 @@ namespace Domain.Models
         [StringLength(500, ErrorMessage = "Description cannot exceed 500 characters.")]
         public string Description { get; set; }
 
-        [Range(0, double.MaxValue, ErrorMessage = "Monthly Salary must be a positive value.")]
         public double MonthlySalary { get; set; }
-
         public bool? IsFirstLogin { get; set; }
-
         public DateTime? RegistrationDate { get; set; }
-
-        [Range(1, int.MaxValue, ErrorMessage = "Company ID must be a positive integer.")]
         public int CompanyID { get; set; }
-
-        [Range(1, int.MaxValue, ErrorMessage = "Branch ID must be a positive integer.")]
         public int BranchID { get; set; }
-
-        [Range(1, int.MaxValue, ErrorMessage = "Branch Type ID must be a positive integer.")]
         public int BranchTypeID { get; set; }
-
-        [Range(1, int.MaxValue, ErrorMessage = "Branch Code (BrchID) must be a positive integer.")]
         public int? BrchID { get; set; }
-
-        [StringLength(100, ErrorMessage = "Branch Name cannot exceed 100 characters.")]
         public string BranchName { get; set; }
-
-        [Range(1, int.MaxValue, ErrorMessage = "User ID must be a positive integer.")]
         public int? UserID { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Domain.Interfaces;
+using System;
 using System.Configuration;
 
 namespace CloudERP.Helpers
@@ -6,6 +7,13 @@ namespace CloudERP.Helpers
     public class WebConfigConnectionStringProvider : IConnectionStringProvider
     {
         public string GetConnectionString(string name)
-            => ConfigurationManager.ConnectionStrings[name]?.ConnectionString;
+        {
+            var connectionString = ConfigurationManager.ConnectionStrings[name]?.ConnectionString;
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                throw new InvalidOperationException($"Connection string '{name}' is not defined in the configuration file.");
+            }
+            return connectionString;
+        }
     }
 }

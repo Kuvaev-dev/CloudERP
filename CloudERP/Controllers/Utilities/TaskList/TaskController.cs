@@ -96,13 +96,13 @@ namespace CloudERP.Controllers
             }
         }
 
-        public async Task<ActionResult> AssignTask(int branchId)
+        public async Task<ActionResult> AssignTask()
         {
-            var employees = await _employeeRepository.GetEmployeesForTaskAssignmentAsync(branchId);
+            var employees = await _employeeRepository.GetEmployeesForTaskAssignmentAsync(_sessionHelper.BranchID);
             var model = new TaskAssignmentVM
             {
                 AvailableEmployees = employees,
-                BranchID = branchId
+                BranchID = _sessionHelper.BranchID
             };
 
             return View(model);

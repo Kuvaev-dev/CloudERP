@@ -44,6 +44,7 @@ namespace DatabaseAccess.Repositories
                             dashboardValues.CashPlusBankAccountBalance = Convert.ToDouble(reader["Cash/Bank Balance"]);
                             dashboardValues.TotalReceivable = Convert.ToDouble(reader["Total Receivable"]);
                             dashboardValues.TotalPayable = Convert.ToDouble(reader["Total Payable"]);
+
                             dashboardValues.TotalSalesToday = Convert.ToDouble(reader["Total Sales Today"]);
                             dashboardValues.SalesPaymentPendingToday = Convert.ToDouble(reader["Sales Payment Pending Today"]);
                             dashboardValues.SalesPaymentPaidToday = Convert.ToDouble(reader["Sales Payment Paid Today"]);

@@ -6,18 +6,22 @@
 
 @Html.AntiForgeryToken()
 
-<h2>Branches Map</h2>
 <div id="map" style="height: 500px; width: 100%;"></div>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
-    var map = L.map('map').setView([50.4501, 30.5234], 6);
+    var map = L.map('map', {
+        maxBounds: [[-90, -180], [90, 180]],
+        maxBoundsViscosity: 1.0,
+    }).setView([50.4501, 30.5234], 6);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        minZoom: 1,
         maxZoom: 19,
-        attribution: '© OpenStreetMap contributors'
+        attribution: '© OpenStreetMap contributors',
+        noWrap: true
     }).addTo(map);
 
     var branches = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
