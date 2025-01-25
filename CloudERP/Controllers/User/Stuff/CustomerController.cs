@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
@@ -160,6 +159,8 @@ namespace CloudERP.Controllers
 
             try
             {
+                model.UserID = _sessionHelper.UserID;
+
                 if (ModelState.IsValid)
                 {
                     await _customerRepository.UpdateAsync(model);

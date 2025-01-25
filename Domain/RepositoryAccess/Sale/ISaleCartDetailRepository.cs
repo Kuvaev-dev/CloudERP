@@ -13,6 +13,7 @@ namespace Domain.RepositoryAccess
         Task<SaleCartDetail> GetByIdAsync(int id);
         Task AddAsync(SaleCartDetail saleCartDetail);
         Task UpdateAsync(SaleCartDetail saleCartDetail);
-        Task DeleteAsync(IEnumerable<SaleCartDetail> saleCartDetail);
+        Task DeleteAsync(int detailID);
+        Task DeleteListAsync(IEnumerable<SaleCartDetail> saleCartDetails);
     }
 }

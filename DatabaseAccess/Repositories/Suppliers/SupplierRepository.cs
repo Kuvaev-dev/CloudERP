@@ -55,8 +55,11 @@ namespace DatabaseAccess.Repositories
                 SupplierEmail = s.SupplierEmail,
                 Discription = s.Discription,
                 CompanyID = s.CompanyID,
+                CompanyName = s.tblCompany.Name,
                 BranchID = s.BranchID,
-                UserID = s.UserID
+                BranchName = s.tblBranch.BranchName,
+                UserID = s.UserID,
+                UserName = s.tblUser.FullName
             });
         }
 
@@ -73,8 +76,11 @@ namespace DatabaseAccess.Repositories
                 SupplierEmail = entity.SupplierEmail,
                 Discription = entity.Discription,
                 CompanyID = entity.CompanyID,
+                CompanyName = entity.tblCompany.Name,
                 BranchID = entity.BranchID,
-                UserID = entity.UserID
+                BranchName = entity.tblBranch.BranchName,
+                UserID = entity.UserID,
+                UserName = entity.tblUser.UserName
             };
         }
 

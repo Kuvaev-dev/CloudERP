@@ -65,7 +65,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var branchSuppliers = await _supplierRepository.GetSuppliersByBranchesAsync(_sessionHelper.BrchID);
+                var branchSuppliers = await _supplierRepository.GetSuppliersByBranchesAsync(_sessionHelper.BranchID);
                 return View(branchSuppliers);
             }
             catch (Exception ex)
@@ -201,8 +201,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                int userID = _sessionHelper.UserID;
-                model.UserID = userID;
+                model.UserID = _sessionHelper.UserID;
 
                 if (ModelState.IsValid)
                 {

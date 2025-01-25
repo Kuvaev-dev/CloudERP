@@ -1,8 +1,8 @@
-﻿@model IEnumerable<Domain.Models.SupplierInvoiceDetail>
+﻿@model IEnumerable<Domain.Models.SaleCartDetail>
 
 @{
     ViewBag.Title = Resources.Sale.NewSale.ToString();
-    var products = ViewBag.Products as List<DatabaseAccess.tblStock>;
+    var products = ViewBag.Products as IEnumerable<Domain.Models.Stock>;
 }
 
 <!-- Tables Sorting-->
@@ -139,9 +139,15 @@
                     </tr>
                 </tfoot>
             </table>
-            <div style="float:right; margin-top:20px;">
+            <div style="float:right; margin-top:20px;" class="btn-group">
                 @Html.ActionLink(Resources.Sale.Next.ToString(), "SelectCustomer", null, new { @class = "btn btn-success", style = "padding:20px;" })
-                @Html.ActionLink(Resources.Sale.Cancel.ToString(), "CancelSale", null, new { @class = "btn btn-danger", style = "padding:20px;" })
+                @using (Html.BeginForm("CancelSale", "SaleCart", FormMethod.Post, new { @class = "form-inline" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-danger" style="padding:20px;">
+                        @Resources.Sale.Cancel.ToString()
+                    </button>
+                }
             </div>
         </div>
     </div>

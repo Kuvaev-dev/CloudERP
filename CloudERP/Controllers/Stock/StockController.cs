@@ -54,8 +54,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                if (id == null)
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null) return RedirectToAction("EP404", "EP");
 
                 var stock = await _stockRepository.GetByIdAsync(id.Value);
                 if (stock == null) return RedirectToAction("EP404", "EP");

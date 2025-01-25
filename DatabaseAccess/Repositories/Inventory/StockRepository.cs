@@ -27,6 +27,7 @@ namespace DatabaseAccess.Repositories
             {
                 ProductID = s.ProductID,
                 CategoryID = s.CategoryID,
+                CategoryName = s.tblCategory.CategoryName,
                 CompanyID = s.CompanyID,
                 BranchID = s.BranchID,
                 ProductName = s.ProductName,
@@ -51,7 +52,9 @@ namespace DatabaseAccess.Repositories
                 ProductID = entity.ProductID,
                 CategoryID = entity.CategoryID,
                 CompanyID = entity.CompanyID,
+                CompanyName = entity.tblCompany.Name,
                 BranchID = entity.BranchID,
+                BranchName = entity.tblBranch.BranchName,
                 ProductName = entity.ProductName,
                 Quantity = entity.Quantity,
                 SaleUnitPrice = entity.SaleUnitPrice,
@@ -61,6 +64,7 @@ namespace DatabaseAccess.Repositories
                 StockTreshHoldQuantity = entity.StockTreshHoldQuantity,
                 Description = entity.Description,
                 UserID = entity.UserID,
+                UserName = entity.tblUser.FullName,
                 IsActive = entity.IsActive
             };
         }

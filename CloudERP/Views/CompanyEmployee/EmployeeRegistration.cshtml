@@ -130,8 +130,6 @@
             utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
         });
 
-        iti.setNumber("@Model.Employee.ContactNumber");
-
         $('form').submit(function (e) {
             var countryCode = iti.getSelectedCountryData().dialCode;
             var phoneNumber = iti.getNumber();

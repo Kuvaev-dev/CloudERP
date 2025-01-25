@@ -53,6 +53,7 @@ namespace CloudERP.Controllers
             {
                 return View(new EmployeeMV()
                 {
+                    Employee = new Employee(),
                     BranchesList = await GetBranchesList()
                 });
             }
@@ -200,7 +201,7 @@ namespace CloudERP.Controllers
                 {
                     Session["SalaryMessage"] = message;
 
-                    int payrollNo = await _companyEmployeeFacade.EmployeeSalaryService.GetLatestPayrollNumberAsync();
+                    int payrollNo = await _companyEmployeeFacade.PayrollRepository.GetLatestPayrollIdAsync();
 
                     return RedirectToAction("PrintSalaryInvoice", new { id = payrollNo });
                 }

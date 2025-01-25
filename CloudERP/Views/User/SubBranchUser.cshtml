@@ -66,8 +66,9 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.UserTypeName)
                             </td>
-                            <td>
+                            <td class="btn btn-group">
                                 @Html.ActionLink(Resources.Common.Edit.ToString(), "Edit", new { id = item.UserID }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink(Resources.Common.Details.ToString(), "Details", new { id = item.UserID }, new { @class = "btn btn-primary" })
                             </td>
                         </tr>
                     }

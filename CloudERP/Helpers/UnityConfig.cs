@@ -79,6 +79,7 @@ namespace CloudERP.Helpers
             // Company
             container.RegisterType<ICompanyRepository, CompanyRepository>();
             // Customer
+            container.RegisterType<ICustomerInvoiceRepository, CustomerInvoiceRepository>();
             container.RegisterType<ICustomerInvoiceDetailRepository, CustomerInvoiceDetailRepository>();
             container.RegisterType<ICustomerPaymentRepository, CustomerPaymentRepository>();
             container.RegisterType<ICustomerRepository, CustomerRepository>();

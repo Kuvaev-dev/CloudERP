@@ -1,4 +1,5 @@
-﻿using Domain.Models.FinancialModels;
+﻿using Domain.Models;
+using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
 using System;
 using System.Threading.Tasks;
@@ -8,7 +9,6 @@ namespace Domain.Services
     public interface IEmployeeSalaryService
     {
         Task<string> ConfirmSalaryAsync(Salary salary, int userId, int branchId, int companyId);
-        Task<int> GetLatestPayrollNumberAsync();
     }
 
     public class EmployeeSalaryService : IEmployeeSalaryService
@@ -43,11 +43,6 @@ namespace Domain.Services
                 invoiceNo,
                 salary.SalaryMonth.ToLower(),
                 salary.SalaryYear);
-        }
-
-        public async Task<int> GetLatestPayrollNumberAsync()
-        {
-            return await _payrollRepository.GetLatestPayrollAsync();
         }
     }
 }

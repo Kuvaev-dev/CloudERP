@@ -146,7 +146,7 @@ namespace CloudERP.Controllers
                 }
 
                 var userTypes = await _userTypeRepository.GetAllAsync();
-                ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserType", user.UserTypeID);
+                ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserTypeName", user.UserTypeID);
 
                 return View(user);
             }
@@ -187,7 +187,7 @@ namespace CloudERP.Controllers
 
                 await _userRepository.UpdateAsync(user);
 
-                return RedirectToAction("Index", "User");
+                return RedirectToAction("SubBranchUser", "User");
             }
             catch (Exception ex)
             {

@@ -7,13 +7,7 @@ namespace Domain.Models
     {
         [Key]
         public int ProductID { get; set; }
-
-        [Required(ErrorMessage = "Category ID is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Category ID must be a positive integer.")]
         public int CategoryID { get; set; }
-
-        [Required(ErrorMessage = "Category Name is required.")]
-        [StringLength(100, ErrorMessage = "Category Name cannot be longer than 100 characters.")]
         public string CategoryName { get; set; }
 
         [Required(ErrorMessage = "Product Name is required.")]
@@ -46,27 +40,12 @@ namespace Domain.Models
 
         [StringLength(500, ErrorMessage = "Description cannot be longer than 500 characters.")]
         public string Description { get; set; }
-
-        [Required(ErrorMessage = "User ID is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "User ID must be a positive integer.")]
         public int UserID { get; set; }
-
-        [Required(ErrorMessage = "User Name is required.")]
         public string UserName { get; set; }
-
-        [Required(ErrorMessage = "Branch ID is required.")]
         public int BranchID { get; set; }
-
-        [Required(ErrorMessage = "Branch Name is required.")]
         public string BranchName { get; set; }
-
-        [Required(ErrorMessage = "Company ID is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Company ID must be a positive integer.")]
         public int CompanyID { get; set; }
-
-        [Required(ErrorMessage = "Company Name is required.")]
         public string CompanyName { get; set; }
-
         public bool? IsActive { get; set; }
     }
 }

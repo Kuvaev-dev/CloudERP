@@ -139,7 +139,7 @@ namespace CloudERP.Controllers
                 var product = await _saleCartDetailRepository.GetByIdAsync(id);
                 if (product != null)
                 {
-                    await _saleCartDetailRepository.UpdateAsync(product);
+                    await _saleCartDetailRepository.DeleteAsync(id);
                     ViewBag.Message = Resources.Messages.DeletedSuccessfully;
                     return RedirectToAction("NewSale");
                 }
@@ -218,7 +218,7 @@ namespace CloudERP.Controllers
             try
             {
                 var saleDetails = await _saleCartDetailRepository.GetByDefaultSettingAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID, _sessionHelper.UserID);
-                await _saleCartDetailRepository.DeleteAsync(saleDetails);
+                await _saleCartDetailRepository.DeleteListAsync(saleDetails);
 
                 ViewBag.Message = Resources.Messages.SaleCanceledSuccessfully;
 

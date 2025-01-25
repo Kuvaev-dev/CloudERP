@@ -42,8 +42,8 @@ namespace CloudERP.Controllers
 
             try
             {
-                var userType = await _categoryRepository.GetByIdAsync(id);
-                return View(userType);
+                var category = await _categoryRepository.GetByIdAsync(id);
+                return View(category);
             }
             catch (Exception ex)
             {

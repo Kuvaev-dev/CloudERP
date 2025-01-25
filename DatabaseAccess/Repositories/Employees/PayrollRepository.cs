@@ -25,14 +25,21 @@ namespace DatabaseAccess.Repositories
             {
                 PayrollID = entity.PayrollID,
                 EmployeeID = entity.EmployeeID,
+                EmployeeName = entity.tblEmployee.Name,
                 BranchID = entity.BranchID,
+                BranchName = entity.tblBranch.BranchName,
+                BranchAddress = entity.tblBranch.BranchAddress,
+                BranchContact = entity.tblBranch.BranchContact,
                 CompanyID = entity.CompanyID,
+                CompanyName = entity.tblCompany.Name,
+                CompanyLogo = entity.tblCompany.Logo,
                 TransferAmount = entity.TransferAmount,
                 PayrollInvoiceNo = entity.PayrollInvoiceNo,
                 PaymentDate = entity.PaymentDate,
                 SalaryMonth = entity.SalaryMonth,
                 SalaryYear = entity.SalaryYear,
-                UserID = entity.UserID
+                UserID = entity.UserID,
+                UserName = entity.tblUser.UserName
             };
         }
 
@@ -60,9 +67,29 @@ namespace DatabaseAccess.Repositories
             };
         }
 
-        public async Task<int> GetLatestPayrollAsync()
+        public async Task<int> GetLatestPayrollIdAsync()
         {
             return await _dbContext.tblPayroll.MaxAsync(p => p.PayrollID);
+        }
+
+        public async Task<Payroll> GetLatestPayrollAsync()
+        {
+            var payrollID = await GetLatestPayrollIdAsync();
+            var payroll = await _dbContext.tblPayroll.FirstOrDefaultAsync(p => p.PayrollID == payrollID);
+
+            return payroll == null ? null : new Payroll
+            {
+                PayrollID = payroll.PayrollID,
+                EmployeeID = payroll.EmployeeID,
+                BranchID = payroll.BranchID,
+                CompanyID = payroll.CompanyID,
+                TransferAmount = payroll.TransferAmount,
+                PayrollInvoiceNo = payroll.PayrollInvoiceNo,
+                PaymentDate = payroll.PaymentDate,
+                SalaryMonth = payroll.SalaryMonth,
+                SalaryYear = payroll.SalaryYear,
+                UserID = payroll.UserID
+            };
         }
 
         public async Task<IEnumerable<Payroll>> GetSalaryHistoryAsync(int branchID, int companyID)
@@ -76,6 +103,7 @@ namespace DatabaseAccess.Repositories
             {
                 PayrollID = p.PayrollID,
                 EmployeeID = p.EmployeeID,
+                EmployeeName = p.tblEmployee.Name,
                 BranchID = p.BranchID,
                 CompanyID = p.CompanyID,
                 TransferAmount = p.TransferAmount,
@@ -83,7 +111,8 @@ namespace DatabaseAccess.Repositories
                 PaymentDate = p.PaymentDate,
                 SalaryMonth = p.SalaryMonth,
                 SalaryYear = p.SalaryYear,
-                UserID = p.UserID
+                UserID = p.UserID,
+                UserName = p.tblUser.UserName
             });
         }
     }

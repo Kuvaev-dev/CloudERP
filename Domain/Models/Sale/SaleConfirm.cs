@@ -10,8 +10,6 @@ namespace Domain.Models.FinancialModels
 
         [StringLength(500, ErrorMessage = "Description cannot exceed 500 characters.")]
         public string Description { get; set; }
-
-        [Required(ErrorMessage = "Payment status (IsPayment) is required.")]
         public bool IsPayment { get; set; }
     }
 }

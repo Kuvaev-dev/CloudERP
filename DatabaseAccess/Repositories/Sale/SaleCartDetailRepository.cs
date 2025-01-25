@@ -34,11 +34,41 @@ namespace DatabaseAccess.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(IEnumerable<SaleCartDetail> saleCartDetails)
+        public async Task DeleteAsync(int detailID)
+        {
+            var item = await _dbContext.tblSaleCartDetail.FirstOrDefaultAsync(d => d.SaleCartDetailID == detailID);    
+            _dbContext.Entry(item).State = EntityState.Deleted;
+
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteListAsync(IEnumerable<SaleCartDetail> saleCartDetails)
         {
             foreach (var item in saleCartDetails)
             {
-                _dbContext.Entry(item).State = EntityState.Deleted;
+                var entity = new tblSaleCartDetail
+                {
+                    SaleCartDetailID = item.SaleCartDetailID,
+                    ProductID = item.ProductID,
+                    SaleQuantity = item.SaleQuantity,
+                    SaleUnitPrice = item.SaleUnitPrice,
+                    CompanyID = item.CompanyID,
+                    BranchID = item.BranchID,
+                    UserID = item.UserID
+                };
+
+                var trackedEntity = _dbContext.ChangeTracker.Entries<tblSaleCartDetail>()
+                    .FirstOrDefault(e => e.Entity.SaleCartDetailID == entity.SaleCartDetailID);
+
+                if (trackedEntity != null)
+                {
+                    trackedEntity.State = EntityState.Deleted;
+                }
+                else
+                {
+                    _dbContext.tblSaleCartDetail.Attach(entity);
+                    _dbContext.Entry(entity).State = EntityState.Deleted;
+                }
             }
 
             await _dbContext.SaveChangesAsync();
@@ -70,11 +100,13 @@ namespace DatabaseAccess.Repositories
             {
                 SaleCartDetailID = scd.SaleCartDetailID,
                 ProductID = scd.ProductID,
+                ProductName = scd.tblStock.ProductName,
                 SaleQuantity = scd.SaleQuantity,
                 SaleUnitPrice = scd.SaleUnitPrice,
                 CompanyID = scd.CompanyID,
                 BranchID = scd.BranchID,
-                UserID = scd.UserID
+                UserID = scd.UserID,
+                UserName = scd.tblUser.FullName
             });
         }
 

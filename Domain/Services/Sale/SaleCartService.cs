@@ -31,11 +31,6 @@ namespace Domain.Services.Sale
 
                 double totalAmount = saleDetails.Sum(item => item.SaleQuantity * item.SaleUnitPrice);
 
-                if (totalAmount == 0)
-                {
-                    return Result<int>.Failure("Корзина продаж пуста.");
-                }
-
                 string invoiceNo = "INV" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
                 var invoiceHeader = new CustomerInvoice
                 {

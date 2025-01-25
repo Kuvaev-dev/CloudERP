@@ -21,26 +21,11 @@ namespace Domain.Models
 
         [StringLength(500, ErrorMessage = "Description cannot exceed 500 characters.")]
         public string Description { get; set; }
-
-        [Required(ErrorMessage = "Branch ID is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Branch ID must be a positive integer.")]
         public int BranchID { get; set; }
-
-        [Required(ErrorMessage = "Company ID is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Company ID must be a positive integer.")]
         public int CompanyID { get; set; }
-
-        [Required(ErrorMessage = "User ID is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "User ID must be a positive integer.")]
         public int UserID { get; set; }
-
-        [StringLength(150, ErrorMessage = "Branch Name cannot exceed 150 characters.")]
         public string BranchName { get; set; }
-
-        [StringLength(150, ErrorMessage = "Company Name cannot exceed 150 characters.")]
         public string CompanyName { get; set; }
-
-        [StringLength(150, ErrorMessage = "User Name cannot exceed 150 characters.")]
         public string UserName { get; set; }
     }
 }
