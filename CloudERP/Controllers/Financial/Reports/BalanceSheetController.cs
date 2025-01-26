@@ -42,7 +42,7 @@ namespace CloudERP.Controllers
                     return View(new BalanceSheetModel());
                 }
 
-                var balanceSheet = await _balanceSheetService.GetBalanceSheetAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID, financialYear.FinancialYearID, new List<int> { 1, 2, 3, 4, 5 });
+                var balanceSheet = await _balanceSheetService.GetBalanceSheetAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID, financialYear.FinancialYearID, new List<int> { 2, 3, 4, 5, 6 });
                 return View(balanceSheet);
             }
             catch (Exception ex)
@@ -134,7 +134,7 @@ namespace CloudERP.Controllers
 
         private async Task PopulateViewBag()
         {
-            ViewBag.FinancialYears = new SelectList(await _financialYearRepository.GetAllActiveAsync(), "FinancialYearID", "FinancialYear");
+            ViewBag.FinancialYears = new SelectList(await _financialYearRepository.GetAllActiveAsync(), "FinancialYearID", "FinancialYearName");
         }
     }
 }

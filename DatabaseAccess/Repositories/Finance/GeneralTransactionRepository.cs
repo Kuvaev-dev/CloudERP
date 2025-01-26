@@ -74,9 +74,14 @@ namespace DatabaseAccess.Repositories
                     return Localization.Localization.DebitAccountNotFound;
                 }
 
-                SetEntries(financialYearId, debitAccount.AccountHeadID.ToString(),
-                    debitAccount.AccountControlID.ToString(), debitAccount.AccountSubControlID.ToString(),
-                    invoiceNo, userId.ToString(), "0", transferAmount.ToString(),
+                SetEntries(financialYearId, 
+                    debitAccount.AccountHeadID.ToString(),
+                    debitAccount.AccountControlID.ToString(), 
+                    debitAccount.AccountSubControlID.ToString(),
+                    invoiceNo, 
+                    userId.ToString(), 
+                    "0", 
+                    transferAmount.ToString(),
                     DateTime.Now, transactionTitle);
 
                 var creditAccount = await _accountSubControlRepository.GetBySettingAsync(creditAccountControlId, companyId, branchId);
@@ -87,9 +92,14 @@ namespace DatabaseAccess.Repositories
 
                 transactionTitle = Localization.Localization.GeneralTransactionSucceed;
 
-                SetEntries(financialYearId, creditAccount.AccountHeadID.ToString(),
-                    creditAccount.AccountControlID.ToString(), creditAccount.AccountSubControlID.ToString(),
-                    invoiceNo, userId.ToString(), transferAmount.ToString(), "0",
+                SetEntries(financialYearId, 
+                    creditAccount.AccountHeadID.ToString(),
+                    creditAccount.AccountControlID.ToString(), 
+                    creditAccount.AccountSubControlID.ToString(),
+                    invoiceNo, 
+                    userId.ToString(), 
+                    transferAmount.ToString(), 
+                    "0",
                     DateTime.Now, transactionTitle);
 
                 foreach (DataRow entryRow in _dtEntries.Rows)

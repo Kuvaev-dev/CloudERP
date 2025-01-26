@@ -117,7 +117,7 @@ namespace CloudERP.Controllers
 
         private async Task PopulateViewBag()
         {
-            ViewBag.FinancialYears = new SelectList(await _financialYearRepository.GetAllActiveAsync(), "FinancialYearID", "FinancialYear");
+            ViewBag.FinancialYears = new SelectList(await _financialYearRepository.GetAllActiveAsync(), "FinancialYearID", "FinancialYearName");
         }
     }
 }

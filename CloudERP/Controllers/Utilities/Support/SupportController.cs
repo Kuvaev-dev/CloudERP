@@ -2,6 +2,7 @@
 using Domain.Models;
 using Domain.RepositoryAccess;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -10,14 +11,17 @@ namespace CloudERP.Controllers
     public class SupportController : Controller
     {
         private readonly ISupportTicketRepository _supportTicketRepository;
+        private readonly IUserRepository _userRepository;
         private readonly SessionHelper _sessionHelper;
 
         public SupportController(
             ISupportTicketRepository supportTicketRepository, 
-            SessionHelper sessionHelper)
+            SessionHelper sessionHelper,
+            IUserRepository userRepository)
         {
             _supportTicketRepository = supportTicketRepository ?? throw new ArgumentNullException(nameof(ISupportTicketRepository));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _userRepository = userRepository;
         }
 
         public ActionResult Support()
@@ -31,11 +35,15 @@ namespace CloudERP.Controllers
         {
             try
             {
+                var user = await _userRepository.GetByIdAsync(_sessionHelper.UserID);
+
                 model.CompanyID = _sessionHelper.CompanyID;
                 model.BranchID = _sessionHelper.BranchID;
                 model.UserID = _sessionHelper.UserID;
                 model.DateCreated = DateTime.Now;
                 model.IsResolved = false;
+                model.Email = user.Email;
+                model.Name = $"{model.DateCreated} - {user.FullName}";
 
                 if (ModelState.IsValid)
                 {
@@ -44,6 +52,7 @@ namespace CloudERP.Controllers
 
                     return View("Support", new SupportTicket());
                 }
+
                 return View("Support", model);
             }
             catch (Exception ex)

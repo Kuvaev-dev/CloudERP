@@ -24,6 +24,30 @@ namespace CloudERP.Controllers
             _generalTransactionRepository = generalTransactionRepository ?? throw new ArgumentNullException(nameof(IGeneralTransactionRepository));
         }
 
+        // GET: GeneralTransaction/GeneralTransaction
+        public async Task<ActionResult> GeneralTransaction()
+        {
+            try
+            {
+                if (!_sessionHelper.IsAuthenticated)
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+
+                var accounts = await _generalTransactionRepository.GetAllAccounts(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+
+                ViewBag.CreditAccountControlID = new SelectList(accounts, "AccountSubControlID", "AccountSubControl");
+                ViewBag.DebitAccountControlID = new SelectList(accounts, "AccountSubControlID", "AccountSubControl");
+
+                return View(new GeneralTransactionMV());
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SaveGeneralTransaction(GeneralTransactionMV transaction)
@@ -62,6 +86,102 @@ namespace CloudERP.Controllers
                     "AccountSubControlID", "AccountSubControl", "0");
 
                 return RedirectToAction("GeneralTransaction", new { transaction });
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
+        }
+
+        // GET: GeneralTransaction/Journal
+        public async Task<ActionResult> Journal()
+        {
+            try
+            {
+                if (!_sessionHelper.IsAuthenticated)
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+
+                return View(await _generalTransactionRepository.GetJournal(
+                    _sessionHelper.CompanyID,
+                    _sessionHelper.BranchID,
+                    DateTime.Now,
+                    DateTime.Now));
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
+        }
+
+        // POST: GeneralTransaction/Journal
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Journal(DateTime FromDate, DateTime ToDate)
+        {
+            try
+            {
+                if (!_sessionHelper.IsAuthenticated)
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+
+                return View(await _generalTransactionRepository.GetJournal(
+                    _sessionHelper.CompanyID,
+                    _sessionHelper.BranchID,
+                    FromDate,
+                    ToDate));
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
+        }
+
+        // GET: GeneralTransaction/SubJournal
+        public async Task<ActionResult> SubJournal()
+        {
+            try
+            {
+                if (!_sessionHelper.IsAuthenticated)
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+
+                return View(await _generalTransactionRepository.GetJournal(
+                    _sessionHelper.CompanyID, 
+                    _sessionHelper.BrchID, 
+                    DateTime.Now, 
+                    DateTime.Now));
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
+        }
+
+        // POST: GeneralTransaction/SubJournal
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SubJournal(DateTime FromDate, DateTime ToDate)
+        {
+            try
+            {
+                if (!_sessionHelper.IsAuthenticated)
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+
+                return View(await _generalTransactionRepository.GetJournal(
+                    _sessionHelper.CompanyID,
+                    _sessionHelper.BrchID,
+                    FromDate,
+                    ToDate));
             }
             catch (Exception ex)
             {

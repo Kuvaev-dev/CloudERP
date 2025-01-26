@@ -35,7 +35,7 @@
         </div>
     </div>
     <div class="card-body">
-        <table class="table my-4 w-100" id="dataTable">
+        <table class="table my-4 w-100">
             <thead>
                 <tr>
                     <th style="display:none;">
@@ -112,31 +112,3 @@
         </table>
     </div>
 </div>
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#dataTable').DataTable({
-            "columnDefs": [{ "orderable": false, "targets": 3 }],
-            "lengthMenu": [[5, 10, 25, 50, 75, 100, 150, 200, -1], [5, 10, 25, 50, 75, 100, 150, 200, "All"]],
-        });
-
-        $.ajax({
-            type: "GET",
-            url: "/TrialBalance/GetFinancialYear",
-            dataType: 'json',
-            success: function (response) {
-                $('#id').append("<option value='0'>Select Financial Year</option>");
-                if (response.data && Array.isArray(response.data)) {
-                    for (var i = 0; i < response.data.length; i++) {
-                        $('#id').append("<option value='" + response.data[i].FinancialYearID + "'>" + response.data[i].FinancialYear + "</option>");
-                    }
-                } else {
-                    console.warn("Unexpected response format:", response);
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error("Error fetching financial years: " + error);
-            }
-        });
-    });
-</script>

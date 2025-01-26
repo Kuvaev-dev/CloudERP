@@ -26,11 +26,5 @@ namespace Domain.Models
         public bool IsActive { get; set; }
         public int UserID { get; set; }
         public string UserName { get; set; }
-
-        public FinancialYear()
-        {
-            StartDate = DateTime.Now;
-            EndDate = DateTime.Now.AddDays(1);
-        }
     }
 }
