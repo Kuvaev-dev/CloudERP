@@ -3484,7 +3484,6 @@
     <Content Include="Views\UserSetting\CreateUser.cshtml" />
     <Content Include="Views\UserSetting\UpdateUser.cshtml" />
     <Content Include="Views\CompanyEmployee\Employees.cshtml" />
-    <Content Include="Views\CompanyEmployee\EmployeeRegistration.cshtml" />
     <Content Include="Views\Category\Create.cshtml" />
     <Content Include="Views\Category\Details.cshtml" />
     <Content Include="Views\Category\Edit.cshtml" />
@@ -3588,6 +3587,7 @@
     <Content Include="Views\Task\AssignTask.cshtml" />
     <Content Include="Views\Analytics\Index.cshtml" />
     <Content Include="Views\AccountSubControl\Edit.cshtml" />
+    <Content Include="Views\CompanyEmployee\EmployeeRegistration.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

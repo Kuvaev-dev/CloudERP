@@ -63,7 +63,7 @@ namespace CloudERP.Controllers
                 };
 
                 var userTypes = await _userTypeRepository.GetAllAsync();
-                ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserType");
+                ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserTypeName");
 
                 return View(user);
             }
@@ -87,17 +87,18 @@ namespace CloudERP.Controllers
                 if (!ModelState.IsValid)
                 {
                     var userTypes = await _userTypeRepository.GetAllAsync();
-                    ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserType", user.UserTypeID);
+                    ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserTypeName", user.UserTypeID);
                     return View(user);
                 }
 
                 var existingUser = (await _userRepository.GetAllAsync()).FirstOrDefault(u => u.Email == user.Email && u.UserID != user.UserID);
-                if (existingUser != null)
+                var existingEmployee = (await _employeeRepository.GetByBranchAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID)).FirstOrDefault(u => u.Email == user.Email && u.UserID == user.UserID);
+                if (existingUser != null || existingEmployee != null)
                 {
                     ViewBag.Message = Resources.Messages.EmailIsAlreadyRegistered;
 
                     var userTypes = await _userTypeRepository.GetAllAsync();
-                    ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserType", user.UserTypeID);
+                    ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserTypeName", user.UserTypeID);
 
                     return View(user);
                 }
@@ -170,7 +171,7 @@ namespace CloudERP.Controllers
                 if (!ModelState.IsValid)
                 {
                     var userTypes = await _userTypeRepository.GetAllAsync();
-                    ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserType", user.UserTypeID);
+                    ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserTypeName", user.UserTypeID);
                     return View(user);
                 }
 
@@ -180,7 +181,7 @@ namespace CloudERP.Controllers
                     ViewBag.Message = Resources.Messages.EmailIsAlreadyRegistered;
 
                     var userTypes = await _userTypeRepository.GetAllAsync();
-                    ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserType", user.UserTypeID);
+                    ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserTypeName", user.UserTypeID);
 
                     return View(user);
                 }

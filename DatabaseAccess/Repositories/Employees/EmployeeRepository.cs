@@ -121,7 +121,6 @@ namespace DatabaseAccess.Repositories
         {
             var entity = new tblEmployee
             {
-                EmployeeID = employee.EmployeeID,
                 Name = employee.FullName,
                 ContactNo = employee.ContactNumber,
                 Email = employee.Email,
@@ -140,13 +139,13 @@ namespace DatabaseAccess.Repositories
 
             _dbContext.tblEmployee.Add(entity);
             await _dbContext.SaveChangesAsync();
+            employee.EmployeeID = entity.EmployeeID;
         }
 
         public async Task UpdateAsync(Employee employee)
         {
             var entity = await _dbContext.tblEmployee.FindAsync(employee.EmployeeID);
 
-            entity.EmployeeID = employee.EmployeeID;
             entity.Name = employee.FullName;
             entity.ContactNo = employee.ContactNumber;
             entity.Email = employee.Email;

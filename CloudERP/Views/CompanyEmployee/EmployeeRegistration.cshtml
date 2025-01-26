@@ -1,4 +1,4 @@
-﻿@model CloudERP.Models.EmployeeMV
+﻿@model Domain.Models.Employee
 
 @{
     ViewBag.Title = Resources.Company.EmployeeRegistration.ToString();
@@ -25,88 +25,89 @@
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
         <div class="form-group">
-            @Html.LabelFor(model => model.Employee.FullName, Resources.User.FullName.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.FullName, Resources.User.FullName.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
-                @Html.EditorFor(model => model.Employee.FullName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Employee.FullName, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Employee.ContactNumber, Resources.User.ContactNo.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ContactNumber, Resources.User.ContactNo.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
-                @Html.EditorFor(model => model.Employee.ContactNumber, new { htmlAttributes = new { @class = "form-control", @id = "PhoneNumber" } })
-                @Html.ValidationMessageFor(model => model.Employee.ContactNumber, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.ContactNumber, new { htmlAttributes = new { @class = "form-control", @id = "PhoneNumber" } })
+                @Html.ValidationMessageFor(model => model.ContactNumber, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.LogoFile, Resources.Company.Photo.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            <label class="control-label col-md-2">Avatar</label>
             <div class="col-md-5">
                 <span class="btn btn-default btn-file">
-                    @Html.TextBoxFor(model => model.LogoFile, new { type = "file" })
+                    <input type="file" name="avatar"/>
                 </span>
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Employee.Email, Resources.User.EmailAddress.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Email, Resources.User.EmailAddress.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
-                @Html.EditorFor(model => model.Employee.Email, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Employee.Email, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Employee.Address, Resources.Company.Address.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Address, Resources.Company.Address.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 <div class="input-group">
-                    @Html.EditorFor(model => model.Employee.Address, new { htmlAttributes = new { @class = "form-control", @id = "address" } })
+                    @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @id = "address" } })
                     <div class="input-group-append">
                         <button class="btn btn-link" type="button" onclick="getLocation()">
                             <i class="fas fa-location" style="font-size: 1.5em; color: gray;"></i>
                         </button>
                     </div>
                 </div>
-                @Html.ValidationMessageFor(model => model.Employee.Address, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
                 <h5 class="mt-3">@Resources.Branch.ClickHereToChooseACorrectAddressBelow.ToString()</h5>
                 <ul id="suggestions"></ul>
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Employee.TIN, Resources.User.TIN.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.TIN, Resources.User.TIN.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
-                @Html.EditorFor(model => model.Employee.TIN, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Employee.TIN, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.TIN, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TIN, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Employee.Designation, Resources.Company.Designation.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Designation, Resources.Company.Designation.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
-                @Html.EditorFor(model => model.Employee.Designation, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Employee.Designation, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Designation, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Designation, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Employee.Description, Resources.Company.Description.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Description, Resources.Company.Description.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
-                @Html.EditorFor(model => model.Employee.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Employee.Description, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Employee.BranchID, Resources.Company.SelectBranch.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.BranchID, Resources.Company.SelectBranch.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
-                @Html.DropDownListFor(model => model.Employee.BranchID,
-                    Model.BranchesList,
+                @Html.DropDownListFor(model => model.BranchID,
+                    ViewBag.Branches as IEnumerable<SelectListItem>,
                     Resources.Company.SelectBranch,
                     new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Employee.BranchID, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.BranchID, "", new { @class = "text-danger" })
             </div>
         </div>
 

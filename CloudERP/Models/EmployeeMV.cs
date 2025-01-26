@@ -16,7 +16,6 @@ namespace CloudERP.Models
         }
 
         public IEnumerable<SelectListItem> BranchesList { get; set; }
-
         public HttpPostedFileBase LogoFile { get; set; }
     }
 }

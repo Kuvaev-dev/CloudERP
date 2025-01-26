@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 
 namespace CloudERP.Controllers
@@ -51,11 +52,8 @@ namespace CloudERP.Controllers
 
             try
             {
-                return View(new EmployeeMV()
-                {
-                    Employee = new Employee(),
-                    BranchesList = await GetBranchesList()
-                });
+                ViewBag.Branches = await GetBranchesList();
+                return View(new Employee());
             }
             catch (Exception ex)
             {
@@ -66,50 +64,50 @@ namespace CloudERP.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EmployeeRegistration(EmployeeMV employee)
+        public async Task<ActionResult> EmployeeRegistration(Employee employee, HttpPostedFileBase avatar)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
             try
             {
-                employee.Employee.CompanyID = _sessionHelper.CompanyID;
-                employee.Employee.UserID = null;
-                employee.Employee.RegistrationDate = DateTime.Now;
-                employee.Employee.IsFirstLogin = true;
+                employee.CompanyID = _sessionHelper.CompanyID;
+                employee.UserID = null;
+                employee.RegistrationDate = DateTime.Now;
+                employee.IsFirstLogin = true;
 
                 if (ModelState.IsValid)
                 {
-                    await _companyEmployeeFacade.EmployeeRepository.AddAsync(employee.Employee);
+                    await _companyEmployeeFacade.EmployeeRepository.AddAsync(employee);
 
                     string photoPath = null;
 
-                    if (employee.LogoFile != null)
+                    if (avatar != null)
                     {
-                        var fileName = $"{employee.Employee.CompanyID}.jpg";
+                        var fileName = $"{employee.CompanyID}.jpg";
 
-                        var fileAdapter = _companyEmployeeFacade.FileAdapterFactory.Create(employee.LogoFile);
+                        var fileAdapter = _companyEmployeeFacade.FileAdapterFactory.Create(avatar);
                         photoPath = _companyEmployeeFacade.FileService.UploadPhoto(fileAdapter, PHOTO_FOLDER_PATH, fileName);
                     }
 
-                    employee.Employee.Photo = photoPath ?? _companyEmployeeFacade.FileService.SetDefaultPhotoPath(DEFAULT_PHOTO_PATH);
+                    employee.Photo = photoPath ?? _companyEmployeeFacade.FileService.SetDefaultPhotoPath(DEFAULT_PHOTO_PATH);
 
-                    await _companyEmployeeFacade.EmployeeRepository.UpdateAsync(employee.Employee);
+                    await _companyEmployeeFacade.EmployeeRepository.UpdateAsync(employee);
 
                     var subject = "Employee Registration Successful";
-                    var body = $"<strong>Dear {employee.Employee.FullName},</strong><br/><br/>" +
+                    var body = $"<strong>Dear {employee.FullName},</strong><br/><br/>" +
                                $"Your registration is successful. Here are your details:<br/>" +
-                               $"Name: {employee.Employee.FullName}<br/>" +
-                               $"Email: {employee.Employee.Email}<br/>" +
-                               $"Contact No: {employee.Employee.ContactNumber}<br/>" +
-                               $"Designation: {employee.Employee.Designation}<br/><br/>" +
+                               $"Name: {employee.FullName}<br/>" +
+                               $"Email: {employee.Email}<br/>" +
+                               $"Contact No: {employee.ContactNumber}<br/>" +
+                               $"Designation: {employee.Designation}<br/><br/>" +
                                $"Best regards,<br/>Company Team";
-                    _companyEmployeeFacade.EmailService.SendEmail(employee.Employee.Email, subject, body);
+                    _companyEmployeeFacade.EmailService.SendEmail(employee.Email, subject, body);
 
                     return RedirectToAction("Employees");
                 }
 
-                ViewBag.BranchID = new SelectList(await _companyEmployeeFacade.BranchRepository.GetByCompanyAsync(_sessionHelper.CompanyID), "BranchID", "BranchName", employee.Employee.BranchID);
+                ViewBag.BranchID = new SelectList(await _companyEmployeeFacade.BranchRepository.GetByCompanyAsync(_sessionHelper.CompanyID), "BranchID", "BranchName", employee.BranchID);
             }
             catch (Exception ex)
             {
