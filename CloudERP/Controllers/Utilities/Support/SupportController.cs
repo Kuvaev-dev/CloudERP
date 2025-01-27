@@ -24,9 +24,19 @@ namespace CloudERP.Controllers
             _userRepository = userRepository;
         }
 
-        public ActionResult Support()
+        public async Task<ActionResult> Support()
         {
-            return View(new SupportTicket());
+            try
+            {
+                var userTickets = await _supportTicketRepository.GetByUserIdAsync(_sessionHelper.UserID);
+                ViewBag.UserTickets = userTickets;
+                return View(new SupportTicket());
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Произошла ошибка: " + ex.Message;
+                return RedirectToAction("Error");
+            }
         }
 
         [HttpPost]
@@ -36,6 +46,7 @@ namespace CloudERP.Controllers
             try
             {
                 var user = await _userRepository.GetByIdAsync(_sessionHelper.UserID);
+                var userTickets = await _supportTicketRepository.GetByUserIdAsync(_sessionHelper.UserID);
 
                 model.CompanyID = _sessionHelper.CompanyID;
                 model.BranchID = _sessionHelper.BranchID;
@@ -44,15 +55,21 @@ namespace CloudERP.Controllers
                 model.IsResolved = false;
                 model.Email = user.Email;
                 model.Name = $"{model.DateCreated} - {user.FullName}";
+                model.AdminResponse = string.Empty;
+                model.RespondedBy = string.Empty;
+                model.ResponseDate = null;
 
                 if (ModelState.IsValid)
                 {
                     await _supportTicketRepository.AddAsync(model);
                     ViewBag.Message = Resources.Messages.SupportRequestSubmitted;
 
+                    ViewBag.UserTickets = userTickets;
+
                     return View("Support", new SupportTicket());
                 }
 
+                ViewBag.UserTickets = userTickets;
                 return View("Support", model);
             }
             catch (Exception ex)
@@ -78,11 +95,25 @@ namespace CloudERP.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ResolveTicket(int id)
+        public async Task<ActionResult> ResolveTicket(int id, string responseMessage)
         {
             try
             {
-                await _supportTicketRepository.ResolveAsync(id);
+                var ticket = await _supportTicketRepository.GetByIdAsync(id);
+                var admin = await _userRepository.GetByIdAsync(_sessionHelper.UserID);
+
+                if (ticket == null)
+                {
+                    return RedirectToAction("AdminList");
+                }
+
+                ticket.AdminResponse = responseMessage;
+                ticket.RespondedBy = admin.FullName;
+                ticket.ResponseDate = DateTime.Now;
+                ticket.IsResolved = true;
+
+                await _supportTicketRepository.UpdateAsync(ticket);
+
                 return RedirectToAction("AdminList");
             }
             catch (Exception ex)

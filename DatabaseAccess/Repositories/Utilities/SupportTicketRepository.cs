@@ -32,7 +32,10 @@ namespace DatabaseAccess.Repositories
                 IsResolved = t.IsResolved,
                 CompanyID = t.CompanyID,
                 BranchID = t.BranchID,
-                UserID = t.UserID
+                UserID = t.UserID,
+                AdminResponse = t.AdminResponse,
+                RespondedBy = t.RespondedBy,
+                ResponseDate = t.ResponseDate
             });
         }
 
@@ -51,8 +54,36 @@ namespace DatabaseAccess.Repositories
                 IsResolved = entity.IsResolved,
                 CompanyID = entity.CompanyID,
                 BranchID = entity.BranchID,
-                UserID = entity.UserID
+                UserID = entity.UserID,
+                AdminResponse = entity.AdminResponse,
+                RespondedBy = entity.RespondedBy,
+                ResponseDate = entity.ResponseDate
             };
+        }
+
+        public async Task<IEnumerable<SupportTicket>> GetByUserIdAsync(int userId)
+        {
+            var entities =  await _dbContext.tblSupportTicket
+                .Where(t => t.UserID == userId)
+                .OrderByDescending(t => t.DateCreated)
+                .ToListAsync();
+
+            return entities.Select(t => new SupportTicket
+            {
+                TicketID = t.TicketID,
+                Subject = t.Subject,
+                Name = t.Name,
+                Email = t.Email,
+                Message = t.Message,
+                DateCreated = t.DateCreated,
+                IsResolved = t.IsResolved,
+                CompanyID = t.CompanyID,
+                BranchID = t.BranchID,
+                UserID = t.UserID,
+                AdminResponse = t.AdminResponse,
+                RespondedBy = t.RespondedBy,
+                ResponseDate = t.ResponseDate
+            });
         }
 
         public async Task AddAsync(SupportTicket ticket)
@@ -68,7 +99,10 @@ namespace DatabaseAccess.Repositories
                 IsResolved = ticket.IsResolved,
                 CompanyID = ticket.CompanyID,
                 BranchID = ticket.BranchID,
-                UserID = ticket.UserID
+                UserID = ticket.UserID,
+                AdminResponse = ticket.AdminResponse,
+                RespondedBy = ticket.RespondedBy,
+                ResponseDate = ticket.ResponseDate
             };
 
             _dbContext.tblSupportTicket.Add(entity);
@@ -89,6 +123,9 @@ namespace DatabaseAccess.Repositories
             entity.CompanyID = ticket.CompanyID;
             entity.BranchID = ticket.BranchID;
             entity.UserID = ticket.UserID;
+            entity.AdminResponse = ticket.AdminResponse;
+            entity.RespondedBy = ticket.RespondedBy;
+            entity.ResponseDate = ticket.ResponseDate;
 
             _dbContext.Entry(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();

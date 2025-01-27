@@ -23,5 +23,8 @@ namespace Domain.Models
         public int CompanyID { get; set; }
         public int BranchID { get; set; }
         public int UserID { get; set; }
+        public string AdminResponse { get; set; }
+        public string RespondedBy { get; set; }
+        public DateTime? ResponseDate { get; set; }
     }
 }

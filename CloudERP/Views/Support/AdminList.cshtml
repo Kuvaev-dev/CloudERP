@@ -27,6 +27,8 @@
                         <th>@Resources.Support.Message.ToString()</th>
                         <th>@Resources.Support.DateCreated.ToString()</th>
                         <th>@Resources.Support.Status.ToString()</th>
+                        <th>Response</th>
+                        <th>Response Date</th>
                         <th>@Resources.Common.Actions.ToString()</th>
                     </tr>
                 </thead>
@@ -41,13 +43,26 @@
                             <td>@ticket.DateCreated</td>
                             <td>@(ticket.IsResolved ? "Resolved" : "Pending")</td>
                             <td>
+                                @if (ticket.IsResolved)
+                                {
+                                    <b>@ticket.RespondedBy:<br /></b> @ticket.AdminResponse
+                                }
+                            </td>
+                            <td>
+                                @if (ticket.IsResolved)
+                                {
+                                    @ticket.ResponseDate
+                                }
+                            </td>
+                            <td>
                                 @if (!ticket.IsResolved)
                                 {
                                     using (Html.BeginForm("ResolveTicket", "Support", FormMethod.Post))
                                     {
                                         @Html.AntiForgeryToken()
                                         @Html.Hidden("id", ticket.TicketID)
-                                        <button type="submit" class="btn btn-primary">@Resources.Support.MarkAsResolved.ToString()</button>
+                                        <textarea name="responseMessage" class="form-control" rows="2" required></textarea>
+                                        <button type="submit" class="btn btn-primary mt-2">@Resources.Support.MarkAsResolved</button>
                                     }
                                 }
                             </td>
@@ -61,7 +76,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#dataTable').DataTable({
-            "columnDefs": [{ "orderable": false, "targets": 6 }],
+            "columnDefs": [{ "orderable": false, "targets": 8 }],
             "lengthMenu": [[5, 10, 25, 50, 75, 100, 150, 200, -1], [5, 10, 25, 50, 75, 100, 150, 200, "All"]],
         });
     });

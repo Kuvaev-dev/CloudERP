@@ -8,6 +8,7 @@ namespace Domain.RepositoryAccess
     {
         Task<IEnumerable<SupportTicket>> GetAllAsync();
         Task<SupportTicket> GetByIdAsync(int id);
+        Task<IEnumerable<SupportTicket>> GetByUserIdAsync(int userId);
         Task AddAsync(SupportTicket ticket);
         Task UpdateAsync(SupportTicket ticket);
         Task ResolveAsync(int id);

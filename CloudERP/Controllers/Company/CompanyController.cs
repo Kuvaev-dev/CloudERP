@@ -2,11 +2,13 @@
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using CloudERP.Factories;
 using CloudERP.Helpers;
 using CloudERP.Models;
 using Domain.Interfaces;
+using Domain.Models;
 using Domain.RepositoryAccess;
 
 namespace CloudERP.Controllers
@@ -80,19 +82,13 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            return View(new CompanyMV());
-        }
-
-        public async Task<bool> CheckCompanyExistsAsync(string name)
-        {
-            var companies = await _companyRepository.GetAllAsync();
-            return companies.Any(c => c.Name == name);
+            return View(new Company());
         }
 
         // POST: Company/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(CompanyMV model)
+        public async Task<ActionResult> Create(Company model, HttpPostedFileBase logo)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -101,26 +97,25 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (await CheckCompanyExistsAsync(model.Company.Name))
+                    if (await _companyRepository.CheckCompanyExistsAsync(model.Name))
                     {
                         ModelState.AddModelError("Name", Resources.Messages.AlreadyExists);
                         return View(model);
                     }
 
-                    var fileName = $"{model.Company.Name}.jpg";
-
-                    if (model.LogoFile != null)
+                    if (logo != null)
                     {
-                        var fileAdapter = _fileAdapterFactory.Create(model.LogoFile);
+                        var fileName = $"{model.Name}.jpg";
 
-                        model.Company.Logo = _fileService.UploadPhoto(fileAdapter, COMPANY_LOGO_PATH, fileName);
+                        var fileAdapter = _fileAdapterFactory.Create(logo);
+                        model.Logo = _fileService.UploadPhoto(fileAdapter, COMPANY_LOGO_PATH, fileName);
                     }
                     else
                     {
-                        model.Company.Logo = _fileService.SetDefaultPhotoPath(DEFAULT_COMPANY_LOGO_PATH);
+                        model.Logo = _fileService.SetDefaultPhotoPath(DEFAULT_COMPANY_LOGO_PATH);
                     }
 
-                    await _companyRepository.AddAsync(model.Company);
+                    await _companyRepository.AddAsync(model);
 
                     return RedirectToAction("Index");
                 }

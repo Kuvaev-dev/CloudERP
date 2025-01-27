@@ -83,5 +83,11 @@ namespace DatabaseAccess.Repositories
                 Description = entity.Description
             };
         }
+
+        public async Task<bool> CheckCompanyExistsAsync(string name)
+        {
+            var companies = await GetAllAsync();
+            return companies.Any(c => c.Name == name);
+        }
     }
 }

@@ -823,7 +823,6 @@
     <Compile Include="Models\AccountSubControlMV.cs" />
     <Compile Include="Models\CompanyMV.cs" />
     <Compile Include="Models\CompanyRegistrationMV.cs" />
-    <Compile Include="Models\EmployeeMV.cs" />
     <Compile Include="Models\GeneralTransactionMV.cs" />
     <Compile Include="Models\ProductMV.cs" />
     <Compile Include="Models\RegistrationMV.cs" />

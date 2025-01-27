@@ -24,6 +24,9 @@ namespace DatabaseAccess
         public int BranchID { get; set; }
         public int CompanyID { get; set; }
         public int UserID { get; set; }
+        public string AdminResponse { get; set; }
+        public string RespondedBy { get; set; }
+        public Nullable<System.DateTime> ResponseDate { get; set; }
     
         public virtual tblBranch tblBranch { get; set; }
         public virtual tblCompany tblCompany { get; set; }

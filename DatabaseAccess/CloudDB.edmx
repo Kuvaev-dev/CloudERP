@@ -407,6 +407,9 @@
           <Property Name="BranchID" Type="int" Nullable="false" />
           <Property Name="CompanyID" Type="int" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="AdminResponse" Type="nvarchar(max)" />
+          <Property Name="RespondedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="ResponseDate" Type="datetime" />
         </EntityType>
         <EntityType Name="tblTask">
           <Key>
@@ -3360,6 +3363,9 @@
           <Property Name="BranchID" Type="Int32" Nullable="false" />
           <Property Name="CompanyID" Type="Int32" Nullable="false" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="AdminResponse" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RespondedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ResponseDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="tblBranch" Relationship="CloudDBModel.FK_tblSupportTicket_tblBranch" FromRole="tblSupportTicket" ToRole="tblBranch" />
           <NavigationProperty Name="tblCompany" Relationship="CloudDBModel.FK_tblSupportTicket_tblCompany" FromRole="tblSupportTicket" ToRole="tblCompany" />
           <NavigationProperty Name="tblUser" Relationship="CloudDBModel.FK_tblSupportTicket_tblUser" FromRole="tblSupportTicket" ToRole="tblUser" />
@@ -5236,6 +5242,9 @@
           <EntitySetMapping Name="tblSupportTicket">
             <EntityTypeMapping TypeName="CloudDBModel.tblSupportTicket">
               <MappingFragment StoreEntitySet="tblSupportTicket">
+                <ScalarProperty Name="ResponseDate" ColumnName="ResponseDate" />
+                <ScalarProperty Name="RespondedBy" ColumnName="RespondedBy" />
+                <ScalarProperty Name="AdminResponse" ColumnName="AdminResponse" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
                 <ScalarProperty Name="BranchID" ColumnName="BranchID" />

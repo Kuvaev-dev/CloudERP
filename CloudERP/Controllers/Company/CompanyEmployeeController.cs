@@ -29,6 +29,7 @@ namespace CloudERP.Controllers
         }
 
         // GET: Employees
+        [HttpGet]
         public async Task<ActionResult> Employees()
         {
             if (!_sessionHelper.IsAuthenticated)
@@ -80,17 +81,17 @@ namespace CloudERP.Controllers
                 {
                     await _companyEmployeeFacade.EmployeeRepository.AddAsync(employee);
 
-                    string photoPath = null;
-
                     if (avatar != null)
                     {
                         var fileName = $"{employee.CompanyID}.jpg";
 
                         var fileAdapter = _companyEmployeeFacade.FileAdapterFactory.Create(avatar);
-                        photoPath = _companyEmployeeFacade.FileService.UploadPhoto(fileAdapter, PHOTO_FOLDER_PATH, fileName);
+                        employee.Photo = _companyEmployeeFacade.FileService.UploadPhoto(fileAdapter, PHOTO_FOLDER_PATH, fileName);
                     }
-
-                    employee.Photo = photoPath ?? _companyEmployeeFacade.FileService.SetDefaultPhotoPath(DEFAULT_PHOTO_PATH);
+                    else
+                    {
+                        employee.Photo = _companyEmployeeFacade.FileService.SetDefaultPhotoPath(DEFAULT_PHOTO_PATH);
+                    }
 
                     await _companyEmployeeFacade.EmployeeRepository.UpdateAsync(employee);
 

@@ -84,6 +84,24 @@
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.getElementById("loginForm");
+            const inputs = Array.from(form.querySelectorAll("input"));
+
+            form.addEventListener("keydown", function (event) {
+                const currentIndex = inputs.indexOf(document.activeElement);
+
+                if (event.key === "ArrowDown" && currentIndex < inputs.length - 1) {
+                    event.preventDefault();
+                    inputs[currentIndex + 1].focus();
+                } else if (event.key === "ArrowUp" && currentIndex > 0) {
+                    event.preventDefault();
+                    inputs[currentIndex - 1].focus();
+                }
+            });
+        });
+    </script>
     <!-- =============== VENDOR SCRIPTS ===============-->
     <!-- MODERNIZR-->
     <script src="~/Content/Template/vendor/modernizr/modernizr.custom.js"></script>
