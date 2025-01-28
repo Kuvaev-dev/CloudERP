@@ -52,7 +52,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                ViewBag.AccountControlList = await GetAccountControlList();
+                ViewBag.AccountControlList = await _accountControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
 
                 return View(new AccountSubControl());
             }
@@ -76,7 +76,7 @@ namespace CloudERP.Controllers
                 model.CompanyID = _sessionHelper.CompanyID;
                 model.UserID = _sessionHelper.UserID;
 
-                ViewBag.AccountControlList = await GetAccountControlList();
+                ViewBag.AccountControlList = _accountControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
 
                 if (model.AccountControlID > 0)
                 {
@@ -117,7 +117,7 @@ namespace CloudERP.Controllers
                 var subControl = await _accountSubControlRepository.GetByIdAsync(id.Value);
                 if (subControl == null) return RedirectToAction("EP404", "EP");
 
-                ViewBag.AccountControlList = await GetAccountControlList();
+                ViewBag.AccountControlList = _accountControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
 
                 return View(new AccountSubControl());
             }
@@ -141,7 +141,7 @@ namespace CloudERP.Controllers
                 model.CompanyID = _sessionHelper.CompanyID;
                 model.UserID = _sessionHelper.UserID;
 
-                ViewBag.AccountControlList = await GetAccountControlList();
+                ViewBag.AccountControlList = _accountControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
 
                 if (model.AccountControlID > 0)
                 {
@@ -165,18 +165,6 @@ namespace CloudERP.Controllers
                 TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
-        }
-
-        public async Task<IEnumerable<SelectListItem>> GetAccountControlList()
-        {
-            var accountControls = await _accountControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
-            return accountControls
-                .Select(ah => new SelectListItem
-                {
-                    Value = ah.AccountControlID.ToString(),
-                    Text = ah.AccountControlName
-                })
-                .ToList();
         }
     }
 }

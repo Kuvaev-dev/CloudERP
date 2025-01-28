@@ -53,7 +53,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                ViewBag.Branches = await GetBranchesList();
+                ViewBag.Branches = await _companyEmployeeFacade.BranchRepository.GetByCompanyAsync(_sessionHelper.CompanyID);
                 return View(new Employee());
             }
             catch (Exception ex)
@@ -108,7 +108,7 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Employees");
                 }
 
-                ViewBag.BranchID = new SelectList(await _companyEmployeeFacade.BranchRepository.GetByCompanyAsync(_sessionHelper.CompanyID), "BranchID", "BranchName", employee.BranchID);
+                ViewBag.Branches = await _companyEmployeeFacade.BranchRepository.GetByCompanyAsync(_sessionHelper.CompanyID);
             }
             catch (Exception ex)
             {
@@ -245,18 +245,6 @@ namespace CloudERP.Controllers
                 TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
-        }
-
-        public async Task<IEnumerable<SelectListItem>> GetBranchesList()
-        {
-            var branches = await _companyEmployeeFacade.BranchRepository.GetByCompanyAsync(_sessionHelper.CompanyID);
-            return branches
-                .Select(b => new SelectListItem
-                {
-                    Value = b.BranchID.ToString(),
-                    Text = b.BranchName
-                })
-                .ToList();
         }
     }
 }

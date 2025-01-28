@@ -61,7 +61,9 @@ namespace CloudERP.Controllers
 
             try
             {
-                return View(await _customerRepository.GetByBranchesAsync(_sessionHelper.BranchID));
+                if (Session["BrchID"] == null) return View();
+
+                return View(await _customerRepository.GetByBranchesAsync(_sessionHelper.BrchID));
             }
             catch (Exception ex)
             {

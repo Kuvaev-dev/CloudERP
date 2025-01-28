@@ -77,13 +77,10 @@ namespace CloudERP.Controllers
                     Session["GNMessage"] = Resources.Messages.PleaseReLoginAndTryAgain;
                 }
 
-                ViewBag.CreditAccountControlID = new SelectList(
-                    await _generalTransactionRepository.GetAllAccounts(_sessionHelper.CompanyID, _sessionHelper.BranchID),
-                    "AccountSubControlID", "AccountSubControl", "0");
+                var accounts = await _generalTransactionRepository.GetAllAccounts(_sessionHelper.CompanyID, _sessionHelper.BranchID);
 
-                ViewBag.DebitAccountControlID = new SelectList(
-                    await _generalTransactionRepository.GetAllAccounts(_sessionHelper.CompanyID, _sessionHelper.BranchID),
-                    "AccountSubControlID", "AccountSubControl", "0");
+                ViewBag.CreditAccountControlID = new SelectList(accounts, "AccountSubControlID", "AccountSubControl", "0");
+                ViewBag.DebitAccountControlID = new SelectList(accounts, "AccountSubControlID", "AccountSubControl", "0");
 
                 return RedirectToAction("GeneralTransaction", new { transaction });
             }

@@ -3,6 +3,7 @@ using CloudERP.Models;
 using DatabaseAccess.Repositories;
 using Domain.Models;
 using Domain.RepositoryAccess;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -78,6 +79,8 @@ namespace CloudERP.Controllers
 
             try
             {
+                model.AssignedByUserID = 0;
+                model.AssignedToUserID = 0;
                 model.CompanyID = _sessionHelper.CompanyID;
                 model.BranchID = _sessionHelper.BranchID;
                 model.UserID = _sessionHelper.UserID;
@@ -109,13 +112,11 @@ namespace CloudERP.Controllers
             model.IsCompleted = false;
             model.AssignedByUserID = _sessionHelper.UserID;
             model.CompanyID = _sessionHelper.CompanyID;
-            model.BranchID = _sessionHelper.BranchID;
-            model.UserID = model.AssignedToUserID;
+            model.UserID = model.AssignedToUserID.Value;
 
             if (ModelState.IsValid)
             {
                 await _taskRepository.AddAsync(model);
-                TempData["Message"] = "Task successfully assigned!";
                 return RedirectToAction("AssignTask");
             }
 

@@ -48,11 +48,11 @@
                                         <h4>@Resources.Sale.Customer.ToString()</h4>
                                         <hr/>
                                         <h4>
-                                            @Model.CUst
+                                            @Model.CustomerName
                                         </h4>
                                         <h5>@Resources.Sale.ContactNo.ToString(): @Model.CustomerContact</h5>
-                                        <address>@Model.CustomerInvoice.CustomerArea</address>
-                                        <h4>@Model.CustomerInvoice.CompanyName</h4>
+                                        <address>@Model.CustomerArea</address>
+                                        <h4>@Model.CompanyName</h4>
                                     </div>
                                 </div>
                             </div>
@@ -65,9 +65,9 @@
                                         <img src="@Url.Content(branchimgurl)" alt="Image" style="width: 100px; height: 100px; max-width: 100%; height: auto;" />
                                     </div>
                                     <div class="col-lg-10">
-                                        <h4>@Model.CustomerInvoice.BranchName</h4>
-                                        <h5>@Resources.Sale.ContactNo.ToString(): @Model.CustomerInvoice.BranchContact</h5>
-                                        <address>@Model.CustomerInvoice.BranchAddress</address>
+                                        <h4>@Model.BranchName</h4>
+                                        <h5>@Resources.Sale.ContactNo.ToString(): @Model.BranchContact</h5>
+                                        <address>@Model.BranchAddress</address>
                                     </div>
                                 </div>
                             </div>
@@ -98,13 +98,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var item in Model)
+                                    @*@foreach (var item in Model)
                                     {
                                         //!!!!!!
                                         ViewBag.Title = Resources.Sale.SaleInvoice.ToString() + " №: " + item.CustomerInvoice.InvoiceNo;
                                         int qty = 0;
                                         double itemCost = 0;
-                                        qty = item.SaleQuantity - item.tblCustomerReturnInvoiceDetail.Where(q => q.ProductID == item.ProductID).Sum(q => q.SaleReturnQuantity);
+                                        qty = item.SaleQuantity - item.CustomerReturnInvoiceDetail.Where(q => q.ProductID == item.ProductID).Sum(q => q.SaleReturnQuantity);
                                         itemCost = qty * item.SaleUnitPrice;
                                         total += itemCost;
 
@@ -122,7 +122,7 @@
                                                 @itemCost
                                             </td>
                                         </tr>
-                                    }
+                                    }*@
                                 </tbody>
                             </table>
                         </div>
@@ -141,7 +141,7 @@
                         </div>
 
                         @{
-                            foreach (var item in Model)
+                            @*foreach (var item in Model)
                             {
                                 if (item.CustomerReturnInvoiceDetail.Where(s => s.CustomerInvoiceID == item.CustomerInvoiceID).FirstOrDefault() != null)
                                 {
@@ -213,7 +213,7 @@
                                         </div>
                                     </div>
                                 }
-                            }
+                            }*@
                         }
                         <hr class="d-print-none">
                         <div class="clearfix">

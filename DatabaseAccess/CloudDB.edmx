@@ -424,6 +424,8 @@
           <Property Name="CompanyID" Type="int" Nullable="false" />
           <Property Name="BranchID" Type="int" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="AssignedByUserID" Type="int" />
+          <Property Name="AssignedToUserID" Type="int" />
         </EntityType>
         <EntityType Name="tblTransaction">
           <Key>
@@ -3383,6 +3385,8 @@
           <Property Name="CompanyID" Type="Int32" Nullable="false" />
           <Property Name="BranchID" Type="Int32" Nullable="false" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="AssignedByUserID" Type="Int32" />
+          <Property Name="AssignedToUserID" Type="Int32" />
           <NavigationProperty Name="tblBranch" Relationship="CloudDBModel.FK_tblTask_tblBranch" FromRole="tblTask" ToRole="tblBranch" />
           <NavigationProperty Name="tblCompany" Relationship="CloudDBModel.FK_tblTask_tblCompany" FromRole="tblTask" ToRole="tblCompany" />
           <NavigationProperty Name="tblUser" Relationship="CloudDBModel.FK_tblTask_tblUser" FromRole="tblTask" ToRole="tblUser" />
@@ -5261,6 +5265,8 @@
           <EntitySetMapping Name="tblTask">
             <EntityTypeMapping TypeName="CloudDBModel.tblTask">
               <MappingFragment StoreEntitySet="tblTask">
+                <ScalarProperty Name="AssignedToUserID" ColumnName="AssignedToUserID" />
+                <ScalarProperty Name="AssignedByUserID" ColumnName="AssignedByUserID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="BranchID" ColumnName="BranchID" />
                 <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />

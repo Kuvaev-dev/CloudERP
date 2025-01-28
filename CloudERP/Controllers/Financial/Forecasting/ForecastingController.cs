@@ -45,8 +45,12 @@ namespace CloudERP.Controllers
             try
             {
                 inputModel.StartDate = DateTime.Now;
-                var forecastValue = _forecastingService.GenerateForecast(_sessionHelper.CompanyID, _sessionHelper.BranchID, inputModel.StartDate, inputModel.EndDate);
-                TempData["Message"] = $"{Resources.Messages.ForecastHasBeenGenerated} {forecastValue}";
+                var forecastValue = _forecastingService.GenerateForecast(
+                    _sessionHelper.CompanyID, 
+                    _sessionHelper.BranchID, 
+                    inputModel.StartDate, 
+                    inputModel.EndDate);
+
                 return RedirectToAction("Index");
             }
             catch

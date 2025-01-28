@@ -23,6 +23,8 @@ namespace DatabaseAccess
         public int CompanyID { get; set; }
         public int BranchID { get; set; }
         public int UserID { get; set; }
+        public Nullable<int> AssignedByUserID { get; set; }
+        public Nullable<int> AssignedToUserID { get; set; }
     
         public virtual tblBranch tblBranch { get; set; }
         public virtual tblCompany tblCompany { get; set; }

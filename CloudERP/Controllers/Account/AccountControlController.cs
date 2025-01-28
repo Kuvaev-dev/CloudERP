@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
@@ -49,7 +47,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                ViewBag.AccountHeadList = await GetAccountHeadList();   
+                ViewBag.AccountHeadList = await _accountHeadRepository.GetAllAsync();
                 return View(new AccountControl());
             }
             catch (Exception ex)
@@ -72,7 +70,7 @@ namespace CloudERP.Controllers
                 model.CompanyID = _sessionHelper.CompanyID;
                 model.UserID = _sessionHelper.UserID;
 
-                ViewBag.AccountHeadList = await GetAccountHeadList();
+                ViewBag.AccountHeadList = await _accountHeadRepository.GetAllAsync();
 
                 if (ModelState.IsValid)
                 {
@@ -104,7 +102,7 @@ namespace CloudERP.Controllers
                 var accountControl = await _accountControlRepository.GetByIdAsync(id.Value);
                 if (accountControl == null) return RedirectToAction("EP404", "EP");
 
-                ViewBag.AccountHeadList = await GetAccountHeadList();
+                ViewBag.AccountHeadList = await _accountHeadRepository.GetAllAsync();
 
                 return View(new AccountControl());
             }
@@ -130,7 +128,7 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Index");
                 }
 
-                ViewBag.AccountHeadList = await GetAccountHeadList();
+                ViewBag.AccountHeadList = await _accountHeadRepository.GetAllAsync();
 
                 return View(model);
             }
@@ -139,18 +137,6 @@ namespace CloudERP.Controllers
                 TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
-        }
-
-        public async Task<IEnumerable<SelectListItem>> GetAccountHeadList()
-        {
-            var accountHeads = await _accountHeadRepository.GetAllAsync();
-            return accountHeads
-                .Select(ah => new SelectListItem
-                {
-                    Value = ah.AccountHeadID.ToString(),
-                    Text = ah.AccountHeadName
-                })
-                .ToList();
         }
     }
 }

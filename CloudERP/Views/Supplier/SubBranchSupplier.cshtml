@@ -48,34 +48,37 @@
                     </tr>
                 </thead>
                 <tbody id="SBSupplierList">
-                    @foreach (var item in Model)
+                    @if (Model != null)
                     {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.CompanyName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.BranchName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.SupplierName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.SupplierConatctNo)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.SupplierEmail)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.SupplierAddress)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.UserName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Discription)
-                            </td>
-                        </tr>
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CompanyName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.BranchName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SupplierName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SupplierConatctNo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SupplierEmail)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SupplierAddress)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UserName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Discription)
+                                </td>
+                            </tr>
+                        }
                     }
                 </tbody>
             </table>

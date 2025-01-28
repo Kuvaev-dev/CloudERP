@@ -31,6 +31,8 @@ namespace DatabaseAccess.Repositories
                 DueDate = t.DueDate,
                 ReminderDate = t.ReminderDate,
                 IsCompleted = t.IsCompleted,
+                AssignedToUserID = t.AssignedToUserID,
+                AssignedByUserID = t.AssignedByUserID,
                 CompanyID = t.CompanyID,
                 BranchID = t.BranchID,
                 UserID = t.UserID
@@ -49,6 +51,8 @@ namespace DatabaseAccess.Repositories
                 DueDate = entity.DueDate,
                 ReminderDate = entity.ReminderDate,
                 IsCompleted = entity.IsCompleted,
+                AssignedByUserID = entity.AssignedByUserID,
+                AssignedToUserID = entity.AssignedToUserID,
                 CompanyID = entity.CompanyID,
                 BranchID = entity.BranchID,
                 UserID = entity.UserID
@@ -65,6 +69,8 @@ namespace DatabaseAccess.Repositories
                 DueDate = task.DueDate,
                 ReminderDate = task.ReminderDate,
                 IsCompleted = task.IsCompleted,
+                AssignedByUserID = task.AssignedByUserID,
+                AssignedToUserID = task.AssignedToUserID,
                 CompanyID = task.CompanyID,
                 BranchID = task.BranchID,
                 UserID = task.UserID
@@ -84,6 +90,8 @@ namespace DatabaseAccess.Repositories
             entity.DueDate = task.DueDate;
             entity.ReminderDate = task.ReminderDate;
             entity.IsCompleted = task.IsCompleted;
+            entity.AssignedByUserID = task.AssignedByUserID;
+            entity.AssignedToUserID = task.AssignedToUserID;
             entity.CompanyID = task.CompanyID;
             entity.BranchID = task.BranchID;
             entity.UserID = task.UserID;
@@ -116,6 +124,8 @@ namespace DatabaseAccess.Repositories
                 DueDate = t.DueDate,
                 ReminderDate = t.ReminderDate,
                 IsCompleted = t.IsCompleted,
+                AssignedByUserID = t.AssignedByUserID,
+                AssignedToUserID = t.AssignedToUserID,
                 CompanyID = t.CompanyID,
                 BranchID = t.BranchID,
                 UserID = t.UserID

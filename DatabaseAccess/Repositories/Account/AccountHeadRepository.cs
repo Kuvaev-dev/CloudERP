@@ -34,6 +34,16 @@ namespace DatabaseAccess.Repositories
             });
         }
 
+        public async Task<IEnumerable<int>> GetAllIdsAsync()
+        {
+            var ids = await _dbContext.tblAccountHead
+                .AsNoTracking()
+                .Select(ah => ah.AccountHeadID)
+                .ToListAsync();
+
+            return ids;
+        }
+
         public async Task<AccountHead> GetByIdAsync(int id)
         {
             var entity = await _dbContext.tblAccountHead

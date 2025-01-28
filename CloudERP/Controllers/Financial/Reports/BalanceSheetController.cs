@@ -4,6 +4,7 @@ using Domain.RepositoryAccess;
 using Domain.Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -13,15 +14,18 @@ namespace CloudERP.Controllers
     {
         private readonly IBalanceSheetService _balanceSheetService;
         private readonly IFinancialYearRepository _financialYearRepository;
+        private readonly IAccountHeadRepository _accountHeadRepository;
         private readonly SessionHelper _sessionHelper;
 
         public BalanceSheetController(
             IBalanceSheetService balanceSheetService, 
-            IFinancialYearRepository financialYearRepository, 
+            IFinancialYearRepository financialYearRepository,
+            IAccountHeadRepository accountHeadRepository,
             SessionHelper sessionHelper)
         {
             _balanceSheetService = balanceSheetService ?? throw new ArgumentNullException(nameof(IBalanceSheetService));
             _financialYearRepository = financialYearRepository ?? throw new ArgumentNullException(nameof(IFinancialYearRepository));
+            _accountHeadRepository = accountHeadRepository ?? throw new ArgumentNullException(nameof(IAccountHeadRepository));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
@@ -42,7 +46,12 @@ namespace CloudERP.Controllers
                     return View(new BalanceSheetModel());
                 }
 
-                var balanceSheet = await _balanceSheetService.GetBalanceSheetAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID, financialYear.FinancialYearID, new List<int> { 2, 3, 4, 5, 6 });
+                var balanceSheet = await _balanceSheetService.GetBalanceSheetAsync(
+                    _sessionHelper.CompanyID, 
+                    _sessionHelper.BranchID, 
+                    financialYear.FinancialYearID,
+                    await GetHeadsIDsList());
+
                 return View(balanceSheet);
             }
             catch (Exception ex)
@@ -69,7 +78,12 @@ namespace CloudERP.Controllers
             {
                 await PopulateViewBag();
 
-                var balanceSheet = await _balanceSheetService.GetBalanceSheetAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID, id.Value, new List<int> { 1, 2, 3, 4, 5 });
+                var balanceSheet = await _balanceSheetService.GetBalanceSheetAsync(
+                    _sessionHelper.CompanyID, 
+                    _sessionHelper.BranchID, 
+                    id.Value,
+                    await GetHeadsIDsList());
+
                 return View(balanceSheet);
             }
             catch (Exception ex)
@@ -95,7 +109,12 @@ namespace CloudERP.Controllers
                     return View(new List<BalanceSheetModel>());
                 }
 
-                var balanceSheet = await _balanceSheetService.GetBalanceSheetAsync(_sessionHelper.CompanyID, _sessionHelper.BrchID, financialYear.FinancialYearID, new List<int> { 1, 2, 3, 4, 5 });
+                var balanceSheet = await _balanceSheetService.GetBalanceSheetAsync(
+                    _sessionHelper.CompanyID, 
+                    _sessionHelper.BrchID, 
+                    financialYear.FinancialYearID,
+                    await GetHeadsIDsList());
+
                 return View(balanceSheet);
             }
             catch (Exception ex)
@@ -122,7 +141,12 @@ namespace CloudERP.Controllers
             {
                 await PopulateViewBag();
 
-                var balanceSheet = await _balanceSheetService.GetBalanceSheetAsync(_sessionHelper.CompanyID, _sessionHelper.BrchID, id.Value, new List<int> { 1, 2, 3, 4, 5 });
+                var balanceSheet = await _balanceSheetService.GetBalanceSheetAsync(
+                    _sessionHelper.CompanyID, 
+                    _sessionHelper.BrchID, 
+                    id.Value,
+                    await GetHeadsIDsList());
+
                 return View(balanceSheet);
             }
             catch (Exception ex)
@@ -135,6 +159,12 @@ namespace CloudERP.Controllers
         private async Task PopulateViewBag()
         {
             ViewBag.FinancialYears = new SelectList(await _financialYearRepository.GetAllActiveAsync(), "FinancialYearID", "FinancialYearName");
+        }
+
+        private async Task<List<int>> GetHeadsIDsList()
+        {
+            IEnumerable<int> accountHeadsIDs = await _accountHeadRepository.GetAllIdsAsync();
+            return accountHeadsIDs.ToList();
         }
     }
 }

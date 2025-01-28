@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models
 {
@@ -26,11 +27,20 @@ namespace Domain.Models
         [StringLength(150, ErrorMessage = "Customer Name cannot exceed 150 characters.")]
         public string CustomerName { get; set; }
 
+        [StringLength(150, ErrorMessage = "Customer Area cannot exceed 150 characters.")]
+        public string CustomerArea { get; set; }
+
         [StringLength(15, ErrorMessage = "Customer Contact cannot exceed 15 characters.")]
         public string CustomerContact { get; set; }
 
         [StringLength(150, ErrorMessage = "Product Name cannot exceed 150 characters.")]
         public string ProductName { get; set; }
+        public string CompanyName { get; set; }
+        public string BranchName { get; set; }
+        public string BranchContact { get; set; }
+        public string BranchAddress { get; set; }
+        public string CustomerInvoiceNo { get; set; }
+        public DateTime CustomerInvoiceDate { get; set; }
 
         public CustomerInvoice CustomerInvoice { get; set; }
         public CustomerReturnInvoiceDetail CustomerReturnInvoiceDetail { get; set; }

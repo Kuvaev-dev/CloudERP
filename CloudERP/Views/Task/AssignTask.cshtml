@@ -10,7 +10,7 @@
 
     <div class="form-horizontal">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
+        @Html.HiddenFor(m => m.BranchID, new { id = "BranchID" })
         <h2 class="text-danger">@ViewBag.Message</h2>
         <h2 class="text-danger">@ViewBag.ErrorMessage</h2>
 
@@ -39,14 +39,15 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(m => m.AssignedToUserID, "Assign Task To", new { @class = "control-label col-md-4" })
+            <label class="control-label col-md-4">Select Employee</label>
             <div class="col-md-5">
-                @Html.DropDownListFor(
-                    m => m.AssignedToUserID,
-                    new SelectList(ViewBag.Employees, "UserID", "FullName"),
-                    "-- Select an Employee --",
-                    new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.AssignedToUserID, "", new { @class = "text-danger" })
+                <select id="AssignedToUserID" name="AssignedToUserID" class="form-control">
+                    <option value="">-- Select an Employee --</option>
+                    @foreach (var employee in ViewBag.Employees)
+                    {
+                        <option value="@employee.UserID" data-branch-id="@employee.BranchID">@employee.FullName</option>
+                    }
+                </select>
             </div>
         </div>
 
@@ -59,4 +60,11 @@
             </div>
         </div>
     </div>
+    <script>
+        document.getElementById('AssignedToUserID').addEventListener('change', function () {
+            const selectedEmployee = this.options[this.selectedIndex];
+            const branchId = selectedEmployee.getAttribute('data-branch-id');
+            document.getElementById('BranchID').value = branchId || '';
+        });
+    </script>
 }

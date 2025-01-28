@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Net;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
@@ -65,8 +65,9 @@ namespace CloudERP.Controllers
 
             try
             {
-                var branchSuppliers = await _supplierRepository.GetSuppliersByBranchesAsync(_sessionHelper.BranchID);
-                return View(branchSuppliers);
+                if (Session["BrchID"] == null) return View();
+
+                return View(await _supplierRepository.GetSuppliersByBranchesAsync(_sessionHelper.BrchID));
             }
             catch (Exception ex)
             {

@@ -15,6 +15,9 @@ namespace Domain.Services
     {
         private readonly IBalanceSheetRepository _balanceSheetRepository;
 
+        private const int REVENUE_HEAD_ID = 6;
+        private const int EXPENSES_HEAD_ID = 5;
+
         public IncomeStatementService(IBalanceSheetRepository balanceSheetRepository)
         {
             _balanceSheetRepository = balanceSheetRepository ?? throw new ArgumentNullException(nameof(IBalanceSheetRepository));
@@ -28,7 +31,7 @@ namespace Domain.Services
                 IncomeStatementHeads = new List<IncomeStatementHead>()
             };
 
-            var revenue = await _balanceSheetRepository.GetHeadAccountsWithTotal(companyID, branchID, financialYearID, 5); // 5 - Revenue
+            var revenue = await _balanceSheetRepository.GetHeadAccountsWithTotal(companyID, branchID, financialYearID, REVENUE_HEAD_ID);
             var revenueDetails = new IncomeStatementHead
             {
                 Title = Localization.Localization.TotalRevenue,
@@ -37,7 +40,7 @@ namespace Domain.Services
             };
             incomeStatement.IncomeStatementHeads.Add(revenueDetails);
 
-            var expenses = await _balanceSheetRepository.GetHeadAccountsWithTotal(companyID, branchID, financialYearID, 3); // 3 - Expenses
+            var expenses = await _balanceSheetRepository.GetHeadAccountsWithTotal(companyID, branchID, financialYearID, EXPENSES_HEAD_ID);
             var expensesDetails = new IncomeStatementHead
             {
                 Title = Localization.Localization.TotalExpenses,
