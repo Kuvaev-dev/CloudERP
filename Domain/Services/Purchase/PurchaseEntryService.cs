@@ -7,10 +7,50 @@ namespace Domain.Services.Purchase
 {
     public interface IPurchaseEntryService
     {
-        Task<string> ConfirmPurchase(int CompanyID, int BranchID, int UserID, string InvoiceNo, string SupplierInvoiceID, float Amount, string SupplierID, string SupplierName, bool isPayment);
-        Task<string> PurchasePayment(int CompanyID, int BranchID, int UserID, string InvoiceNo, string SupplierInvoiceID, float TotalAmount, float Amount, string SupplierID, string SupplierName, float RemainingBalance);
-        Task<string> ReturnPurchase(int CompanyID, int BranchID, int UserID, string InvoiceNo, string SupplierInvoiceID, int SupplierReturnInvoiceID, float Amount, string SupplierID, string SupplierName, bool isPayment);
-        Task<string> ReturnPurchasePayment(int CompanyID, int BranchID, int UserID, string InvoiceNo, string SupplierInvoiceID, int SupplierReturnInvoiceID, float TotalAmount, float Amount, string SupplierID, string SupplierName, float RemainingBalance);
+        Task<string> ConfirmPurchase(
+            int CompanyID, 
+            int BranchID, 
+            int UserID, 
+            string InvoiceNo, 
+            string SupplierInvoiceID, 
+            float Amount, 
+            string SupplierID, 
+            string SupplierName, 
+            bool isPayment);
+        Task<string> PurchasePayment(
+            int CompanyID, 
+            int BranchID, 
+            int UserID, 
+            string InvoiceNo, 
+            string SupplierInvoiceID, 
+            float TotalAmount, 
+            float Amount, 
+            string SupplierID, 
+            string SupplierName, 
+            float RemainingBalance);
+        Task<string> ReturnPurchase(
+            int CompanyID, 
+            int BranchID, 
+            int UserID, 
+            string InvoiceNo, 
+            string SupplierInvoiceID, 
+            int SupplierReturnInvoiceID, 
+            float Amount, 
+            string SupplierID, 
+            string SupplierName, 
+            bool isPayment);
+        Task<string> ReturnPurchasePayment(
+            int CompanyID, 
+            int BranchID, 
+            int UserID, 
+            string InvoiceNo, 
+            string SupplierInvoiceID, 
+            int SupplierReturnInvoiceID, 
+            float TotalAmount, 
+            float Amount, 
+            string SupplierID, 
+            string SupplierName, 
+            float RemainingBalance);
     }
 
     public class PurchaseEntryService : IPurchaseEntryService
@@ -20,15 +60,15 @@ namespace Domain.Services.Purchase
         private readonly IFinancialYearRepository _financialYearRepository;
 
         private readonly string selectsupplierid = string.Empty;
-        private readonly DataTable _dtEntries = null;
+        private readonly DataTable _dtEntries;
 
-        private const int PURCHASE_ACCOUNT_CONTROL_ID = 1;
-        private const int PURCHASE_PAYMENT_PENDING_CONTROL_ID = 2;
-        private const int PURCHASE_PAYMENT_PAID_CONTROL_ID = 3;
-        private const int PURCHASE_PAYMENT_SUCCESS_CONTROL_ID = 4;
-        private const int PURCHASE_RETURN_CONTROL_ID = 5;
-        private const int PURCHASE_RETURN_PAYMENT_PENDING_CONTROL_ID = 6;
-        private const int PURCHASE_RETURN_PAYMENT_SUCCESS_CONTROL_ID = 7;
+        private const int PURCHASE_ACCOUNT_ACTIVITY_ID = 1;
+        private const int PURCHASE_PAYMENT_PENDING_ACTIVITY_ID = 2;
+        private const int PURCHASE_PAYMENT_PAID_ACTIVITY_ID = 3;
+        private const int PURCHASE_PAYMENT_SUCCESS_ACTIVITY_ID = 4;
+        private const int PURCHASE_RETURN_ACTIVITY_ID = 5;
+        private const int PURCHASE_RETURN_PAYMENT_PENDING_ACTIVITY_ID = 6;
+        private const int PURCHASE_RETURN_PAYMENT_SUCCESS_ACTIVITY_ID = 7;
 
         public PurchaseEntryService(
             IAccountSettingRepository accountSettingRepository, 
@@ -53,7 +93,7 @@ namespace Domain.Services.Purchase
             }
 
             // Debit Entry Purchase
-            var purchaseAccount = await _accountSettingRepository.GetByActivityAsync(PURCHASE_ACCOUNT_CONTROL_ID, CompanyID, BranchID);
+            var purchaseAccount = await _accountSettingRepository.GetByActivityAsync(PURCHASE_ACCOUNT_ACTIVITY_ID, CompanyID, BranchID);
             if (purchaseAccount == null)
             {
                 return Localization.Localization.AccountSettingsForPurchaseNotFound;
@@ -69,7 +109,7 @@ namespace Domain.Services.Purchase
                 purchaseTitle);
 
             // Credit Entry Purchase Payment Pending
-            purchaseAccount = await _accountSettingRepository.GetByActivityAsync(PURCHASE_PAYMENT_PENDING_CONTROL_ID, CompanyID, BranchID);
+            purchaseAccount = await _accountSettingRepository.GetByActivityAsync(PURCHASE_PAYMENT_PENDING_ACTIVITY_ID, CompanyID, BranchID);
             if (purchaseAccount == null)
             {
                 return Localization.Localization.AccountSettingsForPurchasePaymentPendingNotFound;
@@ -90,7 +130,7 @@ namespace Domain.Services.Purchase
                 string payInvoiceNo = "PAY" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
 
                 // Debit Entry Purchase Payment Paid
-                purchaseAccount = await _accountSettingRepository.GetByActivityAsync(PURCHASE_PAYMENT_PAID_CONTROL_ID, CompanyID, BranchID);
+                purchaseAccount = await _accountSettingRepository.GetByActivityAsync(PURCHASE_PAYMENT_PAID_ACTIVITY_ID, CompanyID, BranchID);
                 if (purchaseAccount == null)
                 {
                     return Localization.Localization.AccountSettingsForPurchasePaymentPaidNotFound;
@@ -107,7 +147,7 @@ namespace Domain.Services.Purchase
                     $"{Localization.Localization.PaymentPaidTo} " + SupplierName);
 
                 // Credit Entry Purchase Payment Success
-                purchaseAccount = await _accountSettingRepository.GetByActivityAsync(PURCHASE_PAYMENT_SUCCESS_CONTROL_ID, CompanyID, BranchID);
+                purchaseAccount = await _accountSettingRepository.GetByActivityAsync(PURCHASE_PAYMENT_SUCCESS_ACTIVITY_ID, CompanyID, BranchID);
                 if (purchaseAccount == null)
                 {
                     return Localization.Localization.AccountSettingsForPurchasePaymentSuccessNotFound;
@@ -144,7 +184,7 @@ namespace Domain.Services.Purchase
                 }
 
                 // Debit Entry Purchase
-                var purchaseAccount = await _accountSettingRepository.GetByActivityAsync(PURCHASE_ACCOUNT_CONTROL_ID, CompanyID, BranchID);
+                var purchaseAccount = await _accountSettingRepository.GetByActivityAsync(PURCHASE_ACCOUNT_ACTIVITY_ID, CompanyID, BranchID);
                 if (purchaseAccount == null)
                 {
                     return Localization.Localization.AccountSettingsForPurchaseNotFound;
@@ -161,7 +201,7 @@ namespace Domain.Services.Purchase
                     pruchaseTitle);
 
                 // Credit Entry Purchase Payment Pending
-                purchaseAccount = await _accountSettingRepository.GetByActivityAsync(PURCHASE_PAYMENT_PENDING_CONTROL_ID, CompanyID, BranchID);
+                purchaseAccount = await _accountSettingRepository.GetByActivityAsync(PURCHASE_PAYMENT_PENDING_ACTIVITY_ID, CompanyID, BranchID);
                 if (purchaseAccount == null)
                 {
                     return Localization.Localization.AccountSettingsForPurchasePaymentPendingNotFound;
@@ -183,7 +223,7 @@ namespace Domain.Services.Purchase
                     string payInvoiceNo = "PAY" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
 
                     // Credit Entry Purchase Payment Paid
-                    purchaseAccount = await _accountSettingRepository.GetByActivityAsync(PURCHASE_PAYMENT_PAID_CONTROL_ID, CompanyID, BranchID);
+                    purchaseAccount = await _accountSettingRepository.GetByActivityAsync(PURCHASE_PAYMENT_PAID_ACTIVITY_ID, CompanyID, BranchID);
                     if (purchaseAccount == null)
                     {
                         return Localization.Localization.AccountSettingsForPurchasePaymentPaidNotFound;
@@ -200,7 +240,7 @@ namespace Domain.Services.Purchase
                         $"{Localization.Localization.PaymentPaidTo} " + SupplierName);
 
                     // Debit Entry Purchase Payment Success
-                    purchaseAccount = await _accountSettingRepository.GetByActivityAsync(PURCHASE_PAYMENT_SUCCESS_CONTROL_ID, CompanyID, BranchID);
+                    purchaseAccount = await _accountSettingRepository.GetByActivityAsync(PURCHASE_PAYMENT_SUCCESS_ACTIVITY_ID, CompanyID, BranchID);
                     if (purchaseAccount == null)
                     {
                         return Localization.Localization.AccountSettingsForPurchasePaymentSuccessNotFound;
@@ -246,7 +286,7 @@ namespace Domain.Services.Purchase
             string successMessage = Localization.Localization.ReturnPurchaseSuccess;
 
             // Credit Entry Return Purchase
-            var returnPurchaseAccount = await _accountSettingRepository.GetByActivityAsync(PURCHASE_RETURN_CONTROL_ID, CompanyID, BranchID);
+            var returnPurchaseAccount = await _accountSettingRepository.GetByActivityAsync(PURCHASE_RETURN_ACTIVITY_ID, CompanyID, BranchID);
             if (returnPurchaseAccount == null)
             {
                 return Localization.Localization.AccountSettingsАForReturnPurchaseNotFound;
@@ -263,7 +303,7 @@ namespace Domain.Services.Purchase
                 returnPurchaseTitle);
 
             // Debit Entry Return Purchase Payment Pending
-            returnPurchaseAccount = await _accountSettingRepository.GetByActivityAsync(PURCHASE_RETURN_PAYMENT_PENDING_CONTROL_ID, CompanyID, BranchID);
+            returnPurchaseAccount = await _accountSettingRepository.GetByActivityAsync(PURCHASE_RETURN_PAYMENT_PENDING_ACTIVITY_ID, CompanyID, BranchID);
             if (returnPurchaseAccount == null)
             {
                 return Localization.Localization.AccountSettingsForPurchaseReturnPaymentPendingNotFound;
@@ -285,7 +325,7 @@ namespace Domain.Services.Purchase
                 string payInvoiceNo = "RPP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
 
                 // Debit Entry Return Payment from Supplier
-                returnPurchaseAccount = await _accountSettingRepository.GetByActivityAsync(PURCHASE_RETURN_PAYMENT_PENDING_CONTROL_ID, CompanyID, BranchID);
+                returnPurchaseAccount = await _accountSettingRepository.GetByActivityAsync(PURCHASE_RETURN_PAYMENT_PENDING_ACTIVITY_ID, CompanyID, BranchID);
                 if (returnPurchaseAccount == null)
                 {
                     return Localization.Localization.AccountSettingsForPurchaseReturnPaymentPendingNotFound;
@@ -303,7 +343,7 @@ namespace Domain.Services.Purchase
                     paymentFromTitle);
 
                 // Credit Entry Purchase Return Payment Succeed
-                returnPurchaseAccount = await _accountSettingRepository.GetByActivityAsync(PURCHASE_RETURN_PAYMENT_SUCCESS_CONTROL_ID, CompanyID, BranchID);
+                returnPurchaseAccount = await _accountSettingRepository.GetByActivityAsync(PURCHASE_RETURN_PAYMENT_SUCCESS_ACTIVITY_ID, CompanyID, BranchID);
                 if (returnPurchaseAccount == null)
                 {
                     return Localization.Localization.AccountSettingsForPurchaseReturnPaymentSucceedNotFound;
@@ -350,7 +390,7 @@ namespace Domain.Services.Purchase
                 string transactionTitle = string.Empty;
 
                 // Retrieve account settings for Purchase Return Payment Pending
-                var returnPurchaseAccount = await _accountSettingRepository.GetByActivityAsync(PURCHASE_RETURN_PAYMENT_PENDING_CONTROL_ID, CompanyID, BranchID);
+                var returnPurchaseAccount = await _accountSettingRepository.GetByActivityAsync(PURCHASE_RETURN_PAYMENT_PENDING_ACTIVITY_ID, CompanyID, BranchID);
                 if (returnPurchaseAccount == null)
                 {
                     return Localization.Localization.AccountSettingsForPurchaseReturnPaymentPendingNotFound;
@@ -367,7 +407,7 @@ namespace Domain.Services.Purchase
                     $"{Localization.Localization.ReturnPaymentFrom} " + SupplierName);
 
                 // Retrieve account settings for Purchase Return Payment Succeed
-                returnPurchaseAccount = await _accountSettingRepository.GetByActivityAsync(PURCHASE_RETURN_PAYMENT_SUCCESS_CONTROL_ID, CompanyID, BranchID);
+                returnPurchaseAccount = await _accountSettingRepository.GetByActivityAsync(PURCHASE_RETURN_PAYMENT_SUCCESS_ACTIVITY_ID, CompanyID, BranchID);
                 if (returnPurchaseAccount == null)
                 {
                     return Localization.Localization.AccountSettingsForPurchaseReturnPaymentSucceedNotFound;

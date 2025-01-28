@@ -154,59 +154,6 @@ namespace CloudERP.Controllers
             }
         }
 
-        // POST: SaleCart/GetProduct
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> GetProduct()
-        {
-            if (!_sessionHelper.IsAuthenticated)
-                return RedirectToAction("Login", "Home");
-
-            try
-            {
-                var productEntities = await _stockRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
-                List<ProductMV> products = productEntities
-                    .Select(item => new ProductMV()
-                    {
-                        Name = item.ProductName + " (AVL QTY: " + item.Quantity + ")",
-                        ProductID = item.ProductID
-                    })
-                    .ToList();
-
-                return Json(new { data = products }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return Json(new { error = Resources.Messages.UnexpectedErrorMessage + ex.Message });
-            }
-        }
-
-        // POST: SaleCart/GetProductDetails/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> GetProductDetails(int? id)
-        {
-            if (!_sessionHelper.IsAuthenticated)
-                return RedirectToAction("Login", "Home");
-
-            try
-            {
-                var product = await _stockRepository.GetByIdAsync((int)id);
-                if (product != null)
-                {
-                    return Json(new { data = product.SaleUnitPrice }, JsonRequestBehavior.AllowGet);
-                }
-
-                return Json(new { error = Resources.Messages.ProductNotFound }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return Json(new { error = Resources.Messages.UnexpectedErrorMessage + ex.Message });
-            }
-        }
-
         // POST: SaleCart/CancelSale
         [HttpPost]
         [ValidateAntiForgeryToken]

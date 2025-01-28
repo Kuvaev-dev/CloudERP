@@ -861,7 +861,10 @@ CREATE TABLE [dbo].[tblSupportTicket] (
     [IsResolved] bit  NOT NULL,
     [BranchID] int  NOT NULL,
     [CompanyID] int  NOT NULL,
-    [UserID] int  NOT NULL
+    [UserID] int  NOT NULL,
+    [AdminResponse] nvarchar(max) NULL,
+	[RespondedBy] nvarchar(100) NULL,
+	[ResponseDate] datetime NULL
 );
 GO
 

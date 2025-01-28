@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Domain.Models.CustomerInvoiceDetail>
+﻿@model Domain.Models.CustomerInvoiceDetail
 @{
     Layout = null;
 }
@@ -48,11 +48,11 @@
                                         <h4>@Resources.Sale.Customer.ToString()</h4>
                                         <hr/>
                                         <h4>
-                                            @Model.CustomerName
+                                            @Model.CUst
                                         </h4>
                                         <h5>@Resources.Sale.ContactNo.ToString(): @Model.CustomerContact</h5>
-                                        <address>@Model.CustomerAreaByCustomerInvoice</address>
-                                        <h4>@Model.CompanyNameByCustomerInvoice</h4>
+                                        <address>@Model.CustomerInvoice.CustomerArea</address>
+                                        <h4>@Model.CustomerInvoice.CompanyName</h4>
                                     </div>
                                 </div>
                             </div>

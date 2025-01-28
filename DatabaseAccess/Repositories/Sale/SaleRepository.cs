@@ -16,7 +16,7 @@ namespace DatabaseAccess.Repositories
         private readonly ICustomerRepository _customerRepository;
         private readonly IUserRepository _userRepository;
 
-        private DataTable _dtEntries = null;
+        private DataTable _dtEntries;
 
         public SaleRepository(
             CloudDBEntities dbContext, 
@@ -30,7 +30,20 @@ namespace DatabaseAccess.Repositories
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(IUserRepository));
         }
 
-        public async Task<string> ConfirmSale(int CompanyID, int BranchID, int UserID, string CustomerInvoiceID, float Amount, string CustomerID, string payInvoiceNo, float RemainingBalance)
+        public void SetEntries(DataTable dataTable)
+        {
+            _dtEntries = dataTable;
+        }
+
+        public async Task<string> ConfirmSale(
+            int CompanyID, 
+            int BranchID, 
+            int UserID, 
+            string CustomerInvoiceID, 
+            float Amount, 
+            string CustomerID, 
+            string payInvoiceNo, 
+            float RemainingBalance)
         {
             using (var transaction = _dbContext.Database.BeginTransaction())
             {
@@ -238,7 +251,16 @@ namespace DatabaseAccess.Repositories
             return remainingPaymentList;
         }
 
-        public async Task<string> ReturnSale(int CompanyID, int BranchID, int UserID, string CustomerInvoiceID, int CustomerReturnInvoiceID, float Amount, string CustomerID, string payInvoiceNo, float RemainingBalance)
+        public async Task<string> ReturnSale(
+            int CompanyID, 
+            int BranchID, 
+            int UserID, 
+            string CustomerInvoiceID, 
+            int CustomerReturnInvoiceID, 
+            float Amount, 
+            string CustomerID, 
+            string payInvoiceNo, 
+            float RemainingBalance)
         {
             using (var transaction = _dbContext.Database.BeginTransaction())
             {
@@ -265,7 +287,17 @@ namespace DatabaseAccess.Repositories
             }
         }
 
-        public async Task ReturnSalePayment(int CompanyID, int BranchID, int UserID, string InvoiceNo, string CustomerInvoiceID, int CustomerReturnInvoiceID, float TotalAmount, float Amount, string CustomerID, float RemainingBalance)
+        public async Task ReturnSalePayment(
+            int CompanyID, 
+            int BranchID, 
+            int UserID, 
+            string InvoiceNo, 
+            string CustomerInvoiceID, 
+            int CustomerReturnInvoiceID, 
+            float TotalAmount, 
+            float Amount, 
+            string CustomerID, 
+            float RemainingBalance)
         {
             using (var transaction = _dbContext.Database.BeginTransaction())
             {

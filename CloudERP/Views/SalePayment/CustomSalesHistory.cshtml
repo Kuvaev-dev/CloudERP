@@ -162,7 +162,7 @@
                                     @Html.ActionLink(Resources.Sale.ViewDetails.ToString(), "SaleItemDetail", new { id = item.CustomerInvoiceID }, new { @class = "mt-2 btn btn-info" });
                                 }
 
-                                @Html.ActionLink(Resources.Sale.PrintInvoice.ToString(), "PrintSaleInvoice", "SalePayment", new { id = item.CustomerInvoiceID }, new { @class = "mt-2 btn btn-info" });
+                                @Html.ActionLink(Resources.Sale.PrintInvoice.ToString(), "PrintSaleInvoice", "SalePayment", new { id = item.CustomerInvoiceID }, new { @class = "mt-2 btn btn-info" })
                             </td>
                         </tr>
                     }

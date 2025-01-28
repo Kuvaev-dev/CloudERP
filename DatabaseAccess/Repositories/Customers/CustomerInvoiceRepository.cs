@@ -20,7 +20,6 @@ namespace DatabaseAccess.Repositories
         {
             var entity = new tblCustomerInvoice
             {
-                CustomerInvoiceID = customerInvoice.CustomerInvoiceID,
                 CustomerID = customerInvoice.CustomerID,
                 CompanyID = customerInvoice.CompanyID,
                 BranchID = customerInvoice.BranchID,
@@ -34,6 +33,7 @@ namespace DatabaseAccess.Repositories
 
             _dbContext.tblCustomerInvoice.Add(entity);
             await _dbContext.SaveChangesAsync();
+            customerInvoice.CustomerInvoiceID = entity.CustomerInvoiceID;
         }
 
         public async Task<CustomerInvoice> GetByIdAsync(int id)
