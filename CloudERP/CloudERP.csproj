@@ -819,8 +819,6 @@
     <Compile Include="Helpers\SessionHelper.cs" />
     <Compile Include="Helpers\UnityConfig.cs" />
     <Compile Include="Helpers\WebConfigConnectionStringProvider.cs" />
-    <Compile Include="Models\AccountControlMV.cs" />
-    <Compile Include="Models\AccountSubControlMV.cs" />
     <Compile Include="Models\CompanyMV.cs" />
     <Compile Include="Models\CompanyRegistrationMV.cs" />
     <Compile Include="Models\GeneralTransactionMV.cs" />
@@ -828,7 +826,6 @@
     <Compile Include="Models\RegistrationMV.cs" />
     <Compile Include="Models\ReturnConfirmVM.cs" />
     <Compile Include="Models\SalaryMV.cs" />
-    <Compile Include="Models\TaskAssignmentVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

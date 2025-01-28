@@ -1,4 +1,4 @@
-@model CloudERP.Models.TaskAssignmentVM
+@model Domain.Models.TaskModel
 
 @{
     ViewBag.Title = "Assign Task To Employee";
@@ -10,44 +10,43 @@
 
     <div class="form-horizontal">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(m => m.TaskModel.BranchID)
 
         <h2 class="text-danger">@ViewBag.Message</h2>
         <h2 class="text-danger">@ViewBag.ErrorMessage</h2>
 
         <div class="form-group">
-            @Html.LabelFor(m => m.TaskModel.Title, "Task Title", htmlAttributes: new { @class = "control-label col-md-4" })
+            @Html.LabelFor(m => m.Title, "Task Title", htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-5">
-                @Html.TextBoxFor(m => m.TaskModel.Title, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.TaskModel.Title, "", new { @class = "text-danger" })
+                @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(m => m.TaskModel.Description, "Task Title", htmlAttributes: new { @class = "control-label col-md-4" })
+            @Html.LabelFor(m => m.Description, "Task Title", htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-5">
-                @Html.TextAreaFor(m => m.TaskModel.Description, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.TaskModel.Description, "", new { @class = "text-danger" })
+                @Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(m => m.TaskModel.DueDate, "Task Title", htmlAttributes: new { @class = "control-label col-md-4" })
+            @Html.LabelFor(m => m.DueDate, "Due Date", htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-5">
-                @Html.TextBoxFor(m => m.TaskModel.DueDate, "{0:yyyy-MM-dd}", new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.TaskModel.DueDate, "", new { @class = "text-danger" })
+                @Html.TextBoxFor(m => m.DueDate, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.DueDate, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(m => m.TaskModel.DueDate, "Assign Task To", htmlAttributes: new { @class = "control-label col-md-4" })
+            @Html.LabelFor(m => m.AssignedToUserID, "Assign Task To", new { @class = "control-label col-md-4" })
             <div class="col-md-5">
-                <select id="AssignedTo" name="AssignedToUserID" class="form-control">
-                    @foreach (var employee in Model.AvailableEmployees)
-                    {
-                        <option value="@employee.EmployeeID">@employee.FullName</option>
-                    }
-                </select>
+                @Html.DropDownListFor(
+                    m => m.AssignedToUserID,
+                    new SelectList(ViewBag.Employees, "UserID", "FullName"),
+                    "-- Select an Employee --",
+                    new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.AssignedToUserID, "", new { @class = "text-danger" })
             </div>
         </div>
 

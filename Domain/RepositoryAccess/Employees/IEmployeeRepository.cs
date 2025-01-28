@@ -9,7 +9,7 @@ namespace Domain.RepositoryAccess
     {
         Task<IEnumerable<Employee>> GetByBranchAsync(int companyId, int branchId);
         Task<IEnumerable<Employee>> GetByCompanyIdAsync(int companyId);
-        Task<IEnumerable<Employee>> GetEmployeesForTaskAssignmentAsync(int branchId);
+        Task<IEnumerable<Employee>> GetEmployeesForTaskAssignmentAsync(int branchId, int companyId);
         Task<Employee> GetByIdAsync(int id);
         Task<Employee> GetByTINAsync(string TIN);
         Task<Employee> GetByUserIdAsync(int id);

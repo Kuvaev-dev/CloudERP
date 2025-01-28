@@ -46,10 +46,12 @@ namespace DatabaseAccess.Repositories
             });
         }
 
-        public async Task<IEnumerable<Employee>> GetEmployeesForTaskAssignmentAsync(int branchId)
+        public async Task<IEnumerable<Employee>> GetEmployeesForTaskAssignmentAsync(int branchId, int companyId)
         {
             var employees = await _dbContext.tblEmployee
-                .Where(e => e.tblBranch.BrchID == branchId && e.tblBranch.BranchTypeID == 2)
+                .Where(e => e.tblBranch.BrchID == branchId 
+                    && e.tblBranch.BranchTypeID > 1
+                    && e.tblCompany.CompanyID == companyId)
                 .ToListAsync();
 
             return employees.Select(e => new Employee
@@ -57,7 +59,8 @@ namespace DatabaseAccess.Repositories
                 EmployeeID = e.EmployeeID,
                 FullName = e.Name,
                 BranchID = e.BranchID,
-                CompanyID = e.CompanyID
+                CompanyID = e.CompanyID,
+                UserID = e.UserID
             });
         }
 

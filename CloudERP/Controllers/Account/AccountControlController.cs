@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
-using CloudERP.Models;
+using Domain.Models;
 using Domain.RepositoryAccess;
 
 namespace CloudERP.Controllers
@@ -49,10 +49,8 @@ namespace CloudERP.Controllers
 
             try
             {
-                return View(new AccountControlMV
-                {
-                    AccountHeadList = await GetAccountHeadList()
-                });
+                ViewBag.AccountHeadList = await GetAccountHeadList();   
+                return View(new AccountControl());
             }
             catch (Exception ex)
             {
@@ -63,21 +61,22 @@ namespace CloudERP.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(AccountControlMV model)
+        public async Task<ActionResult> Create(AccountControl model)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
             try
             {
-                model.AccountControl.BranchID = _sessionHelper.BranchID;
-                model.AccountControl.CompanyID = _sessionHelper.CompanyID;
-                model.AccountControl.UserID = _sessionHelper.UserID;
-                model.AccountHeadList = await GetAccountHeadList();
+                model.BranchID = _sessionHelper.BranchID;
+                model.CompanyID = _sessionHelper.CompanyID;
+                model.UserID = _sessionHelper.UserID;
+
+                ViewBag.AccountHeadList = await GetAccountHeadList();
 
                 if (ModelState.IsValid)
                 {
-                    await _accountControlRepository.AddAsync(model.AccountControl);
+                    await _accountControlRepository.AddAsync(model);
                     return RedirectToAction("Index");
                 }
 
@@ -105,18 +104,9 @@ namespace CloudERP.Controllers
                 var accountControl = await _accountControlRepository.GetByIdAsync(id.Value);
                 if (accountControl == null) return RedirectToAction("EP404", "EP");
 
-                AccountControlMV accountControlMV = new AccountControlMV()
-                {
-                    AccountControl = accountControl,
-                    AccountHeadList = accountHeads.Select(ah => new SelectListItem
-                    {
-                        Value = ah.AccountHeadID.ToString(),
-                        Text = ah.AccountHeadName,
-                        Selected = ah.AccountHeadID == accountControl.AccountHeadID
-                    }).ToList()
-                };
+                ViewBag.AccountHeadList = await GetAccountHeadList();
 
-                return View(accountControlMV);
+                return View(new AccountControl());
             }
             catch (Exception ex)
             {
@@ -127,7 +117,7 @@ namespace CloudERP.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(AccountControlMV model)
+        public async Task<ActionResult> Edit(AccountControl model)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -136,11 +126,11 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {   
-                    await _accountControlRepository.UpdateAsync(model.AccountControl);
+                    await _accountControlRepository.UpdateAsync(model);
                     return RedirectToAction("Index");
                 }
 
-                model.AccountHeadList = await GetAccountHeadList();
+                ViewBag.AccountHeadList = await GetAccountHeadList();
 
                 return View(model);
             }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
-using CloudERP.Models;
+using Domain.Models;
 using Domain.RepositoryAccess;
 
 namespace CloudERP.Controllers
@@ -52,12 +52,9 @@ namespace CloudERP.Controllers
 
             try
             {
-                var model = new AccountSubControlMV
-                {
-                    AccountControlList = await GetAccountControlList()
-                };
+                ViewBag.AccountControlList = await GetAccountControlList();
 
-                return View(model);
+                return View(new AccountSubControl());
             }
             catch (Exception ex)
             {
@@ -68,30 +65,31 @@ namespace CloudERP.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(AccountSubControlMV model)
+        public async Task<ActionResult> Create(AccountSubControl model)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
             try
             {
-                model.AccountSubControl.BranchID = _sessionHelper.BranchID;
-                model.AccountSubControl.CompanyID = _sessionHelper.CompanyID;
-                model.AccountSubControl.UserID = _sessionHelper.UserID;
-                model.AccountControlList = await GetAccountControlList();
+                model.BranchID = _sessionHelper.BranchID;
+                model.CompanyID = _sessionHelper.CompanyID;
+                model.UserID = _sessionHelper.UserID;
 
-                if (model.AccountSubControl.AccountControlID > 0)
+                ViewBag.AccountControlList = await GetAccountControlList();
+
+                if (model.AccountControlID > 0)
                 {
-                    var accountControl = await _accountControlRepository.GetByIdAsync(model.AccountSubControl.AccountControlID);
+                    var accountControl = await _accountControlRepository.GetByIdAsync(model.AccountControlID);
                     if (accountControl != null)
                     {
-                        model.AccountSubControl.AccountHeadID = accountControl.AccountHeadID;
+                        model.AccountHeadID = accountControl.AccountHeadID;
                     }
                 }
 
                 if (ModelState.IsValid)
                 {
-                    await _accountSubControlRepository.AddAsync(model.AccountSubControl);
+                    await _accountSubControlRepository.AddAsync(model);
                     return RedirectToAction("Index");
                 }
 
@@ -119,13 +117,9 @@ namespace CloudERP.Controllers
                 var subControl = await _accountSubControlRepository.GetByIdAsync(id.Value);
                 if (subControl == null) return RedirectToAction("EP404", "EP");
 
-                AccountSubControlMV accountSubControlMV = new AccountSubControlMV
-                {
-                    AccountSubControl = subControl,
-                    AccountControlList = await GetAccountControlList()
-                };
+                ViewBag.AccountControlList = await GetAccountControlList();
 
-                return View(accountSubControlMV);
+                return View(new AccountSubControl());
             }
             catch (Exception ex)
             {
@@ -136,30 +130,31 @@ namespace CloudERP.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(AccountSubControlMV model)
+        public async Task<ActionResult> Edit(AccountSubControl model)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
             try
             {
-                model.AccountSubControl.BranchID = _sessionHelper.BranchID;
-                model.AccountSubControl.CompanyID = _sessionHelper.CompanyID;
-                model.AccountSubControl.UserID = _sessionHelper.UserID;
-                model.AccountControlList = await GetAccountControlList();
+                model.BranchID = _sessionHelper.BranchID;
+                model.CompanyID = _sessionHelper.CompanyID;
+                model.UserID = _sessionHelper.UserID;
 
-                if (model.AccountSubControl.AccountControlID > 0)
+                ViewBag.AccountControlList = await GetAccountControlList();
+
+                if (model.AccountControlID > 0)
                 {
-                    var accountControl = await _accountControlRepository.GetByIdAsync(model.AccountSubControl.AccountControlID);
+                    var accountControl = await _accountControlRepository.GetByIdAsync(model.AccountControlID);
                     if (accountControl != null)
                     {
-                        model.AccountSubControl.AccountHeadID = accountControl.AccountHeadID;
+                        model.AccountHeadID = accountControl.AccountHeadID;
                     }
                 }
 
                 if (ModelState.IsValid)
                 {
-                    await _accountSubControlRepository.UpdateAsync(model.AccountSubControl);
+                    await _accountSubControlRepository.UpdateAsync(model);
                     return RedirectToAction("Index");
                 }
 

@@ -98,32 +98,29 @@ namespace CloudERP.Controllers
 
         public async Task<ActionResult> AssignTask()
         {
-            var employees = await _employeeRepository.GetEmployeesForTaskAssignmentAsync(_sessionHelper.BranchID);
-            var model = new TaskAssignmentVM
-            {
-                AvailableEmployees = employees,
-                BranchID = _sessionHelper.BranchID
-            };
-
-            return View(model);
+            var employees = await _employeeRepository.GetEmployeesForTaskAssignmentAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID);
+            ViewBag.Employees = employees;
+            return View(new TaskModel() { DueDate = DateTime.Now });
         }
 
         [HttpPost]
-        public async Task<ActionResult> AssignTask(TaskModel taskModel)
+        public async Task<ActionResult> AssignTask(TaskModel model)
         {
+            model.IsCompleted = false;
+            model.AssignedByUserID = _sessionHelper.UserID;
+            model.CompanyID = _sessionHelper.CompanyID;
+            model.BranchID = _sessionHelper.BranchID;
+            model.UserID = model.AssignedToUserID;
+
             if (ModelState.IsValid)
             {
-                await _taskRepository.AddAsync(taskModel);
-                return View();
+                await _taskRepository.AddAsync(model);
+                TempData["Message"] = "Task successfully assigned!";
+                return RedirectToAction("AssignTask");
             }
 
-            var employees = await _employeeRepository.GetEmployeesForTaskAssignmentAsync(taskModel.BranchID);
-            var model = new TaskAssignmentVM
-            {
-                AvailableEmployees = employees,
-                TaskModel = taskModel,
-                BranchID = taskModel.BranchID
-            };
+            var employees = await _employeeRepository.GetEmployeesForTaskAssignmentAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID);
+            ViewBag.Employees = employees;
 
             return View(model);
         }
