@@ -102,20 +102,18 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach (var item in Model.SupplierInvoices)
+                                        @for (var i = 0; i < Model.SupplierInvoices.Count; i++)
                                         {
-                                            int qty = 0;
-                                            double itemCost = 0;
-                                            qty = item.PurchaseQuantity - item.SupplierReturnInvoiceDetail.Where(q => q.ProductID == item.ProductID).Sum(q => q.PurchaseReturnQuantity);
-                                            itemCost = qty * item.PurchaseUnitPrice;
-                                            total += itemCost;
-
+                                            var item = ViewBag.InvoiceDetails[i];
                                             <tr>
-                                                <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
-                                                <td>@qty</td>
-                                                <td><input type="number" id="ProductID @item.ProductID" name="ProductID @item.ProductID" value="0" min="0" max="@qty" /></td>
-                                                <td>@Html.DisplayFor(modelItem => item.PurchaseUnitPrice)</td>
-                                                <td class="text-left">@itemCost</td>
+                                                <td>@item.ProductName</td>
+                                                <td>@item.Qty</td>
+                                                <td>
+                                                    <input type="hidden" name="ProductReturns[@i].ProductID" value="@item.ProductID" />
+                                                    <input type="number" class="form-control" name="ProductReturns[@i].ReturnQty" value="0" min="0" max="@item.Qty" />
+                                                </td>
+                                                <td>@item.SaleUnitPrice.ToString("F2")</td>
+                                                <td>@item.ItemCost.ToString("F2")</td>
                                             </tr>
                                         }
                                     </tbody>

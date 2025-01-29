@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models
@@ -41,8 +42,11 @@ namespace Domain.Models
         public string BranchAddress { get; set; }
         public string CustomerInvoiceNo { get; set; }
         public DateTime CustomerInvoiceDate { get; set; }
+        public int ReturnedQuantity { get; set; }
+        public int Qty { get; set; }
+        public double ItemCost { get; set; }
 
         public CustomerInvoice CustomerInvoice { get; set; }
-        public CustomerReturnInvoiceDetail CustomerReturnInvoiceDetail { get; set; }
+        public IEnumerable<CustomerReturnInvoiceDetail> CustomerReturnInvoiceDetail { get; set; }
     }
 }

@@ -1,12 +1,15 @@
 ﻿using Domain.Models.FinancialModels;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Threading.Tasks;
 
 namespace Domain.RepositoryAccess
 {
     public interface IPurchaseRepository
     {
+        void SetEntries(DataTable dataTable);
+
         Task<List<PurchasePaymentModel>> RemainingPaymentList(int CompanyID, int BranchID);
         Task<List<PurchasePaymentModel>> CustomPurchasesList(int CompanyID, int BranchID, DateTime FromDate, DateTime ToDate);
         Task<List<PurchasePaymentModel>> PurchasePaymentHistory(int SupplierInvoiceID);

@@ -44,8 +44,15 @@ namespace DatabaseAccess.Repositories
             {
                 SupplierInvoiceID = entity.SupplierInvoiceID,
                 SupplierID = entity.SupplierID,
+                SupplierName = entity.tblSupplier.SupplierName,
+                SupplierAddress = entity.tblSupplier.SupplierAddress,
                 CompanyID = entity.CompanyID,
+                CompanyName = entity.tblCompany.Name,
+                CompanyLogo = entity.tblCompany.Logo,
                 BranchID = entity.BranchID,
+                BranchName = entity.tblBranch.BranchName,
+                BranchAddress = entity.tblBranch.BranchAddress,
+                BranchContact = entity.tblBranch.BranchContact,
                 InvoiceNo = entity.InvoiceNo,
                 TotalAmount = entity.TotalAmount,
                 InvoiceDate = entity.InvoiceDate,
@@ -58,7 +65,6 @@ namespace DatabaseAccess.Repositories
         {
             var entity = new tblSupplierInvoice
             {
-                SupplierInvoiceID = supplierInvoice.SupplierInvoiceID,
                 SupplierID = supplierInvoice.SupplierID,
                 CompanyID = supplierInvoice.CompanyID,
                 BranchID = supplierInvoice.BranchID,
@@ -71,6 +77,7 @@ namespace DatabaseAccess.Repositories
 
             _dbContext.tblSupplierInvoice.Add(entity);
             await _dbContext.SaveChangesAsync();
+            supplierInvoice.SupplierInvoiceID = entity.SupplierInvoiceID;
         }
 
         public async Task<int> GetSupplierIdFromInvoice(int id)

@@ -44,8 +44,7 @@ namespace CloudERP.Controllers
             {
                 var findDetail = await _saleCartDetailRepository.GetByDefaultSettingAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID, _sessionHelper.UserID);
 
-                double totalAmount = findDetail.Sum(item => item.SaleQuantity * item.SaleUnitPrice);
-                ViewBag.TotalAmount = totalAmount;
+                ViewBag.TotalAmount = findDetail.Sum(item => item.SaleQuantity * item.SaleUnitPrice);
 
                 ViewBag.Products = await _stockRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
 

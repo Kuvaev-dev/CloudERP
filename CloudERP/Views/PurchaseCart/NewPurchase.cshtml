@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = Resources.Purchase.Purchasing.ToString();
-    var products = ViewBag.Products as List<Domain.Models.Stock>;
+    var products = ViewBag.Products as IEnumerable<Domain.Models.Stock>;
 }
 
 <script src="~/Scripts/jQuery/jquery-3.7.1.js"></script>
@@ -120,7 +120,12 @@
                                 @Html.DisplayFor(modelItem => item.UserName)
                             </td>
                             <td>
-                                @Html.ActionLink(Resources.Common.Delete.ToString(), "DeleteConfirm", new { id = item.PurchaseCartDetailID }, new { @class = "btn btn-danger" })
+                                @using (Html.BeginForm("DeleteConfirm", "PurchaseCart", FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.Hidden("id", item.PurchaseCartDetailID)
+                                    <input type="submit" value="@Resources.Common.Delete" class="btn btn-danger" />
+                                }
                             </td>
                         </tr>
                     }

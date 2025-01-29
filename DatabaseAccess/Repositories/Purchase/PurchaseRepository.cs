@@ -16,7 +16,7 @@ namespace DatabaseAccess.Repositories
         private readonly ISupplierRepository _suppliers;
         private readonly IUserRepository _users;
 
-        private DataTable _dtEntries = null;
+        private DataTable _dtEntries;
 
         public PurchaseRepository(
             CloudDBEntities dbContext, 
@@ -28,6 +28,11 @@ namespace DatabaseAccess.Repositories
             _query = query ?? throw new ArgumentNullException(nameof(DatabaseQuery));
             _suppliers = suppliers ?? throw new ArgumentNullException(nameof(ISupplierRepository));
             _users = users ?? throw new ArgumentNullException(nameof(IUserRepository));
+        }
+
+        public void SetEntries(DataTable dataTable)
+        {
+            _dtEntries = dataTable;
         }
 
         public async Task<List<PurchasePaymentModel>> RemainingPaymentList(int CompanyID, int BranchID)

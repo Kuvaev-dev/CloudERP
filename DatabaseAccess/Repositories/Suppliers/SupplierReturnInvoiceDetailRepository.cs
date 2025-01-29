@@ -1,6 +1,8 @@
 ﻿using Domain.Models;
 using Domain.RepositoryAccess;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DatabaseAccess.Repositories
@@ -29,6 +31,34 @@ namespace DatabaseAccess.Repositories
 
             _dbContext.tblSupplierReturnInvoiceDetail.Add(entity);
             await _dbContext.SaveChangesAsync();
+        }
+
+        public List<SupplierInvoiceDetail> GetInvoiceDetails(string invoiceId)
+        {
+            var invoiceDetails = _dbContext.tblSupplierInvoiceDetail
+                .Where(d => d.tblSupplierInvoice.InvoiceNo == invoiceId)
+                .Select(d => new SupplierInvoiceDetail
+                {
+                    ProductID = d.ProductID,
+                    ProductName = _dbContext.tblStock
+                        .Where(s => s.ProductID == d.ProductID)
+                        .Select(s => s.ProductName)
+                        .FirstOrDefault(),
+                    PurchaseQuantity = d.PurchaseQuantity,
+                    PurchaseUnitPrice = d.PurchaseUnitPrice,
+                    ReturnedQuantity = d.tblSupplierReturnInvoiceDetail
+                        .Where(r => r.ProductID == d.ProductID)
+                        .Sum(r => r.PurchaseReturnQuantity)
+                })
+                .ToList();
+
+            foreach (var item in invoiceDetails)
+            {
+                item.Qty = item.PurchaseQuantity - item.ReturnedQuantity;
+                item.ItemCost = item.Qty * item.SaleUnitPrice;
+            }
+
+            return invoiceDetails;
         }
     }
 }

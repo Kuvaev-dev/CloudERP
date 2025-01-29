@@ -101,7 +101,7 @@ namespace CloudERP.Helpers
         {
             get
             {
-                if (!string.IsNullOrEmpty(_session["InvoiceNo"].ToString()))
+                if (_session["InvoiceNo"] != null && !string.IsNullOrEmpty(_session["InvoiceNo"].ToString()))
                 {
                     _invoiceNo = _session["InvoiceNo"].ToString();
                     return _invoiceNo;
@@ -122,7 +122,7 @@ namespace CloudERP.Helpers
         {
             get
             {
-                if (!string.IsNullOrEmpty(_session["SaleInvoiceNo"].ToString()))
+                if (_session["SaleInvoiceNo"] != null && !string.IsNullOrEmpty(_session["SaleInvoiceNo"].ToString()))
                 {
                     _saleInvoiceNo = _session["SaleInvoiceNo"].ToString();
                     return _saleInvoiceNo;

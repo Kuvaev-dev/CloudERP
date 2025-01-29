@@ -21,8 +21,7 @@ namespace DatabaseAccess.Repositories
         {
             var entity = new tblSupplierInvoiceDetail
             {
-                SupplierInvoiceDetailID = supplierInvoiceDetail.SupplierInvoiceDetailID,
-                SupplierInvoiceID = supplierInvoiceDetail.SupplierInvoiceDetailID,
+                SupplierInvoiceID = supplierInvoiceDetail.SupplierInvoiceID,
                 ProductID = supplierInvoiceDetail.ProductID,
                 PurchaseQuantity = supplierInvoiceDetail.PurchaseQuantity,
                 PurchaseUnitPrice = supplierInvoiceDetail.PurchaseUnitPrice

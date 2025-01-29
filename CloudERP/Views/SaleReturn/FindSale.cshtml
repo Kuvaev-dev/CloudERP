@@ -4,19 +4,28 @@
     ViewBag.Title = Resources.Sale.SearchSaleByInvoiceNo.ToString();
 }
 
-@using (Html.BeginForm("FindSale", "SaleReturn", FormMethod.Post, new { @class = "form-inline" }))
+@using (Html.BeginForm("FindSale", "SaleReturn", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
-    <h3 class="text-danger">@ViewBag.Message</h3>
-    <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
+    <div class="form-horizontal">
+        <h3 class="text-danger">@ViewBag.Message</h3>
+        <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
 
-    <div class="form-group">
-        <label for="invoiceID" class="control-label">@Resources.Sale.EnterSaleInvoice.ToString() №</label>
-        <input type="text" class="form-control ml-2" id="invoiceID" name="invoiceID" placeholder="Enter Sale Invoice..." required />
-        <input type="submit" value="Find Sale" class="btn btn-success ml-2" />
+        <div class="form-group">
+            <label for="invoiceID" class="control-label col-md-4">@Resources.Sale.EnterSaleInvoice.ToString() №</label>
+            <div class="col-md-5">
+                <input type="text" class="form-control" id="invoiceID" name="invoiceID" placeholder="Enter Sale Invoice..." required />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Find Sale" class="btn btn-success" />
+            </div>
+        </div>
     </div>
-}
+ }
 
 @if (Model != null && Model.InvoiceNo != null)
 {
@@ -35,15 +44,15 @@
                 <div class="row">
                     <div class="col-md-6">
                         <h4>@Resources.Sale.Company.ToString():</h4>
-                        <p>@Model.Company.Name - @Model.Branch.BranchName</p>
-                        <p>@Resources.Sale.Address.ToString(): @Model.Branch.BranchAddress</p>
-                        <p>@Resources.Sale.ContactNo.ToString(): @Model.Branch.BranchContact</p>
+                        <p>@Model.CompanyName - @Model.BranchName</p>
+                        <p>@Resources.Sale.Address.ToString(): @Model.BranchAddress</p>
+                        <p>@Resources.Sale.ContactNo.ToString(): @Model.BranchContact</p>
                     </div>
                     <div class="col-md-6">
                         <h4>@Resources.Sale.Customer.ToString():</h4>
-                        <p>@Model.Customer.Customername</p>
-                        <p>@Model.Customer.CustomerAddress</p>
-                        <p>@Model.Customer.CustomerContact</p>
+                        <p>@Model.Customername</p>
+                        <p>@Model.CustomerAddress</p>
+                        <p>@Model.CustomerContact</p>
                     </div>
                 </div>
 
@@ -58,23 +67,18 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model.CustomerInvoiceDetail)
+                        @for (var i = 0; i < ViewBag.InvoiceDetails.Count; i++)
                         {
-                            var qty = item.SaleQuantity -
-                                      item.CustomerReturnInvoiceDetail
-                                          .Where(q => q.ProductID == item.ProductID)
-                                          .Sum(q => q.SaleReturnQuantity);
-                            var itemCost = qty * item.SaleUnitPrice;
-
+                            var item = ViewBag.InvoiceDetails[i];
                             <tr>
                                 <td>@item.ProductName</td>
-                                <td>@qty</td>
+                                <td>@item.Qty</td>
                                 <td>
-                                    <input type="hidden" name="ProductReturns[@item.ProductID].ProductID" value="@item.ProductID" />
-                                    <input type="number" class="form-control" name="ProductReturns[@item.ProductID].ReturnQty" value="0" min="0" max="@qty" />
+                                    <input type="hidden" name="ProductReturns[@i].ProductID" value="@item.ProductID" />
+                                    <input type="number" class="form-control" name="ProductReturns[@i].ReturnQty" value="0" min="0" max="@item.Qty" />
                                 </td>
                                 <td>@item.SaleUnitPrice.ToString("F2")</td>
-                                <td>@itemCost.ToString("F2")</td>
+                                <td>@item.ItemCost.ToString("F2")</td>
                             </tr>
                         }
                     </tbody>

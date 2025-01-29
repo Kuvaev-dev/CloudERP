@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls.WebParts;
 
 namespace DatabaseAccess.Repositories
 {
@@ -78,11 +79,13 @@ namespace DatabaseAccess.Repositories
             {
                 PurchaseCartDetailID = pcd.PurchaseCartDetailID,
                 ProductID = pcd.ProductID,
+                ProductName = pcd.tblStock.ProductName,
                 PurchaseQuantity = pcd.PurchaseQuantity,
                 PurchaseUnitPrice = pcd.PurchaseUnitPrice,
                 CompanyID = pcd.CompanyID,
                 BranchID = pcd.BranchID,
-                UserID = pcd.UserID
+                UserID = pcd.UserID,
+                UserName = pcd.tblUser.FullName,
             });
         }
 

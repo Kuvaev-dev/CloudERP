@@ -37,6 +37,9 @@ namespace Domain.Models
         [Required(ErrorMessage = "Sale Cart Detail ID is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "Sale Cart Detail ID must be a positive integer.")]
         public int SaleCartDetailID { get; set; }
+        public int ReturnedQuantity { get; set; }
+        public int Qty { get; set; }
+        public double ItemCost { get; set; }
 
         public Company Company { get; set; }
         public Supplier Supplier { get; set; }

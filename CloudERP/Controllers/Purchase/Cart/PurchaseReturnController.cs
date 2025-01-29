@@ -1,4 +1,5 @@
 ﻿using CloudERP.Helpers;
+using DatabaseAccess.Repositories;
 using Domain.Models;
 using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
@@ -13,34 +14,30 @@ namespace CloudERP.Controllers
     {
         private readonly SessionHelper _sessionHelper;
         private readonly ISupplierInvoiceRepository _supplierInvoiceRepository;
+        private readonly ISupplierReturnInvoiceDetailRepository _supplierReturnInvoiceDetailRepository;
         private readonly IPurchaseReturnService _purchaseReturnService;
 
         public PurchaseReturnController(
             ISupplierInvoiceRepository supplierInvoiceRepository, 
-            IPurchaseReturnService purchaseReturnService, 
+            IPurchaseReturnService purchaseReturnService,
+            ISupplierReturnInvoiceDetailRepository supplierReturnInvoiceDetailRepository,
             SessionHelper sessionHelper)
         {
             _supplierInvoiceRepository = supplierInvoiceRepository ?? throw new ArgumentNullException(nameof(ISupplierInvoiceRepository));
             _purchaseReturnService = purchaseReturnService ?? throw new ArgumentNullException(nameof(IPurchaseReturnService));
+            _supplierReturnInvoiceDetailRepository = supplierReturnInvoiceDetailRepository ?? throw new ArgumentNullException(nameof(ISupplierReturnInvoiceDetailRepository));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
         // GET: PurchaseReturn
-        public async Task<ActionResult> FindPurchase()
+        public ActionResult FindPurchase()
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
             try
             {
-                SupplierInvoice invoice;
-
-                invoice = !string.IsNullOrEmpty(_sessionHelper.InvoiceNo)
-                    ? await _supplierInvoiceRepository.GetByInvoiceNoAsync(_sessionHelper.InvoiceNo)
-                    : await _supplierInvoiceRepository.GetByIdAsync(0);
-
-                return View(invoice);
-
+                return View(new SupplierInvoice());
             }
             catch (Exception ex)
             {
@@ -60,6 +57,9 @@ namespace CloudERP.Controllers
             {
                 Session["InvoiceNo"] = string.Empty;
                 Session["ReturnMessage"] = string.Empty;
+
+                var invoiceDetails = _supplierReturnInvoiceDetailRepository.GetInvoiceDetails(invoiceID);
+                ViewBag.InvoiceDetails = invoiceDetails;
 
                 return View(await _supplierInvoiceRepository.GetByInvoiceNoAsync(invoiceID));
             }

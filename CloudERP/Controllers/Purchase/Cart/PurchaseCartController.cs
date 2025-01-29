@@ -41,7 +41,8 @@ namespace CloudERP.Controllers
 
             try
             {
-                var findDetail = await _purchaseCartDetailRepository.GetByDefaultSettingsAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID, _sessionHelper.UserID);
+                var findDetail = await _purchaseCartDetailRepository.GetByDefaultSettingsAsync(
+                    _sessionHelper.BranchID, _sessionHelper.CompanyID, _sessionHelper.UserID);
 
                 ViewBag.TotalAmount = findDetail.Sum(item => item.PurchaseQuantity * item.PurchaseUnitPrice);
 
@@ -85,7 +86,16 @@ namespace CloudERP.Controllers
 
             try
             {
-                if (await _purchaseCartDetailRepository.GetByProductIdAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID, PID.Value) == null)
+                var checkQty = await _stockRepository.GetByIdAsync(PID.Value);
+                if (Qty > checkQty.Quantity)
+                {
+                    ViewBag.Message = Resources.Messages.SaleQuantityError;
+                    return RedirectToAction("NewSale");
+                }
+
+                var findDetail = await _purchaseCartDetailRepository.GetByProductIdAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID, PID.Value);
+
+                if (findDetail == null)
                 {
                     if (PID > 0 && Qty > 0 && Price > 0)
                     {

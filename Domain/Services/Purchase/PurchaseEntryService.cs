@@ -60,7 +60,7 @@ namespace Domain.Services.Purchase
         private readonly IFinancialYearRepository _financialYearRepository;
 
         private readonly string selectsupplierid = string.Empty;
-        private readonly DataTable _dtEntries;
+        private DataTable _dtEntries;
 
         private const int PURCHASE_ACCOUNT_ACTIVITY_ID = 1;
         private const int PURCHASE_PAYMENT_PENDING_ACTIVITY_ID = 2;
@@ -82,6 +82,7 @@ namespace Domain.Services.Purchase
 
         public async Task<string> ConfirmPurchase(int CompanyID, int BranchID, int UserID, string InvoiceNo, string SupplierInvoiceID, float Amount, string SupplierID, string SupplierName, bool isPayment)
         {
+            _dtEntries = new DataTable();
             string purchaseTitle = Localization.Localization.PurchaseFrom + SupplierName.Trim();
 
             // Retrieve the active financial year
@@ -163,8 +164,12 @@ namespace Domain.Services.Purchase
                     DateTime.Now,
                     SupplierName + $", {Localization.Localization.PurchasePaymentIsSucceed}");
 
+                _purchaseRepository.SetEntries(_dtEntries);
+
                 return await _purchaseRepository.ConfirmPurchase(CompanyID, BranchID, UserID, SupplierInvoiceID, Amount, SupplierID, payInvoiceNo, 0);
             }
+
+            _purchaseRepository.SetEntries(_dtEntries);
 
             return await _purchaseRepository.InsertTransaction(CompanyID, BranchID);
         }
@@ -173,6 +178,8 @@ namespace Domain.Services.Purchase
         {
             try
             {
+                _dtEntries = new DataTable();
+
                 string pruchaseTitle = Localization.Localization.PurchaseFrom + SupplierName.Trim();
 
                 // Retrieve the active financial year
@@ -256,9 +263,13 @@ namespace Domain.Services.Purchase
                         DateTime.Now,
                         SupplierName + $", {Localization.Localization.PurchasePaymentIsSucceed}");
 
+                    _purchaseRepository.SetEntries(_dtEntries);
+
                     // Insert payment record
                     return await _purchaseRepository.ConfirmPurchase(CompanyID, BranchID, UserID, SupplierInvoiceID, Amount, SupplierID, payInvoiceNo, RemainingBalance);
                 }
+
+                _purchaseRepository.SetEntries(_dtEntries);
 
                 // Insert transaction records
                 return await _purchaseRepository.InsertTransaction(CompanyID, BranchID);
@@ -273,6 +284,8 @@ namespace Domain.Services.Purchase
         // Purchase Return
         public async Task<string> ReturnPurchase(int CompanyID, int BranchID, int UserID, string InvoiceNo, string SupplierInvoiceID, int SupplierReturnInvoiceID, float Amount, string SupplierID, string SupplierName, bool isPayment)
         {
+            _dtEntries = new DataTable();
+
             string returnPurchaseTitle = Localization.Localization.ReturnPurchaseTo + SupplierName.Trim();
 
             // Retrieve the active financial year
@@ -361,7 +374,11 @@ namespace Domain.Services.Purchase
                     paymentSuccessTitle);
 
                 successMessage += await _purchaseRepository.ConfirmPurchaseReturn(CompanyID, BranchID, UserID, SupplierInvoiceID, SupplierReturnInvoiceID, Amount, SupplierID, payInvoiceNo);
+
+                _purchaseRepository.SetEntries(_dtEntries);
             }
+
+            _purchaseRepository.SetEntries(_dtEntries);
 
             // Insert transaction records
             await _purchaseRepository.InsertTransaction(CompanyID, BranchID);
@@ -422,6 +439,8 @@ namespace Domain.Services.Purchase
                     Amount.ToString(),
                     DateTime.Now,
                     SupplierName + $", {Localization.Localization.ReturnPurchasePaymentIsSucceed}");
+
+                _purchaseRepository.SetEntries(_dtEntries);
 
                 // Insert supplier return payment record
                 await _purchaseRepository.ConfirmPurchaseReturn(CompanyID, BranchID, UserID, SupplierInvoiceID, SupplierReturnInvoiceID, Amount, SupplierID, payInvoiceNo);

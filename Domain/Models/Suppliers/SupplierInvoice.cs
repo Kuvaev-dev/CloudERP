@@ -75,6 +75,6 @@ namespace Domain.Models
         [StringLength(100, ErrorMessage = "User Name cannot be longer than 100 characters.")]
         public string UserName { get; set; }
 
-        public IEnumerable<SupplierInvoiceDetail> SupplierInvoices { get; set; }
+        public List<SupplierInvoiceDetail> SupplierInvoices { get; set; }
     }
 }
