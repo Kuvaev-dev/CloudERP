@@ -6,8 +6,6 @@ namespace Domain.Models
     {
         [Key]
         public int BranchID { get; set; }
-
-        [Range(1, int.MaxValue, ErrorMessage = "Branch Code (BrchID) must be a positive integer.")]
         public int BrchID { get; set; }
 
         [Required(ErrorMessage = "Branch Name is required.")]
@@ -25,12 +23,7 @@ namespace Domain.Models
 
         [Required(ErrorMessage = "Company ID is required.")]
         public int CompanyID { get; set; }
-
-        [Range(1, int.MaxValue, ErrorMessage = "Parent Branch ID must be a positive integer.")]
         public int? ParentBranchID { get; set; }
-
-        [Required(ErrorMessage = "Branch Type ID is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Branch Type ID must be a positive integer.")]
         public int BranchTypeID { get; set; }
         public string BranchTypeName { get; set; }
     }

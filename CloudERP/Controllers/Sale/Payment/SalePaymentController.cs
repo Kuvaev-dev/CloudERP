@@ -16,19 +16,22 @@ namespace CloudERP.Controllers
         private readonly ICustomerInvoiceDetailRepository _customerInvoiceDetailRepository;
         private readonly SessionHelper _sessionHelper;
         private readonly ISalePaymentService _salePaymentService;
+        private readonly ISaleService _saleService;
 
         public SalePaymentController(
             ISaleRepository saleRepository,
             ICustomerReturnInvoiceRepository customerReturnInvoiceRepository,
             ICustomerInvoiceDetailRepository customerInvoiceDetailRepository,
             SessionHelper sessionHelper,
-            ISalePaymentService salePaymentService)
+            ISalePaymentService salePaymentService,
+            ISaleService saleService)
         {
             _saleRepository = saleRepository ?? throw new ArgumentNullException(nameof(ISaleRepository));
             _customerReturnInvoiceRepository = customerReturnInvoiceRepository ?? throw new ArgumentNullException(nameof(ICustomerReturnInvoiceRepository));
             _customerInvoiceDetailRepository = customerInvoiceDetailRepository ?? throw new ArgumentNullException(nameof(ICustomerInvoiceDetailRepository));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
             _salePaymentService = salePaymentService ?? throw new ArgumentNullException(nameof(ISalePaymentService));
+            _saleService = saleService;
         }
 
         // GET: PurchasePayment
@@ -195,8 +198,8 @@ namespace CloudERP.Controllers
 
             try
             {
-                var list = await _customerInvoiceDetailRepository.GetListByIdAsync(id);
-                return View(list.ToList());
+                var saleDetail = await _saleService.GetSaleItemDetailAsync(id);
+                return View(saleDetail);
             }
             catch (Exception ex)
             {
@@ -212,8 +215,8 @@ namespace CloudERP.Controllers
 
             try
             {
-                var list = await _customerInvoiceDetailRepository.GetListByIdAsync(id);
-                return View(list.ToList());
+                var invoiceDetails = await _customerInvoiceDetailRepository.GetListByIdAsync(id);
+                return View(invoiceDetails);
             }
             catch (Exception ex)
             {
@@ -221,5 +224,6 @@ namespace CloudERP.Controllers
                 return RedirectToAction("EP500", "EP");
             }
         }
+
     }
 }

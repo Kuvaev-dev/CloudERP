@@ -33,16 +33,44 @@ namespace DatabaseAccess.Repositories
 
         public async Task<IEnumerable<CustomerInvoiceDetail>> GetListByIdAsync(int id)
         {
-            var entities = await _dbContext.tblCustomerInvoiceDetail.Where(i => i.CustomerInvoiceID == id).ToListAsync();
-            
-            return entities.Select(ci => new CustomerInvoiceDetail
+            return await _dbContext.tblCustomerInvoiceDetail
+                .Where(i => i.CustomerInvoiceID == id)
+                .Select(ci => new CustomerInvoiceDetail
             {
                 CustomerInvoiceDetailID = ci.CustomerInvoiceDetailID,
                 CustomerInvoiceID = ci.CustomerInvoiceID,
                 ProductID = ci.ProductID,
                 SaleQuantity = ci.SaleQuantity,
-                SaleUnitPrice = ci.SaleUnitPrice
-            });
+                SaleUnitPrice = ci.SaleUnitPrice,
+                ProductName = ci.tblStock.ProductName,
+                CompanyName = ci.tblCustomerInvoice.tblCompany.Name,
+                Branch = new Branch()
+                {
+                    BranchName = ci.tblCustomerInvoice.tblBranch.BranchName,
+                    BranchContact = ci.tblCustomerInvoice.tblBranch.BranchContact,
+                    BranchAddress = ci.tblCustomerInvoice.tblBranch.BranchAddress,
+                },
+                Customer = new Customer()
+                {
+                    Customername = ci.tblCustomerInvoice.tblCustomer.Customername,
+                    CustomerContact = ci.tblCustomerInvoice.tblCustomer.CustomerContact,
+                    CustomerAddress = ci.tblCustomerInvoice.tblCustomer.CustomerAddress,
+                },
+                CustomerInvoiceNo = ci.tblCustomerInvoice.InvoiceNo,
+                CustomerInvoiceDate = ci.tblCustomerInvoice.InvoiceDate,
+                ReturnedQuantity = ci.tblCustomerReturnInvoiceDetail.Sum(q => q.SaleReturnQuantity),
+                Qty = ci.SaleQuantity - ci.tblCustomerReturnInvoiceDetail.Sum(q => q.SaleReturnQuantity),
+                ItemCost = (ci.SaleQuantity - ci.tblCustomerReturnInvoiceDetail.Sum(q => q.SaleReturnQuantity)) * ci.SaleUnitPrice,
+                CustomerReturnInvoiceDetail = ci.tblCustomerReturnInvoiceDetail.Select(cr => new CustomerReturnInvoiceDetail
+                {
+                    CustomerReturnInvoiceID = cr.CustomerReturnInvoiceID,
+                    SaleReturnQuantity = cr.SaleReturnQuantity,
+                    SaleReturnUnitPrice = cr.SaleReturnUnitPrice,
+                    InvoiceNo = cr.tblCustomerReturnInvoice.InvoiceNo,
+                    InvoiceDate = cr.tblCustomerReturnInvoice.InvoiceDate,
+                    ProductName = cr.tblStock.ProductName
+                }).ToList()
+            }).ToListAsync();
         }
     }
 }

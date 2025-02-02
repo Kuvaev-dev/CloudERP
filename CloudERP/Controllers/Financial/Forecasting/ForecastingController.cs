@@ -30,8 +30,7 @@ namespace CloudERP.Controllers
 
             return View(new ForecastInputModel
             {
-                StartDate = DateTime.Now,
-                EndDate = DateTime.Now.AddMonths(-1)
+                EndDate = DateTime.Now
             });
         }
 

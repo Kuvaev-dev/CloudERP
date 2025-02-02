@@ -17,7 +17,9 @@ namespace DatabaseAccess.Repositories
 
         public async Task<double> GetTotalPaidAmount(int id)
         {
-            return await _dbContext.tblSupplierPayment.Where(p => p.SupplierInvoiceID == id).SumAsync(p => p.PaymentAmount);
+            return await _dbContext.tblSupplierPayment
+                .Where(p => p.SupplierInvoiceID == id)
+                .SumAsync(p => (double?)p.PaymentAmount) ?? 0;
         }
 
         public async Task<bool> GetByInvoiceIdAsync(int id)

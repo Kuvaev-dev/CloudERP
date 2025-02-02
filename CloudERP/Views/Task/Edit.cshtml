@@ -22,6 +22,8 @@
         @Html.HiddenFor(model => model.UserID)
         @Html.HiddenFor(model => model.BranchID)
         @Html.HiddenFor(model => model.CompanyID)
+        @Html.HiddenFor(model => model.AssignedByUserID)
+        @Html.HiddenFor(model => model.AssignedToUserID)
 
         <div class="form-group">
             @Html.LabelFor(model => model.Title, Resources.Task.TaskTitle.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
@@ -42,7 +44,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.DueDate, Resources.Task.DueDate.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-5">
-                @Html.TextBoxFor(model => model.DueDate, new { @type = "date", @class = "form-control" })
+                @Html.TextBoxFor(model => model.DueDate, new { @type = "datetime-local", @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.DueDate, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -50,7 +52,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ReminderDate, Resources.Task.ReminderDate.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-5">
-                @Html.TextBoxFor(model => model.ReminderDate, new { @type = "date", @class = "form-control" })
+                @Html.TextBoxFor(model => model.ReminderDate, new { @type = "datetime-local", @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ReminderDate, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -64,6 +66,5 @@
                 </button>
             </div>
         </div>
-        }
     </div>
 }

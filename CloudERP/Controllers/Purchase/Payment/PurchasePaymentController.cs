@@ -189,8 +189,9 @@ namespace CloudERP.Controllers
                 return RedirectToAction("Login", "Home");
 
             try
-            {    
-                return View(await _supplierInvoiceDetailRepository.GetListByIdAsync(id.Value));
+            {
+                var invoiceDetails = await _supplierInvoiceDetailRepository.GetListByIdAsync(id.Value);
+                return View(invoiceDetails);
             }
             catch (Exception ex)
             {

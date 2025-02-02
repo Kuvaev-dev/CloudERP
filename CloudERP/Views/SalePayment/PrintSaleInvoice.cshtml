@@ -1,249 +1,123 @@
-﻿@model Domain.Models.CustomerInvoiceDetail
+﻿@model IEnumerable<Domain.Models.CustomerInvoiceDetail>
 @{
     Layout = null;
+    double total = Model.Sum(item => item.ItemCost);
 }
 
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="Bootstrap Admin App + jQuery">
-    <meta name="keywords" content="app, responsive, jquery, bootstrap, dashboard, admin">
-    <title>Payroll</title>
-    <!-- =============== VENDOR STYLES ===============-->
-    <!-- FONT AWESOME-->
-    <link rel="stylesheet" href="~/Content/Template/vendor/font-awesome/css/font-awesome.css">
-    <!-- SIMPLE LINE ICONS-->
-    <link rel="stylesheet" href="~/Content/Template/vendor/simple-line-icons/css/simple-line-icons.css">
-    <!-- ANIMATE.CSS-->
-    <link rel="stylesheet" href="~/Content/Template/vendor/animate.css/animate.css">
-    <!-- WHIRL (spinners)-->
-    <link rel="stylesheet" href="~/Content/Template/vendor/whirl/dist/whirl.css">
-    <!-- =============== PAGE VENDOR STYLES ===============-->
-    <!-- =============== BOOTSTRAP STYLES ===============-->
-    <link rel="stylesheet" href="~/Content/Template/css/bootstrap.css" id="bscss">
-    <!-- =============== APP STYLES ===============-->
-    <link rel="stylesheet" href="~/Content/Template/css/app.css" id="maincss">
+    <title>@Resources.Sale.SaleInvoice</title>
+    <link rel="stylesheet" href="~/Content/Template/css/bootstrap.css">
+    <link rel="stylesheet" href="~/Content/Template/css/app.css">
 </head>
 <body>
-    @{
-        double total = 0;
+    <div class="content-wrapper">
+        <div class="card">
+            <div class="card-body">
+                <h3>@Resources.Sale.SaleInvoice</h3>
+                <hr>
+                <div class="row mb-3">
+                    <div class="col-xl-4 col-6 br py-2">
+                        <h4>@Resources.Sale.Customer</h4>
+                        <hr />
+                        <h4>@Model.First().CustomerName</h4>
+                        <h5>@Resources.Sale.ContactNo: @Model.First().CustomerContact</h5>
+                        <address>@Model.First().CustomerArea</address>
+                        <h4>@Model.First().CompanyName</h4>
+                    </div>
+                    <div class="col-xl-4 col-6 br py-2">
+                        <h4>@Model.First().BranchName</h4>
+                        <h5>@Resources.Sale.ContactNo: @Model.First().BranchContact</h5>
+                        <address>@Model.First().BranchAddress</address>
+                    </div>
+                    <div class="col-xl-4 col-12 py-2">
+                        <p>@Resources.Sale.InvoiceNo: @Model.First().CustomerInvoiceNo</p>
+                        <p>@Resources.Sale.InvoiceDate: @Model.First().CustomerInvoiceDate.ToString("dd/MM/yyyy")</p>
+                        <p>@Resources.Sale.PrintDate: @DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt")</p>
+                    </div>
+                </div>
 
-        <div class="wrapper">
-            <!-- top navbar-->
-            <!-- Main section-->
-            <!-- Page content-->
-            <div class="content-wrapper">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <h3 class="m-0">@Resources.Sale.SaleInvoice.ToString()</h3>
-                        </div>
-                        <hr>
-                        <div class="row mb-3">
-                            <div class="col-xl-4 col-6 br py-2">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <h4>@Resources.Sale.Customer.ToString()</h4>
-                                        <hr/>
-                                        <h4>
-                                            @Model.CustomerName
-                                        </h4>
-                                        <h5>@Resources.Sale.ContactNo.ToString(): @Model.CustomerContact</h5>
-                                        <address>@Model.CustomerArea</address>
-                                        <h4>@Model.CompanyName</h4>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-4 col-6 br py-2">
-                                <div class="row">
-                                    <div class="col-lg-2 text-center d-none d-lg-block">
-                                        @{
-                                            string branchimgurl = "~/Content/CompanyLogo/erp-logo.png";
-                                        }
-                                        <img src="@Url.Content(branchimgurl)" alt="Image" style="width: 100px; height: 100px; max-width: 100%; height: auto;" />
-                                    </div>
-                                    <div class="col-lg-10">
-                                        <h4>@Model.BranchName</h4>
-                                        <h5>@Resources.Sale.ContactNo.ToString(): @Model.BranchContact</h5>
-                                        <address>@Model.BranchAddress</address>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="col-xl-4 col-12 py-2">
-                                <div class="clearfix">
-                                    <p class="float-left">@Resources.Sale.InvoiceNo.ToString()</p>
-                                    <p class="float-right mr-2">@Model.CustomerInvoiceNo</p>
-                                </div>
-                                <div class="clearfix">
-                                    <p class="float-left">@Resources.Sale.InvoiceDate.ToString()</p>
-                                    <p class="float-right mr-2">@Model.CustomerInvoiceDate.ToString("dd/MM/yyyy")</p>
-                                </div>
-                                <div class="clearfix">
-                                    <p class="float-left">@Resources.Sale.PrintDate.ToString()</p>
-                                    <p class="float-right mr-2">@DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt")</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="table-responsive table-bordered mb-3">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>@Resources.Sale.ItemNo.ToString()</th>
-                                        <th>@Resources.Sale.Quantity.ToString()</th>
-                                        <th>@Resources.Sale.UnitPrice.ToString()</th>
-                                        <th class="text-right">@Resources.Sale.Total.ToString()</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @*@foreach (var item in Model)
-                                    {
-                                        //!!!!!!
-                                        ViewBag.Title = Resources.Sale.SaleInvoice.ToString() + " №: " + item.CustomerInvoice.InvoiceNo;
-                                        int qty = 0;
-                                        double itemCost = 0;
-                                        qty = item.SaleQuantity - item.CustomerReturnInvoiceDetail.Where(q => q.ProductID == item.ProductID).Sum(q => q.SaleReturnQuantity);
-                                        itemCost = qty * item.SaleUnitPrice;
-                                        total += itemCost;
-
-                                        <tr>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.ProductName)
-                                            </td>
-                                            <td>
-                                                @qty
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.SaleUnitPrice)
-                                            </td>
-                                            <td class="text-left">
-                                                @itemCost
-                                            </td>
-                                        </tr>
-                                    }*@
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6"></div>
-                            <div class="col-lg-6 py-2">
-                                <div class="row mb-3 align-items-center">
-                                    <div class="col-7">
-                                        <div class="h3">@Resources.Sale.GRANDTOTAL.ToString()</div>
-                                    </div>
-                                    <div class="col-5">
-                                        <div class="text-right h3">@total.ToString("F2")</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        @{
-                            @*foreach (var item in Model)
+                <div class="table-responsive table-bordered mb-3">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>@Resources.Sale.ItemNo</th>
+                                <th>@Resources.Sale.Quantity</th>
+                                <th>@Resources.Sale.UnitPrice</th>
+                                <th class="text-right">@Resources.Sale.Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
                             {
-                                if (item.CustomerReturnInvoiceDetail.Where(s => s.CustomerInvoiceID == item.CustomerInvoiceID).FirstOrDefault() != null)
-                                {
-                                    double returnTotal = 0;
-                                    <div class="d-flex align-items-center">
-                                        <h3 class="m-0">@Resources.Sale.SaleReturnInvoice.ToString()</h3>
-                                    </div>
-                                    <hr>
-                                    <div class="row mb-3">
-                                        <div class="col-xl-4 col-12 py-2">
-                                            <div class="clearfix">
-                                                <p class="float-left">@Resources.Sale.ReturnInvoiceNo.ToString()</p>
-                                                <p class="float-right mr-2">@item.CustomerReturnInvoiceDetail.FirstOrDefault().tblCustomerReturnInvoice.InvoiceNo</p>
-                                            </div>
-                                            <div class="clearfix">
-                                                <p class="float-left">@Resources.Sale.ReturnInvoiceDate.ToString()</p>
-                                                <p class="float-right mr-2">@item.CustomerReturnInvoiceDetail.FirstOrDefault().tblCustomerReturnInvoice.InvoiceDate.ToString("dd/MM/yyyy")</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="table-responsive table-bordered mb-3">
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th>@Resources.Sale.ItemNo.ToString()</th>
-                                                    <th>@Resources.Sale.Quantity.ToString()</th>
-                                                    <th>@Resources.Sale.UnitPrice.ToString()</th>
-                                                    <th class="text-right">@Resources.Sale.Total.ToString()</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach (var itemProduct in item.CustomerReturnInvoiceDetail)
-                                                {
-                                                    int qty = 0;
-                                                    double itemCost = 0;
-                                                    qty = itemProduct.SaleReturnQuantity;
-                                                    itemCost = qty * itemProduct.SaleReturnUnitPrice;
-                                                    returnTotal += itemCost;
+                                <tr>
+                                    <td>@item.ProductName</td>
+                                    <td>@item.Qty</td>
+                                    <td>@item.SaleUnitPrice</td>
+                                    <td class="text-left">@item.ItemCost.ToString("F2")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
 
-                                                    <tr>
-                                                        <td>
-                                                            @Html.DisplayFor(modelItem => itemProduct.tblStock.ProductName)
-                                                        </td>
-                                                        <td>
-                                                            @qty
-                                                        </td>
-                                                        <td>
-                                                            @Html.DisplayFor(modelItem => itemProduct.SaleReturnUnitPrice)
-                                                        </td>
-                                                        <td class="text-left">
-                                                            @itemCost
-                                                        </td>
-                                                    </tr>
-                                                }
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-6"></div>
-                                        <div class="col-lg-6 py-2">
-                                            <div class="row mb-3 align-items-center">
-                                                <div class="col-7">
-                                                    <div class="h3">@Resources.Sale.ReturnTotal.ToString()</div>
-                                                </div>
-                                                <div class="col-5">
-                                                    <div class="text-right h3">@returnTotal.ToString("F2")</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                            }*@
-                        }
-                        <hr class="d-print-none">
-                        <div class="clearfix">
-                            <button class="btn btn-secondary float-left" type="button" onclick="window.print();">@Resources.Sale.Print.ToString()</button>
+                <div class="row">
+                    <div class="col-lg-6"></div>
+                    <div class="col-lg-6 py-2">
+                        <div class="row mb-3 align-items-center">
+                            <div class="col-7">
+                                <div class="h3">@Resources.Sale.GRANDTOTAL</div>
+                            </div>
+                            <div class="col-5">
+                                <div class="text-right h3">@total.ToString("F2")</div>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                @foreach (var item in Model.Where(i => i.CustomerReturnInvoiceDetail.Any()))
+                {
+                    <div class="d-flex align-items-center">
+                        <h3>@Resources.Sale.SaleReturnInvoice</h3>
+                    </div>
+                    <hr>
+                    <div class="row mb-3">
+                        <div class="col-xl-4 col-12 py-2">
+                            <p>@Resources.Sale.ReturnInvoiceNo: @item.CustomerReturnInvoiceDetail.First().InvoiceNo</p>
+                            <p>@Resources.Sale.ReturnInvoiceDate: @item.CustomerReturnInvoiceDetail.First().InvoiceDate.ToString("dd/MM/yyyy")</p>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive table-bordered mb-3">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>@Resources.Sale.ItemNo</th>
+                                    <th>@Resources.Sale.Quantity</th>
+                                    <th>@Resources.Sale.UnitPrice</th>
+                                    <th class="text-right">@Resources.Sale.Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var returnItem in item.CustomerReturnInvoiceDetail)
+                                {
+                                    <tr>
+                                        <td>@returnItem.ProductName</td>
+                                        <td>@returnItem.SaleReturnQuantity</td>
+                                        <td>@returnItem.SaleReturnUnitPrice</td>
+                                        <td class="text-left">@((returnItem.SaleReturnQuantity * returnItem.SaleReturnUnitPrice).ToString("F2"))</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+
+                <hr class="d-print-none">
+                <button class="btn btn-secondary" type="button" onclick="window.print();">@Resources.Sale.Print</button>
             </div>
         </div>
-    }
-    <!-- =============== VENDOR SCRIPTS ===============-->
-    <!-- MODERNIZR-->
-    <script src="~/Content/Template/vendor/modernizr/modernizr.custom.js"></script>
-    <!-- JQUERY-->
-    <script src="~/Content/Template/vendor/jquery/dist/jquery.js"></script>
-    <!-- BOOTSTRAP-->
-    <script src="~/Content/Template/vendor/popper.js/dist/umd/popper.js"></script>
-    <script src="~/Content/Template/vendor/bootstrap/dist/js/bootstrap.js"></script>
-    <!-- STORAGE API-->
-    <script src="~/Content/Template/vendor/js-storage/js.storage.js"></script>
-    <!-- JQUERY EASING-->
-    <script src="~/Content/Template/vendor/jquery.easing/jquery.easing.js"></script>
-    <!-- ANIMO-->
-    <script src="~/Content/Template/vendor/animo/animo.js"></script>
-    <!-- SCREENFULL-->
-    <script src="~/Content/Template/vendor/screenfull/dist/screenfull.js"></script>
-    <!-- LOCALIZE-->
-    <script src="~/Content/Template/vendor/jquery-localize/dist/jquery.localize.js"></script>
-    <!-- =============== PAGE VENDOR SCRIPTS ===============-->
-    <!-- =============== APP SCRIPTS ===============-->
-    <script src="~/Content/Template/js/app.js"></script>
+    </div>
 </body>
 </html>

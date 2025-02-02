@@ -51,7 +51,7 @@
                                     @Resources.Task.Complete.ToString()
                                 </a>
 
-                                @if (task.AssignedToUserID == null)
+                                @if (task.AssignedToUserID == 0 && task.AssignedByUserID == 0)
                                 {
                                     <a href="@Url.Action("Edit", new { id = task.TaskID })" class="btn btn-primary btn-sm">
                                         @Resources.Common.Edit.ToString()

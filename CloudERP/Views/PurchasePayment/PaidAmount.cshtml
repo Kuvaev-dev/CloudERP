@@ -112,12 +112,12 @@
     if (ViewData["ReturnPurchaseDetails"] != null)
     {
         <h3>@Resources.Purchase.PurchaseReturnDetails.ToString()</h3>
-        var returnPurchaseDetail = ViewData["ReturnPurchaseDetails"] as List<DatabaseAccess.tblSupplierReturnInvoice>;
-        foreach (DatabaseAccess.tblSupplierReturnInvoice item in returnPurchaseDetail)
+        var returnPurchaseDetail = ViewData["ReturnPurchaseDetails"] as List<Domain.Models.SupplierReturnInvoice>;
+        foreach (var item in returnPurchaseDetail)
         {
             noOfInvoice += 1;
             double invoiceRemainingBalance = 0;
-            double payAmount = item.tblSupplierReturnPayment.Sum(s => s.PaymentAmount);
+            double payAmount = item.SupplierReturnPayment.Sum(s => s.PaymentAmount);
             invoiceRemainingBalance = item.TotalAmount - payAmount;
             totalReturnRemainingBalance += invoiceRemainingBalance;
 
@@ -133,7 +133,7 @@
                                                 <div>
                                                     @Resources.Supplier.SupplierName.ToString():
                                                     <div>
-                                                        @item.tblSupplier.SupplierName
+                                                        @item.SupplierName
                                                     </div>
                                                 </div>
                                             </div>
@@ -207,7 +207,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody id="paymentList">
-                                                    @foreach (var paymentDetails in item.tblSupplierReturnPayment)
+                                                    @foreach (var paymentDetails in item.SupplierReturnPayment)
                                                     {
                                                         <tr>
                                                             <td>

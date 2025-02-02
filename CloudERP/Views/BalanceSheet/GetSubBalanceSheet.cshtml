@@ -46,112 +46,115 @@
                                 @Resources.Financial.Total.ToString()
                             </th>
                         </tr>
-                        @foreach (var accountHead in Model.AccountHeadTotals)
+                        @if (Model.AccountHeadTotals != null)
                         {
-                            <tr style="background-color:lightgray;">
+                            foreach (var accountHead in Model.AccountHeadTotals)
+                            {
+                                <tr style="background-color:lightgray;">
+                                    <td>
+                                        @accountHead.AccountHeadTitle
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                foreach (var accounts in accountHead.AccountHeadDetails)
+                                {
+                                    <tr>
+                                        <td>
+                                            @accounts.AccountSubTitle
+                                        </td>
+                                        @if (accounts.Status == "Debit")
+                                        {
+                                            if (accounts.AccountSubTitle.Contains("Assets"))
+                                            {
+                                                <td>
+                                                    @accounts.TotalAmount
+                                                </td>
+                                            }
+                                            else if (accounts.AccountSubTitle.Contains("Liabilities") || accounts.AccountSubTitle.Contains("Capital"))
+                                            {
+                                                <td>
+                                                    (@accounts.TotalAmount)
+                                                </td>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (accounts.AccountSubTitle.Contains("Assets"))
+                                            {
+                                                <td>
+                                                    (@accounts.TotalAmount)
+                                                </td>
+                                            }
+                                            else if (accounts.AccountSubTitle.Contains("Liabilities") || accounts.AccountSubTitle.Contains("Capital"))
+                                            {
+                                                <td>
+                                                    @accounts.TotalAmount
+                                                </td>
+                                            }
+                                        }
+                                        <td></td>
+                                    </tr>
+                                }
+
+                                if (accountHead.AccountHeadTitle.Contains("Assets"))
+                                {
+                                    <tr style="background-color:black;color:white;">
+                                        <td>
+                                            @Resources.Financial.TotalAssets.ToString():
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            @Model.TotalAssets
+                                        </td>
+                                    </tr>
+                                }
+                                else if (accountHead.AccountHeadTitle.Contains("Liabilities"))
+                                {
+                                    <tr style="background-color:lightcyan;color:black;">
+                                        <td>
+                                            @Resources.Financial.TotalLiabilities.ToString():
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            @accountHead.TotalAmount
+                                        </td>
+                                    </tr>
+                                }
+                                if (accountHead.AccountHeadTitle.Contains("Capital"))
+                                {
+                                    <tr style="background-color:lightcyan;color:black;">
+                                        <td>
+                                            @Resources.Financial.TotalOwnerEquity.ToString():
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            @accountHead.TotalAmount
+                                        </td>
+                                    </tr>
+                                }
+                                <tr><td></td><td></td><td></td></tr>
+                            }
+                            <tr style="background-color:lightcyan;color:black;">
                                 <td>
-                                    @accountHead.AccountHeadTitle
+                                    @Resources.Financial.TotalReturnEarning.ToString():
                                 </td>
                                 <td></td>
-                                <td></td>
+                                <td>
+                                    @Model.ReturnEarning
+                                </td>
                             </tr>
-                            foreach (var accounts in accountHead.AccountHeadDetails)
-                            {
-                                <tr>
-                                    <td>
-                                        @accounts.AccountSubTitle
-                                    </td>
-                                    @if (accounts.Status == "Debit")
-                                    {
-                                        if (accounts.AccountSubTitle.Contains("Assets"))
-                                        {
-                                            <td>
-                                                @accounts.TotalAmount
-                                            </td>
-                                        }
-                                        else if (accounts.AccountSubTitle.Contains("Liabilities") || accounts.AccountSubTitle.Contains("Capital"))
-                                        {
-                                            <td>
-                                                (@accounts.TotalAmount)
-                                            </td>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if (accounts.AccountSubTitle.Contains("Assets"))
-                                        {
-                                            <td>
-                                                (@accounts.TotalAmount)
-                                            </td>
-                                        }
-                                        else if (accounts.AccountSubTitle.Contains("Liabilities") || accounts.AccountSubTitle.Contains("Capital"))
-                                        {
-                                            <td>
-                                                @accounts.TotalAmount
-                                            </td>
-                                        }
-                                    }
-                                    <td></td>
-                                </tr>
-                            }
-
-                            if (accountHead.AccountHeadTitle.Contains("Assets"))
-                            {
-                                <tr style="background-color:black;color:white;">
-                                    <td>
-                                        @Resources.Financial.TotalAssets.ToString():
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        @Model.TotalAssets
-                                    </td>
-                                </tr>
-                            }
-                            else if (accountHead.AccountHeadTitle.Contains("Liabilities"))
-                            {
-                                <tr style="background-color:lightcyan;color:black;">
-                                    <td>
-                                        @Resources.Financial.TotalLiabilities.ToString():
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        @accountHead.TotalAmount
-                                    </td>
-                                </tr>
-                            }
-                            if (accountHead.AccountHeadTitle.Contains("Capital"))
-                            {
-                                <tr style="background-color:lightcyan;color:black;">
-                                    <td>
-                                        @Resources.Financial.TotalOwnerEquity.ToString():
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        @accountHead.TotalAmount
-                                    </td>
-                                </tr>
-                            }
-                            <tr><td></td><td></td><td></td></tr>
+                            <tr style="background-color:black;color:white;">
+                                <td>
+                                    @Resources.Financial.TotalBalanceLiabilitiesOwnerEquityReturnEarning.ToString():
+                                </td>
+                                <td></td>
+                                <td>
+                                    @Model.Total_Liabilities_OwnerEquity_ReturnEarning
+                                </td>
+                            </tr>
                         }
-                        <tr style="background-color:lightcyan;color:black;">
-                            <td>
-                                @Resources.Financial.TotalReturnEarning.ToString():
-                            </td>
-                            <td></td>
-                            <td>
-                                @Model.ReturnEarning
-                            </td>
-                        </tr>
-                        <tr style="background-color:black;color:white;">
-                            <td>
-                                @Resources.Financial.TotalBalanceLiabilitiesOwnerEquityReturnEarning.ToString():
-                            </td>
-                            <td></td>
-                            <td>
-                                @Model.Total_Liabilities_OwnerEquity_ReturnEarning
-                            </td>
-                        </tr>
-                </table>
+                    </table>
             </div>
         </div>
     </div>

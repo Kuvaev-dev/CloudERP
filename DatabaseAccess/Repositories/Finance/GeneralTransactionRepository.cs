@@ -172,7 +172,7 @@ namespace DatabaseAccess.Repositories
             return accountsList;
         }
 
-        public async Task<List<JournalModel>> GetJournal(int CompanyID, int BranchID, DateTime FromDate, DateTime ToDate)
+        public async Task<List<JournalModel>> GetJournal(int CompanyID, int? BranchID, DateTime FromDate, DateTime ToDate)
         {
             var journalEntries = new List<JournalModel>();
 

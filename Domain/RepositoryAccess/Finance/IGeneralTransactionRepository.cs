@@ -17,6 +17,6 @@ namespace Domain.RepositoryAccess
             int creditAccountControlId,
             string reason);
         Task<List<AllAccountModel>> GetAllAccounts(int CompanyID, int BranchID);
-        Task<List<JournalModel>> GetJournal(int CompanyID, int BranchID, DateTime FromDate, DateTime ToDate);
+        Task<List<JournalModel>> GetJournal(int CompanyID, int? BranchID, DateTime FromDate, DateTime ToDate);
     }
 }

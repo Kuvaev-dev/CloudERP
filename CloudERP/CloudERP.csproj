@@ -786,7 +786,7 @@
     <Compile Include="Controllers\Financial\Reports\FinancialYearViewController.cs" />
     <Compile Include="Controllers\Financial\Forecasting\ForecastingController.cs" />
     <Compile Include="Controllers\Financial\Transactions\GeneralTransactionController.cs" />
-    <Compile Include="Controllers\Miscellaneous\GuideController.cs" />
+    <Compile Include="Controllers\Utilities\Support\GuideController.cs" />
     <Compile Include="Controllers\General\HomeController.cs" />
     <Compile Include="Controllers\Financial\Reports\IncomeStatementController.cs" />
     <Compile Include="Controllers\Financial\Reports\LedgerController.cs" />

@@ -105,6 +105,7 @@
     <Compile Include="Models\Purchase\PurchaseReturnConfirm.cs" />
     <Compile Include="Models\Finance\FinancialModels\Salary.cs" />
     <Compile Include="Models\Sale\SaleConfirm.cs" />
+    <Compile Include="Models\Sale\SaleItemDetail.cs" />
     <Compile Include="Models\Sale\SalePayment.cs" />
     <Compile Include="Models\Sale\SalePaymentModel.cs" />
     <Compile Include="Models\Sale\SalePaymentReturn.cs" />
@@ -200,6 +201,7 @@
     <Compile Include="Services\Sale\SalePaymentReturnService.cs" />
     <Compile Include="Services\Sale\SalePaymentService.cs" />
     <Compile Include="Services\Sale\SaleReturnService.cs" />
+    <Compile Include="Services\Sale\SaleService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -104,8 +104,6 @@ namespace CloudERP.Controllers
                 var branch = await _branchRepository.GetByIdAsync(id);
                 if (branch == null) return RedirectToAction("EP404", "EP");
 
-                await PopulateViewBags(_sessionHelper.CompanyID, branch.ParentBranchID, branch.BranchTypeID);
-
                 return View(branch);
             }
             catch (Exception ex)
@@ -133,7 +131,6 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Index");
                 }
 
-                await PopulateViewBags(_sessionHelper.CompanyID, model.ParentBranchID, model.BranchTypeID);
                 return View(model);
             }
             catch (Exception ex)

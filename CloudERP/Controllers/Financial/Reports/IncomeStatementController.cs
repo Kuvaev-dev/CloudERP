@@ -1,4 +1,5 @@
 ﻿using CloudERP.Helpers;
+using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
 using Domain.Services;
 using System;
@@ -86,7 +87,7 @@ namespace CloudERP.Controllers
                     return View();
                 }
 
-                return View(await _income.GetIncomeStatementAsync(_sessionHelper.CompanyID, _sessionHelper.BrchID, FinancialYear.FinancialYearID));
+                return View(new IncomeStatementModel());
             }
             catch (Exception ex)
             {
@@ -97,7 +98,7 @@ namespace CloudERP.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> GetSubIncomeStatement(int? FinancialYearID)
+        public async Task<ActionResult> GetSubIncomeStatement(int? id)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -106,7 +107,7 @@ namespace CloudERP.Controllers
             {
                 await PopulateViewBag();
 
-                return View(await _income.GetIncomeStatementAsync(_sessionHelper.CompanyID, _sessionHelper.BrchID, FinancialYearID ?? 0));
+                return View(await _income.GetIncomeStatementAsync(_sessionHelper.CompanyID, _sessionHelper.BrchID, id ?? 0));
             }
             catch (Exception ex)
             {

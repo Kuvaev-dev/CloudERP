@@ -120,7 +120,7 @@ namespace CloudERP.Controllers
                     _sessionHelper.CompanyEmployeeID = null;
                 }
 
-                return RedirectToAction("Index", "User");
+                return RedirectToAction("Employees", "CompanyEmployee");
             }
             catch (Exception ex)
             {
@@ -188,7 +188,7 @@ namespace CloudERP.Controllers
 
                 await _userRepository.UpdateAsync(user);
 
-                return RedirectToAction("SubBranchUser", "User");
+                return RedirectToAction("Employees", "CompanyEmployee");
             }
             catch (Exception ex)
             {

@@ -140,7 +140,7 @@ namespace CloudERP.Controllers
         }
 
         // GET: GeneralTransaction/SubJournal
-        public async Task<ActionResult> SubJournal()
+        public async Task<ActionResult> SubJournal(int? id)
         {
             try
             {
@@ -150,8 +150,8 @@ namespace CloudERP.Controllers
                 }
 
                 return View(await _generalTransactionRepository.GetJournal(
-                    _sessionHelper.CompanyID, 
-                    _sessionHelper.BrchID, 
+                    _sessionHelper.CompanyID,
+                    id ?? _sessionHelper.BranchID, 
                     DateTime.Now, 
                     DateTime.Now));
             }
@@ -165,7 +165,7 @@ namespace CloudERP.Controllers
         // POST: GeneralTransaction/SubJournal
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SubJournal(DateTime FromDate, DateTime ToDate)
+        public async Task<ActionResult> SubJournal(DateTime FromDate, DateTime ToDate, int? id)
         {
             try
             {
@@ -176,7 +176,7 @@ namespace CloudERP.Controllers
 
                 return View(await _generalTransactionRepository.GetJournal(
                     _sessionHelper.CompanyID,
-                    _sessionHelper.BrchID,
+                    id ?? _sessionHelper.BranchID,
                     FromDate,
                     ToDate));
             }

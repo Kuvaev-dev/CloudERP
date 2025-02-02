@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models
 {
@@ -30,5 +31,8 @@ namespace Domain.Models
         [Required(ErrorMessage = "Sale Return Unit Price is required.")]
         [Range(0.01, double.MaxValue, ErrorMessage = "Sale Return Unit Price must be greater than zero.")]
         public double SaleReturnUnitPrice { get; set; }
+        public string ProductName { get; set; }
+        public string InvoiceNo { get; set; }
+        public DateTime InvoiceDate { get; set; }
     }
 }

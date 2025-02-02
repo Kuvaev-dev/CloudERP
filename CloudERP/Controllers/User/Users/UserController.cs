@@ -12,15 +12,18 @@ namespace CloudERP.Controllers
         private readonly IUserRepository _userRepository;
         private readonly IUserTypeRepository _userTypeRepository;
         private readonly SessionHelper _sessionHelper;
+        private readonly PasswordHelper _passwordHelper;
 
         public UserController(
             IUserRepository userRepository, 
             IUserTypeRepository userTypeRepository, 
-            SessionHelper sessionHelper)
+            SessionHelper sessionHelper,
+            PasswordHelper passwordHelper)
         {
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(IUserRepository));
             _userTypeRepository = userTypeRepository ?? throw new ArgumentNullException(nameof(IUserTypeRepository));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _passwordHelper = passwordHelper ?? throw new ArgumentNullException(nameof(PasswordHelper));
         }
 
         public async Task<ActionResult> Index()
@@ -104,6 +107,8 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    model.Password = _passwordHelper.HashPassword(model.Password, out string salt);
+                    model.Salt = salt;
                     await _userRepository.AddAsync(model);
                     return RedirectToAction("Index");
                 }
@@ -151,6 +156,8 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    model.Password = _passwordHelper.HashPassword(model.Password, out string salt);
+                    model.Salt = salt;
                     await _userRepository.UpdateAsync(model);
                     return RedirectToAction("Index");
                 }

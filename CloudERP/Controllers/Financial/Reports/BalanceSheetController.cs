@@ -106,16 +106,10 @@ namespace CloudERP.Controllers
                 if (financialYear == null)
                 {
                     ViewBag.Message = Resources.Messages.CompanyFinancialYearNotSet;
-                    return View(new List<BalanceSheetModel>());
+                    return View(new BalanceSheetModel());
                 }
 
-                var balanceSheet = await _balanceSheetService.GetBalanceSheetAsync(
-                    _sessionHelper.CompanyID, 
-                    _sessionHelper.BrchID, 
-                    financialYear.FinancialYearID,
-                    await GetHeadsIDsList());
-
-                return View(balanceSheet);
+                return View(new BalanceSheetModel());
             }
             catch (Exception ex)
             {
@@ -134,7 +128,7 @@ namespace CloudERP.Controllers
             if (!id.HasValue)
             {
                 ViewBag.ErrorMessage = Resources.Messages.InvalidFinancialYearID;
-                return View(new List<BalanceSheetModel>());
+                return View(new BalanceSheetModel());
             }
 
             try

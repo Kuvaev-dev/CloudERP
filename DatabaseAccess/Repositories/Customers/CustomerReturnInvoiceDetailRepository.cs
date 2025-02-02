@@ -41,15 +41,12 @@ namespace DatabaseAccess.Repositories
                 .Select(d => new CustomerInvoiceDetail
                 {
                     ProductID = d.ProductID,
-                    ProductName = _dbContext.tblStock
-                        .Where(s => s.ProductID == d.ProductID)
-                        .Select(s => s.ProductName)
-                        .FirstOrDefault(),
+                    ProductName = d.tblStock != null ? d.tblStock.ProductName : "Unknown Product",
                     SaleQuantity = d.SaleQuantity,
                     SaleUnitPrice = d.SaleUnitPrice,
                     ReturnedQuantity = d.tblCustomerReturnInvoiceDetail
                         .Where(r => r.ProductID == d.ProductID)
-                        .Sum(r => r.SaleReturnQuantity)
+                        .Sum(r => (int?)r.SaleReturnQuantity) ?? 0
                 })
                 .ToList();
 

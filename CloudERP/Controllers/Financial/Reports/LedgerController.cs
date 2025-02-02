@@ -67,6 +67,49 @@ namespace CloudERP.Controllers
             }
         }
 
+        public async Task<ActionResult> GetSubLedger()
+        {
+            try
+            {
+                if (!_sessionHelper.IsAuthenticated)
+                    return RedirectToAction("Login", "Home");
+
+                await PopulateViewBag();
+
+                var defaultFinancialYear = await _financialYearRepository.GetSingleActiveAsync();
+                if (defaultFinancialYear != null)
+                {
+                    return View(await _ledgerRepository.GetLedgerAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID, defaultFinancialYear.FinancialYearID));
+                }
+
+                return View(new List<AccountLedgerModel>());
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> GetSubLedger(int id)
+        {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            try
+            {
+                await PopulateViewBagWithId(id);
+
+                return View(await _ledgerRepository.GetLedgerAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID, id));
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
+        }
+
         private async Task PopulateViewBag()
         {
             ViewBag.FinancialYears = new SelectList(await _financialYearRepository.GetAllActiveAsync(), "FinancialYearID", "FinancialYearName");

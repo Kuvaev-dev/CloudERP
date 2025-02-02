@@ -23,14 +23,14 @@ namespace CloudERP.Controllers
         }
 
         // GET: EmployeeStatistics
-        public async Task<ActionResult> Index(DateTime? startDate, DateTime? endDate)
+        public async Task<ActionResult> Index()
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
             try
             {
-                var statistics = await GetStatisticsAsync(startDate, endDate);
+                var statistics = await GetStatisticsAsync(DateTime.Now.AddMonths(-1), DateTime.Now);
                 return View(statistics);
             }
             catch (Exception ex)
@@ -43,7 +43,7 @@ namespace CloudERP.Controllers
         // POST: EmployeeStatistics
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> IndexPost(DateTime? startDate, DateTime? endDate)
+        public async Task<ActionResult> Index(DateTime? startDate, DateTime? endDate)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -51,7 +51,7 @@ namespace CloudERP.Controllers
             try
             {
                 var statistics = await GetStatisticsAsync(startDate, endDate);
-                return PartialView("_StatisticsPartial", statistics);
+                return View(statistics);
             }
             catch (Exception ex)
             {
