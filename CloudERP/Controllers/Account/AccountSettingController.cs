@@ -5,6 +5,7 @@ using CloudERP.Helpers;
 using Domain.Models;
 using CloudERP.Facades;
 using System.Collections.Generic;
+using CloudERP.Models;
 
 namespace CloudERP.Controllers
 {
@@ -29,6 +30,8 @@ namespace CloudERP.Controllers
             try
             {
                 var settings = await _accountSettingFacade.AccountSettingRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                if (settings == null) return RedirectToAction("EP404", "EP");
+
                 return View(settings);
             }
             catch (Exception ex)
@@ -45,7 +48,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                await PopulateDropdowns();
+                await PopulateDropdownsAsync();
 
                 return View(new AccountSetting());
             }
@@ -74,7 +77,7 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Index");
                 }
 
-                await PopulateDropdowns();
+                await PopulateDropdownsAsync();
 
                 return View(model);
             }
@@ -95,7 +98,7 @@ namespace CloudERP.Controllers
                 var setting = await _accountSettingFacade.AccountSettingRepository.GetByIdAsync(id);
                 if (setting == null) return RedirectToAction("EP404", "EP");
 
-                await PopulateDropdownsWithModel(setting);
+                await PopulateDropdownsAsync(setting);
 
                 return View(setting);
             }
@@ -124,7 +127,7 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Index");
                 }
 
-                await PopulateDropdownsWithModel(model);
+                await PopulateDropdownsAsync(model);
 
                 return View(model);
             }
@@ -145,54 +148,36 @@ namespace CloudERP.Controllers
             return new SelectList(data, dataValueField, dataTextField, selectedValue);
         }
 
-        private async Task PopulateDropdowns()
+        private async Task<AccountSettingMV> PopulateDropdownsAsync(AccountSetting model = null)
         {
-            ViewBag.AccountHeadList = await CreateSelectListAsync(
-                _accountSettingFacade.AccountHeadRepository.GetAllAsync,
-                "AccountHeadID",
-                "AccountHeadName");
+            var viewModel = new AccountSettingMV
+            {
+                AccountHeadList = await CreateSelectListAsync(
+                    _accountSettingFacade.AccountHeadRepository.GetAllAsync,
+                    "AccountHeadID",
+                    "AccountHeadName",
+                    model?.AccountHeadID),
 
-            ViewBag.AccountControlList = await CreateSelectListAsync(
-                () => _accountSettingFacade.AccountControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID),
-                "AccountControlID",
-                "AccountControlName");
+                AccountControlList = await CreateSelectListAsync(
+                    () => _accountSettingFacade.AccountControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID),
+                    "AccountControlID",
+                    "AccountControlName",
+                    model?.AccountControlID),
 
-            ViewBag.AccountSubControlList = await CreateSelectListAsync(
-                () => _accountSettingFacade.AccountSubControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID),
-                "AccountSubControlID",
-                "AccountSubControlName");
+                AccountSubControlList = await CreateSelectListAsync(
+                    () => _accountSettingFacade.AccountSubControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID),
+                    "AccountSubControlID",
+                    "AccountSubControlName",
+                    model?.AccountSubControlID),
 
-            ViewBag.AccountActivityList = await CreateSelectListAsync(
-                _accountSettingFacade.AccountActivityRepository.GetAllAsync,
-                "AccountActivityID",
-                "Name");
-        }
+                AccountActivityList = await CreateSelectListAsync(
+                    _accountSettingFacade.AccountActivityRepository.GetAllAsync,
+                    "AccountActivityID",
+                    "Name",
+                    model?.AccountActivityID)
+            };
 
-        private async Task PopulateDropdownsWithModel(AccountSetting model)
-        {
-            ViewBag.AccountHeadList = await CreateSelectListAsync(
-                _accountSettingFacade.AccountHeadRepository.GetAllAsync,
-                "AccountHeadID",
-                "AccountHeadName",
-                model.AccountHeadID);
-
-            ViewBag.AccountControlList = await CreateSelectListAsync(
-                () => _accountSettingFacade.AccountControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID),
-                "AccountControlID",
-                "AccountControlName",
-                model.AccountControlID);
-
-            ViewBag.AccountSubControlList = await CreateSelectListAsync(
-                () => _accountSettingFacade.AccountSubControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID),
-                "AccountSubControlID",
-                "AccountSubControlName",
-                model.AccountSubControlID);
-
-            ViewBag.AccountActivityList = await CreateSelectListAsync(
-                _accountSettingFacade.AccountActivityRepository.GetAllAsync,
-                "AccountActivityID",
-                "Name",
-                model.AccountActivityID);
+            return viewModel;
         }
     }
 }

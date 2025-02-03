@@ -16,9 +16,11 @@ namespace CloudERP.Controllers
         private readonly ISaleRepository _saleRepository;
         private readonly ICustomerReturnInvoiceRepository _customerReturnInvoiceRepository;
         private readonly ICustomerInvoiceDetailRepository _customerInvoiceDetailRepository;
-        private readonly SessionHelper _sessionHelper;
         private readonly ISalePaymentService _salePaymentService;
         private readonly ISaleService _saleService;
+        private readonly SessionHelper _sessionHelper;
+
+        private const string DEFAULT_IMAGE_PATH = "~/Content/EmployeePhoto/Default/default.png";
 
         public SalePaymentController(
             ISaleRepository saleRepository,
@@ -63,15 +65,15 @@ namespace CloudERP.Controllers
             try
             {
                 var list = await _salePaymentService.GetSalePaymentHistoryAsync(id.Value);
-                var returnDetails = await _customerReturnInvoiceRepository.GetListByIdAsync((int)id);
+                var returnDetails = await _customerReturnInvoiceRepository.GetListByIdAsync(id.Value);
 
                 if (returnDetails != null && returnDetails.Count() > 0)
                 {
                     ViewData["ReturnSaleDetails"] = returnDetails;
                 }
 
-                double totalInvoiceAmount = await _salePaymentService.GetTotalAmountByIdAsync((int)id);
-                double totalPaidAmount = await _salePaymentService.GetTotalPaidAmountByIdAsync((int)id);
+                double totalInvoiceAmount = await _salePaymentService.GetTotalAmountByIdAsync(id.Value);
+                double totalPaidAmount = await _salePaymentService.GetTotalPaidAmountByIdAsync(id.Value);
                 double remainingAmount = totalInvoiceAmount - totalPaidAmount;
 
                 ViewBag.PreviousRemainingAmount = remainingAmount;
@@ -219,22 +221,24 @@ namespace CloudERP.Controllers
             {
                 var invoiceDetails = await _customerInvoiceDetailRepository.GetListByIdAsync(id);
 
-                if (invoiceDetails == null || !invoiceDetails.Any())
+                if (invoiceDetails?.Any() != true)
                     return RedirectToAction("EP500", "EP");
 
                 var firstItem = invoiceDetails.First();
+                var customer = firstItem.Customer;
+                var branch = firstItem.Branch;
 
                 var viewModel = new SaleInvoiceMV
                 {
-                    CustomerName = firstItem.Customer.Customername,
-                    CustomerContact = firstItem.Customer.CustomerContact,
-                    CustomerArea = firstItem.Customer.CustomerArea,
-                    CustomerLogo = "~/Content/EmployeePhoto/Default/default.png",
+                    CustomerName = customer.Customername,
+                    CustomerContact = customer.CustomerContact,
+                    CustomerArea = customer.CustomerArea,
+                    CustomerLogo = DEFAULT_IMAGE_PATH,
                     CompanyName = firstItem.CompanyName,
                     CompanyLogo = firstItem.CompanyLogo,
-                    BranchName = firstItem.Branch.BranchName,
-                    BranchContact = firstItem.Branch.BranchContact,
-                    BranchAddress = firstItem.Branch.BranchAddress,
+                    BranchName = branch.BranchName,
+                    BranchContact = branch.BranchContact,
+                    BranchAddress = branch.BranchAddress,
                     InvoiceNo = firstItem.CustomerInvoiceNo,
                     InvoiceDate = firstItem.CustomerInvoiceDate.ToString("dd/MM/yyyy"),
                     TotalCost = invoiceDetails.Sum(i => i.ItemCost),

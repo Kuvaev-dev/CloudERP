@@ -9,34 +9,27 @@ namespace DatabaseAccess.Services
     {
         public string UploadPhoto(IFile file, string folderPath, string fileName)
         {
-            if (file == null || file.ContentLength <= 0)
-                return null;
+            if (file?.ContentLength <= 0) return null;
 
             var fullPath = Path.Combine(HttpContext.Current.Server.MapPath(folderPath), fileName);
 
             try
             {
-                var directory = Path.GetDirectoryName(fullPath);
-                if (!Directory.Exists(directory))
-                {
-                    Directory.CreateDirectory(directory);
-                }
+                Directory.CreateDirectory(Path.GetDirectoryName(fullPath) 
+                    ?? throw new InvalidOperationException("Invalid folder path"));
 
                 file.SaveAs(fullPath);
-
                 return $"{folderPath}/{fileName}".Replace("~", string.Empty);
             }
-            catch (Exception)
+            catch
             {
                 return null;
             }
         }
 
-        public string SetDefaultPhotoPath(string defaultPath)
-        {
-            return string.IsNullOrEmpty(defaultPath)
-                ? throw new Exception("Default Photo Path Not Found")
-                : defaultPath;
-        }
+        public string SetDefaultPhotoPath(string defaultPath) =>
+            string.IsNullOrEmpty(defaultPath) ? 
+            throw new Exception("Default Photo Path Not Found") 
+            : defaultPath;
     }
 }

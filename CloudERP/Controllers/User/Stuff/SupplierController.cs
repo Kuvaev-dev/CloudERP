@@ -30,6 +30,8 @@ namespace CloudERP.Controllers
             try
             {
                 var suppliers = await _supplierRepository.GetAllAsync();
+                if (suppliers == null) return RedirectToAction("EP404", "EP");
+
                 return View(suppliers);
             }
             catch (Exception ex)
@@ -48,6 +50,8 @@ namespace CloudERP.Controllers
             try
             {
                 var suppliers = await _supplierRepository.GetByCompanyAndBranchAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                if (suppliers == null) return RedirectToAction("EP404", "EP");
+
                 return View(suppliers);
             }
             catch (Exception ex)

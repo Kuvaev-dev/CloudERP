@@ -28,6 +28,8 @@ namespace CloudERP.Controllers
             try
             {
                 var financialYears = await _financialYearRepository.GetAllAsync();
+                if (financialYears == null) return RedirectToAction("EP404", "EP");
+
                 return View(financialYears);
             }
             catch (Exception ex)
@@ -37,7 +39,13 @@ namespace CloudERP.Controllers
             }
         }
 
-        public ActionResult Create() => View(new FinancialYear());
+        public ActionResult Create() 
+        {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            return View(new FinancialYear()); 
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]

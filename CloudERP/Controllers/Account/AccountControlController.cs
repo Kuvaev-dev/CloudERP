@@ -31,6 +31,8 @@ namespace CloudERP.Controllers
             try
             {
                 var accountControls = await _accountControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                if (accountControls == null) return RedirectToAction("EP404", "EP");
+
                 return View(accountControls);
             }
             catch (Exception ex)
@@ -47,7 +49,8 @@ namespace CloudERP.Controllers
 
             try
             {
-                ViewBag.AccountHeadList = await _accountHeadRepository.GetAllAsync();
+                await PopulateViewBag();
+
                 return View(new AccountControl());
             }
             catch (Exception ex)
@@ -70,7 +73,7 @@ namespace CloudERP.Controllers
                 model.CompanyID = _sessionHelper.CompanyID;
                 model.UserID = _sessionHelper.UserID;
 
-                ViewBag.AccountHeadList = await _accountHeadRepository.GetAllAsync();
+                await PopulateViewBag();
 
                 if (ModelState.IsValid)
                 {
@@ -102,7 +105,7 @@ namespace CloudERP.Controllers
                 var accountControl = await _accountControlRepository.GetByIdAsync(id.Value);
                 if (accountControl == null) return RedirectToAction("EP404", "EP");
 
-                ViewBag.AccountHeadList = await _accountHeadRepository.GetAllAsync();
+                await PopulateViewBag();
 
                 return View(new AccountControl());
             }
@@ -128,7 +131,7 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Index");
                 }
 
-                ViewBag.AccountHeadList = await _accountHeadRepository.GetAllAsync();
+                await PopulateViewBag();
 
                 return View(model);
             }
@@ -138,5 +141,8 @@ namespace CloudERP.Controllers
                 return RedirectToAction("EP500", "EP");
             }
         }
+
+        private async Task PopulateViewBag() =>
+            ViewBag.AccountHeadList = await _accountHeadRepository.GetAllAsync();
     }
 }

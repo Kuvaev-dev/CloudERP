@@ -4,8 +4,6 @@ using CloudERP.Models;
 using Domain.Models;
 using Domain.Models.FinancialModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -95,15 +93,7 @@ namespace CloudERP.Controllers
 
                     await _companyEmployeeFacade.EmployeeRepository.UpdateAsync(employee);
 
-                    var subject = "Employee Registration Successful";
-                    var body = $"<strong>Dear {employee.FullName},</strong><br/><br/>" +
-                               $"Your registration is successful. Here are your details:<br/>" +
-                               $"Name: {employee.FullName}<br/>" +
-                               $"Email: {employee.Email}<br/>" +
-                               $"Contact No: {employee.ContactNumber}<br/>" +
-                               $"Designation: {employee.Designation}<br/><br/>" +
-                               $"Best regards,<br/>Company Team";
-                    _companyEmployeeFacade.EmailService.SendEmail(employee.Email, subject, body);
+                    SendEmail(employee);
 
                     return RedirectToAction("Employees");
                 }
@@ -117,6 +107,20 @@ namespace CloudERP.Controllers
             }
 
             return View(employee);
+        }
+
+        private void SendEmail(Employee employee)
+        {
+            var subject = "Employee Registration Successful";
+            var body = $"<strong>Dear {employee.FullName},</strong><br/><br/>" +
+                       $"Your registration is successful. Here are your details:<br/>" +
+                       $"Name: {employee.FullName}<br/>" +
+                       $"Email: {employee.Email}<br/>" +
+                       $"Contact No: {employee.ContactNumber}<br/>" +
+                       $"Designation: {employee.Designation}<br/><br/>" +
+                       $"Best regards,<br/>Company Team";
+
+            _companyEmployeeFacade.EmailService.SendEmail(employee.Email, subject, body);
         }
 
         public ActionResult EmployeeSalary()
@@ -144,7 +148,6 @@ namespace CloudERP.Controllers
 
             try
             {
-                int companyID = _sessionHelper.CompanyID;
                 var employee = await _companyEmployeeFacade.EmployeeRepository.GetByTINAsync(salary.TIN);
 
                 if (employee != null)
@@ -206,6 +209,7 @@ namespace CloudERP.Controllers
                 }
 
                 Session["SalaryMessage"] = message;
+
                 return RedirectToAction("EmployeeSalary");
             }
             catch (Exception ex)

@@ -56,7 +56,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                await PopulateViewBagWithId(id);
+                await PopulateViewBag(id);
 
                 return View(await _ledgerRepository.GetLedgerAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID, id));
             }
@@ -69,11 +69,11 @@ namespace CloudERP.Controllers
 
         public async Task<ActionResult> GetSubLedger()
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                    return RedirectToAction("Login", "Home");
-
                 await PopulateViewBag();
 
                 var defaultFinancialYear = await _financialYearRepository.GetSingleActiveAsync();
@@ -99,7 +99,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                await PopulateViewBagWithId(id);
+                await PopulateViewBag(id);
 
                 return View(await _ledgerRepository.GetLedgerAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID, id));
             }
@@ -110,14 +110,10 @@ namespace CloudERP.Controllers
             }
         }
 
-        private async Task PopulateViewBag()
+        private async Task PopulateViewBag(int? selectedId = null)
         {
-            ViewBag.FinancialYears = new SelectList(await _financialYearRepository.GetAllActiveAsync(), "FinancialYearID", "FinancialYearName");
-        }
-
-        private async Task PopulateViewBagWithId(int id)
-        {
-            ViewBag.FinancialYears = new SelectList(await _financialYearRepository.GetAllActiveAsync(), "FinancialYearID", "FinancialYearName", id);
+            var financialYears = await _financialYearRepository.GetAllActiveAsync();
+            ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYearName", selectedId);
         }
     }
 }

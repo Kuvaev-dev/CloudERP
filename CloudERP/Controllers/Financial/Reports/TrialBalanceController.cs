@@ -56,7 +56,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                await PopulateViewBagWithId(id);
+                await PopulateViewBag(id);
 
                 var trialBalance = await _trialBalanceRepository.GetTrialBalanceAsync(
                     _sessionHelper.BranchID,
@@ -72,14 +72,10 @@ namespace CloudERP.Controllers
             }
         }
 
-        private async Task PopulateViewBag()
+        private async Task PopulateViewBag(int? selectedId = null)
         {
-            ViewBag.FinancialYears = new SelectList(await _financialYearRepository.GetAllActiveAsync(), "FinancialYearID", "FinancialYearName");
-        }
-
-        private async Task PopulateViewBagWithId(int? id)
-        {
-            ViewBag.FinancialYears = new SelectList(await _financialYearRepository.GetAllActiveAsync(), "FinancialYearID", "FinancialYearName", id);
+            var financialYears = await _financialYearRepository.GetAllActiveAsync();
+            ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYearName", selectedId);
         }
     }
 }

@@ -28,6 +28,8 @@ namespace CloudERP.Controllers
             try
             {
                 var userTypes = await _userTypeRepository.GetAllAsync();
+                if (userTypes == null) return RedirectToAction("EP404", "EP");
+
                 return View(userTypes);
             }
             catch (Exception ex)
@@ -46,6 +48,8 @@ namespace CloudERP.Controllers
             try
             {
                 var userType = await _userTypeRepository.GetByIdAsync(id);
+                if (userType == null) return RedirectToAction("EP404", "EP");
+
                 return View(userType);
             }
             catch (Exception ex)
@@ -57,6 +61,9 @@ namespace CloudERP.Controllers
 
         public ActionResult Create()
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             return View(new UserType());
         }
 

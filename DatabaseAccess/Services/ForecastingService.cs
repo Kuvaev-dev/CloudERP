@@ -2,7 +2,6 @@
 using Domain.Models.Forecasting;
 using Domain.RepositoryAccess;
 using System;
-using System.Linq;
 
 namespace DatabaseAccess.Services
 {

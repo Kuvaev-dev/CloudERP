@@ -28,8 +28,8 @@ namespace CloudERP.Controllers
         {
             try
             {
-                var userTickets = await _supportTicketRepository.GetByUserIdAsync(_sessionHelper.UserID);
-                ViewBag.UserTickets = userTickets;
+                ViewBag.UserTickets = await _supportTicketRepository.GetByUserIdAsync(_sessionHelper.UserID);
+
                 return View(new SupportTicket());
             }
             catch (Exception ex)
@@ -70,6 +70,7 @@ namespace CloudERP.Controllers
                 }
 
                 ViewBag.UserTickets = userTickets;
+
                 return View("Support", model);
             }
             catch (Exception ex)
@@ -84,6 +85,8 @@ namespace CloudERP.Controllers
             try
             {
                 var tickets = await _supportTicketRepository.GetAllAsync();
+                if (tickets == null) return RedirectToAction("AdminList");
+
                 return View(tickets);
             }
             catch (Exception ex)
@@ -102,10 +105,7 @@ namespace CloudERP.Controllers
                 var ticket = await _supportTicketRepository.GetByIdAsync(id);
                 var admin = await _userRepository.GetByIdAsync(_sessionHelper.UserID);
 
-                if (ticket == null)
-                {
-                    return RedirectToAction("AdminList");
-                }
+                if (ticket == null) return RedirectToAction("AdminList");
 
                 ticket.AdminResponse = responseMessage;
                 ticket.RespondedBy = admin.FullName;

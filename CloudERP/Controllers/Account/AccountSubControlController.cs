@@ -36,6 +36,8 @@ namespace CloudERP.Controllers
             try 
             { 
                 var subControls = await _accountSubControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                if (subControls == null) return RedirectToAction("EP404", "EP");
+
                 return View(subControls);
             }
             catch (Exception ex)
@@ -52,7 +54,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                ViewBag.AccountControlList = await _accountControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                await PopulateViewBag();
 
                 return View(new AccountSubControl());
             }
@@ -76,7 +78,7 @@ namespace CloudERP.Controllers
                 model.CompanyID = _sessionHelper.CompanyID;
                 model.UserID = _sessionHelper.UserID;
 
-                ViewBag.AccountControlList = _accountControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                await PopulateViewBag();
 
                 if (model.AccountControlID > 0)
                 {
@@ -117,7 +119,7 @@ namespace CloudERP.Controllers
                 var subControl = await _accountSubControlRepository.GetByIdAsync(id.Value);
                 if (subControl == null) return RedirectToAction("EP404", "EP");
 
-                ViewBag.AccountControlList = _accountControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                await PopulateViewBag();
 
                 return View(new AccountSubControl());
             }
@@ -141,7 +143,7 @@ namespace CloudERP.Controllers
                 model.CompanyID = _sessionHelper.CompanyID;
                 model.UserID = _sessionHelper.UserID;
 
-                ViewBag.AccountControlList = _accountControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                await PopulateViewBag();
 
                 if (model.AccountControlID > 0)
                 {
@@ -165,6 +167,11 @@ namespace CloudERP.Controllers
                 TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
+        }
+
+        private async Task PopulateViewBag()
+        {
+            ViewBag.AccountControlList = await _accountControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
         }
     }
 }

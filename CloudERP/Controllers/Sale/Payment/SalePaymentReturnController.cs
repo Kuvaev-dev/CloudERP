@@ -36,9 +36,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var list = await _saleRepository.GetReturnSaleAmountPending(_sessionHelper.CompanyID, _sessionHelper.BranchID);
-
-                return View(list);
+                return View(await _saleRepository.GetReturnSaleAmountPending(_sessionHelper.CompanyID, _sessionHelper.BranchID));
             }
             catch (Exception ex)
             {
@@ -54,9 +52,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var list = await _saleRepository.GetReturnSaleAmountPending(_sessionHelper.CompanyID, _sessionHelper.BranchID);
-
-                return View(list);
+                return View(await _saleRepository.GetReturnSaleAmountPending(_sessionHelper.CompanyID, _sessionHelper.BranchID));
             }
             catch (Exception ex)
             {
@@ -72,13 +68,10 @@ namespace CloudERP.Controllers
 
             try
             {
-                var list = await _customerReturnPaymentRepository.GetListByReturnInvoiceIdAsync((int)id);
+                var list = await _customerReturnPaymentRepository.GetListByReturnInvoiceIdAsync(id.Value);
 
                 double remainingAmount = list.Sum(item => item.RemainingBalance);
-                if (remainingAmount == 0)
-                {
-                    return RedirectToAction("AllReturnSalesPendingAmount");
-                }
+                if (remainingAmount == 0) return RedirectToAction("AllReturnSalesPendingAmount");
 
                 ViewBag.PreviousRemainingAmount = remainingAmount;
                 ViewBag.InvoiceID = id;

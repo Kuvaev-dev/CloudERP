@@ -34,23 +34,15 @@ namespace Domain.Services
         public async Task<User> AuthenticateUserAsync(string email, string password)
         {
             var user = await _userRepository.GetByEmailAsync(email);
-            if (user != null && _passwordHelper.VerifyPassword(password, user.Password, user.Salt))
-            {
-                return user;
-            }
-
-            return null;
+            return (user != null && _passwordHelper.VerifyPassword(password, user.Password, user.Salt))
+                ? user
+                : null;
         }
 
         public async Task<bool> IsPasswordResetRequestedRecentlyAsync(string email)
         {
             var user = await _userRepository.GetByEmailAsync(email);
-            if (user != null && (DateTime.Now - user.LastPasswordResetRequest)?.TotalMinutes < 5)
-            {
-                return true;
-            }
-
-            return false;
+            return user != null && (DateTime.Now - user.LastPasswordResetRequest)?.TotalMinutes < 5;
         }
 
         public void SendPasswordResetEmailAsync(string resetLink, string email, string resetPasswordCode)
@@ -63,25 +55,19 @@ namespace Domain.Services
 
         public async Task<bool> ResetPasswordAsync(string id, string newPassword, string confirmPassword)
         {
-            if (newPassword != confirmPassword)
-            {
-                return false;
-            }
+            if (newPassword != confirmPassword) return false;
 
             var user = await _userRepository.GetByPasswordCodesAsync(id, DateTime.Now);
-            if (user != null)
-            {
-                user.Password = _passwordHelper.HashPassword(newPassword, out string salt);
-                user.Salt = salt;
-                user.ResetPasswordCode = null;
-                user.ResetPasswordExpiration = null;
-                user.LastPasswordResetRequest = null;
+            if (user == null) return false;
 
-                await _userRepository.UpdateAsync(user);
-                return true;
-            }
+            user.Password = _passwordHelper.HashPassword(newPassword, out string salt);
+            user.Salt = salt;
+            user.ResetPasswordCode = null;
+            user.ResetPasswordExpiration = null;
+            user.LastPasswordResetRequest = null;
 
-            return false;
+            await _userRepository.UpdateAsync(user);
+            return true;
         }
     }
 }

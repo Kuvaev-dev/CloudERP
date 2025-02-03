@@ -13,10 +13,8 @@ using CloudERP.Facades;
 using CloudERP.Factories;
 using Unity.AspNet.Mvc;
 using Unity;
-using Unity.Injection;
 using System.Web;
 using System.Web.Mvc;
-using System.Configuration;
 
 namespace CloudERP.Helpers
 {

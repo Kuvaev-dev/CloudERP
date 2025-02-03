@@ -31,6 +31,8 @@ namespace CloudERP.Controllers
             try
             {
                 var statistics = await GetStatisticsAsync(DateTime.Now.AddMonths(-1), DateTime.Now);
+                if (statistics == null) return RedirectToAction("EP404", "EP");
+
                 return View(statistics);
             }
             catch (Exception ex)
@@ -51,6 +53,8 @@ namespace CloudERP.Controllers
             try
             {
                 var statistics = await GetStatisticsAsync(startDate, endDate);
+                if (statistics == null) return RedirectToAction("EP404", "EP");
+
                 return View(statistics);
             }
             catch (Exception ex)

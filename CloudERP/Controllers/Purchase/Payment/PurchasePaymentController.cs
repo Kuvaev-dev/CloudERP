@@ -54,7 +54,9 @@ namespace CloudERP.Controllers
             try
             {
                 var (paymentHistory, returnDetails, remainingAmount) = await _purchasePaymentService.GetPaymentDetailsAsync(id.Value);
+                
                 ViewData["ReturnPurchaseDetails"] = returnDetails;
+
                 ViewBag.PreviousRemainingAmount = remainingAmount;
                 ViewBag.InvoiceID = id;
 
@@ -75,7 +77,9 @@ namespace CloudERP.Controllers
             try
             {
                 var (paymentHistory, returnDetails, remainingAmount) = await _purchasePaymentService.GetPaymentDetailsAsync(id.Value);
+                
                 ViewData["ReturnPurchaseDetails"] = returnDetails;
+
                 ViewBag.PreviousRemainingAmount = remainingAmount;
                 ViewBag.InvoiceID = id;
 
@@ -108,7 +112,9 @@ namespace CloudERP.Controllers
                 if (message == Resources.Messages.PurchasePaymentRemainingAmountError)
                 {
                     var (paymentHistory, returnDetails, remainingAmount) = await _purchasePaymentService.GetPaymentDetailsAsync(id.Value);
+                    
                     ViewData["ReturnPurchaseDetails"] = returnDetails;
+
                     ViewBag.PreviousRemainingAmount = remainingAmount;
                     ViewBag.InvoiceID = id;
                     ViewBag.Message = message;
@@ -191,6 +197,8 @@ namespace CloudERP.Controllers
             try
             {
                 var invoiceDetails = await _supplierInvoiceDetailRepository.GetListByIdAsync(id.Value);
+                if(invoiceDetails == null) return RedirectToAction("EP404", "EP");
+
                 return View(invoiceDetails);
             }
             catch (Exception ex)

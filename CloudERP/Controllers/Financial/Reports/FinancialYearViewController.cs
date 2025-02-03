@@ -28,6 +28,8 @@ namespace CloudERP.Controllers
             try
             {
                 var financialYears = await _financialYearRepository.GetAllAsync();
+                if (financialYears == null) return RedirectToAction("EP404", "EP");
+
                 return View(financialYears);
             }
             catch (Exception ex)

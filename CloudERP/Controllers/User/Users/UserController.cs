@@ -34,6 +34,8 @@ namespace CloudERP.Controllers
             try
             {
                 var users = await _userRepository.GetAllAsync();
+                if (users == null) return RedirectToAction("EP404", "EP");
+
                 return View(users);
             }
             catch (Exception ex)
@@ -51,6 +53,8 @@ namespace CloudERP.Controllers
             try
             {
                 var users = await _userRepository.GetByBranchAsync(_sessionHelper.CompanyID, _sessionHelper.BranchTypeID, _sessionHelper.BranchID);
+                if (users == null) return RedirectToAction("EP404", "EP");
+
                 return View(users);
             }
             catch (Exception ex)
@@ -109,6 +113,7 @@ namespace CloudERP.Controllers
                 {
                     model.Password = _passwordHelper.HashPassword(model.Password, out string salt);
                     model.Salt = salt;
+
                     await _userRepository.AddAsync(model);
                     return RedirectToAction("Index");
                 }
@@ -158,6 +163,7 @@ namespace CloudERP.Controllers
                 {
                     model.Password = _passwordHelper.HashPassword(model.Password, out string salt);
                     model.Salt = salt;
+
                     await _userRepository.UpdateAsync(model);
                     return RedirectToAction("Index");
                 }

@@ -54,7 +54,7 @@ namespace CloudERP.Controllers
             }
             catch
             {
-                return RedirectToAction("Index", "Forecasting");
+                return RedirectToAction("Index");
             }
         }
     }

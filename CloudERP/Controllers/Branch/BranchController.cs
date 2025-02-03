@@ -34,8 +34,8 @@ namespace CloudERP.Controllers
             try
             {
                 var branches = _sessionHelper.BranchTypeID == MAIN_BRANCH_TYPE_ID
-                ? await _branchRepository.GetByCompanyAsync(_sessionHelper.CompanyID)
-                : await _branchRepository.GetSubBranchAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                    ? await _branchRepository.GetByCompanyAsync(_sessionHelper.CompanyID)
+                    : await _branchRepository.GetSubBranchAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
 
                 return View(branches);
             }

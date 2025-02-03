@@ -27,17 +27,12 @@ namespace CloudERP.Controllers
         // GET: GeneralTransaction/GeneralTransaction
         public async Task<ActionResult> GeneralTransaction()
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
-                var accounts = await _generalTransactionRepository.GetAllAccounts(_sessionHelper.CompanyID, _sessionHelper.BranchID);
-
-                ViewBag.CreditAccountControlID = new SelectList(accounts, "AccountSubControlID", "AccountSubControl");
-                ViewBag.DebitAccountControlID = new SelectList(accounts, "AccountSubControlID", "AccountSubControl");
+                await PopulateViewBag();
 
                 return View(new GeneralTransactionMV());
             }
@@ -77,10 +72,7 @@ namespace CloudERP.Controllers
                     Session["GNMessage"] = Resources.Messages.PleaseReLoginAndTryAgain;
                 }
 
-                var accounts = await _generalTransactionRepository.GetAllAccounts(_sessionHelper.CompanyID, _sessionHelper.BranchID);
-
-                ViewBag.CreditAccountControlID = new SelectList(accounts, "AccountSubControlID", "AccountSubControl", "0");
-                ViewBag.DebitAccountControlID = new SelectList(accounts, "AccountSubControlID", "AccountSubControl", "0");
+                await PopulateViewBag();
 
                 return RedirectToAction("GeneralTransaction", new { transaction });
             }
@@ -97,9 +89,7 @@ namespace CloudERP.Controllers
             try
             {
                 if (!_sessionHelper.IsAuthenticated)
-                {
                     return RedirectToAction("Login", "Home");
-                }
 
                 return View(await _generalTransactionRepository.GetJournal(
                     _sessionHelper.CompanyID,
@@ -122,9 +112,7 @@ namespace CloudERP.Controllers
             try
             {
                 if (!_sessionHelper.IsAuthenticated)
-                {
                     return RedirectToAction("Login", "Home");
-                }
 
                 return View(await _generalTransactionRepository.GetJournal(
                     _sessionHelper.CompanyID,
@@ -145,9 +133,7 @@ namespace CloudERP.Controllers
             try
             {
                 if (!_sessionHelper.IsAuthenticated)
-                {
                     return RedirectToAction("Login", "Home");
-                }
 
                 return View(await _generalTransactionRepository.GetJournal(
                     _sessionHelper.CompanyID,
@@ -170,9 +156,7 @@ namespace CloudERP.Controllers
             try
             {
                 if (!_sessionHelper.IsAuthenticated)
-                {
                     return RedirectToAction("Login", "Home");
-                }
 
                 return View(await _generalTransactionRepository.GetJournal(
                     _sessionHelper.CompanyID,
@@ -185,6 +169,14 @@ namespace CloudERP.Controllers
                 TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
+        }
+
+        private async Task PopulateViewBag()
+        {
+            var accounts = await _generalTransactionRepository.GetAllAccounts(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+
+            ViewBag.CreditAccountControlID = new SelectList(accounts, "AccountSubControlID", "AccountSubControl");
+            ViewBag.DebitAccountControlID = new SelectList(accounts, "AccountSubControlID", "AccountSubControl");
         }
     }
 }

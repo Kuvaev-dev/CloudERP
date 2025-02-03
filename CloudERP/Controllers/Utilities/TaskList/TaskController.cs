@@ -31,6 +31,8 @@ namespace CloudERP.Controllers
             try
             {
                 var tasks = await _taskRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID, _sessionHelper.UserID);
+                if (tasks == null) return RedirectToAction("EP404", "EP");
+
                 return View(tasks);
             }
             catch (Exception ex)

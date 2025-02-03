@@ -46,15 +46,7 @@ namespace CloudERP.Controllers
 
         public ActionResult Login()
         {
-            var rememberMeCookie = Request.Cookies["RememberMe"];
-            if (rememberMeCookie != null && !string.IsNullOrEmpty(rememberMeCookie["Email"]))
-            {
-                ViewBag.RememberedEmail = rememberMeCookie["Email"];
-            }
-            else
-            {
-                ViewBag.RememberedEmail = string.Empty;
-            }
+            ViewBag.RememberedEmail = Request.Cookies["RememberMe"]?["Email"] ?? string.Empty;
             return View();
         }
 
@@ -208,16 +200,8 @@ namespace CloudERP.Controllers
 
                     await _homeFacade.UserRepository.UpdateAsync(user);
 
-                    try
-                    {
-                        var resetLink = Url.Action("ResetPassword", "Home", new { id = user.ResetPasswordCode }, protocol: Request.Url.Scheme);
-                        _homeFacade.AuthService.SendPasswordResetEmailAsync(resetLink, user.Email, user.ResetPasswordCode);
-                    }
-                    catch (Exception ex)
-                    {
-                        TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                        return RedirectToAction("EP500", "EP");
-                    }
+                    var resetLink = Url.Action("ResetPassword", "Home", new { id = user.ResetPasswordCode }, protocol: Request.Url.Scheme);
+                    _homeFacade.AuthService.SendPasswordResetEmailAsync(resetLink, user.Email, user.ResetPasswordCode);
 
                     return View("ForgotPasswordEmailSent");
                 }

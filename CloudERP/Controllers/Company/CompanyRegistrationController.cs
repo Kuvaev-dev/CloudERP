@@ -115,14 +115,7 @@ namespace CloudERP.Controllers
                 };
                 await _companyRegistrationFacade.EmployeeRepository.AddAsync(employee);
 
-                var subject = "Welcome to the Company";
-                var body = $"Hello {employee.FullName},\n\n" +
-                           $"Your registration is successful. Here are your details:\n" +
-                           $"Name: {employee.FullName}\n" +
-                           $"Email: {employee.Email}\n" +
-                           $"Contact No: {employee.ContactNumber}\n\n" +
-                           $"Best regards,\nCompany Team";
-                _companyRegistrationFacade.EmailService.SendEmail(employee.Email, subject, body);
+                SendEmail(employee, company);
 
                 ViewBag.Message = Resources.Messages.RegistrationSuccessful;
                 return RedirectToAction("Login", "Home");
@@ -132,6 +125,18 @@ namespace CloudERP.Controllers
                 TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
+        }
+
+        private void SendEmail(Employee employee, Company company)
+        {
+            var subject = $"Welcome to the {company.Name}";
+            var body = $"Hello {employee.FullName},\n\n" +
+                       $"Your registration is successful. Here are your details:\n" +
+                       $"Name: {employee.FullName}\n" +
+                       $"Email: {employee.Email}\n" +
+                       $"Contact No: {employee.ContactNumber}\n\n" +
+                       $"Best regards,\n{company.Name}`s Team";
+            _companyRegistrationFacade.EmailService.SendEmail(employee.Email, subject, body);
         }
     }
 }

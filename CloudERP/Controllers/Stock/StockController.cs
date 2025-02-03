@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
@@ -37,6 +36,8 @@ namespace CloudERP.Controllers
             try
             {
                 var stocks = await _stockRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                if (stocks == null) return RedirectToAction("EP404", "EP");
+
                 return View(stocks);
             }
             catch (Exception ex)
@@ -76,8 +77,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var categories = await _categoryRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
-                ViewBag.CategoryID = new SelectList(categories, "CategoryID", "CategoryName");
+                await PopulateViewBag();
 
                 return View(new Stock());
             }
@@ -115,8 +115,7 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Index");
                 }
 
-                var categories = await _categoryRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
-                ViewBag.CategoryID = new SelectList(categories, "CategoryID", "CategoryName", model.CategoryID);
+                await PopulateViewBag(model.CategoryID);
 
                 return View(model);
             }
@@ -135,14 +134,12 @@ namespace CloudERP.Controllers
 
             try
             {
-                if (id == null)
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null) return RedirectToAction("EP404", "EP");
 
                 var stock = await _stockRepository.GetByIdAsync(id.Value);
                 if (stock == null) return RedirectToAction("EP404", "EP");
 
-                var categories = await _categoryRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
-                ViewBag.CategoryID = new SelectList(categories, "CategoryID", "CategoryName", stock.CategoryID);
+                await PopulateViewBag(stock.CategoryID);
 
                 return View(stock);
             }
@@ -180,8 +177,7 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Index");
                 }
 
-                var categories = await _categoryRepository.GetAllAsync(model.CompanyID, model.BranchID);
-                ViewBag.CategoryID = new SelectList(categories, "CategoryID", "CategoryName", model.CategoryID);
+                await PopulateViewBag(model.CategoryID);
 
                 return View(model);
             }
@@ -207,6 +203,15 @@ namespace CloudERP.Controllers
                 TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
+        }
+
+        private async Task PopulateViewBag(int? categoryID = null)
+        {
+            ViewBag.CategoryID = new SelectList(
+                await _categoryRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID),
+                "CategoryID",
+                "CategoryName",
+                categoryID);
         }
     }
 }

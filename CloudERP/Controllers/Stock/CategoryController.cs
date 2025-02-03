@@ -26,6 +26,8 @@ namespace CloudERP.Controllers
             try
             {
                 var categories = await _categoryRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                if (categories == null) return RedirectToAction("EP404", "EP");
+
                 return View(categories);
             }
             catch (Exception ex)
@@ -43,6 +45,8 @@ namespace CloudERP.Controllers
             try
             {
                 var category = await _categoryRepository.GetByIdAsync(id);
+                if (category == null) return RedirectToAction("EP404", "EP");
+
                 return View(category);
             }
             catch (Exception ex)
@@ -54,6 +58,9 @@ namespace CloudERP.Controllers
 
         public ActionResult Create()
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             return View(new Category());
         }
 
@@ -123,6 +130,7 @@ namespace CloudERP.Controllers
                     await _categoryRepository.UpdateAsync(model);
                     return RedirectToAction("Index");
                 }
+
                 return View(model);
             }
             catch (Exception ex)

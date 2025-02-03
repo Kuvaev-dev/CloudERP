@@ -28,6 +28,8 @@ namespace CloudERP.Controllers
             try
             {
                 var accountHeads = await _accountHeadRepository.GetAllAsync();
+                if (accountHeads == null) return RedirectToAction("EP404", "EP");
+
                 return View(accountHeads);
             }
             catch (Exception ex)

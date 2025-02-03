@@ -819,6 +819,7 @@
     <Compile Include="Helpers\SessionHelper.cs" />
     <Compile Include="Helpers\UnityConfig.cs" />
     <Compile Include="Helpers\WebConfigConnectionStringProvider.cs" />
+    <Compile Include="Models\AccountSettingMV.cs" />
     <Compile Include="Models\CompanyMV.cs" />
     <Compile Include="Models\CompanyRegistrationMV.cs" />
     <Compile Include="Models\GeneralTransactionMV.cs" />

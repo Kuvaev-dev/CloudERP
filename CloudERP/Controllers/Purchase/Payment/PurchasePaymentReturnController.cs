@@ -67,18 +67,12 @@ namespace CloudERP.Controllers
 
             try
             {
-                if (id == 0)
-                {
-                    return RedirectToAction("AllPurchasesPendingPayment");
-                }
+                if (id == 0) return RedirectToAction("AllPurchasesPendingPayment");
 
-                var list = await _purchasePaymentReturnService.GetSupplierReturnPaymentsAsync(id);
-                double remainingAmount = await _purchasePaymentReturnService.GetRemainingAmountAsync(id);
-
-                ViewBag.PreviousRemainingAmount = remainingAmount;
+                ViewBag.PreviousRemainingAmount = await _purchasePaymentReturnService.GetRemainingAmountAsync(id);
                 ViewBag.InvoiceID = id;
 
-                return View(list);
+                return View(await _purchasePaymentReturnService.GetSupplierReturnPaymentsAsync(id));
             }
             catch (Exception ex)
             {
@@ -112,17 +106,6 @@ namespace CloudERP.Controllers
                 Session["Message"] = message;
 
                 return RedirectToAction("PurchasePaymentReturn", new { id });
-            }
-            catch (InvalidOperationException ex)
-            {
-                ViewBag.Message = ex.Message;
-                var list = await _purchasePaymentReturnService.GetSupplierReturnPaymentsAsync(id);
-                double remainingAmount = await _purchasePaymentReturnService.GetRemainingAmountAsync(id);
-
-                ViewBag.PreviousRemainingAmount = remainingAmount;
-                ViewBag.InvoiceID = id;
-
-                return View(list);
             }
             catch (Exception ex)
             {
