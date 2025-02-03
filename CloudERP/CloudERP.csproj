@@ -826,6 +826,7 @@
     <Compile Include="Models\RegistrationMV.cs" />
     <Compile Include="Models\ReturnConfirmVM.cs" />
     <Compile Include="Models\SalaryMV.cs" />
+    <Compile Include="Models\SaleInvoiceMV.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

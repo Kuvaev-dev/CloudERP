@@ -15,6 +15,8 @@ namespace Domain.Models
         [StringLength(15, ErrorMessage = "Customer Contact cannot exceed 15 characters.")]
         [RegularExpression(@"^\+?\d{1,4}?[\d\s\(\)-]{7,15}$", ErrorMessage = "Invalid phone number format.")]
         public string CustomerContact { get; set; }
+        [StringLength(250, ErrorMessage = "Customer Address cannot exceed 250 characters.")]
+        public string CustomerArea { get; set; }
 
         [StringLength(250, ErrorMessage = "Customer Address cannot exceed 250 characters.")]
         public string CustomerAddress { get; set; }

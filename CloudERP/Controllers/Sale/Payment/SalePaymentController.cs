@@ -6,6 +6,8 @@ using CloudERP.Helpers;
 using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
 using Domain.Services.Sale;
+using Domain.Models;
+using CloudERP.Models;
 
 namespace CloudERP.Controllers
 {
@@ -216,7 +218,38 @@ namespace CloudERP.Controllers
             try
             {
                 var invoiceDetails = await _customerInvoiceDetailRepository.GetListByIdAsync(id);
-                return View(invoiceDetails);
+
+                if (invoiceDetails == null || !invoiceDetails.Any())
+                    return RedirectToAction("EP500", "EP");
+
+                var firstItem = invoiceDetails.First();
+
+                var viewModel = new SaleInvoiceMV
+                {
+                    CustomerName = firstItem.Customer.Customername,
+                    CustomerContact = firstItem.Customer.CustomerContact,
+                    CustomerArea = firstItem.Customer.CustomerArea,
+                    CustomerLogo = "~/Content/EmployeePhoto/Default/default.png",
+                    CompanyName = firstItem.CompanyName,
+                    CompanyLogo = firstItem.CompanyLogo,
+                    BranchName = firstItem.Branch.BranchName,
+                    BranchContact = firstItem.Branch.BranchContact,
+                    BranchAddress = firstItem.Branch.BranchAddress,
+                    InvoiceNo = firstItem.CustomerInvoiceNo,
+                    InvoiceDate = firstItem.CustomerInvoiceDate.ToString("dd/MM/yyyy"),
+                    TotalCost = invoiceDetails.Sum(i => i.ItemCost),
+                    InvoiceItems = invoiceDetails.ToList(),
+                    ReturnInvoices = invoiceDetails
+                        .Where(i => i.CustomerReturnInvoiceDetail.Any())
+                        .Select(i => new ReturnInvoiceMV
+                        {
+                            ReturnInvoiceNo = i.CustomerReturnInvoiceDetail.First().InvoiceNo,
+                            ReturnInvoiceDate = i.CustomerReturnInvoiceDetail.First().InvoiceDate.ToString("dd/MM/yyyy"),
+                            ReturnItems = i.CustomerReturnInvoiceDetail
+                        }).ToList()
+                };
+
+                return View(viewModel);
             }
             catch (Exception ex)
             {
@@ -224,6 +257,5 @@ namespace CloudERP.Controllers
                 return RedirectToAction("EP500", "EP");
             }
         }
-
     }
 }

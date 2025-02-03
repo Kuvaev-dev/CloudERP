@@ -1,7 +1,6 @@
-﻿@model IEnumerable<Domain.Models.CustomerInvoiceDetail>
+﻿@model CloudERP.Models.SaleInvoiceMV
 @{
     Layout = null;
-    double total = Model.Sum(item => item.ItemCost);
 }
 
 <!DOCTYPE html>
@@ -17,27 +16,39 @@
             <div class="card-body">
                 <h3>@Resources.Sale.SaleInvoice</h3>
                 <hr>
-                <div class="row mb-3">
-                    <div class="col-xl-4 col-6 br py-2">
+                <div class="row mb-3 ml-1">
+                    <div class="w-auto m-3">
+                        <img src="@Url.Content(Model.CustomerLogo)" class="img-fluid" style="max-width: 50px; height: auto;" />
+                    </div>
+                    <div class="col-md-3 col-7 br py-2">
                         <h4>@Resources.Sale.Customer</h4>
                         <hr />
-                        <h4>@Model.First().CustomerName</h4>
-                        <h5>@Resources.Sale.ContactNo: @Model.First().CustomerContact</h5>
-                        <address>@Model.First().CustomerArea</address>
-                        <h4>@Model.First().CompanyName</h4>
+                        <h4>@Model.CustomerName</h4>
+                        <h5>@Resources.Sale.ContactNo: @Model.CustomerContact</h5>
+                        <address>@Model.CustomerArea</address>
+                        <h4>@Model.CompanyName</h4>
                     </div>
-                    <div class="col-xl-4 col-6 br py-2">
-                        <h4>@Model.First().BranchName</h4>
-                        <h5>@Resources.Sale.ContactNo: @Model.First().BranchContact</h5>
-                        <address>@Model.First().BranchAddress</address>
+                    <div class="w-auto m-3">
+                        <img src="@Url.Content(Model.CompanyLogo)" class="img-fluid" style="max-width: 50px; height: auto;" />
                     </div>
-                    <div class="col-xl-4 col-12 py-2">
-                        <p>@Resources.Sale.InvoiceNo: @Model.First().CustomerInvoiceNo</p>
-                        <p>@Resources.Sale.InvoiceDate: @Model.First().CustomerInvoiceDate.ToString("dd/MM/yyyy")</p>
+                    <div class="col-xl-4 col-7 br py-2">
+                        <h4>@Resources.Branch.BranchTitle</h4>
+                        <hr />
+                        <h4>@Model.BranchName</h4>
+                        <h5>@Resources.Sale.ContactNo: @Model.BranchContact</h5>
+                        <address>@Model.BranchAddress</address>
+                    </div>
+                    <div class="col-xl-3 col-7 py-2">
+                        <h4>@Resources.Sale.Date</h4>
+                        <hr />
+                        <p>@Resources.Sale.InvoiceNo: @Model.InvoiceNo</p>
+                        <p>@Resources.Sale.InvoiceDate: @Model.InvoiceDate</p>
                         <p>@Resources.Sale.PrintDate: @DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt")</p>
                     </div>
                 </div>
 
+                <h4>@Resources.Sale.SaleProductsDetail</h4>
+                <hr />
                 <div class="table-responsive table-bordered mb-3">
                     <table class="table">
                         <thead>
@@ -45,16 +56,16 @@
                                 <th>@Resources.Sale.ItemNo</th>
                                 <th>@Resources.Sale.Quantity</th>
                                 <th>@Resources.Sale.UnitPrice</th>
-                                <th class="text-right">@Resources.Sale.Total</th>
+                                <th>@Resources.Sale.Total</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model)
+                            @foreach (var item in Model.InvoiceItems)
                             {
                                 <tr>
                                     <td>@item.ProductName</td>
                                     <td>@item.Qty</td>
-                                    <td>@item.SaleUnitPrice</td>
+                                    <td>@item.SaleUnitPrice.ToString("F2")</td>
                                     <td class="text-left">@item.ItemCost.ToString("F2")</td>
                                 </tr>
                             }
@@ -70,13 +81,13 @@
                                 <div class="h3">@Resources.Sale.GRANDTOTAL</div>
                             </div>
                             <div class="col-5">
-                                <div class="text-right h3">@total.ToString("F2")</div>
+                                <div class="text-right h3">@Model.TotalCost.ToString("F2")</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                @foreach (var item in Model.Where(i => i.CustomerReturnInvoiceDetail.Any()))
+                @foreach (var returnInvoice in Model.ReturnInvoices)
                 {
                     <div class="d-flex align-items-center">
                         <h3>@Resources.Sale.SaleReturnInvoice</h3>
@@ -84,8 +95,8 @@
                     <hr>
                     <div class="row mb-3">
                         <div class="col-xl-4 col-12 py-2">
-                            <p>@Resources.Sale.ReturnInvoiceNo: @item.CustomerReturnInvoiceDetail.First().InvoiceNo</p>
-                            <p>@Resources.Sale.ReturnInvoiceDate: @item.CustomerReturnInvoiceDetail.First().InvoiceDate.ToString("dd/MM/yyyy")</p>
+                            <p>@Resources.Sale.ReturnInvoiceNo: @returnInvoice.ReturnInvoiceNo</p>
+                            <p>@Resources.Sale.ReturnInvoiceDate: @returnInvoice.ReturnInvoiceDate</p>
                         </div>
                     </div>
 
@@ -100,7 +111,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var returnItem in item.CustomerReturnInvoiceDetail)
+                                @foreach (var returnItem in returnInvoice.ReturnItems)
                                 {
                                     <tr>
                                         <td>@returnItem.ProductName</td>
