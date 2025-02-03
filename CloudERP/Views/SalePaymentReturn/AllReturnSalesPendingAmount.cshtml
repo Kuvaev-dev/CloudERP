@@ -118,21 +118,21 @@
                                         <label>@(item.TotalAmount - item.PaymentAmount)</label>
                                     }
                                 }
-                                }
                             </td>
-                            <td class="btn-group">
+                            <td class="d-flex flex-column align-items-start">
                                 @{
                                     if (item.RemainingBalance < item.TotalAmount && item.PaymentAmount != 0)
                                     {
-                                        @Html.ActionLink(Resources.Sale.PayHistory.ToString(), "PaidHistory", "SalePayment", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-primary" });
+                                        @Html.ActionLink(Resources.Sale.PayHistory.ToString(), "PaidHistory", "SalePayment", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-primary" })
                                     }
                                     else
                                     {
                                         <em class="icon-book-open">
                                             <label class="text-danger"><b>@Resources.Sale.NoHistory.ToString()</b></label>
                                         </em>
+                                        <br />
                                     }
-                                    @Html.ActionLink(Resources.Sale.ViewDetails.ToString(), "SaleItemDetail", "SalePayment", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-info" });
+                                    @Html.ActionLink(Resources.Sale.ViewDetails.ToString(), "SaleItemDetail", "SalePayment", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-info" })
                                 }
                             </td>
                         </tr>

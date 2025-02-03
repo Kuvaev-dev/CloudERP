@@ -102,7 +102,7 @@ namespace CloudERP.Controllers
 
                 if (result.IsSuccess)
                 {
-                    return RedirectToAction("FindSale");
+                    return RedirectToAction("AllReturnSalesPendingAmount", "SalePaymentReturn");
                 }
 
                 return RedirectToAction("FindSale");

@@ -21,7 +21,6 @@ namespace DatabaseAccess.Repositories
         {
             var entity = new tblCustomerReturnInvoiceDetail
             {
-                CustomerReturnInvoiceDetailID = customerReturnInvoiceDetail.CustomerReturnInvoiceDetailID,
                 CustomerInvoiceDetailID = customerReturnInvoiceDetail.CustomerInvoiceDetailID,
                 CustomerInvoiceID = customerReturnInvoiceDetail.CustomerInvoiceID,
                 CustomerReturnInvoiceID = customerReturnInvoiceDetail.CustomerReturnInvoiceID,

@@ -79,6 +79,7 @@ namespace DatabaseAccess.Repositories
 
             _dbContext.tblCustomerReturnInvoice.Add(entity);
             await _dbContext.SaveChangesAsync();
+            customerReturnInvoice.CustomerReturnInvoiceID = entity.CustomerReturnInvoiceID;
         }
     }
 }

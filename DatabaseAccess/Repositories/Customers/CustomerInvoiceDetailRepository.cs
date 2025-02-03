@@ -57,8 +57,11 @@ namespace DatabaseAccess.Repositories
                         CustomerContact = ci.tblCustomerInvoice.tblCustomer.CustomerContact,
                         CustomerAddress = ci.tblCustomerInvoice.tblCustomer.CustomerAddress,
                     },
-                    CustomerInvoiceNo = ci.tblCustomerInvoice.InvoiceNo,
-                    CustomerInvoiceDate = ci.tblCustomerInvoice.InvoiceDate,
+                    CustomerInvoice = new CustomerInvoice()
+                    {
+                        InvoiceNo = ci.tblCustomerInvoice.InvoiceNo,
+                        InvoiceDate = ci.tblCustomerInvoice.InvoiceDate,
+                    },
                     ReturnedQuantity = ci.tblCustomerReturnInvoiceDetail.Sum(q => (int?)q.SaleReturnQuantity) ?? 0,
                     Qty = ci.SaleQuantity - (ci.tblCustomerReturnInvoiceDetail.Sum(q => (int?)q.SaleReturnQuantity) ?? 0),
                     ItemCost = (ci.SaleQuantity - (ci.tblCustomerReturnInvoiceDetail.Sum(q => (int?)q.SaleReturnQuantity) ?? 0)) * ci.SaleUnitPrice,
