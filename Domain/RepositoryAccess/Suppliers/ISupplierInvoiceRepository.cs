@@ -9,6 +9,7 @@ namespace Domain.RepositoryAccess
         Task<SupplierInvoice> GetByIdAsync(int id);
         Task<SupplierInvoice> GetByInvoiceNoAsync(string invoiceNo);
         Task<double> GetTotalAmountAsync(int id);
+        Task<double> GetTotalPaidAmountByIdAsync(int id);
         Task<int> GetSupplierIdFromInvoice(int id);
         Task<int> GetLatestIdAsync(int supplierId);
     }

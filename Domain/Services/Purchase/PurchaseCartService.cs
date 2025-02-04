@@ -1,4 +1,5 @@
 ﻿using Domain.Facades;
+using Domain.Helpers;
 using Domain.Models;
 using Domain.Models.FinancialModels;
 using System;
@@ -10,7 +11,7 @@ namespace Domain.Services.Purchase
 {
     public interface IPurchaseCartService
     {
-        Task<string> ConfirmPurchase(PurchaseConfirm dto, int companyId, int branchId, int userId);
+        Task<Result<int>> ConfirmPurchaseAsync(PurchaseConfirm dto, int companyId, int branchId, int userId);
     }
 
     public class PurchaseCartService : IPurchaseCartService
@@ -22,38 +23,55 @@ namespace Domain.Services.Purchase
             _purchaseCartFacade = purchaseCartFacade ?? throw new ArgumentNullException(nameof(PurchaseCartFacade));
         }
 
-        public async Task<string> ConfirmPurchase(PurchaseConfirm dto, int companyId, int branchId, int userId)
+        public async Task<Result<int>> ConfirmPurchaseAsync(PurchaseConfirm dto, int companyId, int branchId, int userId)
         {
-            int supplierID = dto.SupplierId;
-            string description = dto.Description;
-            bool isPayment = dto.IsPayment;
-
-            double totalAmount = dto.PurchaseDetails.Sum(item => item.PurchaseQuantity * item.PurchaseUnitPrice);
-
-            string invoiceNo = GenerateInvoiceNumber();
-            var invoiceHeader = CreateInvoiceHeader(companyId, branchId, userId, supplierID, description, totalAmount, invoiceNo);
-            await _purchaseCartFacade.SupplierInvoiceRepository.AddAsync(invoiceHeader);
-
-            await AddInvoiceDetails(dto.PurchaseDetails, invoiceHeader.SupplierInvoiceID);
-
-            string message = await _purchaseCartFacade.PurchaseEntryService.ConfirmPurchase(
-                companyId,
-                branchId,
-                userId,
-                invoiceNo,
-                invoiceHeader.SupplierInvoiceID.ToString(),
-                (float)totalAmount,
-                supplierID.ToString(),
-                (await _purchaseCartFacade.SupplierRepository.GetByIdAsync(supplierID)).SupplierName,
-                isPayment);
-
-            if (message.Contains("Success"))
+            try
             {
-                await UpdateStockAndClearCart(dto.PurchaseDetails);
-                return invoiceHeader.SupplierInvoiceID.ToString();
-            }
+                var supplier = await _purchaseCartFacade.SupplierRepository.GetByIdAsync(dto.SupplierId);
+                var purchaseDetails = await _purchaseCartFacade.PurchaseCartDetailRepository.GetAllAsync(branchId, companyId);
 
-            return message;
+                double totalAmount = purchaseDetails.Sum(item => item.PurchaseQuantity * item.PurchaseUnitPrice);
+
+                string invoiceNo = "PUR" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
+                var invoiceHeader = new SupplierInvoice
+                {
+                    BranchID = branchId,
+                    Title = "Purchase Invoice " + supplier.SupplierName,
+                    CompanyID = companyId,
+                    Description = dto.Description,
+                    InvoiceDate = DateTime.Now,
+                    InvoiceNo = invoiceNo,
+                    SupplierID = dto.SupplierId,
+                    UserID = userId,
+                    TotalAmount = totalAmount
+                };
+
+                await _purchaseCartFacade.SupplierInvoiceRepository.AddAsync(invoiceHeader);
+                await _purchaseCartFacade.SupplierInvoiceDetailRepository.AddPurchaseDetailsAsync(purchaseDetails, invoiceHeader.SupplierInvoiceID);
+
+                string message = await _purchaseCartFacade.PurchaseEntryService.ConfirmPurchase(
+                    companyId,
+                    branchId,
+                    userId,
+                    invoiceNo,
+                    invoiceHeader.SupplierInvoiceID.ToString(),
+                    (float)totalAmount,
+                    dto.SupplierId.ToString(),
+                    supplier.SupplierName,
+                    dto.IsPayment);
+
+                if (message.Contains("Success"))
+                {
+                    await _purchaseCartFacade.PurchaseEntryService.CompletePurchase(purchaseDetails);
+                    return Result<int>.Success(invoiceHeader.SupplierInvoiceID);
+                }
+
+                return Result<int>.Failure(message);
+            }
+            catch (Exception ex)
+            {
+                return Result<int>.Failure("Unexpected Issue Occurred: " + ex.Message);
+            }
         }
 
         private string GenerateInvoiceNumber()

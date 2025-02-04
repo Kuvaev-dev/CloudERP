@@ -61,7 +61,7 @@
                     {
                         <tr>
                             <td>
-                                @Html.ActionLink(item.SupplierName, "SupplierDetails", "Supplier", new { id = item.SupplierID }, null)
+                                @Html.DisplayFor(modelItem => item.SupplierName)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.InvoiceNo)

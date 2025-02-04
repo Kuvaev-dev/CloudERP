@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web.UI.WebControls.WebParts;
 
 namespace DatabaseAccess.Repositories
 {
@@ -89,6 +88,24 @@ namespace DatabaseAccess.Repositories
             });
         }
 
+        public async Task<IEnumerable<PurchaseCartDetail>> GetAllAsync(int branchId, int companyId)
+        {
+            var entities = await _dbContext.tblPurchaseCartDetail.
+                Where(pd => pd.CompanyID == companyId && pd.BranchID == branchId)
+                .ToListAsync();
+
+            return entities.Select(scd => new PurchaseCartDetail
+            {
+                PurchaseCartDetailID = scd.PurchaseCartDetailID,
+                ProductID = scd.ProductID,
+                PurchaseQuantity = scd.PurchaseQuantity,
+                PurchaseUnitPrice = scd.PurchaseUnitPrice,
+                CompanyID = scd.CompanyID,
+                BranchID = scd.BranchID,
+                UserID = scd.UserID
+            });
+        }
+
         public async Task<PurchaseCartDetail> GetByIdAsync(int PCID)
         {
             var entity = await _dbContext.tblPurchaseCartDetail.FindAsync(PCID);
@@ -152,6 +169,38 @@ namespace DatabaseAccess.Repositories
             entity.UserID = purchaseCartDetail.UserID;
 
             _dbContext.Entry(entity).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteListAsync(IEnumerable<PurchaseCartDetail> purchaseCartDetails)
+        {
+            foreach (var item in purchaseCartDetails)
+            {
+                var entity = new tblPurchaseCartDetail
+                {
+                    PurchaseCartDetailID = item.PurchaseCartDetailID,
+                    ProductID = item.ProductID,
+                    PurchaseQuantity = item.PurchaseQuantity,
+                    PurchaseUnitPrice = item.PurchaseUnitPrice,
+                    CompanyID = item.CompanyID,
+                    BranchID = item.BranchID,
+                    UserID = item.UserID
+                };
+
+                var trackedEntity = _dbContext.ChangeTracker.Entries<tblPurchaseCartDetail>()
+                    .FirstOrDefault(e => e.Entity.PurchaseCartDetailID == entity.PurchaseCartDetailID);
+
+                if (trackedEntity != null)
+                {
+                    trackedEntity.State = EntityState.Deleted;
+                }
+                else
+                {
+                    _dbContext.tblPurchaseCartDetail.Attach(entity);
+                    _dbContext.Entry(entity).State = EntityState.Deleted;
+                }
+            }
+
             await _dbContext.SaveChangesAsync();
         }
     }

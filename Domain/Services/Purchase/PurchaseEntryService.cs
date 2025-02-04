@@ -1,5 +1,8 @@
-﻿using Domain.RepositoryAccess;
+﻿using Domain.Facades;
+using Domain.Models;
+using Domain.RepositoryAccess;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 
@@ -51,6 +54,8 @@ namespace Domain.Services.Purchase
             string SupplierID, 
             string SupplierName, 
             float RemainingBalance);
+
+        Task CompletePurchase(IEnumerable<PurchaseCartDetail> purchaseDetails);
     }
 
     public class PurchaseEntryService : IPurchaseEntryService
@@ -58,6 +63,8 @@ namespace Domain.Services.Purchase
         private readonly IAccountSettingRepository _accountSettingRepository;
         private readonly IPurchaseRepository _purchaseRepository;
         private readonly IFinancialYearRepository _financialYearRepository;
+        private readonly IStockRepository _stockRepository;
+        private readonly IPurchaseCartDetailRepository _purchaseCartDetailRepository;
 
         private readonly string selectsupplierid = string.Empty;
         private DataTable _dtEntries;
@@ -73,11 +80,15 @@ namespace Domain.Services.Purchase
         public PurchaseEntryService(
             IAccountSettingRepository accountSettingRepository, 
             IPurchaseRepository purchaseRepository, 
-            IFinancialYearRepository financialYearRepository)
+            IFinancialYearRepository financialYearRepository,
+            IStockRepository stockRepository,
+            IPurchaseCartDetailRepository purchaseCartDetailRepository)
         {
             _accountSettingRepository = accountSettingRepository ?? throw new ArgumentNullException(nameof(IAccountSettingRepository));
             _purchaseRepository = purchaseRepository ?? throw new ArgumentNullException(nameof(IPurchaseRepository));
             _financialYearRepository = financialYearRepository ?? throw new ArgumentNullException(nameof(IFinancialYearRepository));
+            _stockRepository = stockRepository ?? throw new ArgumentNullException(nameof(IStockRepository));
+            _purchaseCartDetailRepository = purchaseCartDetailRepository ?? throw new ArgumentNullException(nameof(IPurchaseCartDetailRepository));
         }
 
         public async Task<string> ConfirmPurchase(int CompanyID, int BranchID, int UserID, string InvoiceNo, string SupplierInvoiceID, float Amount, string SupplierID, string SupplierName, bool isPayment)
@@ -456,6 +467,20 @@ namespace Domain.Services.Purchase
                 return Localization.Localization.UnexpectedErrorOccurred;
             }
 
+        }
+
+        public async Task CompletePurchase(IEnumerable<PurchaseCartDetail> purchaseDetails)
+        {
+            foreach (var item in purchaseDetails)
+            {
+                var stockItem = await _stockRepository.GetByIdAsync(item.ProductID);
+                if (stockItem != null)
+                {
+                    stockItem.Quantity += item.PurchaseQuantity;
+                    await _stockRepository.UpdateAsync(stockItem);
+                }
+                await _purchaseCartDetailRepository.UpdateAsync(item);
+            }
         }
 
         private void SetEntries(string FinancialYearID, string AccountHeadID, string AccountControlID, string AccountSubControlID, string InvoiceNo, string UserID, string Credit, string Debit, DateTime TransactionDate, string TransectionTitle)

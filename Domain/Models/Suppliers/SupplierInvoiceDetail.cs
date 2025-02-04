@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models
@@ -34,6 +35,10 @@ namespace Domain.Models
 
         [Required(ErrorMessage = "User Name is required.")]
         public string UserName { get; set; }
+        public string CompanyName { get; set; }
+        public string CompanyLogo { get; set; }
+        public string CustomerInvoiceNo { get; set; }
+        public DateTime CustomerInvoiceDate { get; set; }
 
         [Required(ErrorMessage = "Sale Cart Detail ID is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "Sale Cart Detail ID must be a positive integer.")]
@@ -42,7 +47,6 @@ namespace Domain.Models
         public int Qty { get; set; }
         public double ItemCost { get; set; }
 
-        public Company Company { get; set; }
         public Supplier Supplier { get; set; }
         public SupplierInvoice SupplierInvoice { get; set; }
         public Branch Branch { get; set; }

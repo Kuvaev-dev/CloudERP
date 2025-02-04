@@ -107,15 +107,6 @@ namespace CloudERP.Controllers
                     _sessionHelper.CompanyID,
                     _sessionHelper.UserID);
 
-                if (!result.IsSuccess)
-                {
-                    ViewBag.Message = result.Message;
-                    ViewBag.PreviousRemainingAmount = result.RemainingAmount;
-                    ViewBag.InvoiceID = id;
-
-                    return View(result.Items);
-                }
-
                 Session["SaleMessage"] = result.Message;
 
                 return RedirectToAction("PurchasePaymentReturn", new { id });

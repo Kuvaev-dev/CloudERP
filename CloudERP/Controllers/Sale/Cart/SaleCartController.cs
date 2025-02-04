@@ -40,7 +40,8 @@ namespace CloudERP.Controllers
 
             try
             {
-                var findDetail = await _saleCartDetailRepository.GetByDefaultSettingAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID, _sessionHelper.UserID);
+                var findDetail = await _saleCartDetailRepository.GetByDefaultSettingAsync(
+                    _sessionHelper.BranchID, _sessionHelper.CompanyID, _sessionHelper.UserID);
 
                 ViewBag.TotalAmount = findDetail.Sum(item => item.SaleQuantity * item.SaleUnitPrice);
                 ViewBag.Products = await _stockRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
@@ -104,6 +105,7 @@ namespace CloudERP.Controllers
                             CompanyID = _sessionHelper.CompanyID,
                             UserID = _sessionHelper.UserID
                         };
+
                         await _saleCartDetailRepository.AddAsync(newItem);
                         ViewBag.Message = Resources.Messages.ItemAddedSuccessfully;
                     }

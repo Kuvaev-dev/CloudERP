@@ -9,6 +9,13 @@ namespace CloudERP.Models
         public List<ProductReturnItem> ProductReturns { get; set; }
     }
 
+    public class PurchaseReturnConfirmVM
+    {
+        public int SupplierInvoiceID { get; set; }
+        public bool IsPayment { get; set; }
+        public List<ProductReturnItem> ProductReturns { get; set; }
+    }
+
     public class ProductReturnItem
     {
         public int ProductID { get; set; }

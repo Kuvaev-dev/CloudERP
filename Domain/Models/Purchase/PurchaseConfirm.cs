@@ -13,8 +13,5 @@ namespace Domain.Models.FinancialModels
 
         [Required(ErrorMessage = "IsPayment flag is required.")]
         public bool IsPayment { get; set; }
-
-        [Required(ErrorMessage = "At least one purchase detail is required.")]
-        public IEnumerable<PurchaseCartDetail> PurchaseDetails { get; set; }
     }
 }

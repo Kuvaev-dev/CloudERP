@@ -115,8 +115,11 @@ namespace Domain.Services.Sale
                             await _customerReturnInvoiceDetailRepository.AddAsync(returnProductDetails);
 
                             var stock = await _stockRepository.GetByIdAsync(productID);
-                            stock.Quantity += returnConfirmDto.ReturnQty[i];
-                            await _stockRepository.UpdateAsync(stock);
+                            if (stock != null)
+                            {
+                                stock.Quantity += returnConfirmDto.ReturnQty[i];
+                                await _stockRepository.UpdateAsync(stock);
+                            }
                         }
                     }
                 }

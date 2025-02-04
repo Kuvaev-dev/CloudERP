@@ -55,7 +55,7 @@ namespace Domain.Services.Sale
         {
             if (paymentDto.PaidAmount > paymentDto.PreviousRemainingAmount)
             {
-                return "Purchase Payment Remaining Amount Error";
+                return "Sale Payment Remaining Amount Error";
             }
 
             string payInvoiceNo = "INP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;

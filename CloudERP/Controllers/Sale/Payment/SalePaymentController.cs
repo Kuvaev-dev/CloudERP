@@ -35,7 +35,7 @@ namespace CloudERP.Controllers
             _customerInvoiceDetailRepository = customerInvoiceDetailRepository ?? throw new ArgumentNullException(nameof(ICustomerInvoiceDetailRepository));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
             _salePaymentService = salePaymentService ?? throw new ArgumentNullException(nameof(ISalePaymentService));
-            _saleService = saleService;
+            _saleService = saleService ?? throw new ArgumentNullException(nameof(ISaleService));
         }
 
         // GET: PurchasePayment

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace CloudERP.Models
 {
-    public class SaleInvoiceMV
+    public class PurchaseInvoiceMV
     {
-        public string CustomerName { get; set; }
-        public string CustomerContact { get; set; }
-        public string CustomerArea { get; set; }
-        public string CustomerLogo { get; set; }
+        public string SupplierName { get; set; }
+        public string SupplierConatctNo { get; set; }
+        public string SupplierAddress { get; set; }
+        public string SupplierLogo { get; set; }
         public string CompanyName { get; set; }
         public string CompanyLogo { get; set; }
         public string BranchName { get; set; }
@@ -17,18 +17,11 @@ namespace CloudERP.Models
         public string InvoiceNo { get; set; }
         public string InvoiceDate { get; set; }
         public double TotalCost { get; set; }
-        public List<CustomerInvoiceDetail> InvoiceItems { get; set; }
-        public List<ReturnInvoiceMV> ReturnInvoices { get; set; }
+        public List<SupplierInvoiceDetail> InvoiceItems { get; set; }
+        public List<ReturnPurchaseInvoiceMV> ReturnInvoices { get; set; }
     }
 
-    public class ReturnInvoiceMV
-    {
-        public string ReturnInvoiceNo { get; set; }
-        public string ReturnInvoiceDate { get; set; }
-        public List<CustomerReturnInvoiceDetail> ReturnItems { get; set; }
-    }
-
-    public class SupplierReturnInvoiceMV
+    public class ReturnPurchaseInvoiceMV
     {
         public string ReturnInvoiceNo { get; set; }
         public string ReturnInvoiceDate { get; set; }

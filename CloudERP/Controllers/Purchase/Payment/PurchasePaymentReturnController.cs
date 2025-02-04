@@ -3,6 +3,7 @@ using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
 using Domain.Services.Purchase;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -14,28 +15,31 @@ namespace CloudERP.Controllers
         private readonly IPurchaseReturnService _purchaseReturnService;
         private readonly IPurchasePaymentReturnService _purchasePaymentReturnService;
         private readonly IPurchaseRepository _purchaseRepository;
+        private readonly ISupplierReturnPaymentRepository _supplierReturnPaymentRepository;
 
         public PurchasePaymentReturnController(
             IPurchaseReturnService purchaseReturnService,
             IPurchasePaymentReturnService purchasePaymentReturnService, 
-            IPurchaseRepository purchaseRepository, 
+            IPurchaseRepository purchaseRepository,
+            ISupplierReturnPaymentRepository supplierReturnPaymentRepository,
             SessionHelper sessionHelper)
         {
             _purchaseReturnService = purchaseReturnService ?? throw new ArgumentNullException(nameof(IPurchaseReturnService));
             _purchasePaymentReturnService = purchasePaymentReturnService ?? throw new ArgumentNullException(nameof(IPurchasePaymentReturnService));
             _purchaseRepository = purchaseRepository ?? throw new ArgumentNullException(nameof(IPurchaseRepository));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _supplierReturnPaymentRepository = supplierReturnPaymentRepository ?? throw new ArgumentNullException(nameof(ISupplierReturnPaymentRepository));
         }
 
         // GET: PurchasePaymentReturn
-        public async Task<ActionResult> ReturnPurchasePendingAmount(int? id)
+        public async Task<ActionResult> ReturnPurchasePendingAmount()
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
             try
             {
-                return View(await _purchaseRepository.PurchaseReturnPaymentPending(id));
+                return View(await _purchaseRepository.GetReturnPurchasesPaymentPending(_sessionHelper.CompanyID, _sessionHelper.BranchID));
             }
             catch (Exception ex)
             {
@@ -60,19 +64,22 @@ namespace CloudERP.Controllers
             }
         }
 
-        public async Task<ActionResult> ReturnAmount(int id)
+        public async Task<ActionResult> ReturnAmount(int? id)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
             try
             {
-                if (id == 0) return RedirectToAction("AllPurchasesPendingPayment");
+                var list = await _supplierReturnPaymentRepository.GetBySupplierReturnInvoiceId(id.Value);
 
-                ViewBag.PreviousRemainingAmount = await _purchasePaymentReturnService.GetRemainingAmountAsync(id);
+                double remainingAmount = list.Sum(item => item.RemainingBalance);
+                if (remainingAmount == 0) return RedirectToAction("AllPurchasesPendingPayment");
+
+                ViewBag.PreviousRemainingAmount = remainingAmount;
                 ViewBag.InvoiceID = id;
 
-                return View(await _purchasePaymentReturnService.GetSupplierReturnPaymentsAsync(id));
+                return View(list);
             }
             catch (Exception ex)
             {

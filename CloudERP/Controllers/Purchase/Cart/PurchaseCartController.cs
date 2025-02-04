@@ -1,6 +1,8 @@
 ﻿using CloudERP.Helpers;
 using CloudERP.Models;
+using DatabaseAccess.Repositories;
 using Domain.Models;
+using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
 using Domain.Services.Purchase;
 using System;
@@ -126,28 +128,9 @@ namespace CloudERP.Controllers
             }
         }
 
-        // POST: PurchaseCart/GetProduct
+        // GET: PurchaseCart/DeleteConfirm
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> GetProduct()
-        {
-            try
-            {
-                if (!_sessionHelper.IsAuthenticated)
-                    return Json(new { data = new List<ProductMV>() }, JsonRequestBehavior.AllowGet);
-
-                var products = await _stockRepository.GetAllAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID);
-
-                return Json(new { data = products.Select(item => new ProductMV { Name = item.ProductName, ProductID = item.ProductID }).ToList() }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return Json(new { data = new List<ProductMV>() }, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        // GET: PurchaseCart/DeleteConfirm
         public async Task<ActionResult> DeleteConfirm(int? id)
         {
             if (!_sessionHelper.IsAuthenticated)
@@ -158,14 +141,14 @@ namespace CloudERP.Controllers
                 var product = await _purchaseCartDetailRepository.GetByIdAsync(id.Value);
                 if (product != null)
                 {
-                    await _purchaseCartDetailRepository.UpdateAsync(product);
+                    await _purchaseCartDetailRepository.DeleteAsync(product);
                     ViewBag.Message = Resources.Messages.DeletedSuccessfully;
                     return RedirectToAction("NewPurchase");
                 }
 
                 ViewBag.Message = Resources.Messages.UnexpectedIssue;
 
-                return View(await _purchaseCartDetailRepository.GetByDefaultSettingsAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID, _sessionHelper.UserID));
+                return RedirectToAction("NewPurchase");
             }
             catch (Exception ex)
             {
@@ -184,10 +167,10 @@ namespace CloudERP.Controllers
 
             try
             {
-                if (await _purchaseCartDetailRepository.IsCanceled(_sessionHelper.BranchID, _sessionHelper.CompanyID, _sessionHelper.UserID))
-                {
-                    ViewBag.Message = Resources.Messages.PurchaseIsCanceled;
-                }
+                var purchaseDetails = await _purchaseCartDetailRepository.GetByDefaultSettingsAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID, _sessionHelper.UserID);
+                await _purchaseCartDetailRepository.DeleteListAsync(purchaseDetails);
+
+                ViewBag.Message = Resources.Messages.PurchaseIsCanceled;
 
                 return RedirectToAction("NewPurchase");
             }
@@ -201,16 +184,18 @@ namespace CloudERP.Controllers
         // GET: PurchaseCart/SelectSupplier
         public async Task<ActionResult> SelectSupplier()
         {
-            Session["ErrorMessagePurchase"] = string.Empty;
-
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
             try
             {
-                if (await _purchaseCartDetailRepository.GetByBranchAndCompanyAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID) == null)
+                Session["ErrorMessagePurchase"] = string.Empty;
+
+                var purchaseDetails = await _purchaseCartDetailRepository.GetByBranchAndCompanyAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID);
+                if (purchaseDetails == null)
                 {
                     Session["ErrorMessagePurchase"] = Resources.Messages.PurchaseCartIsEmpty;
+
                     return RedirectToAction("NewPurchase");
                 }
 
@@ -226,64 +211,32 @@ namespace CloudERP.Controllers
         // POST: PurchaseCart/PurchaseConfirm
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> PurchaseConfirm(FormCollection collection)
+        public async Task<ActionResult> PurchaseConfirm(PurchaseConfirm purchaseConfirmDto)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
             try
             {
-                var purchaseDto = new Domain.Models.FinancialModels.PurchaseConfirm
-                {
-                    SupplierId = GetSupplierId(collection),
-                    Description = GetDescription(collection),
-                    IsPayment = GetIsPayment(collection),
-                    PurchaseDetails = await _purchaseCartDetailRepository.GetByBranchAndCompanyAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID)
-                };
-
-                string message = await _purchaseCartService.ConfirmPurchase(
-                    purchaseDto, 
+                var result = await _purchaseCartService.ConfirmPurchaseAsync(
+                    purchaseConfirmDto, 
                     _sessionHelper.CompanyID, 
                     _sessionHelper.BranchID, 
                     _sessionHelper.UserID);
 
-                if (message == Resources.Messages.PurchaseCartIsEmpty)
+                if (result.IsSuccess)
                 {
-                    ViewBag.Message = message;
-                    return RedirectToAction("NewPurchase");
+                    return RedirectToAction("PrintPurchaseInvoice", "PurchasePayment", new { id = result.Value });
                 }
 
-                return RedirectToAction("PrintPurchaseInvoice", "PurchasePayment", new { id = message });
+                TempData["ErrorMessage"] = result.ErrorMessage;
+                return RedirectToAction("NewPurchase");
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("NewPurchase");
             }
-        }
-
-        private int GetSupplierId(FormCollection collection)
-        {
-            foreach (var name in collection.AllKeys)
-            {
-                if (name.Contains("name"))
-                {
-                    string[] valueIDs = name.Split(' ');
-                    return Convert.ToInt32(valueIDs[1]);
-                }
-            }
-            return 0;
-        }
-
-        private string GetDescription(FormCollection collection)
-        {
-            string[] descriptionList = collection["item.Description"].Split(',');
-            return descriptionList.Length > 0 ? descriptionList[0] : string.Empty;
-        }
-
-        private bool GetIsPayment(FormCollection collection)
-        {
-            return collection["IsPayment"] != null && collection["IsPayment"].Split(',')[0] == "on";
         }
     }
 }

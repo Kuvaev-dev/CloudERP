@@ -40,6 +40,9 @@ namespace Domain.Models
         [StringLength(150, ErrorMessage = "Company Name cannot be longer than 150 characters.")]
         public string CompanyName { get; set; }
 
+        [StringLength(150, ErrorMessage = "Company Name cannot be longer than 150 characters.")]
+        public string Title { get; set; }
+
         [Required(ErrorMessage = "Branch ID is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "Branch ID must be a positive integer.")]
         public int BranchID { get; set; }

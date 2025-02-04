@@ -1,5 +1,4 @@
 ﻿using Domain.Facades;
-using Domain.Helpers;
 using Domain.Models;
 using Domain.Models.FinancialModels;
 using System;
@@ -10,7 +9,7 @@ namespace Domain.Services.Purchase
 {
     public interface IPurchaseReturnService
     {
-        Task<Result<string>> ProcessReturnAsync(PurchaseReturnConfirm returnDto, int branchId, int companyId, int userId);
+        Task<(bool IsSuccess, string Message, string InvoiceNo)> ProcessReturnAsync(PurchaseReturnConfirm returnConfirmDto, int branchId, int companyId, int userId);
     }
 
     public class PurchaseReturnService : IPurchaseReturnService
@@ -22,98 +21,94 @@ namespace Domain.Services.Purchase
             _purchaseReturnFacade = purchaseReturnFacade ?? throw new ArgumentNullException(nameof(purchaseReturnFacade));
         }
 
-        public async Task<Result<string>> ProcessReturnAsync(PurchaseReturnConfirm returnDto, int branchId, int companyId, int userId)
+        public async Task<(bool IsSuccess, string Message, string InvoiceNo)> ProcessReturnAsync(PurchaseReturnConfirm returnConfirmDto, int branchId, int companyId, int userId)
         {
-            try
-            {
-                double totalAmount = 0;
-                var purchaseDetails = await _purchaseReturnFacade.SupplierInvoiceDetailRepository.GetListByIdAsync(returnDto.SupplierInvoiceID);
-                if (purchaseDetails == null || !purchaseDetails.Any())
-                {
-                    return Result<string>.Failure("Supplier Invoice Details Not Found");
-                }
+            double totalAmount = 0;
+            var purchaseDetails = await _purchaseReturnFacade.SupplierInvoiceDetailRepository.GetListByIdAsync(returnConfirmDto.SupplierInvoiceID);
+            var list = purchaseDetails.ToList();
 
-                foreach (var productReturn in returnDto.ProductReturns)
+            for (int i = 0; i < purchaseDetails.Count(); i++)
+            {
+                foreach (var productID in returnConfirmDto.ProductIDs)
                 {
-                    var purchaseDetail = purchaseDetails.FirstOrDefault(pd => pd.ProductID == productReturn.ProductID);
-                    if (purchaseDetail != null)
+                    if (productID == list[i].ProductID)
                     {
-                        totalAmount += productReturn.ReturnQuantity * purchaseDetail.PurchaseUnitPrice;
+                        totalAmount += returnConfirmDto.ReturnQty[i] * list[i].PurchaseUnitPrice;
                     }
                 }
+            }
 
-                var supplierInvoice = await _purchaseReturnFacade.SupplierInvoiceRepository.GetByIdAsync(returnDto.SupplierInvoiceID);
-                int supplierID = supplierInvoice.SupplierID;
+            var supplierInvoice = await _purchaseReturnFacade.SupplierInvoiceRepository.GetByIdAsync(returnConfirmDto.SupplierInvoiceID);
+            int supplierID = supplierInvoice.SupplierID;
 
-                if (totalAmount == 0)
+            if (totalAmount == 0)
+            {
+                return (false, "One Product Return Qty Error", string.Empty);
+            }
+
+            string invoiceNo = "RPU" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
+            var returnInvoiceHeader = new SupplierReturnInvoice()
+            {
+                BranchID = branchId,
+                CompanyID = companyId,
+                Description = "Purchase Return",
+                InvoiceDate = DateTime.Now,
+                InvoiceNo = invoiceNo,
+                SupplierID = supplierID,
+                UserID = userId,
+                TotalAmount = totalAmount,
+                SupplierInvoiceID = returnConfirmDto.SupplierInvoiceID
+            };
+
+            await _purchaseReturnFacade.SupplierReturnInvoiceRepository.AddAsync(returnInvoiceHeader);
+
+            var supplier = await _purchaseReturnFacade.SupplierRepository.GetByIdAsync(supplierID);
+            string message = await _purchaseReturnFacade.PurchaseEntryService.ReturnPurchase(
+                companyId,
+                branchId,
+                userId,
+                invoiceNo,
+                returnInvoiceHeader.SupplierInvoiceID.ToString(),
+                returnInvoiceHeader.SupplierReturnInvoiceID,
+                (float)totalAmount,
+                supplierID.ToString(),
+                supplier.SupplierName,
+                returnConfirmDto.IsPayment);
+
+            if (message.Contains("Success"))
+            {
+                for (int i = 0; i < purchaseDetails.Count(); i++)
                 {
-                    return Result<string>.Failure("Total Amount Must Be Greater Than Zero");
-                }
-
-                string invoiceNo = "RPU" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
-                var returnInvoiceHeader = new SupplierReturnInvoice()
-                {
-                    BranchID = branchId,
-                    CompanyID = companyId,
-                    Description = "Purchase Return",
-                    InvoiceDate = DateTime.Now,
-                    InvoiceNo = invoiceNo,
-                    SupplierID = supplierID,
-                    UserID = userId,
-                    TotalAmount = totalAmount,
-                    SupplierInvoiceID = returnDto.SupplierInvoiceID
-                };
-                await _purchaseReturnFacade.SupplierReturnInvoiceRepository.AddAsync(returnInvoiceHeader);
-
-                var supplier = await _purchaseReturnFacade.SupplierRepository.GetByIdAsync(supplierID);
-                string message = await _purchaseReturnFacade.PurchaseEntryService.ReturnPurchase(
-                    companyId,
-                    branchId,
-                    userId,
-                    invoiceNo,
-                    returnInvoiceHeader.SupplierInvoiceID.ToString(),
-                    returnInvoiceHeader.SupplierReturnInvoiceID,
-                    (float)totalAmount,
-                    supplierID.ToString(),
-                    supplier.SupplierName,
-                    returnDto.IsPayment);
-
-                if (message.Contains("Success"))
-                {
-                    foreach (var productReturn in returnDto.ProductReturns)
+                    foreach (var productID in returnConfirmDto.ProductIDs)
                     {
-                        var purchaseDetail = purchaseDetails.FirstOrDefault(pd => pd.ProductID == productReturn.ProductID);
-                        if (purchaseDetail != null && productReturn.ReturnQuantity > 0)
+                        if (productID == list[i].ProductID && returnConfirmDto.ReturnQty[i] > 0)
                         {
                             var returnProductDetails = new SupplierReturnInvoiceDetail()
                             {
-                                SupplierInvoiceID = returnDto.SupplierInvoiceID,
-                                PurchaseReturnQuantity = productReturn.ReturnQuantity,
-                                ProductID = productReturn.ProductID,
-                                PurchaseReturnUnitPrice = purchaseDetail.PurchaseUnitPrice,
+                                SupplierInvoiceID = returnConfirmDto.SupplierInvoiceID,
+                                PurchaseReturnQuantity = returnConfirmDto.ReturnQty[i],
+                                ProductID = productID,
+                                PurchaseReturnUnitPrice = list[i].PurchaseUnitPrice,
                                 SupplierReturnInvoiceID = returnInvoiceHeader.SupplierReturnInvoiceID,
-                                SupplierInvoiceDetailID = purchaseDetail.SupplierInvoiceDetailID
+                                SupplierInvoiceDetailID = list[i].SupplierInvoiceDetailID
                             };
+
                             await _purchaseReturnFacade.SupplierReturnInvoiceDetailRepository.AddAsync(returnProductDetails);
 
-                            var stock = await _purchaseReturnFacade.StockRepository.GetByIdAsync(productReturn.ProductID);
+                            var stock = await _purchaseReturnFacade.StockRepository.GetByIdAsync(productID);
                             if (stock != null)
                             {
-                                stock.Quantity -= productReturn.ReturnQuantity;
+                                stock.Quantity -= returnConfirmDto.ReturnQty[i];
                                 await _purchaseReturnFacade.StockRepository.UpdateAsync(stock);
                             }
                         }
                     }
-
-                    return Result<string>.Success("Return Successfully");
                 }
 
-                return Result<string>.Failure("Return Failed");
+                return (true, "Return Successfully", invoiceNo);
             }
-            catch (Exception ex)
-            {
-                return Result<string>.Failure("Unexpected Issue Occurred: " + ex.Message);
-            }
+
+            return (false, "Unexpected Issue", invoiceNo);
         }
     }
 }

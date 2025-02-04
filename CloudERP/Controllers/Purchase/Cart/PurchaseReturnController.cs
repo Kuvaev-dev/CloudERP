@@ -1,10 +1,11 @@
 ﻿using CloudERP.Helpers;
-using DatabaseAccess.Repositories;
+using CloudERP.Models;
 using Domain.Models;
 using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
 using Domain.Services.Purchase;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -72,22 +73,44 @@ namespace CloudERP.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ReturnConfirm(PurchaseReturnConfirm returnDto)
+        public async Task<ActionResult> ReturnConfirm(PurchaseReturnConfirmVM model)
         {
-            var result = await _purchaseReturnService.ProcessReturnAsync(
-                returnDto,
-                _sessionHelper.BranchID,
-                _sessionHelper.CompanyID,
-                _sessionHelper.UserID);
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
 
-            if (result.IsSuccess)
+            try
             {
-                return RedirectToAction("FindPurchase", new { InvoiceNo = returnDto.SupplierInvoiceID, ReturnMessage = result.Value });
+                Session["SaleInvoiceNo"] = string.Empty;
+                Session["SaleReturnMessage"] = string.Empty;
+
+                var returnConfirmDto = new PurchaseReturnConfirm
+                {
+                    SupplierInvoiceID = model.SupplierInvoiceID,
+                    IsPayment = model.IsPayment,
+                    ProductIDs = model.ProductReturns.Select(x => x.ProductID).ToList(),
+                    ReturnQty = model.ProductReturns.Select(x => x.ReturnQty).ToList()
+                };
+
+                var result = await _purchaseReturnService.ProcessReturnAsync(
+                    returnConfirmDto,
+                    _sessionHelper.BranchID,
+                    _sessionHelper.CompanyID,
+                    _sessionHelper.UserID);
+
+                Session["SaleInvoiceNo"] = result.InvoiceNo;
+                Session["SaleReturnMessage"] = result.Message;
+
+                if (result.IsSuccess)
+                {
+                    return RedirectToAction("AllPurchasesPendingPayment", "PurchasePaymentReturn");
+                }
+
+                return RedirectToAction("FindPurchase");
             }
-            else
+            catch (Exception ex)
             {
-                ModelState.AddModelError("", result.ErrorMessage);
-                return View(returnDto);
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
         }
     }
