@@ -8,5 +8,7 @@ namespace Domain.RepositoryAccess
     {
         Task<IEnumerable<AccountActivity>> GetAllAsync();
         Task<AccountActivity> GetByIdAsync(int id);
+        Task AddAsync(AccountActivity accountActivity);
+        Task UpdateAsync(AccountActivity accountActivity);
     }
 }

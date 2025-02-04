@@ -765,10 +765,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
+    <Compile Include="Controllers\Account\AccountActivityController.cs" />
     <Compile Include="Controllers\Account\AccountControlController.cs" />
     <Compile Include="Controllers\Account\AccountHeadController.cs" />
     <Compile Include="Controllers\Account\AccountSettingController.cs" />
     <Compile Include="Controllers\Account\AccountSubControlController.cs" />
+    <Compile Include="Controllers\Branch\BranchTypeController.cs" />
     <Compile Include="Controllers\Utilities\API\AddressController.cs" />
     <Compile Include="Controllers\Financial\Reports\BalanceSheetController.cs" />
     <Compile Include="Controllers\Branch\BranchController.cs" />
@@ -3586,6 +3588,12 @@
     <Content Include="Views\Analytics\Index.cshtml" />
     <Content Include="Views\AccountSubControl\Edit.cshtml" />
     <Content Include="Views\CompanyEmployee\EmployeeRegistration.cshtml" />
+    <Content Include="Views\BranchType\Create.cshtml" />
+    <Content Include="Views\BranchType\Edit.cshtml" />
+    <Content Include="Views\BranchType\Index.cshtml" />
+    <Content Include="Views\AccountActivity\Create.cshtml" />
+    <Content Include="Views\AccountActivity\Edit.cshtml" />
+    <Content Include="Views\AccountActivity\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -161,8 +161,17 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    model.Password = _passwordHelper.HashPassword(model.Password, out string salt);
-                    model.Salt = salt;
+                    if (string.IsNullOrEmpty(model.Password))
+                    {
+                        var existingUser = await _userRepository.GetByIdAsync(model.UserID);
+                        model.Password = existingUser.Password;
+                        model.Salt = existingUser.Salt;
+                    }
+                    else
+                    {
+                        model.Password = _passwordHelper.HashPassword(model.Password, out string salt);
+                        model.Salt = salt;
+                    }
 
                     await _userRepository.UpdateAsync(model);
                     return RedirectToAction("Index");

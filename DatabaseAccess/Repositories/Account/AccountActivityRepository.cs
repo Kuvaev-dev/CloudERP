@@ -17,6 +17,18 @@ namespace DatabaseAccess.Repositories
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(CloudDBEntities));
         }
 
+        public async Task AddAsync(AccountActivity accountActivity)
+        {
+            var entity = new tblAccountActivity
+            {
+                AccountActivityID = accountActivity.AccountActivityID,
+                Name = accountActivity.Name
+            };
+
+            _dbContext.tblAccountActivity.Add(entity);
+            await _dbContext.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<AccountActivity>> GetAllAsync()
         {
             var entities = await _dbContext.tblAccountActivity
@@ -40,6 +52,17 @@ namespace DatabaseAccess.Repositories
                 AccountActivityID = entity.AccountActivityID,
                 Name = entity.Name
             };
+        }
+
+        public async Task UpdateAsync(AccountActivity accountActivity)
+        {
+            var entity = await _dbContext.tblAccountActivity.FindAsync(accountActivity.AccountActivityID);
+
+            entity.AccountActivityID = accountActivity.AccountActivityID;
+            entity.Name = accountActivity.Name;
+
+            _dbContext.Entry(entity).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

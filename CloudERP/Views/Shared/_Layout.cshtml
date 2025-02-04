@@ -279,6 +279,12 @@
                                                 <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.AccountHeads))</span>
                                             </a>
                                         </li>
+                                        <li>
+                                            <a href="@Url.Action("Index", "AccountActivity")" title="Account Activities" class="d-flex align-items-center">
+                                                <em class="bi bi-lightbulb-fill mr-1 mb-2"></em>
+                                                <span class="align-middle">Account Activities</span>
+                                            </a>
+                                        </li>
                                     }
                                     @*User*@
                                     if (userType == 2)
@@ -360,6 +366,15 @@
                                                     <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.NewBranch))</span>
                                                 </a>
                                             </li>
+                                            if (userType == 1)
+                                            {
+                                                <li>
+                                                    <a href="@Url.Action("Index", "BranchType")" title="Branch Types" class="d-flex align-items-center">
+                                                        <em class="bi bi-diagram-2 h4 mb-0"></em>
+                                                        <span class="align-middle">Branch Types</span>
+                                                    </a>
+                                                </li>
+                                            }
                                             <li class="nav-heading ">
                                                 <span data-localize="sidebar.heading.COMPONENTS">@Resources.Miscellaneous.Employees.ToString()</span>
                                             </li>

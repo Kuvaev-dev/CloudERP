@@ -174,16 +174,15 @@ namespace CloudERP.Controllers
                 }
 
                 var existingUser = (await _userRepository.GetAllAsync()).FirstOrDefault(u => u.Email == user.Email && u.UserID != user.UserID);
-                if (existingUser != null)
+                
+                if (string.IsNullOrEmpty(user.Password))
                 {
-                    ViewBag.Message = Resources.Messages.EmailIsAlreadyRegistered;
-
-                    await PopulateViewBag(user.UserTypeID);
-
-                    return View(user);
+                    user.Password = Request.Form["Password"];
+                    user.Salt = Request.Form["Salt"];
                 }
 
                 await _userRepository.UpdateAsync(user);
+                await PopulateViewBag(user.UserTypeID);
 
                 return RedirectToAction("Employees", "CompanyEmployee");
             }
