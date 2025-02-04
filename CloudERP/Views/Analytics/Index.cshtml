@@ -1,11 +1,9 @@
 ﻿@model Domain.Models.AnalyticsModel
 @{
-    ViewBag.Title = "Analytics";
+    ViewBag.Title = "System Analytics";
 }
 
 <div class="container mt-4">
-    <h1 class="mb-4">System Analytics</h1>
-
     <div class="row mb-4">
         <div class="col-md-6">
             <div class="card">
@@ -45,12 +43,15 @@
     // Users
     const usersCtx = document.getElementById('usersChart').getContext('2d');
     new Chart(usersCtx, {
-        type: 'bar',
+        type: 'polarArea',
+        options: {
+            responsive: true
+        },
         data: {
             labels: ['All', 'New in a Month', 'New'],
             datasets: [{
                 label: 'Users',
-                data: [chartData.Users.Total, chartData.Users.NewInAMonth, chartData.Users.NewInAYear],
+                data: [chartData.Employees.Total, chartData.Employees.NewInAMonth, chartData.Employees.NewInAYear],
                 backgroundColor: ['#007bff', '#28a745', '#ffc107']
             }]
         }
@@ -59,7 +60,10 @@
     // Stock
     const stockCtx = document.getElementById('stockChart').getContext('2d');
     new Chart(stockCtx, {
-        type: 'pie',
+        type: 'polarArea',
+        options: {
+            responsive: true
+        },
         data: {
             labels: ['All', 'In Stock'],
             datasets: [{
@@ -74,6 +78,9 @@
     const supportCtx = document.getElementById('supportChart').getContext('2d');
     new Chart(supportCtx, {
         type: 'polarArea',
+        options: {
+            responsive: true
+        },
         data: {
             labels: ['All', 'Resolved', 'Pending'],
             datasets: [{

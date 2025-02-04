@@ -17,7 +17,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        @Html.ActionLink(Resources.Account.AddAccountHead.ToString(), "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
+        @Html.ActionLink("Add Account Activity", "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
         <h2 class="text-danger">@ViewBag.Message</h2>
         <h2 class="text-danger">@ViewBag.ErrorMessage</h2>
     </div>
@@ -26,7 +26,7 @@
             <table class="table table-striped table-bordered table-hover" id="dataTable">
                 <thead>
                     <tr>
-                        <th>
+                        <th class="col-md-7">
                             @Html.DisplayNameFor(model => model.Name)
                         </th>
                         <th>
@@ -42,7 +42,7 @@
                                 @Html.DisplayFor(modelItem => item.Name)
                             </td>
                             <td>
-                                @Html.ActionLink(Resources.Common.Edit.ToString(), "Edit", new { id = item.AccountActivityID })
+                                @Html.ActionLink(Resources.Common.Edit.ToString(), "Edit", new { id = item.AccountActivityID }, new { @class="btn btn-primary" })
                             </td>
                         </tr>
                     }

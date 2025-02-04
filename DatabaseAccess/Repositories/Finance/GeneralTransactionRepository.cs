@@ -60,7 +60,7 @@ namespace DatabaseAccess.Repositories
                 InitializeDataTable();
 
                 string transactionTitle = reason;
-                var financialYearCheck = await _query.Retrive("SELECT TOP 1 FinancialYearID FROM tblFinancialYear WHERE IsActive = 1");
+                var financialYearCheck = await _query.Retrieve("SELECT TOP 1 FinancialYearID FROM tblFinancialYear WHERE IsActive = 1");
                 string financialYearId = Convert.ToString(financialYearCheck.Rows[0][0]);
 
                 if (string.IsNullOrEmpty(financialYearId))
