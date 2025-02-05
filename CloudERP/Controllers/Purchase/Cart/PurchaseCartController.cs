@@ -167,7 +167,8 @@ namespace CloudERP.Controllers
 
             try
             {
-                var purchaseDetails = await _purchaseCartDetailRepository.GetByDefaultSettingsAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID, _sessionHelper.UserID);
+                var purchaseDetails = await _purchaseCartDetailRepository.GetByDefaultSettingsAsync(
+                    _sessionHelper.BranchID, _sessionHelper.CompanyID, _sessionHelper.UserID);
                 await _purchaseCartDetailRepository.DeleteListAsync(purchaseDetails);
 
                 ViewBag.Message = Resources.Messages.PurchaseIsCanceled;

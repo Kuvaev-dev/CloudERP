@@ -104,21 +104,11 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ProductName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.PurchaseQuantity)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.PurchaseUnitPrice)
-                            </td>
-                            <td>
-                                @(string.Format("{0:0.000}", Math.Truncate(item.PurchaseQuantity * item.PurchaseUnitPrice * 10) / 10))
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.UserName)
-                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.PurchaseQuantity)</td>
+                            <td>@Html.DisplayFor(modelItem => item.PurchaseUnitPrice)</td>
+                            <td>@(string.Format("{0:0.000}", Math.Truncate(item.PurchaseQuantity * item.PurchaseUnitPrice * 10) / 10))</td>
+                            <td>@Html.DisplayFor(modelItem => item.UserName)</td>
                             <td>
                                 @using (Html.BeginForm("DeleteConfirm", "PurchaseCart", FormMethod.Post))
                                 {
@@ -142,9 +132,15 @@
                     </tr>
                 </tfoot>
             </table>
-            <div style="float:right; margin-top:20px;">
-                @Html.ActionLink(Resources.Purchase.Next.ToString(), "SelectSupplier", null, new { @class = "btn btn-success", style="padding:20px;" })
-                @Html.ActionLink(Resources.Purchase.Cancel.ToString(), "CancelPurchase", null, new { @class = "btn btn-danger", style = "padding:20px;" })
+            <div style="float:right; margin-top:20px;" class="btn-group">
+                @Html.ActionLink(Resources.Purchase.Next.ToString(), "SelectSupplier", null, new { @class = "btn btn-success", style = "padding:20px;" })
+                @using (Html.BeginForm("CancelPurchase", "PurchaseCart", FormMethod.Post, new { @class = "form-inline" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-danger" style="padding:20px;">
+                        @Resources.Sale.Cancel.ToString()
+                    </button>
+                }
             </div>
         </div>
     </div>
@@ -155,19 +151,6 @@
         $('#dataTable').DataTable({
             "columnDefs": [{ "orderable": false, "targets": 5 }],
             "lengthMenu": [[5, 10, 25, 50, 75, 100, 150, 200, -1], [5, 10, 25, 50, 75, 100, 150, 200, "All"]],
-        });
-
-        $.ajax({
-            url: '@Url.Action("GetProduct", "PurchaseCart")',
-            type: 'GET',
-            data: "{}",
-            dataType: 'Json',
-            success: function (response) {
-                for (var i = 0; i < response.data.length; i++) {
-                    $('#PID').append("<option value=" + response.data[i].ProductID + ">" + response.data[i].Name + "</option>");
-                }
-            },
-            error: function () { }
         });
 
         $('#PID').change(function () {

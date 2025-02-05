@@ -1,9 +1,4 @@
-﻿@{
-    DateTime currentDate = DateTime.Now;
-    string currentYear = currentDate.ToString("yyyy");
-}
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html>
 <head>
@@ -727,7 +722,7 @@
         </section>
         <!-- Page footer-->
         <footer class="footer-container">
-            <span>&copy; @currentYear - Kuvaiev Inc</span>
+            <span>&copy; @DateTime.Now.ToString("yyyy") - Kuvaiev Inc</span>
         </footer>
     </div>
     <!-- =============== VENDOR SCRIPTS ===============-->
@@ -788,14 +783,6 @@
                     startTour();
                     @Session["StartTour"] = false;
                 }
-            });
-
-            $(document).on('click', 'a', function () {
-                $('#loading').show();
-
-                $(window).on('load', function () {
-                    $('#loading').hide();
-                });
             });
         }
     </script>

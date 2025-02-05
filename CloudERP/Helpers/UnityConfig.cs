@@ -145,6 +145,7 @@ namespace CloudERP.Helpers
             container.RegisterType<IPurchasePaymentReturnService, PurchasePaymentReturnService>();
             container.RegisterType<IPurchasePaymentService, PurchasePaymentService>();
             container.RegisterType<IPurchaseReturnService, PurchaseReturnService>();
+            container.RegisterType<IPurchaseService, PurchaseService>();
             // Sale
             container.RegisterType<ISaleCartService, SaleCartService>();
             container.RegisterType<ISaleEntryService, SaleEntryService>();

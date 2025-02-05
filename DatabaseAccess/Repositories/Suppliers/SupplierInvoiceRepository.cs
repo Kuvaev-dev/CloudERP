@@ -46,6 +46,7 @@ namespace DatabaseAccess.Repositories
                 SupplierID = entity.SupplierID,
                 SupplierName = entity.tblSupplier.SupplierName,
                 SupplierAddress = entity.tblSupplier.SupplierAddress,
+                SupplierConatctNo = entity.tblSupplier.SupplierConatctNo,
                 CompanyID = entity.CompanyID,
                 CompanyName = entity.tblCompany.Name,
                 CompanyLogo = entity.tblCompany.Logo,

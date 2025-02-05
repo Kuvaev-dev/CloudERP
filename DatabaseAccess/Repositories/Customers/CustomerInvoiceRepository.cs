@@ -70,6 +70,7 @@ namespace DatabaseAccess.Repositories
                 CustomerContact = entity.tblCustomer.CustomerContact,
                 CompanyID = entity.CompanyID,
                 CompanyName = entity.tblCompany.Name,
+                CompanyLogo = entity.tblCompany.Logo,
                 BranchID = entity.BranchID,
                 BranchName = entity.tblBranch.BranchName,
                 BranchAddress = entity.tblBranch.BranchAddress,

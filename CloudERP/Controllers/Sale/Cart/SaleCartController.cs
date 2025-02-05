@@ -162,7 +162,8 @@ namespace CloudERP.Controllers
 
             try
             {
-                var saleDetails = await _saleCartDetailRepository.GetByDefaultSettingAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID, _sessionHelper.UserID);
+                var saleDetails = await _saleCartDetailRepository.GetByDefaultSettingAsync(
+                    _sessionHelper.BranchID, _sessionHelper.CompanyID, _sessionHelper.UserID);
                 await _saleCartDetailRepository.DeleteListAsync(saleDetails);
 
                 ViewBag.Message = Resources.Messages.SaleCanceledSuccessfully;

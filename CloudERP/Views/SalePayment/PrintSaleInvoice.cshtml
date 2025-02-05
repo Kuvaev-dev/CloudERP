@@ -42,7 +42,7 @@
                         <h4>@Resources.Sale.Date</h4>
                         <hr />
                         <p>@Resources.Sale.InvoiceNo: @Model.InvoiceNo</p>
-                        <p>@Resources.Sale.InvoiceDate: @Model.InvoiceDate</p>
+                        <p>@Resources.Sale.InvoiceDate: @DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt")</p>
                         <p>@Resources.Sale.PrintDate: @DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt")</p>
                     </div>
                 </div>
@@ -107,7 +107,7 @@
                                     <th>@Resources.Sale.ItemNo</th>
                                     <th>@Resources.Sale.Quantity</th>
                                     <th>@Resources.Sale.UnitPrice</th>
-                                    <th class="text-right">@Resources.Sale.Total</th>
+                                    <th>@Resources.Sale.Total</th>
                                 </tr>
                             </thead>
                             <tbody>
