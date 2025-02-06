@@ -87,7 +87,16 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-5">
                 <input type="submit" value="@Resources.Common.Save.ToString()" class="btn btn-success" />
-                @Html.ActionLink(Resources.Common.BackToList.ToString(), "Employees", "CompanyEmployee", new { @class = "btn btn-default" })
+                @{ 
+                    if (Convert.ToInt32(Session["BranchTypeID"]) == 1)
+                    {
+                        Html.ActionLink(Resources.Common.BackToList.ToString(), "Employees", "CompanyEmployee", new { @class = "btn btn-default" });
+                    }
+                    else
+                    {
+                        Html.ActionLink(Resources.Common.BackToList.ToString(), "Employee", "BranchEmployee", new { @class = "btn btn-default" });
+                    }
+                }
                 <button id="voiceRecognitionButton" class="btn btn-link" type="button">
                     <i class="fas fa-microphone" style="font-size: 1.5em; color: gray;"></i>
                 </button>

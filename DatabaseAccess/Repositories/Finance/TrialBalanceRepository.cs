@@ -47,8 +47,8 @@ namespace DatabaseAccess.Repositories
                             FinancialYearID = Convert.ToInt32(row["FinancialYearID"]),
                             AccountSubControl = Convert.ToString(row["AccountSubControl"]),
                             AccountSubControlID = Convert.ToInt32(row["AccountSubControlID"]),
-                            Debit = Convert.ToDouble(row["Debit"] == DBNull.Value ? 0 : row["Debit"]),
-                            Credit = Convert.ToDouble(row["Credit"] == DBNull.Value ? 0 : row["Credit"]),
+                            Debit = Convert.ToDouble(row["Debit"]),
+                            Credit = Convert.ToDouble(row["Credit"]),
                             BranchID = Convert.ToInt32(row["BranchID"]),
                             CompanyID = Convert.ToInt32(row["CompanyID"])
                         };

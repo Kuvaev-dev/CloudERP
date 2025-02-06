@@ -30,10 +30,10 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.LogoFile, Resources.Company.EnterNewCompanyLogo.ToString(), htmlAttributes: new { @class = "control-label col-md-7" })
+            <label class="control-label col-md-2">@Resources.Company.EnterCompanyLogo.ToString()</label>
             <div class="col-md-5">
                 <span class="btn btn-default btn-file">
-                    @Html.TextBoxFor(model => model.LogoFile, new { type = "file" })
+                    <input type="file" name="logo" />
                 </span>
             </div>
         </div>

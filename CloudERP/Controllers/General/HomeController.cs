@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using CloudERP.Facades;
 using System.Configuration;
 using System.Linq;
+using Domain.Interfaces;
+using System.Collections.Generic;
 
 namespace CloudERP.Controllers
 {
@@ -35,6 +37,19 @@ namespace CloudERP.Controllers
 
             try
             {
+                var defaultCurrency = ConfigurationManager.AppSettings["DefaultCurrency"] ?? "USD";
+                var rates = await _homeFacade.CurrencyService.GetExchangeRatesAsync(defaultCurrency);
+
+                var currenciesWithRates = rates.Keys.Select(k => new Dictionary<string, string>
+                {
+                    { "Code", k },
+                    { "Name", k },
+                    { "Rate", rates[k].ToString("F2") }
+                }).ToList();
+
+                ViewBag.Currencies = currenciesWithRates;
+                ViewBag.SelectedCurrency = Session["SelectedCurrency"] as string ?? defaultCurrency;
+
                 return View(await _homeFacade.DashboardService.GetDashboardValues(_sessionHelper.BranchID, _sessionHelper.CompanyID));
             }
             catch (Exception ex)

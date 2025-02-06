@@ -1,4 +1,5 @@
 ﻿using Domain.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Net.Http;
@@ -20,15 +21,29 @@ namespace CloudERP.Helpers
 
         public async Task<Dictionary<string, decimal>> GetExchangeRatesAsync(string baseCurrency = "USD")
         {
-            var apiUrl = $"{_apiUrl}/latest/{baseCurrency}";
-            var response = await _httpClient.GetAsync(apiUrl);
+            try
+            {
+                var apiUrl = $"{_apiUrl}/latest/{baseCurrency}";
+                var response = await _httpClient.GetAsync(apiUrl);
 
-            if (!response.IsSuccessStatusCode)
+                if (!response.IsSuccessStatusCode)
+                    return new Dictionary<string, decimal>();
+
+                var json = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"API Response: {json}");
+
+                var rates = JsonSerializer.Deserialize<ExchangeRateResponse>(json, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+
+                return rates?.Rates ?? new Dictionary<string, decimal>();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error fetching exchange rates: {ex.Message}");
                 return new Dictionary<string, decimal>();
-
-            var json = await response.Content.ReadAsStringAsync();
-            var rates = JsonSerializer.Deserialize<ExchangeRateResponse>(json);
-            return rates?.Rates ?? new Dictionary<string, decimal>();
+            }
         }
 
         private class ExchangeRateResponse

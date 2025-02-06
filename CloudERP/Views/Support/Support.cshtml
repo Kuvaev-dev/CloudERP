@@ -71,7 +71,7 @@
                             <td>@ticket.Message</td>
                             <td>@ticket.DateCreated.ToString("g")</td>
                             <td>@(ticket.IsResolved ? "Resolved" : "Pending")</td>
-                            <td>@(($"{ticket.RespondedBy}:{ticket.AdminResponse}") ?? "-")</td>
+                            <td>@(($"{ticket.RespondedBy}: {ticket.AdminResponse}") ?? "-")</td>
                         </tr>
                     }
                 </tbody>

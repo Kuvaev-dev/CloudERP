@@ -51,6 +51,7 @@ namespace DatabaseAccess.Repositories
             {
                 ProductID = entity.ProductID,
                 CategoryID = entity.CategoryID,
+                CategoryName = entity.tblCategory.CategoryName,
                 CompanyID = entity.CompanyID,
                 CompanyName = entity.tblCompany.Name,
                 BranchID = entity.BranchID,

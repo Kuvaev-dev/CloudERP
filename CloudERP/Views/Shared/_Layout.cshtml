@@ -135,20 +135,28 @@
                         </div>
                     </li>
                     <!-- START Currency Dropdown -->
-                    <li class="nav-item dropdown" id="currencyDropdown">
-                        <form method="post" asp-action="SetCurrency" asp-controller="Currency">
-                            <select id="currencySelect" class="form-control" name="currencyCode" onchange="this.form.submit()">
-                                @if (ViewBag.Currencies != null && ViewBag.Currencies.Count > 0)
-                                {
-                                    foreach (var currency in ViewBag.Currencies)
-                                    {
-                                        <option value="@currency.Code" @(currency.Code == (Session["SelectedCurrency"] as string) ? "selected" : "")>
-                                            @currency.Name (@currency.Code)
-                                        </option>
-                                    }
-                                }
-                            </select>
-                        </form>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="currencyDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa-solid fa-dollar-sign"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="currencyDropdown">
+                            @using (Html.BeginForm("SetCurrency", "Currency", FormMethod.Post, new { @id = "currencyForm" }))
+                            {
+                                <div class="dropdown-item">
+                                    <select id="currencySelect" class="custom-select" onchange="document.getElementById('currencyForm').submit()">
+                                        @if (ViewBag.Currencies != null)
+                                        {
+                                            foreach (var currency in (List<Dictionary<string, string>>)ViewBag.Currencies)
+                                            {
+                                                <option value="@currency["Code"]" @(currency["Code"] == (Session["SelectedCurrency"] as string) ? "selected" : "")>
+                                                    @currency["Name"] (@currency["Rate"])
+                                                </option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            }
+                        </div>
                     </li>
                     <!-- END Currency Dropdown -->
                     <!-- END Language list -->
@@ -217,20 +225,20 @@
                                         </li>
 
                                         <li>
-                                            <a href="@Url.Action("AdminMenuGuide", "Guide")" title="@Resources.Miscellaneous.AdminGuide.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-info-circle mr-1"></em>
+                                            <a href="@Url.Action("AdminMenuGuide", "Guide")" title="@Resources.Miscellaneous.AdminGuide.ToString()">
+                                                <em class="bi bi-info-circle"></em>
                                                 <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.AdminGuide))</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Index", "Task")" title="@Resources.Miscellaneous.TasksList.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-list-task mr-1"></em>
+                                            <a href="@Url.Action("Index", "Task")" title="@Resources.Miscellaneous.TasksList.ToString()">
+                                                <em class="bi bi-list-task"></em>
                                                 <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.TasksList))</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Index", "Analytics")" title="Analytics" class="d-flex align-items-center">
-                                                <em class="bi bi-graph-up-arrow mr-1"></em>
+                                            <a href="@Url.Action("Index", "Analytics")" title="Analytics">
+                                                <em class="bi bi-graph-up-arrow"></em>
                                                 <span class="align-middle">Analytics</span>
                                             </a>
                                         </li>
@@ -239,14 +247,14 @@
                                             <span data-localize="sidebar.heading.COMPONENTS">@Resources.Miscellaneous.UserSetting.ToString()</span>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Index", "UserType")" title="@Resources.Miscellaneous.UserTypes.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-person-fill-gear mr-1"></em>
+                                            <a href="@Url.Action("Index", "UserType")" title="@Resources.Miscellaneous.UserTypes.ToString()">
+                                                <em class="bi bi-person-fill-gear"></em>
                                                 <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.UserTypes))</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Index", "User")" title="@Resources.Miscellaneous.Users.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-person-fill mr-1"></em>
+                                            <a href="@Url.Action("Index", "User")" title="@Resources.Miscellaneous.Users.ToString()">
+                                                <em class="bi bi-person-fill"></em>
                                                 <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.Users))</span>
                                             </a>
                                         </li>
@@ -254,14 +262,14 @@
                                             <span data-localize="sidebar.heading.COMPONENTS">@Resources.Miscellaneous.Companies.ToString()</span>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Index", "Company")" title="@Resources.Miscellaneous.Company.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-building mr-1"></em>
+                                            <a href="@Url.Action("Index", "Company")" title="@Resources.Miscellaneous.Company.ToString()">
+                                                <em class="bi bi-building"></em>
                                                 <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.Company))</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("RegistrationForm", "CompanyRegistration")" title="@Resources.Miscellaneous.CompanyRegistration.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-building-add mr-1"></em>
+                                            <a href="@Url.Action("RegistrationForm", "CompanyRegistration")" title="@Resources.Miscellaneous.CompanyRegistration.ToString()">
+                                                <em class="bi bi-building-add"></em>
                                                 <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.CompanyRegistration))</span>
                                             </a>
                                         </li>
@@ -269,8 +277,8 @@
                                             <span data-localize="sidebar.heading.COMPONENTS">@Resources.Miscellaneous.Branchs.ToString()</span>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Index", "BranchType")" title="Branch Types" class="d-flex align-items-center">
-                                                <em class="bi bi-bezier2 mr-1"></em>
+                                            <a href="@Url.Action("Index", "BranchType")" title="Branch Types">
+                                                <em class="bi bi-bezier2"></em>
                                                 <span class="align-middle">Branch Types</span>
                                             </a>
                                         </li>
@@ -278,14 +286,14 @@
                                             <span data-localize="sidebar.heading.COMPONENTS">@Resources.Miscellaneous.AccountSettings.ToString()</span>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Index", "AccountHead")" title="@Resources.Miscellaneous.AccountHeads.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-lightbulb-fill mr-1 mb-2"></em>
+                                            <a href="@Url.Action("Index", "AccountHead")" title="@Resources.Miscellaneous.AccountHeads.ToString()">
+                                                <em class="bi bi-lightbulb-fill mb-2"></em>
                                                 <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.AccountHeads))</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Index", "AccountActivity")" title="Account Activities" class="d-flex align-items-center">
-                                                <em class="bi bi-universal-access-circle mr-1 mb-2"></em>
+                                            <a href="@Url.Action("Index", "AccountActivity")" title="Account Activities">
+                                                <em class="bi bi-universal-access-circle mb-2"></em>
                                                 <span class="align-middle">Account Activities</span>
                                             </a>
                                         </li>
@@ -297,20 +305,20 @@
                                             <span data-localize="sidebar.heading.HEADER">@Resources.Miscellaneous.Home.ToString()</span>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Index", "Home")" title="@Resources.Miscellaneous.DashboardTitle.ToString()" class="d-flex align-items-center">
+                                            <a href="@Url.Action("Index", "Home")" title="@Resources.Miscellaneous.DashboardTitle.ToString()">
                                                 <em class="bi bi-speedometer2 h4 mb-0"></em>
                                                 <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.DashboardTitle))</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Index", "Forecasting")" title="@Resources.Miscellaneous.Forecasting.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-clipboard-data mr-1"></em>
+                                            <a href="@Url.Action("Index", "Forecasting")" title="@Resources.Miscellaneous.Forecasting.ToString()">
+                                                <em class="bi bi-clipboard-data h4 mb-0"></em>
                                                 <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.Forecasting))</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Index", "Task")" title="@Resources.Miscellaneous.TasksList.ToString()" class="d-flex align-items-center">
-                                                <em class="bi bi-list-task mr-1"></em>
+                                            <a href="@Url.Action("Index", "Task")" title="@Resources.Miscellaneous.TasksList.ToString()">
+                                                <em class="bi bi-list-task h4 mb-0"></em>
                                                 <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.TasksList))</span>
                                             </a>
                                         </li>
@@ -318,20 +326,20 @@
                                             <span data-localize="sidebar.heading.COMPONENTS">@Resources.Miscellaneous.SubBranchs.ToString()</span>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Index", "Branch")" title="@Resources.Miscellaneous.Branches.ToString()" class="d-flex align-items-center">
+                                            <a href="@Url.Action("Index", "Branch")" title="@Resources.Miscellaneous.Branches.ToString()">
                                                 <em class="bi bi-diagram-2 h4 mb-0"></em>
                                                 <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.Branches))</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("SubBranchUser", "User")" title="@Resources.Miscellaneous.Users.ToString()" class="d-flex align-items-center">
+                                            <a href="@Url.Action("SubBranchUser", "User")" title="@Resources.Miscellaneous.Users.ToString()">
                                                 <em class="bi bi-person-fill h4 mb-0"></em>
                                                 <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.Users))</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("BranchesMap", "Branch")" title="Branches Map" class="d-flex align-items-center">
-                                                <em class="bi bi-compass mr-1"></em>
+                                            <a href="@Url.Action("BranchesMap", "Branch")" title="Branches Map">
+                                                <em class="bi bi-compass h4 mb-0"></em>
                                                 <span class="align-middle">Branches Map</span>
                                             </a>
                                         </li>
@@ -341,14 +349,14 @@
                                         if (branchTypeID == 1)
                                         {
                                             <li>
-                                                <a href="@Url.Action("Index", "EmployeeStatistics")" title="@Resources.Miscellaneous.EmployeeStatistics.ToString()" class="d-flex align-items-center">
-                                                    <em class="bi bi-bar-chart-fill mr-1"></em>
+                                                <a href="@Url.Action("Index", "EmployeeStatistics")" title="@Resources.Miscellaneous.EmployeeStatistics.ToString()">
+                                                    <em class="bi bi-bar-chart-fill h4 mb-0"></em>
                                                     <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.EmployeeStatistics))</span>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="@Url.Action("AssignTask", "Task")" title="Tasks Assigment" class="d-flex align-items-center">
-                                                    <em class="bi bi bi-person-fill-check mr-1"></em>
+                                                <a href="@Url.Action("AssignTask", "Task")" title="Tasks Assigment">
+                                                    <em class="bi bi bi-person-fill-check h4 mb-0"></em>
                                                     <span class="align-middle">Tasks Assigment</span>
                                                 </a>
                                             </li>
@@ -356,7 +364,7 @@
                                                 <span data-localize="sidebar.heading.COMPONENTS">@Resources.Miscellaneous.Guide.ToString()</span>
                                             </li>
                                             <li>
-                                                <a href="@Url.Action("MainBranchEmployeeGuide", "Guide")" title="@Resources.Miscellaneous.MainEmployeeGuide.ToString()" class="d-flex align-items-center">
+                                                <a href="@Url.Action("MainBranchEmployeeGuide", "Guide")" title="@Resources.Miscellaneous.MainEmployeeGuide.ToString()">
                                                     <em class="bi bi-info-circle h4 mb-0"></em>
                                                     <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.MainEmployeeGuide))</span>
                                                 </a>
@@ -365,7 +373,7 @@
                                                 <span data-localize="sidebar.heading.COMPONENTS">@Resources.Miscellaneous.Branchs.ToString()</span>
                                             </li>
                                             <li>
-                                                <a href="@Url.Action("Create", "Branch")" title="@Resources.Miscellaneous.NewBranch.ToString()" class="d-flex align-items-center">
+                                                <a href="@Url.Action("Create", "Branch")" title="@Resources.Miscellaneous.NewBranch.ToString()">
                                                     <em class="bi bi-diagram-2 h4 mb-0"></em>
                                                     <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.NewBranch))</span>
                                                 </a>
@@ -374,19 +382,19 @@
                                                 <span data-localize="sidebar.heading.COMPONENTS">@Resources.Miscellaneous.Employees.ToString()</span>
                                             </li>
                                             <li>
-                                                <a href="@Url.Action("Employees", "CompanyEmployee")" title="@Resources.Miscellaneous.EmployeeRegistration.ToString()" class="d-flex align-items-center">
+                                                <a href="@Url.Action("Employees", "CompanyEmployee")" title="@Resources.Miscellaneous.EmployeeRegistration.ToString()">
                                                     <em class="bi bi-person-add h4 mb-0"></em>
                                                     <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.EmployeeRegistration))</span>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="@Url.Action("EmployeeSalary", "CompanyEmployee")" title="@Resources.Miscellaneous.Payroll.ToString()" class="d-flex align-items-center">
+                                                <a href="@Url.Action("EmployeeSalary", "CompanyEmployee")" title="@Resources.Miscellaneous.Payroll.ToString()">
                                                     <em class="bi bi-coin h4 mb-0"></em>
                                                     <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.Payroll))</span>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="@Url.Action("SalaryHistory", "CompanyEmployee")" title="@Resources.Miscellaneous.PaidSalariesHistory.ToString()" class="d-flex align-items-center">
+                                                <a href="@Url.Action("SalaryHistory", "CompanyEmployee")" title="@Resources.Miscellaneous.PaidSalariesHistory.ToString()">
                                                     <em class="bi bi-cash-stack h4 mb-0"></em>
                                                     <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.PaidSalariesHistory))</span>
                                                 </a>
@@ -398,7 +406,7 @@
                                                 <span data-localize="sidebar.heading.COMPONENTS">@Resources.Miscellaneous.Guide.ToString()</span>
                                             </li>
                                             <li>
-                                                <a href="@Url.Action("EmployeeGuide", "Guide")" title="Employee Guide" class="d-flex align-items-center">
+                                                <a href="@Url.Action("EmployeeGuide", "Guide")" title="Employee Guide">
                                                     <em class="bi bi-info-circle h4 mb-0"></em>
                                                     <span class="align-middle">Employee Guide</span>
                                                 </a>
@@ -407,19 +415,19 @@
                                                 <span data-localize="sidebar.heading.COMPONENTS">@Resources.Miscellaneous.Employees.ToString()</span>
                                             </li>
                                             <li>
-                                                <a href="@Url.Action("Employee", "BranchEmployee")" title="@Resources.Miscellaneous.EmployeeRegistration.ToString()" class="d-flex align-items-center">
+                                                <a href="@Url.Action("Employee", "BranchEmployee")" title="@Resources.Miscellaneous.EmployeeRegistration.ToString()">
                                                     <em class="bi bi-person-add h4 mb-0"></em>
                                                     <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.EmployeeRegistration))</span>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="@Url.Action("EmployeeSalary", "CompanyEmployee")" title="@Resources.Miscellaneous.Payroll.ToString()" class="d-flex align-items-center">
+                                                <a href="@Url.Action("EmployeeSalary", "CompanyEmployee")" title="@Resources.Miscellaneous.Payroll.ToString()">
                                                     <em class="bi bi-coin h4 mb-0"></em>
                                                     <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.Payroll))</span>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="@Url.Action("SalaryHistory", "CompanyEmployee")" title="@Resources.Miscellaneous.PaidSalariesHistory.ToString()" class="d-flex align-items-center">
+                                                <a href="@Url.Action("SalaryHistory", "CompanyEmployee")" title="@Resources.Miscellaneous.PaidSalariesHistory.ToString()">
                                                     <em class="bi bi-cash-stack h4 mb-0"></em>
                                                     <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.PaidSalariesHistory))</span>
                                                 </a>
@@ -429,19 +437,19 @@
                                             <span data-localize="sidebar.heading.COMPONENTS">@Resources.Miscellaneous.Stocks.ToString()</span>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Index", "Category")" title="@Resources.Miscellaneous.StockCategories.ToString()" class="d-flex align-items-center">
+                                            <a href="@Url.Action("Index", "Category")" title="@Resources.Miscellaneous.StockCategories.ToString()">
                                                 <em class="bi bi-inboxes-fill h4 mb-0"></em>
                                                 <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.StockCategories))</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Index", "Stock")" title="@Resources.Miscellaneous.StockDetails.ToString()" class="d-flex align-items-center">
+                                            <a href="@Url.Action("Index", "Stock")" title="@Resources.Miscellaneous.StockDetails.ToString()">
                                                 <em class="bi bi-boxes h4 mb-0"></em>
                                                 <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.StockDetails))</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("ProductQuality", "Stock")" title="Product Quality" class="d-flex align-items-center">
+                                            <a href="@Url.Action("ProductQuality", "Stock")" title="Product Quality">
                                                 <em class="bi bi-battery-half h4 mb-0"></em>
                                                 <span class="align-middle">Product Quality</span>
                                             </a>
@@ -451,19 +459,19 @@
                                         <span data-localize="sidebar.heading.COMPONENTS">@Resources.Miscellaneous.AccountSettings.ToString()</span>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("Index", "AccountControl")" title="@Resources.Miscellaneous.AccountControls.ToString()" class="d-flex align-items-center">
+                                        <a href="@Url.Action("Index", "AccountControl")" title="@Resources.Miscellaneous.AccountControls.ToString()">
                                             <em class="bi bi-gear-wide h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.AccountControls))</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("Index", "AccountSubControl")" title="@Resources.Miscellaneous.AccountSubControls.ToString()" class="d-flex align-items-center">
+                                        <a href="@Url.Action("Index", "AccountSubControl")" title="@Resources.Miscellaneous.AccountSubControls.ToString()">
                                             <em class="bi bi-gear-wide-connected h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.AccountSubControls))</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("Index", "AccountSetting")" title="@Resources.Miscellaneous.AccountFlow.ToString()" class="d-flex align-items-center">
+                                        <a href="@Url.Action("Index", "AccountSetting")" title="@Resources.Miscellaneous.AccountFlow.ToString()">
                                             <em class="bi bi-person-lines-fill h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.AccountFlow))</span>
                                         </a>
@@ -476,13 +484,13 @@
                                         <span>@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.FinancialYear))</span>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("Index", "FinancialYear")" title="@Resources.Miscellaneous.FinancialYear.ToString()" class="d-flex align-items-center">
+                                        <a href="@Url.Action("Index", "FinancialYear")" title="@Resources.Miscellaneous.FinancialYear.ToString()">
                                             <em class="bi bi-cash h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.FinancialYear))</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("Create", "FinancialYear")" title="@Resources.Miscellaneous.NewFinancialYear.ToString()" class="d-flex align-items-center">
+                                        <a href="@Url.Action("Create", "FinancialYear")" title="@Resources.Miscellaneous.NewFinancialYear.ToString()">
                                             <em class="bi bi-cash-coin h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.NewFinancialYear))</span>
                                         </a>
@@ -494,7 +502,7 @@
                                         <span data-localize="sidebar.heading.COMPONENTS">@Resources.Miscellaneous.FinancialYear.ToString()</span>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("Index", "FinancialYearView")" title="@Resources.Miscellaneous.AllFinancialYears.ToString()" class="d-flex align-items-center">
+                                        <a href="@Url.Action("Index", "FinancialYearView")" title="@Resources.Miscellaneous.AllFinancialYears.ToString()">
                                             <em class="bi bi-calendar3 h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.AllFinancialYears))</span>
                                         </a>
@@ -506,19 +514,19 @@
                                 if (userType == 2)
                                 {
                                     <li>
-                                        <a href="@Url.Action("Create", "Customer")" title="@Resources.Miscellaneous.NewCustomer.ToString()" class="d-flex align-items-center">
+                                        <a href="@Url.Action("Create", "Customer")" title="@Resources.Miscellaneous.NewCustomer.ToString()">
                                             <em class="bi bi-person-fill-add h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.NewCustomer))</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("Index", "Customer")" title="@Resources.Miscellaneous.BranchCustomers.ToString()" class="d-flex align-items-center">
+                                        <a href="@Url.Action("Index", "Customer")" title="@Resources.Miscellaneous.BranchCustomers.ToString()">
                                             <em class="bi bi-cart h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.BranchCustomers))</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("SubBranchCustomer", "Customer")" title="@Resources.Miscellaneous.SubBranchCustomersNavlink.ToString()" class="d-flex align-items-center">
+                                        <a href="@Url.Action("SubBranchCustomer", "Customer")" title="@Resources.Miscellaneous.SubBranchCustomersNavlink.ToString()">
                                             <em class="bi bi-cart-check h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.SubBranchCustomersNavlink))</span>
                                         </a>
@@ -527,31 +535,31 @@
                                         <span data-localize="sidebar.heading.COMPONENTS">@Resources.Miscellaneous.Sales.ToString()</span>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("NewSale", "SaleCart")" title="@Resources.Miscellaneous.NewSale.ToString()" class="d-flex align-items-center">
+                                        <a href="@Url.Action("NewSale", "SaleCart")" title="@Resources.Miscellaneous.NewSale.ToString()">
                                             <em class="bi bi-bag-plus h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.NewSale))</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("RemainingPaymentList", "SalePayment")" title="@Resources.Miscellaneous.SalePendingPayment.ToString()" class="d-flex align-items-center">
+                                        <a href="@Url.Action("RemainingPaymentList", "SalePayment")" title="@Resources.Miscellaneous.SalePendingPayment.ToString()">
                                             <em class="bi bi-paypal h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.SalePendingPayment))</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("CustomSalesHistory", "SalePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now })" title="@Resources.Miscellaneous.AllSales.ToString()" class="d-flex align-items-center">
+                                        <a href="@Url.Action("CustomSalesHistory", "SalePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now })" title="@Resources.Miscellaneous.AllSales.ToString()">
                                             <em class="bi bi-card-checklist h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.AllSales))</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("FindSale", "SaleReturn")" title="@Resources.Miscellaneous.SaleReturn.ToString()" class="d-flex align-items-center">
+                                        <a href="@Url.Action("FindSale", "SaleReturn")" title="@Resources.Miscellaneous.SaleReturn.ToString()">
                                             <em class="bi bi-bag-dash h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.SaleReturn))</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("AllReturnSalesPendingAmount", "SalePaymentReturn")" title="@Resources.Miscellaneous.ReturnSalesPendingAmount.ToString()" class="d-flex align-items-center">
+                                        <a href="@Url.Action("AllReturnSalesPendingAmount", "SalePaymentReturn")" title="@Resources.Miscellaneous.ReturnSalesPendingAmount.ToString()">
                                             <em class="bi bi-wallet-fill h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.ReturnSalesPendingAmount))</span>
                                         </a>
@@ -560,7 +568,7 @@
                                 if (userType == 1)
                                 {
                                     <li>
-                                        <a href="@Url.Action("AllCustomers", "Customer")" title="@Resources.Miscellaneous.AllCustomers.ToString()" class="d-flex align-items-center">
+                                        <a href="@Url.Action("AllCustomers", "Customer")" title="@Resources.Miscellaneous.AllCustomers.ToString()">
                                             <em class="bi bi-cart h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.AllCustomers))</span>
                                         </a>
@@ -572,19 +580,19 @@
                                 if (userType == 2)
                                 {
                                     <li>
-                                        <a href="@Url.Action("Create", "Supplier")" title="@Resources.Miscellaneous.NewSupplier.ToString()" class="d-flex align-items-center">
+                                        <a href="@Url.Action("Create", "Supplier")" title="@Resources.Miscellaneous.NewSupplier.ToString()">
                                             <em class="bi bi-umbrella h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.NewSupplier))</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("Index", "Supplier")" title="@Resources.Miscellaneous.BranchSuppliers.ToString()" class="d-flex align-items-center">
+                                        <a href="@Url.Action("Index", "Supplier")" title="@Resources.Miscellaneous.BranchSuppliers.ToString()">
                                             <em class="bi bi-truck h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.BranchSuppliers))</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("SubBranchSupplier", "Supplier")" title="@Resources.Miscellaneous.SubBranchSuppliers.ToString()" class="d-flex align-items-center">
+                                        <a href="@Url.Action("SubBranchSupplier", "Supplier")" title="@Resources.Miscellaneous.SubBranchSuppliers.ToString()">
                                             <em class="bi bi-truck-front h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.SubBranchSuppliers))</span>
                                         </a>
@@ -593,31 +601,31 @@
                                         <span data-localize="sidebar.heading.COMPONENTS">@Resources.Miscellaneous.Purchases.ToString()</span>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("NewPurchase", "PurchaseCart")" title="@Resources.Miscellaneous.NewPurchase.ToString()" class="d-flex align-items-center">
+                                        <a href="@Url.Action("NewPurchase", "PurchaseCart")" title="@Resources.Miscellaneous.NewPurchase.ToString()">
                                             <em class="bi bi-cart-plus h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.NewPurchase))</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("RemainingPaymentList", "PurchasePayment")" title="@Resources.Miscellaneous.PurchasePendingPayment.ToString()" class="d-flex align-items-center">
+                                        <a href="@Url.Action("RemainingPaymentList", "PurchasePayment")" title="@Resources.Miscellaneous.PurchasePendingPayment.ToString()">
                                             <em class="bi bi-currency-dollar h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.PurchasePendingPayment))</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("CustomPurchasesHistory", "PurchasePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now })" title="@Resources.Miscellaneous.AllPurchases.ToString()" class="d-flex align-items-center">
+                                        <a href="@Url.Action("CustomPurchasesHistory", "PurchasePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now })" title="@Resources.Miscellaneous.AllPurchases.ToString()">
                                             <em class="bi bi-cart h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.AllPurchases))</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("FindPurchase", "PurchaseReturn")" title="@Resources.Miscellaneous.PurchasesReturn.ToString()" class="d-flex align-items-center">
+                                        <a href="@Url.Action("FindPurchase", "PurchaseReturn")" title="@Resources.Miscellaneous.PurchasesReturn.ToString()">
                                             <em class="bi bi-cart-dash h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.PurchasesReturn))</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("AllPurchasesPendingPayment", "PurchasePaymentReturn")" title="@Resources.Miscellaneous.ReturnPaymentPending.ToString()" class="d-flex align-items-center">
+                                        <a href="@Url.Action("AllPurchasesPendingPayment", "PurchasePaymentReturn")" title="@Resources.Miscellaneous.ReturnPaymentPending.ToString()">
                                             <em class="bi bi-currency-dollar h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.ReturnPaymentPending))</span>
                                         </a>
@@ -626,37 +634,37 @@
                                         <span data-localize="sidebar.heading.COMPONENTS">@Resources.Miscellaneous.Transactions.ToString()</span>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("GeneralTransaction", "GeneralTransaction", new { transaction = new CloudERP.Models.GeneralTransactionMV() { CreditAccountControlID = 0, DebitAccountControlID = 0, TransferAmount = 0 } })" title="@Resources.Miscellaneous.GeneralTransaction.ToString()" class="d-flex align-items-center">
+                                        <a href="@Url.Action("GeneralTransaction", "GeneralTransaction", new { transaction = new CloudERP.Models.GeneralTransactionMV() { CreditAccountControlID = 0, DebitAccountControlID = 0, TransferAmount = 0 } })" title="@Resources.Miscellaneous.GeneralTransaction.ToString()">
                                             <em class="bi bi-briefcase h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.GeneralTransaction))</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("Journal", "GeneralTransaction")" title="@Resources.Miscellaneous.Journal.ToString()" class="d-flex align-items-center">
+                                        <a href="@Url.Action("Journal", "GeneralTransaction")" title="@Resources.Miscellaneous.Journal.ToString()">
                                             <em class="bi bi-journal-bookmark h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.Journal))</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("GetLedger", "Ledger")" title="@Resources.Miscellaneous.AccountsLedger.ToString()" class="d-flex align-items-center">
+                                        <a href="@Url.Action("GetLedger", "Ledger")" title="@Resources.Miscellaneous.AccountsLedger.ToString()">
                                             <em class="bi bi-book-half h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.AccountsLedger))</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("GetTrialBalance", "TrialBalance")" title="@Resources.Miscellaneous.TrialBalance.ToString()" class="d-flex align-items-center">
+                                        <a href="@Url.Action("GetTrialBalance", "TrialBalance")" title="@Resources.Miscellaneous.TrialBalance.ToString()">
                                             <em class="bi bi-currency-dollar h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.TrialBalance))</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("GetIncomeStatement", "IncomeStatement")" title="@Resources.Miscellaneous.IncomeStatement.ToString()" class="d-flex align-items-center">
+                                        <a href="@Url.Action("GetIncomeStatement", "IncomeStatement")" title="@Resources.Miscellaneous.IncomeStatement.ToString()">
                                             <em class="bi bi-currency-exchange h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.IncomeStatement))</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("GetBalanceSheet", "BalanceSheet")" title="@Resources.Miscellaneous.BalanceSheet.ToString()" class="d-flex align-items-center">
+                                        <a href="@Url.Action("GetBalanceSheet", "BalanceSheet")" title="@Resources.Miscellaneous.BalanceSheet.ToString()">
                                             <em class="bi bi-file-earmark-spreadsheet h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.BalanceSheet))</span>
                                         </a>
@@ -665,7 +673,7 @@
                                 if (userType == 1)
                                 {
                                     <li>
-                                        <a href="@Url.Action("AllSuppliers", "Supplier")" title="@Resources.Miscellaneous.AllSuppliers.ToString()" class="d-flex align-items-center">
+                                        <a href="@Url.Action("AllSuppliers", "Supplier")" title="@Resources.Miscellaneous.AllSuppliers.ToString()">
                                             <em class="bi bi-minecart-loaded h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.AllSuppliers))</span>
                                         </a>
@@ -677,8 +685,8 @@
                                 if (userType == 1)
                                 {
                                     <li>
-                                        <a href="@Url.Action("AdminList", "Support")" title="@Resources.Miscellaneous.TicketList.ToString()" class="d-flex align-items-center">
-                                            <em class="bi bi-hammer mr-1 mb-2"></em>
+                                        <a href="@Url.Action("AdminList", "Support")" title="@Resources.Miscellaneous.TicketList.ToString()">
+                                            <em class="bi bi-hammer h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.TicketList))</span>
                                         </a>
                                     </li>
@@ -686,14 +694,14 @@
                                 if (userType == 2)
                                 {
                                     <li>
-                                        <a href="@Url.Action("Support", "Support")" title="@Resources.Miscellaneous.Support.ToString()" class="d-flex align-items-center">
-                                            <em class="bi bi-hammer mr-1 mb-2"></em>
+                                        <a href="@Url.Action("Support", "Support")" title="@Resources.Miscellaneous.Support.ToString()">
+                                            <em class="bi bi-hammer h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.Support))</span>
                                         </a>
                                     </li>
                                 }
                                 <li>
-                                    <a href="@Url.Action("PrivacyPolicy", "Guide")" title="@Resources.Miscellaneous.PrivacyPolicy.ToString()" class="d-flex align-items-center">
+                                    <a href="@Url.Action("PrivacyPolicy", "Guide")" title="@Resources.Miscellaneous.PrivacyPolicy.ToString()">
                                         <em class="bi bi-sourceforge h4 mb-0"></em>
                                         <span class="align-middle">@Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.PrivacyPolicy))</span>
                                     </a>

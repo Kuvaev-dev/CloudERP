@@ -29,7 +29,7 @@
                 @Html.DropDownListFor(
                     m => m.AccountHeadID,
                     new SelectList(ViewBag.AccountHeadList, "AccountHeadID", "AccountHeadName"),
-                    "-- Select an Account Head --",
+                    "Account Head",
                     new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.AccountHeadID, "", new { @class = "text-danger" })
             </div>

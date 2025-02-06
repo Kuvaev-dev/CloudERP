@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     Layout = null;
 }
 
@@ -31,10 +30,11 @@
                 <div class="mb-3">
                     <em class="fa fa-wrench fa-5x text-muted"></em>
                 </div>
-                <p class="lead m-0">@Resources.Miscellaneous.SomethingWentWrong</p>
-                <p>@Resources.Miscellaneous.DontWorry</p>
-                <p>@Resources.Miscellaneous.TryLinksBelow</p>
+                <p class="lead m-0">Something Went Wrong</p>
                 <p class="text-danger">@TempData["ErrorMessage"]</p>
+                <p>Don't Worry!</p>
+                <p>Try Links Below</p>
+                <p><a href="/Home/Login"></a></p>
             </div>
         </div>
     </div>
@@ -52,5 +52,4 @@
     <!-- =============== APP SCRIPTS ===============-->
     <script src="~/Content/Template/js/app.js"></script>
 </body>
-
 </html>

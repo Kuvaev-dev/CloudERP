@@ -29,72 +29,64 @@ namespace Domain.Services
 
         public async Task<BalanceSheetModel> GetBalanceSheetAsync(int companyId, int branchId, int financialYearId, List<int> headIds)
         {
-            var BalanceSheet = new BalanceSheetModel();
+            var balanceSheet = new BalanceSheetModel();
 
-            double TotalAssets = 0;
-            double TotalLiabilities = 0;
-            double TotalOwnerEquity = 0;
-            double TotalReturnEarning = 0;
+            double totalAssets = 0;
+            double totalLiabilities = 0;
+            double totalOwnerEquity = 0;
+            double totalReturnEarning = 0;
 
             // Return Earning
-            double TotalExpenses = 0;
-            double TotalRevenue = 0;
+            double totalExpenses = 0;
+            double totalRevenue = 0;
 
-            var AllHeads = new List<AccountHeadTotal>();
-            var tasks = new List<Task<AccountHeadTotal>>();
+            var allHeads = new List<AccountHeadTotal>();
 
             foreach (var HeadID in headIds)
             {
-                tasks.Add(Task.Run(async () =>
+                var accountHead = await _balanceSheetRepository.GetHeadAccountsWithTotal(companyId, branchId, financialYearId, HeadID);
+
+                if (accountHead?.AccountHeadDetails == null)
+                    continue;
+
+                double? totalAmount = 0;
+
+                if (HeadID == ASSETS_HEAD_ID || HeadID == LIABILITIES_HEAD_ID || HeadID == CAPITAL_HEAD_ID)
                 {
-                    var accountHead = await _balanceSheetRepository.GetHeadAccountsWithTotal(companyId, branchId, financialYearId, HeadID);
+                    totalAmount = await _balanceSheetRepository.GetAccountTotalAmountAsync(companyId, branchId, financialYearId, HeadID);
+                }
 
-                    if (accountHead?.AccountHeadDetails == null)
-                        return null;
+                switch (HeadID)
+                {
+                    case ASSETS_HEAD_ID:
+                        totalAssets = totalAmount ?? 0;
+                        break;
+                    case LIABILITIES_HEAD_ID:
+                        totalLiabilities = totalAmount ?? 0;
+                        break;
+                    case CAPITAL_HEAD_ID:
+                        totalOwnerEquity = totalAmount ?? 0;
+                        break;
+                    case EXPENSES_HEAD_ID:
+                        totalExpenses = accountHead.TotalAmount;
+                        break;
+                    case REVENUE_HEAD_ID:
+                        totalRevenue = accountHead.TotalAmount;
+                        break;
+                }
 
-                    double? totalAmount = 0;
-
-                    if (HeadID == ASSETS_HEAD_ID || HeadID == LIABILITIES_HEAD_ID || HeadID == CAPITAL_HEAD_ID)
-                    {
-                        totalAmount = await _balanceSheetRepository.GetAccountTotalAmountAsync(companyId, branchId, financialYearId, HeadID);
-                    }
-
-                    switch (HeadID)
-                    {
-                        case ASSETS_HEAD_ID:
-                            TotalAssets = totalAmount ?? 0;
-                            break;
-                        case LIABILITIES_HEAD_ID:
-                            TotalLiabilities = totalAmount ?? 0;
-                            break;
-                        case CAPITAL_HEAD_ID:
-                            TotalOwnerEquity = totalAmount ?? 0;
-                            break;
-                        case EXPENSES_HEAD_ID:
-                            TotalExpenses = accountHead.TotalAmount;
-                            break;
-                        case REVENUE_HEAD_ID:
-                            TotalRevenue = accountHead.TotalAmount;
-                            break;
-                    }
-
-                    return accountHead;
-                }));
+                allHeads.Add(accountHead);
             }
 
-            var results = await Task.WhenAll(tasks);
+            totalReturnEarning = totalRevenue - totalExpenses;
 
-            AllHeads.AddRange(results.Where(a => a != null));
+            balanceSheet.Title = Localization.Localization.TrialBalance;
+            balanceSheet.ReturnEarning = totalReturnEarning;
+            balanceSheet.Total_Liabilities_OwnerEquity_ReturnEarning = totalLiabilities + totalOwnerEquity + totalReturnEarning;
+            balanceSheet.TotalAssets = totalAssets;
+            balanceSheet.AccountHeadTotals = allHeads;
 
-            TotalReturnEarning = TotalRevenue - TotalExpenses;
-
-            BalanceSheet.Title = Localization.Localization.TrialBalance;
-            BalanceSheet.ReturnEarning = TotalReturnEarning;
-            BalanceSheet.Total_Liabilities_OwnerEquity_ReturnEarning = TotalLiabilities + TotalOwnerEquity + TotalReturnEarning;
-            BalanceSheet.TotalAssets = TotalAssets;
-            BalanceSheet.AccountHeadTotals = AllHeads;
-
-            return BalanceSheet;
+            return balanceSheet;
         }
     }
 }

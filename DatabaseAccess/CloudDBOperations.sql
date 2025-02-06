@@ -639,8 +639,8 @@ CREATE proc [dbo].[GetTrialBalance](@BranchID as int, @CompanyID as int, @Financ
 as
 begin
 select [JR].[FinancialYearID], [JR].[AccountSubControl], [JR].[AccountSubControlID],
-case when [JR].[Debit] > [JR].[Credit] then [JR].[Debit] - [JR].[Credit] else null end as [Debit],
-case when [JR].[Debit] < [JR].[Credit] then [JR].[Credit] - [JR].[Debit] else null end as [Credit],
+case when [JR].[Debit] > [JR].[Credit] then [JR].[Debit] - [JR].[Credit] else 0 end as [Debit],
+case when [JR].[Debit] < [JR].[Credit] then [JR].[Credit] - [JR].[Debit] else 0 end as [Credit],
 [JR].[BranchID],
 [JR].[CompanyID]
 from
@@ -648,8 +648,8 @@ from
 [TR].[FinancialYearID],
 [ACTS].[AccountSubControl],
 [ACTS].[AccountSubControlID],
-sum([TR].[Debit]) [Debit],
-sum([TR].[Credit]) [Credit],
+isnull(sum([TR].[Debit]), 0) [Debit],
+isnull(sum([TR].[Credit]), 0) [Credit],
 [TR].[BranchID],
 [TR].[CompanyID]
 from [dbo].[tblTransaction] [TR]
@@ -684,8 +684,3 @@ group by [TR].[FinancialYearID],
 where [JR].[BranchID] = @BranchID and [JR].[CompanyID] = @CompanyID
 and [JR].[FinancialYearID] = @FinancialYearID
 end
-GO
-USE [master]
-GO
-ALTER DATABASE [CloudErp] SET  READ_WRITE 
-GO

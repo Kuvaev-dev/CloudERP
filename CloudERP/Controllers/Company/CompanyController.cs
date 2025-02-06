@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -153,7 +151,7 @@ namespace CloudERP.Controllers
         // POST: Company/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(CompanyMV model)
+        public async Task<ActionResult> Edit(Company model, HttpPostedFileBase logo)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -162,17 +160,19 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (model.LogoFile != null)
+                    if (logo != null)
                     {
-                        var fileName = $"{model.Company.CompanyID}.jpg";
+                        var fileName = $"{model.Name}.jpg";
 
-                        var fileAdapter = _fileAdapterFactory.Create(model.LogoFile);
-                        var photoPath = _fileService.UploadPhoto(fileAdapter, COMPANY_LOGO_PATH, fileName);
-
-                        model.Company.Logo = photoPath ?? model.Company.Logo;
+                        var fileAdapter = _fileAdapterFactory.Create(logo);
+                        model.Logo = _fileService.UploadPhoto(fileAdapter, COMPANY_LOGO_PATH, fileName);
+                    }
+                    else
+                    {
+                        model.Logo = _fileService.SetDefaultPhotoPath(DEFAULT_COMPANY_LOGO_PATH);
                     }
 
-                    await _companyRepository.UpdateAsync(model.Company);
+                    await _companyRepository.UpdateAsync(model);
 
                     return RedirectToAction("Index");
                 }

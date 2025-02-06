@@ -76,6 +76,7 @@ namespace CloudERP.Controllers
             try
             {
                 model.CompanyID = _sessionHelper.CompanyID;
+                model.BrchID = _sessionHelper.BranchID;
 
                 if (ModelState.IsValid)
                 {
