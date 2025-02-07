@@ -1,8 +1,7 @@
 ﻿using CloudERP.Helpers;
 using CloudERP.Models;
+using Domain.Facades;
 using Domain.Models.FinancialModels;
-using Domain.RepositoryAccess;
-using Domain.Services.Purchase;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,28 +12,16 @@ namespace CloudERP.Controllers
     public class PurchasePaymentController : Controller
     {
         private readonly SessionHelper _sessionHelper;
-        private readonly IPurchaseRepository _purchaseRepository;
-        private readonly IPurchaseService _purchaseService;
-        private readonly ISupplierInvoiceDetailRepository _supplierInvoiceDetailRepository;
-        private readonly ISupplierReturnInvoiceRepository _supplierReturnInvoiceRepository;
-        private readonly IPurchasePaymentService _purchasePaymentService;
+        private readonly PurchasePaymentFacade _purchasePaymentFacade;
 
         private const string DEFAULT_IMAGE_PATH = "~/Content/EmployeePhoto/Default/default.png";
 
         public PurchasePaymentController(
-            SessionHelper sessionHelper, 
-            IPurchaseRepository purchaseRepository,
-            IPurchaseService purchaseService,
-            ISupplierInvoiceDetailRepository supplierInvoiceDetailRepository, 
-            IPurchasePaymentService purchasePaymentService,
-            ISupplierReturnInvoiceRepository supplierReturnInvoiceRepository)
+            SessionHelper sessionHelper,
+            PurchasePaymentFacade purchasePaymentFacade)
         {
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
-            _purchaseRepository = purchaseRepository ?? throw new ArgumentNullException(nameof(IPurchaseRepository));
-            _purchaseService = purchaseService ?? throw new ArgumentNullException(nameof(IPurchaseService));
-            _supplierInvoiceDetailRepository = supplierInvoiceDetailRepository ?? throw new ArgumentNullException(nameof(ISupplierInvoiceDetailRepository));
-            _purchasePaymentService = purchasePaymentService ?? throw new ArgumentNullException(nameof(IPurchasePaymentService));
-            _supplierReturnInvoiceRepository = supplierReturnInvoiceRepository ?? throw new ArgumentNullException(nameof(ISupplierReturnInvoiceRepository));
+            _purchasePaymentFacade = purchasePaymentFacade ?? throw new ArgumentNullException(nameof(PurchasePaymentFacade));
         }
 
         // GET: PurchasePayment
@@ -45,7 +32,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var list = await _purchaseRepository.RemainingPaymentList(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                var list = await _purchasePaymentFacade.PurchaseRepository.RemainingPaymentList(_sessionHelper.CompanyID, _sessionHelper.BranchID);
 
                 return View(list.ToList());
             }
@@ -63,16 +50,16 @@ namespace CloudERP.Controllers
 
             try
             {
-                var list = await _purchasePaymentService.GetPurchasePaymentHistoryAsync(id.Value);
-                var returnDetails = await _supplierReturnInvoiceRepository.GetReturnDetails(id.Value);
+                var list = await _purchasePaymentFacade.PurchasePaymentService.GetPurchasePaymentHistoryAsync(id.Value);
+                var returnDetails = await _purchasePaymentFacade.SupplierReturnInvoiceRepository.GetReturnDetails(id.Value);
 
                 if (returnDetails != null && returnDetails.Count() > 0)
                 {
                     ViewData["ReturnPurchaseDetails"] = returnDetails;
                 }
 
-                double totalInvoiceAmount = await _purchasePaymentService.GetTotalAmountByIdAsync(id.Value);
-                double totalPaidAmount = await _purchasePaymentService.GetTotalPaidAmountByIdAsync(id.Value);
+                double totalInvoiceAmount = await _purchasePaymentFacade.PurchasePaymentService.GetTotalAmountByIdAsync(id.Value);
+                double totalPaidAmount = await _purchasePaymentFacade.PurchasePaymentService.GetTotalPaidAmountByIdAsync(id.Value);
                 double remainingAmount = totalInvoiceAmount - totalPaidAmount;
 
                 ViewBag.PreviousRemainingAmount = remainingAmount;
@@ -94,12 +81,12 @@ namespace CloudERP.Controllers
 
             try
             {
-                var list = await _purchasePaymentService.GetPurchasePaymentHistoryAsync(id.Value);
+                var list = await _purchasePaymentFacade.PurchasePaymentService.GetPurchasePaymentHistoryAsync(id.Value);
                 double remainingAmount = list.LastOrDefault()?.RemainingBalance ?? 0;
 
                 if (remainingAmount == 0)
                 {
-                    remainingAmount = await _purchasePaymentService.GetTotalAmountByIdAsync(id.Value);
+                    remainingAmount = await _purchasePaymentFacade.PurchasePaymentService.GetTotalAmountByIdAsync(id.Value);
                 }
 
                 ViewBag.PreviousRemainingAmount = remainingAmount;
@@ -130,7 +117,7 @@ namespace CloudERP.Controllers
                     PaidAmount = paymentAmount
                 };
 
-                string message = await _purchasePaymentService.ProcessPaymentAsync(
+                string message = await _purchasePaymentFacade.PurchasePaymentService.ProcessPaymentAsync(
                     _sessionHelper.CompanyID,
                     _sessionHelper.BranchID,
                     _sessionHelper.UserID,
@@ -139,7 +126,7 @@ namespace CloudERP.Controllers
                 if (message == Resources.Messages.PurchasePaymentRemainingAmountError)
                 {
                     ViewBag.Message = message;
-                    var list = await _purchasePaymentService.GetPurchasePaymentHistoryAsync(id.Value);
+                    var list = await _purchasePaymentFacade.PurchasePaymentService.GetPurchasePaymentHistoryAsync(id.Value);
                     ViewBag.PreviousRemainingAmount = previousRemainingAmount;
                     ViewBag.InvoiceID = id;
                     return View(list);
@@ -151,7 +138,7 @@ namespace CloudERP.Controllers
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                var list = await _purchasePaymentService.GetPurchasePaymentHistoryAsync(id.Value);
+                var list = await _purchasePaymentFacade.PurchasePaymentService.GetPurchasePaymentHistoryAsync(id.Value);
                 ViewBag.PreviousRemainingAmount = previousRemainingAmount;
                 ViewBag.InvoiceID = id;
                 return View(list);
@@ -165,7 +152,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var list = await _purchaseRepository.CustomPurchasesList(_sessionHelper.CompanyID, _sessionHelper.BranchID, FromDate, ToDate);
+                var list = await _purchasePaymentFacade.PurchaseRepository.CustomPurchasesList(_sessionHelper.CompanyID, _sessionHelper.BranchID, FromDate, ToDate);
 
                 return View(list.ToList());
             }
@@ -183,7 +170,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var list = await _purchaseRepository.CustomPurchasesList(_sessionHelper.CompanyID, id ?? _sessionHelper.BranchID, FromDate, ToDate);
+                var list = await _purchasePaymentFacade.PurchaseRepository.CustomPurchasesList(_sessionHelper.CompanyID, id ?? _sessionHelper.BranchID, FromDate, ToDate);
 
                 return View(list.ToList());
             }
@@ -201,7 +188,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var purchaseDetail = await _purchaseService.GetPurchaseItemDetailAsync(id);
+                var purchaseDetail = await _purchasePaymentFacade.PurchaseService.GetPurchaseItemDetailAsync(id);
                 return View(purchaseDetail);
             }
             catch (Exception ex)
@@ -218,7 +205,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var invoiceDetails = await _supplierInvoiceDetailRepository.GetListByIdAsync(id);
+                var invoiceDetails = await _purchasePaymentFacade.SupplierInvoiceDetailRepository.GetListByIdAsync(id);
 
                 if (invoiceDetails?.Any() != true)
                     return RedirectToAction("EP500", "EP");

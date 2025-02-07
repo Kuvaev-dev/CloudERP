@@ -1,12 +1,11 @@
-﻿using Domain.Facades;
-using Domain.Models;
+﻿using Domain.Models;
 using Domain.RepositoryAccess;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 
-namespace Domain.Services.Purchase
+namespace Domain.Services
 {
     public interface IPurchaseEntryService
     {

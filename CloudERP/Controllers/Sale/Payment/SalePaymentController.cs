@@ -4,38 +4,24 @@ using System.Web.Mvc;
 using System.Threading.Tasks;
 using CloudERP.Helpers;
 using Domain.Models.FinancialModels;
-using Domain.RepositoryAccess;
-using Domain.Services.Sale;
-using Domain.Models;
 using CloudERP.Models;
+using Domain.Facades;
 
 namespace CloudERP.Controllers
 {
     public class SalePaymentController : Controller
     {
-        private readonly ISaleRepository _saleRepository;
-        private readonly ICustomerReturnInvoiceRepository _customerReturnInvoiceRepository;
-        private readonly ICustomerInvoiceDetailRepository _customerInvoiceDetailRepository;
-        private readonly ISalePaymentService _salePaymentService;
-        private readonly ISaleService _saleService;
+        private readonly SalePaymentFacade _salePaymentFacade;
         private readonly SessionHelper _sessionHelper;
 
         private const string DEFAULT_IMAGE_PATH = "~/Content/EmployeePhoto/Default/default.png";
 
         public SalePaymentController(
-            ISaleRepository saleRepository,
-            ICustomerReturnInvoiceRepository customerReturnInvoiceRepository,
-            ICustomerInvoiceDetailRepository customerInvoiceDetailRepository,
-            SessionHelper sessionHelper,
-            ISalePaymentService salePaymentService,
-            ISaleService saleService)
+            SalePaymentFacade salePaymentFacade,
+            SessionHelper sessionHelper)
         {
-            _saleRepository = saleRepository ?? throw new ArgumentNullException(nameof(ISaleRepository));
-            _customerReturnInvoiceRepository = customerReturnInvoiceRepository ?? throw new ArgumentNullException(nameof(ICustomerReturnInvoiceRepository));
-            _customerInvoiceDetailRepository = customerInvoiceDetailRepository ?? throw new ArgumentNullException(nameof(ICustomerInvoiceDetailRepository));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
-            _salePaymentService = salePaymentService ?? throw new ArgumentNullException(nameof(ISalePaymentService));
-            _saleService = saleService ?? throw new ArgumentNullException(nameof(ISaleService));
+            _salePaymentFacade = salePaymentFacade ?? throw new ArgumentNullException(nameof(SalePaymentFacade));
         }
 
         // GET: PurchasePayment
@@ -46,7 +32,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var list = await _saleRepository.RemainingPaymentList(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                var list = await _salePaymentFacade.SaleRepository.RemainingPaymentList(_sessionHelper.CompanyID, _sessionHelper.BranchID);
 
                 return View(list.ToList());
             }
@@ -64,16 +50,16 @@ namespace CloudERP.Controllers
 
             try
             {
-                var list = await _salePaymentService.GetSalePaymentHistoryAsync(id.Value);
-                var returnDetails = await _customerReturnInvoiceRepository.GetListByIdAsync(id.Value);
+                var list = await _salePaymentFacade.SalePaymentService.GetSalePaymentHistoryAsync(id.Value);
+                var returnDetails = await _salePaymentFacade.CustomerReturnInvoiceRepository.GetListByIdAsync(id.Value);
 
                 if (returnDetails != null && returnDetails.Count() > 0)
                 {
                     ViewData["ReturnSaleDetails"] = returnDetails;
                 }
 
-                double totalInvoiceAmount = await _salePaymentService.GetTotalAmountByIdAsync(id.Value);
-                double totalPaidAmount = await _salePaymentService.GetTotalPaidAmountByIdAsync(id.Value);
+                double totalInvoiceAmount = await _salePaymentFacade.SalePaymentService.GetTotalAmountByIdAsync(id.Value);
+                double totalPaidAmount = await _salePaymentFacade.SalePaymentService.GetTotalPaidAmountByIdAsync(id.Value);
                 double remainingAmount = totalInvoiceAmount - totalPaidAmount;
 
                 ViewBag.PreviousRemainingAmount = remainingAmount;
@@ -95,12 +81,12 @@ namespace CloudERP.Controllers
 
             try
             {
-                var list = await _salePaymentService.GetSalePaymentHistoryAsync(id.Value);
+                var list = await _salePaymentFacade.SalePaymentService.GetSalePaymentHistoryAsync(id.Value);
                 double remainingAmount = list.LastOrDefault()?.RemainingBalance ?? 0;
 
                 if (remainingAmount == 0)
                 {
-                    remainingAmount = await _salePaymentService.GetTotalAmountByIdAsync(id.Value);
+                    remainingAmount = await _salePaymentFacade.SalePaymentService.GetTotalAmountByIdAsync(id.Value);
                 }
 
                 ViewBag.PreviousRemainingAmount = remainingAmount;
@@ -131,7 +117,7 @@ namespace CloudERP.Controllers
                     PaidAmount = paidAmount
                 };
 
-                string message = await _salePaymentService.ProcessPaymentAsync(
+                string message = await _salePaymentFacade.SalePaymentService.ProcessPaymentAsync(
                     paymentDto,
                     _sessionHelper.BranchID,
                     _sessionHelper.CompanyID,
@@ -140,7 +126,7 @@ namespace CloudERP.Controllers
                 if (message == Resources.Messages.PurchasePaymentRemainingAmountError)
                 {
                     ViewBag.Message = message;
-                    var list = await _salePaymentService.GetSalePaymentHistoryAsync(id.Value);
+                    var list = await _salePaymentFacade.SalePaymentService.GetSalePaymentHistoryAsync(id.Value);
                     ViewBag.PreviousRemainingAmount = previousRemainingAmount;
                     ViewBag.InvoiceID = id;
                     return View(list);
@@ -152,7 +138,7 @@ namespace CloudERP.Controllers
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                var list = await _salePaymentService.GetSalePaymentHistoryAsync(id.Value);
+                var list = await _salePaymentFacade.SalePaymentService.GetSalePaymentHistoryAsync(id.Value);
                 ViewBag.PreviousRemainingAmount = previousRemainingAmount;
                 ViewBag.InvoiceID = id;
                 return View(list);
@@ -166,7 +152,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var list = await _saleRepository.CustomSalesList(_sessionHelper.CompanyID, _sessionHelper.BranchID, FromDate, ToDate);
+                var list = await _salePaymentFacade.SaleRepository.CustomSalesList(_sessionHelper.CompanyID, _sessionHelper.BranchID, FromDate, ToDate);
 
                 return View(list.ToList());
             }
@@ -184,7 +170,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var list = await _saleRepository.CustomSalesList(_sessionHelper.CompanyID, id ?? _sessionHelper.BranchID, FromDate, ToDate);
+                var list = await _salePaymentFacade.SaleRepository.CustomSalesList(_sessionHelper.CompanyID, id ?? _sessionHelper.BranchID, FromDate, ToDate);
 
                 return View(list.ToList());
             }
@@ -202,7 +188,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var saleDetail = await _saleService.GetSaleItemDetailAsync(id);
+                var saleDetail = await _salePaymentFacade.SaleService.GetSaleItemDetailAsync(id);
                 return View(saleDetail);
             }
             catch (Exception ex)
@@ -219,7 +205,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var invoiceDetails = await _customerInvoiceDetailRepository.GetListByIdAsync(id);
+                var invoiceDetails = await _salePaymentFacade.CustomerInvoiceDetailRepository.GetListByIdAsync(id);
 
                 if (invoiceDetails?.Any() != true)
                     return RedirectToAction("EP500", "EP");
@@ -245,7 +231,7 @@ namespace CloudERP.Controllers
                     InvoiceItems = invoiceDetails.ToList(),
                     ReturnInvoices = invoiceDetails
                         .Where(i => i.CustomerReturnInvoiceDetail.Any())
-                        .Select(i => new ReturnInvoiceMV
+                        .Select(i => new ReturnSaleInvoiceMV
                         {
                             ReturnInvoiceNo = i.CustomerReturnInvoiceDetail.First().InvoiceNo,
                             ReturnInvoiceDate = i.CustomerReturnInvoiceDetail.First().InvoiceDate.ToString("dd/MM/yyyy"),

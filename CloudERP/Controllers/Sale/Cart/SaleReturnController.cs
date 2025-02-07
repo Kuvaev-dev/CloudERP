@@ -3,7 +3,7 @@ using CloudERP.Models;
 using Domain.Models;
 using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
-using Domain.Services.Sale;
+using Domain.Services;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -73,7 +73,7 @@ namespace CloudERP.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ReturnConfirm(ReturnConfirmVM model)
+        public async Task<ActionResult> ReturnConfirm(SaleReturnConfirmMV model)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");

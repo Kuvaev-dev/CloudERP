@@ -6,7 +6,7 @@ using CloudERP.Helpers;
 using Domain.Models;
 using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
-using Domain.Services.Sale;
+using Domain.Services;
 
 namespace CloudERP.Controllers
 {

@@ -20,7 +20,7 @@ namespace CloudERP.Controllers
         {
             _taskRepository = taskRepository ?? throw new ArgumentNullException(nameof(ITaskRepository));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
-            _employeeRepository = employeeRepository;
+            _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(IEmployeeRepository));
         }
 
         public async Task<ActionResult> Index()

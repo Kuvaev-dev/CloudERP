@@ -3,14 +3,12 @@ using DatabaseAccess.Helpers;
 using DatabaseAccess.Adapters;
 using DatabaseAccess.Services;
 using DatabaseAccess.Repositories;
+using DatabaseAccess.Factories;
 using Domain.Facades;
 using Domain.Services;
 using Domain.Interfaces;
-using Domain.Services.Sale;
-using Domain.Services.Purchase;
 using Domain.RepositoryAccess;
 using CloudERP.Facades;
-using CloudERP.Factories;
 using Unity.AspNet.Mvc;
 using Unity;
 using System.Web;
@@ -52,6 +50,7 @@ namespace CloudERP.Helpers
             container.RegisterType<PurchaseReturnFacade>();
             container.RegisterType<SalaryTransactionFacade>();
             container.RegisterType<SaleCartFacade>();
+            container.RegisterType<SalePaymentFacade>();
             container.RegisterType<SaleEntryFacade>();
             // Cloud ERP
             container.RegisterType<AccountSettingFacade>();

@@ -90,7 +90,8 @@ namespace CloudERP.Controllers
 
             try
             {
-                ViewBag.UserTypeID = new SelectList(await _userTypeRepository.GetAllAsync(), "UserTypeID", "UserType");
+                await PopulateViewBag();
+
                 return View(new User());
             }
             catch (Exception ex)
@@ -139,7 +140,7 @@ namespace CloudERP.Controllers
                 var userTypes = await _userTypeRepository.GetAllAsync();
                 if (userTypes == null) return RedirectToAction("EP404", "EP");
 
-                ViewBag.UserTypeList = new SelectList(userTypes, "UserTypeId", "UserTypeName", user.UserTypeID);
+                await PopulateViewBag(user.UserTypeID);
 
                 return View(user);
             }
@@ -183,6 +184,11 @@ namespace CloudERP.Controllers
                 TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
+        }
+
+        private async Task PopulateViewBag(int? userTypeID = null)
+        {
+            ViewBag.UserTypeID = new SelectList(await _userTypeRepository.GetAllAsync(), "UserTypeID", "UserType", userTypeID);
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Domain.RepositoryAccess;
-using Domain.Services.Purchase;
+using Domain.Services;
 using System;
 
 namespace Domain.Facades

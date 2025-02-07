@@ -52,9 +52,10 @@ namespace CloudERP.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
-                return RedirectToAction("Index");
+                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
         }
     }

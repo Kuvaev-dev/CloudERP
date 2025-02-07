@@ -1,7 +1,7 @@
 ﻿using CloudERP.Helpers;
 using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
-using Domain.Services.Sale;
+using Domain.Services;
 using System;
 using System.Linq;
 using System.Threading.Tasks;

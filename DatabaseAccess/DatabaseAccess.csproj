@@ -114,8 +114,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CloudDB.edmx</DependentUpon>
     </Compile>
-    <Content Include="CloudDBFullDump.sql" />
-    <Content Include="CloudDBOperations.sql" />
     <Compile Include="Factories\FileAdapterFactory.cs" />
     <Compile Include="Helpers\DatabaseQuery.cs" />
     <Compile Include="Helpers\BranchHelper.cs" />
@@ -308,6 +306,8 @@
       <DependentUpon>CloudDB.edmx</DependentUpon>
       <LastGenOutput>CloudDB.cs</LastGenOutput>
     </Content>
+    <Content Include="CloudDBFullDump.sql" />
+    <Content Include="CloudDBTestData.sql" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Localization\Localization.en-US.resx">

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Domain.Services.Sale
+namespace Domain.Services
 {
     public interface ISalePaymentService
     {

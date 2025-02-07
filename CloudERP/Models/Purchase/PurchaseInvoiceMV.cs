@@ -20,11 +20,4 @@ namespace CloudERP.Models
         public List<SupplierInvoiceDetail> InvoiceItems { get; set; }
         public List<ReturnPurchaseInvoiceMV> ReturnInvoices { get; set; }
     }
-
-    public class ReturnPurchaseInvoiceMV
-    {
-        public string ReturnInvoiceNo { get; set; }
-        public string ReturnInvoiceDate { get; set; }
-        public List<SupplierReturnInvoiceDetail> ReturnItems { get; set; }
-    }
 }

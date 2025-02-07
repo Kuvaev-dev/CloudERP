@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Domain.Services.Purchase
+namespace Domain.Services
 {
     public interface IPurchaseReturnService
     {

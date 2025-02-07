@@ -59,8 +59,11 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Facades\General\AccountSettingFacade.cs" />
+    <Compile Include="Facades\General\HomeFacade.cs" />
     <Compile Include="Facades\Purchase\PurchasePaymentFacade.cs" />
     <Compile Include="Facades\Purchase\PurchaseReturnFacade.cs" />
+    <Compile Include="Facades\Sale\SalePaymentFacade.cs" />
     <Compile Include="Facades\Transactions\SalaryTransactionFacade.cs" />
     <Compile Include="Facades\Sale\SaleCartFacade.cs" />
     <Compile Include="Facades\Sale\SaleEntryFacade.cs" />
@@ -177,10 +180,10 @@
     <Compile Include="RepositoryAccess\Users\IUserRepository.cs" />
     <Compile Include="RepositoryAccess\Users\IUserTypeRepository.cs" />
     <Compile Include="Services\Authentication\AuthService.cs" />
-    <Compile Include="Services\Finance\BalanceSheetService.cs" />
+    <Compile Include="Services\Financial\BalanceSheetService.cs" />
     <Compile Include="Services\Dashboard\DashboardService.cs" />
     <Compile Include="Services\Employees\EmployeeSalaryService.cs" />
-    <Compile Include="Services\Finance\GeneralTransactionService.cs" />
+    <Compile Include="Services\Financial\GeneralTransactionService.cs" />
     <Compile Include="Interfaces\IConnectionStringProvider.cs" />
     <Compile Include="Interfaces\IEmailService.cs" />
     <Compile Include="Services\Employees\EmployeeStatisticsService.cs" />
@@ -188,7 +191,7 @@
     <Compile Include="Interfaces\IFileService.cs" />
     <Compile Include="Interfaces\IFinancialForecastAdapter.cs" />
     <Compile Include="Interfaces\IForecastingService.cs" />
-    <Compile Include="Services\Finance\IncomeStatementService.cs" />
+    <Compile Include="Services\Financial\IncomeStatementService.cs" />
     <Compile Include="Services\Inventory\ProductQualityService.cs" />
     <Compile Include="Services\Purchase\PurchaseCartService.cs" />
     <Compile Include="Services\Purchase\PurchaseEntryService.cs" />
@@ -196,7 +199,7 @@
     <Compile Include="Services\Purchase\PurchasePaymentService.cs" />
     <Compile Include="Services\Purchase\PurchaseReturnService.cs" />
     <Compile Include="Services\Notifications\ReminderService.cs" />
-    <Compile Include="Services\Finance\SalaryTransactionService.cs" />
+    <Compile Include="Services\Financial\SalaryTransactionService.cs" />
     <Compile Include="Services\Purchase\PurchaseService.cs" />
     <Compile Include="Services\Sale\SaleCartService.cs" />
     <Compile Include="Services\Sale\SaleEntryService.cs" />

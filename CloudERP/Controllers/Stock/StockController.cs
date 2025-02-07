@@ -160,8 +160,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                int userID = _sessionHelper.UserID;
-                model.UserID = userID;
+                model.UserID = _sessionHelper.UserID;
 
                 if (ModelState.IsValid)
                 {

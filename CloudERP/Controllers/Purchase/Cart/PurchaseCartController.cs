@@ -1,12 +1,9 @@
 ﻿using CloudERP.Helpers;
-using CloudERP.Models;
-using DatabaseAccess.Repositories;
 using Domain.Models;
 using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
-using Domain.Services.Purchase;
+using Domain.Services;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;

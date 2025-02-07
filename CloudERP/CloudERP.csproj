@@ -808,10 +808,8 @@
     <Compile Include="Controllers\User\Users\UserController.cs" />
     <Compile Include="Controllers\User\Settings\UserSettingController.cs" />
     <Compile Include="Controllers\User\Settings\UserTypeController.cs" />
-    <Compile Include="Facades\AccountSettingFacade.cs" />
     <Compile Include="Facades\CompanyEmployeeFacade.cs" />
     <Compile Include="Facades\CompanyRegistrationFacade.cs" />
-    <Compile Include="Facades\HomeFacade.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -821,16 +819,18 @@
     <Compile Include="Helpers\SessionHelper.cs" />
     <Compile Include="Helpers\UnityConfig.cs" />
     <Compile Include="Helpers\WebConfigConnectionStringProvider.cs" />
-    <Compile Include="Models\AccountSettingMV.cs" />
-    <Compile Include="Models\CompanyMV.cs" />
-    <Compile Include="Models\CompanyRegistrationMV.cs" />
-    <Compile Include="Models\GeneralTransactionMV.cs" />
-    <Compile Include="Models\ProductMV.cs" />
-    <Compile Include="Models\PurchaseInvoiceMV.cs" />
-    <Compile Include="Models\RegistrationMV.cs" />
-    <Compile Include="Models\ReturnConfirmVM.cs" />
-    <Compile Include="Models\SalaryMV.cs" />
-    <Compile Include="Models\SaleInvoiceMV.cs" />
+    <Compile Include="Models\Financial\AccountSettingMV.cs" />
+    <Compile Include="Models\Miscellaneous\CompanyRegistrationMV.cs" />
+    <Compile Include="Models\Financial\GeneralTransactionMV.cs" />
+    <Compile Include="Models\Purchase\PurchaseInvoiceMV.cs" />
+    <Compile Include="Models\Purchase\PurchaseReturnConfirmVM.cs" />
+    <Compile Include="Models\Miscellaneous\RegistrationMV.cs" />
+    <Compile Include="Models\Miscellaneous\ProductReturnItem.cs" />
+    <Compile Include="Models\Purchase\ReturnPurchaseInvoiceMV.cs" />
+    <Compile Include="Models\Sale\ReturnSaleInvoiceMV.cs" />
+    <Compile Include="Models\Financial\SalaryMV.cs" />
+    <Compile Include="Models\Sale\SaleInvoiceMV.cs" />
+    <Compile Include="Models\Sale\SaleReturnConfirmMV.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

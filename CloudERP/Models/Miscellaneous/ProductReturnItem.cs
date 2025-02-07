@@ -1,8 +1,8 @@
 ﻿namespace CloudERP.Models
 {
-    public class ProductMV
+    public class ProductReturnItem
     {
         public int ProductID { get; set; }
-        public string Name { get; set; }
+        public int ReturnQty { get; set; }
     }
 }

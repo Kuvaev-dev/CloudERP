@@ -2,7 +2,7 @@
 using Domain.Interfaces;
 using System.Web;
 
-namespace CloudERP.Factories
+namespace DatabaseAccess.Factories
 {
     public interface IFileAdapterFactory
     {

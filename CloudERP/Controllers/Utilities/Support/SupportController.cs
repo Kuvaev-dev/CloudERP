@@ -21,7 +21,7 @@ namespace CloudERP.Controllers
         {
             _supportTicketRepository = supportTicketRepository ?? throw new ArgumentNullException(nameof(ISupportTicketRepository));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
-            _userRepository = userRepository;
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(IUserRepository));
         }
 
         public async Task<ActionResult> Support()

@@ -18,20 +18,6 @@ namespace CloudERP.Models
         public string InvoiceDate { get; set; }
         public double TotalCost { get; set; }
         public List<CustomerInvoiceDetail> InvoiceItems { get; set; }
-        public List<ReturnInvoiceMV> ReturnInvoices { get; set; }
-    }
-
-    public class ReturnInvoiceMV
-    {
-        public string ReturnInvoiceNo { get; set; }
-        public string ReturnInvoiceDate { get; set; }
-        public List<CustomerReturnInvoiceDetail> ReturnItems { get; set; }
-    }
-
-    public class SupplierReturnInvoiceMV
-    {
-        public string ReturnInvoiceNo { get; set; }
-        public string ReturnInvoiceDate { get; set; }
-        public List<SupplierReturnInvoiceDetail> ReturnItems { get; set; }
+        public List<ReturnSaleInvoiceMV> ReturnInvoices { get; set; }
     }
 }

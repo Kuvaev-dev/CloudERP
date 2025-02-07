@@ -2,9 +2,8 @@
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using CloudERP.Factories;
 using CloudERP.Helpers;
-using CloudERP.Models;
+using DatabaseAccess.Factories;
 using Domain.Interfaces;
 using Domain.Models;
 using Domain.RepositoryAccess;
@@ -139,7 +138,7 @@ namespace CloudERP.Controllers
                 var company = await _companyRepository.GetByIdAsync(id.Value);
                 if (company == null) return RedirectToAction("EP404", "EP");
 
-                return View(new CompanyMV { Company = company });
+                return View(company);
             }
             catch
             {
