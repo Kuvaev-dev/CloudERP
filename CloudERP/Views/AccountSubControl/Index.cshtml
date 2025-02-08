@@ -42,7 +42,10 @@
                             <td>@Html.DisplayFor(modelItem => item.AccountSubControlName)</td>
                             <td>@Html.DisplayFor(modelItem => item.FullName)</td>
                             <td>
-                                @Html.ActionLink(Resources.Common.Edit.ToString(), "Edit", new { id = item.AccountSubControlID }, new { @class = "btn btn-primary" })
+                                @if (!item.IsGlobal || Convert.ToInt32(Session["UserTypeID"]) == 1)
+                                {
+                                    @Html.ActionLink(Resources.Common.Edit.ToString(), "Edit", new { id = item.AccountSubControlID }, new { @class = "btn btn-primary" })
+                                }
                             </td>
                         </tr>
                     }

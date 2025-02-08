@@ -104,8 +104,6 @@ namespace DatabaseAccess.Repositories
             entity.BranchName = branch.BranchName;
             entity.BranchContact = branch.BranchContact;
             entity.BranchAddress = branch.BranchAddress;
-            entity.CompanyID = branch.CompanyID;
-            entity.BrchID = branch.BrchID;
 
             _dbContext.Entry(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();

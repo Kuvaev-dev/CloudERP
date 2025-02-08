@@ -25,5 +25,6 @@ namespace Domain.Models
         public int BranchID { get; set; }
         public int UserID { get; set; }
         public string FullName { get; set; }
+        public bool IsGlobal { get; set; }
     }
 }

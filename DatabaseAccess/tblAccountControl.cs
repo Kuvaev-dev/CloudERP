@@ -28,6 +28,7 @@ namespace DatabaseAccess
         public int AccountHeadID { get; set; }
         public string AccountControlName { get; set; }
         public int UserID { get; set; }
+        public Nullable<bool> IsGlobal { get; set; }
     
         public virtual tblAccountHead tblAccountHead { get; set; }
         public virtual tblBranch tblBranch { get; set; }

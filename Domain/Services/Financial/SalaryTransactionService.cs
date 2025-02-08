@@ -23,6 +23,8 @@ namespace Domain.Services
         private DataTable _dtEntries = null;
         private readonly SalaryTransactionFacade _salaryTransactionFacade;
 
+        const int SALE_RETURN_PAYMENT_PENDING_ACTIVITY_ID = 8;
+
         public SalaryTransactionService(SalaryTransactionFacade salaryTransactionFacade)
         {
             _salaryTransactionFacade = salaryTransactionFacade ?? throw new ArgumentNullException(nameof(SalaryTransactionFacade));
@@ -76,8 +78,7 @@ namespace Domain.Services
                     return Localization.Localization.CompanyFinancialYearNotSet;
                 }
 
-                // 8 - Sale Return Payment Pending
-                var account = await _salaryTransactionFacade.AccountSettingRepository.GetByActivityAsync(8, CompanyID, BranchID);
+                var account = await _salaryTransactionFacade.AccountSettingRepository.GetByActivityAsync(SALE_RETURN_PAYMENT_PENDING_ACTIVITY_ID, CompanyID, BranchID);
                 if (account == null)
                 {
                     return Localization.Localization.AccountSettingsNotFoundForTheProvidedCompanyIDAndBranchID;

@@ -22,7 +22,7 @@ namespace DatabaseAccess.Repositories
             var entities = await _dbContext.tblAccountControl
                 .AsNoTracking()
                 .Include(ac => ac.tblUser)
-                .Where(ac => ac.CompanyID == companyId && ac.BranchID == branchId)
+                .Where(ac => (ac.CompanyID == companyId && ac.BranchID == branchId) || ac.IsGlobal == true)
                 .ToListAsync();
 
             return entities.Select(ac => new AccountControl
@@ -65,7 +65,8 @@ namespace DatabaseAccess.Repositories
                 AccountHeadID = accountControl.AccountHeadID,
                 BranchID = accountControl.BranchID,
                 CompanyID = accountControl.CompanyID,
-                UserID = accountControl.UserID
+                UserID = accountControl.UserID,
+                IsGlobal = accountControl.IsGlobal
             };
 
             _dbContext.tblAccountControl.Add(entity);
@@ -78,9 +79,6 @@ namespace DatabaseAccess.Repositories
 
             entity.AccountControlName = accountControl.AccountControlName;
             entity.AccountHeadID = accountControl.AccountHeadID;
-            entity.BranchID = accountControl.BranchID;
-            entity.CompanyID = accountControl.CompanyID;
-            entity.UserID = accountControl.UserID;
 
             _dbContext.Entry(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();

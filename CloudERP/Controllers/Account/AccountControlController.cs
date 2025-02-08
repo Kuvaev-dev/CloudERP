@@ -72,6 +72,7 @@ namespace CloudERP.Controllers
                 model.BranchID = _sessionHelper.BranchID;
                 model.CompanyID = _sessionHelper.CompanyID;
                 model.UserID = _sessionHelper.UserID;
+                model.IsGlobal = false;
 
                 await PopulateViewBag();
 

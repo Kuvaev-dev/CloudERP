@@ -75,9 +75,6 @@ namespace DatabaseAccess.Repositories
 
             entity.CategoryID = category.CategoryID;
             entity.CategoryName = category.CategoryName;
-            entity.CompanyID = category.CompanyID;
-            entity.BranchID = category.BranchID;
-            entity.UserID = category.UserID;
 
             _dbContext.Entry(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();

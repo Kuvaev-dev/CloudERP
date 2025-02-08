@@ -22,6 +22,7 @@
           <Property Name="AccountHeadID" Type="int" Nullable="false" />
           <Property Name="AccountControlName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="IsGlobal" Type="bit" />
         </EntityType>
         <EntityType Name="tblAccountHead">
           <Key>
@@ -55,6 +56,7 @@
           <Property Name="BranchID" Type="int" Nullable="false" />
           <Property Name="AccountSubControlName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="IsGlobal" Type="bit" />
         </EntityType>
         <EntityType Name="tblBranch">
           <Key>
@@ -2799,6 +2801,7 @@
           <Property Name="AccountHeadID" Type="Int32" Nullable="false" />
           <Property Name="AccountControlName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="IsGlobal" Type="Boolean" />
           <NavigationProperty Name="tblAccountHead" Relationship="CloudDBModel.FK_tblAccountControl_tblAccountHead" FromRole="tblAccountControl" ToRole="tblAccountHead" />
           <NavigationProperty Name="tblBranch" Relationship="CloudDBModel.FK_tblAccountControl_tblBranch" FromRole="tblAccountControl" ToRole="tblBranch" />
           <NavigationProperty Name="tblCompany" Relationship="CloudDBModel.FK_tblAccountControl_tblCompany" FromRole="tblAccountControl" ToRole="tblCompany" />
@@ -2851,6 +2854,7 @@
           <Property Name="BranchID" Type="Int32" Nullable="false" />
           <Property Name="AccountSubControlName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="IsGlobal" Type="Boolean" />
           <NavigationProperty Name="tblAccountControl" Relationship="CloudDBModel.FK_tblAccountSubControl_tblAccountControl" FromRole="tblAccountSubControl" ToRole="tblAccountControl" />
           <NavigationProperty Name="tblAccountHead" Relationship="CloudDBModel.FK_tblAccountSubControl_tblAccountHead" FromRole="tblAccountSubControl" ToRole="tblAccountHead" />
           <NavigationProperty Name="tblAccountSetting" Relationship="CloudDBModel.FK_tblAccountSetting_tblAccountSubControl" FromRole="tblAccountSubControl" ToRole="tblAccountSetting" />
@@ -4836,6 +4840,7 @@
           <EntitySetMapping Name="tblAccountControl">
             <EntityTypeMapping TypeName="CloudDBModel.tblAccountControl">
               <MappingFragment StoreEntitySet="tblAccountControl">
+                <ScalarProperty Name="IsGlobal" ColumnName="IsGlobal" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="AccountControlName" ColumnName="AccountControlName" />
                 <ScalarProperty Name="AccountHeadID" ColumnName="AccountHeadID" />
@@ -4871,6 +4876,7 @@
           <EntitySetMapping Name="tblAccountSubControl">
             <EntityTypeMapping TypeName="CloudDBModel.tblAccountSubControl">
               <MappingFragment StoreEntitySet="tblAccountSubControl">
+                <ScalarProperty Name="IsGlobal" ColumnName="IsGlobal" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="AccountSubControlName" ColumnName="AccountSubControlName" />
                 <ScalarProperty Name="BranchID" ColumnName="BranchID" />

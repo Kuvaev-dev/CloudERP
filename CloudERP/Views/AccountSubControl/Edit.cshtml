@@ -22,6 +22,7 @@
         @Html.HiddenFor(model => model.CompanyID)
         @Html.HiddenFor(model => model.BranchID)
         @Html.HiddenFor(model => model.UserID)
+        @Html.HiddenFor(model => model.IsGlobal)
 
         <div class="form-group">
             @Html.LabelFor(model => model.AccountControlID, Resources.Account.SelectControlAccount.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })

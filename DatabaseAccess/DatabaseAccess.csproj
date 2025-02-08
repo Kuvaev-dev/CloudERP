@@ -300,14 +300,13 @@
       <DependentUpon>CloudDB.edmx</DependentUpon>
       <LastGenOutput>CloudDB.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="CloudDB.edmx.sql" />
     <Content Include="CloudDB.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>CloudDB.edmx</DependentUpon>
       <LastGenOutput>CloudDB.cs</LastGenOutput>
     </Content>
+    <Content Include="CloudDBDemoData.sql" />
     <Content Include="CloudDBFullDump.sql" />
-    <Content Include="CloudDBTestData.sql" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Localization\Localization.en-US.resx">
