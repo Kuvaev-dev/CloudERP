@@ -84,6 +84,8 @@ namespace CloudERP.Controllers
                 };
                 await _companyRegistrationFacade.BranchRepository.AddAsync(branch);
 
+                await _companyRegistrationFacade.AccountSettingRepository.SetDefault(branch.CompanyID, branch.BranchID);
+
                 string hashedPassword = _passwordHelper.HashPassword(model.EmployeeContactNo, out string salt);
                 var user = new User
                 {

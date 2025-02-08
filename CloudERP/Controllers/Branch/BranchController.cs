@@ -11,17 +11,20 @@ namespace CloudERP.Controllers
     {
         private readonly IBranchRepository _branchRepository;
         private readonly IBranchTypeRepository _branchTypeRepository;
+        private readonly IAccountSettingRepository _accountSettingRepository;
         private readonly SessionHelper _sessionHelper;
 
         private const int MAIN_BRANCH_TYPE_ID = 1;
 
         public BranchController(
             IBranchRepository branchRepository, 
-            IBranchTypeRepository branchTypeRepository, 
+            IBranchTypeRepository branchTypeRepository,
+            IAccountSettingRepository accountSettingRepository,
             SessionHelper sessionHelper)
         {
             _branchRepository = branchRepository ?? throw new ArgumentNullException(nameof(IBranchRepository));
             _branchTypeRepository = branchTypeRepository ?? throw new ArgumentNullException(nameof(IBranchTypeRepository));
+            _accountSettingRepository = accountSettingRepository ?? throw new ArgumentNullException(nameof(IAccountSettingRepository));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
@@ -84,7 +87,10 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Index");
                 }
 
+                await _accountSettingRepository.SetDefault(model.CompanyID, model.BranchID);
+
                 await PopulateViewBags(_sessionHelper.CompanyID);
+
                 return View(model);
             }
             catch (Exception ex)

@@ -12,6 +12,11 @@ namespace DatabaseAccess.Repositories
     {
         private readonly CloudDBEntities _dbContext;
 
+        private const int DEFAULT_ACCOUNT_HEAD_ID = 7;
+        private const int DEFAULT_ACCOUNT_CONTROL_ID = 2;
+        private const int DEFAULT_ACCOUNT_SUB_CONTROL_ID = 1;
+        private const int ACCOUNT_SETTINGS_COUNT = 20;
+
         public AccountSettingRepository(CloudDBEntities dbContext)
         {
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(CloudDBEntities));
@@ -74,6 +79,23 @@ namespace DatabaseAccess.Repositories
                 BranchID = entity.BranchID,
                 BranchName = entity.tblBranch.BranchName
             };
+        }
+
+        public async Task SetDefault(int companyId, int branchId)
+        {
+            for (int id = 1; id <= ACCOUNT_SETTINGS_COUNT; id++)
+            {
+                var entity = new AccountSetting
+                {
+                    AccountHeadID = DEFAULT_ACCOUNT_HEAD_ID,
+                    AccountControlID = DEFAULT_ACCOUNT_CONTROL_ID,
+                    AccountSubControlID = DEFAULT_ACCOUNT_SUB_CONTROL_ID,
+                    AccountActivityID = id,
+                    CompanyID = companyId,
+                    BranchID = branchId
+                };
+                await AddAsync(entity);
+            }
         }
 
         public async Task AddAsync(AccountSetting accountSetting)

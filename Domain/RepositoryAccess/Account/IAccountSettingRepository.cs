@@ -9,6 +9,7 @@ namespace Domain.RepositoryAccess
         Task<IEnumerable<AccountSetting>> GetAllAsync(int companyId, int branchId);
         Task<AccountSetting> GetByIdAsync(int id);
         Task<AccountSetting> GetByActivityAsync(int id, int companyId, int branchId);
+        Task SetDefault(int companyId, int branchId);
         Task AddAsync(AccountSetting accountSetting);
         Task UpdateAsync(AccountSetting accountSetting);
     }

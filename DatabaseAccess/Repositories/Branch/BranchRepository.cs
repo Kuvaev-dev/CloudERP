@@ -91,6 +91,8 @@ namespace DatabaseAccess.Repositories
 
             _dbContext.tblBranch.Add(entity);
             await _dbContext.SaveChangesAsync();
+            branch.CompanyID = entity.CompanyID;
+            branch.BranchID = entity.BranchID;
         }
 
         public async Task UpdateAsync(Branch branch)
