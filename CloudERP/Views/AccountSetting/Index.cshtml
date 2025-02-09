@@ -39,6 +39,9 @@
                             @Html.Raw(HttpUtility.HtmlDecode(Resources.Account.SubAccount))
                         </th>
                         <th>
+                            @Html.Raw(HttpUtility.HtmlDecode(Resources.User.FullName))
+                        </th>
+                        <th>
                             @Html.Raw(HttpUtility.HtmlDecode(Resources.Common.Actions))
                         </th>
                     </tr>
@@ -60,7 +63,18 @@
                                 @Html.DisplayFor(modelItem => item.AccountSubControlName)
                             </td>
                             <td>
-                                @Html.ActionLink(Resources.Common.Edit.ToString(), "Edit", new { id = item.AccountSettingID }, new { @class = "btn btn-primary" })
+                                @Html.DisplayFor(modelItem => item.FullName)
+                            </td>
+                            <td>
+                                @if (!item.IsGlobal || Convert.ToInt32(Session["UserTypeID"]) == 1)
+                                {
+                                    @Html.ActionLink(Resources.Common.Edit.ToString(), "Edit", new { id = item.AccountSettingID }, new { @class = "btn btn-primary" })
+                                }
+                                else
+                                {
+                                    <i class="bi bi-ban"></i>
+                                    <label class="text-danger"><b>&nbsp;Not Avaliable</b></label>
+                                }
                             </td>
                         </tr>
                     }
@@ -72,7 +86,6 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#dataTable').DataTable({
-            "columnDefs": [{ "orderable": false, "targets": 4 }],
             "lengthMenu": [[5, 10, 25, 50, 75, 100, 150, 200, -1], [5, 10, 25, 50, 75, 100, 150, 200, "All"]],
         });
     });

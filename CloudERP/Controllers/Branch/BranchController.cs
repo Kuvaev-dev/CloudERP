@@ -87,8 +87,6 @@ namespace CloudERP.Controllers
                     return RedirectToAction("Index");
                 }
 
-                await _accountSettingRepository.SetDefault(model.CompanyID, model.BranchID);
-
                 await PopulateViewBags(_sessionHelper.CompanyID);
 
                 return View(model);

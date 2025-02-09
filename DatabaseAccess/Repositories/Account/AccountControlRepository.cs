@@ -34,7 +34,8 @@ namespace DatabaseAccess.Repositories
                 BranchID = ac.BranchID,
                 CompanyID = ac.CompanyID,
                 UserID = ac.UserID,
-                FullName = ac.tblUser?.UserName
+                FullName = ac.tblUser?.UserName,
+                IsGlobal = ac.IsGlobal.Value
             });
         }
 
@@ -52,7 +53,8 @@ namespace DatabaseAccess.Repositories
                 BranchID = entity.BranchID,
                 CompanyID = entity.CompanyID,
                 UserID = entity.UserID,
-                FullName = entity.tblUser?.UserName
+                FullName = entity.tblUser?.UserName,
+                IsGlobal = entity.IsGlobal.Value
             };
         }
 

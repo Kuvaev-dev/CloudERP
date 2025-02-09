@@ -18,6 +18,7 @@
         @Html.HiddenFor(model => model.AccountSettingID)
         @Html.HiddenFor(model => model.CompanyID)
         @Html.HiddenFor(model => model.BranchID)
+        @Html.HiddenFor(model => model.UserID)
 
         <div class="form-group">
             @Html.LabelFor(model => model.AccountHeadID, Resources.Account.SelectHeadAccount.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
@@ -65,7 +66,7 @@
                     model => model.AccountActivityID,
                     ViewBag.AccountActivityList as SelectList,
                     Resources.Account.Activity.ToString(),
-                    new { @class = "form-control" }
+                    new { @class = "form-control", @id = "AccountActivityID" }
                 )
                 @Html.ValidationMessageFor(model => model.AccountActivityID, "", new { @class = "text-danger" })
             </div>

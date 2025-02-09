@@ -21,6 +21,8 @@ namespace DatabaseAccess
         public int AccountActivityID { get; set; }
         public int CompanyID { get; set; }
         public int BranchID { get; set; }
+        public Nullable<int> UserID { get; set; }
+        public Nullable<bool> IsGlobal { get; set; }
     
         public virtual tblAccountActivity tblAccountActivity { get; set; }
         public virtual tblAccountControl tblAccountControl { get; set; }
@@ -28,5 +30,6 @@ namespace DatabaseAccess
         public virtual tblAccountSubControl tblAccountSubControl { get; set; }
         public virtual tblBranch tblBranch { get; set; }
         public virtual tblCompany tblCompany { get; set; }
+        public virtual tblUser tblUser { get; set; }
     }
 }

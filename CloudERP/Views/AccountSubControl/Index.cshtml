@@ -46,6 +46,11 @@
                                 {
                                     @Html.ActionLink(Resources.Common.Edit.ToString(), "Edit", new { id = item.AccountSubControlID }, new { @class = "btn btn-primary" })
                                 }
+                                else
+                                {
+                                    <i class="bi bi-ban"></i>
+                                    <label class="text-danger"><b>&nbsp;Not Avaliable</b></label>
+                                }
                             </td>
                         </tr>
                     }
@@ -58,7 +63,6 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#dataTable').DataTable({
-            "columnDefs": [{ "orderable": false, "targets": 4 }],
             "lengthMenu": [[5, 10, 25, 50, 75, 100, 150, 200, -1], [5, 10, 25, 50, 75, 100, 150, 200, "All"]],
         });
     });

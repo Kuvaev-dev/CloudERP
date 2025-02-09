@@ -819,7 +819,6 @@
     <Compile Include="Helpers\SessionHelper.cs" />
     <Compile Include="Helpers\UnityConfig.cs" />
     <Compile Include="Helpers\WebConfigConnectionStringProvider.cs" />
-    <Compile Include="Models\Financial\AccountSettingMV.cs" />
     <Compile Include="Models\Miscellaneous\CompanyRegistrationMV.cs" />
     <Compile Include="Models\Financial\GeneralTransactionMV.cs" />
     <Compile Include="Models\Purchase\PurchaseInvoiceMV.cs" />

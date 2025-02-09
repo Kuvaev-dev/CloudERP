@@ -31,7 +31,7 @@ namespace DatabaseAccess.Repositories
                 .Include(a => a.tblAccountActivity)
                 .Include(a => a.tblBranch)
                 .Include(a => a.tblCompany)
-                .Where(x => x.CompanyID == companyId && x.BranchID == branchId)
+                .Where(x => (x.CompanyID == companyId && x.BranchID == branchId) || x.IsGlobal == true)
                 .ToListAsync();
 
             return entities.Select(s => new AccountSetting
@@ -48,7 +48,10 @@ namespace DatabaseAccess.Repositories
                 CompanyID = s.CompanyID,
                 CompanyName = s.tblCompany.Name,
                 BranchID = s.BranchID,
-                BranchName = s.tblBranch.BranchName
+                BranchName = s.tblBranch.BranchName,
+                UserID = s.UserID.Value,
+                FullName = s.tblUser.FullName,
+                IsGlobal = s.IsGlobal.Value
             });
         }
 
@@ -77,25 +80,10 @@ namespace DatabaseAccess.Repositories
                 CompanyID = entity.CompanyID,
                 CompanyName = entity.tblCompany.Name,
                 BranchID = entity.BranchID,
-                BranchName = entity.tblBranch.BranchName
+                BranchName = entity.tblBranch.BranchName,
+                IsGlobal = entity.IsGlobal.Value,
+                UserID = entity.UserID.Value,
             };
-        }
-
-        public async Task SetDefault(int companyId, int branchId)
-        {
-            for (int id = 1; id <= ACCOUNT_SETTINGS_COUNT; id++)
-            {
-                var entity = new AccountSetting
-                {
-                    AccountHeadID = DEFAULT_ACCOUNT_HEAD_ID,
-                    AccountControlID = DEFAULT_ACCOUNT_CONTROL_ID,
-                    AccountSubControlID = DEFAULT_ACCOUNT_SUB_CONTROL_ID,
-                    AccountActivityID = id,
-                    CompanyID = companyId,
-                    BranchID = branchId
-                };
-                await AddAsync(entity);
-            }
         }
 
         public async Task AddAsync(AccountSetting accountSetting)
@@ -108,7 +96,9 @@ namespace DatabaseAccess.Repositories
                 AccountSubControlID = accountSetting.AccountSubControlID,
                 AccountActivityID = accountSetting.AccountActivityID,
                 CompanyID = accountSetting.CompanyID,
-                BranchID = accountSetting.BranchID
+                BranchID = accountSetting.BranchID,
+                UserID = accountSetting.UserID,
+                IsGlobal = accountSetting.IsGlobal
             };
 
             _dbContext.tblAccountSetting.Add(entity);
@@ -123,8 +113,6 @@ namespace DatabaseAccess.Repositories
             entity.AccountControlID = accountSetting.AccountControlID;
             entity.AccountSubControlID = accountSetting.AccountSubControlID;
             entity.AccountActivityID = accountSetting.AccountActivityID;
-            entity.CompanyID = accountSetting.CompanyID;
-            entity.BranchID = accountSetting.BranchID;
 
             _dbContext.Entry(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
@@ -150,7 +138,10 @@ namespace DatabaseAccess.Repositories
                 CompanyID = entity.CompanyID,
                 CompanyName = entity.tblCompany.Name,
                 BranchID = entity.BranchID,
-                BranchName = entity.tblBranch.BranchName
+                BranchName = entity.tblBranch.BranchName,
+                UserID = entity.UserID.Value,
+                FullName = entity.tblUser.FullName,
+                IsGlobal = entity.IsGlobal.Value
             };
         }
     }

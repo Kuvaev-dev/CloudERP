@@ -41,8 +41,15 @@
                             <td>@Html.DisplayFor(modelItem => item.FullName)</td>
                             @if (!item.IsGlobal || Convert.ToInt32(Session["UserTypeID"]) == 1)
                             {
-                                <td class="btn btn-group">
+                                <td>
                                     @Html.ActionLink(Resources.Common.Edit.ToString(), "Edit", new { id = item.AccountControlID }, new { @class = "btn btn-primary" })
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    <i class="bi bi-ban"></i>
+                                    <label class="text-danger"><b>&nbsp;Not Avaliable</b></label>
                                 </td>
                             }
                         </tr>
@@ -55,7 +62,6 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#dataTable').DataTable({
-            "columnDefs": [{ "orderable": false, "targets": 3 }],
             "lengthMenu": [[5, 10, 25, 50, 75, 100, 150, 200, -1], [5, 10, 25, 50, 75, 100, 150, 200, "All"]],
         });
     });

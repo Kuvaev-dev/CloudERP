@@ -38,7 +38,8 @@ namespace DatabaseAccess.Repositories
                 CompanyID = asc.CompanyID,
                 BranchID = asc.BranchID,
                 UserID = asc.UserID,
-                FullName = asc.tblUser.FullName
+                FullName = asc.tblUser.FullName,
+                IsGlobal = asc.IsGlobal.Value
             });
         }
 
