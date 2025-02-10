@@ -1,9 +1,9 @@
-﻿using DatabaseAccess.Helpers;
-using Domain.RepositoryAccess;
+﻿using Domain.RepositoryAccess;
 using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
+using Utils.Helpers;
 
 namespace DatabaseAccess.Repositories
 {
@@ -43,7 +43,7 @@ namespace DatabaseAccess.Repositories
                 await _query.Insert(paymentquery, paymentParameters);
 
                 transaction.Commit();
-                return Localization.Localization.SalarySucceed;
+                return Localization.DatabaseAccess.Localization.SalarySucceed;
             }
         }
 
@@ -75,7 +75,7 @@ namespace DatabaseAccess.Repositories
                     await _query.Insert(entryQuery, entryParams);
                 }
                 transaction.Commit();
-                return Localization.Localization.SalarySucceed;
+                return Localization.DatabaseAccess.Localization.SalarySucceed;
             }
         }
 

@@ -1,7 +1,7 @@
-﻿using Domain.Interfaces;
-using MailKit.Net.Smtp;
+﻿using MailKit.Net.Smtp;
 using MimeKit;
 using System.Configuration;
+using Utils.Interfaces;
 
 namespace CloudERP.Helpers
 {

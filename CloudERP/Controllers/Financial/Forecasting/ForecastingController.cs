@@ -1,9 +1,9 @@
 ﻿using CloudERP.Helpers;
-using Domain.Interfaces;
-using Domain.Models;
 using Domain.RepositoryAccess;
 using System;
 using System.Web.Mvc;
+using Utils.Interfaces;
+using Utils.Models;
 
 namespace CloudERP.Controllers
 {
@@ -54,7 +54,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected Error is Occured^ " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

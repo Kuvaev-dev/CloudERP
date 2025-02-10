@@ -59,23 +59,6 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Facades\General\AccountSettingFacade.cs" />
-    <Compile Include="Facades\General\HomeFacade.cs" />
-    <Compile Include="Facades\Purchase\PurchasePaymentFacade.cs" />
-    <Compile Include="Facades\Purchase\PurchaseReturnFacade.cs" />
-    <Compile Include="Facades\Sale\SalePaymentFacade.cs" />
-    <Compile Include="Facades\Transactions\SalaryTransactionFacade.cs" />
-    <Compile Include="Facades\Sale\SaleCartFacade.cs" />
-    <Compile Include="Facades\Sale\SaleEntryFacade.cs" />
-    <Compile Include="Helpers\AllowedDomainsAttribute.cs" />
-    <Compile Include="Helpers\PasswordHelper.cs" />
-    <Compile Include="Helpers\Result.cs" />
-    <Compile Include="Interfaces\ICurrencyService.cs" />
-    <Compile Include="Localization\Localization.Designer.cs">
-      <DependentUpon>Localization.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Models\Account\AccountActivity.cs" />
     <Compile Include="Models\Account\AccountControl.cs" />
     <Compile Include="Models\Account\AccountHead.cs" />
@@ -117,8 +100,6 @@
     <Compile Include="Models\Finance\FinancialModels\SupplierReturnInvoiceModel.cs" />
     <Compile Include="Models\Finance\FinancialModels\TrialBalanceModel.cs" />
     <Compile Include="Models\Finance\FinancialYear.cs" />
-    <Compile Include="Models\Finance\Forecasting\ForecastData.cs" />
-    <Compile Include="Models\Finance\Forecasting\ForecastInputModel.cs" />
     <Compile Include="Models\Employees\Payroll.cs" />
     <Compile Include="Models\Inventory\PurchaseCartDetail.cs" />
     <Compile Include="Models\Inventory\SaleCartDetail.cs" />
@@ -136,7 +117,6 @@
     <Compile Include="Models\Users\User.cs" />
     <Compile Include="Models\Users\UserType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Facades\Purchase\PurchaseCartFacade.cs" />
     <Compile Include="RepositoryAccess\Account\IAccountActivityRepository.cs" />
     <Compile Include="RepositoryAccess\Account\IAccountControlRepository.cs" />
     <Compile Include="RepositoryAccess\Account\IAccountHeadRepository.cs" />
@@ -179,45 +159,42 @@
     <Compile Include="RepositoryAccess\Finance\ITrialBalanceRepository.cs" />
     <Compile Include="RepositoryAccess\Users\IUserRepository.cs" />
     <Compile Include="RepositoryAccess\Users\IUserTypeRepository.cs" />
-    <Compile Include="Services\Authentication\AuthService.cs" />
-    <Compile Include="Services\Financial\BalanceSheetService.cs" />
-    <Compile Include="Services\Dashboard\DashboardService.cs" />
-    <Compile Include="Services\Employees\EmployeeSalaryService.cs" />
-    <Compile Include="Services\Financial\GeneralTransactionService.cs" />
-    <Compile Include="Interfaces\IConnectionStringProvider.cs" />
-    <Compile Include="Interfaces\IEmailService.cs" />
-    <Compile Include="Services\Employees\EmployeeStatisticsService.cs" />
-    <Compile Include="Interfaces\IFile.cs" />
-    <Compile Include="Interfaces\IFileService.cs" />
-    <Compile Include="Interfaces\IFinancialForecastAdapter.cs" />
-    <Compile Include="Interfaces\IForecastingService.cs" />
-    <Compile Include="Services\Financial\IncomeStatementService.cs" />
-    <Compile Include="Services\Inventory\ProductQualityService.cs" />
-    <Compile Include="Services\Purchase\PurchaseCartService.cs" />
-    <Compile Include="Services\Purchase\PurchaseEntryService.cs" />
-    <Compile Include="Services\Purchase\PurchasePaymentReturnService.cs" />
-    <Compile Include="Services\Purchase\PurchasePaymentService.cs" />
-    <Compile Include="Services\Purchase\PurchaseReturnService.cs" />
-    <Compile Include="Services\Notifications\ReminderService.cs" />
-    <Compile Include="Services\Financial\SalaryTransactionService.cs" />
-    <Compile Include="Services\Purchase\PurchaseService.cs" />
-    <Compile Include="Services\Sale\SaleCartService.cs" />
-    <Compile Include="Services\Sale\SaleEntryService.cs" />
-    <Compile Include="Services\Sale\SalePaymentReturnService.cs" />
-    <Compile Include="Services\Sale\SalePaymentService.cs" />
-    <Compile Include="Services\Sale\SaleReturnService.cs" />
-    <Compile Include="Services\Sale\SaleService.cs" />
+    <Compile Include="ServiceAccess\Authentication\IAuthService.cs" />
+    <Compile Include="ServiceAccess\Dashboard\IDashboardService.cs" />
+    <Compile Include="ServiceAccess\Employees\IEmployeeSalaryService.cs" />
+    <Compile Include="ServiceAccess\Employees\IEmployeeStatisticsService.cs" />
+    <Compile Include="ServiceAccess\Financial\IBalanceSheetService.cs" />
+    <Compile Include="ServiceAccess\Financial\IGeneralTransactionService.cs" />
+    <Compile Include="ServiceAccess\Financial\IIncomeStatementService.cs" />
+    <Compile Include="ServiceAccess\Financial\ISalaryTransactionService.cs" />
+    <Compile Include="ServiceAccess\Inventory\IProductQualityService.cs" />
+    <Compile Include="ServiceAccess\Notifications\IReminderService.cs" />
+    <Compile Include="ServiceAccess\Purchase\IPurchaseCartService.cs" />
+    <Compile Include="ServiceAccess\Purchase\IPurchaseEntryService.cs" />
+    <Compile Include="ServiceAccess\Purchase\IPurchasePaymentReturnService.cs" />
+    <Compile Include="ServiceAccess\Purchase\IPurchasePaymentService.cs" />
+    <Compile Include="ServiceAccess\Purchase\IPurchaseReturnService.cs" />
+    <Compile Include="ServiceAccess\Purchase\IPurchaseService.cs" />
+    <Compile Include="ServiceAccess\Sale\ISaleCartService.cs" />
+    <Compile Include="ServiceAccess\Sale\ISaleEntryService.cs" />
+    <Compile Include="ServiceAccess\Sale\ISalePaymentReturnService.cs" />
+    <Compile Include="ServiceAccess\Sale\ISalePaymentService.cs" />
+    <Compile Include="ServiceAccess\Sale\ISaleReturnService.cs" />
+    <Compile Include="ServiceAccess\Sale\ISaleService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Localization\Localization.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Localization.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <ProjectReference Include="..\Localization\Localization.csproj">
+      <Project>{192f480e-819d-472b-b327-0edae67bfae6}</Project>
+      <Name>Localization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{2c919958-5165-4d49-a535-c9640f6fa388}</Project>
+      <Name>Utils</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

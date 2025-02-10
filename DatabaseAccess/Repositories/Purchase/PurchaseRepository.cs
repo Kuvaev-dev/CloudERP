@@ -5,7 +5,7 @@ using System.Data;
 using System.Threading.Tasks;
 using Domain.RepositoryAccess;
 using Domain.Models.FinancialModels;
-using DatabaseAccess.Helpers;
+using Utils.Helpers;
 
 namespace DatabaseAccess.Repositories
 {
@@ -310,7 +310,7 @@ namespace DatabaseAccess.Repositories
 
                 await InsertTransaction(CompanyID, BranchID);
 
-                return Localization.Localization.PurchaseSuccessWithPayment;
+                return Localization.DatabaseAccess.Localization.PurchaseSuccessWithPayment;
             }
         }
 
@@ -341,7 +341,7 @@ namespace DatabaseAccess.Repositories
 
                     await _query.Insert(entryQuery, entryParams);
                 }
-                return Localization.Localization.PurchaseSuccess;
+                return Localization.DatabaseAccess.Localization.PurchaseSuccess;
             }
         }
 
@@ -368,7 +368,7 @@ namespace DatabaseAccess.Repositories
                 };
 
                 await _query.Insert(paymentQuery, paymentParams);
-                return Localization.Localization.WithPayment;
+                return Localization.DatabaseAccess.Localization.WithPayment;
             }
         }
     }

@@ -1,6 +1,6 @@
-﻿using Domain.Interfaces;
-using System;
+﻿using System;
 using System.Configuration;
+using Utils.Interfaces;
 
 namespace CloudERP.Helpers
 {

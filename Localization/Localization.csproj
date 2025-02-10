@@ -1,0 +1,612 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{192F480E-819D-472B-B327-0EDAE67BFAE6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Localization</RootNamespace>
+    <AssemblyName>Localization</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CloudERP\Common\Common.Designer.cs">
+      <DependentUpon>Common.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Common\Common.en-US.designer.cs">
+      <DependentUpon>Common.en-US.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Common\Common.ru-RU.designer.cs">
+      <DependentUpon>Common.ru-RU.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Common\Common.uk-UA.designer.cs">
+      <DependentUpon>Common.uk-UA.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Messages\Messages.Designer.cs">
+      <DependentUpon>Messages.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Messages\Messages.en-US.designer.cs">
+      <DependentUpon>Messages.en-US.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Messages\Messages.ru-RU.designer.cs">
+      <DependentUpon>Messages.ru-RU.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Messages\Messages.uk-UA.designer.cs">
+      <DependentUpon>Messages.uk-UA.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Account\Account.Designer.cs">
+      <DependentUpon>Account.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Account\Account.en-US.designer.cs">
+      <DependentUpon>Account.en-US.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Account\Account.ru-RU.designer.cs">
+      <DependentUpon>Account.ru-RU.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Account\Account.uk-UA.designer.cs">
+      <DependentUpon>Account.uk-UA.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Branch\Branch.Designer.cs">
+      <DependentUpon>Branch.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Branch\Branch.en-US.designer.cs">
+      <DependentUpon>Branch.en-US.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Branch\Branch.ru-RU.designer.cs">
+      <DependentUpon>Branch.ru-RU.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Branch\Branch.uk-UA.designer.cs">
+      <DependentUpon>Branch.uk-UA.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Company\Company.Designer.cs">
+      <DependentUpon>Company.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Company\Company.en-US.designer.cs">
+      <DependentUpon>Company.en-US.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Company\Company.ru-RU.designer.cs">
+      <DependentUpon>Company.ru-RU.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Company\Company.uk-UA.designer.cs">
+      <DependentUpon>Company.uk-UA.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Financial\Financial.Designer.cs">
+      <DependentUpon>Financial.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Financial\Financial.en-US.designer.cs">
+      <DependentUpon>Financial.en-US.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Financial\Financial.ru-RU.designer.cs">
+      <DependentUpon>Financial.ru-RU.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Financial\Financial.uk-UA.designer.cs">
+      <DependentUpon>Financial.uk-UA.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Guide\Guide.Designer.cs">
+      <DependentUpon>Guide.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Guide\Guide.en-US.designer.cs">
+      <DependentUpon>Guide.en-US.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Guide\Guide.ru-RU.designer.cs">
+      <DependentUpon>Guide.ru-RU.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Guide\Guide.uk-UA.designer.cs">
+      <DependentUpon>Guide.uk-UA.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Miscellaneous\Miscellaneous.Designer.cs">
+      <DependentUpon>Miscellaneous.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Miscellaneous\Miscellaneous.en-US.designer.cs">
+      <DependentUpon>Miscellaneous.en-US.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Miscellaneous\Miscellaneous.ru-RU.designer.cs">
+      <DependentUpon>Miscellaneous.ru-RU.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Miscellaneous\Miscellaneous.uk-UA.designer.cs">
+      <DependentUpon>Miscellaneous.uk-UA.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Purchase\Purchase.Designer.cs">
+      <DependentUpon>Purchase.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Purchase\Purchase.en-US.designer.cs">
+      <DependentUpon>Purchase.en-US.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Purchase\Purchase.ru-RU.designer.cs">
+      <DependentUpon>Purchase.ru-RU.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Purchase\Purchase.uk-UA.designer.cs">
+      <DependentUpon>Purchase.uk-UA.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Sale\Sale.designer.cs">
+      <DependentUpon>Sale.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Sale\Sale.en-US.designer.cs">
+      <DependentUpon>Sale.en-US.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Sale\Sale.ru-RU.designer.cs">
+      <DependentUpon>Sale.ru-RU.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Sale\Sale.uk-UA.designer.cs">
+      <DependentUpon>Sale.uk-UA.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Supplier\Supplier.Designer.cs">
+      <DependentUpon>Supplier.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Supplier\Supplier.en-US.designer.cs">
+      <DependentUpon>Supplier.en-US.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Supplier\Supplier.ru-RU.designer.cs">
+      <DependentUpon>Supplier.ru-RU.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Supplier\Supplier.uk-UA.designer.cs">
+      <DependentUpon>Supplier.uk-UA.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Support\Support.Designer.cs">
+      <DependentUpon>Support.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Support\Support.en-US.designer.cs">
+      <DependentUpon>Support.en-US.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Support\Support.ru-RU.designer.cs">
+      <DependentUpon>Support.ru-RU.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Support\Support.uk-UA.designer.cs">
+      <DependentUpon>Support.uk-UA.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Task\Task.Designer.cs">
+      <DependentUpon>Task.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Task\Task.en-US1.Designer.cs">
+      <DependentUpon>Task.en-US.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Task\Task.ru-RU.designer.cs">
+      <DependentUpon>Task.ru-RU.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\Task\Task.uk-UA.designer.cs">
+      <DependentUpon>Task.uk-UA.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\User\User.Designer.cs">
+      <DependentUpon>User.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\User\User.en-US.designer.cs">
+      <DependentUpon>User.en-US.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\User\User.ru-RU.designer.cs">
+      <DependentUpon>User.ru-RU.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Modules\User\User.uk-UA.designer.cs">
+      <DependentUpon>User.uk-UA.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Validations\Validations.en-US.designer.cs">
+      <DependentUpon>Validations.en-US.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Validations\Validations.ru-RU.designer.cs">
+      <DependentUpon>Validations.ru-RU.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CloudERP\Validations\Validations.uk-UA.designer.cs">
+      <DependentUpon>Validations.uk-UA.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="DatabaseAccess\Localization\Localization.Designer.cs">
+      <DependentUpon>Localization.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="DatabaseAccess\Validations\Validations.Designer.cs">
+      <DependentUpon>Validations.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CloudERP\Common\Common.en-US.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Common.en-US.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Common\Common.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Common.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Common\Common.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Common.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Common\Common.uk-UA.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Common.uk-UA.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Messages\Messages.en-US.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Messages.en-US.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Messages\Messages.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Messages.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Messages\Messages.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Messages.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Messages\Messages.uk-UA.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Messages.uk-UA.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Account\Account.en-US.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Account.en-US.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Account\Account.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Account.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Account\Account.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Account.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Account\Account.uk-UA.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Account.uk-UA.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Branch\Branch.en-US.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Branch.en-US.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Branch\Branch.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Branch.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Branch\Branch.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Branch.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Branch\Branch.uk-UA.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Branch.uk-UA.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Company\Company.en-US.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Company.en-US.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Company\Company.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Company.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Company\Company.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Company.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Company\Company.uk-UA.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Company.uk-UA.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Financial\Financial.en-US.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Financial.en-US.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="CloudERP\Modules\Financial\Financial.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Financial.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Financial\Financial.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Financial.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Financial\Financial.uk-UA.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Financial.uk-UA.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Guide\Guide.en-US.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Guide.en-US.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Guide\Guide.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Guide.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Guide\Guide.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Guide.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Guide\Guide.uk-UA.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Guide.uk-UA.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Miscellaneous\Miscellaneous.en-US.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Miscellaneous.en-US.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="CloudERP\Modules\Miscellaneous\Miscellaneous.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Miscellaneous.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Miscellaneous\Miscellaneous.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Miscellaneous.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Miscellaneous\Miscellaneous.uk-UA.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Miscellaneous.uk-UA.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Purchase\Purchase.en-US.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Purchase.en-US.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Purchase\Purchase.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Purchase.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="CloudERP\Modules\Purchase\Purchase.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Purchase.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Purchase\Purchase.uk-UA.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Purchase.uk-UA.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Sale\Sale.en-US.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Sale.en-US.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Sale\Sale.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Sale.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Sale\Sale.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Sale.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Sale\Sale.uk-UA.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Sale.uk-UA.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Supplier\Supplier.en-US.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Supplier.en-US.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Supplier\Supplier.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Supplier.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Supplier\Supplier.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Supplier.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Supplier\Supplier.uk-UA.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Supplier.uk-UA.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Support\Support.en-US.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Support.en-US.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Support\Support.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Support.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Support\Support.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Support.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Support\Support.uk-UA.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Support.uk-UA.designer.cs</LastGenOutput>
+    </Content>
+    <EmbeddedResource Include="CloudERP\Modules\Task\Task.en-US.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Task.en-US1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Content Include="CloudERP\Modules\Task\Task.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Task.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Task\Task.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Task.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\Task\Task.uk-UA.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Task.uk-UA.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\User\User.en-US.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>User.en-US.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\User\User.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>User.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\User\User.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>User.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Modules\User\User.uk-UA.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>User.uk-UA.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Validations\Validations.en-US.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Validations.en-US.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Validations\Validations.ru-RU.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Validations.ru-RU.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="CloudERP\Validations\Validations.uk-UA.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Validations.uk-UA.designer.cs</LastGenOutput>
+    </Content>
+    <EmbeddedResource Include="DatabaseAccess\Localization\Localization.en-US.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DatabaseAccess\Localization\Localization.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Localization.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DatabaseAccess\Localization\Localization.ru-RU.resx" />
+    <EmbeddedResource Include="DatabaseAccess\Localization\Localization.uk-UA.resx" />
+    <EmbeddedResource Include="DatabaseAccess\Validations\Validations.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Validations.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Domain\" />
+    <Folder Include="Services\" />
+    <Folder Include="Utils\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

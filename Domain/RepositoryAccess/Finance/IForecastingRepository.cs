@@ -1,6 +1,6 @@
-﻿using Domain.Models.Forecasting;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Utils.Models;
 
 namespace Domain.RepositoryAccess
 {

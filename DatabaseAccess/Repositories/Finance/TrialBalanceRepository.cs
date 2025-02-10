@@ -5,7 +5,7 @@ using System.Data;
 using System.Threading.Tasks;
 using Domain.RepositoryAccess;
 using Domain.Models.FinancialModels;
-using DatabaseAccess.Helpers;
+using Utils.Helpers;
 
 namespace DatabaseAccess.Repositories
 {
@@ -66,7 +66,7 @@ namespace DatabaseAccess.Repositories
                     {
                         Credit = totalCredit,
                         Debit = totalDebit,
-                        AccountSubControl = Localization.Localization.Total
+                        AccountSubControl = Localization.DatabaseAccess.Localization.Total
                     };
                     trialBalance.Add(totalBalance);
                 }

@@ -97,8 +97,6 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Adapters\FinancialForecastAdapter.cs" />
-    <Compile Include="Adapters\HttpPostedFileAdapter.cs" />
     <Compile Include="CloudDB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -114,14 +112,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CloudDB.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Factories\FileAdapterFactory.cs" />
-    <Compile Include="Helpers\DatabaseQuery.cs" />
     <Compile Include="Helpers\BranchHelper.cs" />
-    <Compile Include="Localization\Localization.Designer.cs">
-      <DependentUpon>Localization.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Account\AccountActivityRepository.cs" />
     <Compile Include="Repositories\Account\AccountControlRepository.cs" />
@@ -165,10 +156,6 @@
     <Compile Include="Repositories\Finance\TrialBalanceRepository.cs" />
     <Compile Include="Repositories\Users\UserRepository.cs" />
     <Compile Include="Repositories\Users\UserTypeRepository.cs" />
-    <Compile Include="Services\FileService.cs" />
-    <Compile Include="Services\FinancialForecaster.cs" />
-    <Compile Include="Services\ForecastingService.cs" />
-    <Compile Include="Models\ForecastPrediction.cs" />
     <Compile Include="tblAccountActivity.cs">
       <DependentUpon>CloudDB.tt</DependentUpon>
     </Compile>
@@ -274,11 +261,6 @@
     <Compile Include="tblUserType.cs">
       <DependentUpon>CloudDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Validations\Validations.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Validations.resx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
@@ -309,24 +291,17 @@
     <Content Include="CloudDBFullDump.sql" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Localization\Localization.en-US.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Localization\Localization.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Localization.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Localization\Localization.ru-RU.resx" />
-    <EmbeddedResource Include="Localization\Localization.uk-UA.resx" />
-    <EmbeddedResource Include="Validations\Validations.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Validations.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj">
       <Project>{5592d734-aa72-49cb-9c89-f26be58d7457}</Project>
       <Name>Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Localization\Localization.csproj">
+      <Project>{192f480e-819d-472b-b327-0edae67bfae6}</Project>
+      <Name>Localization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{2c919958-5165-4d49-a535-c9640f6fa388}</Project>
+      <Name>Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

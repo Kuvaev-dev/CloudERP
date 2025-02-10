@@ -1,11 +1,11 @@
-﻿using DatabaseAccess.Helpers;
-using Domain.Models;
+﻿using Domain.Models;
 using Domain.RepositoryAccess;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using Utils;
 
 namespace DatabaseAccess.Repositories
 {

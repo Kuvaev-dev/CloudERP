@@ -1,18 +1,22 @@
 ﻿using DatabaseAccess;
 using DatabaseAccess.Helpers;
 using DatabaseAccess.Adapters;
-using DatabaseAccess.Services;
 using DatabaseAccess.Repositories;
 using DatabaseAccess.Factories;
 using Domain.Facades;
 using Domain.Services;
-using Domain.Interfaces;
 using Domain.RepositoryAccess;
 using CloudERP.Facades;
 using Unity.AspNet.Mvc;
 using Unity;
 using System.Web;
 using System.Web.Mvc;
+using Utils.Interfaces;
+using Utils.Helpers;
+using Services.Facades;
+using Services.ServiceAccess;
+using Services.Implementations;
+using Services.Adapters;
 
 namespace CloudERP.Helpers
 {

@@ -153,33 +153,6 @@
     <Reference Include="Microsoft.IdentityModel.Tokens, Version=6.34.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IdentityModel.Tokens.6.34.0\lib\net472\Microsoft.IdentityModel.Tokens.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ML, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ML.3.0.1\lib\netstandard2.0\Microsoft.ML.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.ML.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ML.3.0.1\lib\netstandard2.0\Microsoft.ML.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.ML.CpuMath, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ML.CpuMath.3.0.1\lib\netstandard2.0\Microsoft.ML.CpuMath.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.ML.Data, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ML.3.0.1\lib\netstandard2.0\Microsoft.ML.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.ML.DataView, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ML.DataView.3.0.1\lib\netstandard2.0\Microsoft.ML.DataView.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.ML.KMeansClustering, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ML.3.0.1\lib\netstandard2.0\Microsoft.ML.KMeansClustering.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.ML.PCA, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ML.3.0.1\lib\netstandard2.0\Microsoft.ML.PCA.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.ML.StandardTrainers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ML.3.0.1\lib\netstandard2.0\Microsoft.ML.StandardTrainers.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.ML.Transforms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ML.3.0.1\lib\netstandard2.0\Microsoft.ML.Transforms.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
       <Private>True</Private>
@@ -298,6 +271,9 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net.Sockets, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Net.Sockets.4.3.0\lib\net46\System.Net.Sockets.dll</HintPath>
       <Private>True</Private>
@@ -390,6 +366,12 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.7\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -444,10 +426,13 @@
       <HintPath>..\packages\TestableIO.System.IO.Abstractions.Wrappers.21.0.26\lib\net462\TestableIO.System.IO.Abstractions.Wrappers.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Abstractions, Version=5.11.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.Abstractions.5.11.1\lib\net47\Unity.Abstractions.dll</HintPath>
+      <HintPath>..\packages\Unity.5.11.1\lib\net47\Unity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.AspNet.WebApi, Version=5.11.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.AspNet.WebApi.5.11.1\lib\net47\Unity.AspNet.WebApi.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Container, Version=5.11.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.Container.5.11.1\lib\net47\Unity.Container.dll</HintPath>
+      <HintPath>..\packages\Unity.5.11.1\lib\net47\Unity.Container.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Mvc, Version=5.11.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.Mvc.5.11.1\lib\net47\Unity.Mvc.dll</HintPath>
@@ -465,306 +450,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_GlobalResources\Common\Common.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Common.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Common\Common.en-US.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Common.en-US.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Common\Common.ru-RU.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Common.ru-RU.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Common\Common.uk-UA.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Common.uk-UA.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Messages\Messages.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Messages.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Messages\Messages.en-US.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Messages.en-US.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Messages\Messages.ru-RU.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Messages.ru-RU.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Messages\Messages.uk-UA.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Messages.uk-UA.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Account\Account.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Account.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Account\Account.en-US.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Account.en-US.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Account\Account.ru-RU.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Account.ru-RU.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Account\Account.uk-UA.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Account.uk-UA.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Branch\Branch.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Branch.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Branch\Branch.en-US.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Branch.en-US.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Branch\Branch.ru-RU.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Branch.ru-RU.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Branch\Branch.uk-UA.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Branch.uk-UA.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Company\Company.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Company.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Company\Company.en-US.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Company.en-US.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Company\Company.ru-RU.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Company.ru-RU.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Company\Company.uk-UA.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Company.uk-UA.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Financial\Financial.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Financial.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Financial\Financial.en-US.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Financial.en-US.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Financial\Financial.ru-RU.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Financial.ru-RU.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Financial\Financial.uk-UA.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Financial.uk-UA.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Guide\Guide.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Guide.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Guide\Guide.en-US.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Guide.en-US.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Guide\Guide.ru-RU.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Guide.ru-RU.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Guide\Guide.uk-UA.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Guide.uk-UA.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Miscellaneous\Miscellaneous.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Miscellaneous.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Miscellaneous\Miscellaneous.en-US.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Miscellaneous.en-US.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Miscellaneous\Miscellaneous.ru-RU.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Miscellaneous.ru-RU.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Miscellaneous\Miscellaneous.uk-UA.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Miscellaneous.uk-UA.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Purchase\Purchase.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Purchase.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Purchase\Purchase.en-US.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Purchase.en-US.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Purchase\Purchase.ru-RU.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Purchase.ru-RU.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Purchase\Purchase.uk-UA.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Purchase.uk-UA.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Sale\Sale.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Sale.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Sale\Sale.en-US.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Sale.en-US.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Sale\Sale.ru-RU.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Sale.ru-RU.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Sale\Sale.uk-UA.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Sale.uk-UA.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Supplier\Supplier.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Supplier.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Supplier\Supplier.en-US.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Supplier.en-US.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Supplier\Supplier.ru-RU.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Supplier.ru-RU.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Supplier\Supplier.uk-UA.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Supplier.uk-UA.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Support\Support.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Support.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Support\Support.en-US.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Support.en-US.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Support\Support.ru-RU.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Support.ru-RU.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Support\Support.uk-UA.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Support.uk-UA.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Task\Task.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Task.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Task\Task.en-US1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Task.en-US.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Task\Task.ru-RU.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Task.ru-RU.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\Task\Task.uk-UA.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Task.uk-UA.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\User\User.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>User.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\User\User.en-US.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>User.en-US.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\User\User.ru-RU.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>User.ru-RU.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Modules\User\User.uk-UA.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>User.uk-UA.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Validations\Validations.en-US.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Validations.en-US.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Validations\Validations.ru-RU.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Validations.ru-RU.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Validations\Validations.uk-UA.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Validations.uk-UA.resx</DependentUpon>
-    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
+    <Compile Include="App_Start\UnityWebApiActivator.cs" />
     <Compile Include="Controllers\Account\AccountActivityController.cs" />
     <Compile Include="Controllers\Account\AccountControlController.cs" />
     <Compile Include="Controllers\Account\AccountHeadController.cs" />
@@ -813,7 +504,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\CultureHelper.cs" />
     <Compile Include="Helpers\CurrencyService.cs" />
     <Compile Include="Helpers\EmailService.cs" />
     <Compile Include="Helpers\SessionHelper.cs" />
@@ -833,59 +523,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_GlobalResources\Messages\Messages.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Messages.Designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Messages\Messages.en-US.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Messages.en-US.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Messages\Messages.ru-RU.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Messages.ru-RU.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Messages\Messages.uk-UA.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Messages.uk-UA.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Sale\Sale.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Sale.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Sale\Sale.en-US.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Sale.en-US.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Sale\Sale.ru-RU.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Sale.ru-RU.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Sale\Sale.uk-UA.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Sale.uk-UA.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Guide\Guide.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Guide.Designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Guide\Guide.en-US.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Guide.en-US.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Guide\Guide.ru-RU.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Guide.ru-RU.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Guide\Guide.uk-UA.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Guide.uk-UA.designer.cs</LastGenOutput>
-    </Content>
-    <EmbeddedResource Include="App_GlobalResources\Modules\Task\Task.en-US.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Task.en-US1.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <Content Include="Content\Bootstrap\Grid\bootstrap-grid.css" />
     <Content Include="Content\Bootstrap\Grid\bootstrap-grid.min.css" />
     <Content Include="Content\Bootstrap\Grid\bootstrap-grid.rtl.css" />
@@ -3225,193 +2862,6 @@
     <Content Include="Content\fontawesome\webfonts\fa-solid-900.woff2" />
     <Content Include="Content\fontawesome\webfonts\fa-v4compatibility.ttf" />
     <Content Include="Content\fontawesome\webfonts\fa-v4compatibility.woff2" />
-    <Content Include="App_GlobalResources\Common\Common.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Common.Designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Common\Common.en-US.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Common.en-US.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Common\Common.ru-RU.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Common.ru-RU.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Common\Common.uk-UA.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Common.uk-UA.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Account\Account.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Account.Designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Account\Account.en-US.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Account.en-US.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Account\Account.ru-RU.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Account.ru-RU.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Account\Account.uk-UA.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Account.uk-UA.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Branch\Branch.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Branch.Designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Branch\Branch.en-US.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Branch.en-US.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Branch\Branch.uk-UA.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Branch.uk-UA.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Branch\Branch.ru-RU.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Branch.ru-RU.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Company\Company.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Company.Designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Company\Company.en-US.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Company.en-US.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Company\Company.ru-RU.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Company.ru-RU.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Company\Company.uk-UA.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Company.uk-UA.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Financial\Financial.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Financial.Designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Financial\Financial.en-US.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Financial.en-US.designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Financial\Financial.ru-RU.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Financial.ru-RU.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Financial\Financial.uk-UA.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Financial.uk-UA.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Miscellaneous\Miscellaneous.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Miscellaneous.Designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Miscellaneous\Miscellaneous.en-US.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Miscellaneous.en-US.designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Miscellaneous\Miscellaneous.ru-RU.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Miscellaneous.ru-RU.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Miscellaneous\Miscellaneous.uk-UA.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Miscellaneous.uk-UA.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Purchase\Purchase.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Purchase.designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Purchase\Purchase.en-US.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Purchase.en-US.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Purchase\Purchase.ru-RU.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Purchase.ru-RU.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Purchase\Purchase.uk-UA.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Purchase.uk-UA.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Supplier\Supplier.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Supplier.Designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Supplier\Supplier.en-US.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Supplier.en-US.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Supplier\Supplier.ru-RU.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Supplier.ru-RU.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Supplier\Supplier.uk-UA.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Supplier.uk-UA.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Support\Support.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Support.Designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Support\Support.en-US.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Support.en-US.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Support\Support.ru-RU.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Support.ru-RU.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Support\Support.uk-UA.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Support.uk-UA.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Task\Task.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Task.Designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Task\Task.ru-RU.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Task.ru-RU.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\Task\Task.uk-UA.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Task.uk-UA.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\User\User.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>User.Designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\User\User.en-US.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>User.en-US.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\User\User.ru-RU.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>User.ru-RU.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Modules\User\User.uk-UA.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>User.uk-UA.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Validations\Validations.ru-RU.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Validations.ru-RU.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Validations\Validations.en-US.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Validations.en-US.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\Validations\Validations.uk-UA.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Validations.uk-UA.designer.cs</LastGenOutput>
-    </Content>
     <None Include="Properties\PublishProfiles\CloudERP20240507124545 - Web Deploy.pubxml" />
     <Content Include="Scripts\Bootstrap\bootstrap.bundle.js.map" />
     <Content Include="Scripts\Bootstrap\bootstrap.bundle.min.js.map" />
@@ -3599,7 +3049,6 @@
     <Content Include="Views\AccountActivity\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Content\Guide\AdminGuide\" />
     <Folder Include="Content\Guide\EmployeeGuide\" />
     <Folder Include="Content\Guide\MainBranchEmployeeGuide\" />
@@ -3626,6 +3075,10 @@
     <Content Include="Scripts\jQuery\jquery-3.7.1.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\API\API.csproj">
+      <Project>{fc138dbc-4811-4a6c-b75e-03180e2d23f0}</Project>
+      <Name>API</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DatabaseAccess\DatabaseAccess.csproj">
       <Project>{e0eace6c-1dc7-4469-bd76-5c4813baf619}</Project>
       <Name>DatabaseAccess</Name>
@@ -3633,6 +3086,18 @@
     <ProjectReference Include="..\Domain\Domain.csproj">
       <Project>{5592D734-AA72-49CB-9C89-F26BE58D7457}</Project>
       <Name>Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Localization\Localization.csproj">
+      <Project>{192f480e-819d-472b-b327-0edae67bfae6}</Project>
+      <Name>Localization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services\Services.csproj">
+      <Project>{64451a58-5729-4f78-b79f-bb58db216b0b}</Project>
+      <Name>Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{2C919958-5165-4D49-A535-C9640F6FA388}</Project>
+      <Name>Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

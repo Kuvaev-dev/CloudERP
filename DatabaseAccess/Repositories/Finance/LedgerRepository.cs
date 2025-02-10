@@ -5,7 +5,7 @@ using System.Data;
 using System.Threading.Tasks;
 using Domain.RepositoryAccess;
 using Domain.Models.FinancialModels;
-using DatabaseAccess.Helpers;
+using Utils.Helpers;
 
 namespace DatabaseAccess.Repositories
 {
@@ -60,7 +60,7 @@ namespace DatabaseAccess.Repositories
                                 ledger.Add(new AccountLedgerModel
                                 {
                                     SNo = sNo++,
-                                    Date = Localization.Localization.TotalBalance,
+                                    Date = Localization.DatabaseAccess.Localization.TotalBalance,
                                     Debit = totalDebit.ToString(),
                                     Credit = totalCredit.ToString()
                                 });
@@ -70,10 +70,10 @@ namespace DatabaseAccess.Repositories
                             {
                                 SNo = sNo++,
                                 Account = accountName,
-                                Date = Localization.Localization.Date,
-                                Description = Localization.Localization.Description,
-                                Debit = Localization.Localization.Debit,
-                                Credit = Localization.Localization.Credit
+                                Date = Localization.DatabaseAccess.Localization.Date,
+                                Description = Localization.DatabaseAccess.Localization.Description,
+                                Debit = Localization.DatabaseAccess.Localization.Debit,
+                                Credit = Localization.DatabaseAccess.Localization.Credit
                             });
 
                             totalDebit = 0;
@@ -99,7 +99,7 @@ namespace DatabaseAccess.Repositories
                         ledger.Add(new AccountLedgerModel
                         {
                             SNo = sNo++,
-                            Date = Localization.Localization.TotalBalance,
+                            Date = Localization.DatabaseAccess.Localization.TotalBalance,
                             Debit = totalDebit.ToString(),
                             Credit = totalCredit.ToString()
                         });

@@ -1,8 +1,8 @@
-﻿using Domain.Models.Forecasting;
-using Domain.RepositoryAccess;
+﻿using Domain.RepositoryAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Utils.Models;
 
 namespace DatabaseAccess.Repositories
 {

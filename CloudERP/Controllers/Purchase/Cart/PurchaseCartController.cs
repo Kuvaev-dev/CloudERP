@@ -2,7 +2,7 @@
 using Domain.Models;
 using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
-using Domain.Services;
+using Services.ServiceAccess;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,8 +15,8 @@ namespace CloudERP.Controllers
         private readonly IPurchaseCartDetailRepository _purchaseCartDetailRepository;
         private readonly IStockRepository _stockRepository;
         private readonly ISupplierRepository _supplierRepository;
-        private readonly SessionHelper _sessionHelper;
         private readonly IPurchaseCartService _purchaseCartService;
+        private readonly SessionHelper _sessionHelper;
 
         public PurchaseCartController(
             IPurchaseCartDetailRepository purchaseCartDetailRepository,

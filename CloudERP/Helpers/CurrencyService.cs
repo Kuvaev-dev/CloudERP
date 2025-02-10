@@ -1,10 +1,10 @@
-﻿using Domain.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Utils.Interfaces;
 
 namespace CloudERP.Helpers
 {
