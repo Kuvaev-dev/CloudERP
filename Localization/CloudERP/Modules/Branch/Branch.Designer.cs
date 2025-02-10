@@ -8,7 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Resources {
+namespace Localization.CloudERP
+{
     using System;
     
     
@@ -22,21 +23,21 @@ namespace Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Web.Application.StronglyTypedResourceProxyBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Branch {
+    public class Branch {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Branch() {
+        public Branch() {
         }
         
         /// <summary>
         ///   Возвращает кэшированный экземпляр ResourceManager, использованный этим классом.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Resources.Branch", global::System.Reflection.Assembly.Load("App_GlobalResources"));
@@ -51,7 +52,7 @@ namespace Resources {
         ///   обращений к ресурсу с помощью этого класса ресурса со строгой типизацией.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +64,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Add Branch.
         /// </summary>
-        internal static string AddBranch {
+        public static string AddBranch {
             get {
                 return ResourceManager.GetString("AddBranch", resourceCulture);
             }
@@ -72,7 +73,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на All Branches.
         /// </summary>
-        internal static string AllBranches {
+        public static string AllBranches {
             get {
                 return ResourceManager.GetString("AllBranches", resourceCulture);
             }
@@ -81,7 +82,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Branch Address.
         /// </summary>
-        internal static string BranchAddress {
+        public static string BranchAddress {
             get {
                 return ResourceManager.GetString("BranchAddress", resourceCulture);
             }
@@ -90,7 +91,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Branch Level.
         /// </summary>
-        internal static string BranchLevel {
+        public static string BranchLevel {
             get {
                 return ResourceManager.GetString("BranchLevel", resourceCulture);
             }
@@ -99,7 +100,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Branch Name.
         /// </summary>
-        internal static string BranchName {
+        public static string BranchName {
             get {
                 return ResourceManager.GetString("BranchName", resourceCulture);
             }
@@ -108,7 +109,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Branch Title.
         /// </summary>
-        internal static string BranchTitle {
+        public static string BranchTitle {
             get {
                 return ResourceManager.GetString("BranchTitle", resourceCulture);
             }
@@ -117,7 +118,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Click here to choose a correct address below.
         /// </summary>
-        internal static string ClickHereToChooseACorrectAddressBelow {
+        public static string ClickHereToChooseACorrectAddressBelow {
             get {
                 return ResourceManager.GetString("ClickHereToChooseACorrectAddressBelow", resourceCulture);
             }
@@ -126,7 +127,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Edit Branch.
         /// </summary>
-        internal static string EditBranch {
+        public static string EditBranch {
             get {
                 return ResourceManager.GetString("EditBranch", resourceCulture);
             }
@@ -135,7 +136,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Employee Profile.
         /// </summary>
-        internal static string EmployeeProfile {
+        public static string EmployeeProfile {
             get {
                 return ResourceManager.GetString("EmployeeProfile", resourceCulture);
             }
@@ -144,7 +145,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Level.
         /// </summary>
-        internal static string Level {
+        public static string Level {
             get {
                 return ResourceManager.GetString("Level", resourceCulture);
             }
@@ -153,7 +154,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Purchases.
         /// </summary>
-        internal static string Purchases {
+        public static string Purchases {
             get {
                 return ResourceManager.GetString("Purchases", resourceCulture);
             }
@@ -162,7 +163,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Sales.
         /// </summary>
-        internal static string Sales {
+        public static string Sales {
             get {
                 return ResourceManager.GetString("Sales", resourceCulture);
             }
@@ -171,7 +172,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Select Top Branch.
         /// </summary>
-        internal static string SelectTopBranch {
+        public static string SelectTopBranch {
             get {
                 return ResourceManager.GetString("SelectTopBranch", resourceCulture);
             }
@@ -180,7 +181,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Sub Branches.
         /// </summary>
-        internal static string SubBranches {
+        public static string SubBranches {
             get {
                 return ResourceManager.GetString("SubBranches", resourceCulture);
             }
@@ -189,7 +190,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Top Branch.
         /// </summary>
-        internal static string TopBranch {
+        public static string TopBranch {
             get {
                 return ResourceManager.GetString("TopBranch", resourceCulture);
             }

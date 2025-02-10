@@ -6,7 +6,7 @@ using CloudERP.Helpers;
 using Domain.Models;
 using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
-using Services.ServiceAccess;
+using Domain.ServiceAccess;
 
 namespace CloudERP.Controllers
 {
@@ -50,7 +50,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -68,8 +68,8 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return Json(new { error = Resources.Messages.ProductDetailsFetchingError });
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                return Json(new { error = Localization.CloudERP.Messages.Messages.ProductDetailsFetchingError });
             }
         }
 
@@ -86,7 +86,7 @@ namespace CloudERP.Controllers
                 var checkQty = await _stockRepository.GetByIdAsync(PID);
                 if (Qty > checkQty.Quantity)
                 {
-                    ViewBag.Message = Resources.Messages.SaleQuantityError;
+                    ViewBag.Message = Localization.CloudERP.Messages.Messages.SaleQuantityError;
                     return RedirectToAction("NewSale");
                 }
 
@@ -107,19 +107,19 @@ namespace CloudERP.Controllers
                         };
 
                         await _saleCartDetailRepository.AddAsync(newItem);
-                        ViewBag.Message = Resources.Messages.ItemAddedSuccessfully;
+                        ViewBag.Message = Localization.CloudERP.Messages.Messages.ItemAddedSuccessfully;
                     }
                 }
                 else
                 {
-                    ViewBag.Message = Resources.Messages.AlreadyExists;
+                    ViewBag.Message = Localization.CloudERP.Messages.Messages.AlreadyExists;
                 }
 
                 return RedirectToAction("NewSale");
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -138,16 +138,16 @@ namespace CloudERP.Controllers
                 if (product != null)
                 {
                     await _saleCartDetailRepository.DeleteAsync(id);
-                    ViewBag.Message = Resources.Messages.DeletedSuccessfully;
+                    ViewBag.Message = Localization.CloudERP.Messages.Messages.DeletedSuccessfully;
                     return RedirectToAction("NewSale");
                 }
 
-                ViewBag.Message = Resources.Messages.ProductNotFound;
+                ViewBag.Message = Localization.CloudERP.Messages.Messages.ProductNotFound;
                 return RedirectToAction("NewSale");
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -166,13 +166,13 @@ namespace CloudERP.Controllers
                     _sessionHelper.BranchID, _sessionHelper.CompanyID, _sessionHelper.UserID);
                 await _saleCartDetailRepository.DeleteListAsync(saleDetails);
 
-                ViewBag.Message = Resources.Messages.SaleCanceledSuccessfully;
+                ViewBag.Message = Localization.CloudERP.Messages.Messages.SaleCanceledSuccessfully;
 
                 return RedirectToAction("NewSale");
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -190,7 +190,7 @@ namespace CloudERP.Controllers
                 var saleDetails = await _saleCartDetailRepository.GetByCompanyAndBranchAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID);
                 if (saleDetails == null)
                 {
-                    Session["ErrorMessageSale"] = Resources.Messages.SaleCartEmpty;
+                    Session["ErrorMessageSale"] = Localization.CloudERP.Messages.Messages.SaleCartEmpty;
 
                     return RedirectToAction("NewSale");
                 }
@@ -199,7 +199,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -230,7 +230,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

@@ -44,7 +44,7 @@ namespace CloudERP.Controllers
                 var employee = await _employeeRepository.GetByIdAsync(employeeID.Value);
                 if (employee == null)
                 {
-                    TempData["ErrorMessage"] = Resources.Messages.EmployeeNotFound;
+                    TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.EmployeeNotFound;
                     return RedirectToAction("EP500", "EP");
                 }
 
@@ -68,7 +68,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -97,7 +97,7 @@ namespace CloudERP.Controllers
 
                 if (existingUser != null || existingEmployee != null)
                 {
-                    ViewBag.Message = Resources.Messages.EmailIsAlreadyRegistered;
+                    ViewBag.Message = Localization.CloudERP.Messages.Messages.EmailIsAlreadyRegistered;
 
                     await PopulateViewBag(user.UserTypeID);
 
@@ -125,7 +125,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -143,7 +143,7 @@ namespace CloudERP.Controllers
                 var user = await _userRepository.GetByIdAsync(userID.Value);
                 if (user == null)
                 {
-                    TempData["ErrorMessage"] = Resources.Messages.UserNotFound;
+                    TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UserNotFound;
                     return RedirectToAction("EP500", "EP");
                 }
 
@@ -153,7 +153,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -189,7 +189,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

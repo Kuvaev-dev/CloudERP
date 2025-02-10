@@ -1,7 +1,7 @@
 ﻿using CloudERP.Helpers;
 using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
-using Services.ServiceAccess;
+using Domain.ServiceAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +42,7 @@ namespace CloudERP.Controllers
                 var financialYear = await _financialYearRepository.GetSingleActiveAsync();
                 if (financialYear == null)
                 {
-                    ViewBag.Message = Resources.Messages.CompanyFinancialYearNotSet;
+                    ViewBag.Message = Localization.CloudERP.Messages.Messages.CompanyFinancialYearNotSet;
                     return View(new BalanceSheetModel());
                 }
 
@@ -56,7 +56,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -70,7 +70,7 @@ namespace CloudERP.Controllers
 
             if (!id.HasValue)
             {
-                ViewBag.ErrorMessage = Resources.Messages.InvalidFinancialYearID;
+                ViewBag.ErrorMessage = Localization.CloudERP.Messages.Messages.InvalidFinancialYearID;
                 return View(new BalanceSheetModel());
             }
 
@@ -88,7 +88,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -105,7 +105,7 @@ namespace CloudERP.Controllers
                 var financialYear = await _financialYearRepository.GetSingleActiveAsync();
                 if (financialYear == null)
                 {
-                    ViewBag.Message = Resources.Messages.CompanyFinancialYearNotSet;
+                    ViewBag.Message = Localization.CloudERP.Messages.Messages.CompanyFinancialYearNotSet;
                     return View(new BalanceSheetModel());
                 }
 
@@ -113,7 +113,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -127,7 +127,7 @@ namespace CloudERP.Controllers
 
             if (!id.HasValue)
             {
-                ViewBag.ErrorMessage = Resources.Messages.InvalidFinancialYearID;
+                ViewBag.ErrorMessage = Localization.CloudERP.Messages.Messages.InvalidFinancialYearID;
                 return View(new BalanceSheetModel());
             }
 
@@ -145,7 +145,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

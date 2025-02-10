@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Http;
+﻿using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace API
 {
@@ -9,13 +7,12 @@ namespace API
     {
         public static void Register(HttpConfiguration config)
         {
-            // Конфигурация и службы Web API
+            config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
 
-            // Маршруты Web API
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
-                name: "DefaultApi",
+                name: "clouderp",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );

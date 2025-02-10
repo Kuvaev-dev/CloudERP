@@ -49,7 +49,7 @@ namespace CloudERP.Controllers
 
             if (!ModelState.IsValid)
             {
-                ViewBag.Message = Resources.Messages.PleaseProvideCorrectDetails;
+                ViewBag.Message = Localization.CloudERP.Messages.Messages.PleaseProvideCorrectDetails;
                 return View(model);
             }
 
@@ -57,13 +57,13 @@ namespace CloudERP.Controllers
             {
                 if (await _companyRegistrationFacade.UserRepository.GetByEmailAsync(model.EmployeeEmail) != null)
                 {
-                    ModelState.AddModelError("", Resources.Messages.AlreadyExists);
+                    ModelState.AddModelError("", Localization.CloudERP.Messages.Messages.AlreadyExists);
                     return View(model);
                 }
 
                 if (await _companyRegistrationFacade.CompanyRepository.GetByNameAsync(model.CompanyName) != null)
                 {
-                    ModelState.AddModelError("", Resources.Messages.AlreadyExists);
+                    ModelState.AddModelError("", Localization.CloudERP.Messages.Messages.AlreadyExists);
                     return View(model);
                 }
 
@@ -118,12 +118,12 @@ namespace CloudERP.Controllers
 
                 SendEmail(employee, company);
 
-                ViewBag.Message = Resources.Messages.RegistrationSuccessful;
+                ViewBag.Message = Localization.CloudERP.Messages.Messages.RegistrationSuccessful;
                 return RedirectToAction("Login", "Home");
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

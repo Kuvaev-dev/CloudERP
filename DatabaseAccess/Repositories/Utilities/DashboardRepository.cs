@@ -4,7 +4,7 @@ using System;
 using System.Threading.Tasks;
 using Domain.RepositoryAccess;
 using Domain.Models.FinancialModels;
-using Utils;
+using Utils.Helpers;
 
 namespace DatabaseAccess.Repositories
 {

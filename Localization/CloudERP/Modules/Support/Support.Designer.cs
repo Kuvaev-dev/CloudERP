@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Resources {
+namespace Localization.CloudERP {
     using System;
     
     
@@ -22,21 +22,21 @@ namespace Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Web.Application.StronglyTypedResourceProxyBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Support {
+    public class Support {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Support() {
+        public Support() {
         }
         
         /// <summary>
         ///   Возвращает кэшированный экземпляр ResourceManager, использованный этим классом.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Resources.Support", global::System.Reflection.Assembly.Load("App_GlobalResources"));
@@ -51,7 +51,7 @@ namespace Resources {
         ///   обращений к ресурсу с помощью этого класса ресурса со строгой типизацией.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Contact Support.
         /// </summary>
-        internal static string ContactSupport {
+        public static string ContactSupport {
             get {
                 return ResourceManager.GetString("ContactSupport", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Date Created.
         /// </summary>
-        internal static string DateCreated {
+        public static string DateCreated {
             get {
                 return ResourceManager.GetString("DateCreated", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Email.
         /// </summary>
-        internal static string Email {
+        public static string Email {
             get {
                 return ResourceManager.GetString("Email", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Mark as Resolved.
         /// </summary>
-        internal static string MarkAsResolved {
+        public static string MarkAsResolved {
             get {
                 return ResourceManager.GetString("MarkAsResolved", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Message.
         /// </summary>
-        internal static string Message {
+        public static string Message {
             get {
                 return ResourceManager.GetString("Message", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Name.
         /// </summary>
-        internal static string Name {
+        public static string Name {
             get {
                 return ResourceManager.GetString("Name", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Status.
         /// </summary>
-        internal static string Status {
+        public static string Status {
             get {
                 return ResourceManager.GetString("Status", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Subject.
         /// </summary>
-        internal static string Subject {
+        public static string Subject {
             get {
                 return ResourceManager.GetString("Subject", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Support Tickets.
         /// </summary>
-        internal static string SupportTickets {
+        public static string SupportTickets {
             get {
                 return ResourceManager.GetString("SupportTickets", resourceCulture);
             }

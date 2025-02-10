@@ -1,7 +1,7 @@
 ﻿using CloudERP.Helpers;
 using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
-using Services.ServiceAccess;
+using Domain.ServiceAccess;
 using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -37,7 +37,7 @@ namespace CloudERP.Controllers
                 var FinancialYear = await _financialYearRepository.GetSingleActiveAsync();
                 if (FinancialYear == null)
                 {
-                    ViewBag.ErrorMessage = Resources.Messages.CompanyFinancialYearNotSet;
+                    ViewBag.ErrorMessage = Localization.CloudERP.Messages.Messages.CompanyFinancialYearNotSet;
                     return View();
                 }
 
@@ -45,7 +45,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -65,7 +65,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -83,7 +83,7 @@ namespace CloudERP.Controllers
                 var FinancialYear = await _financialYearRepository.GetSingleActiveAsync();
                 if (FinancialYear == null)
                 {
-                    ViewBag.ErrorMessage = Resources.Messages.CompanyFinancialYearNotSet;
+                    ViewBag.ErrorMessage = Localization.CloudERP.Messages.Messages.CompanyFinancialYearNotSet;
                     return View();
                 }
 
@@ -91,7 +91,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -111,7 +111,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

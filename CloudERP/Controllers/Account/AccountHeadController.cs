@@ -1,23 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using API.Helpers;
 using CloudERP.Helpers;
 using Domain.Models;
-using Domain.RepositoryAccess;
 
 namespace CloudERP.Controllers
 {
     public class AccountHeadController : Controller
     {
-        private readonly IAccountHeadRepository _accountHeadRepository;
+        private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
 
-        public AccountHeadController(
-            IAccountHeadRepository accountHeadRepository, 
-            SessionHelper sessionHelper)
+        public AccountHeadController(SessionHelper sessionHelper)
         {
-            _accountHeadRepository = accountHeadRepository ?? throw new ArgumentNullException(nameof(IAccountHeadRepository));
-            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _httpClient = new HttpClientHelper();
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
         }
 
         public async Task<ActionResult> Index()
@@ -27,15 +26,13 @@ namespace CloudERP.Controllers
 
             try
             {
-                var accountHeads = await _accountHeadRepository.GetAllAsync();
-                if (accountHeads == null) return RedirectToAction("EP404", "EP");
-
+                var accountHeads = await _httpClient.GetAsync<List<AccountHead>>("");
                 return View(accountHeads);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("Error", "Home");
             }
         }
 
@@ -54,22 +51,23 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
+            if (!ModelState.IsValid) return View(model);
+
             try
             {
                 model.UserID = _sessionHelper.UserID;
+                var success = await _httpClient.PostAsync("", model);
 
-                if (ModelState.IsValid)
-                {
-                    await _accountHeadRepository.AddAsync(model);
+                if (success)
                     return RedirectToAction("Index");
-                }
 
+                TempData["ErrorMessage"] = "Error Creating a New Record";
                 return View(model);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("Error", "Home");
             }
         }
 
@@ -80,15 +78,15 @@ namespace CloudERP.Controllers
 
             try
             {
-                var accountHead = await _accountHeadRepository.GetByIdAsync(id);
-                if (accountHead == null) return RedirectToAction("EP404", "EP");
+                var accountHead = await _httpClient.GetAsync<AccountHead>(id.ToString());
+                if (accountHead == null) return HttpNotFound();
 
                 return View(accountHead);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("Error", "Home");
             }
         }
 
@@ -99,21 +97,23 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
+            if (!ModelState.IsValid) return View(model);
+
             try
             {
                 model.UserID = _sessionHelper.UserID;
+                var success = await _httpClient.PutAsync(model.AccountHeadID.ToString(), model);
 
-                if (ModelState.IsValid)
-                {
-                    await _accountHeadRepository.UpdateAsync(model);
+                if (success)
                     return RedirectToAction("Index");
-                }
+
+                TempData["ErrorMessage"] = "Error Updating a Record";
                 return View(model);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("Error", "Home");
             }
         }
     }

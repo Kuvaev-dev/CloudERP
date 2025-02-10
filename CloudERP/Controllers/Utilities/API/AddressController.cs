@@ -25,13 +25,13 @@ namespace CloudERP.Controllers
                     else
                     {
                         var errorContent = await response.Content.ReadAsStringAsync();
-                        return new HttpStatusCodeResult(response.StatusCode, $"{Resources.Messages.ErrorFetchingDataFromGeoapifyAPI} {errorContent}");
+                        return new HttpStatusCodeResult(response.StatusCode, $"{Localization.CloudERP.Messages.Messages.ErrorFetchingDataFromGeoapifyAPI} {errorContent}");
                     }
                 }
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -51,13 +51,13 @@ namespace CloudERP.Controllers
                     else
                     {
                         var errorContent = await response.Content.ReadAsStringAsync();
-                        return new HttpStatusCodeResult(response.StatusCode, $"{Resources.Messages.ErrorFetchingDataFromGeoapifyAPI} {errorContent}");
+                        return new HttpStatusCodeResult(response.StatusCode, $"{Localization.CloudERP.Messages.Messages.ErrorFetchingDataFromGeoapifyAPI} {errorContent}");
                     }
                 }
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

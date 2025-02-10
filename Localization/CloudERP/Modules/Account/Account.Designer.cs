@@ -8,7 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Resources {
+namespace Localization.CloudERP
+{
     using System;
     
     
@@ -22,21 +23,21 @@ namespace Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Web.Application.StronglyTypedResourceProxyBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Account {
+    public class Account {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Account() {
+        public Account() {
         }
         
         /// <summary>
         ///   Возвращает кэшированный экземпляр ResourceManager, использованный этим классом.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Resources.Account", global::System.Reflection.Assembly.Load("App_GlobalResources"));
@@ -51,7 +52,7 @@ namespace Resources {
         ///   обращений к ресурсу с помощью этого класса ресурса со строгой типизацией.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +64,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Account Control.
         /// </summary>
-        internal static string AccountControlTitle {
+        public static string AccountControlTitle {
             get {
                 return ResourceManager.GetString("AccountControlTitle", resourceCulture);
             }
@@ -72,7 +73,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Account Head.
         /// </summary>
-        internal static string AccountHeadTitle {
+        public static string AccountHeadTitle {
             get {
                 return ResourceManager.GetString("AccountHeadTitle", resourceCulture);
             }
@@ -81,7 +82,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Account Sub Control Name.
         /// </summary>
-        internal static string AccountSubControlName {
+        public static string AccountSubControlName {
             get {
                 return ResourceManager.GetString("AccountSubControlName", resourceCulture);
             }
@@ -90,7 +91,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Activity.
         /// </summary>
-        internal static string Activity {
+        public static string Activity {
             get {
                 return ResourceManager.GetString("Activity", resourceCulture);
             }
@@ -99,7 +100,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Add Account Control.
         /// </summary>
-        internal static string AddAccountControl {
+        public static string AddAccountControl {
             get {
                 return ResourceManager.GetString("AddAccountControl", resourceCulture);
             }
@@ -108,7 +109,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Add Account Head.
         /// </summary>
-        internal static string AddAccountHead {
+        public static string AddAccountHead {
             get {
                 return ResourceManager.GetString("AddAccountHead", resourceCulture);
             }
@@ -117,7 +118,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Add Account Sub Control.
         /// </summary>
-        internal static string AddAccountSubControl {
+        public static string AddAccountSubControl {
             get {
                 return ResourceManager.GetString("AddAccountSubControl", resourceCulture);
             }
@@ -126,7 +127,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Add New User Type.
         /// </summary>
-        internal static string AddNewUserType {
+        public static string AddNewUserType {
             get {
                 return ResourceManager.GetString("AddNewUserType", resourceCulture);
             }
@@ -135,7 +136,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Add User Type.
         /// </summary>
-        internal static string AddUserType {
+        public static string AddUserType {
             get {
                 return ResourceManager.GetString("AddUserType", resourceCulture);
             }
@@ -144,7 +145,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на All Account Controls.
         /// </summary>
-        internal static string AllAccountControls {
+        public static string AllAccountControls {
             get {
                 return ResourceManager.GetString("AllAccountControls", resourceCulture);
             }
@@ -153,7 +154,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на All Account Heads.
         /// </summary>
-        internal static string AllAccountHeads {
+        public static string AllAccountHeads {
             get {
                 return ResourceManager.GetString("AllAccountHeads", resourceCulture);
             }
@@ -162,7 +163,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на All Account Sub Controls.
         /// </summary>
-        internal static string AllAccountSubControls {
+        public static string AllAccountSubControls {
             get {
                 return ResourceManager.GetString("AllAccountSubControls", resourceCulture);
             }
@@ -171,7 +172,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на All User Types.
         /// </summary>
-        internal static string AllUserTypes {
+        public static string AllUserTypes {
             get {
                 return ResourceManager.GetString("AllUserTypes", resourceCulture);
             }
@@ -180,7 +181,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Code.
         /// </summary>
-        internal static string Code {
+        public static string Code {
             get {
                 return ResourceManager.GetString("Code", resourceCulture);
             }
@@ -189,7 +190,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Contact №.
         /// </summary>
-        internal static string ContactNo {
+        public static string ContactNo {
             get {
                 return ResourceManager.GetString("ContactNo", resourceCulture);
             }
@@ -198,7 +199,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Control Account.
         /// </summary>
-        internal static string ControlAccount {
+        public static string ControlAccount {
             get {
                 return ResourceManager.GetString("ControlAccount", resourceCulture);
             }
@@ -207,7 +208,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Create User.
         /// </summary>
-        internal static string CreateUser {
+        public static string CreateUser {
             get {
                 return ResourceManager.GetString("CreateUser", resourceCulture);
             }
@@ -216,7 +217,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Delete User Type.
         /// </summary>
-        internal static string Delete {
+        public static string Delete {
             get {
                 return ResourceManager.GetString("Delete", resourceCulture);
             }
@@ -225,7 +226,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Are you sure you want to delete this User Type?.
         /// </summary>
-        internal static string DeleteQuestion {
+        public static string DeleteQuestion {
             get {
                 return ResourceManager.GetString("DeleteQuestion", resourceCulture);
             }
@@ -234,7 +235,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Edit Account Control.
         /// </summary>
-        internal static string EditAccountControl {
+        public static string EditAccountControl {
             get {
                 return ResourceManager.GetString("EditAccountControl", resourceCulture);
             }
@@ -243,7 +244,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Edit Account Head.
         /// </summary>
-        internal static string EditAccountHead {
+        public static string EditAccountHead {
             get {
                 return ResourceManager.GetString("EditAccountHead", resourceCulture);
             }
@@ -252,7 +253,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Edit Sub Control.
         /// </summary>
-        internal static string EditSubControl {
+        public static string EditSubControl {
             get {
                 return ResourceManager.GetString("EditSubControl", resourceCulture);
             }
@@ -261,7 +262,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Edit User Type.
         /// </summary>
-        internal static string EditUserType {
+        public static string EditUserType {
             get {
                 return ResourceManager.GetString("EditUserType", resourceCulture);
             }
@@ -270,7 +271,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Email.
         /// </summary>
-        internal static string Email {
+        public static string Email {
             get {
                 return ResourceManager.GetString("Email", resourceCulture);
             }
@@ -279,7 +280,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Enter Account Head ID.
         /// </summary>
-        internal static string EnterAccountHeadID {
+        public static string EnterAccountHeadID {
             get {
                 return ResourceManager.GetString("EnterAccountHeadID", resourceCulture);
             }
@@ -288,7 +289,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Full Name.
         /// </summary>
-        internal static string FullName {
+        public static string FullName {
             get {
                 return ResourceManager.GetString("FullName", resourceCulture);
             }
@@ -297,7 +298,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Head Account.
         /// </summary>
-        internal static string HeadAccount {
+        public static string HeadAccount {
             get {
                 return ResourceManager.GetString("HeadAccount", resourceCulture);
             }
@@ -306,7 +307,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Head Code.
         /// </summary>
-        internal static string HeadCode {
+        public static string HeadCode {
             get {
                 return ResourceManager.GetString("HeadCode", resourceCulture);
             }
@@ -315,7 +316,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Manage Transactions.
         /// </summary>
-        internal static string ManageTransactions {
+        public static string ManageTransactions {
             get {
                 return ResourceManager.GetString("ManageTransactions", resourceCulture);
             }
@@ -324,7 +325,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на New Account Control.
         /// </summary>
-        internal static string NewAccountControl {
+        public static string NewAccountControl {
             get {
                 return ResourceManager.GetString("NewAccountControl", resourceCulture);
             }
@@ -333,7 +334,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на New Account Head.
         /// </summary>
-        internal static string NewAccountHead {
+        public static string NewAccountHead {
             get {
                 return ResourceManager.GetString("NewAccountHead", resourceCulture);
             }
@@ -342,7 +343,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на New Account Setting.
         /// </summary>
-        internal static string NewAccountSetting {
+        public static string NewAccountSetting {
             get {
                 return ResourceManager.GetString("NewAccountSetting", resourceCulture);
             }
@@ -351,7 +352,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на New Account Sub Control.
         /// </summary>
-        internal static string NewAccountSubControl {
+        public static string NewAccountSubControl {
             get {
                 return ResourceManager.GetString("NewAccountSubControl", resourceCulture);
             }
@@ -360,7 +361,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на New Account Sub Control Name.
         /// </summary>
-        internal static string NewAccountSubControlName {
+        public static string NewAccountSubControlName {
             get {
                 return ResourceManager.GetString("NewAccountSubControlName", resourceCulture);
             }
@@ -369,7 +370,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Enter New Contact №.
         /// </summary>
-        internal static string NewContactNo {
+        public static string NewContactNo {
             get {
                 return ResourceManager.GetString("NewContactNo", resourceCulture);
             }
@@ -378,7 +379,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Enter New Email.
         /// </summary>
-        internal static string NewEmail {
+        public static string NewEmail {
             get {
                 return ResourceManager.GetString("NewEmail", resourceCulture);
             }
@@ -387,7 +388,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Enter New Full Name.
         /// </summary>
-        internal static string NewFullName {
+        public static string NewFullName {
             get {
                 return ResourceManager.GetString("NewFullName", resourceCulture);
             }
@@ -396,7 +397,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Enter New Password.
         /// </summary>
-        internal static string NewPassword {
+        public static string NewPassword {
             get {
                 return ResourceManager.GetString("NewPassword", resourceCulture);
             }
@@ -405,7 +406,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Enter New Status.
         /// </summary>
-        internal static string NewStatus {
+        public static string NewStatus {
             get {
                 return ResourceManager.GetString("NewStatus", resourceCulture);
             }
@@ -414,7 +415,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Enter New User Name.
         /// </summary>
-        internal static string NewUserName {
+        public static string NewUserName {
             get {
                 return ResourceManager.GetString("NewUserName", resourceCulture);
             }
@@ -423,7 +424,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Enter New User Type.
         /// </summary>
-        internal static string NewUserTypeID {
+        public static string NewUserTypeID {
             get {
                 return ResourceManager.GetString("NewUserTypeID", resourceCulture);
             }
@@ -432,7 +433,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Password.
         /// </summary>
-        internal static string Password {
+        public static string Password {
             get {
                 return ResourceManager.GetString("Password", resourceCulture);
             }
@@ -441,7 +442,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Select Account Head.
         /// </summary>
-        internal static string SelectAccountHead {
+        public static string SelectAccountHead {
             get {
                 return ResourceManager.GetString("SelectAccountHead", resourceCulture);
             }
@@ -450,7 +451,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Select Activity.
         /// </summary>
-        internal static string SelectActivity {
+        public static string SelectActivity {
             get {
                 return ResourceManager.GetString("SelectActivity", resourceCulture);
             }
@@ -459,7 +460,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Select Control Account.
         /// </summary>
-        internal static string SelectControlAccount {
+        public static string SelectControlAccount {
             get {
                 return ResourceManager.GetString("SelectControlAccount", resourceCulture);
             }
@@ -468,7 +469,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Select Head Account.
         /// </summary>
-        internal static string SelectHeadAccount {
+        public static string SelectHeadAccount {
             get {
                 return ResourceManager.GetString("SelectHeadAccount", resourceCulture);
             }
@@ -477,7 +478,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Select Sub Account.
         /// </summary>
-        internal static string SelectSubAccount {
+        public static string SelectSubAccount {
             get {
                 return ResourceManager.GetString("SelectSubAccount", resourceCulture);
             }
@@ -486,7 +487,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Select Sub Control Account.
         /// </summary>
-        internal static string SelectSubControlAccount {
+        public static string SelectSubControlAccount {
             get {
                 return ResourceManager.GetString("SelectSubControlAccount", resourceCulture);
             }
@@ -495,7 +496,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Set Accounting Flow.
         /// </summary>
-        internal static string SetAccountingFlow {
+        public static string SetAccountingFlow {
             get {
                 return ResourceManager.GetString("SetAccountingFlow", resourceCulture);
             }
@@ -504,7 +505,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Status.
         /// </summary>
-        internal static string Status {
+        public static string Status {
             get {
                 return ResourceManager.GetString("Status", resourceCulture);
             }
@@ -513,7 +514,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Sub Account.
         /// </summary>
-        internal static string SubAccount {
+        public static string SubAccount {
             get {
                 return ResourceManager.GetString("SubAccount", resourceCulture);
             }
@@ -522,7 +523,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Sub Control Account.
         /// </summary>
-        internal static string SubControlAccount {
+        public static string SubControlAccount {
             get {
                 return ResourceManager.GetString("SubControlAccount", resourceCulture);
             }
@@ -531,7 +532,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Update User.
         /// </summary>
-        internal static string UpdateUser {
+        public static string UpdateUser {
             get {
                 return ResourceManager.GetString("UpdateUser", resourceCulture);
             }
@@ -540,7 +541,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на User.
         /// </summary>
-        internal static string User {
+        public static string User {
             get {
                 return ResourceManager.GetString("User", resourceCulture);
             }
@@ -549,7 +550,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на User Name.
         /// </summary>
-        internal static string UserName {
+        public static string UserName {
             get {
                 return ResourceManager.GetString("UserName", resourceCulture);
             }
@@ -558,7 +559,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на User Type.
         /// </summary>
-        internal static string UserType {
+        public static string UserType {
             get {
                 return ResourceManager.GetString("UserType", resourceCulture);
             }
@@ -567,7 +568,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на User Type Details.
         /// </summary>
-        internal static string UserTypeDetails {
+        public static string UserTypeDetails {
             get {
                 return ResourceManager.GetString("UserTypeDetails", resourceCulture);
             }
@@ -576,7 +577,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на User Type.
         /// </summary>
-        internal static string UserTypeID {
+        public static string UserTypeID {
             get {
                 return ResourceManager.GetString("UserTypeID", resourceCulture);
             }

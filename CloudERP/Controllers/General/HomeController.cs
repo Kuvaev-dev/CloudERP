@@ -54,7 +54,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -142,12 +142,12 @@ namespace CloudERP.Controllers
                     return user.UserTypeID == MAIN_BRANCH_TYPE_ID ? RedirectToAction("AdminMenuGuide", "Guide") : RedirectToAction("Index", "Home");
                 }
 
-                ViewBag.Message = Resources.Messages.PleaseProvideCorrectDetails;
+                ViewBag.Message = Localization.CloudERP.Messages.Messages.PleaseProvideCorrectDetails;
                 return View("Login");
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return View("Login");
             }
         }
@@ -174,7 +174,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
 
@@ -194,7 +194,7 @@ namespace CloudERP.Controllers
         {
             if (string.IsNullOrEmpty(email))
             {
-                ModelState.AddModelError("", Resources.Messages.EmailIsRequired);
+                ModelState.AddModelError("", Localization.CloudERP.Messages.Messages.EmailIsRequired);
                 return View();
             }
 
@@ -202,7 +202,7 @@ namespace CloudERP.Controllers
             {
                 if (await _homeFacade.AuthService.IsPasswordResetRequestedRecentlyAsync(email))
                 {
-                    ModelState.AddModelError("", Resources.Messages.PasswordResetAlreadyRequested);
+                    ModelState.AddModelError("", Localization.CloudERP.Messages.Messages.PasswordResetAlreadyRequested);
                     return View();
                 }
 
@@ -225,7 +225,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -246,7 +246,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -268,7 +268,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

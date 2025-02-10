@@ -8,7 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Resources {
+namespace Localization.CloudERP
+{
     using System;
     
     
@@ -22,21 +23,21 @@ namespace Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Web.Application.StronglyTypedResourceProxyBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Task {
+    public class Task {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Task() {
+        public Task() {
         }
         
         /// <summary>
         ///   Возвращает кэшированный экземпляр ResourceManager, использованный этим классом.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Resources.Task", global::System.Reflection.Assembly.Load("App_GlobalResources"));
@@ -51,7 +52,7 @@ namespace Resources {
         ///   обращений к ресурсу с помощью этого класса ресурса со строгой типизацией.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +64,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Add Task.
         /// </summary>
-        internal static string AddTask {
+        public static string AddTask {
             get {
                 return ResourceManager.GetString("AddTask", resourceCulture);
             }
@@ -72,7 +73,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Are you sure you want to delete this task?.
         /// </summary>
-        internal static string AreYouSureYouWantToDeleteThisTask {
+        public static string AreYouSureYouWantToDeleteThisTask {
             get {
                 return ResourceManager.GetString("AreYouSureYouWantToDeleteThisTask", resourceCulture);
             }
@@ -81,7 +82,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Complete.
         /// </summary>
-        internal static string Complete {
+        public static string Complete {
             get {
                 return ResourceManager.GetString("Complete", resourceCulture);
             }
@@ -90,7 +91,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Create Task.
         /// </summary>
-        internal static string CreateTask {
+        public static string CreateTask {
             get {
                 return ResourceManager.GetString("CreateTask", resourceCulture);
             }
@@ -99,7 +100,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Delete Task.
         /// </summary>
-        internal static string DeleteTask {
+        public static string DeleteTask {
             get {
                 return ResourceManager.GetString("DeleteTask", resourceCulture);
             }
@@ -108,7 +109,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Description.
         /// </summary>
-        internal static string Description {
+        public static string Description {
             get {
                 return ResourceManager.GetString("Description", resourceCulture);
             }
@@ -117,7 +118,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Due Date.
         /// </summary>
-        internal static string DueDate {
+        public static string DueDate {
             get {
                 return ResourceManager.GetString("DueDate", resourceCulture);
             }
@@ -126,7 +127,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Edit Task.
         /// </summary>
-        internal static string EditTask {
+        public static string EditTask {
             get {
                 return ResourceManager.GetString("EditTask", resourceCulture);
             }
@@ -135,7 +136,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Is Completed.
         /// </summary>
-        internal static string IsCompleted {
+        public static string IsCompleted {
             get {
                 return ResourceManager.GetString("IsCompleted", resourceCulture);
             }
@@ -144,7 +145,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Reminder Date.
         /// </summary>
-        internal static string ReminderDate {
+        public static string ReminderDate {
             get {
                 return ResourceManager.GetString("ReminderDate", resourceCulture);
             }
@@ -153,7 +154,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Task Details.
         /// </summary>
-        internal static string TaskDetails {
+        public static string TaskDetails {
             get {
                 return ResourceManager.GetString("TaskDetails", resourceCulture);
             }
@@ -162,7 +163,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Tasks List.
         /// </summary>
-        internal static string TasksList {
+        public static string TasksList {
             get {
                 return ResourceManager.GetString("TasksList", resourceCulture);
             }
@@ -171,7 +172,7 @@ namespace Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на Title.
         /// </summary>
-        internal static string TaskTitle {
+        public static string TaskTitle {
             get {
                 return ResourceManager.GetString("TaskTitle", resourceCulture);
             }

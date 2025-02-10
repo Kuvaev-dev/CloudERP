@@ -45,7 +45,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -67,7 +67,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -95,7 +95,7 @@ namespace CloudERP.Controllers
                 {
                     if (await _companyRepository.CheckCompanyExistsAsync(model.Name))
                     {
-                        ModelState.AddModelError("Name", Resources.Messages.AlreadyExists);
+                        ModelState.AddModelError("Name", Localization.CloudERP.Messages.Messages.AlreadyExists);
                         return View(model);
                     }
 
@@ -120,7 +120,7 @@ namespace CloudERP.Controllers
             }
             catch
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -142,7 +142,7 @@ namespace CloudERP.Controllers
             }
             catch
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -180,7 +180,7 @@ namespace CloudERP.Controllers
             }
             catch
             {
-                TempData["ErrorMessage"] = Resources.Messages.UnexpectedErrorMessage;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage;
                 return RedirectToAction("EP500", "EP");
             }
         }
