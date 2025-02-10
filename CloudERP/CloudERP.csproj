@@ -907,6 +907,7 @@
     <Content Include="Content\CompanyLogo\lg.png" />
     <Content Include="Content\CompanyLogo\nokia.png" />
     <Content Include="Content\CompanyLogo\samsung.png" />
+    <Content Include="Content\CustomStyles\PrintInvoice.css" />
     <Content Include="Content\EmployeePhoto\Default\default.png" />
     <Content Include="Content\EmployeePhoto\e1.png" />
     <Content Include="Content\EmployeePhoto\e2.png" />
@@ -2972,6 +2973,8 @@
     <Content Include="Content\fontawesome\svgs\solid\yen-sign.svg" />
     <Content Include="Content\fontawesome\svgs\solid\yin-yang.svg" />
     <Content Include="Content\fontawesome\svgs\solid\z.svg" />
+    <Content Include="Content\StuffLogo\customer.png" />
+    <Content Include="Content\StuffLogo\supplier.png" />
     <Content Include="Content\Template\css\app-rtl.css" />
     <Content Include="Content\Template\css\app.css" />
     <Content Include="Content\Template\css\bootstrap-rtl.css" />

@@ -17,6 +17,7 @@ namespace DatabaseAccess.Repositories
 
         public IEnumerable<ForecastData> GetForecastData(int companyID, int branchID, DateTime startDate, DateTime endDate)
         {
+            var count = _dbContext.tblTransaction.Count();
             // Retrieve the data from the database
             var transactionData = _dbContext.tblTransaction
                 .Where(t => t.CompanyID == companyID &&

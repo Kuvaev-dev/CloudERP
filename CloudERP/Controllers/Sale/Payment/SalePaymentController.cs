@@ -14,7 +14,7 @@ namespace CloudERP.Controllers
         private readonly SalePaymentFacade _salePaymentFacade;
         private readonly SessionHelper _sessionHelper;
 
-        private const string DEFAULT_IMAGE_PATH = "~/Content/EmployeePhoto/Default/default.png";
+        private const string DEFAULT_IMAGE_PATH = "~/Content/StuffLogo/customer.png";
 
         public SalePaymentController(
             SalePaymentFacade salePaymentFacade,

@@ -38,7 +38,7 @@
 <body>
     <div class="wrapper">
         <!-- top navbar-->
-        <header class="topnavbar-wrapper" id="step9">
+        <header class="topnavbar-wrapper" id="step10">
             <!-- START Top Navbar-->
             <nav class="navbar topnavbar">
                 <!-- START navbar header-->
@@ -96,7 +96,7 @@
                 <!-- START Right Navbar-->
                 <ul class="navbar-nav flex-row">
                     <!-- START Loading-->
-                    <li class="nav-item" id="step4">
+                    <li class="nav-item">
                         <div style="display:none;">
                             <img src="~/Content/Template/img/loading.gif" alt="Loading..." />
                         </div>
@@ -135,7 +135,7 @@
                         </div>
                     </li>
                     <!-- START Currency Dropdown -->
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown" id="step7">
                         <a class="nav-link dropdown-toggle" href="#" id="currencyDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa-solid fa-dollar-sign"></i>
                         </a>
@@ -160,7 +160,7 @@
                     </li>
                     <!-- END Currency Dropdown -->
                     <!-- END Language list -->
-                    <li class="nav-item" id="step7">
+                    <li class="nav-item" id="step8">
                         <div class="nav-link container">
                             <i class="bi bi-person-walking" onclick="startTour()"></i>
                         </div>
@@ -171,12 +171,12 @@
             <!-- END Top Navbar-->
         </header>
         <!-- sidebar-->
-        <aside class="aside-container">
+        <aside class="aside-container" id="step9">
             <!-- START Sidebar (left)-->
             <div class="aside-inner">
                 <nav class="sidebar" data-sidebar-anyclick-close="">
                     <!-- START sidebar nav-->
-                    <ul class="sidebar-nav" id="step8">
+                    <ul class="sidebar-nav">
                         <!-- START user info-->
                         <li class="has-user-block">
                             <div class="collapse" id="user-block">
@@ -784,15 +784,16 @@
     <script src="~/Content/Template/js/app.js"></script>
     <script src="~/Scripts/CustomScripts/FullscreenMode.js"></script>
     <script src="~/Scripts/CustomScripts/Tour.js"></script>
+    @{
+        bool startTour = Session["StartTour"] != null && (bool)Session["StartTour"];
+        Session["StartTour"] = false;
+    }
     <script>
         $(document).ready(function () {
-            document.addEventListener('DOMContentLoaded', () => {
-                if (@(Session["StartTour"] != null && (bool)Session["StartTour"] ? "true" : "false")) {
-                    startTour();
-                    @Session["StartTour"] = false;
-                }
-            });
-        }
+            if (@startTour.ToString().ToLower()) {
+                startTour();
+            }
+        });
     </script>
 </body>
 </html>

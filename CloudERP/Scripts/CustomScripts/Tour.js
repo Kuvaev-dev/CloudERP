@@ -156,7 +156,7 @@ tour.addStep({
 
 tour.addStep({
     id: 'step7',
-    text: 'Use this button to restart the tour',
+    text: 'Use this dropdown to switch currency',
     attachTo: {
         element: '#step7',
         on: 'bottom'
@@ -182,7 +182,7 @@ tour.addStep({
 
 tour.addStep({
     id: 'step8',
-    text: 'Use the sidebar for quick navigation around the work panel',
+    text: 'Use this button to restart the tour',
     attachTo: {
         element: '#step8',
         on: 'bottom'
@@ -208,9 +208,35 @@ tour.addStep({
 
 tour.addStep({
     id: 'step9',
-    text: 'Have fun!',
+    text: 'Use the sidebar for quick navigation around the work panel',
     attachTo: {
         element: '#step9',
+        on: 'bottom'
+    },
+    buttons: [
+        {
+            text: 'Back',
+            action: tour.back,
+            classes: 'shepherd-button shepherd-button-secondary'
+        },
+        {
+            text: 'Next',
+            action: tour.next,
+            classes: 'shepherd-button shepherd-button-primary'
+        },
+        {
+            text: 'Finish',
+            action: tour.complete,
+            classes: 'shepherd-button shepherd-button-primary'
+        }
+    ]
+});
+
+tour.addStep({
+    id: 'step10',
+    text: 'Have fun!',
+    attachTo: {
+        element: '#step10',
         on: 'bottom'
     },
     buttons: [

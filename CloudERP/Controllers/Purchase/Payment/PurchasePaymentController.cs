@@ -14,7 +14,7 @@ namespace CloudERP.Controllers
         private readonly SessionHelper _sessionHelper;
         private readonly PurchasePaymentFacade _purchasePaymentFacade;
 
-        private const string DEFAULT_IMAGE_PATH = "~/Content/EmployeePhoto/Default/default.png";
+        private const string DEFAULT_IMAGE_PATH = "~/Content/StuffLogo/supplier.png";
 
         public PurchasePaymentController(
             SessionHelper sessionHelper,
