@@ -1,7 +1,7 @@
 ﻿@model Domain.Models.SupportTicket
 
 @{
-    ViewBag.Title = Resources.Support.ContactSupport;
+    ViewBag.Title = Localization.CloudERP.Support.ContactSupport;
 }
 
 <!-- Tables Sorting-->
@@ -26,7 +26,7 @@
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
 
         <div class="form-group">
-            @Html.LabelFor(m => m.Subject, Resources.Support.Subject, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(m => m.Subject, Localization.CloudERP.Support.Subject, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.TextBoxFor(m => m.Subject, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
@@ -34,7 +34,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(m => m.Message, Resources.Support.Message, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(m => m.Message, Localization.CloudERP.Support.Message, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.TextAreaFor(m => m.Message, new { @class = "form-control", rows = 5 })
                 @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
@@ -43,7 +43,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="@Resources.Common.Create.ToString()" class="btn btn-success" />
+                <input type="submit" value="@Localization.CloudERP.Common.Create.ToString()" class="btn btn-success" />
             </div>
         </div>
     </div>

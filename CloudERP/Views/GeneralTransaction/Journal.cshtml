@@ -2,7 +2,7 @@
 
 @{
     string invoiceNo = string.Empty;
-    ViewBag.Title = Resources.Miscellaneous.JournalByTransactionsDate;
+    ViewBag.Title = Localization.CloudERP.Miscellaneous.JournalByTransactionsDate;
 }
 
 <!-- Tables Sorting-->
@@ -19,7 +19,7 @@
 <div class="card">
     <div class="card card-float">
         <div class="card-header">
-            <h4>@Resources.Miscellaneous.SelectRangeFromDateAndToDate</h4>
+            <h4>@Localization.CloudERP.Miscellaneous.SelectRangeFromDateAndToDate</h4>
             <h5 class="text-danger">@ViewBag.JournalMessage</h5>
             <h3 class="text-danger">@ViewBag.Message</h3>
             <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
@@ -30,17 +30,17 @@
                 @Html.AntiForgeryToken()
                 <div class="row">
                     <div class="col-md-4">
-                        <label>@Resources.Miscellaneous.SelectFromDate</label>
+                        <label>@Localization.CloudERP.Miscellaneous.SelectFromDate</label>
                         <input type="date" id="FromDate" name="FromDate" value="@DateTime.Now" class="form-control" required>
                     </div>
                     <div class="col-md-4">
-                        <label>@Resources.Miscellaneous.SelectToDate</label>
+                        <label>@Localization.CloudERP.Miscellaneous.SelectToDate</label>
                         <input type="date" id="ToDate" name="ToDate" value="@DateTime.Now" class="form-control" required>
                     </div>
                 </div>
                 <br />
                 <hr />
-                <input type="submit" value="@Resources.Miscellaneous.RetrieveTransactions" class="btn btn-success" style="float: right;">
+                <input type="submit" value="@Localization.CloudERP.Miscellaneous.RetrieveTransactions" class="btn btn-success" style="float: right;">
             }
         </div>
     </div>
@@ -48,9 +48,9 @@
 
 <div class="card">
     <div class="card-header">
-        <div class="card-title">@Resources.Miscellaneous.Export</div>
+        <div class="card-title">@Localization.CloudERP.Miscellaneous.Export</div>
         <div class="text-sm">
-            @Resources.Miscellaneous.Transactions
+            @Localization.CloudERP.Miscellaneous.Transactions
         </div>
     </div>
     <div class="card-body">
@@ -61,22 +61,22 @@
                         №
                     </th>
                     <th>
-                        @Resources.Miscellaneous.Date
+                        @Localization.CloudERP.Miscellaneous.Date
                     </th>
                     <th>
-                        @Resources.Miscellaneous.Account
+                        @Localization.CloudERP.Miscellaneous.Account
                     </th>
                     <th>
-                        @Resources.Miscellaneous.Title
+                        @Localization.CloudERP.Miscellaneous.Title
                     </th>
                     <th>
-                        @Resources.Miscellaneous.InvoiceNo
+                        @Localization.CloudERP.Miscellaneous.InvoiceNo
                     </th>
                     <th>
-                        @Resources.Miscellaneous.Debit
+                        @Localization.CloudERP.Miscellaneous.Debit
                     </th>
                     <th>
-                        @Resources.Miscellaneous.Credit
+                        @Localization.CloudERP.Miscellaneous.Credit
                     </th>
                 </tr>
             </thead>

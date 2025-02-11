@@ -47,8 +47,8 @@
     <Compile Include="Helpers\AllowedDomainsAttribute.cs" />
     <Compile Include="Helpers\CultureHelper.cs" />
     <Compile Include="Helpers\DatabaseQuery.cs" />
-    <Compile Include="Interfaces\IConnectionStringProvider.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
+    <Compile Include="Interfaces\IConnectionStringProvider.cs" />
     <Compile Include="Interfaces\ICurrencyService.cs" />
     <Compile Include="Interfaces\IEmailService.cs" />
     <Compile Include="Interfaces\IFile.cs" />

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Domain.Models.FinancialModels.PurchasePaymentModel>
 
 @{
-    ViewBag.Title = Resources.Purchase.CustomBasePurchasesHistory;
+    ViewBag.Title = Localization.CloudERP.Purchase.CustomBasePurchasesHistory;
 }
 
 <!-- Tables Sorting-->
@@ -18,7 +18,7 @@
 <div class="card">
     <div class="card card-float">
         <div class="card-header">
-            <h4>@Resources.Purchase.SelectRangeFromDateAndToDate</h4>
+            <h4>@Localization.CloudERP.Purchase.SelectRangeFromDateAndToDate</h4>
             <h3 class="text-danger">@ViewBag.Message</h3>
             <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
         </div>
@@ -29,17 +29,17 @@
                 <input type="text" value="@ViewBag.InvoiceID" id="id" name="id" style="display:none;" />
                 <div class="row">
                     <div class="col-md-4">
-                        <label>@Resources.Purchase.SelectFromDate</label>
+                        <label>@Localization.CloudERP.Purchase.SelectFromDate</label>
                         <input type="date" id="FromDate" name="FromDate" value="@DateTime.Now" class="form-control" required>
                     </div>
                     <div class="col-md-4">
-                        <label>@Resources.Purchase.SelectToDate</label>
+                        <label>@Localization.CloudERP.Purchase.SelectToDate</label>
                         <input type="date" id="ToDate" name="ToDate" value="@DateTime.Now" class="form-control" required>
                     </div>
                 </div>
                 <br />
                 <br />
-                <input type="submit" value="@Resources.Purchase.RetrivePurchasesRecord" class="btn btn-success" style="float: right;">
+                <input type="submit" value="@Localization.CloudERP.Purchase.RetrivePurchasesRecord" class="btn btn-success" style="float: right;">
             }
         </div>
     </div>
@@ -55,37 +55,37 @@
                 <thead>
                     <tr>
                         <th>
-                            @Resources.Supplier.SupplierName
+                            @Localization.CloudERP.Supplier.SupplierName
                         </th>
                         <th>
-                            @Resources.Supplier.ConatctNo
+                            @Localization.CloudERP.Supplier.ConatctNo
                         </th>
                         <th>
-                            @Resources.Miscellaneous.InvoiceNo
+                            @Localization.CloudERP.Miscellaneous.InvoiceNo
                         </th>
                         <th>
-                            @Resources.Miscellaneous.Date
+                            @Localization.CloudERP.Miscellaneous.Date
                         </th>
                         <th>
-                            @Resources.Purchase.TotalAmount
+                            @Localization.CloudERP.Purchase.TotalAmount
                         </th>
                         <th>
-                            @Resources.Purchase.ReturnProductsTotalAmount
+                            @Localization.CloudERP.Purchase.ReturnProductsTotalAmount
                         </th>
                         <th>
-                            @Resources.Purchase.AfterReturnTotalAmount
+                            @Localization.CloudERP.Purchase.AfterReturnTotalAmount
                         </th>
                         <th>
-                            @Resources.Purchase.PaidAmount
+                            @Localization.CloudERP.Purchase.PaidAmount
                         </th>
                         <th>
-                            @Resources.Purchase.PaymentAmount
+                            @Localization.CloudERP.Purchase.PaymentAmount
                         </th>
                         <th>
-                            @Resources.Purchase.RemainingBalance
+                            @Localization.CloudERP.Purchase.RemainingBalance
                         </th>
                         <th>
-                            @Resources.Common.Actions
+                            @Localization.CloudERP.Common.Actions
                         </th>
                     </tr>
                 </thead>
@@ -118,7 +118,7 @@
                                 @{
                                     if (item.PaymentAmount == 0 && item.AfterReturnTotalAmount > 0)
                                     {
-                                        @Html.ActionLink(Resources.Purchase.SetPayment, "PaidAmount", new { id = item.SupplierInvoiceID }, new { @class = "text-success" })
+                                        @Html.ActionLink(Localization.CloudERP.Purchase.SetPayment, "PaidAmount", new { id = item.SupplierInvoiceID }, new { @class = "text-success" })
                                     }
                                     else
                                     {
@@ -134,7 +134,7 @@
                                     if (item.RemainingBalance == 0 && item.PaymentAmount != 0)
                                     {
                                         <em class="icon-check">
-                                            <label class="text-success">@Resources.Purchase.Clear</label>
+                                            <label class="text-success">@Localization.CloudERP.Purchase.Clear</label>
                                         </em>
                                     }
                                     else if (item.RemainingBalance < 0)
@@ -151,18 +151,18 @@
                                 @{
                                     if (item.RemainingBalance < item.TotalAmount && item.PaymentAmount != 0)
                                     {
-                                        @Html.ActionLink(Resources.Purchase.PayHistory, "PaidHistory", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-primary mb-2" });
+                                        @Html.ActionLink(Localization.CloudERP.Purchase.PayHistory, "PaidHistory", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-primary mb-2" });
                                     }
                                     else
                                     {
                                         <em class="icon-book-open">
-                                            <label class="text-danger"><b>@Resources.Purchase.NoHistory</b></label>
+                                            <label class="text-danger"><b>@Localization.CloudERP.Purchase.NoHistory</b></label>
                                         </em>
                                     }
                                 }
 
-                                @Html.ActionLink(Resources.Purchase.ViewDetails, "PurchaseItemDetail", new { id = item.SupplierInvoiceID }, new { @class = "mt-2 btn btn-info mb-2" })
-                                @Html.ActionLink(Resources.Purchase.PrintInvoice, "PrintPurchaseInvoice", "PurchasePayment", new { id = item.SupplierInvoiceID }, new { @class = "mt-2 btn btn-info mb-2" })
+                                @Html.ActionLink(Localization.CloudERP.Purchase.ViewDetails, "PurchaseItemDetail", new { id = item.SupplierInvoiceID }, new { @class = "mt-2 btn btn-info mb-2" })
+                                @Html.ActionLink(Localization.CloudERP.Purchase.PrintInvoice, "PrintPurchaseInvoice", "PurchasePayment", new { id = item.SupplierInvoiceID }, new { @class = "mt-2 btn btn-info mb-2" })
                             </td>
                         </tr>
                     }

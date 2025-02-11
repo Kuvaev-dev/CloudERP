@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Domain.Models.User>
 
 @{
-    ViewBag.Title = Resources.User.AllUsers.ToString();
+    ViewBag.Title = Localization.CloudERP.User.AllUsers.ToString();
 }
 
 <!-- Tables Sorting-->
@@ -22,25 +22,25 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.User.FullName))
+                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.User.FullName))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.User.EmailAddress))
+                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.User.EmailAddress))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.User.ContactNo))
+                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.User.ContactNo))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.User.UserName))
+                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.User.UserName))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.User.Status))
+                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.User.Status))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.User.UserType))
+                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.User.UserType))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Common.Actions))
+                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Common.Actions))
                         </th>
                     </tr>
                 </thead>
@@ -67,8 +67,8 @@
                                 @Html.DisplayFor(modelItem => item.UserTypeName)
                             </td>
                             <td class="btn btn-group">
-                                @Html.ActionLink(Resources.Common.Edit.ToString(), "Edit", new { id = item.UserID }, new { @class = "btn btn-primary" })
-                                @Html.ActionLink(Resources.Common.Details.ToString(), "Details", new { id = item.UserID }, new { @class = "btn btn-info" })
+                                @Html.ActionLink(Localization.CloudERP.Common.Edit.ToString(), "Edit", new { id = item.UserID }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink(Localization.CloudERP.Common.Details.ToString(), "Details", new { id = item.UserID }, new { @class = "btn btn-info" })
                             </td>
                         </tr>
                     }

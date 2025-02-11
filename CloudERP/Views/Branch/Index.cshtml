@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Domain.Models.Branch>
 
 @{
-    ViewBag.Title = Resources.Branch.AllBranches.ToString();
+    ViewBag.Title = Localization.CloudERP.Branch.AllBranches.ToString();
 }
 
 <!-- Tables Sorting-->
@@ -17,7 +17,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        @Html.ActionLink(Resources.Branch.AddBranch.ToString(), "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
+        @Html.ActionLink(Localization.CloudERP.Branch.AddBranch.ToString(), "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
         <h3 class="text-danger">@ViewBag.Message</h3>
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
     </div>
@@ -27,19 +27,19 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Branch.Level))
+                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Branch.Level))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Branch.BranchTitle))
+                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Branch.BranchTitle))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.User.ContactNo))
+                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.User.ContactNo))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Branch.BranchAddress))
+                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Branch.BranchAddress))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Common.Actions))
+                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Common.Actions))
                         </th>
                     </tr>
                 </thead>
@@ -61,17 +61,17 @@
                             </td>
                             <td>
                                 <div class="mt-2 btn-group">
-                                    @Html.ActionLink(Resources.Common.Edit, "Edit", new { id = item.BranchID }, new { @class = "btn btn-primary" })
-                                    @Html.ActionLink(Resources.Branch.Sales, "SubCustomSalesHistory", "SalePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now, id = item.BranchID }, new { @class = "btn btn-info" })
-                                    @Html.ActionLink(Resources.Branch.Purchases, "SubCustomPurchasesHistory", "PurchasePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now, id = item.BranchID }, new { @class = "btn btn-info" })
+                                    @Html.ActionLink(Localization.CloudERP.Common.Edit, "Edit", new { id = item.BranchID }, new { @class = "btn btn-primary" })
+                                    @Html.ActionLink(Localization.CloudERP.Branch.Sales, "SubCustomSalesHistory", "SalePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now, id = item.BranchID }, new { @class = "btn btn-info" })
+                                    @Html.ActionLink(Localization.CloudERP.Branch.Purchases, "SubCustomPurchasesHistory", "PurchasePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now, id = item.BranchID }, new { @class = "btn btn-info" })
                                 </div>
                                 <div class="mt-2 btn-group">
-                                    @Html.ActionLink(Resources.Miscellaneous.Journal, "SubJournal", "GeneralTransaction", new { FromDate = DateTime.Now, ToDate = DateTime.Now, id = item.BranchID }, new { @class = "btn btn-info" })
-                                    @Html.ActionLink(Resources.Miscellaneous.AccountsLedger, "GetSubLedger", "Ledger", new { id = item.BranchID }, new { @class = "btn btn-info" })
+                                    @Html.ActionLink(Localization.CloudERP.Miscellaneous.Journal, "SubJournal", "GeneralTransaction", new { FromDate = DateTime.Now, ToDate = DateTime.Now, id = item.BranchID }, new { @class = "btn btn-info" })
+                                    @Html.ActionLink(Localization.CloudERP.Miscellaneous.AccountsLedger, "GetSubLedger", "Ledger", new { id = item.BranchID }, new { @class = "btn btn-info" })
                                 </div>
                                 <div class="mt-2 btn-group">
-                                    @Html.ActionLink(Resources.Miscellaneous.BalanceSheet, "GetSubBalanceSheet", "BalanceSheet", new { id = item.BranchID }, new { @class = "btn btn-info" })
-                                    @Html.ActionLink(Resources.Miscellaneous.IncomeStatement, "GetSubIncomeStatement", "IncomeStatement", new { id = item.BranchID }, new { @class = "btn btn-info" })
+                                    @Html.ActionLink(Localization.CloudERP.Miscellaneous.BalanceSheet, "GetSubBalanceSheet", "BalanceSheet", new { id = item.BranchID }, new { @class = "btn btn-info" })
+                                    @Html.ActionLink(Localization.CloudERP.Miscellaneous.IncomeStatement, "GetSubIncomeStatement", "IncomeStatement", new { id = item.BranchID }, new { @class = "btn btn-info" })
                                 </div>
                             </td>
                         </tr>

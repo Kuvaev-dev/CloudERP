@@ -1,7 +1,7 @@
 ﻿@model Domain.Models.TaskModel
 
 @{
-    ViewBag.Title = Resources.Task.CreateTask.ToString();
+    ViewBag.Title = Localization.CloudERP.Task.CreateTask.ToString();
 }
 
 <script>
@@ -18,7 +18,7 @@
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Title, Resources.Task.TaskTitle.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Title, Localization.CloudERP.Task.TaskTitle.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
@@ -26,7 +26,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Description, Resources.Task.Description.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Description, Localization.CloudERP.Task.Description.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.TextAreaFor(model => model.Description, new { @class = "form-control", rows = 3 })
                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
@@ -34,7 +34,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.DueDate, Resources.Task.DueDate.ToString(), htmlAttributes: new { @class = "form-label col-md-2" })
+            @Html.LabelFor(model => model.DueDate, Localization.CloudERP.Task.DueDate.ToString(), htmlAttributes: new { @class = "form-label col-md-2" })
             <div class="col-md-5">
                 @Html.TextBoxFor(model => model.DueDate, new { @type = "datetime-local", @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.DueDate, "", new { @class = "text-danger" })
@@ -42,7 +42,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ReminderDate, Resources.Task.ReminderDate.ToString(), htmlAttributes: new { @class = "form-label col-md-2" })
+            @Html.LabelFor(model => model.ReminderDate, Localization.CloudERP.Task.ReminderDate.ToString(), htmlAttributes: new { @class = "form-label col-md-2" })
             <div class="col-md-5">
                 @Html.TextBoxFor(model => model.ReminderDate, new { @type = "datetime-local", @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ReminderDate, "", new { @class = "text-danger" })
@@ -51,8 +51,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-5">
-                <input type="submit" value="@Resources.Common.Create.ToString()" class="btn btn-success" />
-                @Html.ActionLink(Resources.Common.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
+                <input type="submit" value="@Localization.CloudERP.Common.Create.ToString()" class="btn btn-success" />
+                @Html.ActionLink(Localization.CloudERP.Common.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
                 <button id="voiceRecognitionButton" class="btn btn-link" type="button">
                     <i class="fas fa-microphone" style="font-size: 1.5em; color: gray;"></i>
                 </button>

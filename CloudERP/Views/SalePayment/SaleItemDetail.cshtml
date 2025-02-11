@@ -1,21 +1,21 @@
 ﻿@model Domain.Models.Sale.SaleItemDetailDto
 
 @{
-    ViewBag.Title = Resources.Sale.SaleInvoiceNo + Model.InvoiceNo;
+    ViewBag.Title = Localization.CloudERP.Sale.SaleInvoiceNo + Model.InvoiceNo;
 }
 
 <div class="card">
     <div class="card card-float">
         <div class="card-header">
-            <h3 class="text-success">@Resources.Sale.SaleProductsDetail</h3>
+            <h3 class="text-success">@Localization.CloudERP.Sale.SaleProductsDetail</h3>
         </div>
         <div class="card-body">
             <table class="table table-hover">
                 <tr>
-                    <th>@Resources.Sale.Product</th>
-                    <th>@Resources.Sale.Quantity</th>
-                    <th>@Resources.Sale.UnitPrice</th>
-                    <th>@Resources.Sale.ItemCost</th>
+                    <th>@Localization.CloudERP.Sale.Product</th>
+                    <th>@Localization.CloudERP.Sale.Quantity</th>
+                    <th>@Localization.CloudERP.Sale.UnitPrice</th>
+                    <th>@Localization.CloudERP.Sale.ItemCost</th>
                 </tr>
                 @if (Model.Products != null)
                 {
@@ -36,7 +36,7 @@
             <div class="col-lg-6 py-2">
                 <div class="row mb-3 align-items-center">
                     <div class="col-7">
-                        <div class="h3">@Resources.Sale.GRANDTOTAL</div>
+                        <div class="h3">@Localization.CloudERP.Sale.GRANDTOTAL</div>
                     </div>
                     <div class="col-5">
                         <div class="text-left h3">@Model.Total.ToString("F2")</div>
@@ -52,15 +52,15 @@
     <div class="card">
         <div class="card card-float">
             <div class="card-header">
-                <h3 class="text-danger">@Resources.Sale.ReturnSaleProductsDetail</h3>
+                <h3 class="text-danger">@Localization.CloudERP.Sale.ReturnSaleProductsDetail</h3>
             </div>
             <div class="card-body">
                 <table class="table table-hover">
                     <tr>
-                        <th>@Resources.Sale.Product</th>
-                        <th>@Resources.Sale.Quantity</th>
-                        <th>@Resources.Sale.UnitPrice</th>
-                        <th>@Resources.Sale.ItemCost</th>
+                        <th>@Localization.CloudERP.Sale.Product</th>
+                        <th>@Localization.CloudERP.Sale.Quantity</th>
+                        <th>@Localization.CloudERP.Sale.UnitPrice</th>
+                        <th>@Localization.CloudERP.Sale.ItemCost</th>
                     </tr>
 
                     @foreach (var item in Model.Returns)

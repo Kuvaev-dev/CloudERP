@@ -1,7 +1,7 @@
 ﻿@model Domain.Models.Category
 
 @{
-    ViewBag.Title = Resources.Miscellaneous.EditCategory.ToString();
+    ViewBag.Title = Localization.CloudERP.Miscellaneous.EditCategory.ToString();
 }
 
 <script>
@@ -22,7 +22,7 @@
         @Html.HiddenFor(model => model.UserID)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CategoryName, Resources.Miscellaneous.EnterNewCategoryName.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
+            @Html.LabelFor(model => model.CategoryName, Localization.CloudERP.Miscellaneous.EnterNewCategoryName.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.CategoryName, "Category Name", new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.CategoryName, "", new { @class = "text-danger" })
@@ -31,8 +31,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="@Resources.Common.Save.ToString()" class="btn btn-success" />
-                @Html.ActionLink(Resources.Common.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
+                <input type="submit" value="@Localization.CloudERP.Common.Save.ToString()" class="btn btn-success" />
+                @Html.ActionLink(Localization.CloudERP.Common.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
                 <button id="voiceRecognitionButton" class="btn btn-link" type="button">
                     <i class="fas fa-microphone" style="font-size: 1.5em; color: gray;"></i>
                 </button>

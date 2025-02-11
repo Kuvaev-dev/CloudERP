@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Domain.Models.AccountControl>
 
 @{
-    ViewBag.Title = Resources.Account.AllAccountControls.ToString();
+    ViewBag.Title = Localization.CloudERP.Account.AllAccountControls.ToString();
 }
 
 <!-- Tables Sorting-->
@@ -17,7 +17,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        @Html.ActionLink(Resources.Account.AddAccountControl.ToString(), "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
+        @Html.ActionLink(Localization.CloudERP.Account.AddAccountControl.ToString(), "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
         <h2 class="text-danger">@ViewBag.Message</h2>
         <h2 class="text-danger">@ViewBag.ErrorMessage</h2>
     </div>
@@ -26,10 +26,10 @@
             <table class="table table-striped table-bordered table-hover" id="dataTable">
                 <thead>
                     <tr>
-                        <th>@Html.Raw(HttpUtility.HtmlDecode(Resources.Account.AccountHeadTitle))</th>
-                        <th>@Html.Raw(HttpUtility.HtmlDecode(Resources.Account.AccountControlTitle))</th>
-                        <th>@Html.Raw(HttpUtility.HtmlDecode(Resources.Account.User))</th>
-                        <th>@Html.Raw(HttpUtility.HtmlDecode(Resources.Common.Actions))</th>
+                        <th>@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Account.AccountHeadTitle))</th>
+                        <th>@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Account.AccountControlTitle))</th>
+                        <th>@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Account.User))</th>
+                        <th>@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Common.Actions))</th>
                     </tr>
                 </thead>
                 <tbody id="accountControlList">
@@ -42,7 +42,7 @@
                             @if (!item.IsGlobal || Convert.ToInt32(Session["UserTypeID"]) == 1)
                             {
                                 <td>
-                                    @Html.ActionLink(Resources.Common.Edit.ToString(), "Edit", new { id = item.AccountControlID }, new { @class = "btn btn-primary" })
+                                    @Html.ActionLink(Localization.CloudERP.Common.Edit.ToString(), "Edit", new { id = item.AccountControlID }, new { @class = "btn btn-primary" })
                                 </td>
                             }
                             else

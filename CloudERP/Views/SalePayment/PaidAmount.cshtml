@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Domain.Models.FinancialModels.SalePaymentModel>
 
 @{
-    ViewBag.Title = Resources.Sale.SalePaidAmount.ToString();
+    ViewBag.Title = Localization.CloudERP.Sale.SalePaidAmount.ToString();
 }
 
 <script src="~/Scripts/jQuery/jquery-3.7.1.js"></script>
@@ -9,7 +9,7 @@
 <div class="card">
     <div class="card card-float">
         <div class="card-header">
-            <h4>@Resources.Sale.EnterPaymentsDetails.ToString()</h4>
+            <h4>@Localization.CloudERP.Sale.EnterPaymentsDetails.ToString()</h4>
             <h3 class="text-danger">@ViewBag.Message</h3>
             <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
         </div>
@@ -20,21 +20,21 @@
                 <input type="text" value="@ViewBag.InvoiceID" id="id" name="id" style="display:none;" />
                 <div class="row">
                     <div class="col-md-4">
-                        <label>@Resources.Sale.SaleRemainingAmount.ToString()</label>
+                        <label>@Localization.CloudERP.Sale.SaleRemainingAmount.ToString()</label>
                         <input type="text" id="previousRemainingAmount" name="previousRemainingAmount" value="@ViewBag.PreviousRemainingAmount" readonly="readonly" class="form-control" required>
                     </div>
                     <div class="col-md-4">
-                        <label>@Resources.Sale.PaidAmount.ToString()</label>
+                        <label>@Localization.CloudERP.Sale.PaidAmount.ToString()</label>
                         <input type="text" id="paidAmount" name="paidAmount" value="10" class="form-control" required>
                     </div>
                     <div class="col-md-4">
-                        <label>@Resources.Sale.CurrentRemainingAmount.ToString()</label>
+                        <label>@Localization.CloudERP.Sale.CurrentRemainingAmount.ToString()</label>
                         <input type="text" id="remainingAmount" name="remainingAmount" value="10" readonly="readonly" class="form-control" required>
                     </div>
                 </div>
                 <br />
                 <br />
-                <input type="submit" value="@Resources.Sale.PaidAmount.ToString()" class="btn btn-success" style="float: right;">
+                <input type="submit" value="@Localization.CloudERP.Sale.PaidAmount.ToString()" class="btn btn-success" style="float: right;">
             }
         </div>
     </div>
@@ -42,7 +42,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        <h4 style="float:left;">@Resources.Sale.SaleInvoicePaidDetail.ToString()</h4>
+        <h4 style="float:left;">@Localization.CloudERP.Sale.SaleInvoicePaidDetail.ToString()</h4>
     </div>
     <div class="card-body">
         <div class="table-responsive bootgrid">
@@ -50,25 +50,25 @@
                 <thead>
                     <tr>
                         <th>
-                            @Resources.Sale.Supplier.ToString()
+                            @Localization.CloudERP.Sale.Supplier.ToString()
                         </th>
                         <th>
-                            @Resources.Sale.ContactNo.ToString()
+                            @Localization.CloudERP.Sale.ContactNo.ToString()
                         </th>
                         <th>
-                            @Resources.Sale.InvoiceNo.ToString()
+                            @Localization.CloudERP.Sale.InvoiceNo.ToString()
                         </th>
                         <th>
-                            @Resources.Sale.Date.ToString()
+                            @Localization.CloudERP.Sale.Date.ToString()
                         </th>
                         <th>
-                            @Resources.Sale.TotalAmount.ToString()
+                            @Localization.CloudERP.Sale.TotalAmount.ToString()
                         </th>
                         <th>
-                            @Resources.Sale.PaidAmount.ToString()
+                            @Localization.CloudERP.Sale.PaidAmount.ToString()
                         </th>
                         <th>
-                            @Resources.Sale.RemainingBalance.ToString()
+                            @Localization.CloudERP.Sale.RemainingBalance.ToString()
                         </th>
                     </tr>
                 </thead>

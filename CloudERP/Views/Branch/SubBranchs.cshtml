@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Domain.Models.Branch>
 
 @{
-    ViewBag.Title = Resources.Branch.SubBranches;
+    ViewBag.Title = Localization.CloudERP.Branch.SubBranches;
 }
 
 <script src="~/Scripts/jQuery/jquery-3.7.1.js"></script>
@@ -13,16 +13,16 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Branch.Level))
+                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Branch.Level))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Branch.BranchTitle))
+                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Branch.BranchTitle))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.User.ContactNo))
+                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.User.ContactNo))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Branch.BranchAddress))
+                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Branch.BranchAddress))
                         </th>
                         <th></th>
                     </tr>
@@ -44,8 +44,8 @@
                                 @Html.DisplayFor(modelItem => item.BranchAddress)
                             </td>
                             <td>
-                                @Html.ActionLink(Resources.Common.Edit, "Edit", new { id = item.BranchID }, new { @class = "btn btn-primary" })
-                                @Html.ActionLink(Resources.Common.Details, "Details", new { id = item.BranchID }, new { @class = "btn btn-info" })
+                                @Html.ActionLink(Localization.CloudERP.Common.Edit, "Edit", new { id = item.BranchID }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink(Localization.CloudERP.Common.Details, "Details", new { id = item.BranchID }, new { @class = "btn btn-info" })
                             </td>
                         </tr>
                     }

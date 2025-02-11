@@ -1,7 +1,7 @@
 ﻿@model Domain.Models.SupplierInvoice
 
 @{
-    ViewBag.Title = Resources.Purchase.SearchPurchaseByInvoiceNo;
+    ViewBag.Title = Localization.CloudERP.Purchase.SearchPurchaseByInvoiceNo;
 }
 
 @using (Html.BeginForm("FindPurchase", "PurchaseReturn", FormMethod.Post, null))
@@ -39,19 +39,19 @@
 
             <div class="card mt-4">
                 <div class="card-header">
-                    <h3>@Resources.Purchase.Invoice.ToString() №: @Model.InvoiceNo</h3>
+                    <h3>@Localization.CloudERP.Purchase.Invoice.ToString() №: @Model.InvoiceNo</h3>
                     <h3 class="text-danger">@Session["PurchaseReturnMessage"]</h3>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
-                            <h4>@Resources.Company.CompanyTitle.ToString():</h4>
+                            <h4>@Localization.CloudERP.Company.CompanyTitle.ToString():</h4>
                             <p>@Model.CompanyName - @Model.BranchName</p>
-                            <p>@Resources.Branch.BranchAddress.ToString(): @Model.BranchAddress</p>
-                            <p>@Resources.Purchase.ContactNo.ToString(): @Model.BranchContact</p>
+                            <p>@Localization.CloudERP.Branch.BranchAddress.ToString(): @Model.BranchAddress</p>
+                            <p>@Localization.CloudERP.Purchase.ContactNo.ToString(): @Model.BranchContact</p>
                         </div>
                         <div class="col-md-6">
-                            <h4>@Resources.Purchase.Supplier.ToString():</h4>
+                            <h4>@Localization.CloudERP.Purchase.Supplier.ToString():</h4>
                             <p>@Model.SupplierName</p>
                             <p>@Model.SupplierAddress</p>
                             <p>@Model.SupplierConatctNo</p>
@@ -61,11 +61,11 @@
                     <table class="table table-bordered mt-4">
                         <thead>
                             <tr>
-                                <th>@Resources.Sale.Product.ToString()</th>
-                                <th>@Resources.Purchase.PurchaseQty.ToString()</th>
-                                <th>@Resources.Purchase.ReturnQty.ToString()</th>
-                                <th>@Resources.Purchase.UnitPrice.ToString()</th>
-                                <th>@Resources.Purchase.ItemCost.ToString()</th>
+                                <th>@Localization.CloudERP.Sale.Product.ToString()</th>
+                                <th>@Localization.CloudERP.Purchase.PurchaseQty.ToString()</th>
+                                <th>@Localization.CloudERP.Purchase.ReturnQty.ToString()</th>
+                                <th>@Localization.CloudERP.Purchase.UnitPrice.ToString()</th>
+                                <th>@Localization.CloudERP.Purchase.ItemCost.ToString()</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -88,10 +88,10 @@
 
                     <div class="form-check mt-3">
                         <input type="checkbox" class="form-check-input" id="IsPayment" name="IsPayment" />
-                        <label class="form-check-label" for="IsPayment">@Resources.Purchase.IsReturnPurchasePaymentPaid.ToString()</label>
+                        <label class="form-check-label" for="IsPayment">@Localization.CloudERP.Purchase.IsReturnPurchasePaymentPaid.ToString()</label>
                     </div>
 
-                    <button type="submit" class="btn btn-success mt-3">@Resources.Purchase.SubmitReturn.ToString()</button>
+                    <button type="submit" class="btn btn-success mt-3">@Localization.CloudERP.Purchase.SubmitReturn.ToString()</button>
                 </div>
             </div>
         }

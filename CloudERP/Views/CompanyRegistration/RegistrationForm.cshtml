@@ -1,6 +1,6 @@
 ﻿@model CloudERP.Models.RegistrationMV
 @{
-    ViewBag.Title = Resources.Company.AddNewCompany.ToString();
+    ViewBag.Title = Localization.CloudERP.Company.AddNewCompany.ToString();
 }
 
 <script>
@@ -10,7 +10,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        @Html.Raw(HttpUtility.HtmlDecode(Resources.Company.Registration))
+        @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Company.Registration))
         <button id="voiceRecognitionButton" class="btn btn-link" type="button">
             <i class="fas fa-microphone" style="font-size: 1.5em; color: gray;"></i>
         </button>
@@ -27,36 +27,36 @@
 
             <div>
                 <h4>
-                    @Html.Raw(HttpUtility.HtmlDecode(Resources.Company.UserProfile))
+                    @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Company.UserProfile))
                     <br>
-                    <small>@Html.Raw(HttpUtility.HtmlDecode(Resources.Company.EnterUserDetails))</small>
+                    <small>@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Company.EnterUserDetails))</small>
                 </h4>
                 <fieldset>
                     <div class="row">
                         <div class="col-md-4">
-                            <label for="userName">@Html.Raw(HttpUtility.HtmlDecode(Resources.Company.UserName)) *</label>
+                            <label for="userName">@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Company.UserName)) *</label>
                             @Html.TextBoxFor(model => model.UserName, new { @class = "form-control required", @id = "UserName" })
                             @Html.ValidationMessageFor(model => model.UserName)
                         </div>
                     </div>
-                    <p>(*) @Html.Raw(HttpUtility.HtmlDecode(Resources.Company.Mandatory))</p>
+                    <p>(*) @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Company.Mandatory))</p>
                 </fieldset>
                 <h4>
-                    @Html.Raw(HttpUtility.HtmlDecode(Resources.Company.PersonalProfile))
+                    @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Company.PersonalProfile))
                     <br>
-                    <small>@Html.Raw(HttpUtility.HtmlDecode(Resources.Company.EnterFocalPersonDetails))</small>
+                    <small>@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Company.EnterFocalPersonDetails))</small>
                 </h4>
                 <fieldset>
                     <div class="row">
                         <div class="col-md-4">
-                            <label for="name">@Html.Raw(HttpUtility.HtmlDecode(Resources.User.FullName)) *</label>
+                            <label for="name">@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.User.FullName)) *</label>
                             @Html.TextBoxFor(model => model.EmployeeName, new { @class = "form-control required", @id = "EName" })
                             @Html.ValidationMessageFor(model => model.EmployeeName)
                         </div>
                         <div class="col-md-4">
                             <div class="form-group mb-3">
                                 <label for="EmployeeContactNo" class="form-label">
-                                    @Html.Raw(HttpUtility.HtmlDecode(Resources.User.ContactNo)) *
+                                    @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.User.ContactNo)) *
                                 </label>
                                 <div class="input-group">
                                     <input id="EmployeeContactNo" name="EmployeeContactNo" type="tel" class="form-control required" />
@@ -65,7 +65,7 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <label for="email">@Html.Raw(HttpUtility.HtmlDecode(Resources.Company.Email)) *</label>
+                            <label for="email">@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Company.Email)) *</label>
                             @Html.TextBoxFor(model => model.EmployeeEmail, new { @class = "form-control required", @id = "EEmail" })
                             @Html.ValidationMessageFor(model => model.EmployeeEmail)
                         </div>
@@ -75,44 +75,44 @@
                             @Html.ValidationMessageFor(model => model.EmployeeTIN)
                         </div>
                         <div class="col-md-4">
-                            <label>@Html.Raw(HttpUtility.HtmlDecode(Resources.Company.Designation)) *</label>
+                            <label>@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Company.Designation)) *</label>
                             @Html.TextBoxFor(model => model.EmployeeDesignation, new { @class = "form-control required", @id = "EDesignation" })
                             @Html.ValidationMessageFor(model => model.EmployeeDesignation)
                         </div>
                         <div class="col-md-4">
-                            <label>@Html.Raw(HttpUtility.HtmlDecode(Resources.Company.BasicSalary)) *</label>
+                            <label>@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Company.BasicSalary)) *</label>
                             @Html.TextBoxFor(model => model.EmployeeMonthlySalary, new { @class = "form-control required", @id = "EMonthlySalary", @type = "number" })
                             @Html.ValidationMessageFor(model => model.EmployeeMonthlySalary)
                         </div>
                         <div class="col-md-12">
-                            <label>@Html.Raw(HttpUtility.HtmlDecode(Resources.Company.Address)) *</label>
+                            <label>@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Company.Address)) *</label>
                             @Html.TextBoxFor(model => model.EmployeeAddress, new { @class = "form-control required", @id = "EAddress" })
                             @Html.ValidationMessageFor(model => model.EmployeeAddress)
                         </div>
                     </div>
-                    <p>(*) @Html.Raw(HttpUtility.HtmlDecode(Resources.Company.Mandatory))</p>
+                    <p>(*) @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Company.Mandatory))</p>
                 </fieldset>
                 <h4>
-                    @Html.Raw(HttpUtility.HtmlDecode(Resources.Company.CompanyProfile))
+                    @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Company.CompanyProfile))
                     <br>
-                    <small>@Html.Raw(HttpUtility.HtmlDecode(Resources.Company.EnterCompanyDetails))</small>
+                    <small>@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Company.EnterCompanyDetails))</small>
                 </h4>
                 <fieldset>
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="name">@Html.Raw(HttpUtility.HtmlDecode(Resources.Company.CompanyTitle)) *</label>
+                            <label for="name">@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Company.CompanyTitle)) *</label>
                             @Html.TextBoxFor(model => model.CompanyName, new { @class = "form-control required", @id = "CName" })
                             @Html.ValidationMessageFor(model => model.CompanyName)
                         </div>
                         <div class="col-md-6">
-                            <label for="name">@Html.Raw(HttpUtility.HtmlDecode(Resources.Company.BranchTitle)) *</label>
+                            <label for="name">@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Company.BranchTitle)) *</label>
                             @Html.TextBoxFor(model => model.BranchName, new { @class = "form-control required", @id = "BranchName" })
                             @Html.ValidationMessageFor(model => model.BranchName)
                         </div>
                         <div class="col-md-6">
                             <div class="form-group mb-3">
                                 <label for="BranchContact" class="form-label">
-                                    @Html.Raw(HttpUtility.HtmlDecode(Resources.Company.BranchContact)) *
+                                    @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Company.BranchContact)) *
                                 </label>
                                 <div class="input-group">
                                     <input id="BranchContact" name="BranchContact" type="tel" class="form-control required" />
@@ -121,21 +121,21 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label>@Html.Raw(HttpUtility.HtmlDecode(Resources.Company.BranchAddress)) *</label>
+                            <label>@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Company.BranchAddress)) *</label>
                             @Html.TextBoxFor(model => model.BranchAddress, new { @class = "form-control required", @id = "BranchAddress" })
                             @Html.ValidationMessageFor(model => model.BranchAddress)
                         </div>
                     </div>
-                    <p>(*) @Html.Raw(HttpUtility.HtmlDecode(Resources.Company.Mandatory))</p>
+                    <p>(*) @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Company.Mandatory))</p>
                 </fieldset>
                 <h4>
-                    @Html.Raw(HttpUtility.HtmlDecode(Resources.Company.Finish))
+                    @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Company.Finish))
                     <br>
-                    <small>@Html.Raw(HttpUtility.HtmlDecode(Resources.Company.PleaseCheckBeforeSubmission))</small>
+                    <small>@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Company.PleaseCheckBeforeSubmission))</small>
                 </h4>
                 <fieldset>
-                    <p class="lead">@Html.Raw(HttpUtility.HtmlDecode(Resources.Company.OneLastCheck))</p>
-                    <input type="submit" value="@Resources.Company.SubmitRegistration" class="btn btn-outline-success" />
+                    <p class="lead">@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Company.OneLastCheck))</p>
+                    <input type="submit" value="@Localization.CloudERP.Company.SubmitRegistration" class="btn btn-outline-success" />
                 </fieldset>
             </div>
         }

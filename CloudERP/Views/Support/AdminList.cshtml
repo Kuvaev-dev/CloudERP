@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Domain.Models.SupportTicket>
 
 @{
-    ViewBag.Title = Resources.Support.SupportTickets.ToString();
+    ViewBag.Title = Localization.CloudERP.Support.SupportTickets.ToString();
 }
 
 <!-- Tables Sorting-->
@@ -21,15 +21,15 @@
             <table class="table table-striped table-bordered table-hover" id="dataTable">
                 <thead>
                     <tr>
-                        <th>@Resources.Support.Name.ToString()</th>
-                        <th>@Resources.Support.Email.ToString()</th>
-                        <th>@Resources.Support.Subject.ToString()</th>
-                        <th>@Resources.Support.Message.ToString()</th>
-                        <th>@Resources.Support.DateCreated.ToString()</th>
-                        <th>@Resources.Support.Status.ToString()</th>
+                        <th>@Localization.CloudERP.Support.Name.ToString()</th>
+                        <th>@Localization.CloudERP.Support.Email.ToString()</th>
+                        <th>@Localization.CloudERP.Support.Subject.ToString()</th>
+                        <th>@Localization.CloudERP.Support.Message.ToString()</th>
+                        <th>@Localization.CloudERP.Support.DateCreated.ToString()</th>
+                        <th>@Localization.CloudERP.Support.Status.ToString()</th>
                         <th>Response</th>
                         <th>Response Date</th>
-                        <th>@Resources.Common.Actions.ToString()</th>
+                        <th>@Localization.CloudERP.Common.Actions.ToString()</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -62,7 +62,7 @@
                                         @Html.AntiForgeryToken()
                                         @Html.Hidden("id", ticket.TicketID)
                                         <textarea name="responseMessage" class="form-control" rows="2" required></textarea>
-                                        <button type="submit" class="btn btn-primary mt-2">@Resources.Support.MarkAsResolved</button>
+                                        <button type="submit" class="btn btn-primary mt-2">@Localization.CloudERP.Support.MarkAsResolved</button>
                                     }
                                 }
                             </td>

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Domain.Models.PurchaseCartDetail>
 
 @{
-    ViewBag.Title = Resources.Purchase.Purchasing.ToString();
+    ViewBag.Title = Localization.CloudERP.Purchase.Purchasing.ToString();
     var products = ViewBag.Products as IEnumerable<Domain.Models.Stock>;
 }
 
@@ -18,10 +18,10 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div class="form-group">
-            <label class="control-label col-md-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.Purchase.SelectProduct))</label>
+            <label class="control-label col-md-2">@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Purchase.SelectProduct))</label>
             <div class="col-md-5">
                 <select class="form-control" id="PID" name="PID" required>
-                    <option value="">@Resources.Purchase.SelectProduct.ToString()</option>
+                    <option value="">@Localization.CloudERP.Purchase.SelectProduct.ToString()</option>
                     @foreach (var product in products)
                     {
                         <option value="@product.ProductID">@product.ProductName (QTY: @product.Quantity)</option>
@@ -31,21 +31,21 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2">@Resources.Purchase.Quantity.ToString()</label>
+            <label class="control-label col-md-2">@Localization.CloudERP.Purchase.Quantity.ToString()</label>
             <div class="col-md-5">
                 <input type="number" class="form-control" id="Qty" name="Qty" placeholder="Enter Purchase Quantity..." required />
             </div>
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2">@Resources.Purchase.UnitPrice.ToString()</label>
+            <label class="control-label col-md-2">@Localization.CloudERP.Purchase.UnitPrice.ToString()</label>
             <div class="col-md-5">
                 <input type="number" class="form-control" id="Price" step=".01" name="Price" placeholder="Enter Unit Price..." required />
             </div>
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2">@Html.Raw(HttpUtility.HtmlDecode(Resources.Purchase.ItemCost))</label>
+            <label class="control-label col-md-2">@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Purchase.ItemCost))</label>
             <div class="col-md-5">
                 <input type="text" readonly class="form-control" id="selectItemCost" name="selectItemCost" />
             </div>
@@ -53,7 +53,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="@Resources.Purchase.AddItem.ToString()" class="btn btn-success" />
+                <input type="submit" value="@Localization.CloudERP.Purchase.AddItem.ToString()" class="btn btn-success" />
             </div>
         </div>
     </div>
@@ -61,7 +61,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        <h3 class="text-bold">@Resources.Purchase.ItemsList.ToString()</h3>
+        <h3 class="text-bold">@Localization.CloudERP.Purchase.ItemsList.ToString()</h3>
         <h4 class="text-success">
             @{
                 if (ViewBag.Message != null) 
@@ -81,22 +81,22 @@
                 <thead style="background-color:lightgray;">
                     <tr>
                         <th>
-                            @Resources.Purchase.Items.ToString()
+                            @Localization.CloudERP.Purchase.Items.ToString()
                         </th>
                         <th>
-                            @Resources.Purchase.Quantity.ToString()
+                            @Localization.CloudERP.Purchase.Quantity.ToString()
                         </th>
                         <th>
-                            @Resources.Purchase.UnitPrice.ToString()
+                            @Localization.CloudERP.Purchase.UnitPrice.ToString()
                         </th>
                         <th>
-                            @Resources.Purchase.ItemCost.ToString()
+                            @Localization.CloudERP.Purchase.ItemCost.ToString()
                         </th>
                         <th>
-                            @Resources.Purchase.User.ToString()
+                            @Localization.CloudERP.Purchase.User.ToString()
                         </th>
                         <th>
-                            @Resources.Common.Actions.ToString()
+                            @Localization.CloudERP.Common.Actions.ToString()
                         </th>
                     </tr>
                 </thead>
@@ -114,7 +114,7 @@
                                 {
                                     @Html.AntiForgeryToken()
                                     @Html.Hidden("id", item.PurchaseCartDetailID)
-                                    <input type="submit" value="@Resources.Common.Delete" class="btn btn-danger" />
+                                    <input type="submit" value="@Localization.CloudERP.Common.Delete" class="btn btn-danger" />
                                 }
                             </td>
                         </tr>
@@ -125,20 +125,20 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td style="background-color:black; color:white;">@Resources.Purchase.TotalPurchaseAmount.ToString()</td>
+                        <td style="background-color:black; color:white;">@Localization.CloudERP.Purchase.TotalPurchaseAmount.ToString()</td>
                         <td style="background-color:black; color:white;">
-                            @(string.Format("{0:0.000}", Math.Truncate(ViewBag.TotalAmount * 10) / 10)) @Resources.Common.UAH.ToString()
+                            @(string.Format("{0:0.000}", Math.Truncate(ViewBag.TotalAmount * 10) / 10)) @Localization.CloudERP.Common.UAH.ToString()
                         </td>
                     </tr>
                 </tfoot>
             </table>
             <div style="float:right; margin-top:20px;" class="btn-group">
-                @Html.ActionLink(Resources.Purchase.Next.ToString(), "SelectSupplier", null, new { @class = "btn btn-success", style = "padding:20px;" })
+                @Html.ActionLink(Localization.CloudERP.Purchase.Next.ToString(), "SelectSupplier", null, new { @class = "btn btn-success", style = "padding:20px;" })
                 @using (Html.BeginForm("CancelPurchase", "PurchaseCart", FormMethod.Post, new { @class = "form-inline" }))
                 {
                     @Html.AntiForgeryToken()
                     <button type="submit" class="btn btn-danger" style="padding:20px;">
-                        @Resources.Sale.Cancel.ToString()
+                        @Localization.CloudERP.Sale.Cancel.ToString()
                     </button>
                 }
             </div>

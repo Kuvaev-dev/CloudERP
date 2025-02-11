@@ -1,6 +1,6 @@
 ﻿@model CloudERP.Models.GeneralTransactionMV
 @{
-    ViewBag.Title = Resources.Miscellaneous.NewGeneralTransaction.ToString();
+    ViewBag.Title = Localization.CloudERP.Miscellaneous.NewGeneralTransaction.ToString();
 }
 
 @using (Html.BeginForm("SaveGeneralTransaction", "GeneralTransaction", FormMethod.Post, null))
@@ -15,23 +15,23 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div class="form-group">
-            <label class="control-label col-md-3">@Resources.Miscellaneous.SelectAccountCredit.ToString()</label>
+            <label class="control-label col-md-3">@Localization.CloudERP.Miscellaneous.SelectAccountCredit.ToString()</label>
             <div class="col-md-5">
-                @Html.DropDownList("CreditAccountControlID", (SelectList)ViewBag.CreditAccountControlID, Resources.Miscellaneous.SelectAccountCredit.ToString(), new { @class = "form-control", required = "required" })
+                @Html.DropDownList("CreditAccountControlID", (SelectList)ViewBag.CreditAccountControlID, Localization.CloudERP.Miscellaneous.SelectAccountCredit.ToString(), new { @class = "form-control", required = "required" })
                 @Html.ValidationMessageFor(model => model.CreditAccountControlID, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-3">@Resources.Miscellaneous.SelectAccountDebit.ToString()</label>
+            <label class="control-label col-md-3">@Localization.CloudERP.Miscellaneous.SelectAccountDebit.ToString()</label>
             <div class="col-md-5">
-                @Html.DropDownList("DebitAccountControlID", (SelectList)ViewBag.DebitAccountControlID, Resources.Miscellaneous.SelectAccountDebit.ToString(), new { @class = "form-control", required = "required" })
+                @Html.DropDownList("DebitAccountControlID", (SelectList)ViewBag.DebitAccountControlID, Localization.CloudERP.Miscellaneous.SelectAccountDebit.ToString(), new { @class = "form-control", required = "required" })
                 @Html.ValidationMessageFor(model => model.DebitAccountControlID, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.TransferAmount, Resources.Miscellaneous.EnterAmount.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.TransferAmount, Localization.CloudERP.Miscellaneous.EnterAmount.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.TransferAmount, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.TransferAmount, "", new { @class = "text-danger" })
@@ -39,7 +39,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Reason, Resources.Miscellaneous.EnterReason.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Reason, Localization.CloudERP.Miscellaneous.EnterReason.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Reason, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Reason, "", new { @class = "text-danger" })
@@ -48,8 +48,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-5">
-                <input type="submit" value="@Resources.Miscellaneous.SubmitTransaction.ToString()" class="btn btn-success" />
-                @Html.ActionLink(Resources.Common.BackToList.ToString(), "AllTransactions", null, new { @class = "btn btn-default" })
+                <input type="submit" value="@Localization.CloudERP.Miscellaneous.SubmitTransaction.ToString()" class="btn btn-success" />
+                @Html.ActionLink(Localization.CloudERP.Common.BackToList.ToString(), "AllTransactions", null, new { @class = "btn btn-default" })
             </div>
         </div>
     </div>

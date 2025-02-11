@@ -10,10 +10,12 @@ namespace API.Helpers
     {
         private readonly HttpClient _client;
 
-        public HttpClientHelper()
+        public HttpClientHelper(string baseUrl)
         {
-            _client = new HttpClient { BaseAddress = new Uri("https://localhost:5001/api/account-head/") };
+            _client = new HttpClient { BaseAddress = new Uri(baseUrl.TrimEnd('/') + "/") };
         }
+
+        public HttpClientHelper() : this("https://localhost:5001/api/") { }
 
         public async Task<T> GetAsync<T>(string endpoint)
         {

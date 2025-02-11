@@ -1,14 +1,14 @@
 ﻿@model Domain.Models.UserType
 
 @{
-    ViewBag.Title = Resources.Account.UserTypeDetails.ToString();
+    ViewBag.Title = Localization.CloudERP.Account.UserTypeDetails.ToString();
 }
 
 <div class="form-horizontal">
     <div>
         <dl class="dl-horizontal">
             <dt>
-                @Html.LabelFor(model => model.UserTypeName, Resources.Account.UserType.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.UserTypeName, Localization.CloudERP.Account.UserType.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             </dt>
 
             <dd class="control-label col-md-2">
@@ -18,8 +18,8 @@
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            @Html.ActionLink(Resources.Common.Edit.ToString(), "Edit", new { id = Model.UserTypeID }, new { @class = "btn btn-primary" })
-            @Html.ActionLink(Resources.Common.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
+            @Html.ActionLink(Localization.CloudERP.Common.Edit.ToString(), "Edit", new { id = Model.UserTypeID }, new { @class = "btn btn-primary" })
+            @Html.ActionLink(Localization.CloudERP.Common.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
         </div>
     </div>
 </div>

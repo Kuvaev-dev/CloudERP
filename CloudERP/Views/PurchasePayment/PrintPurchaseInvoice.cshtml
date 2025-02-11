@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>@Resources.Purchase.PurchaseInvoice</title>
+    <title>@Localization.CloudERP.Purchase.PurchaseInvoice</title>
     <link rel="stylesheet" href="~/Content/Template/css/bootstrap.css">
     <link rel="stylesheet" href="~/Content/Template/css/app.css">
 </head>
@@ -14,17 +14,17 @@
     <div class="content-wrapper">
         <div class="card">
             <div class="card-body">
-                <h3>@Resources.Purchase.PurchaseInvoice</h3>
+                <h3>@Localization.CloudERP.Purchase.PurchaseInvoice</h3>
                 <hr>
                 <div class="row mb-3">
                     <div class="w-auto m-3">
                         <img src="@Url.Content(Model.SupplierLogo)" class="img-fluid" style="max-width: 50px; height: auto;" />
                     </div>
                     <div class="col-xl-3 col-7 br py-2">
-                        <h4>@Resources.Supplier.SupplierName</h4>
+                        <h4>@Localization.CloudERP.Supplier.SupplierName</h4>
                         <hr/>
                         <h4>@Model.SupplierName</h4>
-                        <h5>@Resources.User.ContactNo: @Model.SupplierConatctNo</h5>
+                        <h5>@Localization.CloudERP.User.ContactNo: @Model.SupplierConatctNo</h5>
                         <address>@Model.SupplierAddress</address>
                         <h4>@Model.CompanyName</h4>
                     </div>
@@ -32,31 +32,31 @@
                         <img src="@Url.Content(Model.CompanyLogo)" class="img-fluid" style="max-width: 50px; height: auto;" />
                     </div>
                     <div class="col-xl-4 col-7 br py-2">
-                        <h4>@Resources.Branch.BranchTitle</h4>
+                        <h4>@Localization.CloudERP.Branch.BranchTitle</h4>
                         <hr />
                         <h4>@Model.BranchName</h4>
-                        <h5>@Resources.User.ContactNo: @Model.BranchContact</h5>
+                        <h5>@Localization.CloudERP.User.ContactNo: @Model.BranchContact</h5>
                         <address>@Model.BranchAddress</address>
                     </div>
                     <div class="col-xl-3 col-7 py-2">
-                        <h4>@Resources.Purchase.Date</h4>
+                        <h4>@Localization.CloudERP.Purchase.Date</h4>
                         <hr />
-                        <p>@Resources.Purchase.InvoiceNo: @Model.InvoiceNo</p>
-                        <p>@Resources.Purchase.InvoiceDate: @DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt")</p>
-                        <p>@Resources.Purchase.PrintDate: @DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt")</p>
+                        <p>@Localization.CloudERP.Purchase.InvoiceNo: @Model.InvoiceNo</p>
+                        <p>@Localization.CloudERP.Purchase.InvoiceDate: @DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt")</p>
+                        <p>@Localization.CloudERP.Purchase.PrintDate: @DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt")</p>
                     </div>
                 </div>
 
-                <h4>@Resources.Purchase.PurchaseProductsDetail</h4>
+                <h4>@Localization.CloudERP.Purchase.PurchaseProductsDetail</h4>
                 <hr />
                 <div class="table-responsive table-bordered mb-3">
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>@Resources.Purchase.ItemNo</th>
-                                <th>@Resources.Purchase.Quantity</th>
-                                <th>@Resources.Purchase.UnitPrice</th>
-                                <th>@Resources.Miscellaneous.Total</th>
+                                <th>@Localization.CloudERP.Purchase.ItemNo</th>
+                                <th>@Localization.CloudERP.Purchase.Quantity</th>
+                                <th>@Localization.CloudERP.Purchase.UnitPrice</th>
+                                <th>@Localization.CloudERP.Miscellaneous.Total</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -78,7 +78,7 @@
                     <div class="col-lg-6 py-2">
                         <div class="row mb-3 align-items-center">
                             <div class="col-7">
-                                <div class="h3">@Resources.Purchase.GRANDTOTAL</div>
+                                <div class="h3">@Localization.CloudERP.Purchase.GRANDTOTAL</div>
                             </div>
                             <div class="col-5">
                                 <div class="text-right h3">@Model.TotalCost.ToString("F2")</div>
@@ -90,13 +90,13 @@
                 @foreach (var returnInvoice in Model.ReturnInvoices)
                 {
                     <div class="d-flex align-items-center">
-                        <h3>@Resources.Purchase.PurchaseInvoice</h3>
+                        <h3>@Localization.CloudERP.Purchase.PurchaseInvoice</h3>
                     </div>
                     <hr>
                     <div class="row mb-3">
                         <div class="col-xl-4 col-12 py-2">
-                            <p>@Resources.Purchase.InvoiceNo: @returnInvoice.ReturnInvoiceNo</p>
-                            <p>@Resources.Purchase.InvoiceDate: @returnInvoice.ReturnInvoiceDate</p>
+                            <p>@Localization.CloudERP.Purchase.InvoiceNo: @returnInvoice.ReturnInvoiceNo</p>
+                            <p>@Localization.CloudERP.Purchase.InvoiceDate: @returnInvoice.ReturnInvoiceDate</p>
                         </div>
                     </div>
 
@@ -104,10 +104,10 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>@Resources.Purchase.ItemNo</th>
-                                    <th>@Resources.Purchase.Quantity</th>
-                                    <th>@Resources.Purchase.UnitPrice</th>
-                                    <th>@Resources.Miscellaneous.Total</th>
+                                    <th>@Localization.CloudERP.Purchase.ItemNo</th>
+                                    <th>@Localization.CloudERP.Purchase.Quantity</th>
+                                    <th>@Localization.CloudERP.Purchase.UnitPrice</th>
+                                    <th>@Localization.CloudERP.Miscellaneous.Total</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -126,7 +126,7 @@
                 }
 
                 <hr class="d-print-none">
-                <button class="btn btn-secondary" type="button" onclick="window.print();">@Resources.Purchase.Print</button>
+                <button class="btn btn-secondary" type="button" onclick="window.print();">@Localization.CloudERP.Purchase.Print</button>
             </div>
         </div>
     </div>

@@ -2,7 +2,7 @@
 
 @{
     string invoiceNo = string.Empty;
-    ViewBag.Title = Resources.Miscellaneous.SubBranchJournalByTransactionsDate.ToString();
+    ViewBag.Title = Localization.CloudERP.Miscellaneous.SubBranchJournalByTransactionsDate.ToString();
 }
 
 <script src="~/Scripts/jQuery/jquery-3.7.1.js"></script>
@@ -10,7 +10,7 @@
 <div class="card">
     <div class="card card-float">
         <div class="card-header">
-            <h4>@Resources.Miscellaneous.SelectRangeFromDateAndToDate.ToString()</h4>
+            <h4>@Localization.CloudERP.Miscellaneous.SelectRangeFromDateAndToDate.ToString()</h4>
             <h5 class="text-danger">@ViewBag.JournalMessage</h5>
             <h3 class="text-danger">@ViewBag.Message</h3>
             <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
@@ -21,17 +21,17 @@
                 @Html.AntiForgeryToken()
                 <div class="row">
                     <div class="col-md-4">
-                        <label>@Resources.Miscellaneous.SelectFromDate.ToString()</label>
+                        <label>@Localization.CloudERP.Miscellaneous.SelectFromDate.ToString()</label>
                         <input type="date" id="FromDate" name="FromDate" value="@DateTime.Now" class="form-control" required>
                     </div>
                     <div class="col-md-4">
-                        <label>@Resources.Miscellaneous.SelectToDate.ToString()</label>
+                        <label>@Localization.CloudERP.Miscellaneous.SelectToDate.ToString()</label>
                         <input type="date" id="ToDate" name="ToDate" value="@DateTime.Now" class="form-control" required>
                     </div>
                 </div>
                 <br />
                 <hr />
-                <input type="submit" value="@Resources.Miscellaneous.RetrieveTransactions.ToString()" class="btn btn-success" style="float: right;">
+                <input type="submit" value="@Localization.CloudERP.Miscellaneous.RetrieveTransactions.ToString()" class="btn btn-success" style="float: right;">
             }
         </div>
     </div>
@@ -39,9 +39,9 @@
 
 <div class="card">
     <div class="card-header">
-        <div class="card-title">@Resources.Miscellaneous.Export.ToString()</div>
+        <div class="card-title">@Localization.CloudERP.Miscellaneous.Export.ToString()</div>
         <div class="text-sm">
-            @Resources.Miscellaneous.Transactions.ToString()
+            @Localization.CloudERP.Miscellaneous.Transactions.ToString()
         </div>
     </div>
     <div class="card-body">
@@ -52,22 +52,22 @@
                         №
                     </th>
                     <th>
-                        @Resources.Miscellaneous.Date.ToString()
+                        @Localization.CloudERP.Miscellaneous.Date.ToString()
                     </th>
                     <th>
-                        @Resources.Miscellaneous.Account.ToString()
+                        @Localization.CloudERP.Miscellaneous.Account.ToString()
                     </th>
                     <th>
-                        @Resources.Miscellaneous.Title.ToString()
+                        @Localization.CloudERP.Miscellaneous.Title.ToString()
                     </th>
                     <th>
-                        @Resources.Miscellaneous.InvoiceNo.ToString()
+                        @Localization.CloudERP.Miscellaneous.InvoiceNo.ToString()
                     </th>
                     <th>
-                        @Resources.Miscellaneous.Debit.ToString()
+                        @Localization.CloudERP.Miscellaneous.Debit.ToString()
                     </th>
                     <th>
-                        @Resources.Miscellaneous.Credit.ToString()
+                        @Localization.CloudERP.Miscellaneous.Credit.ToString()
                     </th>
                 </tr>
             </thead>

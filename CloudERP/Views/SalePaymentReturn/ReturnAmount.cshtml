@@ -2,7 +2,7 @@
 
 @{
     double remainingBalance = (double)ViewBag.PreviousRemainingAmount;
-    ViewBag.Title = Resources.Sale.ReturnSaleAmount;
+    ViewBag.Title = Localization.CloudERP.Sale.ReturnSaleAmount;
 }
 
 <div class="card">
@@ -19,22 +19,22 @@
                 <input type="text" value="@ViewBag.InvoiceID" id="id" name="id" style="display:none;" />
                 <div class="row">
                     <div class="col-md-4">
-                        <label>@Resources.Sale.ReturnRemainingAmount</label>
+                        <label>@Localization.CloudERP.Sale.ReturnRemainingAmount</label>
                         <input type="text" id="previousRemainingAmount" name="previousRemainingAmount" value="@remainingBalance" readonly="readonly" class="form-control" required>
                     </div>
                     <div class="col-md-4">
-                        <label>@Resources.Sale.PaymentAmount</label>
+                        <label>@Localization.CloudERP.Sale.PaymentAmount</label>
                         <input min="0" type="number" id="paymentAmount" name="paymentAmount" value="10" class="form-control" required>
                     </div>
                     <div class="col-md-4">
-                        <label>@Resources.Sale.CurrentRemainingAmount</label>
+                        <label>@Localization.CloudERP.Sale.CurrentRemainingAmount</label>
                         <input type="text" id="remainingAmount" name="remainingAmount" value="10" readonly="readonly" class="form-control" required>
                     </div>
                 </div>
                 <br />
                 <br />
-                @Html.ActionLink(Resources.Common.BackToList, "AllReturnSalesPendingAmount", "SalePaymentReturn", null, new { @class = "btn btn-primary" })
-                <input type="submit" value="@Resources.Sale.SubmitPayment" class="btn btn-success" style="float: right;">
+                @Html.ActionLink(Localization.CloudERP.Common.BackToList, "AllReturnSalesPendingAmount", "SalePaymentReturn", null, new { @class = "btn btn-primary" })
+                <input type="submit" value="@Localization.CloudERP.Sale.SubmitPayment" class="btn btn-success" style="float: right;">
             }
         </div>
     </div>
@@ -51,22 +51,22 @@
                 <thead>
                     <tr>
                         <th>
-                            @Resources.Miscellaneous.CustomerName
+                            @Localization.CloudERP.Miscellaneous.CustomerName
                         </th>
                         <th>
-                            @Resources.Sale.InvoiceNo
+                            @Localization.CloudERP.Sale.InvoiceNo
                         </th>
                         <th>
-                            @Resources.Sale.InvoiceDate
+                            @Localization.CloudERP.Sale.InvoiceDate
                         </th>
                         <th>
-                            @Resources.Sale.ReturnPurchaseTotalAmount
+                            @Localization.CloudERP.Sale.ReturnPurchaseTotalAmount
                         </th>
                         <th>
-                            @Resources.Sale.ReturnPaymentAmount
+                            @Localization.CloudERP.Sale.ReturnPaymentAmount
                         </th>
                         <th>
-                            @Resources.Sale.RemainingBalance
+                            @Localization.CloudERP.Sale.RemainingBalance
                         </th>
                     </tr>
                 </thead>

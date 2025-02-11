@@ -40,7 +40,7 @@ namespace Localization.CloudERP.Messages
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Resources.Messages", global::System.Reflection.Assembly.Load("App_GlobalResources"));
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Localization.CloudERP", typeof(Messages).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

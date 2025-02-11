@@ -1,14 +1,14 @@
 ﻿@model Domain.Models.TaskModel
 
 @{
-    ViewBag.Title = Resources.Task.TaskDetails.ToString();
+    ViewBag.Title = Localization.CloudERP.Task.TaskDetails.ToString();
 }
 
 <div class="form-horizontal">
     <div class="col-md-10">
         <dl class="dl-horizontal">
             <dt>
-                @Resources.Task.TaskTitle.ToString()
+                @Localization.CloudERP.Task.TaskTitle.ToString()
             </dt>
 
             <dd>
@@ -16,7 +16,7 @@
             </dd>
 
             <dt>
-                @Resources.Task.Description.ToString()
+                @Localization.CloudERP.Task.Description.ToString()
             </dt>
 
             <dd>
@@ -24,7 +24,7 @@
             </dd>
 
             <dt>
-                @Resources.Task.DueDate.ToString()
+                @Localization.CloudERP.Task.DueDate.ToString()
             </dt>
 
             <dd>
@@ -32,7 +32,7 @@
             </dd>
 
             <dt>
-                @Resources.Task.ReminderDate.ToString()
+                @Localization.CloudERP.Task.ReminderDate.ToString()
             </dt>
 
             <dd>
@@ -40,7 +40,7 @@
             </dd>
 
             <dt>
-                @Resources.Task.IsCompleted.ToString()
+                @Localization.CloudERP.Task.IsCompleted.ToString()
             </dt>
 
             <dd>
@@ -49,8 +49,8 @@
         </dl>
         <div class="form-group">
             <div class="col-md-offset-2">
-                @Html.ActionLink(Resources.Common.Edit.ToString(), "Edit", new { id = Model.TaskID }, new { @class = "btn btn-primary" })
-                @Html.ActionLink(Resources.Common.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
+                @Html.ActionLink(Localization.CloudERP.Common.Edit.ToString(), "Edit", new { id = Model.TaskID }, new { @class = "btn btn-primary" })
+                @Html.ActionLink(Localization.CloudERP.Common.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
             </div>
         </div>
     </div>

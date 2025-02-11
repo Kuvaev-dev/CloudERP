@@ -1,6 +1,6 @@
 ﻿@model Domain.Models.FinancialModels.IncomeStatementModel
 @{
-    ViewBag.Title = Resources.Miscellaneous.SubBranchIncomeStatement.ToString();
+    ViewBag.Title = Localization.CloudERP.Miscellaneous.SubBranchIncomeStatement.ToString();
 }
 
 <script src="~/Scripts/jQuery/jquery-3.7.1.js"></script>
@@ -13,9 +13,9 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">
-                        <label>@Resources.Miscellaneous.SelectFinancialYear.ToString()</label>
-                        @Html.DropDownList("id", (SelectList)ViewBag.FinancialYears, Resources.Miscellaneous.SelectFinancialYear.ToString(), new { @class = "form-control", required = "required" })
-                        <input type="submit" value="@Resources.Miscellaneous.RetrieveIncomeStatement.ToString()" class="btn btn-success form-control">
+                        <label>@Localization.CloudERP.Miscellaneous.SelectFinancialYear.ToString()</label>
+                        @Html.DropDownList("id", (SelectList)ViewBag.FinancialYears, Localization.CloudERP.Miscellaneous.SelectFinancialYear.ToString(), new { @class = "form-control", required = "required" })
+                        <input type="submit" value="@Localization.CloudERP.Miscellaneous.RetrieveIncomeStatement.ToString()" class="btn btn-success form-control">
                     </div>
                 </div>
             </div>
@@ -26,7 +26,7 @@
 @{
     <div class="card card-default col-md-12">
         <div class="card-header">
-            <h3 class="text-primary">@Resources.Miscellaneous.IncomeStatementStr.ToString()</h3>
+            <h3 class="text-primary">@Localization.CloudERP.Miscellaneous.IncomeStatementStr.ToString()</h3>
             <h3 class="text-danger">@ViewBag.Message</h3>
             <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
         </div>
@@ -36,13 +36,13 @@
                     <thead>
                         <tr>
                             <th>
-                                @Resources.Miscellaneous.AccountTitle.ToString()
+                                @Localization.CloudERP.Miscellaneous.AccountTitle.ToString()
                             </th>
                             <th>
-                                @Resources.Miscellaneous.Amount.ToString()
+                                @Localization.CloudERP.Miscellaneous.Amount.ToString()
                             </th>
                             <th>
-                                @Resources.Miscellaneous.Total.ToString()
+                                @Localization.CloudERP.Miscellaneous.Total.ToString()
                             </th>
                         </tr>
                         @if (Model.IncomeStatementHeads != null)
@@ -100,7 +100,7 @@
                                 {
                                     <tr style="background-color:black;color:white;">
                                         <td>
-                                            @Resources.Miscellaneous.TotalRevenue.ToString():
+                                            @Localization.CloudERP.Miscellaneous.TotalRevenue.ToString():
                                         </td>
                                         <td></td>
                                         <td>
@@ -112,7 +112,7 @@
                                 {
                                     <tr style="background-color:black;color:white;">
                                         <td>
-                                            @Resources.Miscellaneous.TotalExpenses.ToString():
+                                            @Localization.CloudERP.Miscellaneous.TotalExpenses.ToString():
                                         </td>
                                         <td></td>
                                         <td>
@@ -125,7 +125,7 @@
 
                             <tr style="background-color:black;color:white;">
                                 <td>
-                                    @Resources.Miscellaneous.NetIncome.ToString():
+                                    @Localization.CloudERP.Miscellaneous.NetIncome.ToString():
                                 </td>
                                 <td></td>
                                 <td>

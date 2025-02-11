@@ -69,7 +69,6 @@ namespace CloudERP.Helpers
             // Account
             container.RegisterType<IAccountActivityRepository, AccountActivityRepository>();
             container.RegisterType<IAccountControlRepository, AccountControlRepository>();
-            container.RegisterType<IAccountHeadRepository, AccountHeadRepository>();
             container.RegisterType<IAccountSettingRepository, AccountSettingRepository>();
             container.RegisterType<IAccountSubControlRepository, AccountSubControlRepository>();
             // Balance Sheet

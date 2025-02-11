@@ -131,8 +131,8 @@
     <Compile Include="Implementations\Misc\FileService.cs" />
     <Compile Include="Implementations\Misc\FinancialForecaster.cs" />
     <Compile Include="Implementations\Misc\ForecastingService.cs" />
-    <Compile Include="ServiceAccess\IFinancialForecaster.cs" />
     <Compile Include="Models\ForecastPrediction.cs" />
+    <Compile Include="ServiceAccess\IFinancialForecaster.cs" />
     <Compile Include="Implementations\Notifications\ReminderService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Implementations\Purchase\PurchaseCartService.cs" />

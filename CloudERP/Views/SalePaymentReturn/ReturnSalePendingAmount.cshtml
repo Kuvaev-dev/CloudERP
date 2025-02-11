@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Domain.Models.FinancialModels.SalePaymentModel>
 
 @{
-    ViewBag.Title = Resources.Sale.ReturnSalesAmountPending;
+    ViewBag.Title = Localization.CloudERP.Sale.ReturnSalesAmountPending;
 }
 
 <!-- Tables Sorting-->
@@ -26,13 +26,13 @@
             <table class="table table-striped table-bordered table-hover" id="dataTable">
                 <thead>
                     <tr>
-                        <th>@Resources.Miscellaneous.CustomerName</th>
-                        <th>@Resources.Miscellaneous.InvoiceNo</th>
-                        <th>@Resources.Sale.InvoiceDate</th>
-                        <th>@Resources.Sale.ReturnTotalAmount</th>
-                        <th>@Resources.Sale.ReturnPaymentAmount</th>
-                        <th>@Resources.Sale.RemainingBalance</th>
-                        <th>@Resources.Common.Actions</th>
+                        <th>@Localization.CloudERP.Miscellaneous.CustomerName</th>
+                        <th>@Localization.CloudERP.Miscellaneous.InvoiceNo</th>
+                        <th>@Localization.CloudERP.Sale.InvoiceDate</th>
+                        <th>@Localization.CloudERP.Sale.ReturnTotalAmount</th>
+                        <th>@Localization.CloudERP.Sale.ReturnPaymentAmount</th>
+                        <th>@Localization.CloudERP.Sale.RemainingBalance</th>
+                        <th>@Localization.CloudERP.Common.Actions</th>
                     </tr>
                 </thead>
                 <tbody id="paymentList">
@@ -61,7 +61,7 @@
                                 @{
                                     if (item.ReturnProductAmount - 1 > item.ReturnPaymentAmount)
                                     {
-                                        Html.ActionLink(Resources.Sale.ReturnPayment, "ReturnAmount", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-primary" });
+                                        Html.ActionLink(Localization.CloudERP.Sale.ReturnPayment, "ReturnAmount", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-primary" });
                                     }
                                 }
                             </td>

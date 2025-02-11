@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Domain.Models.FinancialModels.PurchasePaymentModel>
 
 @{
-    ViewBag.Title = Resources.Purchase.ReturnPurchasesPaymentPending;
+    ViewBag.Title = Localization.CloudERP.Purchase.ReturnPurchasesPaymentPending;
 }
 
 <!-- Tables Sorting-->
@@ -26,13 +26,13 @@
             <table class="table table-striped table-bordered table-hover" id="dataTable">
                 <thead>
                     <tr>
-                        <th>@Resources.Supplier.SupplierName</th>
-                        <th>@Resources.Miscellaneous.InvoiceNo</th>
-                        <th>@Resources.Purchase.InvoiceDate</th>
-                        <th>@Resources.Purchase.ReturnTotalAmount</th>
-                        <th>@Resources.Purchase.ReturnPaymentAmount</th>
-                        <th>@Resources.Purchase.RemainingBalance</th>
-                        <th>@Resources.Common.Actions</th>
+                        <th>@Localization.CloudERP.Supplier.SupplierName</th>
+                        <th>@Localization.CloudERP.Miscellaneous.InvoiceNo</th>
+                        <th>@Localization.CloudERP.Purchase.InvoiceDate</th>
+                        <th>@Localization.CloudERP.Purchase.ReturnTotalAmount</th>
+                        <th>@Localization.CloudERP.Purchase.ReturnPaymentAmount</th>
+                        <th>@Localization.CloudERP.Purchase.RemainingBalance</th>
+                        <th>@Localization.CloudERP.Common.Actions</th>
                     </tr>
                 </thead>
                 <tbody id="paymentList">
@@ -61,7 +61,7 @@
                                 @{
                                     if (item.ReturnProductAmount - 1 > item.ReturnPaymentAmount)
                                     {
-                                        Html.ActionLink(Resources.Purchase.ReturnPayment, "ReturnAmount", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-primary" });
+                                        Html.ActionLink(Localization.CloudERP.Purchase.ReturnPayment, "ReturnAmount", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-primary" });
                                     }
                                 }
                             </td>

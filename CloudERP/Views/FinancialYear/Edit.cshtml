@@ -1,7 +1,7 @@
 ﻿@model Domain.Models.FinancialYear
 
 @{
-    ViewBag.Title = Resources.Financial.EditFinancialYear.ToString();
+    ViewBag.Title = Localization.CloudERP.Financial.EditFinancialYear.ToString();
 }
 
 <script>
@@ -21,7 +21,7 @@
         @Html.HiddenFor(model => model.FinancialYearID)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.FinancialYearName, Resources.Financial.EnterFinancialYearTitle.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
+            @Html.LabelFor(model => model.FinancialYearName, Localization.CloudERP.Financial.EnterFinancialYearTitle.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.FinancialYearName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.FinancialYearName, "", new { @class = "text-danger" })
@@ -29,7 +29,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.StartDate, Resources.Financial.StartDate.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.StartDate, Localization.CloudERP.Financial.StartDate.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
@@ -37,7 +37,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.EndDate, Resources.Financial.EndDate.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.EndDate, Localization.CloudERP.Financial.EndDate.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
@@ -45,7 +45,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.IsActive, Resources.Financial.Status.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.IsActive, Localization.CloudERP.Financial.Status.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 <div class="checkbox">
                     @Html.EditorFor(model => model.IsActive)
@@ -56,8 +56,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="@Resources.Common.Save.ToString()" class="btn btn-success" />
-                @Html.ActionLink(Resources.Common.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
+                <input type="submit" value="@Localization.CloudERP.Common.Save.ToString()" class="btn btn-success" />
+                @Html.ActionLink(Localization.CloudERP.Common.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
                 <button id="voiceRecognitionButton" class="btn btn-link" type="button">
                     <i class="fas fa-microphone" style="font-size: 1.5em; color: gray;"></i>
                 </button>

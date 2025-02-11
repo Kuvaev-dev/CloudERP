@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Localization.CloudERP.Common {
+namespace Localization.CloudERP {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Localization.CloudERP.Common {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Resources.Common", global::System.Reflection.Assembly.Load("App_GlobalResources"));
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Localization.CloudERP", typeof(Common).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

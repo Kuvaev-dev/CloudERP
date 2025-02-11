@@ -1,7 +1,7 @@
 ﻿@model Domain.Models.TaskModel
 
 @{
-    ViewBag.Title = Resources.Task.DeleteTask.ToString();
+    ViewBag.Title = Localization.CloudERP.Task.DeleteTask.ToString();
 }
 
 @using (Html.BeginForm("Delete", "Task", FormMethod.Post))
@@ -11,37 +11,37 @@
 
     <div class="form-horizontal">
         <div class="col-md-10">
-            <h2>@Resources.Task.AreYouSureYouWantToDeleteThisTask.ToString()</h2>
+            <h2>@Localization.CloudERP.Task.AreYouSureYouWantToDeleteThisTask.ToString()</h2>
 
             <dl class="dl-horizontal">
                 <div class="form-group">
-                    <dt>@Resources.Task.TaskTitle.ToString()</dt>
+                    <dt>@Localization.CloudERP.Task.TaskTitle.ToString()</dt>
                     <dd class="form-control-static">@Model.Title</dd>
                 </div>
 
                 <div class="form-group">
-                    <dt>@Resources.Task.Description.ToString()</dt>
+                    <dt>@Localization.CloudERP.Task.Description.ToString()</dt>
                     <dd class="form-control-static">@Model.Description</dd>
                 </div>
 
                 <div class="form-group">
-                    <dt>@Resources.Task.DueDate.ToString()</dt>
+                    <dt>@Localization.CloudERP.Task.DueDate.ToString()</dt>
                     <dd class="form-control-static">@Model.DueDate.ToString("g")</dd>
                 </div>
 
                 <div class="form-group">
-                    <dt>@Resources.Task.ReminderDate.ToString()</dt>
+                    <dt>@Localization.CloudERP.Task.ReminderDate.ToString()</dt>
                     <dd class="form-control-static">@Model.ReminderDate</dd>
                 </div>
 
                 <div class="form-group">
-                    <dt>@Resources.Task.IsCompleted.ToString()</dt>
+                    <dt>@Localization.CloudERP.Task.IsCompleted.ToString()</dt>
                     <dd class="form-control-static">@Model.IsCompleted</dd>
                 </div>
             </dl>
             <div class="form-group">
-                <input type="submit" value="@Resources.Common.Delete.ToString()" class="btn btn-danger" />
-                @Html.ActionLink(Resources.Common.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
+                <input type="submit" value="@Localization.CloudERP.Common.Delete.ToString()" class="btn btn-danger" />
+                @Html.ActionLink(Localization.CloudERP.Common.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
             </div>
         </div>
     </div>

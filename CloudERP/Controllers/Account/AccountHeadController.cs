@@ -58,8 +58,7 @@ namespace CloudERP.Controllers
                 model.UserID = _sessionHelper.UserID;
                 var success = await _httpClient.PostAsync("", model);
 
-                if (success)
-                    return RedirectToAction("Index");
+                if (success) return RedirectToAction("Index");
 
                 TempData["ErrorMessage"] = "Error Creating a New Record";
                 return View(model);
@@ -104,8 +103,7 @@ namespace CloudERP.Controllers
                 model.UserID = _sessionHelper.UserID;
                 var success = await _httpClient.PutAsync(model.AccountHeadID.ToString(), model);
 
-                if (success)
-                    return RedirectToAction("Index");
+                if (success) return RedirectToAction("Index");
 
                 TempData["ErrorMessage"] = "Error Updating a Record";
                 return View(model);

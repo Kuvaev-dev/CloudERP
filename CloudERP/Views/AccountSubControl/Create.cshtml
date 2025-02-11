@@ -1,7 +1,7 @@
 ﻿@model Domain.Models.AccountSubControl
 
 @{
-    ViewBag.Title = Resources.Account.NewAccountSubControl.ToString();
+    ViewBag.Title = Localization.CloudERP.Account.NewAccountSubControl.ToString();
 }
 
 <script>
@@ -19,7 +19,7 @@
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.AccountControlID, Resources.Account.SelectControlAccount.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
+            @Html.LabelFor(model => model.AccountControlID, Localization.CloudERP.Account.SelectControlAccount.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-5">
                 @Html.DropDownListFor(
                     m => m.AccountControlID,
@@ -31,7 +31,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.AccountSubControlName, Resources.Account.AccountSubControlName.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
+            @Html.LabelFor(model => model.AccountSubControlName, Localization.CloudERP.Account.AccountSubControlName.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.AccountSubControlName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.AccountSubControlName, "", new { @class = "text-danger" })
@@ -40,8 +40,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="@Resources.Common.Save.ToString()" class="btn btn-success" />
-                @Html.ActionLink(Resources.Common.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
+                <input type="submit" value="@Localization.CloudERP.Common.Save.ToString()" class="btn btn-success" />
+                @Html.ActionLink(Localization.CloudERP.Common.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
                 <button id="voiceRecognitionButton" class="btn btn-link" type="button">
                     <i class="fas fa-microphone" style="font-size: 1.5em; color: gray;"></i>
                 </button>

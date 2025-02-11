@@ -1,11 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using DatabaseAccess.Repositories;
+using Domain.RepositoryAccess;
+using System.Web.Mvc;
+using Unity;
+using Unity.AspNet.Mvc;
 
 namespace API.Helpers
 {
-    public class UnityConfig
+    public static class UnityConfig
     {
+        public static void RegisterComponents(IUnityContainer container)
+        {
+            container.RegisterType<IAccountHeadRepository, AccountHeadRepository>();
+
+            DependencyResolver.SetResolver(new UnityDependencyResolver(container));
+        }
     }
 }

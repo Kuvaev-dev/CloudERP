@@ -321,6 +321,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="CloudERP\Resource1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource1.resx</DependentUpon>
+    </Compile>
     <Compile Include="CloudERP\Validations\Validations.en-US.designer.cs">
       <DependentUpon>Validations.en-US.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -349,246 +354,250 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CloudERP\Common\Common.en-US.resx">
+    <EmbeddedResource Include="CloudERP\Common\Common.en-US.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Common.en-US.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Common\Common.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Common\Common.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Common.Designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Common\Common.ru-RU.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Common\Common.ru-RU.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Common.ru-RU.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Common\Common.uk-UA.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Common\Common.uk-UA.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Common.uk-UA.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Messages\Messages.en-US.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Messages\Messages.en-US.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Messages.en-US.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Messages\Messages.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Messages\Messages.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Messages.Designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Messages\Messages.ru-RU.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Messages\Messages.ru-RU.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Messages.ru-RU.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Messages\Messages.uk-UA.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Messages\Messages.uk-UA.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Messages.uk-UA.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Account\Account.en-US.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Account\Account.en-US.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Account.en-US.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Account\Account.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Account\Account.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Account.Designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Account\Account.ru-RU.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Account\Account.ru-RU.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Account.ru-RU.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Account\Account.uk-UA.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Account\Account.uk-UA.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Account.uk-UA.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Branch\Branch.en-US.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Branch\Branch.en-US.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Branch.en-US.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Branch\Branch.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Branch\Branch.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Branch.Designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Branch\Branch.ru-RU.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Branch\Branch.ru-RU.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Branch.ru-RU.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Branch\Branch.uk-UA.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Branch\Branch.uk-UA.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Branch.uk-UA.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Company\Company.en-US.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Company\Company.en-US.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Company.en-US.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Company\Company.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Company\Company.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Company.Designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Company\Company.ru-RU.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Company\Company.ru-RU.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Company.ru-RU.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Company\Company.uk-UA.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Company\Company.uk-UA.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Company.uk-UA.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Financial\Financial.en-US.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Financial\Financial.en-US.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Financial.en-US.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
-    </Content>
-    <Content Include="CloudERP\Modules\Financial\Financial.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Financial\Financial.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Financial.Designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Financial\Financial.ru-RU.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Financial\Financial.ru-RU.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Financial.ru-RU.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Financial\Financial.uk-UA.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Financial\Financial.uk-UA.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Financial.uk-UA.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Guide\Guide.en-US.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Guide\Guide.en-US.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Guide.en-US.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Guide\Guide.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Guide\Guide.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Guide.Designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Guide\Guide.ru-RU.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Guide\Guide.ru-RU.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Guide.ru-RU.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Guide\Guide.uk-UA.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Guide\Guide.uk-UA.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Guide.uk-UA.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Miscellaneous\Miscellaneous.en-US.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Miscellaneous\Miscellaneous.en-US.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Miscellaneous.en-US.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
-    </Content>
-    <Content Include="CloudERP\Modules\Miscellaneous\Miscellaneous.resx">
+    </EmbeddedResource>
+    <Resource Include="CloudERP\Modules\Miscellaneous\Miscellaneous.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Miscellaneous.Designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Miscellaneous\Miscellaneous.ru-RU.resx">
+    </Resource>
+    <EmbeddedResource Include="CloudERP\Modules\Miscellaneous\Miscellaneous.ru-RU.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Miscellaneous.ru-RU.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Miscellaneous\Miscellaneous.uk-UA.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Miscellaneous\Miscellaneous.uk-UA.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Miscellaneous.uk-UA.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Purchase\Purchase.en-US.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Purchase\Purchase.en-US.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Purchase.en-US.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Purchase\Purchase.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Purchase\Purchase.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Purchase.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
-    </Content>
-    <Content Include="CloudERP\Modules\Purchase\Purchase.ru-RU.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Purchase\Purchase.ru-RU.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Purchase.ru-RU.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Purchase\Purchase.uk-UA.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Purchase\Purchase.uk-UA.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Purchase.uk-UA.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Sale\Sale.en-US.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Sale\Sale.en-US.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Sale.en-US.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Sale\Sale.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Sale\Sale.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Sale.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Sale\Sale.ru-RU.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Sale\Sale.ru-RU.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Sale.ru-RU.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Sale\Sale.uk-UA.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Sale\Sale.uk-UA.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Sale.uk-UA.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Supplier\Supplier.en-US.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Supplier\Supplier.en-US.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Supplier.en-US.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Supplier\Supplier.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Supplier\Supplier.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Supplier.Designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Supplier\Supplier.ru-RU.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Supplier\Supplier.ru-RU.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Supplier.ru-RU.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Supplier\Supplier.uk-UA.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Supplier\Supplier.uk-UA.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Supplier.uk-UA.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Support\Support.en-US.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Support\Support.en-US.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Support.en-US.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Support\Support.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Support\Support.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Support.Designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Support\Support.ru-RU.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Support\Support.ru-RU.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Support.ru-RU.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Support\Support.uk-UA.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Support\Support.uk-UA.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Support.uk-UA.designer.cs</LastGenOutput>
-    </Content>
+    </EmbeddedResource>
     <EmbeddedResource Include="CloudERP\Modules\Task\Task.en-US.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Task.en-US1.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <Content Include="CloudERP\Modules\Task\Task.resx">
+    <EmbeddedResource Include="CloudERP\Modules\Task\Task.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Task.Designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Task\Task.ru-RU.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Task\Task.ru-RU.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Task.ru-RU.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\Task\Task.uk-UA.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\Task\Task.uk-UA.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Task.uk-UA.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\User\User.en-US.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\User\User.en-US.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>User.en-US.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\User\User.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\User\User.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>User.Designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\User\User.ru-RU.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\User\User.ru-RU.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>User.ru-RU.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Modules\User\User.uk-UA.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Modules\User\User.uk-UA.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>User.uk-UA.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Validations\Validations.en-US.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Resource1.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Validations\Validations.en-US.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Validations.en-US.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Validations\Validations.ru-RU.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Validations\Validations.ru-RU.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Validations.ru-RU.designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="CloudERP\Validations\Validations.uk-UA.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="CloudERP\Validations\Validations.uk-UA.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Validations.uk-UA.designer.cs</LastGenOutput>
-    </Content>
+    </EmbeddedResource>
     <EmbeddedResource Include="DatabaseAccess\Localization\Localization.en-US.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>

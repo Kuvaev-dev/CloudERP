@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Domain.Models.Employee>
 
 @{
-    ViewBag.Title = Resources.Miscellaneous.Employees;
+    ViewBag.Title = Localization.CloudERP.Miscellaneous.Employees;
 }
 
 <!-- Tables Sorting-->
@@ -17,7 +17,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        @Html.ActionLink(Resources.Company.AddEmployee, "EmployeeRegistration", "BranchEmployee", null, new { @style = "float:left;", @class = "btn btn-success" })
+        @Html.ActionLink(Localization.CloudERP.Company.AddEmployee, "EmployeeRegistration", "BranchEmployee", null, new { @style = "float:left;", @class = "btn btn-success" })
         <h3 class="text-danger">@ViewBag.Message</h3>
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
     </div>
@@ -27,22 +27,22 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Branch.BranchName))
+                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Branch.BranchName))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.User.FullName))
+                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.User.FullName))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.User.ContactNo))
+                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.User.ContactNo))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.Photo))
+                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Miscellaneous.Photo))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.Designation))
+                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Miscellaneous.Designation))
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Resources.Common.Actions))
+                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Common.Actions))
                         </th>
                     </tr>
                 </thead>
@@ -69,16 +69,16 @@
                                 @Html.DisplayFor(modelItem => item.Designation)
                             </td>
                             <td class="btn-group">
-                                @Html.ActionLink(Resources.Common.Update, "EmployeeUpdation", new { id = item.EmployeeID }, new { @class = "btn btn-primary" })
-                                @Html.ActionLink(Resources.Company.Profile, "ViewProfile", new { id = item.EmployeeID }, new { @class = "btn btn-info" })
+                                @Html.ActionLink(Localization.CloudERP.Common.Update, "EmployeeUpdation", new { id = item.EmployeeID }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink(Localization.CloudERP.Company.Profile, "ViewProfile", new { id = item.EmployeeID }, new { @class = "btn btn-info" })
 
                                 @if (item.UserID == null)
                                 {
-                                    @Html.ActionLink(Resources.Company.CreateUser, "CreateUser", "UserSetting", new { employeeID = item.EmployeeID }, new { @class = "btn btn-success" })
+                                    @Html.ActionLink(Localization.CloudERP.Company.CreateUser, "CreateUser", "UserSetting", new { employeeID = item.EmployeeID }, new { @class = "btn btn-success" })
                                 }
                                 else
                                 {
-                                    @Html.ActionLink(Resources.Company.UpdateUser, "UpdateUser", "UserSetting", new { userID = item.UserID }, new { @class = "btn btn-success" })
+                                    @Html.ActionLink(Localization.CloudERP.Company.UpdateUser, "UpdateUser", "UserSetting", new { userID = item.UserID }, new { @class = "btn btn-success" })
                                 }
                             </td>
                         </tr>

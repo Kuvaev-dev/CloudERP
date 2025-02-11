@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Domain.Models.FinancialModels.PurchasePaymentModel>
 
 @{
-    ViewBag.Title = Resources.Miscellaneous.PurchasesPaymentPending.ToString();
+    ViewBag.Title = Localization.CloudERP.Miscellaneous.PurchasesPaymentPending.ToString();
 }
 
 <!-- Tables Sorting-->
@@ -25,34 +25,34 @@
                 <thead>
                     <tr>
                         <th>
-                            @Resources.Supplier.SupplierName.ToString()
+                            @Localization.CloudERP.Supplier.SupplierName.ToString()
                         </th>
                         <th>
-                            @Resources.Miscellaneous.InvoiceNo.ToString()
+                            @Localization.CloudERP.Miscellaneous.InvoiceNo.ToString()
                         </th>
                         <th>
-                            @Resources.Miscellaneous.Date.ToString()
+                            @Localization.CloudERP.Miscellaneous.Date.ToString()
                         </th>
                         <th>
-                            @Resources.Purchase.TotalAmount.ToString()
+                            @Localization.CloudERP.Purchase.TotalAmount.ToString()
                         </th>
                         <th>
-                            @Resources.Purchase.ReturnProductsTotalAmount.ToString()
+                            @Localization.CloudERP.Purchase.ReturnProductsTotalAmount.ToString()
                         </th>
                         <th>
-                            @Resources.Purchase.AmountAfterReturn.ToString()
+                            @Localization.CloudERP.Purchase.AmountAfterReturn.ToString()
                         </th>
                         <th>
-                            @Resources.Purchase.PaidAmount.ToString()
+                            @Localization.CloudERP.Purchase.PaidAmount.ToString()
                         </th>
                         <th>
-                            @Resources.Purchase.PaymentAmount.ToString()
+                            @Localization.CloudERP.Purchase.PaymentAmount.ToString()
                         </th>
                         <th>
-                            @Resources.Purchase.RemainingBalance.ToString()
+                            @Localization.CloudERP.Purchase.RemainingBalance.ToString()
                         </th>
                         <th>
-                            @Resources.Common.Actions.ToString()
+                            @Localization.CloudERP.Common.Actions.ToString()
                         </th>
                     </tr>
                 </thead>
@@ -90,11 +90,11 @@
                             <td class="btn-group">
                                 @if (item.TotalAmount - 1 > item.PaymentAmount)
                                 {
-                                    @Html.ActionLink(Resources.Sale.PayAmount.ToString(), "PaidAmount", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-primary" });
+                                    @Html.ActionLink(Localization.CloudERP.Sale.PayAmount.ToString(), "PaidAmount", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-primary" });
                                 }
                                 @if (item.PaymentAmount > 0)
                                 {
-                                    @Html.ActionLink(Resources.Purchase.PayHistory.ToString(), "PaidHistory", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-info" });
+                                    @Html.ActionLink(Localization.CloudERP.Purchase.PayHistory.ToString(), "PaidHistory", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-info" });
                                 }
                             </td>
                         </tr>

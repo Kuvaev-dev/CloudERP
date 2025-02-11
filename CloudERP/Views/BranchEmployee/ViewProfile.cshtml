@@ -1,14 +1,14 @@
 ﻿@model Domain.Models.Employee
 
 @{
-    ViewBag.Title = Resources.Company.EmployeeProfile.ToString();
+    ViewBag.Title = Localization.CloudERP.Company.EmployeeProfile.ToString();
 }
 
 <div class="form-horizontal">
     <div class="col-md-10">
         <dl class="dl-horizontal">
             <dt>
-                @Html.Raw(HttpUtility.HtmlDecode(Resources.User.FullName))
+                @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.User.FullName))
             </dt>
 
             <dd>
@@ -16,7 +16,7 @@
             </dd>
 
             <dt>
-                @Html.Raw(HttpUtility.HtmlDecode(Resources.User.ContactNo))
+                @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.User.ContactNo))
             </dt>
 
             <dd>
@@ -24,7 +24,7 @@
             </dd>
 
             <dt>
-                @Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.Photo))
+                @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Miscellaneous.Photo))
             </dt>
 
             <dd>
@@ -35,7 +35,7 @@
             </dd>
 
             <dt>
-                @Html.Raw(HttpUtility.HtmlDecode(Resources.User.EmailAddress))
+                @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.User.EmailAddress))
             </dt>
 
             <dd>
@@ -43,7 +43,7 @@
             </dd>
 
             <dt>
-                @Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.Address))
+                @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Miscellaneous.Address))
             </dt>
 
             <dd>
@@ -51,7 +51,7 @@
             </dd>
 
             <dt>
-                @Html.Raw(HttpUtility.HtmlDecode(Resources.User.TIN))
+                @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.User.TIN))
             </dt>
 
             <dd>
@@ -59,7 +59,7 @@
             </dd>
 
             <dt>
-                @Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.Designation))
+                @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Miscellaneous.Designation))
             </dt>
 
             <dd>
@@ -67,7 +67,7 @@
             </dd>
 
             <dt>
-                @Html.Raw(HttpUtility.HtmlDecode(Resources.Miscellaneous.Description))
+                @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Miscellaneous.Description))
             </dt>
 
             <dd>
@@ -75,7 +75,7 @@
             </dd>
 
             <dt>
-                @Html.Raw(HttpUtility.HtmlDecode(Resources.Company.BasicSalary))
+                @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Company.BasicSalary))
             </dt>
 
             <dd>
@@ -83,7 +83,7 @@
             </dd>
 
             <dt>
-                @Html.Raw(HttpUtility.HtmlDecode(Resources.Branch.BranchTitle))
+                @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Branch.BranchTitle))
             </dt>
 
             <dt>
@@ -93,8 +93,8 @@
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            @Html.ActionLink(Resources.Company.EditProfile.ToString(), "EmployeeUpdation", new { id = Model.EmployeeID }, new { @class = "btn btn-primary" })
-            @Html.ActionLink(Resources.Common.BackToList.ToString(), "Employee", null, new { @class = "btn btn-default" })
+            @Html.ActionLink(Localization.CloudERP.Company.EditProfile.ToString(), "EmployeeUpdation", new { id = Model.EmployeeID }, new { @class = "btn btn-primary" })
+            @Html.ActionLink(Localization.CloudERP.Common.BackToList.ToString(), "Employee", null, new { @class = "btn btn-default" })
         </div>
     </div>
 </div>

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Domain.Models.FinancialModels.SalePaymentModel>
 
 @{
-    ViewBag.Title = Resources.Sale.AllReturnSalesAmountPending.ToString();
+    ViewBag.Title = Localization.CloudERP.Sale.AllReturnSalesAmountPending.ToString();
 }
 
 <!-- Tables Sorting-->
@@ -27,37 +27,37 @@
                 <thead>
                     <tr>
                         <th>
-                            @Resources.Sale.Customer.ToString()
+                            @Localization.CloudERP.Sale.Customer.ToString()
                         </th>
                         <th>
-                            @Resources.Sale.ContactNo.ToString()
+                            @Localization.CloudERP.Sale.ContactNo.ToString()
                         </th>
                         <th>
-                            @Resources.Sale.InvoiceNo.ToString()
+                            @Localization.CloudERP.Sale.InvoiceNo.ToString()
                         </th>
                         <th>
-                            @Resources.Sale.Date.ToString()
+                            @Localization.CloudERP.Sale.Date.ToString()
                         </th>
                         <th>
-                            @Resources.Sale.SaleTotalAmount.ToString()
+                            @Localization.CloudERP.Sale.SaleTotalAmount.ToString()
                         </th>
                         <th>
-                            @Resources.Sale.ReturnProductsTotalAmount.ToString()
+                            @Localization.CloudERP.Sale.ReturnProductsTotalAmount.ToString()
                         </th>
                         <th>
-                            @Resources.Sale.AfterReturnSaleTotalAmount.ToString()
+                            @Localization.CloudERP.Sale.AfterReturnSaleTotalAmount.ToString()
                         </th>
                         <th>
-                            @Resources.Sale.PaidAmount.ToString()
+                            @Localization.CloudERP.Sale.PaidAmount.ToString()
                         </th>
                         <th>
-                            @Resources.Sale.PaymentToCustomer.ToString()
+                            @Localization.CloudERP.Sale.PaymentToCustomer.ToString()
                         </th>
                         <th>
-                            @Resources.Sale.RemainingBalance.ToString()
+                            @Localization.CloudERP.Sale.RemainingBalance.ToString()
                         </th>
                         <th>
-                            @Resources.Common.Actions.ToString()
+                            @Localization.CloudERP.Common.Actions.ToString()
                         </th>
                     </tr>
                 </thead>
@@ -90,7 +90,7 @@
                                 @{
                                     if (item.PaymentAmount == 0)
                                     {
-                                        @Html.ActionLink(Resources.Sale.SetPaid.ToString(), "PaidAmount", "SalePayment", new { id = item.CustomerInvoiceID }, new { @class = "text-success" })
+                                        @Html.ActionLink(Localization.CloudERP.Sale.SetPaid.ToString(), "PaidAmount", "SalePayment", new { id = item.CustomerInvoiceID }, new { @class = "text-success" })
                                     }
                                     else
                                     {
@@ -106,7 +106,7 @@
                                     if (item.RemainingBalance == 0 && item.PaymentAmount != 0)
                                     {
                                         <em class="icon-check">
-                                            <label class="text-success">@Resources.Sale.Clear.ToString()</label>
+                                            <label class="text-success">@Localization.CloudERP.Sale.Clear.ToString()</label>
                                         </em>
                                     }
                                     else if (item.RemainingBalance < 0)
@@ -123,16 +123,16 @@
                                 @{
                                     if (item.RemainingBalance < item.TotalAmount && item.PaymentAmount != 0)
                                     {
-                                        @Html.ActionLink(Resources.Sale.PayHistory.ToString(), "PaidHistory", "SalePayment", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-primary" })
+                                        @Html.ActionLink(Localization.CloudERP.Sale.PayHistory.ToString(), "PaidHistory", "SalePayment", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-primary" })
                                     }
                                     else
                                     {
                                         <em class="icon-book-open">
-                                            <label class="text-danger"><b>@Resources.Sale.NoHistory.ToString()</b></label>
+                                            <label class="text-danger"><b>@Localization.CloudERP.Sale.NoHistory.ToString()</b></label>
                                         </em>
                                         <br />
                                     }
-                                    @Html.ActionLink(Resources.Sale.ViewDetails.ToString(), "SaleItemDetail", "SalePayment", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-info" })
+                                    @Html.ActionLink(Localization.CloudERP.Sale.ViewDetails.ToString(), "SaleItemDetail", "SalePayment", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-info" })
                                 }
                             </td>
                         </tr>

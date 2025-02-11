@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Domain.Models.FinancialModels.AccountLedgerModel>
 @{
-    ViewBag.Title = Resources.Miscellaneous.AccountsLedger.ToString();
+    ViewBag.Title = Localization.CloudERP.Miscellaneous.AccountsLedger.ToString();
 }
 
 <script src="~/Scripts/jQuery/jquery-3.7.1.js"></script>
@@ -13,9 +13,9 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">
-                        <label>@Resources.Miscellaneous.SelectFinancialYear.ToString()</label>
-                        @Html.DropDownList("id", (SelectList)ViewBag.FinancialYears, Resources.Miscellaneous.SelectFinancialYear.ToString(), new { @class = "form-control", required = "required" })
-                        <input type="submit" value="@Resources.Miscellaneous.RetrieveLedger.ToString()" class="btn btn-success form-control mt-2">
+                        <label>@Localization.CloudERP.Miscellaneous.SelectFinancialYear.ToString()</label>
+                        @Html.DropDownList("id", (SelectList)ViewBag.FinancialYears, Localization.CloudERP.Miscellaneous.SelectFinancialYear.ToString(), new { @class = "form-control", required = "required" })
+                        <input type="submit" value="@Localization.CloudERP.Miscellaneous.RetrieveLedger.ToString()" class="btn btn-success form-control mt-2">
                     </div>
                     <div class="col-md-4">
                         <h3 class="text-danger">@ViewBag.Message</h3>
@@ -29,9 +29,9 @@
 
 <div class="card">
     <div class="card-header">
-        <div class="card-title">@Resources.Miscellaneous.Export.ToString()</div>
+        <div class="card-title">@Localization.CloudERP.Miscellaneous.Export.ToString()</div>
         <div class="text-sm">
-            @Resources.Miscellaneous.AccountsLedger.ToString()
+            @Localization.CloudERP.Miscellaneous.AccountsLedger.ToString()
         </div>
     </div>
     <div class="card-body">
@@ -42,19 +42,19 @@
                         Sno
                     </th>
                     <th>
-                        @Resources.Miscellaneous.Account.ToString()
+                        @Localization.CloudERP.Miscellaneous.Account.ToString()
                     </th>
                     <th>
-                        @Resources.Miscellaneous.Date.ToString()
+                        @Localization.CloudERP.Miscellaneous.Date.ToString()
                     </th>
                     <th>
-                        @Resources.Miscellaneous.Description.ToString()
+                        @Localization.CloudERP.Miscellaneous.Description.ToString()
                     </th>
                     <th>
-                        @Resources.Miscellaneous.Debit.ToString()
+                        @Localization.CloudERP.Miscellaneous.Debit.ToString()
                     </th>
                     <th>
-                        @Resources.Miscellaneous.Credit.ToString()
+                        @Localization.CloudERP.Miscellaneous.Credit.ToString()
                     </th>
                 </tr>
             </thead>

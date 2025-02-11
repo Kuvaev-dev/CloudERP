@@ -1,7 +1,7 @@
 ﻿@model Domain.Models.Employee
 
 @{
-    ViewBag.Title = Resources.Miscellaneous.EmployeeRegistration;
+    ViewBag.Title = Localization.CloudERP.Miscellaneous.EmployeeRegistration;
     string geoapifyApiKey = System.Configuration.ConfigurationManager.AppSettings["GeoapifyApiKey"];
 }
 
@@ -20,7 +20,7 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div class="form-group">
-            @Html.LabelFor(model => model.FullName, Resources.User.FullName.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.FullName, Localization.CloudERP.User.FullName.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
@@ -28,7 +28,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ContactNumber, Resources.User.ContactNo.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ContactNumber, Localization.CloudERP.User.ContactNo.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.ContactNumber, new { htmlAttributes = new { @class = "form-control", @id = "PhoneNumber" } })
                 @Html.ValidationMessageFor(model => model.ContactNumber, "", new { @class = "text-danger" })
@@ -45,7 +45,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Email, Resources.User.EmailAddress.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Email, Localization.CloudERP.User.EmailAddress.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
@@ -61,7 +61,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Designation, Resources.Miscellaneous.Designation.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Designation, Localization.CloudERP.Miscellaneous.Designation.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Designation, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Designation, "", new { @class = "text-danger" })
@@ -69,7 +69,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.MonthlySalary, Resources.Company.MonthlySalaryAmount.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.MonthlySalary, Localization.CloudERP.Company.MonthlySalaryAmount.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.MonthlySalary, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.MonthlySalary, "", new { @class = "text-danger" })
@@ -77,7 +77,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Description, Resources.Miscellaneous.Description.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Description, Localization.CloudERP.Miscellaneous.Description.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
@@ -85,7 +85,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Address, Resources.Miscellaneous.Address.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Address, Localization.CloudERP.Miscellaneous.Address.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @id = "address" } })
                 @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
@@ -96,8 +96,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="@Resources.Common.Save.ToString()" class="btn btn-success" />
-                @Html.ActionLink(Resources.Company.AllEmployees.ToString(), "Employee", null, new { @class = "btn btn-default" })
+                <input type="submit" value="@Localization.CloudERP.Common.Save.ToString()" class="btn btn-success" />
+                @Html.ActionLink(Localization.CloudERP.Company.AllEmployees.ToString(), "Employee", null, new { @class = "btn btn-default" })
             </div>
         </div>
     </div>
