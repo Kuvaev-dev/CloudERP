@@ -1,34 +1,23 @@
-﻿using CloudERP.Helpers;
-using DatabaseAccess.Factories;
+﻿using API.Helpers;
+using CloudERP.Helpers;
 using Domain.Models;
-using Domain.RepositoryAccess;
 using System;
+using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Utils.Interfaces;
 
 namespace CloudERP.Controllers
 {
     public class BranchEmployeeController : Controller
     {
-        private readonly IEmployeeRepository _employeeRepository;
-        private readonly IFileService _fileService;
-        private readonly IFileAdapterFactory _fileAdapterFactory;
         private readonly SessionHelper _sessionHelper;
+        private readonly HttpClientHelper _httpClient;
 
-        private const string EMPLOYEE_AVATAR_PATH = "~/Content/EmployeePhoto";
-        private const string DEFAULT_EMPLOYEE_AVATAR_PATH = "~/Content/EmployeePhoto/Default/default.png";
-
-        public BranchEmployeeController(
-            IEmployeeRepository employeeRepository,
-            IFileService fileService,
-            IFileAdapterFactory fileAdapterFactory,
-            SessionHelper sessionHelper)
+        public BranchEmployeeController(SessionHelper sessionHelper)
         {
-            _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(IEmployeeRepository));
-            _fileService = fileService ?? throw new ArgumentNullException(nameof(IFileService));
-            _fileAdapterFactory = fileAdapterFactory ?? throw new ArgumentNullException(nameof(IFileAdapterFactory));
+            _httpClient = new HttpClientHelper();
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
@@ -40,9 +29,11 @@ namespace CloudERP.Controllers
 
             try
             {
-                var employees = await _employeeRepository.GetByBranchAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                var branches = await _httpClient.GetAsync<List<Employee>>(
+                    $"branch-employee/employee?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                if (branches == null) return RedirectToAction("EP404", "EP");
 
-                return View(employees);
+                return View(branches);
             }
             catch (Exception ex)
             {
@@ -69,21 +60,23 @@ namespace CloudERP.Controllers
                 model.RegistrationDate = DateTime.Now;
                 model.IsFirstLogin = true;
 
-                if (logo != null)
-                {
-                    var fileName = $"{model.UserID}.jpg";
-
-                    var fileAdapter = _fileAdapterFactory.Create(logo);
-                    model.Photo = _fileService.UploadPhoto(fileAdapter, EMPLOYEE_AVATAR_PATH, fileName);
-                }
-                else
-                {
-                    model.Photo = _fileService.SetDefaultPhotoPath(DEFAULT_EMPLOYEE_AVATAR_PATH);
-                }
-
                 if (ModelState.IsValid)
                 {
-                    await _employeeRepository.AddAsync(model);
+                    using (var content = new MultipartFormDataContent())
+                    {
+                        content.Add(new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(model)), "model");
+
+                        if (logo != null)
+                        {
+                            var stream = logo.InputStream;
+                            var fileContent = new StreamContent(stream);
+                            fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(logo.ContentType);
+                            content.Add(fileContent, "file", logo.FileName);
+                        }
+
+                        await _httpClient.PostAsync("branch-employee/registration", content);
+                    }
+
                     return RedirectToAction("Employee");
                 }
 
@@ -104,7 +97,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var employee = await _employeeRepository.GetByIdAsync(id);
+                var employee = await _httpClient.GetAsync<Employee>($"branch-employee/{id}");
                 if (employee == null) return RedirectToAction("EP404", "EP");
 
                 return View(employee);
@@ -128,19 +121,21 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (logo != null)
+                    using (var content = new MultipartFormDataContent())
                     {
-                        var fileName = $"{model.UserID}.jpg";
+                        content.Add(new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(model)), "model");
 
-                        var fileAdapter = _fileAdapterFactory.Create(logo);
-                        model.Photo = _fileService.UploadPhoto(fileAdapter, EMPLOYEE_AVATAR_PATH, fileName);
-                    }
-                    else
-                    {
-                        model.Photo = _fileService.SetDefaultPhotoPath(DEFAULT_EMPLOYEE_AVATAR_PATH);
+                        if (logo != null)
+                        {
+                            var stream = logo.InputStream;
+                            var fileContent = new StreamContent(stream);
+                            fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(logo.ContentType);
+                            content.Add(fileContent, "file", logo.FileName);
+                        }
+
+                        await _httpClient.PostAsync("branch-employee/updation", content);
                     }
 
-                    await _employeeRepository.UpdateAsync(model);
                     return RedirectToAction("Employee");
                 }
 
@@ -161,7 +156,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var employee = await _employeeRepository.GetByIdAsync(id);
+                var employee = await _httpClient.GetAsync<Employee>($"branch-employee/{id}");
                 if (employee == null) return RedirectToAction("EP404", "EP");
 
                 return View(employee);

@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using API.Helpers;
 using CloudERP.Helpers;
 using DatabaseAccess.Factories;
 using Domain.Models;
@@ -12,23 +15,12 @@ namespace CloudERP.Controllers
 {
     public class CompanyController : Controller
     {
-        private readonly ICompanyRepository _companyRepository;
-        private readonly IFileService _fileService;
-        private readonly IFileAdapterFactory _fileAdapterFactory;
+        private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
 
-        private const string COMPANY_LOGO_PATH = "~/Content/CompanyLogo";
-        private const string DEFAULT_COMPANY_LOGO_PATH = "~/Content/CompanyLogo/erp-logo.png";
-
-        public CompanyController(
-            ICompanyRepository companyRepository, 
-            IFileService fileService,
-            IFileAdapterFactory fileAdapterFactory, 
-            SessionHelper sessionHelper)
+        public CompanyController(SessionHelper sessionHelper)
         {
-            _companyRepository = companyRepository ?? throw new ArgumentNullException(nameof(ICompanyRepository));
-            _fileService = fileService ?? throw new ArgumentNullException(nameof(IFileService));
-            _fileAdapterFactory = fileAdapterFactory ?? throw new ArgumentNullException(nameof(IFileAdapterFactory));
+            _httpClient = new HttpClientHelper();
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
@@ -40,7 +32,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var companies = await _companyRepository.GetAllAsync();
+                var companies = await _httpClient.GetAsync<List<Company>>("company/all");
                 return View(companies);
             }
             catch (Exception ex)
@@ -60,7 +52,7 @@ namespace CloudERP.Controllers
             {
                 if (id == null) return RedirectToAction("EP404", "EP");
 
-                var company = await _companyRepository.GetByIdAsync(id.Value);
+                var company = await _httpClient.GetAsync<Company>($"company/{id.Value}");
                 if (company == null) return RedirectToAction("EP404", "EP");
 
                 return View(company);
@@ -93,25 +85,20 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (await _companyRepository.CheckCompanyExistsAsync(model.Name))
+                    using (var content = new MultipartFormDataContent())
                     {
-                        ModelState.AddModelError("Name", Localization.CloudERP.Messages.Messages.AlreadyExists);
-                        return View(model);
-                    }
+                        content.Add(new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(model)), "model");
 
-                    if (logo != null)
-                    {
-                        var fileName = $"{model.Name}.jpg";
+                        if (logo != null)
+                        {
+                            var stream = logo.InputStream;
+                            var fileContent = new StreamContent(stream);
+                            fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(logo.ContentType);
+                            content.Add(fileContent, "file", logo.FileName);
+                        }
 
-                        var fileAdapter = _fileAdapterFactory.Create(logo);
-                        model.Logo = _fileService.UploadPhoto(fileAdapter, COMPANY_LOGO_PATH, fileName);
+                        await _httpClient.PostAsync("company/create", content);
                     }
-                    else
-                    {
-                        model.Logo = _fileService.SetDefaultPhotoPath(DEFAULT_COMPANY_LOGO_PATH);
-                    }
-
-                    await _companyRepository.AddAsync(model);
 
                     return RedirectToAction("Index");
                 }
@@ -135,7 +122,7 @@ namespace CloudERP.Controllers
             {
                 if (id == null) return RedirectToAction("EP404", "EP");
 
-                var company = await _companyRepository.GetByIdAsync(id.Value);
+                var company = await _httpClient.GetAsync<Company>($"company/{id.Value}");
                 if (company == null) return RedirectToAction("EP404", "EP");
 
                 return View(company);
@@ -159,20 +146,7 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (logo != null)
-                    {
-                        var fileName = $"{model.Name}.jpg";
-
-                        var fileAdapter = _fileAdapterFactory.Create(logo);
-                        model.Logo = _fileService.UploadPhoto(fileAdapter, COMPANY_LOGO_PATH, fileName);
-                    }
-                    else
-                    {
-                        model.Logo = _fileService.SetDefaultPhotoPath(DEFAULT_COMPANY_LOGO_PATH);
-                    }
-
-                    await _companyRepository.UpdateAsync(model);
-
+                    await _httpClient.PutAsync($"api/company/update/{model.CompanyID}", model);
                     return RedirectToAction("Index");
                 }
 

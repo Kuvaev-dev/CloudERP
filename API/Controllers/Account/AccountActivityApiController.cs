@@ -7,13 +7,13 @@ using Domain.RepositoryAccess;
 
 namespace API.Controllers
 {
-    [RoutePrefix("api/account-head")]
+    [RoutePrefix("api/account-activity")]
     [EnableCors(origins: "*", headers: "*", methods: "*")]
-    public class AccountHeadApiController : ApiController
+    public class AccountActivityApiController : ApiController
     {
-        private readonly IAccountHeadRepository _repository;
+        private readonly IAccountActivityRepository _repository;
 
-        public AccountHeadApiController(IAccountHeadRepository repository)
+        public AccountActivityApiController(IAccountActivityRepository repository)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
@@ -23,8 +23,8 @@ namespace API.Controllers
         {
             try
             {
-                var accountHeads = await _repository.GetAllAsync();
-                return Ok(accountHeads);
+                var activities = await _repository.GetAllAsync();
+                return Ok(activities);
             }
             catch (Exception ex)
             {
@@ -37,9 +37,9 @@ namespace API.Controllers
         {
             try
             {
-                var accountHead = await _repository.GetByIdAsync(id);
-                if (accountHead == null) return NotFound();
-                return Ok(accountHead);
+                var activity = await _repository.GetByIdAsync(id);
+                if (activity == null) return NotFound();
+                return Ok(activity);
             }
             catch (Exception ex)
             {
@@ -48,14 +48,14 @@ namespace API.Controllers
         }
 
         [HttpPost, Route("create")]
-        public async Task<IHttpActionResult> Create([FromBody] AccountHead model)
+        public async Task<IHttpActionResult> Create([FromBody] AccountActivity model)
         {
             if (model == null) return BadRequest("Invalid data.");
 
             try
             {
                 await _repository.AddAsync(model);
-                return Created($"api/account-head/{model.AccountHeadID}", model);
+                return Created($"api/account-activity/{model.AccountActivityID}", model);
             }
             catch (Exception ex)
             {
@@ -64,9 +64,9 @@ namespace API.Controllers
         }
 
         [HttpPut, Route("update/{id:int}")]
-        public async Task<IHttpActionResult> Update(int id, [FromBody] AccountHead model)
+        public async Task<IHttpActionResult> Update(int id, [FromBody] AccountActivity model)
         {
-            if (model == null || id != model.AccountHeadID) return BadRequest("Invalid data.");
+            if (model == null || id != model.AccountActivityID) return BadRequest("Invalid data.");
 
             try
             {

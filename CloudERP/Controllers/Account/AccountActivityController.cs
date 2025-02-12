@@ -1,26 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using API.Helpers;
 using CloudERP.Helpers;
 using Domain.Models;
-using Domain.RepositoryAccess;
 
 namespace CloudERP.Controllers.Account
 {
     public class AccountActivityController : Controller
     {
-        private readonly IAccountActivityRepository _accountActivityRepository;
+        private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
 
-        public AccountActivityController(
-            IAccountActivityRepository accountActivityRepository,
-            SessionHelper sessionHelper)
+        public AccountActivityController(SessionHelper sessionHelper)
         {
-            _accountActivityRepository = accountActivityRepository;
-            _sessionHelper = sessionHelper;
+            _httpClient = new HttpClientHelper();
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
         }
 
-        // GET: AccountActivity
         public async Task<ActionResult> Index()
         {
             if (!_sessionHelper.IsAuthenticated)
@@ -28,19 +26,16 @@ namespace CloudERP.Controllers.Account
 
             try
             {
-                var accountActivities = await _accountActivityRepository.GetAllAsync();
-                if (accountActivities == null) return RedirectToAction("EP404", "EP");
-
+                var accountActivities = await _httpClient.GetAsync<List<AccountActivity>>("all");
                 return View(accountActivities);
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
+                return RedirectToAction("Error", "Home");
             }
         }
 
-        // GET: AccountActivity/Create
         public ActionResult Create()
         {
             if (!_sessionHelper.IsAuthenticated)
@@ -49,7 +44,6 @@ namespace CloudERP.Controllers.Account
             return View(new AccountActivity());
         }
 
-        // POST: AccountActivity/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(AccountActivity model)
@@ -57,44 +51,43 @@ namespace CloudERP.Controllers.Account
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
+            if (!ModelState.IsValid) return View(model);
+
             try
             {
-                if (ModelState.IsValid)
-                {
-                    await _accountActivityRepository.AddAsync(model);
-                    return RedirectToAction("Index");
-                }
+                var success = await _httpClient.PostAsync("create", model);
 
+                if (success) return RedirectToAction("Index");
+
+                TempData["ErrorMessage"] = "Error Creating a New Record";
                 return View(model);
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
+                return RedirectToAction("Error", "Home");
             }
         }
 
-        // GET: AccountActivity/Edit/5
-        public async Task<ActionResult> Edit(int? id)
+        public async Task<ActionResult> Edit(int id)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
             try
             {
-                var accountActivity = await _accountActivityRepository.GetByIdAsync(id.Value);
-                if (accountActivity == null) return RedirectToAction("EP404", "EP");
+                var accountActivity = await _httpClient.GetAsync<AccountActivity>("");
+                if (accountActivity == null) return HttpNotFound();
 
                 return View(accountActivity);
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
+                return RedirectToAction("Error", "Home");
             }
         }
 
-        // POST: AccountActivity/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(AccountActivity model)
@@ -102,19 +95,21 @@ namespace CloudERP.Controllers.Account
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
+            if (!ModelState.IsValid) return View(model);
+
             try
             {
-                if (ModelState.IsValid)
-                {
-                    await _accountActivityRepository.UpdateAsync(model);
-                    return RedirectToAction("Index");
-                }
+                var success = await _httpClient.PutAsync($"api/account-activity/update/{model.AccountActivityID}", model);
+
+                if (success) return RedirectToAction("Index");
+
+                TempData["ErrorMessage"] = "Error Updating a Record";
                 return View(model);
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
+                return RedirectToAction("Error", "Home");
             }
         }
     }

@@ -109,6 +109,8 @@
   <ItemGroup>
     <Compile Include="Adapters\FinancialForecastAdapter.cs" />
     <Compile Include="Adapters\HttpPostedFileAdapter.cs" />
+    <Compile Include="Facades\Company\CompanyEmployeeFacade.cs" />
+    <Compile Include="Facades\Company\CompanyRegistrationFacade.cs" />
     <Compile Include="Implementations\Authentication\AuthService.cs" />
     <Compile Include="Implementations\Dashboard\DashboardService.cs" />
     <Compile Include="Implementations\Employees\EmployeeSalaryService.cs" />

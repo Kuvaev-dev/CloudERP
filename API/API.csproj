@@ -192,7 +192,16 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\Account\AccountActivityApiController.cs" />
+    <Compile Include="Controllers\Account\AccountControlApiController.cs" />
     <Compile Include="Controllers\Account\AccountHeadApiController.cs" />
+    <Compile Include="Controllers\Account\AccountSettingApiController.cs" />
+    <Compile Include="Controllers\Account\AccountSubControlApiController.cs" />
+    <Compile Include="Controllers\Branch\BranchApiController.cs" />
+    <Compile Include="Controllers\Branch\BranchEmployeeApiController.cs" />
+    <Compile Include="Controllers\Branch\BranchTypeApiController.cs" />
+    <Compile Include="Controllers\Company\CompanyApiController.cs" />
+    <Compile Include="Controllers\Company\CompanyEmployeeApiController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -213,7 +222,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
-    <Folder Include="Views\AccountHeadApi\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />

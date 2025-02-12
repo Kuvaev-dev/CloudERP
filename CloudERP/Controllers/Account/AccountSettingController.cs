@@ -3,22 +3,20 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
 using Domain.Models;
-using CloudERP.Facades;
 using System.Collections.Generic;
-using Services.Facades;
+using API.Helpers;
 
 namespace CloudERP.Controllers
 {
     public class AccountSettingController : Controller
     {
-        private readonly AccountSettingFacade _accountSettingFacade;
+        private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
 
         public AccountSettingController(
-            AccountSettingFacade accountSettingFacade,
             SessionHelper sessionHelper)
         {
-            _accountSettingFacade = accountSettingFacade ?? throw new ArgumentNullException(nameof(AccountSettingFacade));
+            _httpClient = new HttpClientHelper();
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
@@ -29,10 +27,11 @@ namespace CloudERP.Controllers
 
             try
             {
-                var settings = await _accountSettingFacade.AccountSettingRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
-                if (settings == null) return RedirectToAction("EP404", "EP");
+                var accountSettings = await _httpClient.GetAsync<List<AccountSetting>>(
+                    $"account-control?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                if (accountSettings == null) return RedirectToAction("EP404", "EP");
 
-                return View(settings);
+                return View(accountSettings);
             }
             catch (Exception ex)
             {
@@ -49,7 +48,6 @@ namespace CloudERP.Controllers
             try
             {
                 await PopulateDropdownsAsync();
-
                 return View(new AccountSetting());
             }
             catch (Exception ex)
@@ -75,7 +73,7 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    await _accountSettingFacade.AccountSettingRepository.AddAsync(model);
+                    await _httpClient.PostAsync("account-setting/create", model);
                     return RedirectToAction("Index");
                 }
 
@@ -90,19 +88,21 @@ namespace CloudERP.Controllers
             }
         }
 
-        public async Task<ActionResult> Edit(int id)
+        public async Task<ActionResult> Edit(int? id)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
             try
             {
-                var setting = await _accountSettingFacade.AccountSettingRepository.GetByIdAsync(id);
-                if (setting == null) return RedirectToAction("EP404", "EP");
+                if (id == null) return RedirectToAction("Index");
 
-                await PopulateDropdownsAsync(setting);
+                var accountSetting = await _httpClient.GetAsync<AccountSetting>($"account-setting/{id.Value}");
+                if (accountSetting == null) return RedirectToAction("EP404", "EP");
 
-                return View(setting);
+                await PopulateDropdownsAsync();
+
+                return View(accountSetting);
             }
             catch (Exception ex)
             {
@@ -122,7 +122,7 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    await _accountSettingFacade.AccountSettingRepository.UpdateAsync(model);
+                    await _httpClient.PutAsync($"account-setting/update/{model.AccountSettingID}", model);
                     return RedirectToAction("Index");
                 }
 
@@ -149,26 +149,28 @@ namespace CloudERP.Controllers
 
         private async Task PopulateDropdownsAsync(AccountSetting model = null)
         {
-            ViewBag.AccountHeadList = await CreateSelectListAsync(
-                _accountSettingFacade.AccountHeadRepository.GetAllAsync,
+            ViewBag.AccountHeadList = await CreateSelectListAsync<AccountHead>(
+                async () => await _httpClient.GetAsync<List<AccountHead>>("account-head"),
                 "AccountHeadID",
                 "AccountHeadName",
                 model?.AccountHeadID);
 
-            ViewBag.AccountControlList = await CreateSelectListAsync(
-                () => _accountSettingFacade.AccountControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID),
+            ViewBag.AccountControlList = await CreateSelectListAsync<AccountControl>(
+                async () => await _httpClient.GetAsync<List<AccountControl>>(
+                    $"account-control?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}"),
                 "AccountControlID",
                 "AccountControlName",
                 model?.AccountControlID);
 
-            ViewBag.AccountSubControlList = await CreateSelectListAsync(
-                () => _accountSettingFacade.AccountSubControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID),
+            ViewBag.AccountSubControlList = await CreateSelectListAsync<AccountSubControl>(
+                async () => await _httpClient.GetAsync<List<AccountSubControl>>(
+                    $"account-sub-control?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}"),
                 "AccountSubControlID",
                 "AccountSubControlName",
                 model?.AccountSubControlID);
 
-            ViewBag.AccountActivityList = await CreateSelectListAsync(
-                _accountSettingFacade.AccountActivityRepository.GetAllAsync,
+            ViewBag.AccountActivityList = await CreateSelectListAsync<AccountActivity>(
+                async () => await _httpClient.GetAsync<List<AccountActivity>>("account-activity"),
                 "AccountActivityID",
                 "Name",
                 model?.AccountActivityID);

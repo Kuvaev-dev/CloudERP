@@ -502,8 +502,6 @@
     <Compile Include="Controllers\User\Users\UserController.cs" />
     <Compile Include="Controllers\User\Settings\UserSettingController.cs" />
     <Compile Include="Controllers\User\Settings\UserTypeController.cs" />
-    <Compile Include="Facades\CompanyEmployeeFacade.cs" />
-    <Compile Include="Facades\CompanyRegistrationFacade.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

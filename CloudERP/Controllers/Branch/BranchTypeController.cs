@@ -1,22 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using API.Helpers;
 using CloudERP.Helpers;
 using Domain.Models;
-using Domain.RepositoryAccess;
 
 namespace CloudERP.Controllers
 {
     public class BranchTypeController : Controller
     {
-        private readonly IBranchTypeRepository _branchTypeRepository;
+        private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
 
-        public BranchTypeController(
-            IBranchTypeRepository branchTypeRepository,
-            SessionHelper sessionHelper)
+        public BranchTypeController(SessionHelper sessionHelper)
         {
-            _branchTypeRepository = branchTypeRepository;
+            _httpClient = new HttpClientHelper();
             _sessionHelper = sessionHelper;
         }
 
@@ -28,7 +27,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var branchTypes = await _branchTypeRepository.GetAllAsync();
+                var branchTypes = await _httpClient.GetAsync<List<BranchType>>("branch-type");
                 if (branchTypes == null) return RedirectToAction("EP404", "EP");
 
                 return View(branchTypes);
@@ -61,7 +60,7 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    await _branchTypeRepository.AddAsync(model);
+                    await _httpClient.PostAsync("branch-type", model);
                     return RedirectToAction("Index");
                 }
 
@@ -82,7 +81,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var accountHead = await _branchTypeRepository.GetByIdAsync(id.Value);
+                var accountHead = await _httpClient.GetAsync<BranchType>($"branch-type/{id.Value}");
                 if (accountHead == null) return RedirectToAction("EP404", "EP");
 
                 return View(accountHead);
@@ -106,7 +105,7 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    await _branchTypeRepository.UpdateAsync(model);
+                    await _httpClient.PutAsync($"api/branch-type/{model.BranchTypeID}", model);
                     return RedirectToAction("Index");
                 }
                 return View(model);

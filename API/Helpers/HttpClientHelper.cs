@@ -6,16 +6,14 @@ using System.Threading.Tasks;
 
 namespace API.Helpers
 {
-    public class HttpClientHelper
+    public class HttpClientHelper : IDisposable
     {
         private readonly HttpClient _client;
 
-        public HttpClientHelper(string baseUrl)
+        public HttpClientHelper(string baseUrl = "https://localhost:5001/api/")
         {
             _client = new HttpClient { BaseAddress = new Uri(baseUrl.TrimEnd('/') + "/") };
         }
-
-        public HttpClientHelper() : this("https://localhost:5001/api/") { }
 
         public async Task<T> GetAsync<T>(string endpoint)
         {
@@ -40,6 +38,11 @@ namespace API.Helpers
 
             var response = await _client.PutAsync(endpoint, content);
             return response.IsSuccessStatusCode;
+        }
+
+        public void Dispose()
+        {
+            _client?.Dispose();
         }
     }
 }

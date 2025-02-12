@@ -6,12 +6,12 @@ namespace DatabaseAccess.Factories
 {
     public interface IFileAdapterFactory
     {
-        IFile Create(HttpPostedFileBase file);
+        IFile Create(HttpPostedFile file);
     }
 
     public class FileAdapterFactory : IFileAdapterFactory
     {
-        public IFile Create(HttpPostedFileBase file)
+        public IFile Create(HttpPostedFile file)
         {
             return new HttpPostedFileAdapter(file);
         }

@@ -1,28 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using API.Helpers;
 using CloudERP.Helpers;
 using Domain.Models;
-using Domain.RepositoryAccess;
 
 namespace CloudERP.Controllers
 {
     public class AccountSubControlController : Controller
     {
-        private readonly IAccountSubControlRepository _accountSubControlRepository;
-        private readonly IAccountControlRepository _accountControlRepository;
-        private readonly IAccountHeadRepository _accountHeadRepository;
+        private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
 
-        public AccountSubControlController(
-            IAccountSubControlRepository accountSubControlRepository, 
-            IAccountControlRepository accountControlRepository, 
-            IAccountHeadRepository accountHeadRepository, 
-            SessionHelper sessionHelper)
+        public AccountSubControlController(SessionHelper sessionHelper)
         {
-            _accountSubControlRepository = accountSubControlRepository ?? throw new ArgumentNullException(nameof(IAccountSubControlRepository));
-            _accountControlRepository = accountControlRepository ?? throw new ArgumentNullException(nameof(IAccountControlRepository));
-            _accountHeadRepository = accountHeadRepository ?? throw new ArgumentNullException(nameof(IAccountHeadRepository));
+            _httpClient = new HttpClientHelper();
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
@@ -32,8 +25,9 @@ namespace CloudERP.Controllers
                 return RedirectToAction("Login", "Home");
 
             try 
-            { 
-                var subControls = await _accountSubControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+            {
+                var subControls = await _httpClient.GetAsync<List<AccountSubControl>>(
+                    $"account-sub-control?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 if (subControls == null) return RedirectToAction("EP404", "EP");
 
                 return View(subControls);
@@ -53,7 +47,6 @@ namespace CloudERP.Controllers
             try
             {
                 await PopulateViewBag();
-
                 return View(new AccountSubControl());
             }
             catch (Exception ex)
@@ -81,7 +74,7 @@ namespace CloudERP.Controllers
 
                 if (model.AccountControlID > 0)
                 {
-                    var accountControl = await _accountControlRepository.GetByIdAsync(model.AccountControlID);
+                    var accountControl = await _httpClient.GetAsync<AccountSubControl>($"account-sub-control/{model.AccountControlID}");
                     if (accountControl != null)
                     {
                         model.AccountHeadID = accountControl.AccountHeadID;
@@ -90,7 +83,7 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    await _accountSubControlRepository.AddAsync(model);
+                    await _httpClient.PostAsync("account-sub-control/create", model);
                     return RedirectToAction("Index");
                 }
 
@@ -112,10 +105,11 @@ namespace CloudERP.Controllers
             {
                 if (id == null) return RedirectToAction("Index");
 
-                var accountControls = await _accountControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                var accountControls = await _httpClient.GetAsync<List<AccountControl>>(
+                    $"account-control?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 if (accountControls == null) return RedirectToAction("EP404", "EP");
 
-                var subControl = await _accountSubControlRepository.GetByIdAsync(id.Value);
+                var subControl = await _httpClient.GetAsync<AccountSetting>($"account-sub-control/{id.Value}");
                 if (subControl == null) return RedirectToAction("EP404", "EP");
 
                 await PopulateViewBag();
@@ -147,7 +141,7 @@ namespace CloudERP.Controllers
 
                 if (model.AccountControlID > 0)
                 {
-                    var accountControl = await _accountControlRepository.GetByIdAsync(model.AccountControlID);
+                    var accountControl = await _httpClient.GetAsync<AccountControl>($"account-control/{model.AccountControlID}");
                     if (accountControl != null)
                     {
                         model.AccountHeadID = accountControl.AccountHeadID;
@@ -156,7 +150,7 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    await _accountSubControlRepository.UpdateAsync(model);
+                    await _httpClient.PutAsync($"api/account-sub-control/update/{model.AccountSubControlID}", model);
                     return RedirectToAction("Index");
                 }
 
@@ -169,9 +163,8 @@ namespace CloudERP.Controllers
             }
         }
 
-        private async Task PopulateViewBag()
-        {
-            ViewBag.AccountControlList = await _accountControlRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
-        }
+        private async Task PopulateViewBag() =>
+            ViewBag.AccountControlList = await _httpClient.GetAsync<List<AccountControl>>(
+                    $"account-control?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
     }
 }

@@ -7,9 +7,9 @@ namespace DatabaseAccess.Adapters
 {
     public class HttpPostedFileAdapter : IFile
     {
-        private readonly HttpPostedFileBase _file;
+        private readonly HttpPostedFile _file;
 
-        public HttpPostedFileAdapter(HttpPostedFileBase file)
+        public HttpPostedFileAdapter(HttpPostedFile file)
         {
             _file = file ?? throw new ArgumentNullException(nameof(file));
         }

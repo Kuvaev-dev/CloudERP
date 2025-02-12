@@ -1,9 +1,11 @@
-﻿using CloudERP.Facades;
+﻿using API.Helpers;
 using CloudERP.Helpers;
 using CloudERP.Models;
 using Domain.Models;
 using Domain.Models.FinancialModels;
 using System;
+using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -12,18 +14,13 @@ namespace CloudERP.Controllers
 {
     public class CompanyEmployeeController : Controller
     {
+        private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
-        private readonly CompanyEmployeeFacade _companyEmployeeFacade;
-
-        private const string DEFAULT_PHOTO_PATH = "~/Content/EmployeePhoto/Default/default.png";
-        private const string PHOTO_FOLDER_PATH = "~/Content/EmployeePhoto";
-
-        public CompanyEmployeeController(
-            SessionHelper sessionHelper, 
-            CompanyEmployeeFacade companyEmployeeFacade)
+        
+        public CompanyEmployeeController(SessionHelper sessionHelper)
         {
+            _httpClient = new HttpClientHelper();
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
-            _companyEmployeeFacade = companyEmployeeFacade ?? throw new ArgumentNullException(nameof(CompanyEmployeeFacade));
         }
 
         // GET: Employees
@@ -35,7 +32,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                return View(await _companyEmployeeFacade.EmployeeRepository.GetByCompanyIdAsync(_sessionHelper.CompanyID));
+                return View(await _httpClient.GetAsync<List<Employee>>("company-employee/employees"));
             }
             catch (Exception ex)
             {
@@ -51,7 +48,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                ViewBag.Branches = await _companyEmployeeFacade.BranchRepository.GetByCompanyAsync(_sessionHelper.CompanyID);
+                ViewBag.Branches = await _httpClient.GetAsync<List<Branch>>($"branch/{_sessionHelper.CompanyID}");
                 return View(new Employee());
             }
             catch (Exception ex)

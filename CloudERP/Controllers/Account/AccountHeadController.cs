@@ -26,7 +26,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var accountHeads = await _httpClient.GetAsync<List<AccountHead>>("");
+                var accountHeads = await _httpClient.GetAsync<List<AccountHead>>("all");
                 return View(accountHeads);
             }
             catch (Exception ex)
@@ -56,11 +56,10 @@ namespace CloudERP.Controllers
             try
             {
                 model.UserID = _sessionHelper.UserID;
-                var success = await _httpClient.PostAsync("", model);
+                var success = await _httpClient.PostAsync("account-head/create", model);
 
                 if (success) return RedirectToAction("Index");
 
-                TempData["ErrorMessage"] = "Error Creating a New Record";
                 return View(model);
             }
             catch (Exception ex)
@@ -77,7 +76,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var accountHead = await _httpClient.GetAsync<AccountHead>(id.ToString());
+                var accountHead = await _httpClient.GetAsync<AccountHead>($"account-head/{id}");
                 if (accountHead == null) return HttpNotFound();
 
                 return View(accountHead);
@@ -101,11 +100,10 @@ namespace CloudERP.Controllers
             try
             {
                 model.UserID = _sessionHelper.UserID;
-                var success = await _httpClient.PutAsync(model.AccountHeadID.ToString(), model);
 
+                var success = await _httpClient.PutAsync($"account-head/update/{model.AccountHeadID}", model);
                 if (success) return RedirectToAction("Index");
 
-                TempData["ErrorMessage"] = "Error Updating a Record";
                 return View(model);
             }
             catch (Exception ex)

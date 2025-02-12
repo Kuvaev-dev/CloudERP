@@ -2,7 +2,7 @@
 using System;
 using Utils.Interfaces;
 
-namespace CloudERP.Facades
+namespace Services.Facades
 {
     public class CompanyRegistrationFacade
     {

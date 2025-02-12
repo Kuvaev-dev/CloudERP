@@ -1,30 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using API.Helpers;
 using CloudERP.Helpers;
 using Domain.Models;
-using Domain.RepositoryAccess;
 
 namespace CloudERP.Controllers
 {
     public class BranchController : Controller
     {
-        private readonly IBranchRepository _branchRepository;
-        private readonly IBranchTypeRepository _branchTypeRepository;
-        private readonly IAccountSettingRepository _accountSettingRepository;
+        private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
 
         private const int MAIN_BRANCH_TYPE_ID = 1;
 
-        public BranchController(
-            IBranchRepository branchRepository, 
-            IBranchTypeRepository branchTypeRepository,
-            IAccountSettingRepository accountSettingRepository,
-            SessionHelper sessionHelper)
+        public BranchController(SessionHelper sessionHelper)
         {
-            _branchRepository = branchRepository ?? throw new ArgumentNullException(nameof(IBranchRepository));
-            _branchTypeRepository = branchTypeRepository ?? throw new ArgumentNullException(nameof(IBranchTypeRepository));
-            _accountSettingRepository = accountSettingRepository ?? throw new ArgumentNullException(nameof(IAccountSettingRepository));
+            _httpClient = new HttpClientHelper();
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
@@ -36,9 +29,9 @@ namespace CloudERP.Controllers
 
             try
             {
-                var branches = _sessionHelper.BranchTypeID == MAIN_BRANCH_TYPE_ID
-                    ? await _branchRepository.GetByCompanyAsync(_sessionHelper.CompanyID)
-                    : await _branchRepository.GetSubBranchAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                var branches = await _httpClient.GetAsync<List<Branch>>(
+                    $"branch/all?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&mainBranchTypeID={MAIN_BRANCH_TYPE_ID}");
+                if (branches == null) return RedirectToAction("EP404", "EP");
 
                 return View(branches);
             }
@@ -58,7 +51,6 @@ namespace CloudERP.Controllers
             try
             {
                 await PopulateViewBags(_sessionHelper.CompanyID);
-
                 return View(new Branch());
             }
             catch (Exception ex)
@@ -83,7 +75,7 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    await _branchRepository.AddAsync(model);
+                    await _httpClient.PostAsync("branch/create", model);
                     return RedirectToAction("Index");
                 }
 
@@ -99,14 +91,14 @@ namespace CloudERP.Controllers
         }
 
         // GET: Branch/Edit/5
-        public async Task<ActionResult> Edit(int id)
+        public async Task<ActionResult> Edit(int? id)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
             try
             {
-                var branch = await _branchRepository.GetByIdAsync(id);
+                var branch = await _httpClient.GetAsync<Branch>($"branch/{id.Value}");
                 if (branch == null) return RedirectToAction("EP404", "EP");
 
                 return View(branch);
@@ -132,7 +124,7 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    await _branchRepository.UpdateAsync(model);
+                    await _httpClient.PutAsync($"api/branch/update/{model.BranchID}", model);
                     return RedirectToAction("Index");
                 }
 
@@ -152,7 +144,8 @@ namespace CloudERP.Controllers
 
             try
             {
-                var branches = await _branchRepository.GetSubBranchAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                var branches = await _httpClient.GetAsync<List<Branch>>(
+                    $"branch/sub-branches?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 return View(branches);
             }
             catch (Exception ex)
@@ -164,8 +157,8 @@ namespace CloudERP.Controllers
 
         private async Task PopulateViewBags(int companyID, int? selectedParentBranchID = null, int? selectedBranchTypeID = null)
         {
-            var branches = await _branchRepository.GetByCompanyAsync(companyID);
-            var branchTypes = await _branchTypeRepository.GetAllAsync();
+            var branches = await _httpClient.GetAsync<List<Branch>>($"branch?companyId={_sessionHelper.CompanyID}");
+            var branchTypes = await _httpClient.GetAsync<List<BranchType>>("branch-type/all");
 
             ViewBag.BrchID = new SelectList(branches, "BranchID", "BranchName", selectedParentBranchID);
             ViewBag.BranchTypeID = new SelectList(branchTypes, "BranchTypeID", "BranchTypeName", selectedBranchTypeID);

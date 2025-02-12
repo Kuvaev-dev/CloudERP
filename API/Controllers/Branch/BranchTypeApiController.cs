@@ -7,15 +7,15 @@ using Domain.RepositoryAccess;
 
 namespace API.Controllers
 {
-    [RoutePrefix("api/account-head")]
+    [RoutePrefix("api/branch-type")]
     [EnableCors(origins: "*", headers: "*", methods: "*")]
-    public class AccountHeadApiController : ApiController
+    public class BranchTypeApiController : ApiController
     {
-        private readonly IAccountHeadRepository _repository;
+        private readonly IBranchTypeRepository _branchTypeRepository;
 
-        public AccountHeadApiController(IAccountHeadRepository repository)
+        public BranchTypeApiController(IBranchTypeRepository branchTypeRepository)
         {
-            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _branchTypeRepository = branchTypeRepository;
         }
 
         [HttpGet, Route("all")]
@@ -23,8 +23,8 @@ namespace API.Controllers
         {
             try
             {
-                var accountHeads = await _repository.GetAllAsync();
-                return Ok(accountHeads);
+                var branchTypes = await _branchTypeRepository.GetAllAsync();
+                return Ok(branchTypes);
             }
             catch (Exception ex)
             {
@@ -37,9 +37,9 @@ namespace API.Controllers
         {
             try
             {
-                var accountHead = await _repository.GetByIdAsync(id);
-                if (accountHead == null) return NotFound();
-                return Ok(accountHead);
+                var branchType = await _branchTypeRepository.GetByIdAsync(id);
+                if (branchType == null) return NotFound();
+                return Ok(branchType);
             }
             catch (Exception ex)
             {
@@ -48,14 +48,14 @@ namespace API.Controllers
         }
 
         [HttpPost, Route("create")]
-        public async Task<IHttpActionResult> Create([FromBody] AccountHead model)
+        public async Task<IHttpActionResult> Create([FromBody] BranchType model)
         {
             if (model == null) return BadRequest("Invalid data.");
 
             try
             {
-                await _repository.AddAsync(model);
-                return Created($"api/account-head/{model.AccountHeadID}", model);
+                await _branchTypeRepository.AddAsync(model);
+                return Created($"api/branch-type/{model.BranchTypeID}", model);
             }
             catch (Exception ex)
             {
@@ -64,13 +64,16 @@ namespace API.Controllers
         }
 
         [HttpPut, Route("update/{id:int}")]
-        public async Task<IHttpActionResult> Update(int id, [FromBody] AccountHead model)
+        public async Task<IHttpActionResult> Update(int id, [FromBody] BranchType model)
         {
-            if (model == null || id != model.AccountHeadID) return BadRequest("Invalid data.");
+            if (model == null || id != model.BranchTypeID) return BadRequest("Invalid data.");
 
             try
             {
-                await _repository.UpdateAsync(model);
+                var existingBranchType = await _branchTypeRepository.GetByIdAsync(id);
+                if (existingBranchType == null) return NotFound();
+
+                await _branchTypeRepository.UpdateAsync(model);
                 return Ok();
             }
             catch (Exception ex)

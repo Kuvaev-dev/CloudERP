@@ -321,11 +321,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="CloudERP\Resource1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resource1.resx</DependentUpon>
-    </Compile>
     <Compile Include="CloudERP\Validations\Validations.en-US.designer.cs">
       <DependentUpon>Validations.en-US.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -581,10 +576,6 @@
     <EmbeddedResource Include="CloudERP\Modules\User\User.uk-UA.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>User.uk-UA.designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CloudERP\Resource1.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="CloudERP\Validations\Validations.en-US.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
