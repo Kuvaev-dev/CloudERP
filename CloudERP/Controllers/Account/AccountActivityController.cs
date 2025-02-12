@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using API.Helpers;
 using CloudERP.Helpers;
 using Domain.Models;
 
-namespace CloudERP.Controllers.Account
+namespace CloudERP.Controllers
 {
     public class AccountActivityController : Controller
     {

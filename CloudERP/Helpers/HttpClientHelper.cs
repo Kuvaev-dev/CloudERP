@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace API.Helpers
+namespace CloudERP.Helpers
 {
     public class HttpClientHelper : IDisposable
     {

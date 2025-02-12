@@ -507,6 +507,7 @@
     </Compile>
     <Compile Include="Helpers\CurrencyService.cs" />
     <Compile Include="Helpers\EmailService.cs" />
+    <Compile Include="Helpers\HttpClientHelper.cs" />
     <Compile Include="Helpers\SessionHelper.cs" />
     <Compile Include="Helpers\UnityConfig.cs" />
     <Compile Include="Helpers\WebConfigConnectionStringProvider.cs" />
@@ -3076,10 +3077,6 @@
     <Content Include="Scripts\jQuery\jquery-3.7.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\API\API.csproj">
-      <Project>{fc138dbc-4811-4a6c-b75e-03180e2d23f0}</Project>
-      <Name>API</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DatabaseAccess\DatabaseAccess.csproj">
       <Project>{e0eace6c-1dc7-4469-bd76-5c4813baf619}</Project>
       <Name>DatabaseAccess</Name>
