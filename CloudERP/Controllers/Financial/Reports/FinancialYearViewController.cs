@@ -1,6 +1,7 @@
 ﻿using CloudERP.Helpers;
-using Domain.RepositoryAccess;
+using Domain.Models;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -8,14 +9,12 @@ namespace CloudERP.Controllers
 {
     public class FinancialYearViewController : Controller
     {
-        private readonly IFinancialYearRepository _financialYearRepository;
+        private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
 
-        public FinancialYearViewController(
-            IFinancialYearRepository financialYearRepository, 
-            SessionHelper sessionHelper)
+        public FinancialYearViewController(SessionHelper sessionHelper)
         {
-            _financialYearRepository = financialYearRepository ?? throw new ArgumentNullException(nameof(IFinancialYearRepository));
+            _httpClient = new HttpClientHelper();
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
@@ -27,7 +26,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var financialYears = await _financialYearRepository.GetAllAsync();
+                var financialYears = await _httpClient.GetAsync<List<FinancialYear>>("all");
                 if (financialYears == null) return RedirectToAction("EP404", "EP");
 
                 return View(financialYears);

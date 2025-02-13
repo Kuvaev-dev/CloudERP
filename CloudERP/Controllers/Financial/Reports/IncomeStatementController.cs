@@ -1,8 +1,8 @@
 ﻿using CloudERP.Helpers;
+using Domain.Models;
 using Domain.Models.FinancialModels;
-using Domain.RepositoryAccess;
-using Domain.ServiceAccess;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -10,17 +10,12 @@ namespace CloudERP.Controllers
 {
     public class IncomeStatementController : Controller
     {
-        private readonly IIncomeStatementService _income;
-        private readonly IFinancialYearRepository _financialYearRepository;
+        private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
 
-        public IncomeStatementController(
-            IIncomeStatementService income, 
-            IFinancialYearRepository financialYearRepository, 
-            SessionHelper sessionHelper)
+        public IncomeStatementController(SessionHelper sessionHelper)
         {
-            _income = income ?? throw new ArgumentNullException(nameof(IIncomeStatementService));
-            _financialYearRepository = financialYearRepository ?? throw new ArgumentNullException(nameof(IFinancialYearRepository));
+            _httpClient = new HttpClientHelper();
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
@@ -34,14 +29,8 @@ namespace CloudERP.Controllers
             {
                 await PopulateViewBag();
 
-                var FinancialYear = await _financialYearRepository.GetSingleActiveAsync();
-                if (FinancialYear == null)
-                {
-                    ViewBag.ErrorMessage = Localization.CloudERP.Messages.Messages.CompanyFinancialYearNotSet;
-                    return View();
-                }
-
-                return View(await _income.GetIncomeStatementAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID, FinancialYear.FinancialYearID));
+                return View(_httpClient.GetAsync<IncomeStatementModel>(
+                    $"income-statement/branch-income-statement?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}"));
             }
             catch (Exception ex)
             {
@@ -57,11 +46,17 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
+            if (!FinancialYearID.HasValue)
+            {
+                ViewBag.ErrorMessage = Localization.CloudERP.Messages.Messages.InvalidFinancialYearID;
+                return View(new IncomeStatementModel());
+            }
+
             try
             {
                 await PopulateViewBag();
 
-                return View(await _income.GetIncomeStatementAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID, FinancialYearID ?? 0));
+                return View(await _httpClient.GetAsync<IncomeStatementModel>($"income-statement/branch-income-statement?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}"));
             }
             catch (Exception ex)
             {
@@ -80,14 +75,8 @@ namespace CloudERP.Controllers
             {
                 await PopulateViewBag();
 
-                var FinancialYear = await _financialYearRepository.GetSingleActiveAsync();
-                if (FinancialYear == null)
-                {
-                    ViewBag.ErrorMessage = Localization.CloudERP.Messages.Messages.CompanyFinancialYearNotSet;
-                    return View();
-                }
-
-                return View(new IncomeStatementModel());
+                return View(_httpClient.GetAsync<IncomeStatementModel>(
+                    $"income-statement/sub-branch-income-statement?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}"));
             }
             catch (Exception ex)
             {
@@ -107,7 +96,7 @@ namespace CloudERP.Controllers
             {
                 await PopulateViewBag();
 
-                return View(await _income.GetIncomeStatementAsync(_sessionHelper.CompanyID, _sessionHelper.BrchID, id ?? 0));
+                return View(await _httpClient.GetAsync<IncomeStatementModel>($"income-statement/sub-branch-income-statement?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&financialYearId={id}"));
             }
             catch (Exception ex)
             {
@@ -118,7 +107,8 @@ namespace CloudERP.Controllers
 
         private async Task PopulateViewBag()
         {
-            ViewBag.FinancialYears = new SelectList(await _financialYearRepository.GetAllActiveAsync(), "FinancialYearID", "FinancialYearName");
+            ViewBag.FinancialYears = new SelectList(await _httpClient.GetAsync<List<FinancialYear>>(
+                    "financial-year/all"), "FinancialYearID", "FinancialYearName");
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using CloudERP.Helpers;
 using CloudERP.Models;
-using Domain.RepositoryAccess;
-using Domain.ServiceAccess;
+using Domain.Models.FinancialModels;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -10,18 +10,13 @@ namespace CloudERP.Controllers
 {
     public class GeneralTransactionController : Controller
     {
-        private readonly IGeneralTransactionService _generalTransactionService;
-        private readonly IGeneralTransactionRepository _generalTransactionRepository;
         private readonly SessionHelper _sessionHelper;
+        private readonly HttpClientHelper _httpClientHelper;
 
-        public GeneralTransactionController(
-            IGeneralTransactionService generalTransactionService, 
-            SessionHelper sessionHelper, 
-            IGeneralTransactionRepository generalTransactionRepository)
+        public GeneralTransactionController(SessionHelper sessionHelper)
         {
-            _generalTransactionService = generalTransactionService ?? throw new ArgumentNullException(nameof(IGeneralTransactionService));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
-            _generalTransactionRepository = generalTransactionRepository ?? throw new ArgumentNullException(nameof(IGeneralTransactionRepository));
+            _httpClientHelper = new HttpClientHelper();
         }
 
         // GET: GeneralTransaction/GeneralTransaction
@@ -33,12 +28,11 @@ namespace CloudERP.Controllers
             try
             {
                 await PopulateViewBag();
-
                 return View(new GeneralTransactionMV());
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -50,35 +44,30 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
+            if (!ModelState.IsValid)
+            {
+                await PopulateViewBag();
+                return View("GeneralTransaction", transaction);
+            }
+
             try
             {
-                if (ModelState.IsValid)
+                var endpoint = $"save-transaction?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&userId={_sessionHelper.UserID}";
+                var result = await _httpClientHelper.PostAsync(endpoint, transaction);
+
+                if (result)
                 {
-                    var message = await _generalTransactionService.ConfirmTransactionAsync(
-                        transaction.TransferAmount,
-                        _sessionHelper.UserID,
-                        _sessionHelper.BranchID,
-                        _sessionHelper.CompanyID,
-                        transaction.DebitAccountControlID,
-                        transaction.CreditAccountControlID,
-                        transaction.Reason);
-
-                    if (message.Contains("Succeed"))
-                    {
-                        Session["GNMessage"] = message;
-                        return RedirectToAction("Journal");
-                    }
-
-                    Session["GNMessage"] = Localization.CloudERP.Messages.Messages.PleaseReLoginAndTryAgain;
+                    Session["GNMessage"] = "Transaction succeeded.";
+                    return RedirectToAction("Journal");
                 }
 
+                Session["GNMessage"] = "Failed to save transaction. Please try again.";
                 await PopulateViewBag();
-
-                return RedirectToAction("GeneralTransaction", new { transaction });
+                return View("GeneralTransaction", transaction);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -86,20 +75,18 @@ namespace CloudERP.Controllers
         // GET: GeneralTransaction/Journal
         public async Task<ActionResult> Journal()
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                    return RedirectToAction("Login", "Home");
-
-                return View(await _generalTransactionRepository.GetJournal(
-                    _sessionHelper.CompanyID,
-                    _sessionHelper.BranchID,
-                    DateTime.Now,
-                    DateTime.Now));
+                var endpoint = $"journal?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&fromDate={DateTime.Now:yyyy-MM-dd}&toDate={DateTime.Now:yyyy-MM-dd}";
+                var journalEntries = await _httpClientHelper.GetAsync<JournalModel>(endpoint);
+                return View(journalEntries);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -109,20 +96,18 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Journal(DateTime FromDate, DateTime ToDate)
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                    return RedirectToAction("Login", "Home");
-
-                return View(await _generalTransactionRepository.GetJournal(
-                    _sessionHelper.CompanyID,
-                    _sessionHelper.BranchID,
-                    FromDate,
-                    ToDate));
+                var endpoint = $"journal?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&fromDate={FromDate:yyyy-MM-dd}&toDate={ToDate:yyyy-MM-dd}";
+                var journalEntries = await _httpClientHelper.GetAsync<JournalModel>(endpoint);
+                return View(journalEntries);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -130,20 +115,18 @@ namespace CloudERP.Controllers
         // GET: GeneralTransaction/SubJournal
         public async Task<ActionResult> SubJournal(int? id)
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                    return RedirectToAction("Login", "Home");
-
-                return View(await _generalTransactionRepository.GetJournal(
-                    _sessionHelper.CompanyID,
-                    id ?? _sessionHelper.BranchID, 
-                    DateTime.Now, 
-                    DateTime.Now));
+                var endpoint = $"sub-journal/{id ?? _sessionHelper.BranchID}?companyId={_sessionHelper.CompanyID}&fromDate={DateTime.Now:yyyy-MM-dd}&toDate={DateTime.Now:yyyy-MM-dd}";
+                var subJournalEntries = await _httpClientHelper.GetAsync<JournalModel>(endpoint);
+                return View(subJournalEntries);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -153,27 +136,26 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SubJournal(DateTime FromDate, DateTime ToDate, int? id)
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             try
             {
-                if (!_sessionHelper.IsAuthenticated)
-                    return RedirectToAction("Login", "Home");
-
-                return View(await _generalTransactionRepository.GetJournal(
-                    _sessionHelper.CompanyID,
-                    id ?? _sessionHelper.BranchID,
-                    FromDate,
-                    ToDate));
+                var endpoint = $"sub-journal/{id ?? _sessionHelper.BranchID}?companyId={_sessionHelper.CompanyID}&fromDate={FromDate:yyyy-MM-dd}&toDate={ToDate:yyyy-MM-dd}";
+                var subJournalEntries = await _httpClientHelper.GetAsync<object>(endpoint);
+                return View(subJournalEntries);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
 
         private async Task PopulateViewBag()
         {
-            var accounts = await _generalTransactionRepository.GetAllAccounts(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+            var endpoint = $"accounts?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}";
+            var accounts = await _httpClientHelper.GetAsync<List<AllAccountModel>>(endpoint);
 
             ViewBag.CreditAccountControlID = new SelectList(accounts, "AccountSubControlID", "AccountSubControl");
             ViewBag.DebitAccountControlID = new SelectList(accounts, "AccountSubControlID", "AccountSubControl");

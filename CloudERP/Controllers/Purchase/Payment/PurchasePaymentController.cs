@@ -225,8 +225,8 @@ namespace CloudERP.Controllers
                     BranchName = branch.BranchName,
                     BranchContact = branch.BranchContact,
                     BranchAddress = branch.BranchAddress,
-                    InvoiceNo = firstItem.CustomerInvoiceNo,
-                    InvoiceDate = firstItem.CustomerInvoiceDate.ToString("dd/MM/yyyy"),
+                    InvoiceNo = firstItem.SupplierInvoiceNo,
+                    InvoiceDate = firstItem.SupplierInvoiceDate.ToString("dd/MM/yyyy"),
                     TotalCost = invoiceDetails.Sum(i => i.ItemCost),
                     InvoiceItems = invoiceDetails.ToList(),
                     ReturnInvoices = invoiceDetails

@@ -1,26 +1,20 @@
 ﻿using CloudERP.Helpers;
-using Domain.RepositoryAccess;
 using System;
+using System.Threading.Tasks;
 using System.Web.Mvc;
-using Utils.Interfaces;
 using Utils.Models;
 
 namespace CloudERP.Controllers
 {
     public class ForecastingController : Controller
     {
-        private readonly IForecastingRepository _forecastingRepository;
-        private readonly IForecastingService _forecastingService;
         private readonly SessionHelper _sessionHelper;
+        private readonly HttpClientHelper _httpClientHelper;
 
-        public ForecastingController(
-            IForecastingRepository forecastingRepository,
-            IForecastingService forecastingService,
-            SessionHelper sessionHelper)
+        public ForecastingController(SessionHelper sessionHelper)
         {
-            _forecastingRepository = forecastingRepository ?? throw new ArgumentNullException(nameof(IForecastingRepository));
-            _forecastingService = forecastingService ?? throw new ArgumentNullException(nameof(IForecastingService));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _httpClientHelper = new HttpClientHelper();
         }
 
         public ActionResult Index()
@@ -36,7 +30,7 @@ namespace CloudERP.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult GenerateForecast(ForecastInputModel inputModel)
+        public async Task<ActionResult> GenerateForecast(ForecastInputModel inputModel)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -44,19 +38,25 @@ namespace CloudERP.Controllers
             try
             {
                 inputModel.StartDate = DateTime.Now;
-                var forecastValue = _forecastingService.GenerateForecast(
-                    _sessionHelper.CompanyID, 
-                    _sessionHelper.BranchID, 
-                    inputModel.StartDate, 
-                    inputModel.EndDate);
+                inputModel.CompanyID = _sessionHelper.CompanyID;
+                inputModel.BranchID = _sessionHelper.BranchID;
 
-                return RedirectToAction("Index");
+                var isSuccess = await _httpClientHelper.PostAsync("forecasting/generate", inputModel);
+
+                if (isSuccess)
+                {
+                    TempData["SuccessMessage"] = "Forecast generated successfully!";
+                    return RedirectToAction("Index");
+                }
+
+                TempData["ErrorMessage"] = "Failed to generate forecast.";
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Unexpected Error is Occured^ " + ex.Message;
-                return RedirectToAction("EP500", "EP");
+                TempData["ErrorMessage"] = "Unexpected error occurred: " + ex.Message;
             }
+
+            return RedirectToAction("Index");
         }
     }
 }

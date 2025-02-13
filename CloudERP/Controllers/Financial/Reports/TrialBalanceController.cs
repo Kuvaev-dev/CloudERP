@@ -1,6 +1,8 @@
 ﻿using CloudERP.Helpers;
-using Domain.RepositoryAccess;
+using Domain.Models;
+using Domain.Models.FinancialModels;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -8,17 +10,12 @@ namespace CloudERP.Controllers
 {
     public class TrialBalanceController : Controller
     {
-        private readonly ITrialBalanceRepository _trialBalanceRepository;
-        private readonly IFinancialYearRepository _financialYearRepository;
+        private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
 
-        public TrialBalanceController(
-            ITrialBalanceRepository trialBalanceRepository, 
-            IFinancialYearRepository financialYearRepository, 
-            SessionHelper sessionHelper)
+        public TrialBalanceController(SessionHelper sessionHelper)
         {
-            _trialBalanceRepository = trialBalanceRepository ?? throw new ArgumentNullException(nameof(ITrialBalanceRepository));
-            _financialYearRepository = financialYearRepository ?? throw new ArgumentNullException(nameof(IFinancialYearRepository));
+            _httpClient = new HttpClientHelper();
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
@@ -31,12 +28,8 @@ namespace CloudERP.Controllers
             {
                 await PopulateViewBag();
 
-                var financialYear = await _financialYearRepository.GetSingleActiveAsync();
-
-                var trialBalance = await _trialBalanceRepository.GetTrialBalanceAsync(
-                    _sessionHelper.BranchID,
-                    _sessionHelper.CompanyID,
-                    financialYear.FinancialYearID);
+                var trialBalance = await _httpClient.GetAsync<TrialBalanceModel>(
+                    $"trial-balance/branch-trial-balance?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
 
                 return View(trialBalance);
             }
@@ -58,10 +51,8 @@ namespace CloudERP.Controllers
             {
                 await PopulateViewBag(id);
 
-                var trialBalance = await _trialBalanceRepository.GetTrialBalanceAsync(
-                    _sessionHelper.BranchID,
-                    _sessionHelper.CompanyID,
-                    id ?? 0);
+                var trialBalance = await _httpClient.GetAsync<BalanceSheetModel>(
+                    $"trial-balance/branch-trial-balance?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&financialYearId={id}");
 
                 return View(trialBalance);
             }
@@ -74,8 +65,8 @@ namespace CloudERP.Controllers
 
         private async Task PopulateViewBag(int? selectedId = null)
         {
-            var financialYears = await _financialYearRepository.GetAllActiveAsync();
-            ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYearName", selectedId);
+            ViewBag.FinancialYears = new SelectList(await _httpClient.GetAsync<List<FinancialYear>>(
+                    "financial-year/all"), "FinancialYearID", "FinancialYearName");
         }
     }
 }

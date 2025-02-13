@@ -6,7 +6,6 @@ using Domain.RepositoryAccess;
 using Domain.Models;
 using DatabaseAccess.Factories;
 using Utils.Interfaces;
-using DatabaseAccess.Repositories;
 using System.Web;
 
 namespace API.Controllers

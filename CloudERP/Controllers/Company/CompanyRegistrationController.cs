@@ -1,33 +1,19 @@
 ﻿using CloudERP.Helpers;
 using CloudERP.Models;
-using Domain.Models;
-using Services.Facades;
 using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Utils.Helpers;
 
 namespace CloudERP.Controllers
 {
     public class CompanyRegistrationController : Controller
     {
-        private readonly CompanyRegistrationFacade _companyRegistrationFacade;
+        private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
-        private readonly PasswordHelper _passwordHelper;
 
-        private const string DEFAULT_COMPANY_LOGO_PATH = "~/Content/CompanyLogo/erp-logo.png";
-        private const string DEFAULT_EMPLOYEE_PHOTO_PATH = "~/Content/EmployeePhoto/Default/default.png";
-        private const int MAIN_BRANCH_ID = 1;
-        private const int DEFAULT_USER_TYPE_ID = 2;
-
-        public CompanyRegistrationController(
-            CompanyRegistrationFacade companyRegistrationFacade,
-            SessionHelper sessionHelper,
-            PasswordHelper passwordHelper)
+        public CompanyRegistrationController(SessionHelper sessionHelper)
         {
-            _companyRegistrationFacade = companyRegistrationFacade ?? throw new ArgumentNullException(nameof(CompanyRegistrationFacade));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
-            _passwordHelper = passwordHelper ?? throw new ArgumentNullException(nameof(PasswordHelper));
         }
 
         // GET: CompanyRegistration/RegistrationForm
@@ -49,95 +35,30 @@ namespace CloudERP.Controllers
 
             if (!ModelState.IsValid)
             {
-                ViewBag.Message = Localization.CloudERP.Messages.Messages.PleaseProvideCorrectDetails;
+                ViewBag.Message = "Пожалуйста, введите корректные данные.";
                 return View(model);
             }
 
             try
             {
-                if (await _companyRegistrationFacade.UserRepository.GetByEmailAsync(model.EmployeeEmail) != null)
+                bool isSuccess = await _httpClient.PostAsync("register", model);
+                if (isSuccess)
                 {
-                    ModelState.AddModelError("", Localization.CloudERP.Messages.Messages.AlreadyExists);
-                    return View(model);
+                    ViewBag.Message = "Регистрация прошла успешно.";
+                    return RedirectToAction("Login", "Home");
                 }
-
-                if (await _companyRegistrationFacade.CompanyRepository.GetByNameAsync(model.CompanyName) != null)
+                else
                 {
-                    ModelState.AddModelError("", Localization.CloudERP.Messages.Messages.AlreadyExists);
-                    return View(model);
+                    ModelState.AddModelError("", "Ошибка при регистрации. Попробуйте снова.");
                 }
-
-                var company = new Company
-                {
-                    Name = model.CompanyName,
-                    Logo = DEFAULT_COMPANY_LOGO_PATH,
-                    Description = string.Empty
-                };
-                await _companyRegistrationFacade.CompanyRepository.AddAsync(company);
-
-                var branch = new Branch
-                {
-                    BranchAddress = model.BranchAddress,
-                    BranchContact = model.BranchContact,
-                    BranchName = model.BranchName,
-                    BranchTypeID = MAIN_BRANCH_ID,
-                    CompanyID = company.CompanyID
-                };
-                await _companyRegistrationFacade.BranchRepository.AddAsync(branch);
-
-                string hashedPassword = _passwordHelper.HashPassword(model.EmployeeContactNo, out string salt);
-                var user = new User
-                {
-                    ContactNo = model.EmployeeContactNo,
-                    Email = model.EmployeeEmail,
-                    FullName = model.EmployeeName,
-                    IsActive = true,
-                    Password = hashedPassword,
-                    Salt = salt,
-                    UserName = model.UserName,
-                    UserTypeID = DEFAULT_USER_TYPE_ID
-                };
-                await _companyRegistrationFacade.UserRepository.AddAsync(user);
-
-                var employee = new Employee
-                {
-                    Address = model.EmployeeAddress,
-                    BranchID = branch.BranchID,
-                    TIN = model.EmployeeTIN,
-                    CompanyID = company.CompanyID,
-                    ContactNumber = model.EmployeeContactNo,
-                    Designation = model.EmployeeDesignation,
-                    Email = model.EmployeeEmail,
-                    MonthlySalary = model.EmployeeMonthlySalary,
-                    UserID = user.UserID,
-                    FullName = model.EmployeeName,
-                    IsFirstLogin = true,
-                    Photo = DEFAULT_EMPLOYEE_PHOTO_PATH
-                };
-                await _companyRegistrationFacade.EmployeeRepository.AddAsync(employee);
-
-                SendEmail(employee, company);
-
-                ViewBag.Message = Localization.CloudERP.Messages.Messages.RegistrationSuccessful;
-                return RedirectToAction("Login", "Home");
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Произошла ошибка: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
-        }
 
-        private void SendEmail(Employee employee, Company company)
-        {
-            var subject = $"Welcome to the {company.Name}";
-            var body = $"Hello {employee.FullName},\n\n" +
-                       $"Your registration is successful. Here are your details:\n" +
-                       $"Name: {employee.FullName}\n" +
-                       $"Email: {employee.Email}\n" +
-                       $"Contact No: {employee.ContactNumber}\n\n" +
-                       $"Best regards,\n{company.Name}`s Team";
-            _companyRegistrationFacade.EmailService.SendEmail(employee.Email, subject, body);
+            return View(model);
         }
     }
 }

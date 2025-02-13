@@ -37,8 +37,8 @@ namespace Domain.Models
         public string UserName { get; set; }
         public string CompanyName { get; set; }
         public string CompanyLogo { get; set; }
-        public string CustomerInvoiceNo { get; set; }
-        public DateTime CustomerInvoiceDate { get; set; }
+        public string SupplierInvoiceNo { get; set; }
+        public DateTime SupplierInvoiceDate { get; set; }
 
         [Required(ErrorMessage = "Sale Cart Detail ID is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "Sale Cart Detail ID must be a positive integer.")]

@@ -5,10 +5,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using CloudERP.Helpers;
-using DatabaseAccess.Factories;
 using Domain.Models;
-using Domain.RepositoryAccess;
-using Utils.Interfaces;
 
 namespace CloudERP.Controllers
 {

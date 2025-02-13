@@ -1,22 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
 using Domain.Models;
-using Domain.RepositoryAccess;
 
 namespace CloudERP.Controllers
 {
     public class FinancialYearController : Controller
     {
-        private readonly IFinancialYearRepository _financialYearRepository;
+        private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
 
-        public FinancialYearController(
-            IFinancialYearRepository financialYearRepository, 
-            SessionHelper sessionHelper)
+        public FinancialYearController(SessionHelper sessionHelper)
         {
-            _financialYearRepository = financialYearRepository ?? throw new ArgumentNullException(nameof(IFinancialYearRepository));
+            _httpClient = new HttpClientHelper();
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
@@ -27,7 +25,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var financialYears = await _financialYearRepository.GetAllAsync();
+                var financialYears = await _httpClient.GetAsync<List<FinancialYear>>("all");
                 if (financialYears == null) return RedirectToAction("EP404", "EP");
 
                 return View(financialYears);
@@ -60,8 +58,8 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    await _financialYearRepository.AddAsync(model);
-                    return RedirectToAction("Index");
+                    var success = await _httpClient.PostAsync("financial-year/create", model);
+                    if (success) return RedirectToAction("Index");
                 }
 
                 return View(model);
@@ -80,7 +78,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var financialYear = await _financialYearRepository.GetByIdAsync(id);
+                var financialYear = await _httpClient.GetAsync<FinancialYear>($"financial-year/{id}");
                 if (financialYear == null) return RedirectToAction("EP404", "EP");
 
                 return View(financialYear);
@@ -105,8 +103,8 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    await _financialYearRepository.UpdateAsync(model);
-                    return RedirectToAction("Index");
+                    var success = await _httpClient.PutAsync($"financial-year/update/{model.FinancialYearID}", model);
+                    if (success) return RedirectToAction("Index");
                 }
                 return View(model);
             }

@@ -202,10 +202,30 @@
     <Compile Include="Controllers\Branch\BranchTypeApiController.cs" />
     <Compile Include="Controllers\Company\CompanyApiController.cs" />
     <Compile Include="Controllers\Company\CompanyEmployeeApiController.cs" />
+    <Compile Include="Controllers\Company\CompanyRegistrationApiController.cs" />
+    <Compile Include="Controllers\Financial\Forecasting\ForecastingApiController.cs" />
+    <Compile Include="Controllers\Financial\Reports\BalanceSheetApiController.cs" />
+    <Compile Include="Controllers\Financial\Reports\FinancialYearApiController.cs" />
+    <Compile Include="Controllers\Financial\Reports\IncomeStatementApiController.cs" />
+    <Compile Include="Controllers\Financial\Reports\LedgerApiController.cs" />
+    <Compile Include="Controllers\Financial\Reports\TrialBalanceApiController.cs" />
+    <Compile Include="Controllers\Financial\Transactions\GeneralTransactionApiController.cs" />
+    <Compile Include="Controllers\General\HomeApiController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\UnityConfig.cs" />
+    <Compile Include="Models\Financial\GeneralTransactionMV.cs" />
+    <Compile Include="Models\Financial\SalaryMV.cs" />
+    <Compile Include="Models\Miscellaneous\CompanyRegistrationMV.cs" />
+    <Compile Include="Models\Miscellaneous\ProductReturnItem.cs" />
+    <Compile Include="Models\Miscellaneous\RegistrationMV.cs" />
+    <Compile Include="Models\Purchase\PurchaseInvoiceMV.cs" />
+    <Compile Include="Models\Purchase\PurchaseReturnConfirmVM.cs" />
+    <Compile Include="Models\Purchase\ReturnPurchaseInvoiceMV.cs" />
+    <Compile Include="Models\Sale\ReturnSaleInvoiceMV.cs" />
+    <Compile Include="Models\Sale\SaleInvoiceMV.cs" />
+    <Compile Include="Models\Sale\SaleReturnConfirmMV.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -219,7 +239,9 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\HomeApi\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
     <Content Include="Areas\HelpPage\Views\Web.config" />

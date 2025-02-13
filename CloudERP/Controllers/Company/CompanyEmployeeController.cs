@@ -1,5 +1,4 @@
-﻿using API.Helpers;
-using CloudERP.Helpers;
+﻿using CloudERP.Helpers;
 using CloudERP.Models;
 using Domain.Models;
 using Domain.Models.FinancialModels;
@@ -74,28 +73,25 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    await _companyEmployeeFacade.EmployeeRepository.AddAsync(employee);
-
-                    if (avatar != null)
+                    using (var content = new MultipartFormDataContent())
                     {
-                        var fileName = $"{employee.CompanyID}.jpg";
+                        content.Add(new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(employee)), "model");
 
-                        var fileAdapter = _companyEmployeeFacade.FileAdapterFactory.Create(avatar);
-                        employee.Photo = _companyEmployeeFacade.FileService.UploadPhoto(fileAdapter, PHOTO_FOLDER_PATH, fileName);
+                        if (avatar != null)
+                        {
+                            var stream = avatar.InputStream;
+                            var fileContent = new StreamContent(stream);
+                            fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(avatar.ContentType);
+                            content.Add(fileContent, "file", avatar.FileName);
+                        }
+
+                        await _httpClient.PostAsync("branch-employee/registration", content);
                     }
-                    else
-                    {
-                        employee.Photo = _companyEmployeeFacade.FileService.SetDefaultPhotoPath(DEFAULT_PHOTO_PATH);
-                    }
-
-                    await _companyEmployeeFacade.EmployeeRepository.UpdateAsync(employee);
-
-                    SendEmail(employee);
 
                     return RedirectToAction("Employees");
                 }
 
-                ViewBag.Branches = await _companyEmployeeFacade.BranchRepository.GetByCompanyAsync(_sessionHelper.CompanyID);
+                ViewBag.Branches = await _httpClient.GetAsync<List<Branch>>($"branch/{_sessionHelper.CompanyID}");
             }
             catch (Exception ex)
             {
@@ -104,20 +100,6 @@ namespace CloudERP.Controllers
             }
 
             return View(employee);
-        }
-
-        private void SendEmail(Employee employee)
-        {
-            var subject = "Employee Registration Successful";
-            var body = $"<strong>Dear {employee.FullName},</strong><br/><br/>" +
-                       $"Your registration is successful. Here are your details:<br/>" +
-                       $"Name: {employee.FullName}<br/>" +
-                       $"Email: {employee.Email}<br/>" +
-                       $"Contact No: {employee.ContactNumber}<br/>" +
-                       $"Designation: {employee.Designation}<br/><br/>" +
-                       $"Best regards,<br/>Company Team";
-
-            _companyEmployeeFacade.EmailService.SendEmail(employee.Email, subject, body);
         }
 
         public ActionResult EmployeeSalary()
@@ -138,114 +120,32 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EmployeeSalary(SalaryMV salary)
         {
-            Session["SalaryMessage"] = string.Empty;
-
-            if (!_sessionHelper.IsAuthenticated)
-                return RedirectToAction("Login", "Home");
-
-            try
-            {
-                var employee = await _companyEmployeeFacade.EmployeeRepository.GetByTINAsync(salary.TIN);
-
-                if (employee != null)
-                {
-                    salary.EmployeeID = employee.EmployeeID;
-                    salary.EmployeeName = employee.FullName;
-                    salary.Designation = employee.Designation;
-                    salary.TIN = employee.TIN;
-                    salary.TransferAmount = employee.MonthlySalary;
-                    Session["SalaryMessage"] = string.Empty;
-                }
-                else
-                {
-                    Session["SalaryMessage"] = Localization.CloudERP.Messages.Messages.RecordNotFound;
-                }
-
-                salary.SalaryMonth = DateTime.Now.AddMonths(-1).ToString("MMMM");
-                salary.SalaryYear = DateTime.Now.AddMonths(-1).ToString("yyyy");
-
-                return View(salary);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            var result = await _httpClient.PostAsync("salary/process", salary);
+            return View(result ? salary : null);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EmployeeSalaryConfirm(SalaryMV salaryMV)
         {
-            if (!_sessionHelper.IsAuthenticated)
-                return RedirectToAction("Login", "Home");
-
-            try
+            var result = await _httpClient.PostAsync("salary/confirm", salaryMV);
+            if (result)
             {
-                var salary = new Salary
-                {
-                    EmployeeID = salaryMV.EmployeeID,
-                    SalaryMonth = salaryMV.SalaryMonth,
-                    SalaryYear = salaryMV.SalaryYear,
-                    TransferAmount = salaryMV.TransferAmount
-                };
-
-                string message = await _companyEmployeeFacade.EmployeeSalaryService.ConfirmSalaryAsync(
-                    salary,
-                    _sessionHelper.UserID,
-                    _sessionHelper.BranchID,
-                    _sessionHelper.CompanyID);
-
-                if (message.Contains("Succeed"))
-                {
-                    Session["SalaryMessage"] = message;
-
-                    int payrollNo = await _companyEmployeeFacade.PayrollRepository.GetLatestPayrollIdAsync();
-
-                    return RedirectToAction("PrintSalaryInvoice", new { id = payrollNo });
-                }
-
-                Session["SalaryMessage"] = message;
-
-                return RedirectToAction("EmployeeSalary");
+                return RedirectToAction("PrintSalaryInvoice", new { id = salaryMV.EmployeeID });
             }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            return RedirectToAction("EmployeeSalary");
         }
 
         public async Task<ActionResult> SalaryHistory()
         {
-            if (!_sessionHelper.IsAuthenticated)
-                return RedirectToAction("Login", "Home");
-
-            try
-            {
-                return View(await _companyEmployeeFacade.PayrollRepository.GetSalaryHistoryAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID));
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            var history = await _httpClient.GetAsync<List<Salary>>("salary/history");
+            return View(history);
         }
 
         public async Task<ActionResult> PrintSalaryInvoice(int id)
         {
-            if (!_sessionHelper.IsAuthenticated)
-                return RedirectToAction("Login", "Home");
-
-            try
-            {
-                return View(await _companyEmployeeFacade.PayrollRepository.GetByIdAsync(id));
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            var invoice = await _httpClient.GetAsync<Salary>($"salary/invoice/{id}");
+            return View(invoice);
         }
     }
 }
