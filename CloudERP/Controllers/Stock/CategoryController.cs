@@ -1,21 +1,20 @@
-﻿using System;
+﻿using CloudERP.Helpers;
+using Domain.Models;
+using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using CloudERP.Helpers;
-using Domain.Models;
-using Domain.RepositoryAccess;
 
 namespace CloudERP.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ICategoryRepository _categoryRepository;
         private readonly SessionHelper _sessionHelper;
+        private readonly HttpClientHelper _httpClientHelper;
 
-        public CategoryController(ICategoryRepository categoryRepository, SessionHelper sessionHelper)
+        public CategoryController(SessionHelper sessionHelper, HttpClientHelper httpClientHelper)
         {
-            _categoryRepository = categoryRepository ?? throw new ArgumentNullException(nameof(ICategoryRepository));
-            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
+            _httpClientHelper = httpClientHelper ?? throw new ArgumentNullException(nameof(httpClientHelper));
         }
 
         public async Task<ActionResult> Index()
@@ -25,14 +24,13 @@ namespace CloudERP.Controllers
 
             try
             {
-                var categories = await _categoryRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
-                if (categories == null) return RedirectToAction("EP404", "EP");
-
-                return View(categories);
+                var response = await _httpClientHelper.GetAsync<dynamic>(
+                    $"category/all/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
+                return View(response);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -44,14 +42,13 @@ namespace CloudERP.Controllers
 
             try
             {
-                var category = await _categoryRepository.GetByIdAsync(id);
-                if (category == null) return RedirectToAction("EP404", "EP");
-
-                return View(category);
+                var response = await _httpClientHelper.GetAsync<dynamic>(
+                    $"category/{id}");
+                return View(response);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -79,15 +76,20 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    await _categoryRepository.AddAsync(model);
-                    return RedirectToAction("Index");
+                    var response = await _httpClientHelper.PostAsync<dynamic>(
+                        "category/create", model);
+
+                    if (response != null)
+                    {
+                        return RedirectToAction("Index");
+                    }
                 }
 
                 return View(model);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -99,14 +101,13 @@ namespace CloudERP.Controllers
 
             try
             {
-                var category = await _categoryRepository.GetByIdAsync(id);
-                if (category == null) return RedirectToAction("EP404", "EP");
-
-                return View(category);
+                var response = await _httpClientHelper.GetAsync<dynamic>(
+                    $"category/{id}");
+                return View(response);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -127,15 +128,20 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    await _categoryRepository.UpdateAsync(model);
-                    return RedirectToAction("Index");
+                    var response = await _httpClientHelper.PutAsync<dynamic>(
+                        "category/edit", model);
+
+                    if (response != null)
+                    {
+                        return RedirectToAction("Index");
+                    }
                 }
 
                 return View(model);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

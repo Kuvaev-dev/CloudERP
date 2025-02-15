@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web.Http.Cors;
 using System.Web.Mvc;
 
-namespace CloudERP.Controllers
+namespace API.Controllers
 {
-    public class AddressController : Controller
+    [RoutePrefix("api/address")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    public class AddressApiController : Controller
     {
         private readonly string apiKey = System.Configuration.ConfigurationManager.AppSettings["GeoapifyApiKey"];
         private readonly string apiUrl = System.Configuration.ConfigurationManager.AppSettings["GeoapifyApiUrl"];
 
+        [HttpGet, Route("")]
         public async Task<ActionResult> Autocomplete(string query)
         {
             try
@@ -36,6 +40,7 @@ namespace CloudERP.Controllers
             }
         }
 
+        [HttpGet, Route("")]
         public async Task<ActionResult> GetAddressByCoordinates(double latitude, double longitude)
         {
             try

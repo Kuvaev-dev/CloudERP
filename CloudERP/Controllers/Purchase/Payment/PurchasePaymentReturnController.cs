@@ -1,8 +1,8 @@
 ﻿using CloudERP.Helpers;
+using Domain.Models;
 using Domain.Models.FinancialModels;
-using Domain.RepositoryAccess;
-using Domain.ServiceAccess;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -12,26 +12,15 @@ namespace CloudERP.Controllers
     public class PurchasePaymentReturnController : Controller
     {
         private readonly SessionHelper _sessionHelper;
-        private readonly IPurchaseReturnService _purchaseReturnService;
-        private readonly IPurchasePaymentReturnService _purchasePaymentReturnService;
-        private readonly IPurchaseRepository _purchaseRepository;
-        private readonly ISupplierReturnPaymentRepository _supplierReturnPaymentRepository;
+        private readonly HttpClientHelper _httpClientHelper;
 
-        public PurchasePaymentReturnController(
-            IPurchaseReturnService purchaseReturnService,
-            IPurchasePaymentReturnService purchasePaymentReturnService, 
-            IPurchaseRepository purchaseRepository,
-            ISupplierReturnPaymentRepository supplierReturnPaymentRepository,
-            SessionHelper sessionHelper)
+        public PurchasePaymentReturnController(SessionHelper sessionHelper, HttpClientHelper httpClientHelper)
         {
-            _purchaseReturnService = purchaseReturnService ?? throw new ArgumentNullException(nameof(IPurchaseReturnService));
-            _purchasePaymentReturnService = purchasePaymentReturnService ?? throw new ArgumentNullException(nameof(IPurchasePaymentReturnService));
-            _purchaseRepository = purchaseRepository ?? throw new ArgumentNullException(nameof(IPurchaseRepository));
-            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
-            _supplierReturnPaymentRepository = supplierReturnPaymentRepository ?? throw new ArgumentNullException(nameof(ISupplierReturnPaymentRepository));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
+            _httpClientHelper = httpClientHelper ?? throw new ArgumentNullException(nameof(httpClientHelper));
         }
 
-        // GET: PurchasePaymentReturn
+        // GET: PurchasePaymentReturn/ReturnPurchasePendingAmount
         public async Task<ActionResult> ReturnPurchasePendingAmount()
         {
             if (!_sessionHelper.IsAuthenticated)
@@ -39,11 +28,13 @@ namespace CloudERP.Controllers
 
             try
             {
-                return View(await _purchaseRepository.GetReturnPurchasesPaymentPending(_sessionHelper.CompanyID, _sessionHelper.BranchID));
+                var list = await _httpClientHelper.GetAsync<List<PurchasePaymentModel>>(
+                    $"purchasepaymentreturn/returnpurchasependingamount?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                return View(list);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -55,11 +46,13 @@ namespace CloudERP.Controllers
 
             try
             {
-                return View(await _purchaseRepository.GetReturnPurchasesPaymentPending(_sessionHelper.CompanyID, _sessionHelper.BranchID));
+                var list = await _httpClientHelper.GetAsync<List<PurchasePaymentModel>>(
+                    $"purchasepaymentreturn/returnpurchasependingamount?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                return View(list);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -71,7 +64,8 @@ namespace CloudERP.Controllers
 
             try
             {
-                var list = await _supplierReturnPaymentRepository.GetBySupplierReturnInvoiceId(id.Value);
+                var list = await _httpClientHelper.GetAsync<List<SupplierReturnPayment>>(
+                    $"purchasepaymentreturn/supplierreturnpayments/{id}");
 
                 double remainingAmount = list.Sum(item => item.RemainingBalance);
                 if (remainingAmount == 0) return RedirectToAction("AllPurchasesPendingPayment");
@@ -83,7 +77,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -104,19 +98,16 @@ namespace CloudERP.Controllers
                     PaymentAmount = paymentAmount
                 };
 
-                string message = await _purchasePaymentReturnService.ProcessReturnPaymentAsync(
-                    returnAmountDto,
-                    _sessionHelper.BranchID,
-                    _sessionHelper.CompanyID,
-                    _sessionHelper.UserID);
+                string message = await _httpClientHelper.PostAsync<string>(
+                    "purchasepaymentreturn/processreturnpayment", returnAmountDto);
 
                 Session["Message"] = message;
 
-                return RedirectToAction("PurchasePaymentReturn", new { id });
+                return RedirectToAction("AllPurchasesPendingPayment");
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

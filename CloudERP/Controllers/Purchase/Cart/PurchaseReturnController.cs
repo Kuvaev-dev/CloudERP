@@ -2,8 +2,6 @@
 using CloudERP.Models;
 using Domain.Models;
 using Domain.Models.FinancialModels;
-using Domain.RepositoryAccess;
-using Domain.ServiceAccess;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,24 +11,15 @@ namespace CloudERP.Controllers
 {
     public class PurchaseReturnController : Controller
     {
+        private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
-        private readonly ISupplierInvoiceRepository _supplierInvoiceRepository;
-        private readonly ISupplierReturnInvoiceDetailRepository _supplierReturnInvoiceDetailRepository;
-        private readonly IPurchaseReturnService _purchaseReturnService;
 
-        public PurchaseReturnController(
-            ISupplierInvoiceRepository supplierInvoiceRepository, 
-            IPurchaseReturnService purchaseReturnService,
-            ISupplierReturnInvoiceDetailRepository supplierReturnInvoiceDetailRepository,
-            SessionHelper sessionHelper)
+        public PurchaseReturnController(SessionHelper sessionHelper)
         {
-            _supplierInvoiceRepository = supplierInvoiceRepository ?? throw new ArgumentNullException(nameof(ISupplierInvoiceRepository));
-            _purchaseReturnService = purchaseReturnService ?? throw new ArgumentNullException(nameof(IPurchaseReturnService));
-            _supplierReturnInvoiceDetailRepository = supplierReturnInvoiceDetailRepository ?? throw new ArgumentNullException(nameof(ISupplierReturnInvoiceDetailRepository));
-            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _sessionHelper = sessionHelper;
+            _httpClient = new HttpClientHelper();
         }
 
-        // GET: PurchaseReturn
         public ActionResult FindPurchase()
         {
             if (!_sessionHelper.IsAuthenticated)
@@ -42,7 +31,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -59,14 +48,19 @@ namespace CloudERP.Controllers
                 Session["InvoiceNo"] = string.Empty;
                 Session["ReturnMessage"] = string.Empty;
 
-                var invoiceDetails = _supplierReturnInvoiceDetailRepository.GetInvoiceDetails(invoiceID);
-                ViewBag.InvoiceDetails = invoiceDetails;
+                var response = await _httpClient.GetAsync<dynamic>($"invoice/{invoiceID}");
+                if (response == null)
+                {
+                    TempData["ErrorMessage"] = "Invoice not found.";
+                    return RedirectToAction("FindPurchase");
+                }
 
-                return View(await _supplierInvoiceRepository.GetByInvoiceNoAsync(invoiceID));
+                ViewBag.InvoiceDetails = response.invoiceDetails;
+                return View(response.invoice);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -88,19 +82,14 @@ namespace CloudERP.Controllers
                     SupplierInvoiceID = model.SupplierInvoiceID,
                     IsPayment = model.IsPayment,
                     ProductIDs = model.ProductReturns.Select(x => x.ProductID).ToList(),
-                    ReturnQty = model.ProductReturns.Select(x => x.ReturnQty).ToList()
+                    ReturnQty = model.ProductReturns.Select(x => x.ReturnQty).ToList(),
+                    BranchID = _sessionHelper.BranchID,
+                    CompanyID = _sessionHelper.CompanyID,
+                    UserID = _sessionHelper.UserID
                 };
 
-                var result = await _purchaseReturnService.ProcessReturnAsync(
-                    returnConfirmDto,
-                    _sessionHelper.BranchID,
-                    _sessionHelper.CompanyID,
-                    _sessionHelper.UserID);
-
-                Session["SaleInvoiceNo"] = result.InvoiceNo;
-                Session["SaleReturnMessage"] = result.Message;
-
-                if (result.IsSuccess)
+                var response = await _httpClient.PostAsync("return", returnConfirmDto);
+                if (response)
                 {
                     return RedirectToAction("AllPurchasesPendingPayment", "PurchasePaymentReturn");
                 }
@@ -109,7 +98,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

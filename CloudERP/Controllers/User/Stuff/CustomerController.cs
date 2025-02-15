@@ -1,25 +1,26 @@
-﻿using System;
+﻿using CloudERP.Helpers;
+using Domain.Models;
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using CloudERP.Helpers;
-using Domain.Models;
-using Domain.RepositoryAccess;
 
 namespace CloudERP.Controllers
 {
     public class CustomerController : Controller
     {
-        private readonly ICustomerRepository _customerRepository;
+        private readonly HttpClient _httpClient;
         private readonly SessionHelper _sessionHelper;
+        private readonly string _apiBaseUrl;
 
-        public CustomerController(
-            ICustomerRepository customerRepository, 
-            SessionHelper sessionHelper)
+        public CustomerController()
         {
-            _customerRepository = customerRepository ?? throw new ArgumentNullException(nameof(ICustomerRepository));
-            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _httpClient = new HttpClient();
+            _apiBaseUrl = "https://yourapiurl.com/api/customers"; // Замените на URL вашего API
         }
 
+        // GET: AllCustomers
         public async Task<ActionResult> AllCustomers()
         {
             if (!_sessionHelper.IsAuthenticated)
@@ -27,18 +28,24 @@ namespace CloudERP.Controllers
 
             try
             {
-                var customers = await _customerRepository.GetAllAsync();
-                if (customers == null) return RedirectToAction("EP404", "EP");
+                var response = await _httpClient.GetAsync(_apiBaseUrl);
+                if (!response.IsSuccessStatusCode)
+                {
+                    TempData["ErrorMessage"] = "Ошибка при получении клиентов.";
+                    return RedirectToAction("EP500", "EP");
+                }
 
+                var customers = await response.Content.ReadAsAsync<IEnumerable<Customer>>();
                 return View(customers);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Ошибка при получении клиентов: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
 
+        // GET: Index
         public async Task<ActionResult> Index()
         {
             if (!_sessionHelper.IsAuthenticated)
@@ -46,61 +53,49 @@ namespace CloudERP.Controllers
 
             try
             {
-                var customers = await _customerRepository.GetByCompanyAndBranchAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
-                if (customers == null) return RedirectToAction("EP404", "EP");
+                var response = await _httpClient.GetAsync($"{_apiBaseUrl}?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                if (!response.IsSuccessStatusCode)
+                {
+                    TempData["ErrorMessage"] = "Ошибка при получении клиентов.";
+                    return RedirectToAction("EP500", "EP");
+                }
 
+                var customers = await response.Content.ReadAsAsync<IEnumerable<Customer>>();
                 return View(customers);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Ошибка при получении клиентов: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
 
-        public async Task<ActionResult> SubBranchCustomer()
+        // GET: Details/5
+        public async Task<ActionResult> Details(int id)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
             try
             {
-                if (Session["BrchID"] == null) return View();
+                var response = await _httpClient.GetAsync($"{_apiBaseUrl}/{id}");
+                if (!response.IsSuccessStatusCode)
+                {
+                    TempData["ErrorMessage"] = "Ошибка при получении данных о клиенте.";
+                    return RedirectToAction("EP500", "EP");
+                }
 
-                return View(await _customerRepository.GetByBranchesAsync(_sessionHelper.BrchID));
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
-        }
-
-        public async Task<ActionResult> Details(int? id) => await GetCustomerDetails(id);
-
-        public async Task<ActionResult> CustomerDetails(int? id) => await GetCustomerDetails(id);
-
-        public async Task<ActionResult> GetCustomerDetails(int? id)
-        {
-            if (!_sessionHelper.IsAuthenticated)
-                return RedirectToAction("Login", "Home");
-
-            try
-            {
-                if (id == null) return RedirectToAction("EP404", "EP");
-
-                var customer = await _customerRepository.GetByIdAsync(id.Value);
-                if (customer == null) return RedirectToAction("EP404", "EP" );
-
+                var customer = await response.Content.ReadAsAsync<Customer>();
                 return View(customer);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Ошибка при получении данных о клиенте: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
 
+        // GET: Create
         public ActionResult Create()
         {
             if (!_sessionHelper.IsAuthenticated)
@@ -109,6 +104,7 @@ namespace CloudERP.Controllers
             return View(new Customer());
         }
 
+        // POST: Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(Customer model)
@@ -124,7 +120,13 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    await _customerRepository.AddAsync(model);
+                    var response = await _httpClient.PostAsJsonAsync(_apiBaseUrl, model);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        TempData["ErrorMessage"] = "Ошибка при создании клиента.";
+                        return RedirectToAction("EP500", "EP");
+                    }
+
                     return RedirectToAction("Index");
                 }
 
@@ -132,11 +134,12 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Ошибка при создании клиента: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
 
+        // GET: Edit/5
         public async Task<ActionResult> Edit(int id)
         {
             if (!_sessionHelper.IsAuthenticated)
@@ -144,18 +147,24 @@ namespace CloudERP.Controllers
 
             try
             {
-                var customer = await _customerRepository.GetByIdAsync(id);
-                if (customer == null) return RedirectToAction("EP404", "EP");
+                var response = await _httpClient.GetAsync($"{_apiBaseUrl}/{id}");
+                if (!response.IsSuccessStatusCode)
+                {
+                    TempData["ErrorMessage"] = "Ошибка при получении данных клиента.";
+                    return RedirectToAction("EP500", "EP");
+                }
 
+                var customer = await response.Content.ReadAsAsync<Customer>();
                 return View(customer);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Ошибка при получении данных клиента: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
 
+        // POST: Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(Customer model)
@@ -169,7 +178,13 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    await _customerRepository.UpdateAsync(model);
+                    var response = await _httpClient.PutAsJsonAsync($"{_apiBaseUrl}/{model.CustomerID}", model);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        TempData["ErrorMessage"] = "Ошибка при обновлении клиента.";
+                        return RedirectToAction("EP500", "EP");
+                    }
+
                     return RedirectToAction("Index");
                 }
 
@@ -177,7 +192,7 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Ошибка при обновлении клиента: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

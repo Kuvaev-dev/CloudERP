@@ -4,8 +4,6 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using System.Threading.Tasks;
-using System.Configuration;
-using System.Linq;
 using System.Collections.Generic;
 using Services.Facades;
 using Utils.Helpers;
@@ -17,17 +15,20 @@ namespace CloudERP.Controllers
         private readonly HomeFacade _homeFacade;
         private readonly SessionHelper _sessionHelper;
         private readonly ResourceManagerHelper _resourceManagerHelper;
+        private readonly HttpClientHelper _httpClient;
 
         private const int MAIN_BRANCH_TYPE_ID = 1;
 
         public HomeController(
             HomeFacade homeFacade, 
             SessionHelper sessionHelper, 
-            ResourceManagerHelper resourceManagerHelper)
+            ResourceManagerHelper resourceManagerHelper,
+            HttpClientHelper httpClient)
         {
             _homeFacade = homeFacade ?? throw new ArgumentNullException(nameof(HomeFacade));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
             _resourceManagerHelper = resourceManagerHelper ?? throw new ArgumentNullException(nameof(ResourceManagerHelper));
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
         }
 
         public async Task<ActionResult> Index()
@@ -37,18 +38,11 @@ namespace CloudERP.Controllers
 
             try
             {
-                var defaultCurrency = ConfigurationManager.AppSettings["DefaultCurrency"] ?? "USD";
-                var rates = await _homeFacade.CurrencyService.GetExchangeRatesAsync(defaultCurrency);
+                var dashboardValues = await _httpClient.GetAsync<object>($"home/dashboard?branchId={_sessionHelper.BranchID}&companyId={_sessionHelper.CompanyID}");
+                var currencies = await _httpClient.GetAsync<List<object>>("home/currencies");
 
-                var currenciesWithRates = rates.Keys.Select(k => new Dictionary<string, string>
-                {
-                    { "Code", k },
-                    { "Name", k },
-                    { "Rate", rates[k].ToString("F2") }
-                }).ToList();
-
-                ViewBag.Currencies = currenciesWithRates;
-                ViewBag.SelectedCurrency = Session["SelectedCurrency"] as string ?? defaultCurrency;
+                ViewBag.Currencies = currencies;
+                ViewBag.SelectedCurrency = Session["SelectedCurrency"] as string ?? "UAH";
 
                 return View(await _homeFacade.DashboardService.GetDashboardValues(_sessionHelper.BranchID, _sessionHelper.CompanyID));
             }
@@ -135,9 +129,8 @@ namespace CloudERP.Controllers
                         Session["StartTour"] = true;
                     }
 
-                    var rates = await _homeFacade.CurrencyService.GetExchangeRatesAsync(ConfigurationManager.AppSettings["DefaultCurrency"]);
-
-                    ViewBag.Currencies = rates.Keys.Select(k => new { Code = k, Name = k }).ToList();
+                    var currencies = await _httpClient.GetAsync<List<object>>("home/currencies");
+                    ViewBag.Currencies = currencies;
 
                     return user.UserTypeID == MAIN_BRANCH_TYPE_ID ? RedirectToAction("AdminMenuGuide", "Guide") : RedirectToAction("Index", "Home");
                 }

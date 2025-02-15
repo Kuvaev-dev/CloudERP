@@ -1,32 +1,32 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
 using Domain.Models;
-using Domain.RepositoryAccess;
 using Utils.Helpers;
 
 namespace CloudERP.Controllers
 {
     public class UserController : Controller
     {
-        private readonly IUserRepository _userRepository;
-        private readonly IUserTypeRepository _userTypeRepository;
+        private readonly HttpClient _httpClient;
+        private readonly string _apiBaseUrl = "https://yourapiurl.com/api/user";
+
         private readonly SessionHelper _sessionHelper;
         private readonly PasswordHelper _passwordHelper;
 
         public UserController(
-            IUserRepository userRepository, 
-            IUserTypeRepository userTypeRepository, 
             SessionHelper sessionHelper,
             PasswordHelper passwordHelper)
         {
-            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(IUserRepository));
-            _userTypeRepository = userTypeRepository ?? throw new ArgumentNullException(nameof(IUserTypeRepository));
+            _httpClient = new HttpClient();
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
             _passwordHelper = passwordHelper ?? throw new ArgumentNullException(nameof(PasswordHelper));
         }
 
+        // GET: User
         public async Task<ActionResult> Index()
         {
             if (!_sessionHelper.IsAuthenticated)
@@ -34,9 +34,10 @@ namespace CloudERP.Controllers
 
             try
             {
-                var users = await _userRepository.GetAllAsync();
-                if (users == null) return RedirectToAction("EP404", "EP");
+                var response = await _httpClient.GetAsync($"{_apiBaseUrl}/all");
+                if (!response.IsSuccessStatusCode) return RedirectToAction("EP500", "EP");
 
+                var users = await response.Content.ReadAsAsync<IEnumerable<User>>();
                 return View(users);
             }
             catch (Exception ex)
@@ -46,25 +47,7 @@ namespace CloudERP.Controllers
             }
         }
 
-        public async Task<ActionResult> SubBranchUser()
-        {
-            if (!_sessionHelper.IsAuthenticated)
-                return RedirectToAction("Login", "Home");
-
-            try
-            {
-                var users = await _userRepository.GetByBranchAsync(_sessionHelper.CompanyID, _sessionHelper.BranchTypeID, _sessionHelper.BranchID);
-                if (users == null) return RedirectToAction("EP404", "EP");
-
-                return View(users);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
-        }
-
+        // GET: User/Details/{id}
         public async Task<ActionResult> Details(int id)
         {
             if (!_sessionHelper.IsAuthenticated)
@@ -72,9 +55,10 @@ namespace CloudERP.Controllers
 
             try
             {
-                var user = await _userRepository.GetByIdAsync(id);
-                if (user == null) return RedirectToAction("EP404", "EP");
+                var response = await _httpClient.GetAsync($"{_apiBaseUrl}/{id}");
+                if (!response.IsSuccessStatusCode) return RedirectToAction("EP404", "EP");
 
+                var user = await response.Content.ReadAsAsync<User>();
                 return View(user);
             }
             catch (Exception ex)
@@ -84,24 +68,16 @@ namespace CloudERP.Controllers
             }
         }
 
-        public async Task<ActionResult> Create()
+        // GET: User/Create
+        public ActionResult Create()
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            try
-            {
-                await PopulateViewBag();
-
-                return View(new User());
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            return View(new User());
         }
 
+        // POST: User/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(User model)
@@ -113,12 +89,16 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    // Хешируем пароль
                     model.Password = _passwordHelper.HashPassword(model.Password, out string salt);
                     model.Salt = salt;
 
-                    await _userRepository.AddAsync(model);
+                    var response = await _httpClient.PostAsJsonAsync($"{_apiBaseUrl}/create", model);
+                    if (!response.IsSuccessStatusCode) return RedirectToAction("EP500", "EP");
+
                     return RedirectToAction("Index");
                 }
+
                 return View(model);
             }
             catch (Exception ex)
@@ -128,6 +108,7 @@ namespace CloudERP.Controllers
             }
         }
 
+        // GET: User/Edit/{id}
         public async Task<ActionResult> Edit(int id)
         {
             if (!_sessionHelper.IsAuthenticated)
@@ -135,14 +116,10 @@ namespace CloudERP.Controllers
 
             try
             {
-                var user = await _userRepository.GetByIdAsync(id);
-                if (user == null) return RedirectToAction("EP404", "EP");
+                var response = await _httpClient.GetAsync($"{_apiBaseUrl}/{id}");
+                if (!response.IsSuccessStatusCode) return RedirectToAction("EP404", "EP");
 
-                var userTypes = await _userTypeRepository.GetAllAsync();
-                if (userTypes == null) return RedirectToAction("EP404", "EP");
-
-                await PopulateViewBag(user.UserTypeID);
-
+                var user = await response.Content.ReadAsAsync<User>();
                 return View(user);
             }
             catch (Exception ex)
@@ -152,6 +129,7 @@ namespace CloudERP.Controllers
             }
         }
 
+        // POST: User/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(User model)
@@ -163,21 +141,29 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    // Если пароль не был изменён, сохраняем старый
                     if (string.IsNullOrEmpty(model.Password))
                     {
-                        var existingUser = await _userRepository.GetByIdAsync(model.UserID);
+                        var response = await _httpClient.GetAsync($"{_apiBaseUrl}/{model.UserID}");
+                        if (!response.IsSuccessStatusCode) return RedirectToAction("EP500", "EP");
+
+                        var existingUser = await response.Content.ReadAsAsync<User>();
                         model.Password = existingUser.Password;
                         model.Salt = existingUser.Salt;
                     }
                     else
                     {
+                        // Хешируем новый пароль
                         model.Password = _passwordHelper.HashPassword(model.Password, out string salt);
                         model.Salt = salt;
                     }
 
-                    await _userRepository.UpdateAsync(model);
+                    var response = await _httpClient.PutAsJsonAsync($"{_apiBaseUrl}/update/{model.UserID}", model);
+                    if (!response.IsSuccessStatusCode) return RedirectToAction("EP500", "EP");
+
                     return RedirectToAction("Index");
                 }
+
                 return View(model);
             }
             catch (Exception ex)
@@ -185,11 +171,6 @@ namespace CloudERP.Controllers
                 TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
-        }
-
-        private async Task PopulateViewBag(int? userTypeID = null)
-        {
-            ViewBag.UserTypeID = new SelectList(await _userTypeRepository.GetAllAsync(), "UserTypeID", "UserType", userTypeID);
         }
     }
 }

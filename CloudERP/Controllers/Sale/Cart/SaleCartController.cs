@@ -1,35 +1,24 @@
-﻿using System;
-using System.Linq;
-using System.Web.Mvc;
-using System.Threading.Tasks;
-using CloudERP.Helpers;
+﻿using CloudERP.Helpers;
 using Domain.Models;
 using Domain.Models.FinancialModels;
-using Domain.RepositoryAccess;
-using Domain.ServiceAccess;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using Utils.Helpers;
 
 namespace CloudERP.Controllers
 {
     public class SaleCartController : Controller
     {
-        private readonly ISaleCartDetailRepository _saleCartDetailRepository;
-        private readonly ICustomerRepository _customerRepository;
-        private readonly IStockRepository _stockRepository;
-        private readonly ISaleCartService _saleCartService;
         private readonly SessionHelper _sessionHelper;
+        private readonly HttpClientHelper _httpClientHelper;
 
-        public SaleCartController(
-            ISaleCartDetailRepository saleCartDetailRepository,
-            ICustomerRepository customerRepository,
-            IStockRepository stockRepository,
-            SessionHelper sessionHelper, 
-            ISaleCartService saleCartService)
+        public SaleCartController(SessionHelper sessionHelper, HttpClientHelper httpClientHelper)
         {
-            _saleCartDetailRepository = saleCartDetailRepository ?? throw new ArgumentNullException(nameof(ISaleCartDetailRepository));
-            _customerRepository = customerRepository ?? throw new ArgumentNullException(nameof(ICustomerRepository));
-            _stockRepository = stockRepository ?? throw new ArgumentNullException(nameof(IStockRepository));
-            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
-            _saleCartService = saleCartService ?? throw new ArgumentNullException(nameof(ISaleCartService));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
+            _httpClientHelper = httpClientHelper ?? throw new ArgumentNullException(nameof(httpClientHelper));
         }
 
         // GET: SaleCart/NewSale
@@ -40,17 +29,18 @@ namespace CloudERP.Controllers
 
             try
             {
-                var findDetail = await _saleCartDetailRepository.GetByDefaultSettingAsync(
-                    _sessionHelper.BranchID, _sessionHelper.CompanyID, _sessionHelper.UserID);
+                var findDetail = await _httpClientHelper.GetAsync<List<SaleCartDetail>>(
+                    $"salecart/newSaleDetails?branchId={_sessionHelper.BranchID}&companyId={_sessionHelper.CompanyID}&userId={_sessionHelper.UserID}");
 
                 ViewBag.TotalAmount = findDetail.Sum(item => item.SaleQuantity * item.SaleUnitPrice);
-                ViewBag.Products = await _stockRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
+                ViewBag.Products = await _httpClientHelper.GetAsync<List<Stock>>(
+                    $"stock/products?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
 
                 return View(findDetail);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -59,17 +49,15 @@ namespace CloudERP.Controllers
         {
             try
             {
-                var product = await _stockRepository.GetByIdAsync(id);
-                if (product != null)
-                {
-                    return Json(new { data = product.SaleUnitPrice }, JsonRequestBehavior.AllowGet);
-                }
-                return Json(new { data = 0 }, JsonRequestBehavior.AllowGet);
+                var product = await _httpClientHelper.GetAsync<Stock>(
+                    $"salecart/productDetails/{id}");
+
+                return Json(new { data = product.SaleUnitPrice }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
-                return Json(new { error = Localization.CloudERP.Messages.Messages.ProductDetailsFetchingError });
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
+                return Json(new { error = "Product details fetching error" });
             }
         }
 
@@ -83,48 +71,40 @@ namespace CloudERP.Controllers
 
             try
             {
-                var checkQty = await _stockRepository.GetByIdAsync(PID);
+                var checkQty = await _httpClientHelper.GetAsync<Stock>(
+                    $"stock/products/{PID}");
+
                 if (Qty > checkQty.Quantity)
                 {
-                    ViewBag.Message = Localization.CloudERP.Messages.Messages.SaleQuantityError;
+                    ViewBag.Message = "Insufficient quantity available.";
                     return RedirectToAction("NewSale");
                 }
 
-                var findDetail = await _saleCartDetailRepository.GetByProductIdAsync(PID, _sessionHelper.BranchID, _sessionHelper.CompanyID);
-
-                if (findDetail == null)
+                var newItem = new SaleCartDetail()
                 {
-                    if (PID > 0 && Qty > 0 && Price > 0)
-                    {
-                        var newItem = new SaleCartDetail()
-                        {
-                            ProductID = PID,
-                            SaleQuantity = Qty,
-                            SaleUnitPrice = Price,
-                            BranchID = _sessionHelper.BranchID,
-                            CompanyID = _sessionHelper.CompanyID,
-                            UserID = _sessionHelper.UserID
-                        };
+                    ProductID = PID,
+                    SaleQuantity = Qty,
+                    SaleUnitPrice = Price,
+                    BranchID = _sessionHelper.BranchID,
+                    CompanyID = _sessionHelper.CompanyID,
+                    UserID = _sessionHelper.UserID
+                };
 
-                        await _saleCartDetailRepository.AddAsync(newItem);
-                        ViewBag.Message = Localization.CloudERP.Messages.Messages.ItemAddedSuccessfully;
-                    }
-                }
-                else
-                {
-                    ViewBag.Message = Localization.CloudERP.Messages.Messages.AlreadyExists;
-                }
+                var responseMessage = await _httpClientHelper.PostAsync<string>(
+                    "salecart/addItem", newItem);
+
+                ViewBag.Message = responseMessage;
 
                 return RedirectToAction("NewSale");
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
 
-        // POST: SaleCart/DeleteConfirm/5
+        // POST: SaleCart/DeleteConfirm
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirm(int id)
@@ -134,20 +114,15 @@ namespace CloudERP.Controllers
 
             try
             {
-                var product = await _saleCartDetailRepository.GetByIdAsync(id);
-                if (product != null)
-                {
-                    await _saleCartDetailRepository.DeleteAsync(id);
-                    ViewBag.Message = Localization.CloudERP.Messages.Messages.DeletedSuccessfully;
-                    return RedirectToAction("NewSale");
-                }
+                var responseMessage = await _httpClientHelper.PostAsync<string>(
+                    $"salecart/deleteItem/{id}");
 
-                ViewBag.Message = Localization.CloudERP.Messages.Messages.ProductNotFound;
+                ViewBag.Message = responseMessage;
                 return RedirectToAction("NewSale");
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -162,44 +137,16 @@ namespace CloudERP.Controllers
 
             try
             {
-                var saleDetails = await _saleCartDetailRepository.GetByDefaultSettingAsync(
-                    _sessionHelper.BranchID, _sessionHelper.CompanyID, _sessionHelper.UserID);
-                await _saleCartDetailRepository.DeleteListAsync(saleDetails);
+                var responseMessage = await _httpClientHelper.PostAsync<string>(
+                    $"salecart/cancelSale?branchId={_sessionHelper.BranchID}&companyId={_sessionHelper.CompanyID}&userId={_sessionHelper.UserID}");
 
-                ViewBag.Message = Localization.CloudERP.Messages.Messages.SaleCanceledSuccessfully;
+                ViewBag.Message = responseMessage;
 
                 return RedirectToAction("NewSale");
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
-        }
-
-        // GET: SaleCart/SelectCustomer
-        public async Task<ActionResult> SelectCustomer()
-        {
-            if (!_sessionHelper.IsAuthenticated)
-                return RedirectToAction("Login", "Home");
-
-            try
-            {
-                Session["ErrorMessageSale"] = string.Empty;
-
-                var saleDetails = await _saleCartDetailRepository.GetByCompanyAndBranchAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID);
-                if (saleDetails == null)
-                {
-                    Session["ErrorMessageSale"] = Localization.CloudERP.Messages.Messages.SaleCartEmpty;
-
-                    return RedirectToAction("NewSale");
-                }
-
-                return View(await _customerRepository.GetByCompanyAndBranchAsync(_sessionHelper.CompanyID, _sessionHelper.CompanyID));
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -214,23 +161,20 @@ namespace CloudERP.Controllers
 
             try
             {
-                var result = await _saleCartService.ConfirmSaleAsync(
-                    saleConfirmDto,
-                    _sessionHelper.BranchID,
-                    _sessionHelper.CompanyID,
-                    _sessionHelper.UserID);
+                var response = await _httpClientHelper.PostAsync<Result<int>>(
+                    "salecart/confirmSale", saleConfirmDto);
 
-                if (result.IsSuccess)
+                if (response.Success)
                 {
-                    return RedirectToAction("PrintSaleInvoice", "SalePayment", new { id = result.Value });
+                    return RedirectToAction("PrintSaleInvoice", "SalePayment", new { id = response.Value });
                 }
 
-                TempData["ErrorMessage"] = result.ErrorMessage;
+                TempData["ErrorMessage"] = response.ErrorMessage;
                 return RedirectToAction("NewSale");
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

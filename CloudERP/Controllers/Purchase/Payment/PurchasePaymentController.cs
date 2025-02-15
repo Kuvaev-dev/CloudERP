@@ -1,8 +1,11 @@
 ﻿using CloudERP.Helpers;
 using CloudERP.Models;
-using Domain.Facades;
+using Domain.Models;
 using Domain.Models.FinancialModels;
+using Domain.Models.Purchase;
+using Localization.CloudERP;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -12,16 +15,16 @@ namespace CloudERP.Controllers
     public class PurchasePaymentController : Controller
     {
         private readonly SessionHelper _sessionHelper;
-        private readonly PurchasePaymentFacade _purchasePaymentFacade;
+        private readonly HttpClientHelper _httpClient;
 
         private const string DEFAULT_IMAGE_PATH = "~/Content/StuffLogo/supplier.png";
 
         public PurchasePaymentController(
             SessionHelper sessionHelper,
-            PurchasePaymentFacade purchasePaymentFacade)
+            HttpClientHelper httpClient)
         {
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
-            _purchasePaymentFacade = purchasePaymentFacade ?? throw new ArgumentNullException(nameof(PurchasePaymentFacade));
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
         }
 
         // GET: PurchasePayment
@@ -32,13 +35,13 @@ namespace CloudERP.Controllers
 
             try
             {
-                var list = await _purchasePaymentFacade.PurchaseRepository.RemainingPaymentList(_sessionHelper.CompanyID, _sessionHelper.BranchID);
-
-                return View(list.ToList());
+                var list = await _httpClient.GetAsync<List<PurchasePayment>>(
+                    $"purchasepayment/remainingpaymentlist?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                return View(list);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -50,26 +53,13 @@ namespace CloudERP.Controllers
 
             try
             {
-                var list = await _purchasePaymentFacade.PurchasePaymentService.GetPurchasePaymentHistoryAsync(id.Value);
-                var returnDetails = await _purchasePaymentFacade.SupplierReturnInvoiceRepository.GetReturnDetails(id.Value);
-
-                if (returnDetails != null && returnDetails.Count() > 0)
-                {
-                    ViewData["ReturnPurchaseDetails"] = returnDetails;
-                }
-
-                double totalInvoiceAmount = await _purchasePaymentFacade.PurchasePaymentService.GetTotalAmountByIdAsync(id.Value);
-                double totalPaidAmount = await _purchasePaymentFacade.PurchasePaymentService.GetTotalPaidAmountByIdAsync(id.Value);
-                double remainingAmount = totalInvoiceAmount - totalPaidAmount;
-
-                ViewBag.PreviousRemainingAmount = remainingAmount;
-                ViewBag.InvoiceID = id;
-
-                return View(list.ToList());
+                var list = await _httpClient.GetAsync<List<PurchasePaymentModel>>(
+                    $"purchasepayment/paidhistory/{id}");
+                return View(list);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -81,22 +71,25 @@ namespace CloudERP.Controllers
 
             try
             {
-                var list = await _purchasePaymentFacade.PurchasePaymentService.GetPurchasePaymentHistoryAsync(id.Value);
+                var list = await _httpClient.GetAsync<List<PurchasePaymentModel>>(
+                    $"purchasepayment/paidhistory/{id}");
+
                 double remainingAmount = list.LastOrDefault()?.RemainingBalance ?? 0;
 
                 if (remainingAmount == 0)
                 {
-                    remainingAmount = await _purchasePaymentFacade.PurchasePaymentService.GetTotalAmountByIdAsync(id.Value);
+                    remainingAmount = await _httpClient.GetAsync<double>(
+                        $"purchasepayment/totalamount/{id}");
                 }
 
                 ViewBag.PreviousRemainingAmount = remainingAmount;
                 ViewBag.InvoiceID = id;
 
-                return View(list.ToList());
+                return View(list);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -110,23 +103,21 @@ namespace CloudERP.Controllers
 
             try
             {
-                PurchasePayment paymentDto = new PurchasePayment
+                var paymentDto = new PurchasePayment
                 {
                     InvoiceId = id.Value,
                     PreviousRemainingAmount = previousRemainingAmount,
                     PaidAmount = paymentAmount
                 };
 
-                string message = await _purchasePaymentFacade.PurchasePaymentService.ProcessPaymentAsync(
-                    _sessionHelper.CompanyID,
-                    _sessionHelper.BranchID,
-                    _sessionHelper.UserID,
-                    paymentDto);
+                string message = await _httpClient.PostAsync<string>(
+                    "purchasepayment/processpayment", paymentDto);
 
-                if (message == Localization.CloudERP.Messages.Messages.PurchasePaymentRemainingAmountError)
+                if (message.Contains("Error"))
                 {
                     ViewBag.Message = message;
-                    var list = await _purchasePaymentFacade.PurchasePaymentService.GetPurchasePaymentHistoryAsync(id.Value);
+                    var list = await _httpClient.GetAsync<List<PurchasePaymentModel>>(
+                        $"purchasepayment/paidhistory/{id}");
                     ViewBag.PreviousRemainingAmount = previousRemainingAmount;
                     ViewBag.InvoiceID = id;
                     return View(list);
@@ -137,46 +128,30 @@ namespace CloudERP.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
-                var list = await _purchasePaymentFacade.PurchasePaymentService.GetPurchasePaymentHistoryAsync(id.Value);
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
+                var list = await _httpClient.GetAsync<List<PurchasePaymentModel>>(
+                    $"purchasepayment/paidhistory/{id}");
                 ViewBag.PreviousRemainingAmount = previousRemainingAmount;
                 ViewBag.InvoiceID = id;
                 return View(list);
             }
         }
 
-        public async Task<ActionResult> CustomPurchasesHistory(DateTime FromDate, DateTime ToDate)
+        public async Task<ActionResult> CustomPurchasesHistory(DateTime fromDate, DateTime toDate)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
             try
             {
-                var list = await _purchasePaymentFacade.PurchaseRepository.CustomPurchasesList(_sessionHelper.CompanyID, _sessionHelper.BranchID, FromDate, ToDate);
+                var list = await _httpClient.GetAsync<List<Purchase>>(
+                    $"purchasepayment/custompurchaseshistory?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&fromDate={fromDate:yyyy-MM-dd}&toDate={toDate:yyyy-MM-dd}");
 
-                return View(list.ToList());
+                return View(list);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
-        }
-
-        public async Task<ActionResult> SubCustomPurchasesHistory(DateTime FromDate, DateTime ToDate, int? id)
-        {
-            if (!_sessionHelper.IsAuthenticated)
-                return RedirectToAction("Login", "Home");
-
-            try
-            {
-                var list = await _purchasePaymentFacade.PurchaseRepository.CustomPurchasesList(_sessionHelper.CompanyID, id ?? _sessionHelper.BranchID, FromDate, ToDate);
-
-                return View(list.ToList());
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -188,12 +163,13 @@ namespace CloudERP.Controllers
 
             try
             {
-                var purchaseDetail = await _purchasePaymentFacade.PurchaseService.GetPurchaseItemDetailAsync(id);
+                var purchaseDetail = await _httpClient.GetAsync<PurchaseItemDetailDto>(
+                    $"purchasepayment/purchaseitemdetail/{id}");
                 return View(purchaseDetail);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -205,7 +181,8 @@ namespace CloudERP.Controllers
 
             try
             {
-                var invoiceDetails = await _purchasePaymentFacade.SupplierInvoiceDetailRepository.GetListByIdAsync(id);
+                var invoiceDetails = await _httpClient.GetAsync<List<SupplierInvoiceDetail>>(
+                    $"purchasepayment/purchaseinvoice/{id}");
 
                 if (invoiceDetails?.Any() != true)
                     return RedirectToAction("EP500", "EP");

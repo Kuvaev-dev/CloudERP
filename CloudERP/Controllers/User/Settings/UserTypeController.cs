@@ -1,25 +1,26 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
 using Domain.Models;
-using Domain.RepositoryAccess;
 
 namespace CloudERP.Controllers
 {
     public class UserTypeController : Controller
     {
-        private readonly IUserTypeRepository _userTypeRepository;
+        private readonly HttpClient _httpClient;
         private readonly SessionHelper _sessionHelper;
+        private readonly string _apiBaseUrl;
 
-        public UserTypeController(
-            IUserTypeRepository userTypeRepository, 
-            SessionHelper sessionHelper)
+        public UserTypeController()
         {
-            _userTypeRepository = userTypeRepository ?? throw new ArgumentNullException(nameof(IUserTypeRepository));
-            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _httpClient = new HttpClient();
+            _apiBaseUrl = "/api/user-types";
         }
 
+        // GET: Index
         public async Task<ActionResult> Index()
         {
             if (!_sessionHelper.IsAuthenticated)
@@ -27,19 +28,24 @@ namespace CloudERP.Controllers
 
             try
             {
-                var userTypes = await _userTypeRepository.GetAllAsync();
-                if (userTypes == null) return RedirectToAction("EP404", "EP");
+                var response = await _httpClient.GetAsync(_apiBaseUrl);
+                if (!response.IsSuccessStatusCode)
+                {
+                    TempData["ErrorMessage"] = "Ошибка при получении типов пользователей.";
+                    return RedirectToAction("EP500", "EP");
+                }
 
+                var userTypes = await response.Content.ReadAsAsync<IEnumerable<UserType>>();
                 return View(userTypes);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Ошибка при получении типов пользователей: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
 
-        // GET: UserType/Details/5
+        // GET: Details/5
         public async Task<ActionResult> Details(int id)
         {
             if (!_sessionHelper.IsAuthenticated)
@@ -47,18 +53,24 @@ namespace CloudERP.Controllers
 
             try
             {
-                var userType = await _userTypeRepository.GetByIdAsync(id);
-                if (userType == null) return RedirectToAction("EP404", "EP");
+                var response = await _httpClient.GetAsync($"{_apiBaseUrl}/{id}");
+                if (!response.IsSuccessStatusCode)
+                {
+                    TempData["ErrorMessage"] = "Ошибка при получении информации о типе пользователя.";
+                    return RedirectToAction("EP500", "EP");
+                }
 
+                var userType = await response.Content.ReadAsAsync<UserType>();
                 return View(userType);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Ошибка при получении информации о типе пользователя: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
 
+        // GET: Create
         public ActionResult Create()
         {
             if (!_sessionHelper.IsAuthenticated)
@@ -67,6 +79,7 @@ namespace CloudERP.Controllers
             return View(new UserType());
         }
 
+        // POST: Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(UserType model)
@@ -78,18 +91,26 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    await _userTypeRepository.AddAsync(model);
+                    var response = await _httpClient.PostAsJsonAsync(_apiBaseUrl, model);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        TempData["ErrorMessage"] = "Ошибка при создании типа пользователя.";
+                        return RedirectToAction("EP500", "EP");
+                    }
+
                     return RedirectToAction("Index");
                 }
+
                 return View(model);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Ошибка при создании типа пользователя: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
 
+        // GET: Edit/5
         public async Task<ActionResult> Edit(int id)
         {
             if (!_sessionHelper.IsAuthenticated)
@@ -97,18 +118,24 @@ namespace CloudERP.Controllers
 
             try
             {
-                var userType = await _userTypeRepository.GetByIdAsync(id);
-                if (userType == null) return RedirectToAction("EP404", "EP");
+                var response = await _httpClient.GetAsync($"{_apiBaseUrl}/{id}");
+                if (!response.IsSuccessStatusCode)
+                {
+                    TempData["ErrorMessage"] = "Ошибка при получении информации о типе пользователя.";
+                    return RedirectToAction("EP500", "EP");
+                }
 
+                var userType = await response.Content.ReadAsAsync<UserType>();
                 return View(userType);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Ошибка при получении информации о типе пользователя: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
 
+        // POST: Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(UserType model)
@@ -120,14 +147,21 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    await _userTypeRepository.UpdateAsync(model);
+                    var response = await _httpClient.PutAsJsonAsync($"{_apiBaseUrl}/{model.UserTypeID}", model);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        TempData["ErrorMessage"] = "Ошибка при обновлении типа пользователя.";
+                        return RedirectToAction("EP500", "EP");
+                    }
+
                     return RedirectToAction("Index");
                 }
+
                 return View(model);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Ошибка при обновлении типа пользователя: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

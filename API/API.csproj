@@ -211,6 +211,27 @@
     <Compile Include="Controllers\Financial\Reports\TrialBalanceApiController.cs" />
     <Compile Include="Controllers\Financial\Transactions\GeneralTransactionApiController.cs" />
     <Compile Include="Controllers\General\HomeApiController.cs" />
+    <Compile Include="Controllers\Purchase\Cart\PurchaseCartApiController.cs" />
+    <Compile Include="Controllers\Purchase\Cart\PurchaseReturnApiController.cs" />
+    <Compile Include="Controllers\Purchase\Payment\PurchasePaymentApiController.cs" />
+    <Compile Include="Controllers\Purchase\Payment\PurchasePaymentReturnApiController.cs" />
+    <Compile Include="Controllers\Sale\Cart\SaleCartApiController.cs" />
+    <Compile Include="Controllers\Sale\Cart\SaleReturnApiController.cs" />
+    <Compile Include="Controllers\Sale\Payment\SalePaymentApiController.cs" />
+    <Compile Include="Controllers\Sale\Payment\SalePaymentReturnApiController.cs" />
+    <Compile Include="Controllers\Stock\CategoryApiController.cs" />
+    <Compile Include="Controllers\Stock\StockApiController.cs" />
+    <Compile Include="Controllers\User\Analytics\AnalyticsApiController.cs" />
+    <Compile Include="Controllers\User\Analytics\EmployeeStatisticsApiController.cs" />
+    <Compile Include="Controllers\User\Settings\UserSettingApiController.cs" />
+    <Compile Include="Controllers\User\Settings\UserTypeApiController.cs" />
+    <Compile Include="Controllers\User\Stuff\CustomerApiController.cs" />
+    <Compile Include="Controllers\User\Stuff\SupplierApiController.cs" />
+    <Compile Include="Controllers\User\Users\UserApiController.cs" />
+    <Compile Include="Controllers\Utilities\AddressApiController.cs" />
+    <Compile Include="Controllers\Utilities\CurrencyApiController.cs" />
+    <Compile Include="Controllers\Utilities\SupportApiController.cs" />
+    <Compile Include="Controllers\Utilities\TaskApiController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -239,9 +260,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\HomeApi\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
     <Content Include="Areas\HelpPage\Views\Web.config" />

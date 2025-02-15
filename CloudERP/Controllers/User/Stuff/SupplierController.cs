@@ -1,23 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
 using Domain.Models;
-using Domain.RepositoryAccess;
 
 namespace CloudERP.Controllers
 {
-    public class SupplierController : Controller
+    public class SupplierApiController : Controller
     {
-        private readonly ISupplierRepository _supplierRepository;
+        private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
 
-        public SupplierController(
-            ISupplierRepository supplierRepository, 
-            SessionHelper sessionHelper)
+        public SupplierApiController(SessionHelper sessionHelper)
         {
-            _supplierRepository = supplierRepository ?? throw new ArgumentNullException(nameof(ISupplierRepository));
-            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _httpClient = new HttpClientHelper();
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
         }
 
         // GET: All Suppliers
@@ -28,49 +26,8 @@ namespace CloudERP.Controllers
 
             try
             {
-                var suppliers = await _supplierRepository.GetAllAsync();
-                if (suppliers == null) return RedirectToAction("EP404", "EP");
-
+                var suppliers = await _httpClient.GetAsync<List<Supplier>>("supplier/all");
                 return View(suppliers);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
-        }
-
-        // GET: Supplier
-        public async Task<ActionResult> Index()
-        {
-            if (!_sessionHelper.IsAuthenticated)
-                return RedirectToAction("Login", "Home");
-
-            try
-            {
-                var suppliers = await _supplierRepository.GetByCompanyAndBranchAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID);
-                if (suppliers == null) return RedirectToAction("EP404", "EP");
-
-                return View(suppliers);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
-        }
-
-        // GET: Sub Branch Supplier
-        public async Task<ActionResult> SubBranchSupplier()
-        {
-            if (!_sessionHelper.IsAuthenticated)
-                return RedirectToAction("Login", "Home");
-
-            try
-            {
-                if (Session["BrchID"] == null) return View();
-
-                return View(await _supplierRepository.GetSuppliersByBranchesAsync(_sessionHelper.BrchID));
             }
             catch (Exception ex)
             {
@@ -87,31 +44,9 @@ namespace CloudERP.Controllers
 
             try
             {
-                if (id == null) return RedirectToAction("EP404", "EP");;
+                if (id == null) return RedirectToAction("EP404", "EP");
 
-                var supplier = await _supplierRepository.GetByIdAsync(id.Value);
-                if (supplier == null) return RedirectToAction("EP404", "EP");
-
-                return View(supplier);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
-        }
-
-        // GET: Supplier/SupplierDetails/5
-        public async Task<ActionResult> SupplierDetails(int? id)
-        {
-            if (!_sessionHelper.IsAuthenticated)
-                return RedirectToAction("Login", "Home");
-
-            try
-            {
-                if (id == null) return RedirectToAction("EP404", "EP");;
-
-                var supplier = await _supplierRepository.GetByIdAsync(id.Value);
+                var supplier = await _httpClient.GetAsync<Supplier>($"supplier/{id}");
                 if (supplier == null) return RedirectToAction("EP404", "EP");
 
                 return View(supplier);
@@ -148,20 +83,12 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var existingSupplier = await _supplierRepository.GetByNameAndContactAsync(
-                        _sessionHelper.CompanyID,
-                        _sessionHelper.BranchID,
-                        model.SupplierName,
-                        model.SupplierConatctNo);
+                    var success = await _httpClient.PostAsync("supplier/create", model);
 
-                    if (existingSupplier != null)
-                    {
-                        ViewBag.Message = Localization.CloudERP.Messages.Messages.AlreadyExists;
-                        return View(model);
-                    }
+                    if (success) return RedirectToAction("AllSuppliers");
 
-                    await _supplierRepository.AddAsync(model);
-                    return RedirectToAction("Index");
+                    ViewBag.Message = Localization.CloudERP.Messages.Messages.AlreadyExists;
+                    return View(model);
                 }
 
                 return View(model);
@@ -181,9 +108,9 @@ namespace CloudERP.Controllers
 
             try
             {
-                if (id == null) return RedirectToAction("EP404", "EP");;
+                if (id == null) return RedirectToAction("EP404", "EP");
 
-                var supplier = await _supplierRepository.GetByIdAsync(id.Value);
+                var supplier = await _httpClient.GetAsync<Supplier>($"supplier/{id}");
                 if (supplier == null) return RedirectToAction("EP404", "EP");
 
                 return View(supplier);
@@ -209,20 +136,11 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var existingSupplier = await _supplierRepository.GetByNameAndContactAsync(
-                        model.CompanyID,
-                        model.BranchID,
-                        model.SupplierName,
-                        model.SupplierConatctNo);
+                    var success = await _httpClient.PutAsync($"supplier/update/{model.SupplierID}", model);
+                    if (success) return RedirectToAction("AllSuppliers");
 
-                    if (existingSupplier != null && existingSupplier.SupplierID != model.SupplierID)
-                    {
-                        ViewBag.Message = Localization.CloudERP.Messages.Messages.AlreadyExists;
-                        return View(model);
-                    }
-
-                    await _supplierRepository.UpdateAsync(model);
-                    return RedirectToAction("Index");
+                    ViewBag.Message = Localization.CloudERP.Messages.Messages.AlreadyExists;
+                    return View(model);
                 }
 
                 return View(model);

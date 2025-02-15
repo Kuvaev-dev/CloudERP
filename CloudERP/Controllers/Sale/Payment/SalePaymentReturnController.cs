@@ -1,9 +1,6 @@
 ﻿using CloudERP.Helpers;
 using Domain.Models.FinancialModels;
-using Domain.RepositoryAccess;
-using Domain.ServiceAccess;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -11,21 +8,13 @@ namespace CloudERP.Controllers
 {
     public class SalePaymentReturnController : Controller
     {
-        private readonly ISaleRepository _saleRepository;
-        private readonly ICustomerReturnPaymentRepository _customerReturnPaymentRepository;
-        private readonly ISalePaymentReturnService _salePaymentReturnService;
         private readonly SessionHelper _sessionHelper;
+        private readonly HttpClientHelper _httpClientHelper;
 
-        public SalePaymentReturnController(
-            ISaleRepository saleRepository,
-            ICustomerReturnPaymentRepository customerReturnPaymentRepository,
-            ISalePaymentReturnService salePaymentReturnService,
-            SessionHelper sessionHelper)
+        public SalePaymentReturnController(SessionHelper sessionHelper, HttpClientHelper httpClientHelper)
         {
-            _saleRepository = saleRepository ?? throw new ArgumentNullException(nameof(ISaleRepository));
-            _customerReturnPaymentRepository = customerReturnPaymentRepository ?? throw new ArgumentNullException(nameof(ICustomerReturnPaymentRepository));
-            _salePaymentReturnService = salePaymentReturnService ?? throw new ArgumentNullException(nameof(ISalePaymentReturnService));
-            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
+            _httpClientHelper = httpClientHelper ?? throw new ArgumentNullException(nameof(httpClientHelper));
         }
 
         // GET: SalePaymentReturn
@@ -36,11 +25,13 @@ namespace CloudERP.Controllers
 
             try
             {
-                return View(await _saleRepository.GetReturnSaleAmountPending(_sessionHelper.CompanyID, _sessionHelper.BranchID));
+                var response = await _httpClientHelper.GetAsync<dynamic>(
+                    $"salepaymentreturn/returnSalePendingAmount/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
+                return View(response);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -52,11 +43,13 @@ namespace CloudERP.Controllers
 
             try
             {
-                return View(await _saleRepository.GetReturnSaleAmountPending(_sessionHelper.CompanyID, _sessionHelper.BranchID));
+                var response = await _httpClientHelper.GetAsync<dynamic>(
+                    $"salepaymentreturn/returnSalePendingAmount/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
+                return View(response);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -68,19 +61,21 @@ namespace CloudERP.Controllers
 
             try
             {
-                var list = await _customerReturnPaymentRepository.GetListByReturnInvoiceIdAsync(id.Value);
+                var response = await _httpClientHelper.GetAsync<dynamic>(
+                    $"salepaymentreturn/returnAmount/{id.Value}");
 
-                double remainingAmount = list.Sum(item => item.RemainingBalance);
-                if (remainingAmount == 0) return RedirectToAction("AllReturnSalesPendingAmount");
+                double remainingAmount = response.RemainingAmount;
+                if (remainingAmount == 0)
+                    return RedirectToAction("AllReturnSalesPendingAmount");
 
                 ViewBag.PreviousRemainingAmount = remainingAmount;
                 ViewBag.InvoiceID = id;
 
-                return View(list);
+                return View(response.Payments);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -101,19 +96,16 @@ namespace CloudERP.Controllers
                     PaymentAmount = paymentAmount
                 };
 
-                var result = await _salePaymentReturnService.ProcessReturnAmountAsync(
-                    paymentReturnDto,
-                    _sessionHelper.BranchID,
-                    _sessionHelper.CompanyID,
-                    _sessionHelper.UserID);
+                var response = await _httpClientHelper.PostAsync<dynamic>(
+                    "salepaymentreturn/processReturnAmount", paymentReturnDto);
 
-                Session["SaleMessage"] = result.Message;
+                Session["SaleMessage"] = response.Message;
 
                 return RedirectToAction("PurchasePaymentReturn", new { id });
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

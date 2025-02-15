@@ -1,0 +1,109 @@
+﻿using System;
+using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Http.Cors;
+using Domain.Models;
+using Domain.RepositoryAccess;
+
+namespace API.Controllers
+{
+    [RoutePrefix("api/user-types")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    public class UserTypeApiController : ApiController
+    {
+        private readonly IUserTypeRepository _userTypeRepository;
+
+        public UserTypeApiController(IUserTypeRepository userTypeRepository)
+        {
+            _userTypeRepository = userTypeRepository ?? throw new ArgumentNullException(nameof(userTypeRepository));
+        }
+
+        // GET: api/user-types
+        [HttpGet]
+        [Route("")]
+        public async Task<IHttpActionResult> GetAllUserTypes()
+        {
+            try
+            {
+                var userTypes = await _userTypeRepository.GetAllAsync();
+                if (userTypes == null)
+                {
+                    return NotFound();
+                }
+                return Ok(userTypes);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        // GET: api/user-types/5
+        [HttpGet]
+        [Route("{id:int}")]
+        public async Task<IHttpActionResult> GetUserType(int id)
+        {
+            try
+            {
+                var userType = await _userTypeRepository.GetByIdAsync(id);
+                if (userType == null)
+                {
+                    return NotFound();
+                }
+                return Ok(userType);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        // POST: api/user-types
+        [HttpPost]
+        [Route("")]
+        public async Task<IHttpActionResult> CreateUserType([FromBody] UserType userType)
+        {
+            try
+            {
+                if (userType == null)
+                {
+                    return BadRequest("Invalid data.");
+                }
+
+                await _userTypeRepository.AddAsync(userType);
+                return CreatedAtRoute("GetUserType", new { id = userType.UserTypeID }, userType);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        // PUT: api/user-types/5
+        [HttpPut]
+        [Route("{id:int}")]
+        public async Task<IHttpActionResult> UpdateUserType(int id, [FromBody] UserType userType)
+        {
+            try
+            {
+                if (userType == null || userType.UserTypeID != id)
+                {
+                    return BadRequest("Invalid data.");
+                }
+
+                var existingUserType = await _userTypeRepository.GetByIdAsync(id);
+                if (existingUserType == null)
+                {
+                    return NotFound();
+                }
+
+                await _userTypeRepository.UpdateAsync(userType);
+                return Ok(userType);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+    }
+}

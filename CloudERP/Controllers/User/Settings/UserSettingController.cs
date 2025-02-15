@@ -1,203 +1,122 @@
-﻿using CloudERP.Helpers;
-using Domain.Models;
-using Domain.RepositoryAccess;
+﻿using Domain.Models;
 using System;
-using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Utils.Helpers;
 
 namespace CloudERP.Controllers
 {
     public class UserSettingController : Controller
     {
-        private readonly IEmployeeRepository _employeeRepository;
-        private readonly IUserRepository _userRepository;
-        private readonly IUserTypeRepository _userTypeRepository;
-        private readonly SessionHelper _sessionHelper;
-        private readonly PasswordHelper _passwordHelper;
+        private readonly HttpClient _httpClient;
 
-        public UserSettingController(
-            IEmployeeRepository employeeRepository, 
-            IUserRepository userRepository, 
-            IUserTypeRepository userTypeRepository, 
-            SessionHelper sessionHelper, 
-            PasswordHelper passwordHelper)
+        public UserSettingController()
         {
-            _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(IEmployeeRepository));
-            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(IUserRepository));
-            _userTypeRepository = userTypeRepository ?? throw new ArgumentNullException(nameof(IUserTypeRepository));
-            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
-            _passwordHelper = passwordHelper ?? throw new ArgumentNullException(nameof(PasswordHelper));
+            _httpClient = new HttpClient();
         }
 
-        // GET: CreateUser
+        // GET: Create User
         public async Task<ActionResult> CreateUser(int? employeeID)
         {
-            if (!_sessionHelper.IsAuthenticated)
-                return RedirectToAction("Login", "Home");
+            if (employeeID == null) return RedirectToAction("EP404", "EP");
 
             try
             {
-                if (employeeID == null) return RedirectToAction("EP404", "EP");
-
-                var employee = await _employeeRepository.GetByIdAsync(employeeID.Value);
-                if (employee == null)
+                var response = await _httpClient.GetAsync($"user-setting/user/{employeeID}");
+                if (!response.IsSuccessStatusCode)
                 {
-                    TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.EmployeeNotFound;
+                    TempData["ErrorMessage"] = "Ошибка при получении данных пользователя.";
                     return RedirectToAction("EP500", "EP");
                 }
 
-                _sessionHelper.CompanyEmployeeID = employeeID;
-                var hashedPassword = _passwordHelper.HashPassword(employee.ContactNumber, out string salt);
-
-                var user = new User
-                {
-                    Email = employee.Email,
-                    ContactNo = employee.ContactNumber,
-                    FullName = employee.FullName,
-                    IsActive = true,
-                    Password = hashedPassword,
-                    Salt = salt,
-                    UserName = employee.Email
-                };
-
-                await PopulateViewBag();
-
+                var user = await response.Content.ReadAsAsync<User>();
                 return View(user);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Ошибка при получении данных пользователя: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
 
-        // POST: CreateUser
+        // POST: Create User
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreateUser(User user)
         {
-            if (!_sessionHelper.IsAuthenticated)
-                return RedirectToAction("Login", "Home");
+            if (!ModelState.IsValid)
+            {
+                return View(user);
+            }
 
             try
             {
-                if (!ModelState.IsValid)
+                var response = await _httpClient.PostAsJsonAsync($"user-setting/create-user?companyId=123&branchId=456", user);
+                if (!response.IsSuccessStatusCode)
                 {
-                    await PopulateViewBag(user.UserTypeID);
-
-                    return View(user);
-                }
-
-                var existingUser = (await _userRepository.GetAllAsync())
-                    .FirstOrDefault(u => u.Email == user.Email && u.UserID != user.UserID);
-                var existingEmployee = (await _employeeRepository.GetByBranchAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID))
-                    .FirstOrDefault(u => u.Email == user.Email && u.UserID == user.UserID);
-
-                if (existingUser != null || existingEmployee != null)
-                {
-                    ViewBag.Message = Localization.CloudERP.Messages.Messages.EmailIsAlreadyRegistered;
-
-                    await PopulateViewBag(user.UserTypeID);
-
-                    return View(user);
-                }
-
-                user.Password = Request.Form["Password"];
-                user.Salt = Request.Form["Salt"];
-
-                await _userRepository.AddAsync(user);
-
-                int? employeeID = _sessionHelper.CompanyEmployeeID;
-                if (employeeID.HasValue)
-                {
-                    var employee = await _employeeRepository.GetByIdAsync(employeeID.Value);
-                    if (employee != null)
-                    {
-                        employee.UserID = user.UserID;
-                        await _employeeRepository.UpdateAsync(employee);
-                    }
-                    _sessionHelper.CompanyEmployeeID = null;
+                    TempData["ErrorMessage"] = "Ошибка при создании пользователя.";
+                    return RedirectToAction("EP500", "EP");
                 }
 
                 return RedirectToAction("Employees", "CompanyEmployee");
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Ошибка при создании пользователя: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
 
-        // GET: UpdateUser
+        // GET: Update User
         public async Task<ActionResult> UpdateUser(int? userID)
         {
-            if (!_sessionHelper.IsAuthenticated)
-                return RedirectToAction("Login", "Home");
+            if (userID == null) return RedirectToAction("EP404", "EP");
 
             try
             {
-                if (userID == null) return RedirectToAction("EP404", "EP");
-
-                var user = await _userRepository.GetByIdAsync(userID.Value);
-                if (user == null)
+                var response = await _httpClient.GetAsync($"user-setting/user/{userID}");
+                if (!response.IsSuccessStatusCode)
                 {
-                    TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UserNotFound;
+                    TempData["ErrorMessage"] = "Ошибка при получении данных пользователя.";
                     return RedirectToAction("EP500", "EP");
                 }
 
-                await PopulateViewBag(user.UserTypeID);
-
+                var user = await response.Content.ReadAsAsync<User>();
                 return View(user);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Ошибка при получении данных пользователя: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
 
-        // POST: UpdateUser
+        // POST: Update User
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> UpdateUser(User user)
         {
-            if (!_sessionHelper.IsAuthenticated)
-                return RedirectToAction("Login", "Home");
+            if (!ModelState.IsValid)
+            {
+                return View(user);
+            }
 
             try
             {
-                if (!ModelState.IsValid)
+                var response = await _httpClient.PutAsJsonAsync($"user-setting/update-user", user);
+                if (!response.IsSuccessStatusCode)
                 {
-                    await PopulateViewBag(user.UserTypeID);
-                    return View(user);
+                    TempData["ErrorMessage"] = "Ошибка при обновлении пользователя.";
+                    return RedirectToAction("EP500", "EP");
                 }
-
-                var existingUser = (await _userRepository.GetAllAsync()).FirstOrDefault(u => u.Email == user.Email && u.UserID != user.UserID);
-                
-                if (string.IsNullOrEmpty(user.Password))
-                {
-                    user.Password = Request.Form["Password"];
-                    user.Salt = Request.Form["Salt"];
-                }
-
-                await _userRepository.UpdateAsync(user);
-                await PopulateViewBag(user.UserTypeID);
 
                 return RedirectToAction("Employees", "CompanyEmployee");
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = "Ошибка при обновлении пользователя: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
-        }
-
-        private async Task PopulateViewBag(int? userTypeID = null)
-        {
-            var userTypes = await _userTypeRepository.GetAllAsync();
-            ViewBag.UserTypeID = new SelectList(userTypes, "UserTypeID", "UserTypeName", userTypeID);
         }
     }
 }

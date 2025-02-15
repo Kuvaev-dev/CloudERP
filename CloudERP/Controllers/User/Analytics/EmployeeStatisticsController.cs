@@ -1,6 +1,5 @@
 ﻿using CloudERP.Helpers;
 using Domain.Models;
-using Domain.ServiceAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,15 +10,13 @@ namespace CloudERP.Controllers
 {
     public class EmployeeStatisticsController : Controller
     {
+        private readonly HttpClientHelper _httpClientHelper;
         private readonly SessionHelper _sessionHelper;
-        private readonly IEmployeeStatisticsService _employeeStatsService;
 
-        public EmployeeStatisticsController(
-            SessionHelper sessionHelper,
-            IEmployeeStatisticsService employeeStatsService)
+        public EmployeeStatisticsController(HttpClientHelper httpClientHelper, SessionHelper sessionHelper)
         {
-            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
-            _employeeStatsService = employeeStatsService ?? throw new ArgumentNullException(nameof(employeeStatsService));
+            _httpClientHelper = httpClientHelper ?? throw new ArgumentNullException(nameof(httpClientHelper));
+            _sessionHelper = sessionHelper;
         }
 
         // GET: EmployeeStatistics
@@ -69,11 +66,8 @@ namespace CloudERP.Controllers
             DateTime start = startDate ?? DateTime.Now.AddMonths(-1);
             DateTime end = endDate ?? DateTime.Now;
 
-            var statistics = await _employeeStatsService.GetStatisticsAsync(
-                start,
-                end,
-                _sessionHelper.BranchID,
-                _sessionHelper.CompanyID
+            var statistics = await _httpClientHelper.GetAsync<List<EmployeeStatistics>>(
+                $"api/employee-statistics/statistics?startDate={start:yyyy-MM-dd}&endDate={end:yyyy-MM-dd}&companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}"
             );
 
             var chartData = new
@@ -83,7 +77,7 @@ namespace CloudERP.Controllers
             };
 
             ViewBag.ChartData = chartData;
-            return statistics.ToList();
+            return statistics;
         }
     }
 }
