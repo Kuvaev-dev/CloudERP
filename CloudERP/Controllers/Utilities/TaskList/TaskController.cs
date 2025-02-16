@@ -2,6 +2,7 @@
 using Domain.Models;
 using Domain.RepositoryAccess;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -9,18 +10,13 @@ namespace CloudERP.Controllers
 {
     public class TaskController : Controller
     {
-        private readonly ITaskRepository _taskRepository;
-        private readonly IEmployeeRepository _employeeRepository;
+        private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
 
-        public TaskController(
-            ITaskRepository taskRepository, 
-            SessionHelper sessionHelper,
-            IEmployeeRepository employeeRepository)
+        public TaskController(SessionHelper sessionHelper)
         {
-            _taskRepository = taskRepository ?? throw new ArgumentNullException(nameof(ITaskRepository));
+            _httpClient = new HttpClientHelper();
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
-            _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(IEmployeeRepository));
         }
 
         public async Task<ActionResult> Index()
@@ -30,7 +26,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var tasks = await _taskRepository.GetAllAsync(_sessionHelper.CompanyID, _sessionHelper.BranchID, _sessionHelper.UserID);
+                var tasks = await _httpClient.GetAsync<List<AccountHead>>($"task?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&userId={_sessionHelper.UserID}");
                 if (tasks == null) return RedirectToAction("EP404", "EP");
 
                 return View(tasks);
@@ -49,7 +45,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var task = await _taskRepository.GetByIdAsync(id);
+                var task = await _httpClient.GetAsync<TaskModel>($"task/{id}");
                 if (task == null) return RedirectToAction("EP404", "EP");
 
                 return View(task);
@@ -86,7 +82,7 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    await _taskRepository.AddAsync(model);
+                    await _httpClient.PostAsync("task/create", model);
                     return RedirectToAction("Index");
                 }
                 return View(model);
@@ -100,7 +96,7 @@ namespace CloudERP.Controllers
 
         public async Task<ActionResult> AssignTask()
         {
-            var employees = await _employeeRepository.GetEmployeesForTaskAssignmentAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID);
+            var employees = await _httpClient.GetAsync<List<Employee>>($"task/employees?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
             ViewBag.Employees = employees;
             return View(new TaskModel() { DueDate = DateTime.Now });
         }
@@ -115,11 +111,11 @@ namespace CloudERP.Controllers
 
             if (ModelState.IsValid)
             {
-                await _taskRepository.AddAsync(model);
+                await _httpClient.PostAsync("task/create", model);
                 return RedirectToAction("AssignTask");
             }
 
-            var employees = await _employeeRepository.GetEmployeesForTaskAssignmentAsync(_sessionHelper.BranchID, _sessionHelper.CompanyID);
+            var employees = await _httpClient.GetAsync<List<Employee>>($"task/employees?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
             ViewBag.Employees = employees;
 
             return View(model);
@@ -132,7 +128,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var task = await _taskRepository.GetByIdAsync(id);
+                var task = await _httpClient.GetAsync<TaskModel>($"task/{id}");
                 if (task == null) return RedirectToAction("EP404", "EP");
 
                 return View(task);
@@ -155,7 +151,7 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    await _taskRepository.UpdateAsync(model);
+                    await _httpClient.PutAsync($"task/update/{model.TaskID}", model);
                     return RedirectToAction("Index");
                 }
                 return View(model);
@@ -174,11 +170,11 @@ namespace CloudERP.Controllers
 
             try
             {
-                var task = await _taskRepository.GetByIdAsync(id);
+                var task = await _httpClient.GetAsync<TaskModel>($"task/{id}");
                 if (task == null) return RedirectToAction("EP404", "EP");
                 task.IsCompleted = true;
 
-                await _taskRepository.UpdateAsync(task);
+                await _httpClient.PutAsync($"account-head/update/{task.TaskID}", task);
 
                 return RedirectToAction("Index");
             }
@@ -196,7 +192,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var task = await _taskRepository.GetByIdAsync(id);
+                var task = await _httpClient.GetAsync<TaskModel>($"task/{id}");
                 if (task == null) return RedirectToAction("EP404", "EP");
 
                 return View(task);
@@ -217,7 +213,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                await _taskRepository.DeleteAsync(id);
+                await _httpClient.PostAsync("account-head/delete", id);
                 return RedirectToAction("Index");
             }
             catch (Exception ex)

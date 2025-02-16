@@ -30,7 +30,7 @@ namespace CloudERP.Controllers
             try
             {
                 var findDetail = await _httpClientHelper.GetAsync<List<SaleCartDetail>>(
-                    $"salecart/newSaleDetails?branchId={_sessionHelper.BranchID}&companyId={_sessionHelper.CompanyID}&userId={_sessionHelper.UserID}");
+                    $"sale-cart/new-sale-details?branchId={_sessionHelper.BranchID}&companyId={_sessionHelper.CompanyID}&userId={_sessionHelper.UserID}");
 
                 ViewBag.TotalAmount = findDetail.Sum(item => item.SaleQuantity * item.SaleUnitPrice);
                 ViewBag.Products = await _httpClientHelper.GetAsync<List<Stock>>(
@@ -50,7 +50,7 @@ namespace CloudERP.Controllers
             try
             {
                 var product = await _httpClientHelper.GetAsync<Stock>(
-                    $"salecart/productDetails/{id}");
+                    $"sale-cart/product-details/{id}");
 
                 return Json(new { data = product.SaleUnitPrice }, JsonRequestBehavior.AllowGet);
             }
@@ -90,8 +90,8 @@ namespace CloudERP.Controllers
                     UserID = _sessionHelper.UserID
                 };
 
-                var responseMessage = await _httpClientHelper.PostAsync<string>(
-                    "salecart/addItem", newItem);
+                var responseMessage = await _httpClientHelper.PostAsync(
+                    "sale-cart/add-item", newItem);
 
                 ViewBag.Message = responseMessage;
 
@@ -114,8 +114,8 @@ namespace CloudERP.Controllers
 
             try
             {
-                var responseMessage = await _httpClientHelper.PostAsync<string>(
-                    $"salecart/deleteItem/{id}");
+                var responseMessage = await _httpClientHelper.PutAsync(
+                    $"sale-cart/delete-item/{id}");
 
                 ViewBag.Message = responseMessage;
                 return RedirectToAction("NewSale");
@@ -137,8 +137,8 @@ namespace CloudERP.Controllers
 
             try
             {
-                var responseMessage = await _httpClientHelper.PostAsync<string>(
-                    $"salecart/cancelSale?branchId={_sessionHelper.BranchID}&companyId={_sessionHelper.CompanyID}&userId={_sessionHelper.UserID}");
+                var responseMessage = await _httpClientHelper.PostAsync(
+                    $"sale-cart/cancel-sale?branchId={_sessionHelper.BranchID}&companyId={_sessionHelper.CompanyID}&userId={_sessionHelper.UserID}");
 
                 ViewBag.Message = responseMessage;
 
@@ -161,15 +161,15 @@ namespace CloudERP.Controllers
 
             try
             {
-                var response = await _httpClientHelper.PostAsync<Result<int>>(
-                    "salecart/confirmSale", saleConfirmDto);
+                var response = await _httpClientHelper.PostAsync(
+                    "sale-cart/confirm-sale", saleConfirmDto);
 
-                if (response.Success)
+                if (response)
                 {
-                    return RedirectToAction("PrintSaleInvoice", "SalePayment", new { id = response.Value });
+                    return RedirectToAction("PrintSaleInvoice", "SalePayment", new { id = response });
                 }
 
-                TempData["ErrorMessage"] = response.ErrorMessage;
+                TempData["ErrorMessage"] = response;
                 return RedirectToAction("NewSale");
             }
             catch (Exception ex)

@@ -48,9 +48,6 @@ namespace API.Controllers
                 if (existingUser != null || existingEmployee != null)
                     return Conflict();
 
-                user.Password = Request.Form["Password"];
-                user.Salt = Request.Form["Salt"];
-
                 await _userRepository.AddAsync(user);
 
                 var employee = await _employeeRepository.GetByIdAsync(user.UserID);
@@ -84,12 +81,6 @@ namespace API.Controllers
                 if (existingUser != null)
                     return Conflict();
 
-                if (string.IsNullOrEmpty(user.Password))
-                {
-                    user.Password = Request.Form["Password"];
-                    user.Salt = Request.Form["Salt"];
-                }
-
                 await _userRepository.UpdateAsync(user);
 
                 return Ok(user);
@@ -112,22 +103,6 @@ namespace API.Controllers
                     return NotFound();
 
                 return Ok(user);
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            }
-        }
-
-        // GET: User Types
-        [HttpGet]
-        [Route("user-types")]
-        public async Task<IHttpActionResult> GetUserTypes()
-        {
-            try
-            {
-                var userTypes = await _userTypeRepository.GetAllAsync();
-                return Ok(userTypes);
             }
             catch (Exception ex)
             {

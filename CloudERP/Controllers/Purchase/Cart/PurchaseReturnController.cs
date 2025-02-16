@@ -48,7 +48,7 @@ namespace CloudERP.Controllers
                 Session["InvoiceNo"] = string.Empty;
                 Session["ReturnMessage"] = string.Empty;
 
-                var response = await _httpClient.GetAsync<dynamic>($"invoice/{invoiceID}");
+                var response = await _httpClient.GetAsync<dynamic>($"invoice?invoiceID={invoiceID}");
                 if (response == null)
                 {
                     TempData["ErrorMessage"] = "Invoice not found.";

@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using CloudERP.Helpers;
+using Domain.Models;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -8,11 +9,13 @@ namespace CloudERP.Controllers
 {
     public class UserSettingController : Controller
     {
-        private readonly HttpClient _httpClient;
+        private readonly HttpClientHelper _httpClient;
+        private readonly SessionHelper _sessionHelper;
 
-        public UserSettingController()
+        public UserSettingController(SessionHelper sessionHelper)
         {
-            _httpClient = new HttpClient();
+            _httpClient = new HttpClientHelper();
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
         }
 
         // GET: Create User
@@ -22,14 +25,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var response = await _httpClient.GetAsync($"user-setting/user/{employeeID}");
-                if (!response.IsSuccessStatusCode)
-                {
-                    TempData["ErrorMessage"] = "Ошибка при получении данных пользователя.";
-                    return RedirectToAction("EP500", "EP");
-                }
-
-                var user = await response.Content.ReadAsAsync<User>();
+                var user = await _httpClient.GetAsync<User>($"user-setting/user/{employeeID}");
                 return View(user);
             }
             catch (Exception ex)
@@ -51,14 +47,13 @@ namespace CloudERP.Controllers
 
             try
             {
-                var response = await _httpClient.PostAsJsonAsync($"user-setting/create-user?companyId=123&branchId=456", user);
-                if (!response.IsSuccessStatusCode)
-                {
-                    TempData["ErrorMessage"] = "Ошибка при создании пользователя.";
-                    return RedirectToAction("EP500", "EP");
-                }
+                user.Password = Request.Form["Password"];
+                user.Salt = Request.Form["Salt"];
 
-                return RedirectToAction("Employees", "CompanyEmployee");
+                var success = await _httpClient.PostAsync($"user-setting/create-user?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}", user);
+                if (success) return RedirectToAction("Employees", "CompanyEmployee");
+
+                return View(user);
             }
             catch (Exception ex)
             {
@@ -74,14 +69,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var response = await _httpClient.GetAsync($"user-setting/user/{userID}");
-                if (!response.IsSuccessStatusCode)
-                {
-                    TempData["ErrorMessage"] = "Ошибка при получении данных пользователя.";
-                    return RedirectToAction("EP500", "EP");
-                }
-
-                var user = await response.Content.ReadAsAsync<User>();
+                var user = await _httpClient.GetAsync<User>($"user-setting/user/{userID}");
                 return View(user);
             }
             catch (Exception ex)
@@ -103,14 +91,13 @@ namespace CloudERP.Controllers
 
             try
             {
-                var response = await _httpClient.PutAsJsonAsync($"user-setting/update-user", user);
-                if (!response.IsSuccessStatusCode)
-                {
-                    TempData["ErrorMessage"] = "Ошибка при обновлении пользователя.";
-                    return RedirectToAction("EP500", "EP");
-                }
+                user.Password = Request.Form["Password"];
+                user.Salt = Request.Form["Salt"];
 
-                return RedirectToAction("Employees", "CompanyEmployee");
+                var success = await _httpClient.PutAsync($"user-setting/update-user", user);
+                if (success) return RedirectToAction("Employees", "CompanyEmployee");
+
+                return View(user);
             }
             catch (Exception ex)
             {

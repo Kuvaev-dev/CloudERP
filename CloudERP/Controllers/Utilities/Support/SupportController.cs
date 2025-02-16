@@ -2,7 +2,9 @@
 using Domain.Models;
 using Domain.RepositoryAccess;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -10,25 +12,20 @@ namespace CloudERP.Controllers
 {
     public class SupportController : Controller
     {
-        private readonly ISupportTicketRepository _supportTicketRepository;
-        private readonly IUserRepository _userRepository;
+        private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
 
-        public SupportController(
-            ISupportTicketRepository supportTicketRepository, 
-            SessionHelper sessionHelper,
-            IUserRepository userRepository)
+        public SupportController(SessionHelper sessionHelper)
         {
-            _supportTicketRepository = supportTicketRepository ?? throw new ArgumentNullException(nameof(ISupportTicketRepository));
+            _httpClient = new HttpClientHelper();
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
-            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(IUserRepository));
         }
 
         public async Task<ActionResult> Support()
         {
             try
             {
-                ViewBag.UserTickets = await _supportTicketRepository.GetByUserIdAsync(_sessionHelper.UserID);
+                ViewBag.UserTickets = await _httpClient.GetAsync<List<SupportTicket>>($"support/{_sessionHelper.UserID}");
 
                 return View(new SupportTicket());
             }
@@ -45,8 +42,8 @@ namespace CloudERP.Controllers
         {
             try
             {
-                var user = await _userRepository.GetByIdAsync(_sessionHelper.UserID);
-                var userTickets = await _supportTicketRepository.GetByUserIdAsync(_sessionHelper.UserID);
+                var user = await _httpClient.GetAsync<User>($"user/{_sessionHelper.UserID}");
+                var userTickets = await _httpClient.GetAsync<List<SupportTicket>>($"support/user/{_sessionHelper.UserID}");
 
                 model.CompanyID = _sessionHelper.CompanyID;
                 model.BranchID = _sessionHelper.BranchID;
@@ -61,7 +58,7 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    await _supportTicketRepository.AddAsync(model);
+                    await _httpClient.PostAsync("support/create", model);
                     ViewBag.Message = Localization.CloudERP.Messages.Messages.SupportRequestSubmitted;
 
                     ViewBag.UserTickets = userTickets;
@@ -84,7 +81,7 @@ namespace CloudERP.Controllers
         {
             try
             {
-                var tickets = await _supportTicketRepository.GetAllAsync();
+                var tickets = await _httpClient.GetAsync<List<SupportTicket>>("support/admin/list");
                 if (tickets == null) return RedirectToAction("AdminList");
 
                 return View(tickets);
@@ -102,8 +99,8 @@ namespace CloudERP.Controllers
         {
             try
             {
-                var ticket = await _supportTicketRepository.GetByIdAsync(id);
-                var admin = await _userRepository.GetByIdAsync(_sessionHelper.UserID);
+                var ticket = await _httpClient.GetAsync<SupportTicket>($"support/{id}");
+                var admin = await _httpClient.GetAsync<User>($"user/{_sessionHelper.UserID}");
 
                 if (ticket == null) return RedirectToAction("AdminList");
 
@@ -112,7 +109,9 @@ namespace CloudERP.Controllers
                 ticket.ResponseDate = DateTime.Now;
                 ticket.IsResolved = true;
 
-                await _supportTicketRepository.UpdateAsync(ticket);
+                var success = await _httpClient.PostAsync($"support/resolve/{id}", ticket);
+                if (success) return RedirectToAction("Index");
+                await _httpClient.PutAsync($"support/update/{ticket.TicketID}", ticket);
 
                 return RedirectToAction("AdminList");
             }

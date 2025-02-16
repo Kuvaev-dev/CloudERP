@@ -44,7 +44,7 @@ namespace API.Controllers
         }
 
         [HttpGet, Route("branch-trial-balance?companyId={companyId:int}&branchId={branchId:int}&financialYearId={financialYearId:int}")]
-        public async Task<IHttpActionResult> GetBalanceSheet([FromUri] int companyId, [FromUri] int branchId, [FromUri] int financialYearId)
+        public async Task<IHttpActionResult> GetBalanceSheetByFinancialYear([FromUri] int companyId, [FromUri] int branchId, [FromUri] int financialYearId)
         {
             try
             {
@@ -82,7 +82,7 @@ namespace API.Controllers
         }
 
         [HttpGet, Route("branch-trial-balance?companyId={companyId:int}&branchId={branchId:int}&financialYearId={financialYearId:int}")]
-        public async Task<IHttpActionResult> GetSubBalanceSheet([FromUri] int companyId, [FromUri] int branchId, [FromUri] int financialYearId)
+        public async Task<IHttpActionResult> GetSubBalanceSheetByFinancialYear([FromUri] int companyId, [FromUri] int branchId, [FromUri] int financialYearId)
         {
             try
             {

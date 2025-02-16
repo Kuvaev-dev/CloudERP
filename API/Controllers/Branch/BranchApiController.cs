@@ -27,7 +27,7 @@ namespace API.Controllers
             _accountSettingRepository = accountSettingRepository ?? throw new ArgumentNullException(nameof(IAccountSettingRepository));
         }
 
-        [HttpGet, Route("all")]
+        [HttpGet, Route("?companyId={companyId:int}&branchId={branchId:int}&mainBranchTypeID={mainBranchTypeID:int}")]
         public async Task<IHttpActionResult> GetAll([FromUri] int companyId, [FromUri] int branchId, [FromUri] int mainBranchTypeID)
         {
             try
@@ -44,7 +44,21 @@ namespace API.Controllers
             }
         }
 
-        [HttpGet, Route("sub-branches")]
+        [HttpGet, Route("{companyId:int}")]
+        public async Task<IHttpActionResult> GetByCompany([FromUri] int companyId)
+        {
+            try
+            {
+                var branches = await _branchRepository.GetByCompanyAsync(companyId);
+                return Ok(branches);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [HttpGet, Route("sub-branches?companyId={companyId:int}&branchId={branchId:int}")]
         public async Task<IHttpActionResult> GetSubBranches([FromUri] int companyId, [FromUri] int branchId)
         {
             try

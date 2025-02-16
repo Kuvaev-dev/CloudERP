@@ -1,6 +1,4 @@
-using API;
 using System;
-using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
@@ -20,7 +18,6 @@ namespace CloudERP
             Helpers.UnityConfig.RegisterComponents(_container);
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            GlobalConfiguration.Configure(config => WebApiConfig.Register(config));
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }

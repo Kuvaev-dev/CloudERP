@@ -18,8 +18,8 @@ namespace API.Controllers
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
-        [HttpGet, Route("all")]
-        public async Task<IHttpActionResult> GetAllSuppliers()
+        [HttpGet, Route("")]
+        public async Task<IHttpActionResult> GetAll()
         {
             try
             {
@@ -33,7 +33,7 @@ namespace API.Controllers
         }
 
         [HttpGet, Route("{id:int}")]
-        public async Task<IHttpActionResult> GetSupplierById(int id)
+        public async Task<IHttpActionResult> GetById(int id)
         {
             try
             {
@@ -48,7 +48,7 @@ namespace API.Controllers
         }
 
         [HttpPost, Route("create")]
-        public async Task<IHttpActionResult> CreateSupplier([FromBody] Supplier model)
+        public async Task<IHttpActionResult> Create([FromBody] Supplier model)
         {
             if (model == null) return BadRequest("Invalid data.");
 
@@ -64,7 +64,7 @@ namespace API.Controllers
         }
 
         [HttpPut, Route("update/{id:int}")]
-        public async Task<IHttpActionResult> UpdateSupplier(int id, [FromBody] Supplier model)
+        public async Task<IHttpActionResult> Update(int id, [FromBody] Supplier model)
         {
             if (model == null || id != model.SupplierID) return BadRequest("Invalid data.");
 
@@ -80,7 +80,7 @@ namespace API.Controllers
         }
 
         [HttpGet, Route("branch/{branchId:int}")]
-        public async Task<IHttpActionResult> GetSuppliersByBranch(int branchId)
+        public async Task<IHttpActionResult> GetByBranch(int branchId)
         {
             try
             {

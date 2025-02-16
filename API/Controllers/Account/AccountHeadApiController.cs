@@ -18,7 +18,7 @@ namespace API.Controllers
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
-        [HttpGet, Route("all")]
+        [HttpGet, Route("")]
         public async Task<IHttpActionResult> GetAll()
         {
             try

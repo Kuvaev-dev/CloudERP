@@ -26,7 +26,7 @@ namespace CloudERP.Controllers
             try
             {
                 var response = await _httpClientHelper.GetAsync<dynamic>(
-                    $"salepaymentreturn/returnSalePendingAmount/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
+                    $"sale-payment-return/return-sale-pending-amount?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 return View(response);
             }
             catch (Exception ex)
@@ -44,7 +44,7 @@ namespace CloudERP.Controllers
             try
             {
                 var response = await _httpClientHelper.GetAsync<dynamic>(
-                    $"salepaymentreturn/returnSalePendingAmount/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
+                    $"sale-payment-return/return-sale-pending-amount?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 return View(response);
             }
             catch (Exception ex)
@@ -62,7 +62,7 @@ namespace CloudERP.Controllers
             try
             {
                 var response = await _httpClientHelper.GetAsync<dynamic>(
-                    $"salepaymentreturn/returnAmount/{id.Value}");
+                    $"sale-payment-return/return-amount?invoiceID={id.Value}");
 
                 double remainingAmount = response.RemainingAmount;
                 if (remainingAmount == 0)
@@ -97,7 +97,7 @@ namespace CloudERP.Controllers
                 };
 
                 var response = await _httpClientHelper.PostAsync<dynamic>(
-                    "salepaymentreturn/processReturnAmount", paymentReturnDto);
+                    $"sale-payment-return/process-return-amount?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&userId={_sessionHelper.UserID}", paymentReturnDto);
 
                 Session["SaleMessage"] = response.Message;
 

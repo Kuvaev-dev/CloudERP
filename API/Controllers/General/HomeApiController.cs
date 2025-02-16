@@ -19,8 +19,8 @@ namespace API.Controllers
             _homeFacade = homeFacade ?? throw new ArgumentNullException(nameof(HomeFacade));
         }
 
-        [HttpGet, Route("dashboard")]
-        public async Task<IHttpActionResult> GetDashboardValues(int branchId, int companyId)
+        [HttpGet, Route("dashboard?companyId={companyId:int}&branchId={branchId:int}")]
+        public async Task<IHttpActionResult> GetDashboardValues([FromUri] int branchId, [FromUri] int companyId)
         {
             try
             {

@@ -26,7 +26,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var suppliers = await _httpClient.GetAsync<List<Supplier>>("supplier/all");
+                var suppliers = await _httpClient.GetAsync<List<Supplier>>("supplier");
                 return View(suppliers);
             }
             catch (Exception ex)
@@ -84,7 +84,6 @@ namespace CloudERP.Controllers
                 if (ModelState.IsValid)
                 {
                     var success = await _httpClient.PostAsync("supplier/create", model);
-
                     if (success) return RedirectToAction("AllSuppliers");
 
                     ViewBag.Message = Localization.CloudERP.Messages.Messages.AlreadyExists;

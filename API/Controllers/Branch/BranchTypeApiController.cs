@@ -18,7 +18,7 @@ namespace API.Controllers
             _branchTypeRepository = branchTypeRepository;
         }
 
-        [HttpGet, Route("all")]
+        [HttpGet, Route("")]
         public async Task<IHttpActionResult> GetAll()
         {
             try

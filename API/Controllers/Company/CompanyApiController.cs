@@ -31,7 +31,7 @@ namespace API.Controllers
             _fileAdapterFactory = fileAdapterFactory ?? throw new ArgumentNullException(nameof(IFileAdapterFactory));
         }
 
-        [HttpGet, Route("all")]
+        [HttpGet, Route("")]
         public async Task<IHttpActionResult> GetAll()
         {
             try
@@ -62,6 +62,40 @@ namespace API.Controllers
 
         [HttpPost, Route("create")]
         public async Task<IHttpActionResult> Create([FromBody] Company model, [FromBody] HttpPostedFile logo)
+        {
+            if (model == null) return BadRequest("Invalid data.");
+
+            try
+            {
+                if (await _companyRepository.CheckCompanyExistsAsync(model.Name))
+                {
+                    ModelState.AddModelError("Name", Localization.CloudERP.Messages.Messages.AlreadyExists);
+                    return NotFound();
+                }
+
+                if (logo != null)
+                {
+                    var fileName = $"{model.Name}.jpg";
+
+                    var fileAdapter = _fileAdapterFactory.Create(logo);
+                    model.Logo = _fileService.UploadPhoto(fileAdapter, COMPANY_LOGO_PATH, fileName);
+                }
+                else
+                {
+                    model.Logo = _fileService.SetDefaultPhotoPath(DEFAULT_COMPANY_LOGO_PATH);
+                }
+
+                await _companyRepository.AddAsync(model);
+                return Created($"api/company/{model.CompanyID}", model);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [HttpPost, Route("update/{id:int}")]
+        public async Task<IHttpActionResult> Update([FromBody] Company model, [FromBody] HttpPostedFile logo)
         {
             if (model == null) return BadRequest("Invalid data.");
 

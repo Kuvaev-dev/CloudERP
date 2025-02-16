@@ -8,7 +8,7 @@ using System.Web.Http.Cors;
 
 namespace CloudERP.ApiControllers
 {
-    [RoutePrefix("api/purchasepayment")]
+    [RoutePrefix("api/purchase-payment")]
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class PurchasePaymentApiController : ApiController
     {
@@ -19,24 +19,21 @@ namespace CloudERP.ApiControllers
             _purchasePaymentFacade = purchasePaymentFacade ?? throw new ArgumentNullException(nameof(purchasePaymentFacade));
         }
 
-        [HttpGet]
-        [Route("remainingpaymentlist")]
-        public async Task<IHttpActionResult> GetRemainingPaymentList(int companyId, int branchId)
+        [HttpGet, Route("remaining-payment-list?companyId={companyId:int}&branchId={branchId:int}")]
+        public async Task<IHttpActionResult> GetRemainingPaymentList([FromUri] int companyId, [FromUri] int branchId)
         {
             var list = await _purchasePaymentFacade.PurchaseRepository.RemainingPaymentList(companyId, branchId);
             return Ok(list);
         }
 
-        [HttpGet]
-        [Route("paidhistory/{id}")]
-        public async Task<IHttpActionResult> GetPaidHistory(int id)
+        [HttpGet, Route("paid-history/{id:int}")]
+        public async Task<IHttpActionResult> GetPaidHistory([FromUri] int id)
         {
             var list = await _purchasePaymentFacade.PurchasePaymentService.GetPurchasePaymentHistoryAsync(id);
             return Ok(list);
         }
 
-        [HttpPost]
-        [Route("processpayment")]
+        [HttpPost, Route("process-payment")]
         public async Task<IHttpActionResult> ProcessPayment(PurchasePayment paymentDto)
         {
             string message = await _purchasePaymentFacade.PurchasePaymentService.ProcessPaymentAsync(
@@ -51,24 +48,21 @@ namespace CloudERP.ApiControllers
             return Ok(message);
         }
 
-        [HttpGet]
-        [Route("custompurchaseshistory")]
+        [HttpGet, Route("custom-purchases-history")]
         public async Task<IHttpActionResult> GetCustomPurchasesHistory(int companyId, int branchId, DateTime fromDate, DateTime toDate)
         {
             var list = await _purchasePaymentFacade.PurchaseRepository.CustomPurchasesList(companyId, branchId, fromDate, toDate);
             return Ok(list);
         }
 
-        [HttpGet]
-        [Route("purchaseitemdetail/{id}")]
+        [HttpGet, Route("purchase-item-detail/{id}")]
         public async Task<IHttpActionResult> GetPurchaseItemDetail(int id)
         {
             var purchaseDetail = await _purchasePaymentFacade.PurchaseService.GetPurchaseItemDetailAsync(id);
             return Ok(purchaseDetail);
         }
 
-        [HttpGet]
-        [Route("purchaseinvoice/{id}")]
+        [HttpGet, Route("purchase-invoice/{id}")]
         public async Task<IHttpActionResult> GetPurchaseInvoice(int id)
         {
             var invoiceDetails = await _purchasePaymentFacade.SupplierInvoiceDetailRepository.GetListByIdAsync(id);

@@ -7,7 +7,7 @@ using Domain.RepositoryAccess;
 
 namespace API.Controllers
 {
-    [RoutePrefix("api/user-types")]
+    [RoutePrefix("api/user-type")]
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class UserTypeApiController : ApiController
     {
@@ -41,7 +41,7 @@ namespace API.Controllers
         // GET: api/user-types/5
         [HttpGet]
         [Route("{id:int}")]
-        public async Task<IHttpActionResult> GetUserType(int id)
+        public async Task<IHttpActionResult> GetById(int id)
         {
             try
             {
@@ -60,8 +60,8 @@ namespace API.Controllers
 
         // POST: api/user-types
         [HttpPost]
-        [Route("")]
-        public async Task<IHttpActionResult> CreateUserType([FromBody] UserType userType)
+        [Route("create")]
+        public async Task<IHttpActionResult> Create([FromBody] UserType userType)
         {
             try
             {
@@ -81,8 +81,8 @@ namespace API.Controllers
 
         // PUT: api/user-types/5
         [HttpPut]
-        [Route("{id:int}")]
-        public async Task<IHttpActionResult> UpdateUserType(int id, [FromBody] UserType userType)
+        [Route("update/{id:int}")]
+        public async Task<IHttpActionResult> Update(int id, [FromBody] UserType userType)
         {
             try
             {

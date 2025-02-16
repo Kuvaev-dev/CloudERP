@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Cors;
 using Domain.Models;
 using Domain.RepositoryAccess;
 using Utils.Helpers;
@@ -26,15 +25,13 @@ namespace API.Controllers
         }
 
         // GET: api/user
-        [HttpGet]
-        [Route("all")]
+        [HttpGet, Route("")]
         public async Task<IHttpActionResult> GetAllUsers()
         {
             try
             {
                 var users = await _userRepository.GetAllAsync();
-                if (users == null)
-                    return NotFound();
+                if (users == null) return NotFound();
 
                 return Ok(users);
             }
@@ -46,14 +43,13 @@ namespace API.Controllers
 
         // GET: api/user/branch/{companyId}/{branchTypeId}/{branchId}
         [HttpGet]
-        [Route("branch/{companyId}/{branchTypeId}/{branchId}")]
-        public async Task<IHttpActionResult> GetUsersByBranch(int companyId, int branchTypeId, int branchId)
+        [Route("branch?companyId={companyId:int}&branchTypeId={branchTypeId:int}&branchId={branchId}")]
+        public async Task<IHttpActionResult> GetByBranch([FromUri] int companyId, [FromUri] int branchTypeId, [FromUri] int branchId)
         {
             try
             {
                 var users = await _userRepository.GetByBranchAsync(companyId, branchTypeId, branchId);
-                if (users == null)
-                    return NotFound();
+                if (users == null) return NotFound();
 
                 return Ok(users);
             }
@@ -66,7 +62,7 @@ namespace API.Controllers
         // GET: api/user/{id}
         [HttpGet]
         [Route("{id}")]
-        public async Task<IHttpActionResult> GetUserById(int id)
+        public async Task<IHttpActionResult> GetById(int id)
         {
             try
             {
@@ -85,14 +81,12 @@ namespace API.Controllers
         // POST: api/user/create
         [HttpPost]
         [Route("create")]
-        public async Task<IHttpActionResult> CreateUser([FromBody] User model)
+        public async Task<IHttpActionResult> Create([FromBody] User model)
         {
             try
             {
-                if (model == null)
-                    return BadRequest("Invalid user data.");
+                if (model == null) return BadRequest("Invalid data.");
 
-                // Хеширование пароля и сохранение соли
                 model.Password = _passwordHelper.HashPassword(model.Password, out string salt);
                 model.Salt = salt;
 
@@ -112,10 +106,8 @@ namespace API.Controllers
         {
             try
             {
-                if (model == null)
-                    return BadRequest("Invalid user data.");
+                if (model == null) return BadRequest("Invalid data.");
 
-                // Если пароль пустой, сохраняем старый
                 if (string.IsNullOrEmpty(model.Password))
                 {
                     var existingUser = await _userRepository.GetByIdAsync(id);

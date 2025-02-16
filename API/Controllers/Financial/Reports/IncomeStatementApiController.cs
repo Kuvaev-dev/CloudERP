@@ -40,7 +40,7 @@ namespace API.Controllers
         }
 
         [HttpGet, Route("branch-income-statement?companyId={companyId:int}&branchId={branchId:int}&FinancialYearID={FinancialYearID:int}")]
-        public async Task<IHttpActionResult> GetIncomeStatement([FromUri] int companyId, [FromUri] int branchId, [FromUri] int FinancialYearID)
+        public async Task<IHttpActionResult> GetIncomeStatementByFinancialYear([FromUri] int companyId, [FromUri] int branchId, [FromUri] int FinancialYearID)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace API.Controllers
         }
 
         [HttpGet, Route("sub-branch-income-statement?companyId={companyId:int}&branchId={branchId:int}&FinancialYearID={FinancialYearID:int}")]
-        public async Task<IHttpActionResult> GetSubIncomeStatement([FromUri] int companyId, [FromUri] int branchId, [FromUri] int FinancialYearID)
+        public async Task<IHttpActionResult> GetSubIncomeStatementByFinancialYear([FromUri] int companyId, [FromUri] int branchId, [FromUri] int FinancialYearID)
         {
             try
             {

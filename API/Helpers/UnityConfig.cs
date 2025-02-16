@@ -1,8 +1,22 @@
-﻿using DatabaseAccess.Repositories;
+﻿using DatabaseAccess.Adapters;
+using DatabaseAccess.Factories;
+using DatabaseAccess.Helpers;
+using DatabaseAccess;
+using DatabaseAccess.Repositories;
+using Domain.Facades;
+using Domain.Implementations;
 using Domain.RepositoryAccess;
+using Domain.ServiceAccess;
+using Domain.Services;
+using Services.Adapters;
+using Services.Facades;
+using Services.Implementations;
+using Services.ServiceAccess;
 using System.Web.Mvc;
 using Unity;
 using Unity.AspNet.Mvc;
+using Utils.Helpers;
+using Utils.Interfaces;
 
 namespace API.Helpers
 {
@@ -10,7 +24,145 @@ namespace API.Helpers
     {
         public static void RegisterComponents(IUnityContainer container)
         {
-            container.RegisterType<IAccountHeadRepository, AccountHeadRepository>();
+            #region DbContext
+            // Main DB Context
+            container.RegisterType<CloudDBEntities>();
+            #endregion
+
+            #region Helpers
+            // Database Query Helper
+            container.RegisterType<DatabaseQuery>();
+            // Branch Helper
+            container.RegisterType<BranchHelper>();
+            // Password Helper
+            container.RegisterType<PasswordHelper>();
+            // Culture Helper
+            container.RegisterType<ResourceManagerHelper>();
+            #endregion
+
+            #region Facades
+            // Domain
+            container.RegisterType<PurchaseCartFacade>();
+            container.RegisterType<PurchasePaymentFacade>();
+            container.RegisterType<PurchaseReturnFacade>();
+            container.RegisterType<SalaryTransactionFacade>();
+            container.RegisterType<SaleCartFacade>();
+            container.RegisterType<SalePaymentFacade>();
+            container.RegisterType<SaleEntryFacade>();
+            // Cloud ERP
+            container.RegisterType<AccountSettingFacade>();
+            container.RegisterType<CompanyEmployeeFacade>();
+            container.RegisterType<CompanyRegistrationFacade>();
+            container.RegisterType<HomeFacade>();
+            #endregion
+
+            #region Repositories
+            // Account
+            container.RegisterType<IAccountActivityRepository, AccountActivityRepository>();
+            container.RegisterType<IAccountControlRepository, AccountControlRepository>();
+            container.RegisterType<IAccountSettingRepository, AccountSettingRepository>();
+            container.RegisterType<IAccountSubControlRepository, AccountSubControlRepository>();
+            // Balance Sheet
+            container.RegisterType<IBalanceSheetRepository, BalanceSheetRepository>();
+            // Branch
+            container.RegisterType<IBranchRepository, BranchRepository>();
+            container.RegisterType<IBranchTypeRepository, BranchTypeRepository>();
+            // Category
+            container.RegisterType<ICategoryRepository, CategoryRepository>();
+            // Company
+            container.RegisterType<ICompanyRepository, CompanyRepository>();
+            // Customer
+            container.RegisterType<ICustomerInvoiceRepository, CustomerInvoiceRepository>();
+            container.RegisterType<ICustomerInvoiceDetailRepository, CustomerInvoiceDetailRepository>();
+            container.RegisterType<ICustomerPaymentRepository, CustomerPaymentRepository>();
+            container.RegisterType<ICustomerRepository, CustomerRepository>();
+            container.RegisterType<ICustomerReturnInvoiceDetailRepository, CustomerReturnInvoiceDetailRepository>();
+            container.RegisterType<ICustomerReturnInvoiceRepository, CustomerReturnInvoiceRepository>();
+            container.RegisterType<ICustomerReturnPaymentRepository, CustomerReturnPaymentRepository>();
+            // Dashboard
+            container.RegisterType<IDashboardRepository, DashboardRepository>();
+            // Employee
+            container.RegisterType<IEmployeeRepository, EmployeeRepository>();
+            // Financial Yaer
+            container.RegisterType<IFinancialYearRepository, FinancialYearRepository>();
+            // Forecasting
+            container.RegisterType<IForecastingRepository, ForecastingRepository>();
+            // General Transaction
+            container.RegisterType<IGeneralTransactionRepository, GeneralTransactionRepository>();
+            // Ledger
+            container.RegisterType<ILedgerRepository, LedgerRepository>();
+            // Payroll
+            container.RegisterType<IPayrollRepository, PayrollRepository>();
+            // Purchase
+            container.RegisterType<IPurchaseCartDetailRepository, PurchaseCartDetailRepository>();
+            container.RegisterType<IPurchaseRepository, PurchaseRepository>();
+            // Salary Transaction
+            container.RegisterType<ISalaryTransactionRepository, SalaryTransactionRepository>();
+            // Sale
+            container.RegisterType<ISaleCartDetailRepository, SaleCartDetailRepository>();
+            container.RegisterType<ISaleRepository, SaleRepository>();
+            // Stock
+            container.RegisterType<IStockRepository, StockRepository>();
+            // Supplier
+            container.RegisterType<ISupplierInvoiceDetailRepository, SupplierInvoiceDetailRepository>();
+            container.RegisterType<ISupplierInvoiceRepository, SupplierInvoiceRepository>();
+            container.RegisterType<ISupplierPaymentRepository, SupplierPaymentRepository>();
+            container.RegisterType<ISupplierRepository, SupplierRepository>();
+            container.RegisterType<ISupplierReturnInvoiceDetailRepository, SupplierReturnInvoiceDetailRepository>();
+            container.RegisterType<ISupplierReturnInvoiceRepository, SupplierReturnInvoiceRepository>();
+            container.RegisterType<ISupplierReturnPaymentRepository, SupplierReturnPaymentRepository>();
+            // Support
+            container.RegisterType<ISupportTicketRepository, SupportTicketRepository>();
+            // Task
+            container.RegisterType<ITaskRepository, TaskRepository>();
+            // Trial Balance
+            container.RegisterType<ITrialBalanceRepository, TrialBalanceRepository>();
+            // User
+            container.RegisterType<IUserRepository, UserRepository>();
+            container.RegisterType<IUserTypeRepository, UserTypeRepository>();
+            #endregion
+
+            #region Services
+            // Main
+            container.RegisterType<IAuthService, AuthService>();
+            container.RegisterType<IBalanceSheetService, BalanceSheetService>();
+            container.RegisterType<IDashboardService, DashboardService>();
+            container.RegisterType<IEmployeeSalaryService, EmployeeSalaryService>();
+            container.RegisterType<IEmployeeStatisticsService, EmployeeStatisticsService>();
+            container.RegisterType<IGeneralTransactionService, GeneralTransactionService>();
+            container.RegisterType<IIncomeStatementService, IncomeStatementService>();
+            container.RegisterType<IProductQualityService, ProductQualityService>();
+            container.RegisterType<IReminderService, ReminderService>();
+            container.RegisterType<ISalaryTransactionService, SalaryTransactionService>();
+            // Purchase
+            container.RegisterType<IPurchaseCartService, PurchaseCartService>();
+            container.RegisterType<IPurchaseEntryService, PurchaseEntryService>();
+            container.RegisterType<IPurchasePaymentReturnService, PurchasePaymentReturnService>();
+            container.RegisterType<IPurchasePaymentService, PurchasePaymentService>();
+            container.RegisterType<IPurchaseReturnService, PurchaseReturnService>();
+            container.RegisterType<IPurchaseService, PurchaseService>();
+            // Sale
+            container.RegisterType<ISaleCartService, SaleCartService>();
+            container.RegisterType<ISaleEntryService, SaleEntryService>();
+            container.RegisterType<ISalePaymentReturnService, SalePaymentReturnService>();
+            container.RegisterType<ISalePaymentService, SalePaymentService>();
+            container.RegisterType<ISaleReturnService, SaleReturnService>();
+            container.RegisterType<ISaleService, SaleService>();
+            // Miscellaneous
+            container.RegisterType<IFileService, FileService>();
+            container.RegisterType<IForecastingService, ForecastingService>();
+            container.RegisterType<IPurchaseEntryService, PurchaseEntryService>();
+            container.RegisterType<ISaleEntryService, SaleEntryService>();
+            container.RegisterType<IFinancialForecaster, FinancialForecaster>();
+            #endregion
+
+            #region Adapters
+            // Forecasting
+            container.RegisterType<IFinancialForecastAdapter, FinancialForecastAdapter>();
+            // File Upload
+            container.RegisterType<IFile, HttpPostedFileAdapter>();
+            container.RegisterType<IFileAdapterFactory, FileAdapterFactory>();
+            #endregion
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

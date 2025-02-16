@@ -12,14 +12,10 @@ namespace API.Controllers
     public class SupportApiController : ApiController
     {
         private readonly ISupportTicketRepository _supportTicketRepository;
-        private readonly IUserRepository _userRepository;
 
-        public SupportApiController(
-            ISupportTicketRepository supportTicketRepository,
-            IUserRepository userRepository)
+        public SupportApiController(ISupportTicketRepository supportTicketRepository)
         {
             _supportTicketRepository = supportTicketRepository ?? throw new ArgumentNullException(nameof(supportTicketRepository));
-            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         }
 
         [HttpGet, Route("user/{userId}")]

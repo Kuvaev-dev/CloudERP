@@ -1,6 +1,7 @@
 ﻿using CloudERP.Helpers;
 using Domain.Models;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -24,8 +25,8 @@ namespace CloudERP.Controllers
 
             try
             {
-                var response = await _httpClientHelper.GetAsync<dynamic>(
-                    $"category/all/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
+                var response = await _httpClientHelper.GetAsync<List<Category>>(
+                    $"category?companyID={_sessionHelper.CompanyID}&branchID={_sessionHelper.BranchID}");
                 return View(response);
             }
             catch (Exception ex)
@@ -42,7 +43,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var response = await _httpClientHelper.GetAsync<dynamic>(
+                var response = await _httpClientHelper.GetAsync<Category>(
                     $"category/{id}");
                 return View(response);
             }
@@ -76,7 +77,7 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var response = await _httpClientHelper.PostAsync<dynamic>(
+                    var response = await _httpClientHelper.PostAsync<Category>(
                         "category/create", model);
 
                     if (response != null)
@@ -101,7 +102,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var response = await _httpClientHelper.GetAsync<dynamic>(
+                var response = await _httpClientHelper.GetAsync<Category>(
                     $"category/{id}");
                 return View(response);
             }
@@ -128,7 +129,7 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var response = await _httpClientHelper.PutAsync<dynamic>(
+                    var response = await _httpClientHelper.PutAsync<Category>(
                         "category/edit", model);
 
                     if (response != null)

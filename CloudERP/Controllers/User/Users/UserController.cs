@@ -11,9 +11,7 @@ namespace CloudERP.Controllers
 {
     public class UserController : Controller
     {
-        private readonly HttpClient _httpClient;
-        private readonly string _apiBaseUrl = "https://yourapiurl.com/api/user";
-
+        private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
         private readonly PasswordHelper _passwordHelper;
 
@@ -21,7 +19,7 @@ namespace CloudERP.Controllers
             SessionHelper sessionHelper,
             PasswordHelper passwordHelper)
         {
-            _httpClient = new HttpClient();
+            _httpClient = new HttpClientHelper();
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
             _passwordHelper = passwordHelper ?? throw new ArgumentNullException(nameof(PasswordHelper));
         }
@@ -34,10 +32,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var response = await _httpClient.GetAsync($"{_apiBaseUrl}/all");
-                if (!response.IsSuccessStatusCode) return RedirectToAction("EP500", "EP");
-
-                var users = await response.Content.ReadAsAsync<IEnumerable<User>>();
+                var users = await _httpClient.GetAsync<List<User>>($"user");
                 return View(users);
             }
             catch (Exception ex)
@@ -55,10 +50,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var response = await _httpClient.GetAsync($"{_apiBaseUrl}/{id}");
-                if (!response.IsSuccessStatusCode) return RedirectToAction("EP404", "EP");
-
-                var user = await response.Content.ReadAsAsync<User>();
+                var user = await _httpClient.GetAsync<User>($"user/{id}");
                 return View(user);
             }
             catch (Exception ex)
@@ -89,12 +81,11 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    // Хешируем пароль
                     model.Password = _passwordHelper.HashPassword(model.Password, out string salt);
                     model.Salt = salt;
 
-                    var response = await _httpClient.PostAsJsonAsync($"{_apiBaseUrl}/create", model);
-                    if (!response.IsSuccessStatusCode) return RedirectToAction("EP500", "EP");
+                    var success = await _httpClient.PostAsync($"user/create", model);
+                    if (success) return RedirectToAction("EP500", "EP");
 
                     return RedirectToAction("Index");
                 }
@@ -116,10 +107,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var response = await _httpClient.GetAsync($"{_apiBaseUrl}/{id}");
-                if (!response.IsSuccessStatusCode) return RedirectToAction("EP404", "EP");
-
-                var user = await response.Content.ReadAsAsync<User>();
+                var user = await _httpClient.GetAsync<User>($"user/{id}");
                 return View(user);
             }
             catch (Exception ex)
@@ -141,25 +129,20 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    // Если пароль не был изменён, сохраняем старый
                     if (string.IsNullOrEmpty(model.Password))
                     {
-                        var response = await _httpClient.GetAsync($"{_apiBaseUrl}/{model.UserID}");
-                        if (!response.IsSuccessStatusCode) return RedirectToAction("EP500", "EP");
+                        var existingUser = await _httpClient.GetAsync<User>($"user/{model.UserID}");
 
-                        var existingUser = await response.Content.ReadAsAsync<User>();
                         model.Password = existingUser.Password;
                         model.Salt = existingUser.Salt;
                     }
                     else
                     {
-                        // Хешируем новый пароль
                         model.Password = _passwordHelper.HashPassword(model.Password, out string salt);
                         model.Salt = salt;
                     }
 
-                    var response = await _httpClient.PutAsJsonAsync($"{_apiBaseUrl}/update/{model.UserID}", model);
-                    if (!response.IsSuccessStatusCode) return RedirectToAction("EP500", "EP");
+                    var response = await _httpClient.PutAsync($"user/update/{model.UserID}", model);
 
                     return RedirectToAction("Index");
                 }

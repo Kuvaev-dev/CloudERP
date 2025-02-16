@@ -18,13 +18,28 @@ namespace API.Controllers
             _financialYearRepository = financialYearRepository ?? throw new ArgumentNullException(nameof(IFinancialYearRepository));
         }
 
-        [HttpGet, Route("all")]
+        [HttpGet, Route("")]
         public async Task<IHttpActionResult> GetAll()
         {
             try
             {
                 var accountHeads = await _financialYearRepository.GetAllAsync();
                 return Ok(accountHeads);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [HttpGet, Route("{id:int}")]
+        public async Task<IHttpActionResult> GetById(int id)
+        {
+            try
+            {
+                var financialYear = await _financialYearRepository.GetByIdAsync(id);
+                if (financialYear == null) return NotFound();
+                return Ok(financialYear);
             }
             catch (Exception ex)
             {

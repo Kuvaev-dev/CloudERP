@@ -18,7 +18,7 @@ namespace API.Controllers
             _accountSettingFacade = accountSettingFacade;
         }
 
-        [HttpGet, Route("all")]
+        [HttpGet, Route("?companyId={companyId:int}&branchId={branchId:int}")]
         public async Task<IHttpActionResult> GetAll([FromUri] int companyId, [FromUri] int branchId)
         {
             try

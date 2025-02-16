@@ -16,7 +16,7 @@ namespace API.Controllers
             _accountControlRepository = accountControlRepository ?? throw new ArgumentNullException(nameof(accountControlRepository));
         }
 
-        [HttpGet, Route("all")]
+        [HttpGet, Route("?companyId={companyId:int}&branchId={branchId:int}")]
         public async Task<IHttpActionResult> GetAll([FromUri] int companyId, [FromUri] int branchId)
         {
             try
@@ -31,7 +31,7 @@ namespace API.Controllers
         }
 
         [HttpGet, Route("{id:int}")]
-        public async Task<IHttpActionResult> Get(int id)
+        public async Task<IHttpActionResult> GetById(int id)
         {
             try
             {

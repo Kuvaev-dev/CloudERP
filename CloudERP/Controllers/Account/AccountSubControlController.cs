@@ -73,7 +73,7 @@ namespace CloudERP.Controllers
 
                 if (model.AccountControlID > 0)
                 {
-                    var accountControl = await _httpClient.GetAsync<AccountSubControl>($"account-sub-control/{model.AccountControlID}");
+                    var accountControl = await _httpClient.GetAsync<AccountControl>($"account-control/{model.AccountControlID}");
                     if (accountControl != null)
                     {
                         model.AccountHeadID = accountControl.AccountHeadID;
@@ -108,7 +108,7 @@ namespace CloudERP.Controllers
                     $"account-control?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 if (accountControls == null) return RedirectToAction("EP404", "EP");
 
-                var subControl = await _httpClient.GetAsync<AccountSetting>($"account-sub-control/{id.Value}");
+                var subControl = await _httpClient.GetAsync<AccountSubControl>($"account-sub-control/{id.Value}");
                 if (subControl == null) return RedirectToAction("EP404", "EP");
 
                 await PopulateViewBag();
@@ -149,7 +149,7 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    await _httpClient.PutAsync($"api/account-sub-control/update/{model.AccountSubControlID}", model);
+                    await _httpClient.PutAsync($"account-sub-control/update/{model.AccountSubControlID}", model);
                     return RedirectToAction("Index");
                 }
 

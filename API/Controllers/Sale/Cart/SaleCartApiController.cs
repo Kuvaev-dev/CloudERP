@@ -8,7 +8,7 @@ using Domain.ServiceAccess;
 
 namespace API.Controllers
 {
-    [RoutePrefix("api/salecart")]
+    [RoutePrefix("api/sale-cart")]
     public class SaleCartApiController : ApiController
     {
         private readonly ISaleCartDetailRepository _saleCartDetailRepository;
@@ -26,15 +26,15 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [Route("newSaleDetails")]
-        public async Task<IHttpActionResult> GetNewSaleDetails(int branchId, int companyId, int userId)
+        [Route("new-sale-details?branchId={branchId:int}&companyId={companyId:int}&userId={userId:int}")]
+        public async Task<IHttpActionResult> GetNewSaleDetails([FromUri] int branchId, [FromUri] int companyId, [FromUri] int userId)
         {
             var details = await _saleCartDetailRepository.GetByDefaultSettingAsync(branchId, companyId, userId);
             return Ok(details);
         }
 
         [HttpGet]
-        [Route("productDetails/{id}")]
+        [Route("product-details/{id}")]
         public async Task<IHttpActionResult> GetProductDetails(int id)
         {
             var product = await _stockRepository.GetByIdAsync(id);
@@ -46,7 +46,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        [Route("addItem")]
+        [Route("add-item")]
         public async Task<IHttpActionResult> AddItem(SaleCartDetail newItem)
         {
             await _saleCartDetailRepository.AddAsync(newItem);
@@ -54,7 +54,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        [Route("deleteItem/{id}")]
+        [Route("delete-item/{id}")]
         public async Task<IHttpActionResult> DeleteItem(int id)
         {
             await _saleCartDetailRepository.DeleteAsync(id);
@@ -62,8 +62,8 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        [Route("cancelSale")]
-        public async Task<IHttpActionResult> CancelSale(int branchId, int companyId, int userId)
+        [Route("cancel-sale?branchId={branchId:int}&companyId={companyId:int}&userId={userId:int}")]
+        public async Task<IHttpActionResult> CancelSale([FromUri] int branchId, [FromUri] int companyId, [FromUri] int userId)
         {
             var saleDetails = await _saleCartDetailRepository.GetByDefaultSettingAsync(branchId, companyId, userId);
             await _saleCartDetailRepository.DeleteListAsync(saleDetails);
@@ -71,8 +71,8 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        [Route("confirmSale")]
-        public async Task<IHttpActionResult> ConfirmSale(SaleConfirm saleConfirmDto, int branchId, int companyId, int userId)
+        [Route("confirm-sale?branchId={branchId:int}&companyId={companyId:int}&userId={userId:int}")]
+        public async Task<IHttpActionResult> ConfirmSale(SaleConfirm saleConfirmDto, [FromUri] int branchId, [FromUri] int companyId, [FromUri] int userId)
         {
             var result = await _saleCartService.ConfirmSaleAsync(saleConfirmDto, branchId, companyId, userId);
             if (result.IsSuccess)

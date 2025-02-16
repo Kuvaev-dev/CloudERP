@@ -29,7 +29,7 @@ namespace CloudERP.Controllers
             try
             {
                 var list = await _httpClientHelper.GetAsync<List<PurchasePaymentModel>>(
-                    $"purchasepaymentreturn/returnpurchasependingamount?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                    $"purchase-payment-return/return-purchase-pending-amount?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 return View(list);
             }
             catch (Exception ex)
@@ -47,7 +47,7 @@ namespace CloudERP.Controllers
             try
             {
                 var list = await _httpClientHelper.GetAsync<List<PurchasePaymentModel>>(
-                    $"purchasepaymentreturn/returnpurchasependingamount?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                    $"purchase-payment-return/return-purchase-pending-amount?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 return View(list);
             }
             catch (Exception ex)
@@ -65,7 +65,7 @@ namespace CloudERP.Controllers
             try
             {
                 var list = await _httpClientHelper.GetAsync<List<SupplierReturnPayment>>(
-                    $"purchasepaymentreturn/supplierreturnpayments/{id}");
+                    $"purchase-payment-return/supplier-return-payments/{id}");
 
                 double remainingAmount = list.Sum(item => item.RemainingBalance);
                 if (remainingAmount == 0) return RedirectToAction("AllPurchasesPendingPayment");
@@ -99,7 +99,7 @@ namespace CloudERP.Controllers
                 };
 
                 string message = await _httpClientHelper.PostAsync<string>(
-                    "purchasepaymentreturn/processreturnpayment", returnAmountDto);
+                    "purchase-payment-return/process-return-payment", returnAmountDto);
 
                 Session["Message"] = message;
 

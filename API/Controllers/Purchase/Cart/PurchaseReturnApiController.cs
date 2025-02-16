@@ -25,8 +25,8 @@ namespace API.Controllers.Purchase.Cart
         }
 
         [HttpGet]
-        [Route("invoice/{invoiceID}")]
-        public async Task<IHttpActionResult> GetPurchaseByInvoice(string invoiceID)
+        [Route("invoice?invoiceID={invoiceID:string}")]
+        public async Task<IHttpActionResult> GetPurchaseByInvoice([FromUri] string invoiceID)
         {
             try
             {

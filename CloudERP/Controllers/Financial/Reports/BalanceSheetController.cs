@@ -120,7 +120,7 @@ namespace CloudERP.Controllers
         private async Task PopulateViewBag()
         {
             ViewBag.FinancialYears = new SelectList(await _httpClient.GetAsync<List<FinancialYear>>(
-                    "financial-year/all"), "FinancialYearID", "FinancialYearName");
+                    "financial-year"), "FinancialYearID", "FinancialYearName");
         }
     }
 }

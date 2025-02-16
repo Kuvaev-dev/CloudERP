@@ -50,7 +50,7 @@ namespace CloudERP.Controllers
                 Session["SaleReturnMessage"] = string.Empty;
 
                 var response = await _httpClientHelper.GetAsync<dynamic>(
-                    $"salereturn/findSale/{invoiceID}");
+                    $"sale-return/find-sale/{invoiceID}");
 
                 ViewBag.InvoiceDetails = response.InvoiceDetails;
                 return View(response.Invoice);
@@ -85,13 +85,13 @@ namespace CloudERP.Controllers
                     UserID = _sessionHelper.UserID
                 };
 
-                var result = await _httpClientHelper.PostAsync<SaleReturnConfirm>(
-                    "salereturn/returnConfirm", returnConfirmDto);
+                var result = await _httpClientHelper.PostAsync(
+                    "sale-return/return-confirm", returnConfirmDto);
 
                 Session["SaleInvoiceNo"] = result.InvoiceNo;
                 Session["SaleReturnMessage"] = result.Message;
 
-                if (result.IsSuccess)
+                if (result)
                 {
                     return RedirectToAction("AllReturnSalesPendingAmount", "SalePaymentReturn");
                 }

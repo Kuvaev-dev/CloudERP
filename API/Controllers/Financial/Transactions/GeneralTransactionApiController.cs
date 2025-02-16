@@ -24,7 +24,7 @@ namespace API.Controllers
         }
 
         [HttpPost, Route("save-transaction?companyId={companyId:int}&branchId={branchId:int}&userId={userId:int}")]
-        public async Task<IHttpActionResult> SaveTransaction([FromBody] GeneralTransactionMV model, [FromBody] int companyId, [FromBody] int branchId, [FromBody] int userId)
+        public async Task<IHttpActionResult> SaveTransaction([FromBody] GeneralTransactionMV model, [FromUri] int companyId, [FromUri] int branchId, [FromUri] int userId)
         {
             if (model == null)
                 return BadRequest("Invalid data.");
@@ -49,8 +49,8 @@ namespace API.Controllers
         }
 
         // GET: api/general-transaction/journal
-        [HttpGet, Route("journal")]
-        public async Task<IHttpActionResult> GetJournal([FromBody] int companyId, [FromBody] int branchId, [FromBody] DateTime fromDate, [FromBody] DateTime toDate)
+        [HttpGet, Route("journal?companyId={companyId:int}&branchId={branchId:int}&fromDate={fromDate:DateTime}&toDate={toDate:DateTime}")]
+        public async Task<IHttpActionResult> GetJournal([FromUri] int companyId, [FromUri] int branchId, [FromUri] DateTime fromDate, [FromUri] DateTime toDate)
         {
             try
             {
@@ -65,7 +65,7 @@ namespace API.Controllers
 
         // GET: api/general-transaction/sub-journal/{id}
         [HttpGet, Route("sub-journal/{id:int}")]
-        public async Task<IHttpActionResult> GetSubJournal([FromBody] int companyId, [FromBody] int id, [FromBody] DateTime fromDate, [FromBody] DateTime toDate)
+        public async Task<IHttpActionResult> GetSubJournal([FromUri] int companyId, [FromUri] int id, [FromUri] DateTime fromDate, [FromUri] DateTime toDate)
         {
             try
             {
@@ -79,8 +79,8 @@ namespace API.Controllers
         }
 
         // GET: api/general-transaction/accounts
-        [HttpGet, Route("accounts")]
-        public async Task<IHttpActionResult> GetAccounts([FromBody] int companyId, [FromBody] int branchId)
+        [HttpGet, Route("accounts?companyId={companyId:int}&branchId={branchId:int}")]
+        public async Task<IHttpActionResult> GetAccounts([FromUri] int companyId, [FromUri] int branchId)
         {
             try
             {

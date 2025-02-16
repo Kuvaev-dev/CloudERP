@@ -17,8 +17,8 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [Route("all/{companyID}/{branchID}")]
-        public async Task<IHttpActionResult> GetAll(int companyID, int branchID)
+        [Route("?companyID={companyID:int}&branchID={branchID}")]
+        public async Task<IHttpActionResult> GetAll([FromUri] int companyID, [FromUri] int branchID)
         {
             var categories = await _categoryRepository.GetAllAsync(companyID, branchID);
             return Ok(categories);
@@ -41,7 +41,7 @@ namespace API.Controllers
         }
 
         [HttpPut]
-        [Route("edit")]
+        [Route("update")]
         public async Task<IHttpActionResult> Edit(Category category)
         {
             await _categoryRepository.UpdateAsync(category);

@@ -26,7 +26,7 @@ namespace CloudERP.Controllers
             try
             {
                 var details = await _httpClient.GetAsync<PurchaseCartDetail[]>(
-                    $"details/{_sessionHelper.BranchID}/{_sessionHelper.CompanyID}/{_sessionHelper.UserID}");
+                    $"details?branchId={_sessionHelper.BranchID}&companyId={_sessionHelper.CompanyID}&userId={_sessionHelper.UserID}");
 
                 ViewBag.TotalAmount = details.Sum(item => item.PurchaseQuantity * item.PurchaseUnitPrice);
                 return View(details);

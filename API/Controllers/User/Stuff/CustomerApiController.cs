@@ -7,7 +7,7 @@ using Domain.RepositoryAccess;
 
 namespace API.Controllers
 {
-    [RoutePrefix("api/customers")]
+    [RoutePrefix("api/customer")]
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class CustomerApiController : ApiController
     {
@@ -19,9 +19,8 @@ namespace API.Controllers
         }
 
         // GET: api/customers
-        [HttpGet]
-        [Route("")]
-        public async Task<IHttpActionResult> GetAllCustomers()
+        [HttpGet, Route("")]
+        public async Task<IHttpActionResult> GetAll()
         {
             try
             {
@@ -39,9 +38,8 @@ namespace API.Controllers
         }
 
         // GET: api/customers/5
-        [HttpGet]
-        [Route("{id:int}")]
-        public async Task<IHttpActionResult> GetCustomer(int id)
+        [HttpGet, Route("{id:int}")]
+        public async Task<IHttpActionResult> GetById(int id)
         {
             try
             {
@@ -59,9 +57,8 @@ namespace API.Controllers
         }
 
         // POST: api/customers
-        [HttpPost]
-        [Route("")]
-        public async Task<IHttpActionResult> CreateCustomer([FromBody] Customer customer)
+        [HttpPost, Route("create")]
+        public async Task<IHttpActionResult> Create([FromBody] Customer customer)
         {
             try
             {
@@ -71,7 +68,7 @@ namespace API.Controllers
                 }
 
                 await _customerRepository.AddAsync(customer);
-                return CreatedAtRoute("GetCustomer", new { id = customer.CustomerID }, customer);
+                return CreatedAtRoute("GetById", new { id = customer.CustomerID }, customer);
             }
             catch (Exception ex)
             {
@@ -82,20 +79,12 @@ namespace API.Controllers
         // PUT: api/customers/5
         [HttpPut]
         [Route("{id:int}")]
-        public async Task<IHttpActionResult> UpdateCustomer(int id, [FromBody] Customer customer)
+        public async Task<IHttpActionResult> Update(int id, [FromBody] Customer customer)
         {
             try
             {
-                if (customer == null || customer.CustomerID != id)
-                {
-                    return BadRequest("Invalid customer data.");
-                }
-
                 var existingCustomer = await _customerRepository.GetByIdAsync(id);
-                if (existingCustomer == null)
-                {
-                    return NotFound();
-                }
+                if (existingCustomer == null) return NotFound();
 
                 await _customerRepository.UpdateAsync(customer);
                 return Ok(customer);

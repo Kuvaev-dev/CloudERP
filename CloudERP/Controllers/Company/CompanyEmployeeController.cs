@@ -85,7 +85,7 @@ namespace CloudERP.Controllers
                             content.Add(fileContent, "file", avatar.FileName);
                         }
 
-                        await _httpClient.PostAsync("branch-employee/registration", content);
+                        await _httpClient.PostAsync("company-employee/registration", content);
                     }
 
                     return RedirectToAction("Employees");

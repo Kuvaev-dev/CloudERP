@@ -31,7 +31,7 @@ namespace API.Controllers
             _fileAdapterFactory = fileAdapterFactory ?? throw new ArgumentNullException(nameof(IFileAdapterFactory));
         }
 
-        [HttpGet, Route("employee")]
+        [HttpGet, Route("employee?companyId={companyId:int}&branchId={branchId:int}")]
         public async Task<IHttpActionResult> Employee([FromUri] int companyId, [FromUri] int branchId)
         {
             try

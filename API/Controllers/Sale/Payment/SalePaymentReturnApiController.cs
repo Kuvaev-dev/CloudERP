@@ -8,7 +8,7 @@ using Domain.ServiceAccess;
 
 namespace API.Controllers
 {
-    [RoutePrefix("api/salepaymentreturn")]
+    [RoutePrefix("api/sale-payment-return")]
     public class SalePaymentReturnApiController : ApiController
     {
         private readonly ISaleRepository _saleRepository;
@@ -26,16 +26,16 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [Route("returnSalePendingAmount/{companyID}/{branchID}")]
-        public async Task<IHttpActionResult> GetReturnSalePendingAmount(int companyID, int branchID)
+        [Route("return-sale-pending-amount?companyId={companyId:int}&branchId={branchId:int}")]
+        public async Task<IHttpActionResult> GetReturnSalePendingAmount([FromUri] int companyId, [FromUri] int branchId)
         {
-            var result = await _saleRepository.GetReturnSaleAmountPending(companyID, branchID);
+            var result = await _saleRepository.GetReturnSaleAmountPending(companyId, branchId);
             return Ok(result);
         }
 
         [HttpGet]
-        [Route("returnAmount/{invoiceID}")]
-        public async Task<IHttpActionResult> GetReturnAmount(int invoiceID)
+        [Route("return-amount?invoiceID={invoiceID:int}")]
+        public async Task<IHttpActionResult> GetReturnAmount([FromUri] int invoiceID)
         {
             var list = await _customerReturnPaymentRepository.GetListByReturnInvoiceIdAsync(invoiceID);
             double remainingAmount = list.Sum(item => item.RemainingBalance);
@@ -43,8 +43,8 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        [Route("processReturnAmount")]
-        public async Task<IHttpActionResult> ProcessReturnAmount(SalePaymentReturn paymentReturnDto, int branchId, int companyId, int userId)
+        [Route("process-return-amount?companyId={companyId:int}&branchId={branchId:int}&userId={userId:int}")]
+        public async Task<IHttpActionResult> ProcessReturnAmount(SalePaymentReturn paymentReturnDto, [FromUri] int branchId, [FromUri] int companyId, [FromUri] int userId)
         {
             var result = await _salePaymentReturnService.ProcessReturnAmountAsync(paymentReturnDto, branchId, companyId, userId);
             return Ok(result);

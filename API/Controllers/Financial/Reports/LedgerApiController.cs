@@ -45,7 +45,7 @@ namespace API.Controllers
         }
 
         [HttpGet, Route("branch-ledger?companyId={companyId:int}&branchId={branchId:int}&financialYearId={financialYearId:int}")]
-        public async Task<IHttpActionResult> GetLedger([FromUri] int companyId, [FromUri] int branchId, [FromUri] int financialYearId)
+        public async Task<IHttpActionResult> GetLedgerByFinancialYear([FromUri] int companyId, [FromUri] int branchId, [FromUri] int financialYearId)
         {
             try
             {
@@ -81,7 +81,7 @@ namespace API.Controllers
         }
 
         [HttpGet, Route("sub-branch-ledger?companyId={companyId:int}&branchId={branchId:int}&financialYearId={financialYearId:int}")]
-        public async Task<IHttpActionResult> GetSubLedger([FromUri] int companyId, [FromUri] int branchId, [FromUri] int financialYearId)
+        public async Task<IHttpActionResult> GetSubLedgerByFinancialYear([FromUri] int companyId, [FromUri] int branchId, [FromUri] int financialYearId)
         {
             try
             {

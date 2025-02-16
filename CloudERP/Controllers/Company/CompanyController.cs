@@ -28,7 +28,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var companies = await _httpClient.GetAsync<List<Company>>("company/all");
+                var companies = await _httpClient.GetAsync<List<Company>>("company");
                 return View(companies);
             }
             catch (Exception ex)
@@ -142,7 +142,7 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    await _httpClient.PutAsync($"api/company/update/{model.CompanyID}", model);
+                    await _httpClient.PutAsync($"company/update/{model.CompanyID}", model);
                     return RedirectToAction("Index");
                 }
 

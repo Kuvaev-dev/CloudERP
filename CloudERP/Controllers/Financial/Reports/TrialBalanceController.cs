@@ -28,7 +28,7 @@ namespace CloudERP.Controllers
             {
                 await PopulateViewBag();
 
-                var trialBalance = await _httpClient.GetAsync<TrialBalanceModel>(
+                var trialBalance = await _httpClient.GetAsync<List<TrialBalanceModel>>(
                     $"trial-balance/branch-trial-balance?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
 
                 return View(trialBalance);
@@ -66,7 +66,7 @@ namespace CloudERP.Controllers
         private async Task PopulateViewBag(int? selectedId = null)
         {
             ViewBag.FinancialYears = new SelectList(await _httpClient.GetAsync<List<FinancialYear>>(
-                    "financial-year/all"), "FinancialYearID", "FinancialYearName");
+                    "financial-year"), "FinancialYearID", "FinancialYearName");
         }
     }
 }

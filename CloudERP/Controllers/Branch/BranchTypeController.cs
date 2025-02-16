@@ -59,7 +59,7 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    await _httpClient.PostAsync("branch-type", model);
+                    await _httpClient.PostAsync("branch-type/create", model);
                     return RedirectToAction("Index");
                 }
 
@@ -104,7 +104,7 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    await _httpClient.PutAsync($"api/branch-type/{model.BranchTypeID}", model);
+                    await _httpClient.PutAsync($"branch-type/{model.BranchTypeID}", model);
                     return RedirectToAction("Index");
                 }
                 return View(model);

@@ -24,7 +24,7 @@ namespace API.Controllers
             _companyEmployeeFacade = companyEmployeeFacade;
         }
 
-        [HttpGet, Route("employees")]
+        [HttpGet, Route("employees/{companyId:int}")]
         public async Task<IHttpActionResult> GetAll([FromUri] int companyId)
         {
             try
@@ -101,7 +101,7 @@ namespace API.Controllers
             _companyEmployeeFacade.EmailService.SendEmail(employee.Email, subject, body);
         }
 
-        [HttpPost, Route("process")]
+        [HttpPost, Route("salary/process")]
         public async Task<IHttpActionResult> ProcessSalary([FromBody] SalaryMV salary)
         {
             try
@@ -123,7 +123,7 @@ namespace API.Controllers
             }
         }
 
-        [HttpPost, Route("confirm")]
+        [HttpPost, Route("salary/confirm")]
         public async Task<IHttpActionResult> ConfirmSalary([FromBody] SalaryMV salaryMV)
         {
             try
@@ -150,7 +150,7 @@ namespace API.Controllers
             }
         }
 
-        [HttpGet, Route("history")]
+        [HttpGet, Route("salary/history")]
         public async Task<IHttpActionResult> GetSalaryHistory(int branchId, int companyId)
         {
             try
@@ -164,7 +164,7 @@ namespace API.Controllers
             }
         }
 
-        [HttpGet, Route("invoice/{id}")]
+        [HttpGet, Route("salary/invoice/{id}")]
         public async Task<IHttpActionResult> GetSalaryInvoice(int id)
         {
             try

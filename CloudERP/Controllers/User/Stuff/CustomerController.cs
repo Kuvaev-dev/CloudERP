@@ -10,14 +10,13 @@ namespace CloudERP.Controllers
 {
     public class CustomerController : Controller
     {
-        private readonly HttpClient _httpClient;
+        private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
-        private readonly string _apiBaseUrl;
 
-        public CustomerController()
+        public CustomerController(SessionHelper sessionHelper)
         {
-            _httpClient = new HttpClient();
-            _apiBaseUrl = "https://yourapiurl.com/api/customers"; // Замените на URL вашего API
+            _httpClient = new HttpClientHelper();
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
         }
 
         // GET: AllCustomers
@@ -28,14 +27,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var response = await _httpClient.GetAsync(_apiBaseUrl);
-                if (!response.IsSuccessStatusCode)
-                {
-                    TempData["ErrorMessage"] = "Ошибка при получении клиентов.";
-                    return RedirectToAction("EP500", "EP");
-                }
-
-                var customers = await response.Content.ReadAsAsync<IEnumerable<Customer>>();
+                var customers = await _httpClient.GetAsync<List<Customer>>("customer");
                 return View(customers);
             }
             catch (Exception ex)
@@ -53,14 +45,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var response = await _httpClient.GetAsync($"{_apiBaseUrl}?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
-                if (!response.IsSuccessStatusCode)
-                {
-                    TempData["ErrorMessage"] = "Ошибка при получении клиентов.";
-                    return RedirectToAction("EP500", "EP");
-                }
-
-                var customers = await response.Content.ReadAsAsync<IEnumerable<Customer>>();
+                var customers = await _httpClient.GetAsync<List<Customer>>($"customer?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 return View(customers);
             }
             catch (Exception ex)
@@ -78,14 +63,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var response = await _httpClient.GetAsync($"{_apiBaseUrl}/{id}");
-                if (!response.IsSuccessStatusCode)
-                {
-                    TempData["ErrorMessage"] = "Ошибка при получении данных о клиенте.";
-                    return RedirectToAction("EP500", "EP");
-                }
-
-                var customer = await response.Content.ReadAsAsync<Customer>();
+                var customer = await _httpClient.GetAsync<Customer>($"customer/{id}");
                 return View(customer);
             }
             catch (Exception ex)
@@ -120,14 +98,8 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var response = await _httpClient.PostAsJsonAsync(_apiBaseUrl, model);
-                    if (!response.IsSuccessStatusCode)
-                    {
-                        TempData["ErrorMessage"] = "Ошибка при создании клиента.";
-                        return RedirectToAction("EP500", "EP");
-                    }
-
-                    return RedirectToAction("Index");
+                    var success = await _httpClient.PostAsync("customer", model);
+                    if (success) return RedirectToAction("Index");
                 }
 
                 return View(model);
@@ -147,14 +119,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var response = await _httpClient.GetAsync($"{_apiBaseUrl}/{id}");
-                if (!response.IsSuccessStatusCode)
-                {
-                    TempData["ErrorMessage"] = "Ошибка при получении данных клиента.";
-                    return RedirectToAction("EP500", "EP");
-                }
-
-                var customer = await response.Content.ReadAsAsync<Customer>();
+                var customer = await _httpClient.GetAsync<Customer>($"customer/{id}");
                 return View(customer);
             }
             catch (Exception ex)
@@ -178,14 +143,8 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var response = await _httpClient.PutAsJsonAsync($"{_apiBaseUrl}/{model.CustomerID}", model);
-                    if (!response.IsSuccessStatusCode)
-                    {
-                        TempData["ErrorMessage"] = "Ошибка при обновлении клиента.";
-                        return RedirectToAction("EP500", "EP");
-                    }
-
-                    return RedirectToAction("Index");
+                    var success = await _httpClient.PutAsync($"customer/update/{model.CustomerID}", model);
+                    if (success) return RedirectToAction("Index");
                 }
 
                 return View(model);

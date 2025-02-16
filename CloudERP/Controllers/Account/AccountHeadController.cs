@@ -25,7 +25,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var accountHeads = await _httpClient.GetAsync<List<AccountHead>>("all");
+                var accountHeads = await _httpClient.GetAsync<List<AccountHead>>("account-head");
                 return View(accountHeads);
             }
             catch (Exception ex)

@@ -25,7 +25,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var accountActivities = await _httpClient.GetAsync<List<AccountActivity>>("all");
+                var accountActivities = await _httpClient.GetAsync<List<AccountActivity>>("account-activity");
                 return View(accountActivities);
             }
             catch (Exception ex)
@@ -54,7 +54,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var success = await _httpClient.PostAsync("create", model);
+                var success = await _httpClient.PostAsync("account-activity/create", model);
 
                 if (success) return RedirectToAction("Index");
 
@@ -75,7 +75,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var accountActivity = await _httpClient.GetAsync<AccountActivity>("");
+                var accountActivity = await _httpClient.GetAsync<AccountActivity>($"account-activity/{id}");
                 if (accountActivity == null) return HttpNotFound();
 
                 return View(accountActivity);
@@ -98,7 +98,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var success = await _httpClient.PutAsync($"api/account-activity/update/{model.AccountActivityID}", model);
+                var success = await _httpClient.PutAsync($"account-activity/update/{model.AccountActivityID}", model);
 
                 if (success) return RedirectToAction("Index");
 

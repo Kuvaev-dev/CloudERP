@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CloudERP.Helpers;
@@ -10,13 +9,12 @@ namespace CloudERP.Controllers
 {
     public class StockController : Controller
     {
-        private readonly HttpClient _httpClient;
+        private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
-        private const string ApiBaseUrl = "http://localhost:5001/api/stock";
 
-        public StockController(HttpClient httpClient, SessionHelper sessionHelper)
+        public StockController(HttpClientHelper httpClient, SessionHelper sessionHelper)
         {
-            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
         }
 
@@ -28,14 +26,8 @@ namespace CloudERP.Controllers
 
             try
             {
-                var response = await _httpClient.GetAsync($"stock?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
-                if (!response.IsSuccessStatusCode)
-                {
-                    TempData["ErrorMessage"] = "Error retrieving stock data.";
-                    return RedirectToAction("EP500", "EP");
-                }
-
-                var stocks = await response.Content.ReadAsAsync<IEnumerable<Stock>>();
+                var stocks = await _httpClient.GetAsync<List<Stock>>($"stock?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                
                 return View(stocks);
             }
             catch (Exception ex)
@@ -55,14 +47,7 @@ namespace CloudERP.Controllers
             {
                 if (id == null) return RedirectToAction("EP404", "EP");
 
-                var response = await _httpClient.GetAsync($"stock/{id}?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
-                if (!response.IsSuccessStatusCode)
-                {
-                    TempData["ErrorMessage"] = "Error retrieving stock details.";
-                    return RedirectToAction("EP500", "EP");
-                }
-
-                var stock = await response.Content.ReadAsAsync<Stock>();
+                var stock = await _httpClient.GetAsync<Stock>($"stock/{id}?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 if (stock == null) return RedirectToAction("EP404", "EP");
 
                 return View(stock);
@@ -82,15 +67,8 @@ namespace CloudERP.Controllers
 
             try
             {
-                // Допустим, вы хотите получить список категорий с API
-                var response = await _httpClient.GetAsync($"stock/categories?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
-                if (!response.IsSuccessStatusCode)
-                {
-                    TempData["ErrorMessage"] = "Error retrieving categories.";
-                    return RedirectToAction("EP500", "EP");
-                }
-
-                var categories = await response.Content.ReadAsAsync<IEnumerable<Category>>();
+                var categories = await _httpClient.GetAsync<List<Category>>($"category?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                
                 ViewBag.CategoryID = new SelectList(categories, "CategoryID", "CategoryName");
 
                 return View(new Stock());
@@ -118,16 +96,8 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var response = await _httpClient.PostAsJsonAsync(ApiBaseUrl, model);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        TempData["ErrorMessage"] = "Error creating stock item.";
-                        return View(model);
-                    }
+                    var success = await _httpClient.PostAsync("stock/create", model);
+                    if (success) return RedirectToAction("Index");
                 }
 
                 return View(model);
@@ -149,26 +119,12 @@ namespace CloudERP.Controllers
             {
                 if (id == null) return RedirectToAction("EP404", "EP");
 
-                var response = await _httpClient.GetAsync($"stock/{id}?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
-                if (!response.IsSuccessStatusCode)
-                {
-                    TempData["ErrorMessage"] = "Error retrieving stock details for editing.";
-                    return RedirectToAction("EP500", "EP");
-                }
-
-                var stock = await response.Content.ReadAsAsync<Stock>();
+                var stock = await _httpClient.GetAsync<Stock>($"stock/{id}?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 if (stock == null) return RedirectToAction("EP404", "EP");
 
-                // Получаем категории для отображения
-                var categoriesResponse = await _httpClient.GetAsync($"stock/categories?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
-                if (!categoriesResponse.IsSuccessStatusCode)
-                {
-                    TempData["ErrorMessage"] = "Error retrieving categories.";
-                    return RedirectToAction("EP500", "EP");
-                }
-
-                var categories = await categoriesResponse.Content.ReadAsAsync<IEnumerable<Category>>();
-                ViewBag.CategoryID = new SelectList(categories, "CategoryID", "CategoryName", stock.CategoryID);
+                var categories = await _httpClient.GetAsync<List<Category>>($"category?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                
+                ViewBag.CategoryID = new SelectList(categories, "CategoryID", "CategoryName");
 
                 return View(stock);
             }
@@ -193,16 +149,8 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var response = await _httpClient.PutAsJsonAsync($"stock/{model.ProductID}", model);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        TempData["ErrorMessage"] = "Error updating stock item.";
-                        return View(model);
-                    }
+                    var success = await _httpClient.PutAsync($"stock/update/{model.ProductID}", model);
+                    if (success) return RedirectToAction("Index");
                 }
 
                 return View(model);
@@ -219,14 +167,7 @@ namespace CloudERP.Controllers
         {
             try
             {
-                var response = await _httpClient.GetAsync($"stock/productquality?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
-                if (!response.IsSuccessStatusCode)
-                {
-                    TempData["ErrorMessage"] = "Error retrieving product quality data.";
-                    return RedirectToAction("EP500", "EP");
-                }
-
-                var products = await response.Content.ReadAsAsync<IEnumerable<ProductQuality>>();
+                var products = await _httpClient.GetAsync<List<Stock>>($"stock/productquality?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 return View(products);
             }
             catch (Exception ex)

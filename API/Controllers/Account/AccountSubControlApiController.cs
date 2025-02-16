@@ -25,7 +25,7 @@ namespace API.Controllers
             _accountHeadRepository = accountHeadRepository ?? throw new ArgumentNullException(nameof(IAccountHeadRepository));
         }
 
-        [HttpGet, Route("all")]
+        [HttpGet, Route("?companyId={companyId:int}&branchId={branchId:int}")]
         public async Task<IHttpActionResult> GetAll([FromUri] int companyId, [FromUri] int branchId)
         {
             try
@@ -63,6 +63,22 @@ namespace API.Controllers
             {
                 await _accountSubControlRepository.AddAsync(model);
                 return Created($"api/account-sub-control/{model.AccountSubControlID}", model);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [HttpPut, Route("update/{id:int}")]
+        public async Task<IHttpActionResult> Update(int id, [FromBody] AccountSubControl model)
+        {
+            if (model == null || id != model.AccountSubControlID) return BadRequest("Invalid data.");
+
+            try
+            {
+                await _accountSubControlRepository.UpdateAsync(model);
+                return Ok();
             }
             catch (Exception ex)
             {

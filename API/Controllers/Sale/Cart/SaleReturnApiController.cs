@@ -8,7 +8,7 @@ using Domain.ServiceAccess;
 
 namespace API.Controllers
 {
-    [RoutePrefix("api/salereturn")]
+    [RoutePrefix("api/sale-return")]
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class SaleReturnApiController : ApiController
     {
@@ -27,7 +27,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [Route("findSale/{invoiceID}")]
+        [Route("find-sale/{invoiceID}")]
         public async Task<IHttpActionResult> FindSale(string invoiceID)
         {
             var invoiceDetails = _customerReturnInvoiceDetailRepository.GetInvoiceDetails(invoiceID);
@@ -37,7 +37,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        [Route("returnConfirm")]
+        [Route("return-confirm")]
         public async Task<IHttpActionResult> ReturnConfirm(SaleReturnConfirm returnConfirmDto)
         {
             var result = await _saleReturnService.ProcessReturnConfirmAsync(

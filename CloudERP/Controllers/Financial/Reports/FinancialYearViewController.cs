@@ -26,7 +26,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var financialYears = await _httpClient.GetAsync<List<FinancialYear>>("all");
+                var financialYears = await _httpClient.GetAsync<List<FinancialYear>>("financial-year");
                 if (financialYears == null) return RedirectToAction("EP404", "EP");
 
                 return View(financialYears);
