@@ -99,7 +99,7 @@ namespace CloudERP.Controllers
                 var response = await _httpClientHelper.PostAsync<dynamic>(
                     $"sale-payment-return/process-return-amount?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&userId={_sessionHelper.UserID}", paymentReturnDto);
 
-                Session["SaleMessage"] = response.Message;
+                if (response) Session["SaleMessage"] = "Payment return successfully processed.";
 
                 return RedirectToAction("PurchasePaymentReturn", new { id });
             }

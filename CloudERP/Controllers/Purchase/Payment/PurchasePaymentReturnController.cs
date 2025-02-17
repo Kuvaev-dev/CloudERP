@@ -98,10 +98,9 @@ namespace CloudERP.Controllers
                     PaymentAmount = paymentAmount
                 };
 
-                string message = await _httpClientHelper.PostAsync<string>(
-                    "purchase-payment-return/process-return-payment", returnAmountDto);
+                bool isSuccess = await _httpClientHelper.PostAsync("purchase-payment-return/process-return-payment", returnAmountDto);
 
-                Session["Message"] = message;
+                Session["Message"] = isSuccess ? "Payment processed successfully" : "Payment processing failed";
 
                 return RedirectToAction("AllPurchasesPendingPayment");
             }

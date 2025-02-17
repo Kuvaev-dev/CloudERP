@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
-using Domain.Facades;
 using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
 using Domain.ServiceAccess;

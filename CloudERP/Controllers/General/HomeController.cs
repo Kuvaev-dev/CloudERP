@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Services.Facades;
 using Utils.Helpers;
+using Domain.Models.FinancialModels;
 
 namespace CloudERP.Controllers
 {
@@ -38,8 +39,8 @@ namespace CloudERP.Controllers
 
             try
             {
-                var dashboardValues = await _httpClient.GetAsync<object>($"home/dashboard?branchId={_sessionHelper.BranchID}&companyId={_sessionHelper.CompanyID}");
-                var currencies = await _httpClient.GetAsync<List<object>>("home/currencies");
+                var dashboardValues = await _httpClient.GetAsync<DashboardModel>($"home/dashboard?branchId={_sessionHelper.BranchID}&companyId={_sessionHelper.CompanyID}");
+                var currencies = await _httpClient.GetAsync<Dictionary<string, decimal>>("home/currencies");
 
                 ViewBag.Currencies = currencies;
                 ViewBag.SelectedCurrency = Session["SelectedCurrency"] as string ?? "UAH";
@@ -129,7 +130,7 @@ namespace CloudERP.Controllers
                         Session["StartTour"] = true;
                     }
 
-                    var currencies = await _httpClient.GetAsync<List<object>>("home/currencies");
+                    var currencies = await _httpClient.GetAsync<List<Dictionary<string, decimal>>>("home/currencies");
                     ViewBag.Currencies = currencies;
 
                     return user.UserTypeID == MAIN_BRANCH_TYPE_ID ? RedirectToAction("AdminMenuGuide", "Guide") : RedirectToAction("Index", "Home");

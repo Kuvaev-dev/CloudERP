@@ -107,16 +107,15 @@ namespace CloudERP.Controllers
                 var response = await _httpClientHelper.PostAsync<dynamic>(
                     $"sale-payment/process-payment?branchId={_sessionHelper.BranchID}&companyId={_sessionHelper.CompanyID}&userId={_sessionHelper.UserID}", paymentDto);
 
-                if (response.Message == "RemainingAmountError")
+                if (!response)
                 {
-                    ViewBag.Message = response.Message;
+                    ViewBag.Message = "Unexpected error";
                     var history = await _httpClientHelper.GetAsync<dynamic>($"sale-payment/sale-payment-history?invoiceID={id.Value}");
                     ViewBag.PreviousRemainingAmount = previousRemainingAmount;
                     ViewBag.InvoiceID = id;
                     return View(history);
                 }
 
-                TempData["Message"] = response.Message;
                 return RedirectToAction("RemainingPaymentList");
             }
             catch (Exception ex)

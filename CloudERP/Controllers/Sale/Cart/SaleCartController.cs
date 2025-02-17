@@ -114,8 +114,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var responseMessage = await _httpClientHelper.PutAsync(
-                    $"sale-cart/delete-item/{id}");
+                var responseMessage = await _httpClientHelper.PutAsync($"sale-cart/delete-item/{id}", new { });
 
                 ViewBag.Message = responseMessage;
                 return RedirectToAction("NewSale");
@@ -138,7 +137,7 @@ namespace CloudERP.Controllers
             try
             {
                 var responseMessage = await _httpClientHelper.PostAsync(
-                    $"sale-cart/cancel-sale?branchId={_sessionHelper.BranchID}&companyId={_sessionHelper.CompanyID}&userId={_sessionHelper.UserID}");
+                    $"sale-cart/cancel-sale?branchId={_sessionHelper.BranchID}&companyId={_sessionHelper.CompanyID}&userId={_sessionHelper.UserID}", new { });
 
                 ViewBag.Message = responseMessage;
 

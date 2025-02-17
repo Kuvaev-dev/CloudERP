@@ -85,13 +85,13 @@ namespace CloudERP.Controllers
                     UserID = _sessionHelper.UserID
                 };
 
-                var result = await _httpClientHelper.PostAsync(
+                var result = await _httpClientHelper.PostAsync<ReturnConfirmResult>(
                     "sale-return/return-confirm", returnConfirmDto);
 
                 Session["SaleInvoiceNo"] = result.InvoiceNo;
                 Session["SaleReturnMessage"] = result.Message;
 
-                if (result)
+                if (result.IsSuccess)
                 {
                     return RedirectToAction("AllReturnSalesPendingAmount", "SalePaymentReturn");
                 }

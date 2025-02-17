@@ -91,6 +91,7 @@
     <Compile Include="Models\Purchase\PurchaseReturnAmount.cs" />
     <Compile Include="Models\Purchase\PurchaseReturnConfirm.cs" />
     <Compile Include="Models\Finance\FinancialModels\Salary.cs" />
+    <Compile Include="Models\Sale\ReturnConfirmResult.cs" />
     <Compile Include="Models\Sale\SaleConfirm.cs" />
     <Compile Include="Models\Sale\SaleItemDetail.cs" />
     <Compile Include="Models\Sale\SalePayment.cs" />

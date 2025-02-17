@@ -36,7 +36,7 @@ namespace Domain.Services
             _saleEntryService = saleEntryService ?? throw new ArgumentNullException(nameof(ISaleEntryService));
         }
 
-        public async Task<(bool IsSuccess, string Message, string InvoiceNo)> ProcessReturnConfirmAsync(SaleReturnConfirm returnConfirmDto, int branchId, int companyId, int userId)
+        public async Task<ReturnConfirmResult> ProcessReturnConfirmAsync(SaleReturnConfirm returnConfirmDto, int branchId, int companyId, int userId)
         {
             double totalAmount = 0;
             var saleDetails = await _customerInvoiceDetailRepository.GetListByIdAsync(returnConfirmDto.CustomerInvoiceID);
@@ -58,7 +58,7 @@ namespace Domain.Services
 
             if (totalAmount == 0)
             {
-                return (false, "One Product Return Qty Error", string.Empty);
+                return new ReturnConfirmResult { IsSuccess = false, Message = "One Product Return Qty Error", InvoiceNo = string.Empty };
             }
 
             string invoiceNo = "RIN" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
@@ -120,10 +120,10 @@ namespace Domain.Services
                     }
                 }
 
-                return (true, "Return Successfully", invoiceNo);
+                return new ReturnConfirmResult { IsSuccess = true, Message = "Return Successfully", InvoiceNo = invoiceNo };
             }
 
-            return (false, "Unexpected Issue", invoiceNo);
+            return new ReturnConfirmResult { IsSuccess = false, Message = "Unexpected Issue", InvoiceNo = invoiceNo };
         }
     }
 }
