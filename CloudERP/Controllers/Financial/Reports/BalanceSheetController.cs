@@ -13,9 +13,11 @@ namespace CloudERP.Controllers
         private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
 
-        public BalanceSheetController(SessionHelper sessionHelper)
+        public BalanceSheetController(
+            SessionHelper sessionHelper,
+            HttpClientHelper httpClient)
         {
-            _httpClient = new HttpClientHelper();
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
@@ -30,7 +32,7 @@ namespace CloudERP.Controllers
                 await PopulateViewBag();
 
                 var balanceSheet = await _httpClient.GetAsync<BalanceSheetModel>(
-                    $"balance-sheet/branch-balance-sheet?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                    $"balance-sheet/branch-balance-sheet/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
 
                 return View(balanceSheet);
             }
@@ -59,7 +61,7 @@ namespace CloudERP.Controllers
                 await PopulateViewBag();
 
                 var balanceSheet = await _httpClient.GetAsync<BalanceSheetModel>(
-                    $"balance-sheet/branch-balance-sheet?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&financialYearId={id}");
+                    $"balance-sheet/branch-balance-sheet/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}/{id}");
 
                 return View(balanceSheet);
             }
@@ -78,7 +80,7 @@ namespace CloudERP.Controllers
             try
             {
                 var balanceSheet = await _httpClient.GetAsync<BalanceSheetModel>(
-                    $"balance-sheet/sub-branch-balance-sheet?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                    $"balance-sheet/sub-branch-balance-sheet/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
                 return View(balanceSheet);
             }
             catch (Exception ex)
@@ -106,7 +108,7 @@ namespace CloudERP.Controllers
                 await PopulateViewBag();
 
                 var balanceSheet = await _httpClient.GetAsync<BalanceSheetModel>(
-                    $"balance-sheet/sub-branch-balance-sheet?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&financialYearId={id}");
+                    $"balance-sheet/sub-branch-balance-sheet/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}/{id}");
 
                 return View(balanceSheet);
             }

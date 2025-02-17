@@ -14,9 +14,11 @@ namespace CloudERP.Controllers
 
         private const int MAIN_BRANCH_TYPE_ID = 1;
 
-        public BranchController(SessionHelper sessionHelper)
+        public BranchController(
+            SessionHelper sessionHelper,
+            HttpClientHelper httpClient)
         {
-            _httpClient = new HttpClientHelper();
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
@@ -29,7 +31,7 @@ namespace CloudERP.Controllers
             try
             {
                 var branches = await _httpClient.GetAsync<List<Branch>>(
-                    $"branch/all?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&mainBranchTypeID={MAIN_BRANCH_TYPE_ID}");
+                    $"branch/all/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}/{MAIN_BRANCH_TYPE_ID}");
                 if (branches == null) return RedirectToAction("EP404", "EP");
 
                 return View(branches);
@@ -144,7 +146,7 @@ namespace CloudERP.Controllers
             try
             {
                 var branches = await _httpClient.GetAsync<List<Branch>>(
-                    $"branch/sub-branches?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                    $"branch/sub-branches/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
                 return View(branches);
             }
             catch (Exception ex)
@@ -156,8 +158,8 @@ namespace CloudERP.Controllers
 
         private async Task PopulateViewBags(int companyID, int? selectedParentBranchID = null, int? selectedBranchTypeID = null)
         {
-            var branches = await _httpClient.GetAsync<List<Branch>>($"branch?companyId={_sessionHelper.CompanyID}");
-            var branchTypes = await _httpClient.GetAsync<List<BranchType>>("branch-type/all");
+            var branches = await _httpClient.GetAsync<List<Branch>>($"branch/{_sessionHelper.CompanyID}");
+            var branchTypes = await _httpClient.GetAsync<List<BranchType>>("branch-type");
 
             ViewBag.BrchID = new SelectList(branches, "BranchID", "BranchName", selectedParentBranchID);
             ViewBag.BranchTypeID = new SelectList(branchTypes, "BranchTypeID", "BranchTypeName", selectedBranchTypeID);

@@ -1,4 +1,5 @@
-﻿@{
+﻿@model CloudERP.Models.LoginRequest
+@{
     Layout = null;
 }
 
@@ -43,8 +44,7 @@
 
                         <div class="form-group">
                             <div class="input-group with-focus">
-                                <input class="form-control border-right-0" id="email" name="email" type="email"
-                                       placeholder="Enter email" autocomplete="off" required>
+                                @Html.TextBoxFor(model => model.Email, new { @class = "form-control border-right-0", type = "email", placeholder = "Email" })
                                 <div class="input-group-append">
                                     <span class="input-group-text fa fa-envelope text-muted bg-transparent border-left-0"></span>
                                 </div>
@@ -52,19 +52,16 @@
                         </div>
                         <div class="form-group">
                             <div class="input-group with-focus">
-                                <input class="form-control border-right-0" id="password" name="password" type="password" 
-                                       placeholder="Password" required>
+                                @Html.TextBoxFor(model => model.Password, new { @class = "form-control border-right-0", type = "password", placeholder = "Password" })
                                 <div class="input-group-append">
                                     <span class="input-group-text fa fa-lock text-muted bg-transparent border-left-0"></span>
                                 </div>
                             </div>
                         </div>
                         <div class="clearfix">
-                            <div class="checkbox c-checkbox float-left mt-0">
-                                <label>
-                                    <input type="checkbox" name="rememberMe" @(Request.Cookies["RememberMe"] != null ? "checked" : "")>
-                                    <span class="fa fa-check"></span>Remember Me
-                                </label>
+                            <div class="custom-control custom-checkbox float-left mt-0">
+                                @Html.CheckBoxFor(model => model.RememberMe, new { @class = "custom-control-input", id = "rememberMe" })
+                                <label class="custom-control-label" for="rememberMe">Remember Me</label>
                             </div>
                             <div class="float-right">
                                 @Html.ActionLink("Forgot your Password?", "ForgotPassword", new { @class = "text-muted" })

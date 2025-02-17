@@ -13,9 +13,11 @@ namespace CloudERP.Controllers
         private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
 
-        public IncomeStatementController(SessionHelper sessionHelper)
+        public IncomeStatementController(
+            SessionHelper sessionHelper,
+            HttpClientHelper httpClient)
         {
-            _httpClient = new HttpClientHelper();
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
@@ -30,7 +32,7 @@ namespace CloudERP.Controllers
                 await PopulateViewBag();
 
                 return View(_httpClient.GetAsync<IncomeStatementModel>(
-                    $"income-statement/branch-income-statement?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}"));
+                    $"income-statement/branch-income-statement/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}"));
             }
             catch (Exception ex)
             {
@@ -56,7 +58,7 @@ namespace CloudERP.Controllers
             {
                 await PopulateViewBag();
 
-                return View(await _httpClient.GetAsync<IncomeStatementModel>($"income-statement/branch-income-statement?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}"));
+                return View(await _httpClient.GetAsync<IncomeStatementModel>($"income-statement/branch-income-statement/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}"));
             }
             catch (Exception ex)
             {
@@ -76,7 +78,7 @@ namespace CloudERP.Controllers
                 await PopulateViewBag();
 
                 return View(_httpClient.GetAsync<IncomeStatementModel>(
-                    $"income-statement/sub-branch-income-statement?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}"));
+                    $"income-statement/sub-branch-income-statement/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}"));
             }
             catch (Exception ex)
             {
@@ -96,7 +98,7 @@ namespace CloudERP.Controllers
             {
                 await PopulateViewBag();
 
-                return View(await _httpClient.GetAsync<IncomeStatementModel>($"income-statement/sub-branch-income-statement?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&financialYearId={id}"));
+                return View(await _httpClient.GetAsync<IncomeStatementModel>($"income-statement/sub-branch-income-statement/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}/{id}"));
             }
             catch (Exception ex)
             {
@@ -108,7 +110,7 @@ namespace CloudERP.Controllers
         private async Task PopulateViewBag()
         {
             ViewBag.FinancialYears = new SelectList(await _httpClient.GetAsync<List<FinancialYear>>(
-                    "financial-year/all"), "FinancialYearID", "FinancialYearName");
+                    "financial-year"), "FinancialYearID", "FinancialYearName");
         }
     }
 }

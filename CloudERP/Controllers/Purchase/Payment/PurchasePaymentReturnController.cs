@@ -14,10 +14,12 @@ namespace CloudERP.Controllers
         private readonly SessionHelper _sessionHelper;
         private readonly HttpClientHelper _httpClientHelper;
 
-        public PurchasePaymentReturnController(SessionHelper sessionHelper, HttpClientHelper httpClientHelper)
+        public PurchasePaymentReturnController(
+            SessionHelper sessionHelper, 
+            HttpClientHelper httpClientHelper)
         {
-            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
-            _httpClientHelper = httpClientHelper ?? throw new ArgumentNullException(nameof(httpClientHelper));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _httpClientHelper = httpClientHelper ?? throw new ArgumentNullException(nameof(HttpClientHelper));
         }
 
         // GET: PurchasePaymentReturn/ReturnPurchasePendingAmount
@@ -29,7 +31,7 @@ namespace CloudERP.Controllers
             try
             {
                 var list = await _httpClientHelper.GetAsync<List<PurchasePaymentModel>>(
-                    $"purchase-payment-return/return-purchase-pending-amount?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                    $"purchase-payment-return/return-purchase-pending-amount/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
                 return View(list);
             }
             catch (Exception ex)
@@ -47,7 +49,7 @@ namespace CloudERP.Controllers
             try
             {
                 var list = await _httpClientHelper.GetAsync<List<PurchasePaymentModel>>(
-                    $"purchase-payment-return/return-purchase-pending-amount?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                    $"purchase-payment-return/return-purchase-pending-amount/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
                 return View(list);
             }
             catch (Exception ex)

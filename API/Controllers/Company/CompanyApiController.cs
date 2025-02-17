@@ -119,8 +119,8 @@ namespace API.Controllers
                     model.Logo = _fileService.SetDefaultPhotoPath(DEFAULT_COMPANY_LOGO_PATH);
                 }
 
-                await _companyRepository.AddAsync(model);
-                return Created($"api/company/{model.CompanyID}", model);
+                await _companyRepository.UpdateAsync(model);
+                return Ok();
             }
             catch (Exception ex)
             {

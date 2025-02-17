@@ -9,14 +9,16 @@ namespace CloudERP.Controllers
     public class SalePaymentController : Controller
     {
         private readonly SessionHelper _sessionHelper;
-        private readonly HttpClientHelper _httpClientHelper;
+        private readonly HttpClientHelper _httpClient;
 
         private const string DEFAULT_IMAGE_PATH = "~/Content/StuffLogo/customer.png";
 
-        public SalePaymentController(SessionHelper sessionHelper, HttpClientHelper httpClientHelper)
+        public SalePaymentController(
+            SessionHelper sessionHelper, 
+            HttpClientHelper httpClient)
         {
-            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
-            _httpClientHelper = httpClientHelper ?? throw new ArgumentNullException(nameof(httpClientHelper));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
         }
 
         // GET: PurchasePayment
@@ -27,8 +29,8 @@ namespace CloudERP.Controllers
 
             try
             {
-                var response = await _httpClientHelper.GetAsync<dynamic>(
-                    $"sale-payment/remaining-payment-list?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                var response = await _httpClient.GetAsync<dynamic>(
+                    $"sale-payment/remaining-payment-list/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
 
                 return View(response.ToList());
             }
@@ -46,8 +48,8 @@ namespace CloudERP.Controllers
 
             try
             {
-                var response = await _httpClientHelper.GetAsync<dynamic>($"sale-payment/sale-payment-history?invoiceID={id.Value}");
-                var returnDetails = await _httpClientHelper.GetAsync<dynamic>($"sale-payment/get-return-sale-details?invoiceID={id.Value}");
+                var response = await _httpClient.GetAsync<dynamic>($"sale-payment/sale-payment-history/{id.Value}");
+                var returnDetails = await _httpClient.GetAsync<dynamic>($"sale-payment/get-return-sale-details/{id.Value}");
 
                 if (returnDetails?.Count() > 0)
                 {
@@ -73,7 +75,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var response = await _httpClientHelper.GetAsync<dynamic>($"sale-payment/sale-payment-history?invoiceID={id.Value}");
+                var response = await _httpClient.GetAsync<dynamic>($"sale-payment/sale-payment-history/{id.Value}");
                 var remainingAmount = response.RemainingAmount;
 
                 ViewBag.PreviousRemainingAmount = remainingAmount;
@@ -104,13 +106,13 @@ namespace CloudERP.Controllers
                     PaidAmount = paidAmount
                 };
 
-                var response = await _httpClientHelper.PostAsync<dynamic>(
-                    $"sale-payment/process-payment?branchId={_sessionHelper.BranchID}&companyId={_sessionHelper.CompanyID}&userId={_sessionHelper.UserID}", paymentDto);
+                var response = await _httpClient.PostAsync<dynamic>(
+                    $"sale-payment/process-payment/{_sessionHelper.BranchID}/{_sessionHelper.CompanyID}/{_sessionHelper.UserID}", paymentDto);
 
                 if (!response)
                 {
                     ViewBag.Message = "Unexpected error";
-                    var history = await _httpClientHelper.GetAsync<dynamic>($"sale-payment/sale-payment-history?invoiceID={id.Value}");
+                    var history = await _httpClient.GetAsync<dynamic>($"sale-payment/sale-payment-history/{id.Value}");
                     ViewBag.PreviousRemainingAmount = previousRemainingAmount;
                     ViewBag.InvoiceID = id;
                     return View(history);
@@ -121,7 +123,7 @@ namespace CloudERP.Controllers
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
-                var history = await _httpClientHelper.GetAsync<dynamic>($"sale-payment/sale-payment-history?invoiceID={id.Value}");
+                var history = await _httpClient.GetAsync<dynamic>($"sale-payment/sale-payment-history/{id.Value}");
                 ViewBag.PreviousRemainingAmount = previousRemainingAmount;
                 ViewBag.InvoiceID = id;
                 return View(history);
@@ -135,8 +137,8 @@ namespace CloudERP.Controllers
 
             try
             {
-                var response = await _httpClientHelper.GetAsync<dynamic>(
-                    $"sale-payment/custom-sales-history?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&fromDate={fromDate.ToString("yyyy-MM-dd")}&toDate={toDate.ToString("yyyy-MM-dd")}");
+                var response = await _httpClient.GetAsync<dynamic>(
+                    $"sale-payment/custom-sales-history/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}/{fromDate.ToString("yyyy-MM-dd")}/{toDate.ToString("yyyy-MM-dd")}");
 
                 return View(response.ToList());
             }

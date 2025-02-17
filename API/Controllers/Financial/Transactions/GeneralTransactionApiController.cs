@@ -23,11 +23,10 @@ namespace API.Controllers
             _generalTransactionRepository = generalTransactionRepository ?? throw new ArgumentNullException(nameof(generalTransactionRepository));
         }
 
-        [HttpPost, Route("save-transaction?companyId={companyId:int}&branchId={branchId:int}&userId={userId:int}")]
-        public async Task<IHttpActionResult> SaveTransaction([FromBody] GeneralTransactionMV model, [FromUri] int companyId, [FromUri] int branchId, [FromUri] int userId)
+        [HttpPost, Route("save-transaction/{companyId:int}/{branchId:int}/{userId:int}")]
+        public async Task<IHttpActionResult> SaveTransaction([FromBody] GeneralTransactionMV model, int companyId, int branchId, int userId)
         {
-            if (model == null)
-                return BadRequest("Invalid data.");
+            if (model == null) return BadRequest("Invalid data.");
 
             try
             {
@@ -49,8 +48,8 @@ namespace API.Controllers
         }
 
         // GET: api/general-transaction/journal
-        [HttpGet, Route("journal?companyId={companyId:int}&branchId={branchId:int}&fromDate={fromDate:DateTime}&toDate={toDate:DateTime}")]
-        public async Task<IHttpActionResult> GetJournal([FromUri] int companyId, [FromUri] int branchId, [FromUri] DateTime fromDate, [FromUri] DateTime toDate)
+        [HttpGet, Route("journal/{companyId:int}/{branchId:int}/{fromDate:DateTime}/{toDate:DateTime}")]
+        public async Task<IHttpActionResult> GetJournal(int companyId, int branchId, DateTime fromDate, DateTime toDate)
         {
             try
             {
@@ -64,8 +63,8 @@ namespace API.Controllers
         }
 
         // GET: api/general-transaction/sub-journal/{id}
-        [HttpGet, Route("sub-journal/{id:int}")]
-        public async Task<IHttpActionResult> GetSubJournal([FromUri] int companyId, [FromUri] int id, [FromUri] DateTime fromDate, [FromUri] DateTime toDate)
+        [HttpGet, Route("sub-journal/{id:int}/{companyId:int}/{branchId:int}/{fromDate:DateTime}/{toDate:DateTime}")]
+        public async Task<IHttpActionResult> GetSubJournal(int companyId, int id, DateTime fromDate, DateTime toDate)
         {
             try
             {
@@ -79,8 +78,8 @@ namespace API.Controllers
         }
 
         // GET: api/general-transaction/accounts
-        [HttpGet, Route("accounts?companyId={companyId:int}&branchId={branchId:int}")]
-        public async Task<IHttpActionResult> GetAccounts([FromUri] int companyId, [FromUri] int branchId)
+        [HttpGet, Route("accounts/{companyId:int}/{branchId:int}")]
+        public async Task<IHttpActionResult> GetAccounts(int companyId, int branchId)
         {
             try
             {

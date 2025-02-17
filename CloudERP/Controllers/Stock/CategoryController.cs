@@ -12,10 +12,12 @@ namespace CloudERP.Controllers
         private readonly SessionHelper _sessionHelper;
         private readonly HttpClientHelper _httpClientHelper;
 
-        public CategoryController(SessionHelper sessionHelper, HttpClientHelper httpClientHelper)
+        public CategoryController(
+            SessionHelper sessionHelper, 
+            HttpClientHelper httpClientHelper)
         {
-            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
-            _httpClientHelper = httpClientHelper ?? throw new ArgumentNullException(nameof(httpClientHelper));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _httpClientHelper = httpClientHelper ?? throw new ArgumentNullException(nameof(HttpClientHelper));
         }
 
         public async Task<ActionResult> Index()
@@ -26,7 +28,7 @@ namespace CloudERP.Controllers
             try
             {
                 var response = await _httpClientHelper.GetAsync<List<Category>>(
-                    $"category?companyID={_sessionHelper.CompanyID}&branchID={_sessionHelper.BranchID}");
+                    $"category/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
                 return View(response);
             }
             catch (Exception ex)
@@ -43,8 +45,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var response = await _httpClientHelper.GetAsync<Category>(
-                    $"category/{id}");
+                var response = await _httpClientHelper.GetAsync<Category>($"category/{id}");
                 return View(response);
             }
             catch (Exception ex)
@@ -77,13 +78,8 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var response = await _httpClientHelper.PostAsync<Category>(
-                        "category/create", model);
-
-                    if (response != null)
-                    {
-                        return RedirectToAction("Index");
-                    }
+                    var response = await _httpClientHelper.PostAsync("category/create", model);
+                    if (response) return RedirectToAction("Index");
                 }
 
                 return View(model);
@@ -102,8 +98,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var response = await _httpClientHelper.GetAsync<Category>(
-                    $"category/{id}");
+                var response = await _httpClientHelper.GetAsync<Category>($"category/{id}");
                 return View(response);
             }
             catch (Exception ex)
@@ -129,13 +124,8 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var response = await _httpClientHelper.PutAsync<Category>(
-                        "category/edit", model);
-
-                    if (response != null)
-                    {
-                        return RedirectToAction("Index");
-                    }
+                    var response = await _httpClientHelper.PutAsync("category/edit", model);
+                    if (response) return RedirectToAction("Index");
                 }
 
                 return View(model);

@@ -22,8 +22,8 @@ namespace API.Controllers
             _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(employeeRepository));
         }
 
-        [HttpGet, Route("?companyId={companyId:int}&branchId={branchId:int}&userId={userId:int}")]
-        public async Task<IHttpActionResult> GetAll([FromUri] int companyId, [FromUri] int branchId, [FromUri] int userId)
+        [HttpGet, Route("{companyId:int}/{branchId:int}/{userId:int}")]
+        public async Task<IHttpActionResult> GetAll(int companyId, int branchId, int userId)
         {
             try
             {
@@ -36,8 +36,8 @@ namespace API.Controllers
             }
         }
 
-        [HttpGet, Route("employees?companyId={companyId:int}&branchId={branchId:int}")]
-        public async Task<IHttpActionResult> GetEmployeesForTaskAssignment([FromUri] int companyId, [FromUri] int branchId)
+        [HttpGet, Route("employees/{companyId:int}/{branchId:int}")]
+        public async Task<IHttpActionResult> GetEmployeesForTaskAssignment(int companyId, int branchId)
         {
             try
             {

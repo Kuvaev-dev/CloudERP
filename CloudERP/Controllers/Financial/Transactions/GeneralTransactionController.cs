@@ -11,12 +11,14 @@ namespace CloudERP.Controllers
     public class GeneralTransactionController : Controller
     {
         private readonly SessionHelper _sessionHelper;
-        private readonly HttpClientHelper _httpClientHelper;
+        private readonly HttpClientHelper _httpClient;
 
-        public GeneralTransactionController(SessionHelper sessionHelper)
+        public GeneralTransactionController(
+            SessionHelper sessionHelper,
+            HttpClientHelper httpClient)
         {
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
-            _httpClientHelper = new HttpClientHelper();
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
         }
 
         // GET: GeneralTransaction/GeneralTransaction
@@ -52,8 +54,8 @@ namespace CloudERP.Controllers
 
             try
             {
-                var endpoint = $"save-transaction?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&userId={_sessionHelper.UserID}";
-                var result = await _httpClientHelper.PostAsync(endpoint, transaction);
+                var endpoint = $"save-transaction/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}/{_sessionHelper.UserID}";
+                var result = await _httpClient.PostAsync(endpoint, transaction);
 
                 if (result)
                 {
@@ -80,8 +82,8 @@ namespace CloudERP.Controllers
 
             try
             {
-                var endpoint = $"journal?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&fromDate={DateTime.Now:yyyy-MM-dd}&toDate={DateTime.Now:yyyy-MM-dd}";
-                var journalEntries = await _httpClientHelper.GetAsync<JournalModel>(endpoint);
+                var endpoint = $"journal/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}/{DateTime.Now:yyyy-MM-dd}/{DateTime.Now:yyyy-MM-dd}";
+                var journalEntries = await _httpClient.GetAsync<JournalModel>(endpoint);
                 return View(journalEntries);
             }
             catch (Exception ex)
@@ -101,8 +103,8 @@ namespace CloudERP.Controllers
 
             try
             {
-                var endpoint = $"journal?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&fromDate={FromDate:yyyy-MM-dd}&toDate={ToDate:yyyy-MM-dd}";
-                var journalEntries = await _httpClientHelper.GetAsync<JournalModel>(endpoint);
+                var endpoint = $"journal/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}/{FromDate:yyyy-MM-dd}/{ToDate:yyyy-MM-dd}";
+                var journalEntries = await _httpClient.GetAsync<JournalModel>(endpoint);
                 return View(journalEntries);
             }
             catch (Exception ex)
@@ -120,8 +122,8 @@ namespace CloudERP.Controllers
 
             try
             {
-                var endpoint = $"sub-journal/{id ?? _sessionHelper.BranchID}?companyId={_sessionHelper.CompanyID}&fromDate={DateTime.Now:yyyy-MM-dd}&toDate={DateTime.Now:yyyy-MM-dd}";
-                var subJournalEntries = await _httpClientHelper.GetAsync<JournalModel>(endpoint);
+                var endpoint = $"sub-journal/{id ?? _sessionHelper.BranchID}/{_sessionHelper.CompanyID}/{DateTime.Now:yyyy-MM-dd}/{DateTime.Now:yyyy-MM-dd}";
+                var subJournalEntries = await _httpClient.GetAsync<JournalModel>(endpoint);
                 return View(subJournalEntries);
             }
             catch (Exception ex)
@@ -141,8 +143,8 @@ namespace CloudERP.Controllers
 
             try
             {
-                var endpoint = $"sub-journal/{id ?? _sessionHelper.BranchID}?companyId={_sessionHelper.CompanyID}&fromDate={FromDate:yyyy-MM-dd}&toDate={ToDate:yyyy-MM-dd}";
-                var subJournalEntries = await _httpClientHelper.GetAsync<object>(endpoint);
+                var endpoint = $"sub-journal/{id ?? _sessionHelper.BranchID}/{_sessionHelper.CompanyID}/{FromDate:yyyy-MM-dd}/{ToDate:yyyy-MM-dd}";
+                var subJournalEntries = await _httpClient.GetAsync<object>(endpoint);
                 return View(subJournalEntries);
             }
             catch (Exception ex)
@@ -154,8 +156,8 @@ namespace CloudERP.Controllers
 
         private async Task PopulateViewBag()
         {
-            var endpoint = $"accounts?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}";
-            var accounts = await _httpClientHelper.GetAsync<List<AllAccountModel>>(endpoint);
+            var endpoint = $"accounts/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}";
+            var accounts = await _httpClient.GetAsync<List<AllAccountModel>>(endpoint);
 
             ViewBag.CreditAccountControlID = new SelectList(accounts, "AccountSubControlID", "AccountSubControl");
             ViewBag.DebitAccountControlID = new SelectList(accounts, "AccountSubControlID", "AccountSubControl");

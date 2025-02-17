@@ -25,7 +25,7 @@ namespace API.Controllers
         }
 
         [HttpGet, Route("employees/{companyId:int}")]
-        public async Task<IHttpActionResult> GetAll([FromUri] int companyId)
+        public async Task<IHttpActionResult> GetAll(int companyId)
         {
             try
             {
@@ -150,7 +150,7 @@ namespace API.Controllers
             }
         }
 
-        [HttpGet, Route("salary/history")]
+        [HttpGet, Route("salary/history/{companyId:int}/{branchId:int}")]
         public async Task<IHttpActionResult> GetSalaryHistory(int branchId, int companyId)
         {
             try
@@ -164,7 +164,7 @@ namespace API.Controllers
             }
         }
 
-        [HttpGet, Route("salary/invoice/{id}")]
+        [HttpGet, Route("salary/invoice/{id:int}")]
         public async Task<IHttpActionResult> GetSalaryInvoice(int id)
         {
             try

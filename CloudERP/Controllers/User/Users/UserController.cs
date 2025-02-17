@@ -17,9 +17,10 @@ namespace CloudERP.Controllers
 
         public UserController(
             SessionHelper sessionHelper,
-            PasswordHelper passwordHelper)
+            PasswordHelper passwordHelper,
+            HttpClientHelper httpClient)
         {
-            _httpClient = new HttpClientHelper();
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
             _passwordHelper = passwordHelper ?? throw new ArgumentNullException(nameof(PasswordHelper));
         }

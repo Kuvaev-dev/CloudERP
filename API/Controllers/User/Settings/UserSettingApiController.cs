@@ -93,7 +93,7 @@ namespace API.Controllers
 
         // GET: User details
         [HttpGet]
-        [Route("user/{userId}")]
+        [Route("user/{userId:int}")]
         public async Task<IHttpActionResult> GetUser(int userId)
         {
             try

@@ -12,10 +12,12 @@ namespace CloudERP.Controllers
         private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
 
-        public AccountHeadController(SessionHelper sessionHelper)
+        public AccountHeadController(
+            SessionHelper sessionHelper, 
+            HttpClientHelper httpClient)
         {
-            _httpClient = new HttpClientHelper();
-            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
         public async Task<ActionResult> Index()

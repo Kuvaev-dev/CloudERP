@@ -13,10 +13,12 @@ namespace CloudERP.Controllers
         private readonly HttpClientHelper _httpClientHelper;
         private readonly SessionHelper _sessionHelper;
 
-        public EmployeeStatisticsController(HttpClientHelper httpClientHelper, SessionHelper sessionHelper)
+        public EmployeeStatisticsController(
+            HttpClientHelper httpClientHelper, 
+            SessionHelper sessionHelper)
         {
-            _httpClientHelper = httpClientHelper ?? throw new ArgumentNullException(nameof(httpClientHelper));
-            _sessionHelper = sessionHelper;
+            _httpClientHelper = httpClientHelper ?? throw new ArgumentNullException(nameof(HttpClientHelper));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
         // GET: EmployeeStatistics
@@ -67,7 +69,7 @@ namespace CloudERP.Controllers
             DateTime end = endDate ?? DateTime.Now;
 
             var statistics = await _httpClientHelper.GetAsync<List<EmployeeStatistics>>(
-                $"employee-statistics/statistics?startDate={start:yyyy-MM-dd}&endDate={end:yyyy-MM-dd}&companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}"
+                $"employee-statistics/statistics/{start:yyyy-MM-dd}/{end:yyyy-MM-dd}/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}"
             );
 
             var chartData = new

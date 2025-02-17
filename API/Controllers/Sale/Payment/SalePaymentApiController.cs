@@ -27,40 +27,40 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [Route("remaining-payment-list?companyID={companyID:int}&branchId={branchId:int}")]
-        public async Task<IHttpActionResult> GetRemainingPaymentList([FromUri] int companyID, [FromUri] int branchID)
+        [Route("remaining-payment-list/{companyID:int}/{branchId:int}")]
+        public async Task<IHttpActionResult> GetRemainingPaymentList(int companyID, int branchID)
         {
             var list = await _saleRepository.RemainingPaymentList(companyID, branchID);
             return Ok(list);
         }
 
         [HttpGet]
-        [Route("sale-payment-history?invoiceID={invoiceID:int}")]
-        public async Task<IHttpActionResult> GetSalePaymentHistory([FromUri] int invoiceID)
+        [Route("sale-payment-history/{invoiceID:int}")]
+        public async Task<IHttpActionResult> GetSalePaymentHistory(int invoiceID)
         {
             var history = await _salePaymentService.GetSalePaymentHistoryAsync(invoiceID);
             return Ok(history);
         }
 
         [HttpGet]
-        [Route("get-return-sale-details?invoiceID={invoiceID:int}")]
-        public async Task<IHttpActionResult> GetReturnSaleDetails([FromUri] int invoiceID)
+        [Route("get-return-sale-details/{invoiceID:int}")]
+        public async Task<IHttpActionResult> GetReturnSaleDetails(int invoiceID)
         {
             var returnDetails = await _customerReturnInvoiceRepository.GetListByIdAsync(invoiceID);
             return Ok(returnDetails);
         }
 
         [HttpPost]
-        [Route("process-payment?branchId={branchId:int}&companyId={companyId:int}&userId={userId:int}")]
-        public async Task<IHttpActionResult> ProcessPayment(SalePayment paymentDto, [FromUri] int branchId, [FromUri] int companyId, [FromUri] int userId)
+        [Route("process-payment/{branchId:int}/{companyId:int}/{userId:int}")]
+        public async Task<IHttpActionResult> ProcessPayment(SalePayment paymentDto, int branchId, int companyId, int userId)
         {
             var message = await _salePaymentService.ProcessPaymentAsync(paymentDto, branchId, companyId, userId);
             return Ok(new { Message = message });
         }
 
         [HttpGet]
-        [Route("custom-sales-history?companyID={companyID:int}&branchID={branchID:int}&fromDate={fromDate:DateTime}&toDate={toDate:DateTime}")]
-        public async Task<IHttpActionResult> GetCustomSalesHistory([FromUri] int companyID, [FromUri] int branchID, [FromUri] DateTime fromDate, [FromUri] DateTime toDate)
+        [Route("custom-sales-history/{companyID:int}/{branchID:int}/{fromDate:DateTime}/{toDate:DateTime}")]
+        public async Task<IHttpActionResult> GetCustomSalesHistory(int companyID, int branchID, DateTime fromDate, DateTime toDate)
         {
             var list = await _saleRepository.CustomSalesList(companyID, branchID, fromDate, toDate);
             return Ok(list);

@@ -14,10 +14,12 @@ namespace CloudERP.Controllers
         private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
 
-        public PurchaseReturnController(SessionHelper sessionHelper)
+        public PurchaseReturnController(
+            SessionHelper sessionHelper,
+            HttpClientHelper httpClient)
         {
-            _sessionHelper = sessionHelper;
-            _httpClient = new HttpClientHelper();
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
         public ActionResult FindPurchase()
@@ -48,7 +50,7 @@ namespace CloudERP.Controllers
                 Session["InvoiceNo"] = string.Empty;
                 Session["ReturnMessage"] = string.Empty;
 
-                var response = await _httpClient.GetAsync<dynamic>($"invoice?invoiceID={invoiceID}");
+                var response = await _httpClient.GetAsync<dynamic>($"invoice/{invoiceID}");
                 if (response == null)
                 {
                     TempData["ErrorMessage"] = "Invoice not found.";

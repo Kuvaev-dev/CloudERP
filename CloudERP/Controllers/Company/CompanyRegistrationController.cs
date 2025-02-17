@@ -11,8 +11,11 @@ namespace CloudERP.Controllers
         private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
 
-        public CompanyRegistrationController(SessionHelper sessionHelper)
+        public CompanyRegistrationController(
+            SessionHelper sessionHelper,
+            HttpClientHelper httpClient)
         {
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 

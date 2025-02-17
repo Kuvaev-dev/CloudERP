@@ -12,10 +12,12 @@ namespace CloudERP.Controllers
         private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
 
-        public StockController(HttpClientHelper httpClient, SessionHelper sessionHelper)
+        public StockController(
+            HttpClientHelper httpClient, 
+            SessionHelper sessionHelper)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
-            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
         // GET: Stock
@@ -26,8 +28,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var stocks = await _httpClient.GetAsync<List<Stock>>($"stock?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
-                
+                var stocks = await _httpClient.GetAsync<List<Stock>>($"stock/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
                 return View(stocks);
             }
             catch (Exception ex)
@@ -47,7 +48,7 @@ namespace CloudERP.Controllers
             {
                 if (id == null) return RedirectToAction("EP404", "EP");
 
-                var stock = await _httpClient.GetAsync<Stock>($"stock/{id}?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                var stock = await _httpClient.GetAsync<Stock>($"stock/{id}/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
                 if (stock == null) return RedirectToAction("EP404", "EP");
 
                 return View(stock);
@@ -67,7 +68,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var categories = await _httpClient.GetAsync<List<Category>>($"category?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                var categories = await _httpClient.GetAsync<List<Category>>($"category/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
                 
                 ViewBag.CategoryID = new SelectList(categories, "CategoryID", "CategoryName");
 
@@ -119,10 +120,10 @@ namespace CloudERP.Controllers
             {
                 if (id == null) return RedirectToAction("EP404", "EP");
 
-                var stock = await _httpClient.GetAsync<Stock>($"stock/{id}?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                var stock = await _httpClient.GetAsync<Stock>($"stock/{id}/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
                 if (stock == null) return RedirectToAction("EP404", "EP");
 
-                var categories = await _httpClient.GetAsync<List<Category>>($"category?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                var categories = await _httpClient.GetAsync<List<Category>>($"category/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
                 
                 ViewBag.CategoryID = new SelectList(categories, "CategoryID", "CategoryName");
 
@@ -167,7 +168,7 @@ namespace CloudERP.Controllers
         {
             try
             {
-                var products = await _httpClient.GetAsync<List<Stock>>($"stock/productquality?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                var products = await _httpClient.GetAsync<List<Stock>>($"stock/productquality/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
                 return View(products);
             }
             catch (Exception ex)

@@ -25,8 +25,8 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [Route("return-purchase-pending-amount?companyId={companyId:int}&branchId={branchId:int}")]
-        public async Task<IHttpActionResult> GetReturnPurchasePendingAmount([FromUri] int companyId, [FromUri] int branchId)
+        [Route("return-purchase-pending-amount/{companyId:int}/{branchId:int}")]
+        public async Task<IHttpActionResult> GetReturnPurchasePendingAmount(int companyId, int branchId)
         {
             var purchases = await _purchaseRepository.GetReturnPurchasesPaymentPending(companyId, branchId);
             return Ok(purchases);
@@ -41,8 +41,8 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        [Route("process-return-payment?companyId={companyId:int}&branchId={branchId:int}&userId={userId:int}")]
-        public async Task<IHttpActionResult> ProcessReturnPayment(PurchaseReturnAmount returnAmountDto, [FromUri] int companyId, [FromUri] int branchId, [FromUri] int userId)
+        [Route("process-return-payment/{companyId:int}/{branchId:int}/{userId:int}")]
+        public async Task<IHttpActionResult> ProcessReturnPayment(PurchaseReturnAmount returnAmountDto, int companyId, int branchId, int userId)
         {
             string message = await _purchasePaymentReturnService.ProcessReturnPaymentAsync(returnAmountDto, branchId, companyId, userId);
             return Ok(message);

@@ -43,8 +43,8 @@ namespace API.Controllers
 
         // GET: api/user/branch/{companyId}/{branchTypeId}/{branchId}
         [HttpGet]
-        [Route("branch?companyId={companyId:int}&branchTypeId={branchTypeId:int}&branchId={branchId}")]
-        public async Task<IHttpActionResult> GetByBranch([FromUri] int companyId, [FromUri] int branchTypeId, [FromUri] int branchId)
+        [Route("branch/{companyId:int}/{branchTypeId:int}/{branchId}")]
+        public async Task<IHttpActionResult> GetByBranch(int companyId, int branchTypeId, int branchId)
         {
             try
             {
@@ -67,8 +67,7 @@ namespace API.Controllers
             try
             {
                 var user = await _userRepository.GetByIdAsync(id);
-                if (user == null)
-                    return NotFound();
+                if (user == null) return NotFound();
 
                 return Ok(user);
             }

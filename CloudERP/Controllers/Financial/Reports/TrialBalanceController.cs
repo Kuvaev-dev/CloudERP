@@ -13,9 +13,11 @@ namespace CloudERP.Controllers
         private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
 
-        public TrialBalanceController(SessionHelper sessionHelper)
+        public TrialBalanceController(
+            SessionHelper sessionHelper,
+            HttpClientHelper httpClient)
         {
-            _httpClient = new HttpClientHelper();
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
@@ -29,7 +31,7 @@ namespace CloudERP.Controllers
                 await PopulateViewBag();
 
                 var trialBalance = await _httpClient.GetAsync<List<TrialBalanceModel>>(
-                    $"trial-balance/branch-trial-balance?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                    $"trial-balance/branch-trial-balance/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
 
                 return View(trialBalance);
             }
@@ -52,7 +54,7 @@ namespace CloudERP.Controllers
                 await PopulateViewBag(id);
 
                 var trialBalance = await _httpClient.GetAsync<BalanceSheetModel>(
-                    $"trial-balance/branch-trial-balance?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&financialYearId={id}");
+                    $"trial-balance/branch-trial-balance/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}/{id}");
 
                 return View(trialBalance);
             }

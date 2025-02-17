@@ -9,12 +9,14 @@ namespace CloudERP.Controllers
     public class ForecastingController : Controller
     {
         private readonly SessionHelper _sessionHelper;
-        private readonly HttpClientHelper _httpClientHelper;
+        private readonly HttpClientHelper _httpClient;
 
-        public ForecastingController(SessionHelper sessionHelper)
+        public ForecastingController(
+            SessionHelper sessionHelper,
+            HttpClientHelper httpClient)
         {
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
-            _httpClientHelper = new HttpClientHelper();
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
         }
 
         public ActionResult Index()
@@ -41,7 +43,7 @@ namespace CloudERP.Controllers
                 inputModel.CompanyID = _sessionHelper.CompanyID;
                 inputModel.BranchID = _sessionHelper.BranchID;
 
-                var isSuccess = await _httpClientHelper.PostAsync("forecasting/generate", inputModel);
+                var isSuccess = await _httpClient.PostAsync("forecasting/generate", inputModel);
 
                 if (isSuccess)
                 {

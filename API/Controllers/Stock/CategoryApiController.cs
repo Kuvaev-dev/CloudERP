@@ -17,8 +17,8 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [Route("?companyID={companyID:int}&branchID={branchID}")]
-        public async Task<IHttpActionResult> GetAll([FromUri] int companyID, [FromUri] int branchID)
+        [Route("{companyID:int}/{branchID:int}")]
+        public async Task<IHttpActionResult> GetAll(int companyID, int branchID)
         {
             var categories = await _categoryRepository.GetAllAsync(companyID, branchID);
             return Ok(categories);

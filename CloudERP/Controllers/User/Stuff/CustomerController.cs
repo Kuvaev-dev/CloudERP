@@ -2,7 +2,6 @@
 using Domain.Models;
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -13,10 +12,12 @@ namespace CloudERP.Controllers
         private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
 
-        public CustomerController(SessionHelper sessionHelper)
+        public CustomerController(
+            SessionHelper sessionHelper,
+            HttpClientHelper httpClient)
         {
-            _httpClient = new HttpClientHelper();
-            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
         // GET: AllCustomers
@@ -45,7 +46,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var customers = await _httpClient.GetAsync<List<Customer>>($"customer?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                var customers = await _httpClient.GetAsync<List<Customer>>($"customer/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
                 return View(customers);
             }
             catch (Exception ex)

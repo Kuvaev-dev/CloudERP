@@ -12,9 +12,11 @@ namespace CloudERP.Controllers
         private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
 
-        public AccountActivityController(SessionHelper sessionHelper)
+        public AccountActivityController(
+            SessionHelper sessionHelper,
+            HttpClientHelper httpClient)
         {
-            _httpClient = new HttpClientHelper();
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
         }
 
@@ -55,7 +57,6 @@ namespace CloudERP.Controllers
             try
             {
                 var success = await _httpClient.PostAsync("account-activity/create", model);
-
                 if (success) return RedirectToAction("Index");
 
                 TempData["ErrorMessage"] = "Error Creating a New Record";
@@ -99,7 +100,6 @@ namespace CloudERP.Controllers
             try
             {
                 var success = await _httpClient.PutAsync($"account-activity/update/{model.AccountActivityID}", model);
-
                 if (success) return RedirectToAction("Index");
 
                 TempData["ErrorMessage"] = "Error Updating a Record";

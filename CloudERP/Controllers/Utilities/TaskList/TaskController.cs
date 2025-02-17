@@ -1,6 +1,5 @@
 ﻿using CloudERP.Helpers;
 using Domain.Models;
-using Domain.RepositoryAccess;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -13,9 +12,11 @@ namespace CloudERP.Controllers
         private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
 
-        public TaskController(SessionHelper sessionHelper)
+        public TaskController(
+            SessionHelper sessionHelper,
+            HttpClientHelper httpClient)
         {
-            _httpClient = new HttpClientHelper();
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
@@ -26,7 +27,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var tasks = await _httpClient.GetAsync<List<AccountHead>>($"task?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&userId={_sessionHelper.UserID}");
+                var tasks = await _httpClient.GetAsync<List<AccountHead>>($"task/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}/{_sessionHelper.UserID}");
                 if (tasks == null) return RedirectToAction("EP404", "EP");
 
                 return View(tasks);
@@ -96,7 +97,7 @@ namespace CloudERP.Controllers
 
         public async Task<ActionResult> AssignTask()
         {
-            var employees = await _httpClient.GetAsync<List<Employee>>($"task/employees?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+            var employees = await _httpClient.GetAsync<List<Employee>>($"task/employees/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
             ViewBag.Employees = employees;
             return View(new TaskModel() { DueDate = DateTime.Now });
         }
@@ -115,7 +116,7 @@ namespace CloudERP.Controllers
                 return RedirectToAction("AssignTask");
             }
 
-            var employees = await _httpClient.GetAsync<List<Employee>>($"task/employees?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+            var employees = await _httpClient.GetAsync<List<Employee>>($"task/employees/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
             ViewBag.Employees = employees;
 
             return View(model);

@@ -512,8 +512,10 @@
     <Compile Include="Models\Financial\GeneralTransactionMV.cs" />
     <Compile Include="Models\Financial\SalaryMV.cs" />
     <Compile Include="Models\Miscellaneous\CompanyRegistrationMV.cs" />
+    <Compile Include="Models\Miscellaneous\LoginRequest.cs" />
     <Compile Include="Models\Miscellaneous\ProductReturnItem.cs" />
     <Compile Include="Models\Miscellaneous\RegistrationMV.cs" />
+    <Compile Include="Models\Miscellaneous\ResetPasswordRequest.cs" />
     <Compile Include="Models\Purchase\PurchaseInvoiceMV.cs" />
     <Compile Include="Models\Purchase\PurchaseReturnConfirmVM.cs" />
     <Compile Include="Models\Purchase\ReturnPurchaseInvoiceMV.cs" />

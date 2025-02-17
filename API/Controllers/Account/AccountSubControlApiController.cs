@@ -25,7 +25,7 @@ namespace API.Controllers
             _accountHeadRepository = accountHeadRepository ?? throw new ArgumentNullException(nameof(IAccountHeadRepository));
         }
 
-        [HttpGet, Route("?companyId={companyId:int}&branchId={branchId:int}")]
+        [HttpGet, Route("{companyId:int}/{branchId:int}")]
         public async Task<IHttpActionResult> GetAll([FromUri] int companyId, [FromUri] int branchId)
         {
             try

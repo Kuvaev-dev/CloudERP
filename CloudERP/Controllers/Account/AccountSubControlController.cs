@@ -12,9 +12,11 @@ namespace CloudERP.Controllers
         private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
 
-        public AccountSubControlController(SessionHelper sessionHelper)
+        public AccountSubControlController(
+            SessionHelper sessionHelper,
+            HttpClientHelper httpClient)
         {
-            _httpClient = new HttpClientHelper();
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
@@ -26,7 +28,7 @@ namespace CloudERP.Controllers
             try 
             {
                 var subControls = await _httpClient.GetAsync<List<AccountSubControl>>(
-                    $"account-sub-control?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                    $"account-sub-control/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
                 if (subControls == null) return RedirectToAction("EP404", "EP");
 
                 return View(subControls);
@@ -105,7 +107,7 @@ namespace CloudERP.Controllers
                 if (id == null) return RedirectToAction("Index");
 
                 var accountControls = await _httpClient.GetAsync<List<AccountControl>>(
-                    $"account-control?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                    $"account-control/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
                 if (accountControls == null) return RedirectToAction("EP404", "EP");
 
                 var subControl = await _httpClient.GetAsync<AccountSubControl>($"account-sub-control/{id.Value}");
@@ -164,6 +166,6 @@ namespace CloudERP.Controllers
 
         private async Task PopulateViewBag() =>
             ViewBag.AccountControlList = await _httpClient.GetAsync<List<AccountControl>>(
-                    $"account-control?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                    $"account-control/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
     }
 }

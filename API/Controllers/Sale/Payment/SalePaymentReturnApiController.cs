@@ -26,8 +26,8 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [Route("return-sale-pending-amount?companyId={companyId:int}&branchId={branchId:int}")]
-        public async Task<IHttpActionResult> GetReturnSalePendingAmount([FromUri] int companyId, [FromUri] int branchId)
+        [Route("return-sale-pending-amount/{companyId:int}/{branchId:int}")]
+        public async Task<IHttpActionResult> GetReturnSalePendingAmount(int companyId, int branchId)
         {
             var result = await _saleRepository.GetReturnSaleAmountPending(companyId, branchId);
             return Ok(result);
@@ -35,7 +35,7 @@ namespace API.Controllers
 
         [HttpGet]
         [Route("return-amount?invoiceID={invoiceID:int}")]
-        public async Task<IHttpActionResult> GetReturnAmount([FromUri] int invoiceID)
+        public async Task<IHttpActionResult> GetReturnAmount(int invoiceID)
         {
             var list = await _customerReturnPaymentRepository.GetListByReturnInvoiceIdAsync(invoiceID);
             double remainingAmount = list.Sum(item => item.RemainingBalance);
@@ -43,8 +43,8 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        [Route("process-return-amount?companyId={companyId:int}&branchId={branchId:int}&userId={userId:int}")]
-        public async Task<IHttpActionResult> ProcessReturnAmount(SalePaymentReturn paymentReturnDto, [FromUri] int branchId, [FromUri] int companyId, [FromUri] int userId)
+        [Route("process-return-amount/{companyId:int}/{branchId:int}/{userId:int}")]
+        public async Task<IHttpActionResult> ProcessReturnAmount(SalePaymentReturn paymentReturnDto, int branchId, int companyId, int userId)
         {
             var result = await _salePaymentReturnService.ProcessReturnAmountAsync(paymentReturnDto, branchId, companyId, userId);
             return Ok(result);

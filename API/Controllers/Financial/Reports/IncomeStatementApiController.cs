@@ -24,8 +24,8 @@ namespace API.Controllers
         }
 
         // GET: IncomeStatement
-        [HttpGet, Route("branch-income-statement?companyId={companyId:int}&branchId={branchId:int}")]
-        public async Task<IHttpActionResult> GetIncomeStatement([FromUri] int companyId, [FromUri] int branchId)
+        [HttpGet, Route("branch-income-statement/{companyId:int}/{branchId:int}")]
+        public async Task<IHttpActionResult> GetIncomeStatement(int companyId, int branchId)
         {
             try
             {
@@ -39,8 +39,8 @@ namespace API.Controllers
             }
         }
 
-        [HttpGet, Route("branch-income-statement?companyId={companyId:int}&branchId={branchId:int}&FinancialYearID={FinancialYearID:int}")]
-        public async Task<IHttpActionResult> GetIncomeStatementByFinancialYear([FromUri] int companyId, [FromUri] int branchId, [FromUri] int FinancialYearID)
+        [HttpGet, Route("branch-income-statement/{companyId:int}/{branchId:int}/{FinancialYearID:int}")]
+        public async Task<IHttpActionResult> GetIncomeStatementByFinancialYear(int companyId, int branchId, int FinancialYearID)
         {
             try
             {
@@ -53,8 +53,8 @@ namespace API.Controllers
         }
 
         // GET: IncomeStatement
-        [HttpGet, Route("sub-branch-income-statement?companyId={companyId:int}&branchId={branchId:int}")]
-        public async Task<IHttpActionResult> GetSubIncomeStatement([FromUri] int companyId, [FromUri] int branchId)
+        [HttpGet, Route("sub-branch-income-statement/{companyId:int}/{branchId:int}")]
+        public async Task<IHttpActionResult> GetSubIncomeStatement(int companyId, int branchId)
         {
             try
             {
@@ -68,8 +68,8 @@ namespace API.Controllers
             }
         }
 
-        [HttpGet, Route("sub-branch-income-statement?companyId={companyId:int}&branchId={branchId:int}&FinancialYearID={FinancialYearID:int}")]
-        public async Task<IHttpActionResult> GetSubIncomeStatementByFinancialYear([FromUri] int companyId, [FromUri] int branchId, [FromUri] int FinancialYearID)
+        [HttpGet, Route("sub-branch-income-statement/{companyId:int}/{branchId:int}/{FinancialYearID:int}")]
+        public async Task<IHttpActionResult> GetSubIncomeStatementByFinancialYear(int companyId, int branchId, int FinancialYearID)
         {
             try
             {

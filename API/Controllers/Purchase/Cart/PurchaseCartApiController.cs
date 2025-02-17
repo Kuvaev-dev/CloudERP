@@ -26,8 +26,8 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [Route("details?branchId={branchId:int}&companyId={companyId:int}&userId={userId:int}")]
-        public async Task<IHttpActionResult> GetPurchaseCartDetails([FromUri] int branchId, [FromUri] int companyId, [FromUri] int userId)
+        [Route("details/{branchId:int}/{companyId:int}/{userId:int}")]
+        public async Task<IHttpActionResult> GetPurchaseCartDetails(int branchId, int companyId, int userId)
         {
             try
             {
@@ -91,8 +91,8 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        [Route("cancel??branchId={branchId:int}&companyId={companyId:int}&userId={userId:int}")]
-        public async Task<IHttpActionResult> CancelPurchase([FromUri] int branchId, [FromUri] int companyId, [FromUri] int userId)
+        [Route("cancel/{branchId:int}/{companyId:int}/{userId:int}")]
+        public async Task<IHttpActionResult> CancelPurchase(int branchId, int companyId, int userId)
         {
             try
             {

@@ -14,9 +14,11 @@ namespace CloudERP.Controllers
         private readonly SessionHelper _sessionHelper;
         private readonly HttpClientHelper _httpClient;
 
-        public BranchEmployeeController(SessionHelper sessionHelper)
+        public BranchEmployeeController(
+            SessionHelper sessionHelper,
+            HttpClientHelper httpClient)
         {
-            _httpClient = new HttpClientHelper();
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
@@ -29,7 +31,7 @@ namespace CloudERP.Controllers
             try
             {
                 var branches = await _httpClient.GetAsync<List<Employee>>(
-                    $"branch-employee/employee?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                    $"branch-employee/employee/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
                 if (branches == null) return RedirectToAction("EP404", "EP");
 
                 return View(branches);

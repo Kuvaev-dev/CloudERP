@@ -27,8 +27,8 @@ namespace API.Controllers
         }
 
         // GET: api/stock
-        [HttpGet, Route("?companyId={companyId:int}&branchId={branchId:int}")]
-        public async Task<IHttpActionResult> GetAllStocks([FromUri] int companyId, [FromUri] int branchId)
+        [HttpGet, Route("{companyId:int}/{branchId:int}")]
+        public async Task<IHttpActionResult> GetAllStocks(int companyId, int branchId)
         {
             try
             {
@@ -61,8 +61,8 @@ namespace API.Controllers
         }
 
         // POST: api/stock
-        [HttpPost, Route("create?companyId={companyId:int}&branchId={branchId:int}&userId={userId:int}")]
-        public async Task<IHttpActionResult> CreateStock([FromBody] Stock model, [FromUri] int companyId, [FromUri] int branchId, [FromUri] int userId)
+        [HttpPost, Route("create/{companyId:int}/{branchId:int}/{userId:int}")]
+        public async Task<IHttpActionResult> CreateStock([FromBody] Stock model, int companyId, int branchId, int userId)
         {
             try
             {
@@ -92,8 +92,8 @@ namespace API.Controllers
 
         // PUT: api/stock/{id}
         [HttpPut]
-        [Route("{id:int}?userId={userId:int}")]
-        public async Task<IHttpActionResult> UpdateStock(int id, [FromBody] Stock model, [FromUri] int userId)
+        [Route("{id:int}/{userId:int}")]
+        public async Task<IHttpActionResult> UpdateStock(int id, [FromBody] Stock model, int userId)
         {
             try
             {
@@ -122,8 +122,8 @@ namespace API.Controllers
 
         // GET: api/stock/productquality
         [HttpGet]
-        [Route("product-quality?companyId={companyId:int]&branchId={branchId:int}")]
-        public async Task<IHttpActionResult> GetProductQuality([FromUri] int companyId, [FromUri] int branchId)
+        [Route("product-quality/{companyId:int]/{branchId:int}")]
+        public async Task<IHttpActionResult> GetProductQuality(int companyId, int branchId)
         {
             try
             {

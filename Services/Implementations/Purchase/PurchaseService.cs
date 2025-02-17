@@ -46,7 +46,7 @@ namespace Domain.Services
             var returns = list
                 .SelectMany(item => item.SupplierReturnInvoiceDetail)
                 .Where(r => r.PurchaseReturnQuantity > 0)
-                .Select(r => new PurchaseReturnDetail
+                .Select(r => new PurchaseProductDetail
                 {
                     ProductName = r.ProductName,
                     Quantity = r.PurchaseReturnQuantity,

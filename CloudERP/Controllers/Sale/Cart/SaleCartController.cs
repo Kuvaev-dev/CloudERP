@@ -15,10 +15,12 @@ namespace CloudERP.Controllers
         private readonly SessionHelper _sessionHelper;
         private readonly HttpClientHelper _httpClientHelper;
 
-        public SaleCartController(SessionHelper sessionHelper, HttpClientHelper httpClientHelper)
+        public SaleCartController(
+            SessionHelper sessionHelper, 
+            HttpClientHelper httpClientHelper)
         {
-            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
-            _httpClientHelper = httpClientHelper ?? throw new ArgumentNullException(nameof(httpClientHelper));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _httpClientHelper = httpClientHelper ?? throw new ArgumentNullException(nameof(HttpClientHelper));
         }
 
         // GET: SaleCart/NewSale
@@ -30,11 +32,11 @@ namespace CloudERP.Controllers
             try
             {
                 var findDetail = await _httpClientHelper.GetAsync<List<SaleCartDetail>>(
-                    $"sale-cart/new-sale-details?branchId={_sessionHelper.BranchID}&companyId={_sessionHelper.CompanyID}&userId={_sessionHelper.UserID}");
+                    $"sale-cart/new-sale-details/{_sessionHelper.BranchID}/{_sessionHelper.CompanyID}/{_sessionHelper.UserID}");
 
                 ViewBag.TotalAmount = findDetail.Sum(item => item.SaleQuantity * item.SaleUnitPrice);
                 ViewBag.Products = await _httpClientHelper.GetAsync<List<Stock>>(
-                    $"stock/products?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                    $"stock/products/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
 
                 return View(findDetail);
             }
@@ -137,7 +139,7 @@ namespace CloudERP.Controllers
             try
             {
                 var responseMessage = await _httpClientHelper.PostAsync(
-                    $"sale-cart/cancel-sale?branchId={_sessionHelper.BranchID}&companyId={_sessionHelper.CompanyID}&userId={_sessionHelper.UserID}", new { });
+                    $"sale-cart/cancel-sale/{_sessionHelper.BranchID}/{_sessionHelper.CompanyID}/{_sessionHelper.UserID}", new { });
 
                 ViewBag.Message = responseMessage;
 

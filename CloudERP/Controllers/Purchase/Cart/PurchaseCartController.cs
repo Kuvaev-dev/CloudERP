@@ -12,10 +12,12 @@ namespace CloudERP.Controllers
         private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
 
-        public PurchaseCartController(SessionHelper sessionHelper)
+        public PurchaseCartController(
+            SessionHelper sessionHelper,
+            HttpClientHelper httpClient)
         {
-            _sessionHelper = sessionHelper;
-            _httpClient = new HttpClientHelper();
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
         }
 
         public async Task<ActionResult> NewPurchase()
@@ -26,7 +28,7 @@ namespace CloudERP.Controllers
             try
             {
                 var details = await _httpClient.GetAsync<PurchaseCartDetail[]>(
-                    $"details?branchId={_sessionHelper.BranchID}&companyId={_sessionHelper.CompanyID}&userId={_sessionHelper.UserID}");
+                    $"details/{_sessionHelper.BranchID}/{_sessionHelper.CompanyID}/{_sessionHelper.UserID}");
 
                 ViewBag.TotalAmount = details.Sum(item => item.PurchaseQuantity * item.PurchaseUnitPrice);
                 return View(details);

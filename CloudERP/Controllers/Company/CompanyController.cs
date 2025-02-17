@@ -14,9 +14,11 @@ namespace CloudERP.Controllers
         private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
 
-        public CompanyController(SessionHelper sessionHelper)
+        public CompanyController(
+            SessionHelper sessionHelper,
+            HttpClientHelper httpClient)
         {
-            _httpClient = new HttpClientHelper();
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
@@ -142,7 +144,21 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    await _httpClient.PutAsync($"company/update/{model.CompanyID}", model);
+                    using (var content = new MultipartFormDataContent())
+                    {
+                        content.Add(new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(model)), "model");
+
+                        if (logo != null)
+                        {
+                            var stream = logo.InputStream;
+                            var fileContent = new StreamContent(stream);
+                            fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(logo.ContentType);
+                            content.Add(fileContent, "file", logo.FileName);
+                        }
+
+                        await _httpClient.PutAsync($"company/update/{model.CompanyID}", model);
+                    }
+
                     return RedirectToAction("Index");
                 }
 

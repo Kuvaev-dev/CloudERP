@@ -1,7 +1,6 @@
 ﻿using CloudERP.Helpers;
 using Domain.Models;
 using System;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -12,9 +11,11 @@ namespace CloudERP.Controllers
         private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
 
-        public UserSettingController(SessionHelper sessionHelper)
+        public UserSettingController(
+            SessionHelper sessionHelper,
+            HttpClientHelper httpClient)
         {
-            _httpClient = new HttpClientHelper();
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
         }
 
@@ -50,7 +51,7 @@ namespace CloudERP.Controllers
                 user.Password = Request.Form["Password"];
                 user.Salt = Request.Form["Salt"];
 
-                var success = await _httpClient.PostAsync($"user-setting/create-user?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}", user);
+                var success = await _httpClient.PostAsync($"user-setting/create-user/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}", user);
                 if (success) return RedirectToAction("Employees", "CompanyEmployee");
 
                 return View(user);

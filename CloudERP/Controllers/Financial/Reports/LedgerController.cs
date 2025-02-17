@@ -13,9 +13,11 @@ namespace CloudERP.Controllers
         private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
 
-        public LedgerController(SessionHelper sessionHelper)
+        public LedgerController(
+            SessionHelper sessionHelper,
+            HttpClientHelper httpClient)
         {
-            _httpClient = new HttpClientHelper();
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
@@ -29,7 +31,7 @@ namespace CloudERP.Controllers
                 await PopulateViewBag();
 
                 var ledger = await _httpClient.GetAsync<AccountLedgerModel>(
-                    $"ledger/branch-ledger?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                    $"ledger/branch-ledger/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
 
                 return View(new List<AccountLedgerModel>());
             }
@@ -51,7 +53,7 @@ namespace CloudERP.Controllers
                 await PopulateViewBag(id);
 
                 return View(await _httpClient.GetAsync<AccountLedgerModel>(
-                    $"ledger/branch-ledger?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&financialYearId={id}"));
+                    $"ledger/branch-ledger/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}/{id}"));
             }
             catch (Exception ex)
             {
@@ -70,7 +72,7 @@ namespace CloudERP.Controllers
                 await PopulateViewBag();
 
                 var balanceSheet = await _httpClient.GetAsync<AccountLedgerModel>(
-                    $"ledger/sub-branch-ledger?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                    $"ledger/sub-branch-ledger/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
                 return View(balanceSheet);
             }
             catch (Exception ex)
@@ -90,7 +92,7 @@ namespace CloudERP.Controllers
             {
                 await PopulateViewBag(id);
 
-                return View(await _httpClient.GetAsync<AccountLedgerModel>($"ledger/sub-branch-ledger?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&financialYearId={id}"));
+                return View(await _httpClient.GetAsync<AccountLedgerModel>($"ledger/sub-branch-ledger/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}/{id}"));
             }
             catch (Exception ex)
             {

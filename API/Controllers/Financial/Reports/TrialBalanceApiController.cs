@@ -23,8 +23,8 @@ namespace API.Controllers
         }
 
         // GET: BalanceSheet
-        [HttpGet, Route("branch-trial-balance?companyId={companyId:int}&branchId={branchId:int}")]
-        public async Task<IHttpActionResult> GetBalanceSheet([FromUri] int companyId, [FromUri] int branchId)
+        [HttpGet, Route("branch-trial-balance/{companyId:int}/{branchId:int}")]
+        public async Task<IHttpActionResult> GetBalanceSheet(int companyId, int branchId)
         {
             try
             {
@@ -43,8 +43,8 @@ namespace API.Controllers
             }
         }
 
-        [HttpGet, Route("branch-trial-balance?companyId={companyId:int}&branchId={branchId:int}&financialYearId={financialYearId:int}")]
-        public async Task<IHttpActionResult> GetBalanceSheetByFinancialYear([FromUri] int companyId, [FromUri] int branchId, [FromUri] int financialYearId)
+        [HttpGet, Route("branch-trial-balance/{companyId:int}/{branchId:int}/{financialYearId:int}")]
+        public async Task<IHttpActionResult> GetBalanceSheetByFinancialYear(int companyId, int branchId, int financialYearId)
         {
             try
             {
@@ -61,8 +61,8 @@ namespace API.Controllers
             }
         }
 
-        [HttpGet, Route("sub-branch-trial-balance?companyId={companyId:int}&branchId={branchId:int}")]
-        public async Task<IHttpActionResult> GetSubBalanceSheet([FromUri] int companyId, [FromUri] int branchId)
+        [HttpGet, Route("sub-branch-trial-balance/{companyId:int}/{branchId:int}")]
+        public async Task<IHttpActionResult> GetSubBalanceSheet(int companyId, int branchId)
         {
             try
             {
@@ -81,8 +81,8 @@ namespace API.Controllers
             }
         }
 
-        [HttpGet, Route("branch-trial-balance?companyId={companyId:int}&branchId={branchId:int}&financialYearId={financialYearId:int}")]
-        public async Task<IHttpActionResult> GetSubBalanceSheetByFinancialYear([FromUri] int companyId, [FromUri] int branchId, [FromUri] int financialYearId)
+        [HttpGet, Route("branch-trial-balance/{companyId:int}/{branchId:int}/{financialYearId:int}")]
+        public async Task<IHttpActionResult> GetSubBalanceSheetByFinancialYear(int companyId, int branchId, int financialYearId)
         {
             try
             {

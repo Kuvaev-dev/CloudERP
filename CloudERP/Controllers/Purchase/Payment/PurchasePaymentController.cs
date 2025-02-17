@@ -36,7 +36,7 @@ namespace CloudERP.Controllers
             try
             {
                 var list = await _httpClient.GetAsync<List<PurchasePayment>>(
-                    $"purchase-payment/remaining-payment-list?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                    $"purchase-payment/remaining-payment-list/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
                 return View(list);
             }
             catch (Exception ex)
@@ -143,7 +143,7 @@ namespace CloudERP.Controllers
             try
             {
                 var list = await _httpClient.GetAsync<List<Purchase>>(
-                    $"purchase-payment/custom-purchases-history?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&fromDate={fromDate:yyyy-MM-dd}&toDate={toDate:yyyy-MM-dd}");
+                    $"purchase-payment/custom-purchases-history/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}/{fromDate:yyyy-MM-dd}/{toDate:yyyy-MM-dd}");
 
                 return View(list);
             }

@@ -13,9 +13,10 @@ namespace CloudERP.Controllers
         private readonly SessionHelper _sessionHelper;
 
         public AccountSettingController(
-            SessionHelper sessionHelper)
+            SessionHelper sessionHelper,
+            HttpClientHelper httpClient)
         {
-            _httpClient = new HttpClientHelper();
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
@@ -27,7 +28,7 @@ namespace CloudERP.Controllers
             try
             {
                 var accountSettings = await _httpClient.GetAsync<List<AccountSetting>>(
-                    $"account-control?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                    $"account-control/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
                 if (accountSettings == null) return RedirectToAction("EP404", "EP");
 
                 return View(accountSettings);
@@ -156,14 +157,14 @@ namespace CloudERP.Controllers
 
             ViewBag.AccountControlList = await CreateSelectListAsync<AccountControl>(
                 async () => await _httpClient.GetAsync<List<AccountControl>>(
-                    $"account-control?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}"),
+                    $"account-control/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}"),
                 "AccountControlID",
                 "AccountControlName",
                 model?.AccountControlID);
 
             ViewBag.AccountSubControlList = await CreateSelectListAsync<AccountSubControl>(
                 async () => await _httpClient.GetAsync<List<AccountSubControl>>(
-                    $"account-sub-control?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}"),
+                    $"account-sub-control/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}"),
                 "AccountSubControlID",
                 "AccountSubControlName",
                 model?.AccountSubControlID);

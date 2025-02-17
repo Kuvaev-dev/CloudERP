@@ -12,9 +12,11 @@ namespace CloudERP.Controllers
         private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
 
-        public AccountControlController(SessionHelper sessionHelper)
+        public AccountControlController(
+            SessionHelper sessionHelper,
+            HttpClientHelper httpClient)
         {
-            _httpClient = new HttpClientHelper();
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
         }
 
@@ -26,7 +28,7 @@ namespace CloudERP.Controllers
             try
             {
                 var accountControls = await _httpClient.GetAsync<List<AccountControl>>(
-                    $"account-control?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                    $"account-control/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
                 if (accountControls == null) return RedirectToAction("EP404", "EP");
 
                 return View(accountControls);

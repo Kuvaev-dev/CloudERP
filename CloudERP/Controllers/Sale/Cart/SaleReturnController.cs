@@ -12,12 +12,14 @@ namespace CloudERP.Controllers
     public class SaleReturnController : Controller
     {
         private readonly SessionHelper _sessionHelper;
-        private readonly HttpClientHelper _httpClientHelper;
+        private readonly HttpClientHelper _httpClient;
 
-        public SaleReturnController(SessionHelper sessionHelper, HttpClientHelper httpClientHelper)
+        public SaleReturnController(
+            SessionHelper sessionHelper,
+            HttpClientHelper httpClientHelper)
         {
-            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
-            _httpClientHelper = httpClientHelper ?? throw new ArgumentNullException(nameof(httpClientHelper));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _httpClient = httpClientHelper ?? throw new ArgumentNullException(nameof(HttpClientHelper));
         }
 
         // GET: SaleReturn
@@ -49,7 +51,7 @@ namespace CloudERP.Controllers
                 Session["SaleInvoiceNo"] = string.Empty;
                 Session["SaleReturnMessage"] = string.Empty;
 
-                var response = await _httpClientHelper.GetAsync<dynamic>(
+                var response = await _httpClient.GetAsync<dynamic>(
                     $"sale-return/find-sale/{invoiceID}");
 
                 ViewBag.InvoiceDetails = response.InvoiceDetails;
@@ -85,7 +87,7 @@ namespace CloudERP.Controllers
                     UserID = _sessionHelper.UserID
                 };
 
-                var result = await _httpClientHelper.PostAsync<ReturnConfirmResult>(
+                var result = await _httpClient.PostAsync<ReturnConfirmResult>(
                     "sale-return/return-confirm", returnConfirmDto);
 
                 Session["SaleInvoiceNo"] = result.InvoiceNo;

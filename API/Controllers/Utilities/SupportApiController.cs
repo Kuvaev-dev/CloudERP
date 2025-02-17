@@ -18,7 +18,7 @@ namespace API.Controllers
             _supportTicketRepository = supportTicketRepository ?? throw new ArgumentNullException(nameof(supportTicketRepository));
         }
 
-        [HttpGet, Route("user/{userId}")]
+        [HttpGet, Route("user/{userId:int}")]
         public async Task<IHttpActionResult> GetUserTickets(int userId)
         {
             var tickets = await _supportTicketRepository.GetByUserIdAsync(userId);
