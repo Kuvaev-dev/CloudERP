@@ -86,7 +86,7 @@ namespace API.Controllers
                 }
 
                 await _companyRepository.AddAsync(model);
-                return Created($"api/company/{model.CompanyID}", model);
+                return Created(Request.RequestUri + "/" + model.CompanyID, model);
             }
             catch (Exception ex)
             {

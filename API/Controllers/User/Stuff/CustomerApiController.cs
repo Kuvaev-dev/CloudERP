@@ -25,10 +25,8 @@ namespace API.Controllers
             try
             {
                 var customers = await _customerRepository.GetAllAsync();
-                if (customers == null)
-                {
-                    return NotFound();
-                }
+                if (customers == null) return NotFound();
+
                 return Ok(customers);
             }
             catch (Exception ex)
@@ -44,10 +42,8 @@ namespace API.Controllers
             try
             {
                 var customer = await _customerRepository.GetByIdAsync(id);
-                if (customer == null)
-                {
-                    return NotFound();
-                }
+                if (customer == null) return NotFound();
+
                 return Ok(customer);
             }
             catch (Exception ex)
@@ -62,10 +58,7 @@ namespace API.Controllers
         {
             try
             {
-                if (customer == null)
-                {
-                    return BadRequest("Invalid customer data.");
-                }
+                if (customer == null) return BadRequest("Invalid customer data.");
 
                 await _customerRepository.AddAsync(customer);
                 return CreatedAtRoute("GetById", new { id = customer.CustomerID }, customer);

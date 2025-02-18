@@ -55,7 +55,7 @@ namespace API.Controllers
             try
             {
                 await _accountSettingFacade.AccountSettingRepository.AddAsync(model);
-                return Created($"api/account-setting/{model.AccountSettingID}", model);
+                return Created(Request.RequestUri + "/" + model.AccountSettingID, model);
             }
             catch (Exception ex)
             {

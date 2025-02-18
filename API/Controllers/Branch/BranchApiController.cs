@@ -94,7 +94,7 @@ namespace API.Controllers
             try
             {
                 await _branchRepository.AddAsync(model);
-                return Created($"api/branch/{model.BranchID}", model);
+                return Created(Request.RequestUri + "/" + model.BranchID, model);
             }
             catch (Exception ex)
             {

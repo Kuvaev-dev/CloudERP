@@ -5,7 +5,7 @@ using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
 
-namespace API.Controllers.Purchase.Cart
+namespace API.Controllers
 {
     [RoutePrefix("api/purchase-return")]
     public class PurchaseReturnApiController : ApiController
@@ -31,8 +31,7 @@ namespace API.Controllers.Purchase.Cart
             try
             {
                 var invoice = await _supplierInvoiceRepository.GetByInvoiceNoAsync(invoiceID);
-                if (invoice == null)
-                    return NotFound();
+                if (invoice == null) return NotFound();
 
                 var invoiceDetails = _supplierReturnInvoiceDetailRepository.GetInvoiceDetails(invoiceID);
                 return Ok(new { invoice, invoiceDetails });

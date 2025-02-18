@@ -66,8 +66,7 @@ namespace CloudERP.ApiControllers
         public async Task<IHttpActionResult> GetPurchaseInvoice(int id)
         {
             var invoiceDetails = await _purchasePaymentFacade.SupplierInvoiceDetailRepository.GetListByIdAsync(id);
-            if (invoiceDetails?.Any() != true)
-                return NotFound();
+            if (invoiceDetails?.Any() != true) return NotFound();
 
             return Ok(invoiceDetails);
         }

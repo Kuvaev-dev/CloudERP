@@ -26,7 +26,7 @@ namespace API.Controllers
 
         // GET: api/user
         [HttpGet, Route("")]
-        public async Task<IHttpActionResult> GetAllUsers()
+        public async Task<IHttpActionResult> GetAll()
         {
             try
             {

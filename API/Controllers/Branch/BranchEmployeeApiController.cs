@@ -83,7 +83,7 @@ namespace API.Controllers
                 }
 
                 await _employeeRepository.AddAsync(model);
-                return Created($"api/branch-employee/{model.EmployeeID}", model);
+                return Created(Request.RequestUri + "/" + model.EmployeeID, model);
             }
             catch (Exception ex)
             {

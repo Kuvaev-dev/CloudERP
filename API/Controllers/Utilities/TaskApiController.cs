@@ -73,7 +73,7 @@ namespace API.Controllers
             try
             {
                 await _taskRepository.AddAsync(model);
-                return Created($"api/task/{model.TaskID}", model);
+                return Created(Request.RequestUri + "/" + model.TaskID, model);
             }
             catch (Exception ex)
             {

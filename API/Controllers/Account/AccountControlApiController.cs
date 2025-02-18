@@ -54,7 +54,7 @@ namespace API.Controllers
             try
             {
                 await _accountControlRepository.AddAsync(model);
-                return Created($"api/account-control/{model.AccountControlID}", model);
+                return Created(Request.RequestUri + "/" + model.AccountControlID, model);
             }
             catch (Exception ex)
             {

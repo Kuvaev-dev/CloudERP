@@ -37,7 +37,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var dashboardValues = await _httpClient.GetAsync<DashboardModel>($"home/dashboard?branchId={_sessionHelper.BranchID}&companyId={_sessionHelper.CompanyID}");
+                var dashboardValues = await _httpClient.GetAsync<DashboardModel>($"home/dashboard/{_sessionHelper.BranchID}/{_sessionHelper.CompanyID}");
                 var currencies = await _httpClient.GetAsync<Dictionary<string, decimal>>("home/currencies");
 
                 ViewBag.Currencies = currencies;

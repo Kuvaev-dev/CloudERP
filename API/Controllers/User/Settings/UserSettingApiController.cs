@@ -45,8 +45,7 @@ namespace API.Controllers
                 var existingEmployee = (await _employeeRepository.GetByBranchAsync(branchId, companyId))
                     .FirstOrDefault(u => u.Email == user.Email && u.UserID == user.UserID);
 
-                if (existingUser != null || existingEmployee != null)
-                    return Conflict();
+                if (existingUser != null || existingEmployee != null) return Conflict();
 
                 await _userRepository.AddAsync(user);
 
@@ -78,8 +77,7 @@ namespace API.Controllers
                 var existingUser = (await _userRepository.GetAllAsync())
                     .FirstOrDefault(u => u.Email == user.Email && u.UserID != user.UserID);
 
-                if (existingUser != null)
-                    return Conflict();
+                if (existingUser != null) return Conflict();
 
                 await _userRepository.UpdateAsync(user);
 
@@ -99,8 +97,7 @@ namespace API.Controllers
             try
             {
                 var user = await _userRepository.GetByIdAsync(userId);
-                if (user == null)
-                    return NotFound();
+                if (user == null) return NotFound();
 
                 return Ok(user);
             }

@@ -26,7 +26,7 @@ namespace API.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<IHttpActionResult> Get(int id)
+        public async Task<IHttpActionResult> GetById(int id)
         {
             var category = await _categoryRepository.GetByIdAsync(id);
             return category != null ? Ok(category) : (IHttpActionResult)NotFound();

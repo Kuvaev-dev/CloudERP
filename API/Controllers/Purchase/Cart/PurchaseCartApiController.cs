@@ -118,8 +118,7 @@ namespace API.Controllers
                     purchaseConfirmDto.BranchID, 
                     purchaseConfirmDto.UserID);
 
-                if (result.IsSuccess)
-                    return Ok(new { id = result.Value });
+                if (result.IsSuccess) return Ok(new { id = result.Value });
 
                 return BadRequest(result.ErrorMessage);
             }

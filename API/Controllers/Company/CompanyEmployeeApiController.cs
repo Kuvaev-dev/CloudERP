@@ -79,7 +79,7 @@ namespace API.Controllers
 
                 SendEmail(model);
 
-                return Created($"api/company-employee/{model.EmployeeID}", model);
+                return Created(Request.RequestUri + "/" + model.EmployeeID, model);
             }
             catch (Exception ex)
             {

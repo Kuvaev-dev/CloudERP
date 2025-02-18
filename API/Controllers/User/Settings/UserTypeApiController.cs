@@ -21,7 +21,7 @@ namespace API.Controllers
         // GET: api/user-types
         [HttpGet]
         [Route("")]
-        public async Task<IHttpActionResult> GetAllUserTypes()
+        public async Task<IHttpActionResult> GetAll()
         {
             try
             {
@@ -46,10 +46,8 @@ namespace API.Controllers
             try
             {
                 var userType = await _userTypeRepository.GetByIdAsync(id);
-                if (userType == null)
-                {
-                    return NotFound();
-                }
+                if (userType == null) return NotFound();
+
                 return Ok(userType);
             }
             catch (Exception ex)
@@ -65,13 +63,10 @@ namespace API.Controllers
         {
             try
             {
-                if (userType == null)
-                {
-                    return BadRequest("Invalid data.");
-                }
+                if (userType == null) return BadRequest("Invalid data.");
 
                 await _userTypeRepository.AddAsync(userType);
-                return CreatedAtRoute("GetUserType", new { id = userType.UserTypeID }, userType);
+                return CreatedAtRoute("GetById", new { id = userType.UserTypeID }, userType);
             }
             catch (Exception ex)
             {
@@ -86,16 +81,10 @@ namespace API.Controllers
         {
             try
             {
-                if (userType == null || userType.UserTypeID != id)
-                {
-                    return BadRequest("Invalid data.");
-                }
+                if (userType == null || userType.UserTypeID != id) return BadRequest("Invalid data.");
 
                 var existingUserType = await _userTypeRepository.GetByIdAsync(id);
-                if (existingUserType == null)
-                {
-                    return NotFound();
-                }
+                if (existingUserType == null) return NotFound();
 
                 await _userTypeRepository.UpdateAsync(userType);
                 return Ok(userType);

@@ -10,7 +10,7 @@ namespace CloudERP.Helpers
     {
         private readonly HttpClient _client;
 
-        public HttpClientHelper(string baseUrl = "https://localhost:5001/api/")
+        public HttpClientHelper(string baseUrl = "https://localhost:44365/api")
         {
             _client = new HttpClient { BaseAddress = new Uri(baseUrl.TrimEnd('/') + "/") };
         }

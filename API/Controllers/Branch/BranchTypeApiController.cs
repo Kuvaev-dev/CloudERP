@@ -55,7 +55,7 @@ namespace API.Controllers
             try
             {
                 await _branchTypeRepository.AddAsync(model);
-                return Created($"api/branch-type/{model.BranchTypeID}", model);
+                return Created(Request.RequestUri + "/" + model.BranchTypeID, model);
             }
             catch (Exception ex)
             {

@@ -55,7 +55,7 @@ namespace API.Controllers
             try
             {
                 await _financialYearRepository.AddAsync(model);
-                return Created($"api/financial-year/{model.FinancialYearID}", model);
+                return Created(Request.RequestUri + "/" + model.FinancialYearID, model);
             }
             catch (Exception ex)
             {

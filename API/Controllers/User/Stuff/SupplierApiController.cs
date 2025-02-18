@@ -55,7 +55,7 @@ namespace API.Controllers
             try
             {
                 await _repository.AddAsync(model);
-                return Created($"api/supplier/{model.SupplierID}", model);
+                return Created(Request.RequestUri + "/" + model.SupplierID, model);
             }
             catch (Exception ex)
             {
