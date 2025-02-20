@@ -1,15 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Cors;
-using Domain.Models;
+﻿using Domain.Models;
 using Domain.RepositoryAccess;
+using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers.Financial.Reports
 {
-    [RoutePrefix("api/financial-year")]
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
-    public class FinancialYearApiController : ApiController
+    [ApiController]
+    public class FinancialYearApiController : ControllerBase
     {
         private readonly IFinancialYearRepository _financialYearRepository;
 
@@ -18,22 +14,23 @@ namespace API.Controllers
             _financialYearRepository = financialYearRepository ?? throw new ArgumentNullException(nameof(IFinancialYearRepository));
         }
 
-        [HttpGet, Route("")]
-        public async Task<IHttpActionResult> GetAll()
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<FinancialYear>>> GetAll()
         {
             try
             {
-                var accountHeads = await _financialYearRepository.GetAllAsync();
-                return Ok(accountHeads);
+                var financialYears = await _financialYearRepository.GetAllAsync();
+                if (financialYears == null) return NotFound();
+                return Ok(financialYears);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpGet, Route("{id:int}")]
-        public async Task<IHttpActionResult> GetById(int id)
+        [HttpGet]
+        public async Task<ActionResult<FinancialYear>> GetById(int id)
         {
             try
             {
@@ -43,28 +40,28 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpPost, Route("create")]
-        public async Task<IHttpActionResult> Create([FromBody] FinancialYear model)
+        [HttpPost]
+        public async Task<ActionResult<FinancialYear>> Create([FromBody] FinancialYear model)
         {
             if (model == null) return BadRequest("Invalid data.");
 
             try
             {
                 await _financialYearRepository.AddAsync(model);
-                return Created(Request.RequestUri + "/" + model.FinancialYearID, model);
+                return CreatedAtAction(nameof(GetById), new { id = model.FinancialYearID }, model);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpPut, Route("update/{id:int}")]
-        public async Task<IHttpActionResult> Update(int id, [FromBody] FinancialYear model)
+        [HttpPut]
+        public async Task<IActionResult> Update(int id, [FromBody] FinancialYear model)
         {
             if (model == null || id != model.FinancialYearID) return BadRequest("Invalid data.");
 
@@ -75,7 +72,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
     }

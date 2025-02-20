@@ -1,27 +1,24 @@
-﻿using System;
-using System.Configuration;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Cors;
-using API.Models;
+﻿using API.Models;
+using Domain.Models.FinancialModels;
+using Microsoft.AspNetCore.Mvc;
 using Services.Facades;
 
-namespace API.Controllers
+namespace API.Controllers.General
 {
-    [RoutePrefix("api/home")]
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
-    public class HomeApiController : ApiController
+    [ApiController]
+    public class HomeApiController : ControllerBase
     {
         private readonly HomeFacade _homeFacade;
+        private readonly IConfiguration _configuration;
 
-        public HomeApiController(HomeFacade homeFacade)
+        public HomeApiController(HomeFacade homeFacade, IConfiguration configuration)
         {
-            _homeFacade = homeFacade ?? throw new ArgumentNullException(nameof(HomeFacade));
+            _homeFacade = homeFacade ?? throw new ArgumentNullException(nameof(homeFacade));
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
-        [HttpPost, Route("login")]
-        public async Task<IHttpActionResult> LoginUser([FromBody] LoginRequest loginRequest)
+        [HttpPost]
+        public async Task<ActionResult<object>> LoginUser([FromBody] LoginRequest loginRequest)
         {
             try
             {
@@ -45,43 +42,44 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpGet, Route("dashboard/{companyId:int}/{branchId:int}")]
-        public async Task<IHttpActionResult> GetDashboardValues(int companyId, int branchId)
+        [HttpGet]
+        public async Task<ActionResult<DashboardModel>> GetDashboardValues(int companyId, int branchId)
         {
             try
             {
                 var dashboardValues = await _homeFacade.DashboardService.GetDashboardValues(branchId, companyId);
+                if (dashboardValues == null) return NotFound();
                 return Ok(dashboardValues);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpGet, Route("currencies")]
-        public async Task<IHttpActionResult> GetCurrencies()
+        [HttpGet]
+        public async Task<ActionResult<object>> GetCurrencies()
         {
             try
             {
-                var defaultCurrency = ConfigurationManager.AppSettings["DefaultCurrency"] ?? "USD";
+                var defaultCurrency = _configuration["DefaultCurrency"] ?? "USD";
                 var rates = await _homeFacade.CurrencyService.GetExchangeRatesAsync(defaultCurrency);
                 var currencies = rates.Keys.Select(k => new { Code = k, Name = k, Rate = rates[k].ToString("F2") });
                 return Ok(currencies);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
         // POST: api/home/forgot-password
-        [HttpPost, Route("forgot-password")]
-        public async Task<IHttpActionResult> ForgotPassword([FromBody] string email)
+        [HttpPost]
+        public async Task<ActionResult<string>> ForgotPassword([FromBody] string email)
         {
             if (string.IsNullOrEmpty(email))
             {
@@ -114,13 +112,13 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
         // GET: api/home/reset-password/{id}
-        [HttpGet, Route("reset-password/{id:string}")]
-        public async Task<IHttpActionResult> GetResetPassword(string id)
+        [HttpGet]
+        public async Task<ActionResult<object>> GetResetPassword(string id)
         {
             try
             {
@@ -134,13 +132,13 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
         // POST: api/home/reset-password
-        [HttpPost, Route("reset-password")]
-        public async Task<IHttpActionResult> ResetPassword([FromBody] ResetPasswordRequest request)
+        [HttpPost]
+        public async Task<ActionResult<string>> ResetPassword([FromBody] ResetPasswordRequest request)
         {
             try
             {
@@ -153,7 +151,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
     }

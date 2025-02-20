@@ -1,16 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Cors;
-using Domain.Models;
+﻿using Domain.Models;
 using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
+using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers.Stock
 {
-    [RoutePrefix("api/stock")]
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
-    public class StockApiController : ApiController
+    [ApiController]
+    public class StockApiController : ControllerBase
     {
         private readonly IStockRepository _stockRepository;
         private readonly ICategoryRepository _categoryRepository;
@@ -27,8 +23,8 @@ namespace API.Controllers
         }
 
         // GET: api/stock
-        [HttpGet, Route("{companyId:int}/{branchId:int}")]
-        public async Task<IHttpActionResult> GetAll(int companyId, int branchId)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Domain.Models.Stock>>> GetAll(int companyId, int branchId)
         {
             try
             {
@@ -39,13 +35,13 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
         // GET: api/stock/{id}
-        [HttpGet, Route("{id:int}")]
-        public async Task<IHttpActionResult> GetById(int id)
+        [HttpGet]
+        public async Task<ActionResult<Domain.Models.Stock>> GetById(int id)
         {
             try
             {
@@ -56,13 +52,13 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
         // POST: api/stock
-        [HttpPost, Route("create/{companyId:int}/{branchId:int}/{userId:int}")]
-        public async Task<IHttpActionResult> Create([FromBody] Stock model, int companyId, int branchId, int userId)
+        [HttpPost]
+        public async Task<ActionResult<Domain.Models.Stock>> Create([FromBody] Domain.Models.Stock model, int companyId, int branchId, int userId)
         {
             try
             {
@@ -83,14 +79,13 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);       
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
         // PUT: api/stock/{id}
         [HttpPut]
-        [Route("{id:int}/{userId:int}")]
-        public async Task<IHttpActionResult> Update(int id, [FromBody] Stock model, int userId)
+        public async Task<IActionResult> Update(int id, [FromBody] Domain.Models.Stock model, int userId)
         {
             try
             {
@@ -110,24 +105,23 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
         // GET: api/stock/productquality
         [HttpGet]
-        [Route("product-quality/{companyId:int}/{branchId:int}")]
-        public async Task<IHttpActionResult> GetProductQuality(int companyId, int branchId)
+        public async Task<ActionResult<IEnumerable<ProductQuality>>> GetProductQuality(int companyId, int branchId)
         {
             try
             {
                 var allProducts = await _productQualityService.GetAllProductsQualityAsync(branchId, companyId);
-
+                if (allProducts == null) return NotFound();
                 return Ok(allProducts);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
     }

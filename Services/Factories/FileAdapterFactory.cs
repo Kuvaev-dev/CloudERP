@@ -2,7 +2,7 @@
 using System.Web;
 using Utils.Interfaces;
 
-namespace DatabaseAccess.Factories
+namespace Services.Factories
 {
     public interface IFileAdapterFactory
     {

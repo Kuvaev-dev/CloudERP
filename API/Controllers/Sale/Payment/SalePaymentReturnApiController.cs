@@ -1,15 +1,13 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Http;
+﻿using Domain.Models;
 using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
+using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers.Sale.Payment
 {
-    [RoutePrefix("api/sale-payment-return")]
-    public class SalePaymentReturnApiController : ApiController
+    [ApiController]
+    public class SalePaymentReturnApiController : ControllerBase
     {
         private readonly ISaleRepository _saleRepository;
         private readonly ICustomerReturnPaymentRepository _customerReturnPaymentRepository;
@@ -26,27 +24,30 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [Route("return-sale-pending-amount/{companyId:int}/{branchId:int}")]
-        public async Task<IHttpActionResult> GetReturnSalePendingAmount(int companyId, int branchId)
+        public async Task<ActionResult<List<SalePaymentModel>>> GetReturnSalePendingAmount(int companyId, int branchId)
         {
             var result = await _saleRepository.GetReturnSaleAmountPending(companyId, branchId);
+            if (result == null) return NotFound();
             return Ok(result);
         }
 
         [HttpGet]
-        [Route("return-amount?invoiceID={invoiceID:int}")]
-        public async Task<IHttpActionResult> GetReturnAmount(int invoiceID)
+        public async Task<ActionResult<object>> GetReturnAmount(int invoiceID)
         {
             var list = await _customerReturnPaymentRepository.GetListByReturnInvoiceIdAsync(invoiceID);
+            if (list == null) return NotFound();
+
             double remainingAmount = list.Sum(item => item.RemainingBalance);
+
             return Ok(new { RemainingAmount = remainingAmount, Payments = list });
         }
 
         [HttpPost]
-        [Route("process-return-amount/{companyId:int}/{branchId:int}/{userId:int}")]
-        public async Task<IHttpActionResult> ProcessReturnAmount(SalePaymentReturn paymentReturnDto, int branchId, int companyId, int userId)
+        public async Task<ActionResult<(bool IsSuccess, string Message, IEnumerable<CustomerReturnPayment> Items, double RemainingAmount)>> 
+            ProcessReturnAmount(SalePaymentReturn paymentReturnDto, int branchId, int companyId, int userId)
         {
             var result = await _salePaymentReturnService.ProcessReturnAmountAsync(paymentReturnDto, branchId, companyId, userId);
+            if (!result.IsSuccess) return BadRequest(result.Message);
             return Ok(result);
         }
     }

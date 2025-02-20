@@ -1,16 +1,13 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Cors;
-using Domain.Models;
+﻿using Domain.Models;
+using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
+using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers.Financial.Reports
 {
-    [RoutePrefix("api/income-statement")]
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
-    public class IncomeStatementApiController : ApiController
+    [ApiController]
+    public class IncomeStatementApiController : ControllerBase
     {
         private readonly IIncomeStatementService _incomeStatementService;
         private readonly IFinancialYearRepository _financialYearRepository;
@@ -24,8 +21,8 @@ namespace API.Controllers
         }
 
         // GET: IncomeStatement
-        [HttpGet, Route("branch-income-statement/{companyId:int}/{branchId:int}")]
-        public async Task<IHttpActionResult> GetIncomeStatement(int companyId, int branchId)
+        [HttpGet]
+        public async Task<ActionResult<IncomeStatementModel>> GetIncomeStatement(int companyId, int branchId)
         {
             try
             {
@@ -35,12 +32,12 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpGet, Route("branch-income-statement/{companyId:int}/{branchId:int}/{FinancialYearID:int}")]
-        public async Task<IHttpActionResult> GetIncomeStatementByFinancialYear(int companyId, int branchId, int FinancialYearID)
+        [HttpGet]
+        public async Task<ActionResult<IncomeStatementModel>> GetIncomeStatementByFinancialYear(int companyId, int branchId, int FinancialYearID)
         {
             try
             {
@@ -48,13 +45,13 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
         // GET: IncomeStatement
-        [HttpGet, Route("sub-branch-income-statement/{companyId:int}/{branchId:int}")]
-        public async Task<IHttpActionResult> GetSubIncomeStatement(int companyId, int branchId)
+        [HttpGet]
+        public async Task<ActionResult<IncomeStatementModel>> GetSubIncomeStatement(int companyId, int branchId)
         {
             try
             {
@@ -64,12 +61,12 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpGet, Route("sub-branch-income-statement/{companyId:int}/{branchId:int}/{FinancialYearID:int}")]
-        public async Task<IHttpActionResult> GetSubIncomeStatementByFinancialYear(int companyId, int branchId, int FinancialYearID)
+        [HttpGet]
+        public async Task<ActionResult<IncomeStatementModel>> GetSubIncomeStatementByFinancialYear(int companyId, int branchId, int FinancialYearID)
         {
             try
             {
@@ -79,7 +76,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 

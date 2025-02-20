@@ -1,18 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Cors;
-using Domain.RepositoryAccess;
-using Domain.Models;
-using DatabaseAccess.Factories;
+﻿using Domain.RepositoryAccess;
+using Microsoft.AspNetCore.Mvc;
+using Services.Factories;
 using Utils.Interfaces;
-using System.Web;
 
-namespace API.Controllers
+namespace API.Controllers.Company
 {
-    [RoutePrefix("api/company")]
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
-    public class CompanyApiController : ApiController
+    [ApiController]
+    public class CompanyApiController : ControllerBase
     {
         private readonly ICompanyRepository _companyRepository;
         private readonly IFileService _fileService;
@@ -31,22 +25,23 @@ namespace API.Controllers
             _fileAdapterFactory = fileAdapterFactory ?? throw new ArgumentNullException(nameof(IFileAdapterFactory));
         }
 
-        [HttpGet, Route("")]
-        public async Task<IHttpActionResult> GetAll()
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Domain.Models.Company>>> GetAll()
         {
             try
             {
                 var companies = await _companyRepository.GetAllAsync();
+                if (companies == null) return NotFound();
                 return Ok(companies);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpGet, Route("{id:int}")]
-        public async Task<IHttpActionResult> GetById(int id)
+        [HttpGet]
+        public async Task<ActionResult<Domain.Models.Company>> GetById(int id)
         {
             try
             {
@@ -56,12 +51,12 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpPost, Route("create")]
-        public async Task<IHttpActionResult> Create([FromBody] Company model, [FromBody] HttpPostedFile logo)
+        [HttpPost]
+        public async Task<ActionResult<Domain.Models.Company>> Create([FromBody] Domain.Models.Company model, [FromBody] IFormFile logo)
         {
             if (model == null) return BadRequest("Invalid data.");
 
@@ -86,16 +81,16 @@ namespace API.Controllers
                 }
 
                 await _companyRepository.AddAsync(model);
-                return Created(Request.RequestUri + "/" + model.CompanyID, model);
+                return CreatedAtAction(nameof(GetById), new { id = model.CompanyID }, model);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpPost, Route("update/{id:int}")]
-        public async Task<IHttpActionResult> Update([FromBody] Company model, [FromBody] HttpPostedFile logo)
+        [HttpPost]
+        public async Task<IActionResult> Update([FromBody] Domain.Models.Company model, [FromBody] IFormFile logo)
         {
             if (model == null) return BadRequest("Invalid data.");
 
@@ -124,7 +119,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
     }

@@ -1,25 +1,20 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Http;
-using Domain.ServiceAccess;
+﻿using Domain.ServiceAccess;
+using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers.User.Analytics
 {
-    [RoutePrefix("api/employee-statistics")]
-    public class EmployeeStatisticsApiController : ApiController
+    [ApiController]
+    public class EmployeeStatisticsApiController : ControllerBase
     {
         private readonly IEmployeeStatisticsService _employeeStatsService;
 
-        public EmployeeStatisticsApiController(
-            IEmployeeStatisticsService employeeStatsService)
+        public EmployeeStatisticsApiController(IEmployeeStatisticsService employeeStatsService)
         {
             _employeeStatsService = employeeStatsService ?? throw new ArgumentNullException(nameof(employeeStatsService));
         }
 
         [HttpGet]
-        [Route("statistics")]
-        public async Task<IHttpActionResult> GetEmployeeStatistics(DateTime? startDate = null, DateTime? endDate = null, int companyId = 0, int branchId = 0)
+        public async Task<ActionResult<object>> GetEmployeeStatistics(DateTime? startDate = null, DateTime? endDate = null, int companyId = 0, int branchId = 0)
         {
             try
             {
@@ -43,7 +38,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
     }

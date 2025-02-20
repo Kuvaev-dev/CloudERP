@@ -1,15 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Cors;
-using Domain.Models;
+﻿using Domain.Models;
 using Domain.RepositoryAccess;
+using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 
-namespace API.Controllers
+namespace API.Controllers.User.Stuff
 {
-    [RoutePrefix("api/customer")]
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
-    public class CustomerApiController : ApiController
+    [ApiController]
+    public class CustomerApiController : ControllerBase
     {
         private readonly ICustomerRepository _customerRepository;
 
@@ -19,60 +16,57 @@ namespace API.Controllers
         }
 
         // GET: api/customers
-        [HttpGet, Route("")]
-        public async Task<IHttpActionResult> GetAll()
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Customer>>> GetAll()
         {
             try
             {
                 var customers = await _customerRepository.GetAllAsync();
                 if (customers == null) return NotFound();
-
                 return Ok(customers);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
         // GET: api/customers/5
-        [HttpGet, Route("{id:int}")]
-        public async Task<IHttpActionResult> GetById(int id)
+        [HttpGet]
+        public async Task<ActionResult<Customer>> GetById(int id)
         {
             try
             {
                 var customer = await _customerRepository.GetByIdAsync(id);
                 if (customer == null) return NotFound();
-
                 return Ok(customer);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
         // POST: api/customers
-        [HttpPost, Route("create")]
-        public async Task<IHttpActionResult> Create([FromBody] Customer customer)
+        [HttpPost]
+        public async Task<ActionResult<Customer>> Create([FromBody] Customer model)
         {
             try
             {
-                if (customer == null) return BadRequest("Invalid customer data.");
+                if (model == null) return BadRequest("Invalid customer data.");
 
-                await _customerRepository.AddAsync(customer);
-                return CreatedAtRoute("GetById", new { id = customer.CustomerID }, customer);
+                await _customerRepository.AddAsync(model);
+                return CreatedAtAction(nameof(GetById), new { id = model.CustomerID }, model);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
         // PUT: api/customers/5
         [HttpPut]
-        [Route("{id:int}")]
-        public async Task<IHttpActionResult> Update(int id, [FromBody] Customer customer)
+        public async Task<IActionResult> Update(int id, [FromBody] Customer customer)
         {
             try
             {
@@ -84,7 +78,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
     }

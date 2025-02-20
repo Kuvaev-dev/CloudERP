@@ -1,16 +1,13 @@
 ﻿using Domain.Facades;
+using Domain.Models;
 using Domain.Models.FinancialModels;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Cors;
+using Domain.Models.Purchase;
+using Microsoft.AspNetCore.Mvc;
 
-namespace CloudERP.ApiControllers
+namespace API.Controllers.Purchase.Payment
 {
-    [RoutePrefix("api/purchase-payment")]
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
-    public class PurchasePaymentApiController : ApiController
+    [ApiController]
+    public class PurchasePaymentApiController : ControllerBase
     {
         private readonly PurchasePaymentFacade _purchasePaymentFacade;
 
@@ -19,22 +16,24 @@ namespace CloudERP.ApiControllers
             _purchasePaymentFacade = purchasePaymentFacade ?? throw new ArgumentNullException(nameof(purchasePaymentFacade));
         }
 
-        [HttpGet, Route("remaining-payment-list/{companyId:int}/{branchId:int}")]
-        public async Task<IHttpActionResult> GetRemainingPaymentList(int companyId, int branchId)
+        [HttpGet]
+        public async Task<ActionResult<List<PurchasePaymentModel>>> GetRemainingPaymentList(int companyId, int branchId)
         {
             var list = await _purchasePaymentFacade.PurchaseRepository.RemainingPaymentList(companyId, branchId);
+            if (list.Count == 0) return NotFound();
             return Ok(list);
         }
 
-        [HttpGet, Route("paid-history/{id:int}")]
-        public async Task<IHttpActionResult> GetPaidHistory(int id)
+        [HttpGet]
+        public async Task<ActionResult<List<PurchasePaymentModel>>> GetPaidHistory(int id)
         {
             var list = await _purchasePaymentFacade.PurchasePaymentService.GetPurchasePaymentHistoryAsync(id);
+            if (list.Count == 0) return NotFound();
             return Ok(list);
         }
 
-        [HttpPost, Route("process-payment")]
-        public async Task<IHttpActionResult> ProcessPayment(PurchasePayment paymentDto)
+        [HttpPost]
+        public async Task<ActionResult<string>> ProcessPayment(PurchasePayment paymentDto)
         {
             string message = await _purchasePaymentFacade.PurchasePaymentService.ProcessPaymentAsync(
                 paymentDto.CompanyID,
@@ -48,26 +47,27 @@ namespace CloudERP.ApiControllers
             return Ok(message);
         }
 
-        [HttpGet, Route("custom-purchases-history/{companyId:int}/{branchId:int}/{fromDate:DateTime}/{toDate:DateTime}")]
-        public async Task<IHttpActionResult> GetCustomPurchasesHistory(int companyId, int branchId, DateTime fromDate, DateTime toDate)
+        [HttpGet]
+        public async Task<ActionResult<List<PurchasePaymentModel>>> GetCustomPurchasesHistory(int companyId, int branchId, DateTime fromDate, DateTime toDate)
         {
             var list = await _purchasePaymentFacade.PurchaseRepository.CustomPurchasesList(companyId, branchId, fromDate, toDate);
+            if (list.Count == 0) return NotFound();
             return Ok(list);
         }
 
-        [HttpGet, Route("purchase-item-detail/{id:int}")]
-        public async Task<IHttpActionResult> GetPurchaseItemDetail(int id)
+        [HttpGet]
+        public async Task<ActionResult<PurchaseItemDetailDto>> GetPurchaseItemDetail(int id)
         {
             var purchaseDetail = await _purchasePaymentFacade.PurchaseService.GetPurchaseItemDetailAsync(id);
+            if (purchaseDetail == null) return NotFound();
             return Ok(purchaseDetail);
         }
 
-        [HttpGet, Route("purchase-invoice/{id:int}")]
-        public async Task<IHttpActionResult> GetPurchaseInvoice(int id)
+        [HttpGet]
+        public async Task<ActionResult<SupplierInvoiceDetail>> GetPurchaseInvoice(int id)
         {
             var invoiceDetails = await _purchasePaymentFacade.SupplierInvoiceDetailRepository.GetListByIdAsync(id);
-            if (invoiceDetails?.Any() != true) return NotFound();
-
+            if (invoiceDetails == null) return NotFound();
             return Ok(invoiceDetails);
         }
     }

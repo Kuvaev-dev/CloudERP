@@ -1,22 +1,24 @@
-﻿using System.Configuration;
-using System.Web.Http;
-using System.Web.Http.Cors;
+﻿using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers.Utilities
 {
-    [RoutePrefix("api/currency")]
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
-    public class CurrencyApiController : ApiController
+    [ApiController]
+    public class CurrencyApiController : ControllerBase
     {
-        [HttpGet, Route("")]
-        public IHttpActionResult SetCurrency(string currencyCode)
-        {
-            if (string.IsNullOrEmpty(currencyCode))
-            {
-                currencyCode = ConfigurationManager.AppSettings["DefaultCurrency"] ?? "UAH";
-            }
+        private readonly IConfiguration _configuration;
+        private readonly string _defaultCurrency;
 
-            return Ok(currencyCode);
+        public CurrencyApiController(IConfiguration configuration)
+        {
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            _defaultCurrency = _configuration["DefaultCurrency"] ?? throw new ArgumentNullException("DefaultCurrency is missing in configuration.");
+        }
+
+        [HttpGet]
+        public ActionResult<string> GetCurrency(string currencyCode)
+        {
+            string defaultCurrency = _defaultCurrency ?? "UAH";
+            return Ok(currencyCode ?? defaultCurrency);
         }
     }
 }

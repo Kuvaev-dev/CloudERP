@@ -1,17 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Cors;
-using Domain.Models;
-using Domain.RepositoryAccess;
+﻿using Domain.RepositoryAccess;
+using Microsoft.AspNetCore.Mvc;
 using Utils.Helpers;
 
-namespace API.Controllers
+namespace API.Controllers.User.Settings
 {
-    [RoutePrefix("api/user-settings")]
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
-    public class UserSettingApiController : ApiController
+    [ApiController]
+    public class UserSettingApiController : ControllerBase
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IUserRepository _userRepository;
@@ -32,8 +26,7 @@ namespace API.Controllers
 
         // POST: Create User
         [HttpPost]
-        [Route("create-user")]
-        public async Task<IHttpActionResult> CreateUser(User user, [FromUri] int companyId, [FromUri] int branchId)
+        public async Task<ActionResult<Domain.Models.User>> CreateUser(Domain.Models.User user, int companyId, int branchId)
         {
             try
             {
@@ -60,14 +53,13 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
         // PUT: Update User
         [HttpPut]
-        [Route("update-user")]
-        public async Task<IHttpActionResult> UpdateUser(User user)
+        public async Task<ActionResult<Domain.Models.User>> UpdateUser(Domain.Models.User user)
         {
             try
             {
@@ -85,14 +77,13 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
         // GET: User details
         [HttpGet]
-        [Route("user/{userId:int}")]
-        public async Task<IHttpActionResult> GetUser(int userId)
+        public async Task<ActionResult<Domain.Models.User>> GetUser(int userId)
         {
             try
             {
@@ -103,7 +94,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
     }

@@ -1,19 +1,13 @@
-﻿using System;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Cors;
-using API.Models;
+﻿using API.Models;
 using Domain.Models;
+using Microsoft.AspNetCore.Mvc;
 using Services.Facades;
 using Utils.Helpers;
 
-namespace API.Controllers
+namespace API.Controllers.Company
 {
-    [RoutePrefix("api/company-registration")]
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
-    public class CompanyRegistrationApiController : ApiController
+    [ApiController]
+    public class CompanyRegistrationApiController : ControllerBase
     {
         private readonly CompanyRegistrationFacade _companyRegistrationFacade;
         private readonly PasswordHelper _passwordHelper;
@@ -27,31 +21,31 @@ namespace API.Controllers
             CompanyRegistrationFacade companyRegistrationFacade,
             PasswordHelper passwordHelper)
         {
-            _companyRegistrationFacade = companyRegistrationFacade ?? throw new ArgumentNullException(nameof(CompanyRegistrationFacade));
-            _passwordHelper = passwordHelper ?? throw new ArgumentNullException(nameof(PasswordHelper));
+            _companyRegistrationFacade = companyRegistrationFacade ?? throw new ArgumentNullException(nameof(companyRegistrationFacade));
+            _passwordHelper = passwordHelper ?? throw new ArgumentNullException(nameof(passwordHelper));
         }
 
-        [HttpPost, Route("register")]
-        public async Task<HttpResponseMessage> Register([FromBody] RegistrationMV model)
+        [HttpPost]
+        public async Task<ActionResult<string>> Register([FromBody] RegistrationMV model)
         {
             if (model == null || !ModelState.IsValid)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Неправильные данные.");
+                return BadRequest("Неправильные данные.");
             }
 
             try
             {
                 if (await _companyRegistrationFacade.UserRepository.GetByEmailAsync(model.EmployeeEmail) != null)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.Conflict, "Пользователь с таким email уже существует.");
+                    return Conflict("Пользователь с таким email уже существует.");
                 }
 
                 if (await _companyRegistrationFacade.CompanyRepository.GetByNameAsync(model.CompanyName) != null)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.Conflict, "Компания с таким названием уже зарегистрирована.");
+                    return Conflict("Компания с таким названием уже зарегистрирована.");
                 }
 
-                var company = new Company
+                var company = new Domain.Models.Company
                 {
                     Name = model.CompanyName,
                     Logo = DEFAULT_COMPANY_LOGO_PATH,
@@ -59,7 +53,7 @@ namespace API.Controllers
                 };
                 await _companyRegistrationFacade.CompanyRepository.AddAsync(company);
 
-                var branch = new Branch
+                var branch = new Domain.Models.Branch
                 {
                     BranchAddress = model.BranchAddress,
                     BranchContact = model.BranchContact,
@@ -102,15 +96,15 @@ namespace API.Controllers
 
                 SendEmail(employee, company);
 
-                return Request.CreateResponse(HttpStatusCode.OK, "Регистрация прошла успешно.");
+                return Ok("Регистрация прошла успешно.");
             }
             catch (Exception ex)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Произошла ошибка: " + ex.Message);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        private void SendEmail(Employee employee, Company company)
+        private void SendEmail(Employee employee, Domain.Models.Company company)
         {
             var subject = $"Welcome to {company.Name}";
             var body = $"Здравствуйте, {employee.FullName},\n\n" +

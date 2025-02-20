@@ -1,14 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Web.Http;
-using Domain.Models.FinancialModels;
+﻿using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
+using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers.Purchase.Cart
 {
-    [RoutePrefix("api/purchase-return")]
-    public class PurchaseReturnApiController : ApiController
+    [ApiController]
+    public class PurchaseReturnApiController : ControllerBase
     {
         private readonly ISupplierInvoiceRepository _supplierInvoiceRepository;
         private readonly ISupplierReturnInvoiceDetailRepository _supplierReturnInvoiceDetailRepository;
@@ -25,8 +23,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [Route("invoice/{invoiceID:string}")]
-        public async Task<IHttpActionResult> GetPurchaseByInvoice(string invoiceID)
+        public async Task<ActionResult<object>> GetPurchaseByInvoice(string invoiceID)
         {
             try
             {
@@ -34,17 +31,18 @@ namespace API.Controllers
                 if (invoice == null) return NotFound();
 
                 var invoiceDetails = _supplierReturnInvoiceDetailRepository.GetInvoiceDetails(invoiceID);
+                if (invoiceDetails == null) return NotFound();
+
                 return Ok(new { invoice, invoiceDetails });
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
         [HttpPost]
-        [Route("return")]
-        public async Task<IHttpActionResult> ProcessPurchaseReturn(PurchaseReturnConfirm returnConfirmDto)
+        public async Task<ActionResult<object>> ProcessPurchaseReturn(PurchaseReturnConfirm returnConfirmDto)
         {
             try
             {
@@ -63,7 +61,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
     }

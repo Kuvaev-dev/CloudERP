@@ -1,16 +1,13 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Cors;
+﻿using Domain.Models;
 using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
+using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers.Sale.Cart
 {
-    [RoutePrefix("api/sale-return")]
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
-    public class SaleReturnApiController : ApiController
+    [ApiController]
+    public class SaleReturnApiController : ControllerBase
     {
         private readonly ICustomerInvoiceRepository _customerInvoiceRepository;
         private readonly ICustomerReturnInvoiceDetailRepository _customerReturnInvoiceDetailRepository;
@@ -27,18 +24,19 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [Route("find-sale/{invoiceID}")]
-        public async Task<IHttpActionResult> FindSale(string invoiceID)
+        public async Task<ActionResult<object>> FindSale(string invoiceID)
         {
             var invoiceDetails = _customerReturnInvoiceDetailRepository.GetInvoiceDetails(invoiceID);
+            if (invoiceDetails == null) return NotFound();
+
             var invoice = await _customerInvoiceRepository.GetByInvoiceNoAsync(invoiceID);
+            if (invoice == null) return NotFound();
 
             return Ok(new { InvoiceDetails = invoiceDetails, Invoice = invoice });
         }
 
         [HttpPost]
-        [Route("return-confirm")]
-        public async Task<IHttpActionResult> ReturnConfirm(SaleReturnConfirm returnConfirmDto)
+        public async Task<ActionResult<ReturnConfirmResult>> ReturnConfirm(SaleReturnConfirm returnConfirmDto)
         {
             var result = await _saleReturnService.ProcessReturnConfirmAsync(
                 returnConfirmDto,

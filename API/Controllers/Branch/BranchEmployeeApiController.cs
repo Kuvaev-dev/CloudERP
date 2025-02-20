@@ -1,18 +1,14 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Cors;
-using Domain.RepositoryAccess;
+﻿using Domain.RepositoryAccess;
 using Utils.Interfaces;
-using DatabaseAccess.Factories;
 using Domain.Models;
-using System.Web;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Services.Factories;
 
-namespace API.Controllers
+namespace API.Controllers.Branch
 {
-    [RoutePrefix("api/branch-employee")]
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
-    public class BranchEmployeeApiController : ApiController
+    [ApiController]
+    public class BranchEmployeeApiController : ControllerBase
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IFileService _fileService;
@@ -31,26 +27,25 @@ namespace API.Controllers
             _fileAdapterFactory = fileAdapterFactory ?? throw new ArgumentNullException(nameof(IFileAdapterFactory));
         }
 
-        [HttpGet, Route("employee/{companyId:int}/{branchId:int}")]
-        public async Task<IHttpActionResult> Employee(int companyId, int branchId)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Employee>>> Employee(int companyId, int branchId)
         {
             try
             {
                 var employees = await _employeeRepository.GetByBranchAsync(companyId, branchId);
+                if (employees == null) return NotFound();
                 return Ok(employees);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpPost, Route("registration")]
-        public async Task<IHttpActionResult> EmployeeRegistration()
+        [HttpPost]
+        public async Task<ActionResult<Employee>> EmployeeRegistration()
         {
-            var httpRequest = HttpContext.Current.Request;
-
-            if (httpRequest.Files.Count == 0 && string.IsNullOrEmpty(httpRequest.Form["model"]))
+            if (!Request.HasFormContentType && string.IsNullOrEmpty(Request.Form["model"]))
             {
                 return BadRequest("Invalid data.");
             }
@@ -58,7 +53,7 @@ namespace API.Controllers
             Employee model;
             try
             {
-                model = Newtonsoft.Json.JsonConvert.DeserializeObject<Employee>(httpRequest.Form["model"]);
+                model = JsonConvert.DeserializeObject<Employee>(Request.Form["model"]);
             }
             catch
             {
@@ -69,9 +64,9 @@ namespace API.Controllers
 
             try
             {
-                if (httpRequest.Files.Count > 0)
+                if (Request.Form.Files.Count > 0)
                 {
-                    var file = httpRequest.Files[0];
+                    var file = Request.Form.Files[0];
                     var fileName = $"{model.UserID}.jpg";
 
                     var fileAdapter = _fileAdapterFactory.Create(file);
@@ -83,16 +78,16 @@ namespace API.Controllers
                 }
 
                 await _employeeRepository.AddAsync(model);
-                return Created(Request.RequestUri + "/" + model.EmployeeID, model);
+                return CreatedAtAction(nameof(GetById), new { id = model.EmployeeID }, model);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpGet, Route("{id:int}")]
-        public async Task<IHttpActionResult> GetById(int id)
+        [HttpGet]
+        public async Task<ActionResult<Employee>> GetById(int id)
         {
             try
             {
@@ -103,16 +98,14 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
         [HttpPost, Route("updation")]
-        public async Task<IHttpActionResult> EmployeeUpdation()
+        public async Task<ActionResult<Employee>> EmployeeUpdation()
         {
-            var httpRequest = HttpContext.Current.Request;
-
-            if (httpRequest.Files.Count == 0 && string.IsNullOrEmpty(httpRequest.Form["model"]))
+            if (!Request.HasFormContentType && string.IsNullOrEmpty(Request.Form["model"]))
             {
                 return BadRequest("Invalid data.");
             }
@@ -120,7 +113,7 @@ namespace API.Controllers
             Employee model;
             try
             {
-                model = Newtonsoft.Json.JsonConvert.DeserializeObject<Employee>(httpRequest.Form["model"]);
+                model = Newtonsoft.Json.JsonConvert.DeserializeObject<Employee>(Request.Form["model"]);
             }
             catch
             {
@@ -131,9 +124,9 @@ namespace API.Controllers
 
             try
             {
-                if (httpRequest.Files.Count > 0)
+                if (Request.Form.Files.Count > 0)
                 {
-                    var file = httpRequest.Files[0];
+                    var file = Request.Form.Files[0];
                     var fileName = $"{model.UserID}.jpg";
 
                     var fileAdapter = _fileAdapterFactory.Create(file);
@@ -149,7 +142,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
     }

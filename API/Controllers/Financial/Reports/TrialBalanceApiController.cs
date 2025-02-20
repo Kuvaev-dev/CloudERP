@@ -1,15 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Cors;
-using Domain.Models;
+﻿using Domain.Models;
+using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
+using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers.Financial.Reports
 {
-    [RoutePrefix("api/trial-balance")]
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
-    public class TrialBalanceApiController : ApiController
+    [ApiController]
+    public class TrialBalanceApiController : ControllerBase
     {
         private readonly ITrialBalanceRepository _trialBalanceRepository;
         private readonly IFinancialYearRepository _financialYearRepository;
@@ -23,8 +20,8 @@ namespace API.Controllers
         }
 
         // GET: BalanceSheet
-        [HttpGet, Route("branch-trial-balance/{companyId:int}/{branchId:int}")]
-        public async Task<IHttpActionResult> GetBalanceSheet(int companyId, int branchId)
+        [HttpGet]
+        public async Task<ActionResult<List<TrialBalanceModel>>> GetBalanceSheet(int companyId, int branchId)
         {
             try
             {
@@ -39,12 +36,12 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpGet, Route("branch-trial-balance/{companyId:int}/{branchId:int}/{financialYearId:int}")]
-        public async Task<IHttpActionResult> GetBalanceSheetByFinancialYear(int companyId, int branchId, int financialYearId)
+        [HttpGet]
+        public async Task<ActionResult<List<TrialBalanceModel>>> GetBalanceSheetByFinancialYear(int companyId, int branchId, int financialYearId)
         {
             try
             {
@@ -57,12 +54,12 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpGet, Route("sub-branch-trial-balance/{companyId:int}/{branchId:int}")]
-        public async Task<IHttpActionResult> GetSubBalanceSheet(int companyId, int branchId)
+        [HttpGet]
+        public async Task<ActionResult<List<TrialBalanceModel>>> GetSubBalanceSheet(int companyId, int branchId)
         {
             try
             {
@@ -77,12 +74,12 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpGet, Route("branch-trial-balance/{companyId:int}/{branchId:int}/{financialYearId:int}")]
-        public async Task<IHttpActionResult> GetSubBalanceSheetByFinancialYear(int companyId, int branchId, int financialYearId)
+        [HttpGet]
+        public async Task<ActionResult<List<TrialBalanceModel>>> GetSubBalanceSheetByFinancialYear(int companyId, int branchId, int financialYearId)
         {
             try
             {
@@ -97,7 +94,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 

@@ -1,14 +1,13 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Web.Http;
+﻿using Domain.Models;
 using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
+using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers.Purchase.Payment
 {
-    [RoutePrefix("api/purchase-payment-return")]
-    public class PurchasePaymentReturnApiController : ApiController
+    [ApiController]
+    public class PurchasePaymentReturnApiController : ControllerBase
     {
         private readonly IPurchasePaymentReturnService _purchasePaymentReturnService;
         private readonly IPurchaseRepository _purchaseRepository;
@@ -25,24 +24,23 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [Route("return-purchase-pending-amount/{companyId:int}/{branchId:int}")]
-        public async Task<IHttpActionResult> GetReturnPurchasePendingAmount(int companyId, int branchId)
+        public async Task<ActionResult<List<PurchasePaymentModel>>> GetReturnPurchasePendingAmount(int companyId, int branchId)
         {
             var purchases = await _purchaseRepository.GetReturnPurchasesPaymentPending(companyId, branchId);
+            if (purchases == null) return NotFound();
             return Ok(purchases);
         }
 
         [HttpGet]
-        [Route("supplier-return-payments/{id}")]
-        public async Task<IHttpActionResult> GetSupplierReturnPayments(int id)
+        public async Task<ActionResult<IEnumerable<SupplierReturnPayment>>> GetSupplierReturnPayments(int id)
         {
             var payments = await _supplierReturnPaymentRepository.GetBySupplierReturnInvoiceId(id);
+            if (payments == null) return NotFound();
             return Ok(payments);
         }
 
         [HttpPost]
-        [Route("process-return-payment/{companyId:int}/{branchId:int}/{userId:int}")]
-        public async Task<IHttpActionResult> ProcessReturnPayment(PurchaseReturnAmount returnAmountDto, int companyId, int branchId, int userId)
+        public async Task<ActionResult<string>> ProcessReturnPayment(PurchaseReturnAmount returnAmountDto, int companyId, int branchId, int userId)
         {
             string message = await _purchasePaymentReturnService.ProcessReturnPaymentAsync(returnAmountDto, branchId, companyId, userId);
             return Ok(message);

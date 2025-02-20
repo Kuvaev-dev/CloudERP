@@ -1,15 +1,12 @@
-﻿using System;
-using System.Web.Http;
-using System.Web.Http.Cors;
-using Domain.RepositoryAccess;
+﻿using Domain.RepositoryAccess;
+using Microsoft.AspNetCore.Mvc;
 using Utils.Interfaces;
 using Utils.Models;
 
-namespace API.Controllers
+namespace API.Controllers.Financial.Forecasting
 {
-    [RoutePrefix("api/forecasting")]
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
-    public class ForecastingApiController : ApiController
+    [ApiController]
+    public class ForecastingApiController : ControllerBase
     {
         private readonly IForecastingRepository _forecastingRepository;
         private readonly IForecastingService _forecastingService;
@@ -23,11 +20,9 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        [Route("generate")]
-        public IHttpActionResult GenerateForecast([FromBody] ForecastInputModel inputModel)
+        public ActionResult GenerateForecast([FromBody] ForecastInputModel inputModel)
         {
-            if (inputModel == null)
-                return BadRequest("Invalid forecast input data.");
+            if (inputModel == null) return BadRequest("Invalid forecast input data.");
 
             try
             {
@@ -42,7 +37,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
     }

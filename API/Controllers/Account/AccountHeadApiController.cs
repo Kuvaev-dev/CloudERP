@@ -1,81 +1,78 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Cors;
-using Domain.Models;
+﻿using Domain.Models;
 using Domain.RepositoryAccess;
+using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers.Account
 {
-    [RoutePrefix("api/account-head")]
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
-    public class AccountHeadApiController : ApiController
+    [ApiController]
+    public class AccountHeadApiController : ControllerBase
     {
-        private readonly IAccountHeadRepository _repository;
+        private readonly IAccountHeadRepository _accountHeadRepository;
 
-        public AccountHeadApiController(IAccountHeadRepository repository)
+        public AccountHeadApiController(IAccountHeadRepository accountHeadRepository)
         {
-            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _accountHeadRepository = accountHeadRepository ?? throw new ArgumentNullException(nameof(accountHeadRepository));
         }
 
-        [HttpGet, Route("")]
-        public async Task<IHttpActionResult> GetAll()
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<AccountHead>>> GetAll()
         {
             try
             {
-                var accountHeads = await _repository.GetAllAsync();
+                var accountHeads = await _accountHeadRepository.GetAllAsync();
+                if (accountHeads == null) return NotFound();
                 return Ok(accountHeads);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpGet, Route("{id:int}")]
-        public async Task<IHttpActionResult> GetById(int id)
+        [HttpGet]
+        public async Task<ActionResult<AccountHead>> GetById(int id)
         {
             try
             {
-                var accountHead = await _repository.GetByIdAsync(id);
+                var accountHead = await _accountHeadRepository.GetByIdAsync(id);
                 if (accountHead == null) return NotFound();
                 return Ok(accountHead);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpPost, Route("create")]
-        public async Task<IHttpActionResult> Create([FromBody] AccountHead model)
+        [HttpPost]
+        public async Task<ActionResult<AccountHead>> Create([FromBody] AccountHead model)
         {
             if (model == null) return BadRequest("Invalid data.");
 
             try
             {
-                await _repository.AddAsync(model);
-                return Created(Request.RequestUri + "/" + model.AccountHeadID, model);
+                await _accountHeadRepository.AddAsync(model);
+                return CreatedAtAction(nameof(GetById), new { id = model.AccountHeadID }, model);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpPut, Route("update/{id:int}")]
-        public async Task<IHttpActionResult> Update(int id, [FromBody] AccountHead model)
+        [HttpPut]
+        public async Task<IActionResult> Update(int id, [FromBody] AccountHead model)
         {
             if (model == null || id != model.AccountHeadID) return BadRequest("Invalid data.");
 
             try
             {
-                await _repository.UpdateAsync(model);
+                await _accountHeadRepository.UpdateAsync(model);
                 return Ok();
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
     }

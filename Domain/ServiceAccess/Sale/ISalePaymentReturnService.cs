@@ -7,6 +7,7 @@ namespace Domain.ServiceAccess
 {
     public interface ISalePaymentReturnService
     {
-        Task<(bool IsSuccess, string Message, IEnumerable<CustomerReturnPayment> Items, double RemainingAmount)> ProcessReturnAmountAsync(SalePaymentReturn paymentReturnDto, int branchId, int companyId, int userId);
+        Task<(bool IsSuccess, string Message, IEnumerable<CustomerReturnPayment> Items, double RemainingAmount)> 
+            ProcessReturnAmountAsync(SalePaymentReturn paymentReturnDto, int branchId, int companyId, int userId);
     }
 }

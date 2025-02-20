@@ -1,15 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Cors;
-using Domain.Models;
+﻿using Domain.Models;
 using Domain.RepositoryAccess;
+using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers.Branch
 {
-    [RoutePrefix("api/branch-type")]
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
-    public class BranchTypeApiController : ApiController
+    [ApiController]
+    public class BranchTypeApiController : ControllerBase
     {
         private readonly IBranchTypeRepository _branchTypeRepository;
 
@@ -18,22 +14,23 @@ namespace API.Controllers
             _branchTypeRepository = branchTypeRepository;
         }
 
-        [HttpGet, Route("")]
-        public async Task<IHttpActionResult> GetAll()
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<BranchType>>> GetAll()
         {
             try
             {
                 var branchTypes = await _branchTypeRepository.GetAllAsync();
+                if (branchTypes == null) return NotFound();
                 return Ok(branchTypes);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpGet, Route("{id:int}")]
-        public async Task<IHttpActionResult> GetById(int id)
+        [HttpGet]
+        public async Task<ActionResult<BranchType>> GetById(int id)
         {
             try
             {
@@ -43,28 +40,28 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
         [HttpPost, Route("create")]
-        public async Task<IHttpActionResult> Create([FromBody] BranchType model)
+        public async Task<ActionResult<BranchType>> Create([FromBody] BranchType model)
         {
             if (model == null) return BadRequest("Invalid data.");
 
             try
             {
                 await _branchTypeRepository.AddAsync(model);
-                return Created(Request.RequestUri + "/" + model.BranchTypeID, model);
+                return CreatedAtAction(nameof(GetById), new { id = model.BranchTypeID }, model);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpPut, Route("update/{id:int}")]
-        public async Task<IHttpActionResult> Update(int id, [FromBody] BranchType model)
+        [HttpPut]
+        public async Task<IActionResult> Update(int id, [FromBody] BranchType model)
         {
             if (model == null || id != model.BranchTypeID) return BadRequest("Invalid data.");
 
@@ -78,7 +75,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
     }

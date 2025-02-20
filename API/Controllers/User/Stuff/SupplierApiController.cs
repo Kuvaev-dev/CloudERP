@@ -1,15 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Cors;
-using Domain.Models;
+﻿using Domain.Models;
 using Domain.RepositoryAccess;
+using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers.User.Stuff
 {
-    [RoutePrefix("api/supplier")]
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
-    public class SupplierApiController : ApiController
+    [ApiController]
+    public class SupplierApiController : ControllerBase
     {
         private readonly ISupplierRepository _repository;
 
@@ -18,22 +14,23 @@ namespace API.Controllers
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
-        [HttpGet, Route("")]
-        public async Task<IHttpActionResult> GetAll()
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Supplier>>> GetAll()
         {
             try
             {
                 var suppliers = await _repository.GetAllAsync();
+                if (suppliers == null) return NotFound();
                 return Ok(suppliers);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpGet, Route("{id:int}")]
-        public async Task<IHttpActionResult> GetById(int id)
+        [HttpGet]
+        public async Task<ActionResult<Supplier>> GetById(int id)
         {
             try
             {
@@ -43,28 +40,28 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpPost, Route("create")]
-        public async Task<IHttpActionResult> Create([FromBody] Supplier model)
+        [HttpPost]
+        public async Task<ActionResult<Supplier>> Create([FromBody] Supplier model)
         {
             if (model == null) return BadRequest("Invalid data.");
 
             try
             {
                 await _repository.AddAsync(model);
-                return Created(Request.RequestUri + "/" + model.SupplierID, model);
+                return CreatedAtAction(nameof(GetById), new { id = model.SupplierID }, model);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpPut, Route("update/{id:int}")]
-        public async Task<IHttpActionResult> Update(int id, [FromBody] Supplier model)
+        [HttpPut]
+        public async Task<IActionResult> Update(int id, [FromBody] Supplier model)
         {
             if (model == null || id != model.SupplierID) return BadRequest("Invalid data.");
 
@@ -75,21 +72,22 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpGet, Route("branch/{branchId:int}")]
-        public async Task<IHttpActionResult> GetByBranch(int branchId)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Supplier>>> GetByBranch(int branchId)
         {
             try
             {
                 var suppliers = await _repository.GetSuppliersByBranchesAsync(branchId);
+                if (suppliers == null) return NotFound();
                 return Ok(suppliers);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
     }

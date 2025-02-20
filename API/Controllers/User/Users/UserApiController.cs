@@ -1,14 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Web.Http;
-using Domain.Models;
+﻿using Domain.Models;
 using Domain.RepositoryAccess;
+using Microsoft.AspNetCore.Mvc;
 using Utils.Helpers;
 
-namespace API.Controllers
+namespace API.Controllers.User.Users
 {
-    [RoutePrefix("api/user")]
-    public class UserApiController : ApiController
+    [ApiController]
+    public class UserApiController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
         private readonly IUserTypeRepository _userTypeRepository;
@@ -25,26 +23,24 @@ namespace API.Controllers
         }
 
         // GET: api/user
-        [HttpGet, Route("")]
-        public async Task<IHttpActionResult> GetAll()
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Domain.Models.User>>> GetAll()
         {
             try
             {
                 var users = await _userRepository.GetAllAsync();
                 if (users == null) return NotFound();
-
                 return Ok(users);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
         // GET: api/user/branch/{companyId}/{branchTypeId}/{branchId}
         [HttpGet]
-        [Route("branch/{companyId:int}/{branchTypeId:int}/{branchId}")]
-        public async Task<IHttpActionResult> GetByBranch(int companyId, int branchTypeId, int branchId)
+        public async Task<ActionResult<IEnumerable<Domain.Models.User>>> GetByBranch(int companyId, int branchTypeId, int branchId)
         {
             try
             {
@@ -55,32 +51,29 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
         // GET: api/user/{id}
         [HttpGet]
-        [Route("{id}")]
-        public async Task<IHttpActionResult> GetById(int id)
+        public async Task<ActionResult<Domain.Models.User>> GetById(int id)
         {
             try
             {
                 var user = await _userRepository.GetByIdAsync(id);
                 if (user == null) return NotFound();
-
                 return Ok(user);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
         // POST: api/user/create
         [HttpPost]
-        [Route("create")]
-        public async Task<IHttpActionResult> Create([FromBody] User model)
+        public async Task<ActionResult<string>> Create([FromBody] Domain.Models.User model)
         {
             try
             {
@@ -94,14 +87,13 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
         // PUT: api/user/update/{id}
         [HttpPut]
-        [Route("update/{id}")]
-        public async Task<IHttpActionResult> UpdateUser(int id, [FromBody] User model)
+        public async Task<ActionResult<string>> UpdateUser(int id, [FromBody] Domain.Models.User model)
         {
             try
             {
@@ -124,7 +116,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
     }

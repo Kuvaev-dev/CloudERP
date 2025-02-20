@@ -1,13 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Web.Http;
-using Domain.Models;
+﻿using Domain.Models;
 using Domain.RepositoryAccess;
+using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers.Account
 {
-    [RoutePrefix("api/account-control")]
-    public class AccountControlApiController : ApiController
+    [ApiController]
+    public class AccountControlApiController : ControllerBase
     {
         private readonly IAccountControlRepository _accountControlRepository;
 
@@ -16,56 +14,56 @@ namespace API.Controllers
             _accountControlRepository = accountControlRepository ?? throw new ArgumentNullException(nameof(accountControlRepository));
         }
 
-        [HttpGet, Route("{companyId:int}/{branchId:int}")]
-        public async Task<IHttpActionResult> GetAll([FromUri] int companyId, [FromUri] int branchId)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<AccountControl>>> GetAll(int companyId, int branchId)
         {
             try
             {
                 var accountControls = await _accountControlRepository.GetAllAsync(companyId, branchId);
+                if (accountControls == null) return NotFound();
                 return Ok(accountControls);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpGet, Route("{id:int}")]
-        public async Task<IHttpActionResult> GetById(int id)
+        [HttpGet]
+        public async Task<ActionResult<AccountControl>> GetById(int id)
         {
             try
             {
                 var accountControl = await _accountControlRepository.GetByIdAsync(id);
                 if (accountControl == null) return NotFound();
-
                 return Ok(accountControl);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpPost, Route("create")]
-        public async Task<IHttpActionResult> Create([FromBody] AccountControl model)
+        [HttpPost]
+        public async Task<ActionResult<AccountControl>> Create([FromBody] AccountControl model)
         {
-            if (model == null) return BadRequest("Invalid model");
+            if (model == null) return BadRequest();
 
             try
             {
                 await _accountControlRepository.AddAsync(model);
-                return Created(Request.RequestUri + "/" + model.AccountControlID, model);
+                return CreatedAtAction(nameof(GetById), new { id = model.AccountControlID }, model);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpPut, Route("update/{id:int}")]
-        public async Task<IHttpActionResult> Update(int id, [FromBody] AccountControl model)
+        [HttpPut]
+        public async Task<IActionResult> Update(int id, [FromBody] AccountControl model)
         {
-            if (model == null || model.AccountControlID != id) return BadRequest("Invalid model");
+            if (model == null || model.AccountControlID != id) return BadRequest();
 
             try
             {
@@ -74,7 +72,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
     }

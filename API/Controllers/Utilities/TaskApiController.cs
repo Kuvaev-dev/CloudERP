@@ -1,15 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Cors;
-using Domain.Models;
+﻿using Domain.Models;
 using Domain.RepositoryAccess;
+using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers.Utilities
 {
-    [RoutePrefix("api/task")]
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
-    public class TaskApiController : ApiController
+    [ApiController]
+    public class TaskApiController : ControllerBase
     {
         private readonly ITaskRepository _taskRepository;
         private readonly IEmployeeRepository _employeeRepository;
@@ -22,36 +18,38 @@ namespace API.Controllers
             _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(employeeRepository));
         }
 
-        [HttpGet, Route("{companyId:int}/{branchId:int}/{userId:int}")]
-        public async Task<IHttpActionResult> GetAll(int companyId, int branchId, int userId)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<TaskModel>>> GetAll(int companyId, int branchId, int userId)
         {
             try
             {
                 var tasks = await _taskRepository.GetAllAsync(companyId, branchId, userId);
+                if (tasks == null) return NotFound();
                 return Ok(tasks);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpGet, Route("employees/{companyId:int}/{branchId:int}")]
-        public async Task<IHttpActionResult> GetEmployeesForTaskAssignment(int companyId, int branchId)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Employee>>> GetEmployeesForTaskAssignment(int companyId, int branchId)
         {
             try
             {
                 var employees = await _employeeRepository.GetEmployeesForTaskAssignmentAsync(companyId, branchId);
+                if (employees == null) return NotFound();
                 return Ok(employees);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpGet, Route("{id:int}")]
-        public async Task<IHttpActionResult> GetById(int id)
+        [HttpGet]
+        public async Task<ActionResult<TaskModel>> GetById(int id)
         {
             try
             {
@@ -61,28 +59,28 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpPost, Route("create")]
-        public async Task<IHttpActionResult> Create([FromBody] TaskModel model)
+        [HttpPost]
+        public async Task<ActionResult<TaskModel>> Create([FromBody] TaskModel model)
         {
             if (model == null) return BadRequest("Invalid data.");
 
             try
             {
                 await _taskRepository.AddAsync(model);
-                return Created(Request.RequestUri + "/" + model.TaskID, model);
+                return CreatedAtAction(nameof(GetById), new { id = model.TaskID }, model);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpPut, Route("update/{id:int}")]
-        public async Task<IHttpActionResult> Update(int id, [FromBody] TaskModel model)
+        [HttpPut]
+        public async Task<IActionResult> Update(int id, [FromBody] TaskModel model)
         {
             if (model == null || id != model.TaskID) return BadRequest("Invalid data.");
 
@@ -93,12 +91,12 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpPost, Route("delete/{id:int}")]
-        public async Task<IHttpActionResult> Delete(int id)
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
@@ -107,7 +105,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
     }

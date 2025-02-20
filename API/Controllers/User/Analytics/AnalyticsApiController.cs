@@ -1,13 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Web.Http;
-using Domain.Models;
+﻿using Domain.Models;
 using Domain.RepositoryAccess;
+using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers.User.Analytics
 {
-    [RoutePrefix("api/analytics")]
-    public class AnalyticsApiController : ApiController
+    [ApiController]
+    public class AnalyticsApiController : ControllerBase
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IStockRepository _stockRepository;
@@ -24,8 +22,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [Route("index")]
-        public async Task<IHttpActionResult> GetAnalytics([FromUri] int companyID)
+        public async Task<ActionResult<object>> GetAnalytics(int companyID)
         {
             try
             {
@@ -58,7 +55,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
     }

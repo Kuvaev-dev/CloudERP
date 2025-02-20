@@ -1,13 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Web.Http;
-using Domain.Models;
+﻿using Domain.Models;
 using Domain.RepositoryAccess;
+using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers.Stock
 {
-    [RoutePrefix("api/category")]
-    public class CategoryApiController : ApiController
+    [ApiController]
+    public class CategoryApiController : ControllerBase
     {
         private readonly ICategoryRepository _categoryRepository;
 
@@ -17,35 +15,50 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [Route("{companyID:int}/{branchID:int}")]
-        public async Task<IHttpActionResult> GetAll(int companyID, int branchID)
+        public async Task<ActionResult<IEnumerable<Category>>> GetAll(int companyID, int branchID)
         {
             var categories = await _categoryRepository.GetAllAsync(companyID, branchID);
+            if (categories == null) return NotFound();
             return Ok(categories);
         }
 
         [HttpGet]
-        [Route("{id}")]
-        public async Task<IHttpActionResult> GetById(int id)
+        public async Task<ActionResult<Category>> GetById(int id)
         {
             var category = await _categoryRepository.GetByIdAsync(id);
-            return category != null ? Ok(category) : (IHttpActionResult)NotFound();
+            return category != null ? Ok(category) : NotFound();
         }
 
         [HttpPost]
-        [Route("create")]
-        public async Task<IHttpActionResult> Create(Category category)
+        public async Task<ActionResult<Category>> Create(Category model)
         {
-            await _categoryRepository.AddAsync(category);
-            return Ok(new { Message = "Category created successfully" });
+            if (model == null) return BadRequest("Invalid data.");
+
+            try
+            {
+                await _categoryRepository.AddAsync(model);
+                return CreatedAtAction(nameof(GetById), new { id = model.CategoryID }, model);
+            }
+            catch (Exception ex)
+            {
+                return Problem(detail: ex.Message, statusCode: 500);
+            }
         }
 
         [HttpPut]
-        [Route("update")]
-        public async Task<IHttpActionResult> Edit(Category category)
+        public async Task<IActionResult> Edit(int id, [FromBody] Category model)
         {
-            await _categoryRepository.UpdateAsync(category);
-            return Ok(new { Message = "Category updated successfully" });
+            if (model == null || id != model.CategoryID) return BadRequest("Invalid data.");
+
+            try
+            {
+                await _categoryRepository.UpdateAsync(model);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return Problem(detail: ex.Message, statusCode: 500);
+            }
         }
     }
 }

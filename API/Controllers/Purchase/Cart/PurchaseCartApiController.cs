@@ -1,15 +1,13 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Web.Http;
-using Domain.Models;
+﻿using Domain.Models;
 using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
+using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers.Purchase.Cart
 {
-    [RoutePrefix("api/purchase-cart")]
-    public class PurchaseCartApiController : ApiController
+    [ApiController]
+    public class PurchaseCartApiController : ControllerBase
     {
         private readonly IPurchaseCartDetailRepository _purchaseCartDetailRepository;
         private readonly IStockRepository _stockRepository;
@@ -26,53 +24,52 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [Route("details/{branchId:int}/{companyId:int}/{userId:int}")]
-        public async Task<IHttpActionResult> GetPurchaseCartDetails(int branchId, int companyId, int userId)
+        public async Task<ActionResult<IEnumerable<PurchaseCartDetail>>> GetPurchaseCartDetails(int branchId, int companyId, int userId)
         {
             try
             {
                 var details = await _purchaseCartDetailRepository.GetByDefaultSettingsAsync(branchId, companyId, userId);
+                if (details == null) return NotFound();
                 return Ok(details);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
         [HttpGet]
-        [Route("product/{id}")]
-        public async Task<IHttpActionResult> GetProductDetails([FromUri] int id)
+        public async Task<ActionResult<Stock>> GetProductDetails(int id)
         {
             try
             {
                 var product = await _stockRepository.GetByIdAsync(id);
+                if (product == null) return NotFound();
                 return Ok(new { product?.CurrentPurchaseUnitPrice });
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
         [HttpPost]
-        [Route("additem")]
-        public async Task<IHttpActionResult> AddItem(PurchaseCartDetail item)
+        public async Task<ActionResult<string>> AddItem(PurchaseCartDetail item)
         {
             try
             {
                 await _purchaseCartDetailRepository.AddAsync(item);
+                if (item == null) return BadRequest("Invalid data.");
                 return Ok(new { message = "Item added successfully" });
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
         [HttpDelete]
-        [Route("delete/{id}")]
-        public async Task<IHttpActionResult> DeleteItem([FromUri] int id)
+        public async Task<ActionResult<string>> DeleteItem(int id)
         {
             try
             {
@@ -86,36 +83,35 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
         [HttpPost]
-        [Route("cancel/{branchId:int}/{companyId:int}/{userId:int}")]
-        public async Task<IHttpActionResult> CancelPurchase(int branchId, int companyId, int userId)
+        public async Task<ActionResult<string>> CancelPurchase(int branchId, int companyId, int userId)
         {
             try
             {
                 var details = await _purchaseCartDetailRepository.GetByDefaultSettingsAsync(branchId, companyId, userId);
+                if (details == null) return BadRequest();
                 await _purchaseCartDetailRepository.DeleteListAsync(details);
                 return Ok(new { message = "Purchase canceled" });
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
         [HttpPost]
-        [Route("confirm")]
-        public async Task<IHttpActionResult> ConfirmPurchase(PurchaseConfirm purchaseConfirmDto)
+        public async Task<ActionResult<string>> ConfirmPurchase(PurchaseConfirm purchaseConfirmDto)
         {
             try
             {
                 var result = await _purchaseCartService.ConfirmPurchaseAsync(
-                    purchaseConfirmDto, 
-                    purchaseConfirmDto.CompanyID, 
-                    purchaseConfirmDto.BranchID, 
+                    purchaseConfirmDto,
+                    purchaseConfirmDto.CompanyID,
+                    purchaseConfirmDto.BranchID,
                     purchaseConfirmDto.UserID);
 
                 if (result.IsSuccess) return Ok(new { id = result.Value });
@@ -124,7 +120,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
     }

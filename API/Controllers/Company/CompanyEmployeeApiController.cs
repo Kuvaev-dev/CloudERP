@@ -1,18 +1,14 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Http;
-using System.Web.Http.Cors;
-using API.Models;
+﻿using API.Models;
 using Domain.Models;
 using Domain.Models.FinancialModels;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Services.Facades;
 
-namespace API.Controllers
+namespace API.Controllers.Company
 {
-    [RoutePrefix("api/company-employee")]
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
-    public class CompanyEmployeeApiController : ApiController
+    [ApiController]
+    public class CompanyEmployeeApiController : ControllerBase
     {
         private readonly CompanyEmployeeFacade _companyEmployeeFacade;
 
@@ -24,26 +20,25 @@ namespace API.Controllers
             _companyEmployeeFacade = companyEmployeeFacade;
         }
 
-        [HttpGet, Route("employees/{companyId:int}")]
-        public async Task<IHttpActionResult> GetAll(int companyId)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Employee>>> GetAll(int companyId)
         {
             try
             {
                 var employees = await _companyEmployeeFacade.EmployeeRepository.GetByCompanyIdAsync(companyId);
+                if (employees == null) return NotFound();
                 return Ok(employees);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpPost, Route("registration")]
-        public async Task<IHttpActionResult> EmployeeRegistration()
+        [HttpPost]
+        public async Task<ActionResult<Employee>> EmployeeRegistration()
         {
-            var httpRequest = HttpContext.Current.Request;
-
-            if (httpRequest.Files.Count == 0 && string.IsNullOrEmpty(httpRequest.Form["model"]))
+            if (Request.HasFormContentType && string.IsNullOrEmpty(Request.Form["model"]))
             {
                 return BadRequest("Invalid data.");
             }
@@ -51,7 +46,7 @@ namespace API.Controllers
             Employee model;
             try
             {
-                model = Newtonsoft.Json.JsonConvert.DeserializeObject<Employee>(httpRequest.Form["model"]);
+                model = JsonConvert.DeserializeObject<Employee>(Request.Form["model"]);
             }
             catch
             {
@@ -62,9 +57,9 @@ namespace API.Controllers
 
             try
             {
-                if (httpRequest.Files.Count > 0)
+                if (Request.Form.Files.Count > 0)
                 {
-                    var file = httpRequest.Files[0];
+                    var file = Request.Form.Files[0];
                     var fileName = $"{model.UserID}.jpg";
 
                     var fileAdapter = _companyEmployeeFacade.FileAdapterFactory.Create(file);
@@ -79,11 +74,26 @@ namespace API.Controllers
 
                 SendEmail(model);
 
-                return Created(Request.RequestUri + "/" + model.EmployeeID, model);
+                return CreatedAtAction(nameof(GetById), new { id = model.EmployeeID }, model);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
+            }
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<Employee>> GetById(int id)
+        {
+            try
+            {
+                var employee = await _companyEmployeeFacade.EmployeeRepository.GetByIdAsync(id);
+                if (employee == null) return NotFound();
+                return Ok(employee);
+            }
+            catch (Exception ex)
+            {
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
@@ -101,8 +111,8 @@ namespace API.Controllers
             _companyEmployeeFacade.EmailService.SendEmail(employee.Email, subject, body);
         }
 
-        [HttpPost, Route("salary/process")]
-        public async Task<IHttpActionResult> ProcessSalary([FromBody] SalaryMV salary)
+        [HttpPost]
+        public async Task<ActionResult<SalaryMV>> ProcessSalary([FromBody] SalaryMV salary)
         {
             try
             {
@@ -119,12 +129,12 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpPost, Route("salary/confirm")]
-        public async Task<IHttpActionResult> ConfirmSalary([FromBody] SalaryMV salaryMV)
+        [HttpPost]
+        public async Task<ActionResult<string>> ConfirmSalary([FromBody] SalaryMV salaryMV)
         {
             try
             {
@@ -146,35 +156,37 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpGet, Route("salary/history/{companyId:int}/{branchId:int}")]
-        public async Task<IHttpActionResult> GetSalaryHistory(int branchId, int companyId)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Payroll>>> GetSalaryHistory(int branchId, int companyId)
         {
             try
             {
                 var history = await _companyEmployeeFacade.PayrollRepository.GetSalaryHistoryAsync(branchId, companyId);
+                if (history == null) return NotFound();
                 return Ok(history);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpGet, Route("salary/invoice/{id:int}")]
-        public async Task<IHttpActionResult> GetSalaryInvoice(int id)
+        [HttpGet]
+        public async Task<ActionResult<Payroll>> GetSalaryInvoice(int id)
         {
             try
             {
                 var invoice = await _companyEmployeeFacade.PayrollRepository.GetByIdAsync(id);
+                if (invoice == null) return BadRequest();
                 return Ok(invoice);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
     }

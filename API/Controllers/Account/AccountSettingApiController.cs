@@ -1,25 +1,21 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Cors;
-using Domain.Models;
+﻿using Domain.Models;
+using Microsoft.AspNetCore.Mvc;
 using Services.Facades;
 
-namespace API.Controllers
+namespace API.Controllers.Account
 {
-    [RoutePrefix("api/account-setting")]
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
-    public class AccountSettingApiController : ApiController
+    [ApiController]
+    public class AccountSettingApiController : ControllerBase
     {
         private readonly AccountSettingFacade _accountSettingFacade;
 
         public AccountSettingApiController(AccountSettingFacade accountSettingFacade)
         {
-            _accountSettingFacade = accountSettingFacade;
+            _accountSettingFacade = accountSettingFacade ?? throw new ArgumentException(nameof(accountSettingFacade));
         }
 
-        [HttpGet, Route("{companyId:int}/{branchId:int}")]
-        public async Task<IHttpActionResult> GetAll([FromUri] int companyId, [FromUri] int branchId)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<AccountSetting>>> GetAll(int companyId, int branchId)
         {
             try
             {
@@ -28,12 +24,12 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpGet, Route("{id:int}")]
-        public async Task<IHttpActionResult> GetById(int id)
+        [HttpGet]
+        public async Task<ActionResult<AccountSetting>> GetById(int id)
         {
             try
             {
@@ -43,28 +39,28 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpPost, Route("create")]
-        public async Task<IHttpActionResult> Create([FromBody] AccountSetting model)
+        [HttpPost]
+        public async Task<ActionResult<AccountSetting>> Create([FromBody] AccountSetting model)
         {
             if (model == null) return BadRequest("Invalid data.");
 
             try
             {
                 await _accountSettingFacade.AccountSettingRepository.AddAsync(model);
-                return Created(Request.RequestUri + "/" + model.AccountSettingID, model);
+                return CreatedAtAction(nameof(GetById), new { id = model.AccountSettingID }, model);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpPut, Route("update/{id:int}")]
-        public async Task<IHttpActionResult> Update(int id, [FromBody] AccountSetting model)
+        [HttpPut]
+        public async Task<IActionResult> Update(int id, [FromBody] AccountSetting model)
         {
             if (model == null || id != model.AccountSettingID) return BadRequest("Invalid data.");
 
@@ -75,7 +71,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
     }

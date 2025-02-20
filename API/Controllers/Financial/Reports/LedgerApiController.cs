@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Cors;
-using Domain.Models.FinancialModels;
+﻿using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
+using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers.Financial.Reports
 {
-    [RoutePrefix("api/ledger")]
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
-    public class LedgerApiController : ApiController
+    [ApiController]
+    public class LedgerApiController : ControllerBase
     {
         private readonly ILedgerRepository _ledgerRepository;
         private readonly IFinancialYearRepository _financialYearRepository;
@@ -23,8 +18,8 @@ namespace API.Controllers
             _financialYearRepository = financialYearRepository ?? throw new ArgumentNullException(nameof(IFinancialYearRepository));
         }
 
-        [HttpGet, Route("branch-ledger/{companyId:int}/{branchId:int}")]
-        public async Task<IHttpActionResult> GetLedger(int companyId, int branchId)
+        [HttpGet]
+        public async Task<ActionResult<List<AccountLedgerModel>>> GetLedger(int companyId, int branchId)
         {
             try
             {
@@ -40,12 +35,12 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
         [HttpGet, Route("branch-ledger/{companyId:int}/{branchId:int}/{financialYearId:int}")]
-        public async Task<IHttpActionResult> GetLedgerByFinancialYear(int companyId, int branchId, int financialYearId)
+        public async Task<ActionResult<List<AccountLedgerModel>>> GetLedgerByFinancialYear(int companyId, int branchId, int financialYearId)
         {
             try
             {
@@ -55,12 +50,12 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
         [HttpGet, Route("sub-branch-ledger/{companyId:int}/{branchId:int}")]
-        public async Task<IHttpActionResult> GetSubLedger(int companyId, int branchId)
+        public async Task<ActionResult<List<AccountLedgerModel>>> GetSubLedger(int companyId, int branchId)
         {
             try
             {
@@ -76,12 +71,12 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
         [HttpGet, Route("sub-branch-ledger/{companyId:int}/{branchId:int}/{financialYearId:int}")]
-        public async Task<IHttpActionResult> GetSubLedgerByFinancialYear(int companyId, int branchId, int financialYearId)
+        public async Task<ActionResult<List<AccountLedgerModel>>> GetSubLedgerByFinancialYear(int companyId, int branchId, int financialYearId)
         {
             try
             {
@@ -91,7 +86,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 

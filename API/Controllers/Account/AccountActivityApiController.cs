@@ -1,81 +1,78 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Cors;
-using Domain.Models;
+﻿using Domain.Models;
 using Domain.RepositoryAccess;
+using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers.Account
 {
-    [RoutePrefix("api/account-activity")]
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
-    public class AccountActivityApiController : ApiController
+    [ApiController]
+    public class AccountActivityApiController : ControllerBase
     {
-        private readonly IAccountActivityRepository _repository;
+        private readonly IAccountActivityRepository _accountActivityRepository;
 
-        public AccountActivityApiController(IAccountActivityRepository repository)
+        public AccountActivityApiController(IAccountActivityRepository accountActivityRepository)
         {
-            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _accountActivityRepository = accountActivityRepository ?? throw new ArgumentNullException(nameof(accountActivityRepository));
         }
 
-        [HttpGet, Route("")]
-        public async Task<IHttpActionResult> GetAll()
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<AccountActivity>>> GetAll()
         {
             try
             {
-                var activities = await _repository.GetAllAsync();
+                var activities = await _accountActivityRepository.GetAllAsync();
+                if (activities == null) return NotFound();
                 return Ok(activities);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpGet, Route("{id:int}")]
-        public async Task<IHttpActionResult> GetById(int id)
+        [HttpGet]
+        public async Task<ActionResult<AccountActivity>> GetById(int id)
         {
             try
             {
-                var activity = await _repository.GetByIdAsync(id);
+                var activity = await _accountActivityRepository.GetByIdAsync(id);
                 if (activity == null) return NotFound();
                 return Ok(activity);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpPost, Route("create")]
-        public async Task<IHttpActionResult> Create([FromBody] AccountActivity model)
+        [HttpPost]
+        public async Task<ActionResult<AccountActivity>> Create([FromBody] AccountActivity model)
         {
             if (model == null) return BadRequest("Invalid data.");
 
             try
             {
-                await _repository.AddAsync(model);
-                return Created(Request.RequestUri + "/" + model.AccountActivityID, model);
+                await _accountActivityRepository.AddAsync(model);
+                return CreatedAtAction(nameof(GetById), new { id = model.AccountActivityID }, model);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpPut, Route("update/{id:int}")]
-        public async Task<IHttpActionResult> Update(int id, [FromBody] AccountActivity model)
+        [HttpPut]
+        public async Task<IActionResult> Update(int id, [FromBody] AccountActivity model)
         {
             if (model == null || id != model.AccountActivityID) return BadRequest("Invalid data.");
 
             try
             {
-                await _repository.UpdateAsync(model);
+                await _accountActivityRepository.UpdateAsync(model);
                 return Ok();
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
     }

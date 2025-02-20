@@ -1,15 +1,13 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Web.Http;
-using Domain.Models;
+﻿using Domain.Models;
 using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
+using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers.Sale.Cart
 {
-    [RoutePrefix("api/sale-cart")]
-    public class SaleCartApiController : ApiController
+    [ApiController]
+    public class SaleCartApiController : ControllerBase
     {
         private readonly ISaleCartDetailRepository _saleCartDetailRepository;
         private readonly IStockRepository _stockRepository;
@@ -26,16 +24,15 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [Route("new-sale-details/{branchId:int}/{companyId:int}/{userId:int}")]
-        public async Task<IHttpActionResult> GetNewSaleDetails(int branchId, int companyId, int userId)
+        public async Task<ActionResult<IEnumerable<SaleCartDetail>>> GetNewSaleDetails(int branchId, int companyId, int userId)
         {
             var details = await _saleCartDetailRepository.GetByDefaultSettingAsync(branchId, companyId, userId);
+            if (details == null) return NotFound();
             return Ok(details);
         }
 
         [HttpGet]
-        [Route("product-details/{id}")]
-        public async Task<IHttpActionResult> GetProductDetails(int id)
+        public async Task<ActionResult<object>> GetProductDetails(int id)
         {
             var product = await _stockRepository.GetByIdAsync(id);
             if (product != null)
@@ -46,24 +43,21 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        [Route("add-item")]
-        public async Task<IHttpActionResult> AddItem(SaleCartDetail newItem)
+        public async Task<ActionResult<string>> AddItem(SaleCartDetail newItem)
         {
             await _saleCartDetailRepository.AddAsync(newItem);
             return Ok("Item added successfully");
         }
 
         [HttpPost]
-        [Route("delete-item/{id}")]
-        public async Task<IHttpActionResult> DeleteItem(int id)
+        public async Task<ActionResult<string>> DeleteItem(int id)
         {
             await _saleCartDetailRepository.DeleteAsync(id);
             return Ok("Item deleted successfully");
         }
 
         [HttpPost]
-        [Route("cancel-sale/{branchId:int}/{companyId:int}/{userId:int}")]
-        public async Task<IHttpActionResult> CancelSale(int branchId, int companyId, int userId)
+        public async Task<ActionResult<string>> CancelSale(int branchId, int companyId, int userId)
         {
             var saleDetails = await _saleCartDetailRepository.GetByDefaultSettingAsync(branchId, companyId, userId);
             await _saleCartDetailRepository.DeleteListAsync(saleDetails);
@@ -71,15 +65,14 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        [Route("confirm-sale/{branchId:int}/{companyId:int}/{userId:int}")]
-        public async Task<IHttpActionResult> ConfirmSale(SaleConfirm saleConfirmDto, int branchId, int companyId, int userId)
+        public async Task<ActionResult<object>> ConfirmSale(SaleConfirm saleConfirmDto, int branchId, int companyId, int userId)
         {
             var result = await _saleCartService.ConfirmSaleAsync(saleConfirmDto, branchId, companyId, userId);
             if (result.IsSuccess)
             {
-                return Ok(new { Success = true, Value = result.Value });
+                return Ok(new { Success = true, result.Value });
             }
-            return Ok(new { Success = false, ErrorMessage = result.ErrorMessage });
+            return Ok(new { Success = false, result.ErrorMessage });
         }
     }
 }

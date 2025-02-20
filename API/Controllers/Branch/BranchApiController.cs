@@ -1,15 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Cors;
-using Domain.RepositoryAccess;
-using Domain.Models;
+﻿using Domain.RepositoryAccess;
+using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers.Branch
 {
-    [RoutePrefix("api/branch")]
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
-    public class BranchApiController : ApiController
+    [ApiController]
+    public class BranchApiController : ControllerBase
     {
         private readonly IBranchRepository _branchRepository;
         private readonly IBranchTypeRepository _branchTypeRepository;
@@ -27,39 +22,40 @@ namespace API.Controllers
             _accountSettingRepository = accountSettingRepository ?? throw new ArgumentNullException(nameof(IAccountSettingRepository));
         }
 
-        [HttpGet, Route("{companyId:int}/{branchId:int}/{mainBranchTypeID:int}")]
-        public async Task<IHttpActionResult> GetAll(int companyId, int branchId, int mainBranchTypeID)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Domain.Models.Branch>>> GetAll(int companyId, int branchId, int mainBranchTypeID)
         {
             try
             {
                 var branches = mainBranchTypeID == MAIN_BRANCH_TYPE_ID
                     ? await _branchRepository.GetByCompanyAsync(companyId)
                     : await _branchRepository.GetSubBranchAsync(companyId, branchId);
-
+                if (branches == null) return NotFound();
                 return Ok(branches);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpGet, Route("{companyId:int}")]
-        public async Task<IHttpActionResult> GetByCompany(int companyId)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Domain.Models.Branch>>> GetAll(int companyId)
         {
             try
             {
                 var branches = await _branchRepository.GetByCompanyAsync(companyId);
+                if (branches == null) return NotFound();
                 return Ok(branches);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpGet, Route("sub-branches/{companyId:int}/{branchId:int}")]
-        public async Task<IHttpActionResult> GetSubBranches(int companyId, int branchId)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Domain.Models.Branch>>> GetSubBranches(int companyId, int branchId)
         {
             try
             {
@@ -68,12 +64,12 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpGet, Route("company/{companyId:int}")]
-        public async Task<IHttpActionResult> GetByCompanyAsync(int companyId)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Domain.Models.Branch>>> GetByCompany(int companyId)
         {
             try
             {
@@ -82,28 +78,28 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpPost, Route("create")]
-        public async Task<IHttpActionResult> Create([FromBody] Branch model)
+        [HttpPost]
+        public async Task<ActionResult<Domain.Models.Branch>> Create([FromBody] Domain.Models.Branch model)
         {
             if (model == null) return BadRequest("Invalid data.");
 
             try
             {
                 await _branchRepository.AddAsync(model);
-                return Created(Request.RequestUri + "/" + model.BranchID, model);
+                return CreatedAtAction(nameof(GetByCompany), new { companyId = model.CompanyID }, model);
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
-        [HttpPut, Route("{id:int}")]
-        public async Task<IHttpActionResult> Update(int id, [FromBody] Branch model)
+        [HttpPut]
+        public async Task<IActionResult> Update(int id, [FromBody] Domain.Models.Branch model)
         {
             if (model == null || id != model.BranchID) return BadRequest("Invalid data.");
 
@@ -117,7 +113,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return Problem(detail: ex.Message, statusCode: 500);
             }
         }
     }
