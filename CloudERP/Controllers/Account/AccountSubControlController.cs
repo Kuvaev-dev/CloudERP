@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web.Mvc;
-using CloudERP.Helpers;
+﻿using CloudERP.Helpers;
 using Domain.Models;
+using Microsoft.AspNetCore.Mvc;
 
-namespace CloudERP.Controllers
+namespace CloudERP.Controllers.Account
 {
     public class AccountSubControlController : Controller
     {
@@ -16,8 +13,8 @@ namespace CloudERP.Controllers
             SessionHelper sessionHelper,
             HttpClientHelper httpClient)
         {
-            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
-            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
         }
 
         public async Task<ActionResult> Index()
@@ -25,10 +22,10 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            try 
+            try
             {
                 var subControls = await _httpClient.GetAsync<List<AccountSubControl>>(
-                    $"account-sub-control/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
+                    $"accountsubcontrolapi?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 if (subControls == null) return RedirectToAction("EP404", "EP");
 
                 return View(subControls);
@@ -84,7 +81,7 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    await _httpClient.PostAsync("account-sub-control/create", model);
+                    await _httpClient.PostAsync<AccountControl>("account-sub-control/create", model);
                     return RedirectToAction("Index");
                 }
 
@@ -151,7 +148,7 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    await _httpClient.PutAsync($"account-sub-control/update/{model.AccountSubControlID}", model);
+                    await _httpClient.PutAsync<AccountSubControl>($"account-sub-control/update/{model.AccountSubControlID}", model);
                     return RedirectToAction("Index");
                 }
 

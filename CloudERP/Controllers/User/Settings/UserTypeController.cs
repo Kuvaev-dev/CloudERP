@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web.Mvc;
-using CloudERP.Helpers;
+﻿using CloudERP.Helpers;
 using Domain.Models;
+using Microsoft.AspNetCore.Mvc;
 
-namespace CloudERP.Controllers
+namespace CloudERP.Controllers.User.Settings
 {
     public class UserTypeController : Controller
     {
@@ -77,7 +74,7 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var success = await _httpClient.PostAsync("user-type/create", model);
+                    var success = await _httpClient.PostAsync<UserType>("user-type/create", model);
                     if (success) return RedirectToAction("Index");
                 }
 
@@ -120,7 +117,7 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var success = await _httpClient.PutAsync($"user-type/update/{model.UserTypeID}", model);
+                    var success = await _httpClient.PutAsync<UserType>($"user-type/update/{model.UserTypeID}", model);
                     if (success) return RedirectToAction("Index");
                 }
 

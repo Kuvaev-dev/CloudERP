@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers.Financial.Transactions
 {
     [ApiController]
+    [Route("api/[controller]/[action]")]
     public class GeneralTransactionApiController : ControllerBase
     {
         private readonly IGeneralTransactionService _generalTransactionService;

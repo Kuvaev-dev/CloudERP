@@ -8,6 +8,7 @@ using Services.Factories;
 namespace API.Controllers.Branch
 {
     [ApiController]
+    [Route("api/[controller]/[action]")]
     public class BranchEmployeeApiController : ControllerBase
     {
         private readonly IEmployeeRepository _employeeRepository;

@@ -1,14 +1,19 @@
-﻿using System;
-using System.Configuration;
-using Utils.Interfaces;
+﻿using Utils.Interfaces;
 
 namespace CloudERP.Helpers
 {
     public class WebConfigConnectionStringProvider : IConnectionStringProvider
     {
+        private readonly IConfiguration _configuration;
+
+        public WebConfigConnectionStringProvider(IConfiguration configuration)
+        {
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+        }
+
         public string GetConnectionString(string name)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings[name]?.ConnectionString;
+            var connectionString = _configuration.GetConnectionString(name);
             if (string.IsNullOrEmpty(connectionString))
             {
                 throw new InvalidOperationException($"Connection string '{name}' is not defined in the configuration file.");

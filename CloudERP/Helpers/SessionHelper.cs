@@ -1,93 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Web;
-
-namespace CloudERP.Helpers
+﻿namespace CloudERP.Helpers
 {
     public class SessionHelper
     {
-        private readonly HttpSessionStateBase _session;
+        private readonly ISession _session;
 
-        public SessionHelper(HttpSessionStateBase session)
+        public SessionHelper(IHttpContextAccessor httpContextAccessor)
         {
-            _session = session ?? throw new ArgumentNullException(nameof(HttpSessionStateBase));
+            _session = httpContextAccessor?.HttpContext?.Session ?? throw new ArgumentNullException(nameof(httpContextAccessor));
         }
 
-        public int CompanyID
+        private int GetInt(string key)
         {
-            get
+            var value = _session.GetString(key);
+            if (int.TryParse(value, out int result))
             {
-                if (int.TryParse(_session["CompanyID"]?.ToString(), out int value))
-                {
-                    return value;
-                }
-                throw new KeyNotFoundException("CompanyID is not found in session.");
+                return result;
             }
+            throw new KeyNotFoundException($"{key} is not found in session.");
         }
 
-        public int BranchID
-        {
-            get
-            {
-                if (int.TryParse(_session["BranchID"]?.ToString(), out int value))
-                {
-                    return value;
-                }
-                throw new KeyNotFoundException("BranchID is not found in session.");
-            }
-        }
-
-        public int BrchID
-        {
-            get
-            {
-                if (int.TryParse(_session["BrchID"]?.ToString(), out int value))
-                {
-                    return value;
-                }
-                throw new KeyNotFoundException("BrchID is not found in session.");
-            }
-        }
-
-        public int UserID
-        {
-            get
-            {
-                if (int.TryParse(_session["UserID"]?.ToString(), out int value))
-                {
-                    return value;
-                }
-                throw new KeyNotFoundException("UserID is not found in session.");
-            }
-        }
-
-        public int BranchTypeID
-        {
-            get
-            {
-                if (int.TryParse(_session["BranchTypeID"]?.ToString(), out int value))
-                {
-                    return value;
-                }
-                throw new KeyNotFoundException("BranchTypeID is not found in session.");
-            }
-        }
+        public int CompanyID => GetInt("CompanyID");
+        public int BranchID => GetInt("BranchID");
+        public int BrchID => GetInt("BrchID");
+        public int UserID => GetInt("UserID");
+        public int BranchTypeID => GetInt("BranchTypeID");
 
         public int? CompanyEmployeeID
         {
             get
             {
-                if (int.TryParse(_session["CEmployeeID"]?.ToString(), out int value))
-                {
-                    return value;
-                }
-                return null;
+                var value = _session.GetString("CEmployeeID");
+                return int.TryParse(value, out int result) ? result : (int?)null;
             }
             set
             {
                 if (value.HasValue)
                 {
-                    _session["CEmployeeID"] = value.Value;
+                    _session.SetString("CEmployeeID", value.Value.ToString());
                 }
                 else
                 {
@@ -96,48 +45,38 @@ namespace CloudERP.Helpers
             }
         }
 
-        private string _invoiceNo;
         public string InvoiceNo
         {
-            get
-            {
-                if (_session["InvoiceNo"] != null && !string.IsNullOrEmpty(_session["InvoiceNo"].ToString()))
-                {
-                    _invoiceNo = _session["InvoiceNo"].ToString();
-                    return _invoiceNo;
-                }
-                return null;
-            }
+            get => _session.GetString("InvoiceNo");
             set
             {
-                if (!string.IsNullOrEmpty(_session["InvoiceNo"].ToString()))
+                if (!string.IsNullOrEmpty(value))
                 {
-                    _invoiceNo = _session["InvoiceNo"].ToString();
+                    _session.SetString("InvoiceNo", value);
+                }
+                else
+                {
+                    _session.Remove("InvoiceNo");
                 }
             }
         }
 
-        private string _saleInvoiceNo;
         public string SaleInvoiceNo
         {
-            get
-            {
-                if (_session["SaleInvoiceNo"] != null && !string.IsNullOrEmpty(_session["SaleInvoiceNo"].ToString()))
-                {
-                    _saleInvoiceNo = _session["SaleInvoiceNo"].ToString();
-                    return _saleInvoiceNo;
-                }
-                return null;
-            }
+            get => _session.GetString("SaleInvoiceNo");
             set
             {
-                if (!string.IsNullOrEmpty(_session["SaleInvoiceNo"].ToString()))
+                if (!string.IsNullOrEmpty(value))
                 {
-                    _saleInvoiceNo = _session["SaleInvoiceNo"].ToString();
+                    _session.SetString("SaleInvoiceNo", value);
+                }
+                else
+                {
+                    _session.Remove("SaleInvoiceNo");
                 }
             }
         }
 
-        public bool IsAuthenticated => _session["CompanyID"] != null && _session["BranchID"] != null;
+        public bool IsAuthenticated => _session.GetString("CompanyID") != null && _session.GetString("BranchID") != null;
     }
 }

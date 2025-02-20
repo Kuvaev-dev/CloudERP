@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers.Account
 {
     [ApiController]
+    [Route("api/[controller]/[action]")]
     public class AccountActivityApiController : ControllerBase
     {
         private readonly IAccountActivityRepository _accountActivityRepository;

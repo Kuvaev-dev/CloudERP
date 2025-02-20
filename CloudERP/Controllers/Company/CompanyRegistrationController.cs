@@ -1,10 +1,8 @@
 ﻿using CloudERP.Helpers;
 using CloudERP.Models;
-using System;
-using System.Threading.Tasks;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
-namespace CloudERP.Controllers
+namespace CloudERP.Controllers.Company
 {
     public class CompanyRegistrationController : Controller
     {
@@ -15,8 +13,8 @@ namespace CloudERP.Controllers
             SessionHelper sessionHelper,
             HttpClientHelper httpClient)
         {
-            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
-            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
         }
 
         // GET: CompanyRegistration/RegistrationForm
@@ -44,7 +42,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                bool isSuccess = await _httpClient.PostAsync("company-registration/register", model);
+                bool isSuccess = await _httpClient.PostAsync<RegistrationMV>("company-registration/register", model);
                 if (isSuccess)
                 {
                     ViewBag.Message = "Регистрация прошла успешно.";

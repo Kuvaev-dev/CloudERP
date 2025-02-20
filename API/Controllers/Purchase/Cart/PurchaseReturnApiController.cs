@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers.Purchase.Cart
 {
     [ApiController]
+    [Route("api/[controller]/[action]")]
     public class PurchaseReturnApiController : ControllerBase
     {
         private readonly ISupplierInvoiceRepository _supplierInvoiceRepository;

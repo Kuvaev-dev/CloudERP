@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers.Sale.Cart
 {
     [ApiController]
+    [Route("api/[controller]/[action]")]
     public class SaleCartApiController : ControllerBase
     {
         private readonly ISaleCartDetailRepository _saleCartDetailRepository;

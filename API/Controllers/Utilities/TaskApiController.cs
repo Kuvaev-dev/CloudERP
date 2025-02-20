@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers.Utilities
 {
     [ApiController]
+    [Route("api/[controller]/[action]")]
     public class TaskApiController : ControllerBase
     {
         private readonly ITaskRepository _taskRepository;

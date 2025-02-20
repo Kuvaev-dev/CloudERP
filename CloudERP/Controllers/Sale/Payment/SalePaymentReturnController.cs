@@ -1,10 +1,8 @@
 ﻿using CloudERP.Helpers;
 using Domain.Models.FinancialModels;
-using System;
-using System.Threading.Tasks;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
-namespace CloudERP.Controllers
+namespace CloudERP.Controllers.Sale.Payment
 {
     public class SalePaymentReturnController : Controller
     {
@@ -12,7 +10,7 @@ namespace CloudERP.Controllers
         private readonly HttpClientHelper _httpClient;
 
         public SalePaymentReturnController(
-            SessionHelper sessionHelper, 
+            SessionHelper sessionHelper,
             HttpClientHelper httpClient)
         {
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
@@ -64,16 +62,16 @@ namespace CloudERP.Controllers
             try
             {
                 var response = await _httpClient.GetAsync<dynamic>(
-                    $"sale-payment-return/return-amount/{id.Value}");
+                    $"sale-payment-return/return-amount/{id}");
 
-                double remainingAmount = response.RemainingAmount;
+                double remainingAmount = response?.RemainingAmount;
                 if (remainingAmount == 0)
                     return RedirectToAction("AllReturnSalesPendingAmount");
 
                 ViewBag.PreviousRemainingAmount = remainingAmount;
                 ViewBag.InvoiceID = id;
 
-                return View(response.Payments);
+                return View(response?.Payments);
             }
             catch (Exception ex)
             {
@@ -101,7 +99,7 @@ namespace CloudERP.Controllers
                 var response = await _httpClient.PostAsync<dynamic>(
                     $"sale-payment-return/process-return-amount/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}/{_sessionHelper.UserID}", paymentReturnDto);
 
-                if (response) Session["SaleMessage"] = "Payment return successfully processed.";
+                if (response) HttpContext.Session.SetString("SaleMessage", "Payment return successfully processed.");
 
                 return RedirectToAction("PurchasePaymentReturn", new { id });
             }

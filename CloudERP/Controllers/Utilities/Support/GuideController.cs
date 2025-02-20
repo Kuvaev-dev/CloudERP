@@ -1,8 +1,7 @@
 ﻿using CloudERP.Helpers;
-using System;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
-namespace CloudERP.Controllers
+namespace CloudERP.Controllers.Utilities.Support
 {
     public class GuideController : Controller
     {

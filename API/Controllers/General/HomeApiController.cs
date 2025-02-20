@@ -6,6 +6,7 @@ using Services.Facades;
 namespace API.Controllers.General
 {
     [ApiController]
+    [Route("api/[controller]/[action]")]
     public class HomeApiController : ControllerBase
     {
         private readonly HomeFacade _homeFacade;
@@ -23,22 +24,20 @@ namespace API.Controllers.General
             try
             {
                 var user = await _homeFacade.AuthService.AuthenticateUserAsync(loginRequest.Email, loginRequest.Password);
-                if (user != null)
+                if (user == null) return Unauthorized();
+
+                var employee = await _homeFacade.EmployeeRepository.GetByUserIdAsync(user.UserID);
+                if (employee == null) return Unauthorized();
+
+                var company = await _homeFacade.CompanyRepository.GetByIdAsync(employee.CompanyID);
+                if (company == null) return Unauthorized();
+
+                return Ok(new
                 {
-                    var employee = await _homeFacade.EmployeeRepository.GetByUserIdAsync(user.UserID);
-                    if (employee == null) return Unauthorized();
-
-                    var company = await _homeFacade.CompanyRepository.GetByIdAsync(employee.CompanyID);
-                    if (company == null) return Unauthorized();
-
-                    return Ok(new
-                    {
-                        user,
-                        employee,
-                        company
-                    });
-                }
-                return Unauthorized();
+                    user,
+                    employee,
+                    company
+                });
             }
             catch (Exception ex)
             {
@@ -77,7 +76,6 @@ namespace API.Controllers.General
             }
         }
 
-        // POST: api/home/forgot-password
         [HttpPost]
         public async Task<ActionResult<string>> ForgotPassword([FromBody] string email)
         {
@@ -94,19 +92,19 @@ namespace API.Controllers.General
                 }
 
                 var user = await _homeFacade.UserRepository.GetByEmailAsync(email);
-                if (user != null)
+                if (user == null)
                 {
-                    user.ResetPasswordCode = Guid.NewGuid().ToString();
-                    user.ResetPasswordExpiration = DateTime.Now.AddHours(1);
-                    user.LastPasswordResetRequest = DateTime.Now;
-
-                    await _homeFacade.UserRepository.UpdateAsync(user);
-
-                    var resetLink = Url.Link("ResetPassword", new { id = user.ResetPasswordCode });
-                    _homeFacade.AuthService.SendPasswordResetEmailAsync(resetLink, user.Email, user.ResetPasswordCode);
-
                     return Ok("Password reset email sent.");
                 }
+
+                user.ResetPasswordCode = Guid.NewGuid().ToString();
+                user.ResetPasswordExpiration = DateTime.Now.AddHours(1);
+                user.LastPasswordResetRequest = DateTime.Now;
+
+                await _homeFacade.UserRepository.UpdateAsync(user);
+
+                var resetLink = Url.Link("ResetPassword", new { id = user.ResetPasswordCode });
+                _homeFacade.AuthService.SendPasswordResetEmailAsync(resetLink, user.Email, user.ResetPasswordCode);
 
                 return Ok("Password reset email sent.");
             }
@@ -116,19 +114,15 @@ namespace API.Controllers.General
             }
         }
 
-        // GET: api/home/reset-password/{id}
         [HttpGet]
         public async Task<ActionResult<object>> GetResetPassword(string id)
         {
             try
             {
                 var user = await _homeFacade.UserRepository.GetByPasswordCodesAsync(id, DateTime.Now);
-                if (user != null)
-                {
-                    return Ok(new { ResetCode = id });
-                }
+                if (user == null) return NotFound();
 
-                return NotFound();
+                return Ok(new { ResetCode = id });
             }
             catch (Exception ex)
             {
@@ -136,13 +130,13 @@ namespace API.Controllers.General
             }
         }
 
-        // POST: api/home/reset-password
         [HttpPost]
         public async Task<ActionResult<string>> ResetPassword([FromBody] ResetPasswordRequest request)
         {
             try
             {
-                if (!await _homeFacade.AuthService.ResetPasswordAsync(request.ResetCode, request.NewPassword, request.ConfirmPassword))
+                var success = await _homeFacade.AuthService.ResetPasswordAsync(request.ResetCode, request.NewPassword, request.ConfirmPassword);
+                if (!success)
                 {
                     return BadRequest("Passwords do not match or link expired.");
                 }

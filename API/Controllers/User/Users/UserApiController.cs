@@ -1,11 +1,11 @@
-﻿using Domain.Models;
-using Domain.RepositoryAccess;
+﻿using Domain.RepositoryAccess;
 using Microsoft.AspNetCore.Mvc;
 using Utils.Helpers;
 
 namespace API.Controllers.User.Users
 {
     [ApiController]
+    [Route("api/[controller]/[action]")]
     public class UserApiController : ControllerBase
     {
         private readonly IUserRepository _userRepository;

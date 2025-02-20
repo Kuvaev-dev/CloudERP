@@ -1,11 +1,8 @@
 ﻿using CloudERP.Helpers;
 using Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
-namespace CloudERP.Controllers
+namespace CloudERP.Controllers.Stock
 {
     public class CategoryController : Controller
     {
@@ -13,7 +10,7 @@ namespace CloudERP.Controllers
         private readonly HttpClientHelper _httpClientHelper;
 
         public CategoryController(
-            SessionHelper sessionHelper, 
+            SessionHelper sessionHelper,
             HttpClientHelper httpClientHelper)
         {
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
@@ -78,7 +75,7 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var response = await _httpClientHelper.PostAsync("category/create", model);
+                    var response = await _httpClientHelper.PostAsync<Category>("category/create", model);
                     if (response) return RedirectToAction("Index");
                 }
 
@@ -124,7 +121,7 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var response = await _httpClientHelper.PutAsync("category/edit", model);
+                    var response = await _httpClientHelper.PutAsync<Category>("category/edit", model);
                     if (response) return RedirectToAction("Index");
                 }
 

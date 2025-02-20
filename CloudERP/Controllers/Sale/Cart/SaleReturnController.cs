@@ -2,12 +2,10 @@
 using CloudERP.Models;
 using Domain.Models;
 using Domain.Models.FinancialModels;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Mvc;
+using Localization.CloudERP;
+using Microsoft.AspNetCore.Mvc;
 
-namespace CloudERP.Controllers
+namespace CloudERP.Controllers.Sale.Cart
 {
     public class SaleReturnController : Controller
     {
@@ -48,14 +46,14 @@ namespace CloudERP.Controllers
 
             try
             {
-                Session["SaleInvoiceNo"] = string.Empty;
-                Session["SaleReturnMessage"] = string.Empty;
+                HttpContext.Session.SetString("SaleInvoiceNo", string.Empty);
+                HttpContext.Session.SetString("SaleReturnMessage", string.Empty);
 
                 var response = await _httpClient.GetAsync<dynamic>(
                     $"sale-return/find-sale/{invoiceID}");
 
-                ViewBag.InvoiceDetails = response.InvoiceDetails;
-                return View(response.Invoice);
+                ViewBag.InvoiceDetails = response?.InvoiceDetails;
+                return View(response?.Invoice);
             }
             catch (Exception ex)
             {
@@ -73,8 +71,8 @@ namespace CloudERP.Controllers
 
             try
             {
-                Session["SaleInvoiceNo"] = string.Empty;
-                Session["SaleReturnMessage"] = string.Empty;
+                HttpContext.Session.SetString("SaleInvoiceNo", string.Empty);
+                HttpContext.Session.SetString("SaleReturnMessage", string.Empty);
 
                 var returnConfirmDto = new SaleReturnConfirm
                 {
@@ -90,10 +88,10 @@ namespace CloudERP.Controllers
                 var result = await _httpClient.PostAsync<ReturnConfirmResult>(
                     "sale-return/return-confirm", returnConfirmDto);
 
-                Session["SaleInvoiceNo"] = result.InvoiceNo;
-                Session["SaleReturnMessage"] = result.Message;
+                HttpContext.Session.SetString("SaleInvoiceNo", result.InvoiceNo);
+                HttpContext.Session.SetString("SaleReturnMessage", result.Message);
 
-                if (result.IsSuccess)
+                if (result)
                 {
                     return RedirectToAction("AllReturnSalesPendingAmount", "SalePaymentReturn");
                 }

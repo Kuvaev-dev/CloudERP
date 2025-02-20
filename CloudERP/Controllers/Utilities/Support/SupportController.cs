@@ -1,11 +1,8 @@
 ﻿using CloudERP.Helpers;
 using Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
-namespace CloudERP.Controllers
+namespace CloudERP.Controllers.Utilities.Support
 {
     public class SupportController : Controller
     {
@@ -41,7 +38,7 @@ namespace CloudERP.Controllers
         {
             try
             {
-                var user = await _httpClient.GetAsync<User>($"user/{_sessionHelper.UserID}");
+                var user = await _httpClient.GetAsync<Domain.Models.User>($"user/{_sessionHelper.UserID}");
                 var userTickets = await _httpClient.GetAsync<List<SupportTicket>>($"support/user/{_sessionHelper.UserID}");
 
                 model.CompanyID = _sessionHelper.CompanyID;
@@ -49,15 +46,15 @@ namespace CloudERP.Controllers
                 model.UserID = _sessionHelper.UserID;
                 model.DateCreated = DateTime.Now;
                 model.IsResolved = false;
-                model.Email = user.Email;
-                model.Name = $"{model.DateCreated} - {user.FullName}";
+                model.Email = user?.Email;
+                model.Name = $"{model.DateCreated} - {user?.FullName}";
                 model.AdminResponse = string.Empty;
                 model.RespondedBy = string.Empty;
                 model.ResponseDate = null;
 
                 if (ModelState.IsValid)
                 {
-                    await _httpClient.PostAsync("support/create", model);
+                    await _httpClient.PostAsync<SupportTicket>("support/create", model);
                     ViewBag.Message = Localization.CloudERP.Messages.Messages.SupportRequestSubmitted;
 
                     ViewBag.UserTickets = userTickets;
@@ -99,18 +96,18 @@ namespace CloudERP.Controllers
             try
             {
                 var ticket = await _httpClient.GetAsync<SupportTicket>($"support/{id}");
-                var admin = await _httpClient.GetAsync<User>($"user/{_sessionHelper.UserID}");
+                var admin = await _httpClient.GetAsync<Domain.Models.User>($"user/{_sessionHelper.UserID}");
 
                 if (ticket == null) return RedirectToAction("AdminList");
 
                 ticket.AdminResponse = responseMessage;
-                ticket.RespondedBy = admin.FullName;
+                ticket.RespondedBy = admin?.FullName;
                 ticket.ResponseDate = DateTime.Now;
                 ticket.IsResolved = true;
 
-                var success = await _httpClient.PostAsync($"support/resolve/{id}", ticket);
+                var success = await _httpClient.PostAsync<SupportTicket>($"support/resolve/{id}", ticket);
                 if (success) return RedirectToAction("Index");
-                await _httpClient.PutAsync($"support/update/{ticket.TicketID}", ticket);
+                await _httpClient.PutAsync<SupportTicket>($"support/update/{ticket.TicketID}", ticket);
 
                 return RedirectToAction("AdminList");
             }

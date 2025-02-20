@@ -1,10 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Web.Mvc;
-using CloudERP.Helpers;
+﻿using CloudERP.Helpers;
 using Domain.Models.FinancialModels;
+using Microsoft.AspNetCore.Mvc;
 
-namespace CloudERP.Controllers
+namespace CloudERP.Controllers.Sale.Payment
 {
     public class SalePaymentController : Controller
     {
@@ -14,7 +12,7 @@ namespace CloudERP.Controllers
         private const string DEFAULT_IMAGE_PATH = "~/Content/StuffLogo/customer.png";
 
         public SalePaymentController(
-            SessionHelper sessionHelper, 
+            SessionHelper sessionHelper,
             HttpClientHelper httpClient)
         {
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
@@ -32,7 +30,7 @@ namespace CloudERP.Controllers
                 var response = await _httpClient.GetAsync<dynamic>(
                     $"sale-payment/remaining-payment-list/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
 
-                return View(response.ToList());
+                return View(response);
             }
             catch (Exception ex)
             {
@@ -41,25 +39,25 @@ namespace CloudERP.Controllers
             }
         }
 
-        public async Task<ActionResult> PaidHistory(int? id)
+        public async Task<ActionResult> PaidHistory(int id)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
             try
             {
-                var response = await _httpClient.GetAsync<dynamic>($"sale-payment/sale-payment-history/{id.Value}");
-                var returnDetails = await _httpClient.GetAsync<dynamic>($"sale-payment/get-return-sale-details/{id.Value}");
+                var response = await _httpClient.GetAsync<dynamic>($"sale-payment/sale-payment-history/{id}");
+                var returnDetails = await _httpClient.GetAsync<dynamic>($"sale-payment/get-return-sale-details/{id}");
 
                 if (returnDetails?.Count() > 0)
                 {
                     ViewData["ReturnSaleDetails"] = returnDetails;
                 }
 
-                ViewBag.PreviousRemainingAmount = response.PreviousRemainingAmount;
+                ViewBag.PreviousRemainingAmount = response?.PreviousRemainingAmount;
                 ViewBag.InvoiceID = id;
 
-                return View(response.History);
+                return View(response?.History);
             }
             catch (Exception ex)
             {
@@ -68,20 +66,20 @@ namespace CloudERP.Controllers
             }
         }
 
-        public async Task<ActionResult> PaidAmount(int? id)
+        public async Task<ActionResult> PaidAmount(int id)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
             try
             {
-                var response = await _httpClient.GetAsync<dynamic>($"sale-payment/sale-payment-history/{id.Value}");
-                var remainingAmount = response.RemainingAmount;
+                var response = await _httpClient.GetAsync<dynamic>($"sale-payment/sale-payment-history/{id}");
+                double? remainingAmount = response?.RemainingAmount;
 
                 ViewBag.PreviousRemainingAmount = remainingAmount;
                 ViewBag.InvoiceID = id;
 
-                return View(response.History);
+                return View(response?.History);
             }
             catch (Exception ex)
             {
@@ -92,7 +90,7 @@ namespace CloudERP.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> PaidAmount(int? id, float previousRemainingAmount, float paidAmount)
+        public async Task<ActionResult> PaidAmount(int id, float previousRemainingAmount, float paidAmount)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -101,18 +99,18 @@ namespace CloudERP.Controllers
             {
                 var paymentDto = new SalePayment
                 {
-                    InvoiceId = id.Value,
+                    InvoiceId = id,
                     PreviousRemainingAmount = previousRemainingAmount,
                     PaidAmount = paidAmount
                 };
 
-                var response = await _httpClient.PostAsync<dynamic>(
+                var response = await _httpClient.PostAsync<SalePayment>(
                     $"sale-payment/process-payment/{_sessionHelper.BranchID}/{_sessionHelper.CompanyID}/{_sessionHelper.UserID}", paymentDto);
 
                 if (!response)
                 {
                     ViewBag.Message = "Unexpected error";
-                    var history = await _httpClient.GetAsync<dynamic>($"sale-payment/sale-payment-history/{id.Value}");
+                    var history = await _httpClient.GetAsync<List<SalePaymentModel>>($"sale-payment/sale-payment-history/{id}");
                     ViewBag.PreviousRemainingAmount = previousRemainingAmount;
                     ViewBag.InvoiceID = id;
                     return View(history);
@@ -123,7 +121,7 @@ namespace CloudERP.Controllers
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
-                var history = await _httpClient.GetAsync<dynamic>($"sale-payment/sale-payment-history/{id.Value}");
+                var history = await _httpClient.GetAsync<List<SalePaymentModel>>($"sale-payment/sale-payment-history/{id}");
                 ViewBag.PreviousRemainingAmount = previousRemainingAmount;
                 ViewBag.InvoiceID = id;
                 return View(history);
@@ -137,10 +135,10 @@ namespace CloudERP.Controllers
 
             try
             {
-                var response = await _httpClient.GetAsync<dynamic>(
+                var response = await _httpClient.GetAsync<List<SalePaymentModel>>(
                     $"sale-payment/custom-sales-history/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}/{fromDate.ToString("yyyy-MM-dd")}/{toDate.ToString("yyyy-MM-dd")}");
 
-                return View(response.ToList());
+                return View(response);
             }
             catch (Exception ex)
             {

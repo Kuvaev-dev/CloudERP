@@ -1,11 +1,8 @@
 ﻿using CloudERP.Helpers;
 using Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
-namespace CloudERP.Controllers
+namespace CloudERP.Controllers.User.Stuff
 {
     public class CustomerController : Controller
     {
@@ -99,7 +96,7 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var success = await _httpClient.PostAsync("customer", model);
+                    var success = await _httpClient.PostAsync<Customer>("customer", model);
                     if (success) return RedirectToAction("Index");
                 }
 
@@ -144,7 +141,7 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var success = await _httpClient.PutAsync($"customer/update/{model.CustomerID}", model);
+                    var success = await _httpClient.PutAsync<Customer>($"customer/update/{model.CustomerID}", model);
                     if (success) return RedirectToAction("Index");
                 }
 

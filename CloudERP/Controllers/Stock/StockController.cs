@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web.Mvc;
-using CloudERP.Helpers;
+﻿using CloudERP.Helpers;
 using Domain.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace CloudERP.Controllers
+namespace CloudERP.Controllers.Stock
 {
     public class StockController : Controller
     {
@@ -13,7 +11,7 @@ namespace CloudERP.Controllers
         private readonly SessionHelper _sessionHelper;
 
         public StockController(
-            HttpClientHelper httpClient, 
+            HttpClientHelper httpClient,
             SessionHelper sessionHelper)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
@@ -28,7 +26,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var stocks = await _httpClient.GetAsync<List<Stock>>($"stock/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
+                var stocks = await _httpClient.GetAsync<List<Domain.Models.Stock>>($"stock/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
                 return View(stocks);
             }
             catch (Exception ex)
@@ -48,7 +46,7 @@ namespace CloudERP.Controllers
             {
                 if (id == null) return RedirectToAction("EP404", "EP");
 
-                var stock = await _httpClient.GetAsync<Stock>($"stock/{id}/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
+                var stock = await _httpClient.GetAsync<Domain.Models.Stock>($"stock/{id}/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
                 if (stock == null) return RedirectToAction("EP404", "EP");
 
                 return View(stock);
@@ -69,10 +67,10 @@ namespace CloudERP.Controllers
             try
             {
                 var categories = await _httpClient.GetAsync<List<Category>>($"category/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
-                
+
                 ViewBag.CategoryID = new SelectList(categories, "CategoryID", "CategoryName");
 
-                return View(new Stock());
+                return View(new Domain.Models.Stock());
             }
             catch (Exception ex)
             {
@@ -84,7 +82,7 @@ namespace CloudERP.Controllers
         // POST: Stock/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Stock model)
+        public async Task<ActionResult> Create(Domain.Models.Stock model)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -97,7 +95,7 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var success = await _httpClient.PostAsync("stock/create", model);
+                    var success = await _httpClient.PostAsync<Domain.Models.Stock>("stock/create", model);
                     if (success) return RedirectToAction("Index");
                 }
 
@@ -120,11 +118,11 @@ namespace CloudERP.Controllers
             {
                 if (id == null) return RedirectToAction("EP404", "EP");
 
-                var stock = await _httpClient.GetAsync<Stock>($"stock/{id}/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
+                var stock = await _httpClient.GetAsync<Domain.Models.Stock>($"stock/{id}/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
                 if (stock == null) return RedirectToAction("EP404", "EP");
 
                 var categories = await _httpClient.GetAsync<List<Category>>($"category/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
-                
+
                 ViewBag.CategoryID = new SelectList(categories, "CategoryID", "CategoryName");
 
                 return View(stock);
@@ -139,7 +137,7 @@ namespace CloudERP.Controllers
         // POST: Stock/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(Stock model)
+        public async Task<ActionResult> Edit(Domain.Models.Stock model)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -150,7 +148,7 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var success = await _httpClient.PutAsync($"stock/update/{model.ProductID}", model);
+                    var success = await _httpClient.PutAsync<Domain.Models.Stock>($"stock/update/{model.ProductID}", model);
                     if (success) return RedirectToAction("Index");
                 }
 
@@ -168,7 +166,7 @@ namespace CloudERP.Controllers
         {
             try
             {
-                var products = await _httpClient.GetAsync<List<Stock>>($"stock/productquality/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
+                var products = await _httpClient.GetAsync<List<Domain.Models.Stock>>($"stock/productquality/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
                 return View(products);
             }
             catch (Exception ex)

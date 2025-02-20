@@ -1,11 +1,8 @@
 ﻿using CloudERP.Helpers;
 using Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
-namespace CloudERP.Controllers
+namespace CloudERP.Controllers.Utilities.TaskList
 {
     public class TaskController : Controller
     {
@@ -83,7 +80,7 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    await _httpClient.PostAsync("task/create", model);
+                    await _httpClient.PostAsync<TaskModel>("task/create", model);
                     return RedirectToAction("Index");
                 }
                 return View(model);
@@ -108,11 +105,11 @@ namespace CloudERP.Controllers
             model.IsCompleted = false;
             model.AssignedByUserID = _sessionHelper.UserID;
             model.CompanyID = _sessionHelper.CompanyID;
-            model.UserID = model.AssignedToUserID.Value;
+            model.UserID = model.AssignedToUserID ?? 0;
 
             if (ModelState.IsValid)
             {
-                await _httpClient.PostAsync("task/create", model);
+                await _httpClient.PostAsync<TaskModel>("task/create", model);
                 return RedirectToAction("AssignTask");
             }
 
@@ -152,7 +149,7 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    await _httpClient.PutAsync($"task/update/{model.TaskID}", model);
+                    await _httpClient.PutAsync<TaskModel>($"task/update/{model.TaskID}", model);
                     return RedirectToAction("Index");
                 }
                 return View(model);
@@ -175,7 +172,7 @@ namespace CloudERP.Controllers
                 if (task == null) return RedirectToAction("EP404", "EP");
                 task.IsCompleted = true;
 
-                await _httpClient.PutAsync($"account-head/update/{task.TaskID}", task);
+                await _httpClient.PutAsync<TaskModel>($"account-head/update/{task.TaskID}", task);
 
                 return RedirectToAction("Index");
             }
@@ -214,7 +211,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                await _httpClient.PostAsync("account-head/delete", id);
+                await _httpClient.PostAsync<TaskModel>("account-head/delete", id);
                 return RedirectToAction("Index");
             }
             catch (Exception ex)

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers.Purchase.Payment
 {
     [ApiController]
+    [Route("api/[controller]/[action]")]
     public class PurchasePaymentApiController : ControllerBase
     {
         private readonly PurchasePaymentFacade _purchasePaymentFacade;

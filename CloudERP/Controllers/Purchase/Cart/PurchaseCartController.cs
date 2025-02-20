@@ -1,11 +1,8 @@
 ﻿using CloudERP.Helpers;
 using Domain.Models;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
-namespace CloudERP.Controllers
+namespace CloudERP.Controllers.Purchase.Cart
 {
     public class PurchaseCartController : Controller
     {
@@ -16,8 +13,8 @@ namespace CloudERP.Controllers
             SessionHelper sessionHelper,
             HttpClientHelper httpClient)
         {
-            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
-            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
 
         public async Task<ActionResult> NewPurchase()
@@ -30,7 +27,7 @@ namespace CloudERP.Controllers
                 var details = await _httpClient.GetAsync<PurchaseCartDetail[]>(
                     $"details/{_sessionHelper.BranchID}/{_sessionHelper.CompanyID}/{_sessionHelper.UserID}");
 
-                ViewBag.TotalAmount = details.Sum(item => item.PurchaseQuantity * item.PurchaseUnitPrice);
+                ViewBag.TotalAmount = details?.Sum(item => item.PurchaseQuantity * item.PurchaseUnitPrice);
                 return View(details);
             }
             catch (Exception ex)
@@ -42,7 +39,7 @@ namespace CloudERP.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddItem(int? PID, int? Qty, float? Price)
+        public async Task<ActionResult> AddItem(int PID, int Qty, float Price)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -51,15 +48,15 @@ namespace CloudERP.Controllers
             {
                 var newItem = new PurchaseCartDetail
                 {
-                    ProductID = PID.Value,
-                    PurchaseQuantity = Qty.Value,
-                    PurchaseUnitPrice = Price.Value,
+                    ProductID = PID,
+                    PurchaseQuantity = Qty,
+                    PurchaseUnitPrice = Price,
                     BranchID = _sessionHelper.BranchID,
                     CompanyID = _sessionHelper.CompanyID,
                     UserID = _sessionHelper.UserID
                 };
 
-                var success = await _httpClient.PostAsync("additem", newItem);
+                var success = await _httpClient.PostAsync<PurchaseCartDetail>("additem", newItem);
                 if (success) ViewBag.Message = "Item added successfully";
 
                 return RedirectToAction("NewPurchase");
@@ -80,7 +77,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var success = await _httpClient.PostAsync($"delete/{id}", new { });
+                var success = await _httpClient.PostAsync<object>($"delete/{id}", new { });
                 if (success) ViewBag.Message = "Deleted successfully";
 
                 return RedirectToAction("NewPurchase");
@@ -101,7 +98,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var success = await _httpClient.PostAsync($"cancel", new
+                var success = await _httpClient.PostAsync<object>($"cancel", new
                 {
                     branchId = _sessionHelper.BranchID,
                     companyId = _sessionHelper.CompanyID,

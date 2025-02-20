@@ -8,6 +8,7 @@ using Services.Facades;
 namespace API.Controllers.Company
 {
     [ApiController]
+    [Route("api/[controller]/[action]")]
     public class CompanyEmployeeApiController : ControllerBase
     {
         private readonly CompanyEmployeeFacade _companyEmployeeFacade;

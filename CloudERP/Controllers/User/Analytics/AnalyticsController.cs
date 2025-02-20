@@ -1,9 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Web.Mvc;
-using CloudERP.Helpers;
+﻿using CloudERP.Helpers;
+using Microsoft.AspNetCore.Mvc;
 
-namespace CloudERP.Controllers
+namespace CloudERP.Controllers.User.Analytics
 {
     public class AnalyticsController : Controller
     {
@@ -11,7 +9,7 @@ namespace CloudERP.Controllers
         private readonly SessionHelper _sessionHelper;
 
         public AnalyticsController(
-            HttpClientHelper httpClientHelper, 
+            HttpClientHelper httpClientHelper,
             SessionHelper sessionHelper)
         {
             _httpClientHelper = httpClientHelper ?? throw new ArgumentNullException(nameof(HttpClientHelper));
@@ -27,8 +25,8 @@ namespace CloudERP.Controllers
             {
                 var analyticsData = await _httpClientHelper.GetAsync<dynamic>("analytics/index");
 
-                var model = analyticsData.model;
-                var chartData = analyticsData.chartData;
+                var model = analyticsData?.model;
+                var chartData = analyticsData?.chartData;
 
                 ViewBag.ChartData = chartData;
 

@@ -1,12 +1,8 @@
 ﻿using CloudERP.Helpers;
 using Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
-namespace CloudERP.Controllers
+namespace CloudERP.Controllers.User.Analytics
 {
     public class EmployeeStatisticsController : Controller
     {
@@ -14,7 +10,7 @@ namespace CloudERP.Controllers
         private readonly SessionHelper _sessionHelper;
 
         public EmployeeStatisticsController(
-            HttpClientHelper httpClientHelper, 
+            HttpClientHelper httpClientHelper,
             SessionHelper sessionHelper)
         {
             _httpClientHelper = httpClientHelper ?? throw new ArgumentNullException(nameof(HttpClientHelper));
@@ -74,12 +70,12 @@ namespace CloudERP.Controllers
 
             var chartData = new
             {
-                Labels = statistics.Select(s => s.Date.ToString("yyyy-MM-dd")).ToList(),
-                Data = statistics.Select(s => s.NumberOfRegistrations).ToList()
+                Labels = statistics?.Select(s => s.Date.ToString("yyyy-MM-dd")).ToList(),
+                Data = statistics?.Select(s => s.NumberOfRegistrations).ToList()
             };
 
             ViewBag.ChartData = chartData;
-            return statistics;
+            return statistics ?? [];
         }
     }
 }

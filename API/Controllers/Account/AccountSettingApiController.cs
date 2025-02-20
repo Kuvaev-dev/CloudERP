@@ -5,6 +5,7 @@ using Services.Facades;
 namespace API.Controllers.Account
 {
     [ApiController]
+    [Route("api/[controller]/[action]")]
     public class AccountSettingApiController : ControllerBase
     {
         private readonly AccountSettingFacade _accountSettingFacade;

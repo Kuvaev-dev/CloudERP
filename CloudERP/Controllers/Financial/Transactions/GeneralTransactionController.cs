@@ -1,12 +1,10 @@
 ﻿using CloudERP.Helpers;
 using CloudERP.Models;
 using Domain.Models.FinancialModels;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace CloudERP.Controllers
+namespace CloudERP.Controllers.Financial.Transactions
 {
     public class GeneralTransactionController : Controller
     {
@@ -55,15 +53,15 @@ namespace CloudERP.Controllers
             try
             {
                 var endpoint = $"save-transaction/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}/{_sessionHelper.UserID}";
-                var result = await _httpClient.PostAsync(endpoint, transaction);
+                var result = await _httpClient.PostAsync<GeneralTransactionMV>(endpoint, transaction);
 
                 if (result)
                 {
-                    Session["GNMessage"] = "Transaction succeeded.";
+                    HttpContext.Session.SetString("GNMessage", "Transaction succeeded.");
                     return RedirectToAction("Journal");
                 }
 
-                Session["GNMessage"] = "Failed to save transaction. Please try again.";
+                HttpContext.Session.SetString("GNMessage", "Failed to save transaction. Please try again.");
                 await PopulateViewBag();
                 return View("GeneralTransaction", transaction);
             }

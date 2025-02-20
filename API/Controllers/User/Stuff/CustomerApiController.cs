@@ -1,11 +1,11 @@
 ﻿using Domain.Models;
 using Domain.RepositoryAccess;
 using Microsoft.AspNetCore.Mvc;
-using System.Reflection;
 
 namespace API.Controllers.User.Stuff
 {
     [ApiController]
+    [Route("api/[controller]/[action]")]
     public class CustomerApiController : ControllerBase
     {
         private readonly ICustomerRepository _customerRepository;

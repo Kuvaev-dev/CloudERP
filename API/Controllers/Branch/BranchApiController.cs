@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers.Branch
 {
     [ApiController]
+    [Route("api/[controller]/[action]")]
     public class BranchApiController : ControllerBase
     {
         private readonly IBranchRepository _branchRepository;

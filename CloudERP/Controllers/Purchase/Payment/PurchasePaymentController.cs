@@ -3,14 +3,9 @@ using CloudERP.Models;
 using Domain.Models;
 using Domain.Models.FinancialModels;
 using Domain.Models.Purchase;
-using Localization.CloudERP;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
-namespace CloudERP.Controllers
+namespace CloudERP.Controllers.Purchase.Payment
 {
     public class PurchasePaymentController : Controller
     {
@@ -74,7 +69,7 @@ namespace CloudERP.Controllers
                 var list = await _httpClient.GetAsync<List<PurchasePaymentModel>>(
                     $"purchase-payment/paid-history/{id}");
 
-                double remainingAmount = list.LastOrDefault()?.RemainingBalance ?? 0;
+                double remainingAmount = list?.LastOrDefault()?.RemainingBalance ?? 0;
 
                 if (remainingAmount == 0)
                 {
@@ -96,7 +91,7 @@ namespace CloudERP.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> PaidAmount(int? id, float previousRemainingAmount, float paymentAmount)
+        public async Task<ActionResult> PaidAmount(int id, float previousRemainingAmount, float paymentAmount)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -105,12 +100,12 @@ namespace CloudERP.Controllers
             {
                 var paymentDto = new PurchasePayment
                 {
-                    InvoiceId = id.Value,
+                    InvoiceId = id,
                     PreviousRemainingAmount = previousRemainingAmount,
                     PaidAmount = paymentAmount
                 };
 
-                var success = await _httpClient.PostAsync(
+                var success = await _httpClient.PostAsync<PurchasePayment>(
                     "purchase-payment/process-payment", paymentDto);
 
                 if (!success)
@@ -142,7 +137,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var list = await _httpClient.GetAsync<List<Purchase>>(
+                var list = await _httpClient.GetAsync<List<List<PurchasePaymentModel>>>(
                     $"purchase-payment/custom-purchases-history/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}/{fromDate:yyyy-MM-dd}/{toDate:yyyy-MM-dd}");
 
                 return View(list);
@@ -203,9 +198,9 @@ namespace CloudERP.Controllers
                     InvoiceNo = firstItem.SupplierInvoiceNo,
                     InvoiceDate = firstItem.SupplierInvoiceDate.ToString("dd/MM/yyyy"),
                     TotalCost = invoiceDetails.Sum(i => i.ItemCost),
-                    InvoiceItems = invoiceDetails.ToList(),
+                    InvoiceItems = [.. invoiceDetails],
                     ReturnInvoices = invoiceDetails
-                        .Where(i => i.SupplierReturnInvoiceDetail.Any())
+                        .Where(i => i.SupplierReturnInvoiceDetail.Count != 0)
                         .Select(i => new ReturnPurchaseInvoiceMV
                         {
                             ReturnInvoiceNo = i.SupplierReturnInvoiceDetail.First().InvoiceNo,

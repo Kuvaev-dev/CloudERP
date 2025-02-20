@@ -1,12 +1,10 @@
 ﻿using CloudERP.Helpers;
 using Domain.Models;
 using Domain.Models.FinancialModels;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace CloudERP.Controllers
+namespace CloudERP.Controllers.Financial.Reports
 {
     public class TrialBalanceController : Controller
     {

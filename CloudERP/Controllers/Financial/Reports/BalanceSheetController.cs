@@ -1,12 +1,10 @@
 ﻿using CloudERP.Helpers;
 using Domain.Models;
 using Domain.Models.FinancialModels;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace CloudERP.Controllers
+namespace CloudERP.Controllers.Financial.Reports
 {
     public class BalanceSheetController : Controller
     {
@@ -17,8 +15,8 @@ namespace CloudERP.Controllers
             SessionHelper sessionHelper,
             HttpClientHelper httpClient)
         {
-            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
-            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
         }
 
         // GET: BalanceSheet

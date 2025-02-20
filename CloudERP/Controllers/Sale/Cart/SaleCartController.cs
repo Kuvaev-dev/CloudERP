@@ -1,13 +1,9 @@
 ﻿using CloudERP.Helpers;
 using Domain.Models;
 using Domain.Models.FinancialModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
-namespace CloudERP.Controllers
+namespace CloudERP.Controllers.Sale.Cart
 {
     public class SaleCartController : Controller
     {
@@ -15,7 +11,7 @@ namespace CloudERP.Controllers
         private readonly HttpClientHelper _httpClientHelper;
 
         public SaleCartController(
-            SessionHelper sessionHelper, 
+            SessionHelper sessionHelper,
             HttpClientHelper httpClientHelper)
         {
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
@@ -33,7 +29,7 @@ namespace CloudERP.Controllers
                 var findDetail = await _httpClientHelper.GetAsync<List<SaleCartDetail>>(
                     $"sale-cart/new-sale-details/{_sessionHelper.BranchID}/{_sessionHelper.CompanyID}/{_sessionHelper.UserID}");
 
-                ViewBag.TotalAmount = findDetail.Sum(item => item.SaleQuantity * item.SaleUnitPrice);
+                ViewBag.TotalAmount = findDetail?.Sum(item => item.SaleQuantity * item.SaleUnitPrice);
                 ViewBag.Products = await _httpClientHelper.GetAsync<List<Stock>>(
                     $"stock/products/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
 
@@ -46,14 +42,14 @@ namespace CloudERP.Controllers
             }
         }
 
-        public async Task<JsonResult> GetProductDetails(int id)
+        public async Task<IActionResult> GetProductDetails(int id)
         {
             try
             {
                 var product = await _httpClientHelper.GetAsync<Stock>(
                     $"sale-cart/product-details/{id}");
 
-                return Json(new { data = product.SaleUnitPrice }, JsonRequestBehavior.AllowGet);
+                return Json(new { data = product?.SaleUnitPrice });
             }
             catch (Exception ex)
             {
@@ -75,7 +71,7 @@ namespace CloudERP.Controllers
                 var checkQty = await _httpClientHelper.GetAsync<Stock>(
                     $"stock/products/{PID}");
 
-                if (Qty > checkQty.Quantity)
+                if (Qty > checkQty?.Quantity)
                 {
                     ViewBag.Message = "Insufficient quantity available.";
                     return RedirectToAction("NewSale");
@@ -91,7 +87,7 @@ namespace CloudERP.Controllers
                     UserID = _sessionHelper.UserID
                 };
 
-                var responseMessage = await _httpClientHelper.PostAsync(
+                var responseMessage = await _httpClientHelper.PostAsync<SaleCartDetail>(
                     "sale-cart/add-item", newItem);
 
                 ViewBag.Message = responseMessage;
@@ -115,7 +111,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var responseMessage = await _httpClientHelper.PutAsync($"sale-cart/delete-item/{id}", new { });
+                var responseMessage = await _httpClientHelper.PutAsync<string>($"sale-cart/delete-item/{id}", new { });
 
                 ViewBag.Message = responseMessage;
                 return RedirectToAction("NewSale");
@@ -137,7 +133,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var responseMessage = await _httpClientHelper.PostAsync(
+                var responseMessage = await _httpClientHelper.PostAsync<string>(
                     $"sale-cart/cancel-sale/{_sessionHelper.BranchID}/{_sessionHelper.CompanyID}/{_sessionHelper.UserID}", new { });
 
                 ViewBag.Message = responseMessage;
@@ -161,7 +157,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var response = await _httpClientHelper.PostAsync(
+                var response = await _httpClientHelper.PostAsync<int>(
                     "sale-cart/confirm-sale", saleConfirmDto);
 
                 if (response)

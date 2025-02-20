@@ -5,6 +5,7 @@ using Utils.Helpers;
 namespace API.Controllers.User.Settings
 {
     [ApiController]
+    [Route("api/[controller]/[action]")]
     public class UserSettingApiController : ControllerBase
     {
         private readonly IEmployeeRepository _employeeRepository;

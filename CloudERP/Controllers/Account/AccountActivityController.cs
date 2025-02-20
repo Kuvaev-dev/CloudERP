@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web.Mvc;
-using CloudERP.Helpers;
+﻿using CloudERP.Helpers;
 using Domain.Models;
+using Microsoft.AspNetCore.Mvc;
 
-namespace CloudERP.Controllers
+namespace CloudERP.Controllers.Account
 {
     public class AccountActivityController : Controller
     {
@@ -20,14 +17,14 @@ namespace CloudERP.Controllers
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
         }
 
-        public async Task<ActionResult> Index()
+        public async Task<IActionResult> Index()
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
             try
             {
-                var accountActivities = await _httpClient.GetAsync<List<AccountActivity>>("account-activity");
+                var accountActivities = await _httpClient.GetAsync<List<AccountActivity>>("accountactivityapi/getall");
                 return View(accountActivities);
             }
             catch (Exception ex)
@@ -37,7 +34,7 @@ namespace CloudERP.Controllers
             }
         }
 
-        public ActionResult Create()
+        public IActionResult Create()
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -47,7 +44,7 @@ namespace CloudERP.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(AccountActivity model)
+        public async Task<IActionResult> Create(AccountActivity model)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -56,7 +53,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var success = await _httpClient.PostAsync("account-activity/create", model);
+                var success = await _httpClient.PostAsync<AccountActivity>("accountactivityapi/create", model);
                 if (success) return RedirectToAction("Index");
 
                 TempData["ErrorMessage"] = "Error Creating a New Record";
@@ -69,15 +66,15 @@ namespace CloudERP.Controllers
             }
         }
 
-        public async Task<ActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
             try
             {
-                var accountActivity = await _httpClient.GetAsync<AccountActivity>($"account-activity/{id}");
-                if (accountActivity == null) return HttpNotFound();
+                var accountActivity = await _httpClient.GetAsync<AccountActivity>($"accountactivityapi/getbyid?id={id}");
+                if (accountActivity == null) return NotFound();
 
                 return View(accountActivity);
             }
@@ -90,7 +87,7 @@ namespace CloudERP.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(AccountActivity model)
+        public async Task<IActionResult> Edit(AccountActivity model)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -99,7 +96,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var success = await _httpClient.PutAsync($"account-activity/update/{model.AccountActivityID}", model);
+                var success = await _httpClient.PutAsync<AccountActivity>($"accountactivityapi/update?id={model.AccountActivityID}", model);
                 if (success) return RedirectToAction("Index");
 
                 TempData["ErrorMessage"] = "Error Updating a Record";

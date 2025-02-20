@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web.Mvc;
-using CloudERP.Helpers;
+﻿using CloudERP.Helpers;
 using Domain.Models;
+using Microsoft.AspNetCore.Mvc;
 
-namespace CloudERP.Controllers
+namespace CloudERP.Controllers.Account
 {
     public class AccountHeadController : Controller
     {
@@ -13,11 +10,11 @@ namespace CloudERP.Controllers
         private readonly SessionHelper _sessionHelper;
 
         public AccountHeadController(
-            SessionHelper sessionHelper, 
+            SessionHelper sessionHelper,
             HttpClientHelper httpClient)
         {
-            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
-            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
         }
 
         public async Task<ActionResult> Index()
@@ -27,7 +24,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var accountHeads = await _httpClient.GetAsync<List<AccountHead>>("account-head");
+                var accountHeads = await _httpClient.GetAsync<List<AccountHead>>("accountheadapi/getall");
                 return View(accountHeads);
             }
             catch (Exception ex)
@@ -57,7 +54,7 @@ namespace CloudERP.Controllers
             try
             {
                 model.UserID = _sessionHelper.UserID;
-                var success = await _httpClient.PostAsync("account-head/create", model);
+                var success = await _httpClient.PostAsync<AccountHead>("accountheadapi/create", model);
 
                 if (success) return RedirectToAction("Index");
 
@@ -77,8 +74,8 @@ namespace CloudERP.Controllers
 
             try
             {
-                var accountHead = await _httpClient.GetAsync<AccountHead>($"account-head/{id}");
-                if (accountHead == null) return HttpNotFound();
+                var accountHead = await _httpClient.GetAsync<AccountHead>($"accountheadapi/getbyid?id={id}");
+                if (accountHead == null) return NotFound();
 
                 return View(accountHead);
             }
@@ -102,7 +99,7 @@ namespace CloudERP.Controllers
             {
                 model.UserID = _sessionHelper.UserID;
 
-                var success = await _httpClient.PutAsync($"account-head/update/{model.AccountHeadID}", model);
+                var success = await _httpClient.PutAsync<AccountHead>($"accountheadapi/update?id={model.AccountHeadID}", model);
                 if (success) return RedirectToAction("Index");
 
                 return View(model);

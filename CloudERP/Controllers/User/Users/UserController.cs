@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web.Mvc;
-using CloudERP.Helpers;
-using Domain.Models;
+﻿using CloudERP.Helpers;
+using Microsoft.AspNetCore.Mvc;
 using Utils.Helpers;
 
-namespace CloudERP.Controllers
+namespace CloudERP.Controllers.User.Users
 {
     public class UserController : Controller
     {
@@ -32,7 +28,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var users = await _httpClient.GetAsync<List<User>>($"user");
+                var users = await _httpClient.GetAsync<List<Domain.Models.User>>($"user");
                 return View(users);
             }
             catch (Exception ex)
@@ -50,7 +46,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var user = await _httpClient.GetAsync<User>($"user/{id}");
+                var user = await _httpClient.GetAsync<Domain.Models.User>($"user/{id}");
                 return View(user);
             }
             catch (Exception ex)
@@ -66,13 +62,13 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            return View(new User());
+            return View(new Domain.Models.User());
         }
 
         // POST: User/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(User model)
+        public async Task<ActionResult> Create(Domain.Models.User model)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -84,7 +80,7 @@ namespace CloudERP.Controllers
                     model.Password = _passwordHelper.HashPassword(model.Password, out string salt);
                     model.Salt = salt;
 
-                    var success = await _httpClient.PostAsync($"user/create", model);
+                    var success = await _httpClient.PostAsync<Domain.Models.User>($"user/create", model);
                     if (success) return RedirectToAction("EP500", "EP");
 
                     return RedirectToAction("Index");
@@ -107,7 +103,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var user = await _httpClient.GetAsync<User>($"user/{id}");
+                var user = await _httpClient.GetAsync<Domain.Models.User>($"user/{id}");
                 return View(user);
             }
             catch (Exception ex)
@@ -120,7 +116,7 @@ namespace CloudERP.Controllers
         // POST: User/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(User model)
+        public async Task<ActionResult> Edit(Domain.Models.User model)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -131,10 +127,10 @@ namespace CloudERP.Controllers
                 {
                     if (string.IsNullOrEmpty(model.Password))
                     {
-                        var existingUser = await _httpClient.GetAsync<User>($"user/{model.UserID}");
+                        var existingUser = await _httpClient.GetAsync<Domain.Models.User>($"user/{model.UserID}");
 
-                        model.Password = existingUser.Password;
-                        model.Salt = existingUser.Salt;
+                        model.Password = existingUser?.Password;
+                        model.Salt = existingUser?.Salt;
                     }
                     else
                     {
@@ -142,7 +138,7 @@ namespace CloudERP.Controllers
                         model.Salt = salt;
                     }
 
-                    var response = await _httpClient.PutAsync($"user/update/{model.UserID}", model);
+                    var response = await _httpClient.PutAsync<Domain.Models.User>($"user/update/{model.UserID}", model);
 
                     return RedirectToAction("Index");
                 }

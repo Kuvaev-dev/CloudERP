@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers.Financial.Reports
 {
     [ApiController]
+    [Route("api/[controller]/[action]")]
     public class IncomeStatementApiController : ControllerBase
     {
         private readonly IIncomeStatementService _incomeStatementService;

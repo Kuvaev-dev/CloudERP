@@ -1,33 +1,41 @@
-﻿using MailKit.Net.Smtp;
-using MimeKit;
-using System.Configuration;
-using Utils.Interfaces;
+﻿using System.Net;
+using System.Net.Mail;
 
 namespace CloudERP.Helpers
 {
-    public class EmailService : IEmailService
+    public class EmailService
     {
+        private readonly IConfiguration _configuration;
+
+        public EmailService(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         public void SendEmail(string toEmailAddress, string subject, string body)
         {
-            var smtpServer = ConfigurationManager.AppSettings["SmtpServer"];
-            var smtpPort = int.Parse(ConfigurationManager.AppSettings["SmtpPort"]);
-            var smtpUsername = ConfigurationManager.AppSettings["SmtpUsername"];
-            var smtpPassword = ConfigurationManager.AppSettings["SmtpPassword"];
-            var fromEmail = ConfigurationManager.AppSettings["SmtpFromEmail"];
+            var smtpServer = _configuration["Smtp:Server"];
+            var smtpPort = int.Parse(_configuration["Smtp:Port"]);
+            var smtpUsername = _configuration["Smtp:Username"];
+            var smtpPassword = _configuration["Smtp:Password"];
+            var fromEmail = _configuration["Smtp:FromEmail"];
 
-            var message = new MimeMessage();
-            message.From.Add(new MailboxAddress("Cloud ERP", fromEmail));
-            message.To.Add(new MailboxAddress("", toEmailAddress));
-            message.Subject = subject;
-            message.Body = new TextPart("html") { Text = body };
-
-            using (var client = new SmtpClient())
+            using (var client = new SmtpClient(smtpServer, smtpPort))
             {
-                // Connect to the SMTP server
-                client.Connect(smtpServer, smtpPort, false);
-                client.Authenticate(smtpUsername, smtpPassword);
+                client.Credentials = new NetworkCredential(smtpUsername, smtpPassword);
+                client.EnableSsl = true;
+
+                var message = new MailMessage
+                {
+                    From = new MailAddress(fromEmail, "Cloud ERP"),
+                    Subject = subject,
+                    Body = body,
+                    IsBodyHtml = true
+                };
+
+                message.To.Add(new MailAddress(toEmailAddress));
+
                 client.Send(message);
-                client.Disconnect(true);
             }
         }
     }

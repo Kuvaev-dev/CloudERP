@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers.User.Analytics
 {
     [ApiController]
+    [Route("api/[controller]/[action]")]
     public class AnalyticsApiController : ControllerBase
     {
         private readonly IEmployeeRepository _employeeRepository;

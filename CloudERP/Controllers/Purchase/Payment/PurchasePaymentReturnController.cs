@@ -1,13 +1,9 @@
 ﻿using CloudERP.Helpers;
 using Domain.Models;
 using Domain.Models.FinancialModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
-namespace CloudERP.Controllers
+namespace CloudERP.Controllers.Purchase.Payment
 {
     public class PurchasePaymentReturnController : Controller
     {
@@ -15,7 +11,7 @@ namespace CloudERP.Controllers
         private readonly HttpClientHelper _httpClientHelper;
 
         public PurchasePaymentReturnController(
-            SessionHelper sessionHelper, 
+            SessionHelper sessionHelper,
             HttpClientHelper httpClientHelper)
         {
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
@@ -69,7 +65,7 @@ namespace CloudERP.Controllers
                 var list = await _httpClientHelper.GetAsync<List<SupplierReturnPayment>>(
                     $"purchase-payment-return/supplier-return-payments/{id}");
 
-                double remainingAmount = list.Sum(item => item.RemainingBalance);
+                double? remainingAmount = list?.Sum(item => item.RemainingBalance);
                 if (remainingAmount == 0) return RedirectToAction("AllPurchasesPendingPayment");
 
                 ViewBag.PreviousRemainingAmount = remainingAmount;
@@ -100,9 +96,9 @@ namespace CloudERP.Controllers
                     PaymentAmount = paymentAmount
                 };
 
-                bool isSuccess = await _httpClientHelper.PostAsync("purchase-payment-return/process-return-payment", returnAmountDto);
+                bool isSuccess = await _httpClientHelper.PostAsync<PurchaseReturnAmount>("purchase-payment-return/process-return-payment", returnAmountDto);
 
-                Session["Message"] = isSuccess ? "Payment processed successfully" : "Payment processing failed";
+                HttpContext.Session.SetString("Message", isSuccess ? "Payment processed successfully" : "Payment processing failed");
 
                 return RedirectToAction("AllPurchasesPendingPayment");
             }

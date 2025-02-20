@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers.User.Stuff
 {
     [ApiController]
+    [Route("api/[controller]/[action]")]
     public class SupplierApiController : ControllerBase
     {
         private readonly ISupplierRepository _repository;

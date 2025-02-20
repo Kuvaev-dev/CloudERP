@@ -1,16 +1,14 @@
 ﻿using CloudERP.Helpers;
-using System;
-using System.Web.Mvc;
-using System.Web.Security;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 using Utils.Helpers;
 using Domain.Models.FinancialModels;
 using Domain.Models;
 using CloudERP.Models;
-using System.Web.Http;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 
-namespace CloudERP.Controllers
+namespace CloudERP.Controllers.General
 {
     public class HomeController : Controller
     {
@@ -20,8 +18,8 @@ namespace CloudERP.Controllers
 
         private const int ADMIN_USER_TYPE_ID = 1;
 
-        public HomeController( 
-            SessionHelper sessionHelper, 
+        public HomeController(
+            SessionHelper sessionHelper,
             ResourceManagerHelper resourceManagerHelper,
             HttpClientHelper httpClient)
         {
@@ -30,7 +28,7 @@ namespace CloudERP.Controllers
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
         }
 
-        public async Task<ActionResult> Index()
+        public async Task<IActionResult> Index()
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login");
@@ -41,7 +39,7 @@ namespace CloudERP.Controllers
                 var currencies = await _httpClient.GetAsync<Dictionary<string, decimal>>("home/currencies");
 
                 ViewBag.Currencies = currencies;
-                ViewBag.SelectedCurrency = Session["SelectedCurrency"] as string ?? "UAH";
+                ViewBag.SelectedCurrency = HttpContext.Session.GetString("SelectedCurrency") ?? "UAH";
 
                 return View(dashboardValues);
             }
@@ -52,72 +50,51 @@ namespace CloudERP.Controllers
             }
         }
 
-        public ActionResult Login()
+        public IActionResult Login()
         {
-            ViewBag.RememberedEmail = Request.Cookies["RememberMe"]?["Email"] ?? string.Empty;
+            ViewBag.RememberedEmail = Request.Cookies["RememberMe"] == null ? Request.Cookies["Email"] : string.Empty;
             return View(new LoginRequest() { RememberMe = false });
         }
 
-        [System.Web.Http.HttpPost]
-        public async Task<ActionResult> LoginUser([FromBody] LoginRequest loginRequest)
+        [HttpPost]
+        public async Task<IActionResult> LoginUser([FromBody] LoginRequest loginRequest)
         {
             try
             {
                 var user = await _httpClient.PostAsync<User>("home/login", loginRequest);
-                if (user != null)
+                if (user == null)
                 {
-                    FormsAuthentication.SetAuthCookie(user.Email, false);
-
-                    Session["UserID"] = user.UserID;
-                    Session["UserTypeID"] = user.UserTypeID;
-                    Session["FullName"] = user.FullName;
-                    Session["Email"] = user.Email;
-                    Session["ContactNo"] = user.ContactNo;
-                    Session["UserName"] = user.UserName;
-                    Session["Password"] = user.Password;
-                    Session["Salt"] = user.Salt;
-                    Session["IsActive"] = user.IsActive;
-
-                    var employee = await _httpClient.PostAsync<Employee>("home/employee", new { user.UserID });
-                    if (employee == null)
-                    {
-                        ClearSession();
-                        return RedirectToAction("Login", "Home");
-                    }
-
-                    Session["EName"] = employee.FullName;
-                    Session["EPhoto"] = employee.Photo;
-                    Session["ERegistrationDate"] = employee.RegistrationDate;
-                    Session["Designation"] = employee.Designation;
-                    Session["BranchID"] = employee.BranchID;
-                    Session["BranchTypeID"] = employee.BranchTypeID;
-                    Session["BrchID"] = employee.BrchID;
-                    Session["CompanyID"] = employee.CompanyID;
-
-                    var company = await _httpClient.PostAsync<Company>("home/company", new { employee.CompanyID });
-                    if (company == null)
-                    {
-                        ClearSession();
-                        return RedirectToAction("Login", "Home");
-                    }
-
-                    Session["CName"] = company.Name;
-                    Session["CLogo"] = company.Logo;
-
-                    var isFirstLogin = await _httpClient.PostAsync<bool>("home/isFirstLogin", new { employee.UserID });
-                    if (isFirstLogin)
-                    {
-                        Session["StartTour"] = true;
-                    }
-
-                    var currencies = await _httpClient.GetAsync<Dictionary<string, decimal>>("home/currencies");
-                    ViewBag.Currencies = currencies;
-
-                    return user.UserTypeID == ADMIN_USER_TYPE_ID ? RedirectToAction("AdminMenuGuide", "Guide") : RedirectToAction("Index", "Home");
+                    ViewBag.Message = Localization.CloudERP.Messages.Messages.PleaseProvideCorrectDetails;
+                    return View("Login");
                 }
 
-                ViewBag.Message = Localization.CloudERP.Messages.Messages.PleaseProvideCorrectDetails;
-                return View("Login");
+                await SignInUser(user);
+
+                var employee = await _httpClient.PostAsync<Employee>("home/employee", new { user.UserID });
+                if (employee == null)
+                {
+                    ClearSession();
+                    return RedirectToAction("Login", "Home");
+                }
+
+                await SetEmployeeSession(employee);
+
+                var company = await _httpClient.PostAsync<Domain.Models.Company>("home/company", new { employee.CompanyID });
+                if (company == null)
+                {
+                    ClearSession();
+                    return RedirectToAction("Login", "Home");
+                }
+
+                await SetCompanySession(company);
+
+                var isFirstLogin = await _httpClient.PostAsync<bool>("home/isFirstLogin", new { employee.UserID });
+                if (isFirstLogin) HttpContext.Session.SetString("StartTour", "true");
+
+                var currencies = await _httpClient.GetAsync<Dictionary<string, decimal>>("home/currencies");
+                ViewBag.Currencies = currencies;
+
+                return user.UserTypeID == ADMIN_USER_TYPE_ID ? RedirectToAction("AdminMenuGuide", "Guide") : RedirectToAction("Index", "Home");
             }
             catch (Exception ex)
             {
@@ -126,25 +103,64 @@ namespace CloudERP.Controllers
             }
         }
 
-        private void ClearSession()
+        private async Task SignInUser(User user)
         {
-            Session.Clear();
-            Session.Abandon();
+            var claims = new List<Claim>
+            {
+                new(ClaimTypes.Name, user.Email),
+                new("UserID", user.UserID.ToString())
+            };
+
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var principal = new ClaimsPrincipal(identity);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+            HttpContext.Session.SetString("UserID", user.UserID.ToString());
+            HttpContext.Session.SetString("UserTypeID", user.UserTypeID.ToString());
+            HttpContext.Session.SetString("FullName", user.FullName);
+            HttpContext.Session.SetString("Email", user.Email);
+            HttpContext.Session.SetString("ContactNo", user.ContactNo);
+            HttpContext.Session.SetString("UserName", user.UserName);
+            HttpContext.Session.SetString("Password", user.Password);
+            HttpContext.Session.SetString("Salt", user.Salt);
+            HttpContext.Session.SetString("IsActive", user.IsActive.ToString());
         }
 
-        public ActionResult Logout()
+        private void SetEmployeeSession(Employee employee)
+        {
+            HttpContext.Session.SetString("EName", employee.FullName);
+            HttpContext.Session.SetString("EPhoto", employee.Photo);
+            HttpContext.Session.SetString("ERegistrationDate", employee.RegistrationDate.ToString() ?? "");
+            HttpContext.Session.SetString("Designation", employee.Designation);
+            HttpContext.Session.SetString("BranchID", employee.BranchID.ToString());
+            HttpContext.Session.SetString("BranchTypeID", employee.BranchTypeID.ToString());
+            HttpContext.Session.SetString("BrchID", employee.BrchID.ToString() ?? "");
+            HttpContext.Session.SetString("CompanyID", employee.CompanyID.ToString());
+        }
+
+        private void SetCompanySession(Domain.Models.Company company)
+        {
+            HttpContext.Session.SetString("CName", company.Name);
+            HttpContext.Session.SetString("CLogo", company.Logo);
+        }
+
+        private void ClearSession()
+        {
+            HttpContext.Session.Clear();
+        }
+
+        public IActionResult Logout()
         {
             ClearSession();
-            FormsAuthentication.SignOut();
             return RedirectToAction("Login");
         }
 
-        public ActionResult SetCulture(string culture)
+        public IActionResult SetCulture(string culture)
         {
             try
             {
                 _resourceManagerHelper.SetCulture(culture);
-                Session["Culture"] = culture;
+                HttpContext.Session.SetString("Culture", culture);
             }
             catch (Exception ex)
             {
@@ -152,19 +168,17 @@ namespace CloudERP.Controllers
                 return RedirectToAction("EP500", "EP");
             }
 
-            return Redirect(Request.UrlReferrer.ToString());
+            return Redirect(Request.Headers["Referer"].ToString());
         }
 
-        // GET: ForgotPassword
-        public ActionResult ForgotPassword()
+        public IActionResult ForgotPassword()
         {
             return View();
         }
 
-        // POST: ForgotPassword
-        [System.Web.Http.HttpPost]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ForgotPassword(string email)
+        public async Task<IActionResult> ForgotPassword(string email)
         {
             if (string.IsNullOrEmpty(email))
             {
@@ -174,7 +188,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var success = await _httpClient.PostAsync("home/forgot-password", new { email });
+                var success = await _httpClient.PostAsync<string>("home/forgot-password", new { email });
                 if (success) return View("ForgotPasswordEmailSent");
 
                 return View();
@@ -186,15 +200,14 @@ namespace CloudERP.Controllers
             }
         }
 
-        // GET: ResetPassword
-        public async Task<ActionResult> ResetPassword(string id)
+        public async Task<IActionResult> ResetPassword(string id)
         {
             try
             {
                 var response = await _httpClient.GetAsync<dynamic>($"home/reset-password/{id}");
-                if (response.IsSuccessStatusCode)
+                if (response?.IsSuccessStatusCode)
                 {
-                    var content = await response.Content.ReadAsAsync<dynamic>();
+                    var content = await response?.Content.ReadAsAsync<dynamic>();
                     ViewBag.ResetCode = id;
                     return View();
                 }
@@ -208,10 +221,9 @@ namespace CloudERP.Controllers
             }
         }
 
-        // POST: ResetPassword
-        [System.Web.Http.HttpPost]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ResetPassword(string id, string newPassword, string confirmPassword)
+        public async Task<IActionResult> ResetPassword(string id, string newPassword, string confirmPassword)
         {
             try
             {
@@ -222,7 +234,7 @@ namespace CloudERP.Controllers
                     ConfirmPassword = confirmPassword
                 };
 
-                var success = await _httpClient.PostAsync("home/reset-password", request);
+                var success = await _httpClient.PostAsync<ResetPasswordRequest>("home/reset-password", request);
                 if (success) return View("ResetPasswordSuccess");
 
                 return View();

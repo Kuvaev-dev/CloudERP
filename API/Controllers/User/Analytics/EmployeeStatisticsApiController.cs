@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers.User.Analytics
 {
     [ApiController]
+    [Route("api/[controller]/[action]")]
     public class EmployeeStatisticsApiController : ControllerBase
     {
         private readonly IEmployeeStatisticsService _employeeStatsService;

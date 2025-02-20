@@ -6,6 +6,7 @@ using Utils.Interfaces;
 namespace API.Controllers.Company
 {
     [ApiController]
+    [Route("api/[controller]/[action]")]
     public class CompanyApiController : ControllerBase
     {
         private readonly ICompanyRepository _companyRepository;

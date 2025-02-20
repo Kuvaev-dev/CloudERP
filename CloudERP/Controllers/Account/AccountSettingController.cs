@@ -1,11 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Web.Mvc;
-using CloudERP.Helpers;
+﻿using CloudERP.Helpers;
 using Domain.Models;
-using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace CloudERP.Controllers
+namespace CloudERP.Controllers.Account
 {
     public class AccountSettingController : Controller
     {
@@ -16,8 +14,8 @@ namespace CloudERP.Controllers
             SessionHelper sessionHelper,
             HttpClientHelper httpClient)
         {
-            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
-            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
         }
 
         public async Task<ActionResult> Index()
@@ -28,7 +26,7 @@ namespace CloudERP.Controllers
             try
             {
                 var accountSettings = await _httpClient.GetAsync<List<AccountSetting>>(
-                    $"account-control/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
+                    $"accountsettingapi/getall?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 if (accountSettings == null) return RedirectToAction("EP404", "EP");
 
                 return View(accountSettings);
@@ -73,7 +71,7 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    await _httpClient.PostAsync("account-setting/create", model);
+                    await _httpClient.PostAsync<AccountSetting>("accountsettingapi/create", model);
                     return RedirectToAction("Index");
                 }
 
@@ -97,7 +95,7 @@ namespace CloudERP.Controllers
             {
                 if (id == null) return RedirectToAction("Index");
 
-                var accountSetting = await _httpClient.GetAsync<AccountSetting>($"account-setting/{id.Value}");
+                var accountSetting = await _httpClient.GetAsync<AccountSetting>($"accountsettingapi/getbyid?id={id.Value}");
                 if (accountSetting == null) return RedirectToAction("EP404", "EP");
 
                 await PopulateDropdownsAsync();
@@ -122,7 +120,7 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    await _httpClient.PutAsync($"account-setting/update/{model.AccountSettingID}", model);
+                    await _httpClient.PutAsync<AccountSetting>($"accountsettingapi/update?id={model.AccountSettingID}", model);
                     return RedirectToAction("Index");
                 }
 
@@ -141,23 +139,23 @@ namespace CloudERP.Controllers
             Func<Task<IEnumerable<T>>> getDataFunc,
             string dataValueField,
             string dataTextField,
-            object selectedValue = null)
+            object? selectedValue = null)
         {
             var data = await getDataFunc();
             return new SelectList(data, dataValueField, dataTextField, selectedValue);
         }
 
-        private async Task PopulateDropdownsAsync(AccountSetting model = null)
+        private async Task PopulateDropdownsAsync(AccountSetting? model = null)
         {
             ViewBag.AccountHeadList = await CreateSelectListAsync<AccountHead>(
-                async () => await _httpClient.GetAsync<List<AccountHead>>("account-head"),
+                async () => await _httpClient.GetAsync<List<AccountHead>>("accountheadapi/getall"),
                 "AccountHeadID",
                 "AccountHeadName",
                 model?.AccountHeadID);
 
             ViewBag.AccountControlList = await CreateSelectListAsync<AccountControl>(
                 async () => await _httpClient.GetAsync<List<AccountControl>>(
-                    $"account-control/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}"),
+                    $"accountcontrolapi/getall?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}"),
                 "AccountControlID",
                 "AccountControlName",
                 model?.AccountControlID);

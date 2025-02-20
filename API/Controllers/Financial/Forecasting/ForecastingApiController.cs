@@ -6,6 +6,7 @@ using Utils.Models;
 namespace API.Controllers.Financial.Forecasting
 {
     [ApiController]
+    [Route("api/[controller]/[action]")]
     public class ForecastingApiController : ControllerBase
     {
         private readonly IForecastingRepository _forecastingRepository;

@@ -1,8 +1,5 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CloudERP.Helpers
 {
@@ -10,19 +7,19 @@ namespace CloudERP.Helpers
     {
         private readonly HttpClient _client;
 
-        public HttpClientHelper(string baseUrl = "https://localhost:44365/api")
+        public HttpClientHelper(string baseUrl = "http://localhost:5145/api")
         {
             _client = new HttpClient { BaseAddress = new Uri(baseUrl.TrimEnd('/') + "/") };
         }
 
-        public async Task<T> GetAsync<T>(string endpoint)
+        public async Task<T?> GetAsync<T>(string endpoint)
         {
             var response = await _client.GetAsync(endpoint);
             response.EnsureSuccessStatusCode();
             return JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync());
         }
 
-        public async Task<bool> PostAsync<T>(string endpoint, T data)
+        public async Task<bool> PostAsync<T>(string endpoint, object data)
         {
             var json = JsonConvert.SerializeObject(data);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -31,19 +28,7 @@ namespace CloudERP.Helpers
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<T> PostAsync<T>(string endpoint, object data)
-        {
-            var json = JsonConvert.SerializeObject(data);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = await _client.PostAsync(endpoint, content);
-            response.EnsureSuccessStatusCode();
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<T>(responseContent);
-        }
-
-        public async Task<bool> PutAsync<T>(string endpoint, T data)
+        public async Task<bool> PutAsync<T>(string endpoint, object data)
         {
             var json = JsonConvert.SerializeObject(data);
             var content = new StringContent(json, Encoding.UTF8, "application/json");

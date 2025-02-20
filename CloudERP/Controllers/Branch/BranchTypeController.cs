@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web.Mvc;
-using CloudERP.Helpers;
+﻿using CloudERP.Helpers;
 using Domain.Models;
+using Microsoft.AspNetCore.Mvc;
 
-namespace CloudERP.Controllers
+namespace CloudERP.Controllers.Branch
 {
     public class BranchTypeController : Controller
     {
@@ -16,8 +13,8 @@ namespace CloudERP.Controllers
             SessionHelper sessionHelper,
             HttpClientHelper httpClient)
         {
-            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
-            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
         }
 
         // GET: BranchType
@@ -61,7 +58,7 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    await _httpClient.PostAsync("branch-type/create", model);
+                    await _httpClient.PostAsync<BranchType>("branch-type/create", model);
                     return RedirectToAction("Index");
                 }
 
@@ -82,7 +79,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var accountHead = await _httpClient.GetAsync<BranchType>($"branch-type/{id.Value}");
+                var accountHead = await _httpClient.GetAsync<BranchType>($"branch-type/{id}");
                 if (accountHead == null) return RedirectToAction("EP404", "EP");
 
                 return View(accountHead);
@@ -106,7 +103,7 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    await _httpClient.PutAsync($"branch-type/{model.BranchTypeID}", model);
+                    await _httpClient.PutAsync<BranchType>($"branch-type/{model.BranchTypeID}", model);
                     return RedirectToAction("Index");
                 }
                 return View(model);

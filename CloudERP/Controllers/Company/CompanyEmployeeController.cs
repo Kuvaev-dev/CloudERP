@@ -2,26 +2,23 @@
 using CloudERP.Models;
 using Domain.Models;
 using Domain.Models.FinancialModels;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Reflection;
 
-namespace CloudERP.Controllers
+namespace CloudERP.Controllers.Company
 {
     public class CompanyEmployeeController : Controller
     {
         private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
-        
+
         public CompanyEmployeeController(
             SessionHelper sessionHelper,
             HttpClientHelper httpClient)
         {
-            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
-            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
         }
 
         // GET: Employees
@@ -49,7 +46,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                ViewBag.Branches = await _httpClient.GetAsync<List<Branch>>($"branch/{_sessionHelper.CompanyID}");
+                ViewBag.Branches = await _httpClient.GetAsync<List<Domain.Models.Branch>>($"branch/{_sessionHelper.CompanyID}");
                 return View(new Employee());
             }
             catch (Exception ex)
@@ -61,7 +58,7 @@ namespace CloudERP.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EmployeeRegistration(Employee employee, HttpPostedFileBase avatar)
+        public async Task<ActionResult> EmployeeRegistration(Employee employee, IFormFile avatar)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -75,25 +72,33 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    using (var content = new MultipartFormDataContent())
+                    using var content = new MultipartFormDataContent
                     {
-                        content.Add(new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(employee)), "model");
+                        { new StringContent(JsonConvert.SerializeObject(employee)), "model" }
+                    };
 
-                        if (avatar != null)
-                        {
-                            var stream = avatar.InputStream;
-                            var fileContent = new StreamContent(stream);
-                            fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(avatar.ContentType);
-                            content.Add(fileContent, "file", avatar.FileName);
-                        }
-
-                        await _httpClient.PostAsync("company-employee/registration", content);
+                    if (avatar != null)
+                    {
+                        var stream = avatar.OpenReadStream();
+                        var fileContent = new StreamContent(stream);
+                        fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(avatar.ContentType);
+                        content.Add(fileContent, "file", avatar.FileName);
                     }
 
-                    return RedirectToAction("Employees");
+                    var success = await _httpClient.PostAsync<Employee>("company-employee/registration", content);
+
+                    if (success)
+                    {
+                        return RedirectToAction("Employee");
+                    }
+                    else
+                    {
+                        TempData["ErrorMessage"] = "Ошибка при регистрации сотрудника.";
+                        return RedirectToAction("EP500", "EP");
+                    }
                 }
 
-                ViewBag.Branches = await _httpClient.GetAsync<List<Branch>>($"branch/{_sessionHelper.CompanyID}");
+                ViewBag.Branches = await _httpClient.GetAsync<List<Domain.Models.Branch>>($"branch/{_sessionHelper.CompanyID}");
             }
             catch (Exception ex)
             {
@@ -122,7 +127,7 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EmployeeSalary(SalaryMV salary)
         {
-            var result = await _httpClient.PostAsync("salary/process", salary);
+            var result = await _httpClient.PostAsync<SalaryMV>("salary/process", salary);
             return View(result ? salary : null);
         }
 
@@ -130,7 +135,7 @@ namespace CloudERP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EmployeeSalaryConfirm(SalaryMV salaryMV)
         {
-            var result = await _httpClient.PostAsync("salary/confirm", salaryMV);
+            var result = await _httpClient.PostAsync<SalaryMV>("salary/confirm", salaryMV);
             if (result)
             {
                 return RedirectToAction("PrintSalaryInvoice", new { id = salaryMV.EmployeeID });

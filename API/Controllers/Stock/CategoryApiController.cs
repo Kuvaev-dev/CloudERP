@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers.Stock
 {
     [ApiController]
+    [Route("api/[controller]/[action]")]
     public class CategoryApiController : ControllerBase
     {
         private readonly ICategoryRepository _categoryRepository;

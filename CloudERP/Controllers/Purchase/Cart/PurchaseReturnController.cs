@@ -2,12 +2,9 @@
 using CloudERP.Models;
 using Domain.Models;
 using Domain.Models.FinancialModels;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
-namespace CloudERP.Controllers
+namespace CloudERP.Controllers.Purchase.Cart
 {
     public class PurchaseReturnController : Controller
     {
@@ -47,8 +44,8 @@ namespace CloudERP.Controllers
 
             try
             {
-                Session["InvoiceNo"] = string.Empty;
-                Session["ReturnMessage"] = string.Empty;
+                HttpContext.Session.SetString("InvoiceNo", string.Empty);
+                HttpContext.Session.SetString("ReturnMessage", string.Empty);
 
                 var response = await _httpClient.GetAsync<dynamic>($"invoice/{invoiceID}");
                 if (response == null)
@@ -76,8 +73,8 @@ namespace CloudERP.Controllers
 
             try
             {
-                Session["SaleInvoiceNo"] = string.Empty;
-                Session["SaleReturnMessage"] = string.Empty;
+                HttpContext.Session.SetString("SaleInvoiceNo", string.Empty);
+                HttpContext.Session.SetString("SaleReturnMessage", string.Empty);
 
                 var returnConfirmDto = new PurchaseReturnConfirm
                 {
@@ -90,7 +87,7 @@ namespace CloudERP.Controllers
                     UserID = _sessionHelper.UserID
                 };
 
-                var response = await _httpClient.PostAsync("return", returnConfirmDto);
+                var response = await _httpClient.PostAsync<PurchaseReturnConfirm>("return", returnConfirmDto);
                 if (response)
                 {
                     return RedirectToAction("AllPurchasesPendingPayment", "PurchasePaymentReturn");

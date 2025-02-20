@@ -1,10 +1,8 @@
 ﻿using CloudERP.Helpers;
-using System;
-using System.Threading.Tasks;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Utils.Models;
 
-namespace CloudERP.Controllers
+namespace CloudERP.Controllers.Financial.Forecasting
 {
     public class ForecastingController : Controller
     {
@@ -15,8 +13,8 @@ namespace CloudERP.Controllers
             SessionHelper sessionHelper,
             HttpClientHelper httpClient)
         {
-            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
-            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
 
         public ActionResult Index()
@@ -43,7 +41,7 @@ namespace CloudERP.Controllers
                 inputModel.CompanyID = _sessionHelper.CompanyID;
                 inputModel.BranchID = _sessionHelper.BranchID;
 
-                var isSuccess = await _httpClient.PostAsync("forecasting/generate", inputModel);
+                var isSuccess = await _httpClient.PostAsync<ForecastInputModel>("forecasting/generate", inputModel);
 
                 if (isSuccess)
                 {

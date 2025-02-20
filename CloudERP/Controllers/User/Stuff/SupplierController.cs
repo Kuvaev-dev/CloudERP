@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web.Mvc;
-using CloudERP.Helpers;
+﻿using CloudERP.Helpers;
 using Domain.Models;
+using Microsoft.AspNetCore.Mvc;
 
-namespace CloudERP.Controllers
+namespace CloudERP.Controllers.User.Stuff
 {
     public class SupplierApiController : Controller
     {
@@ -85,7 +82,7 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var success = await _httpClient.PostAsync("supplier/create", model);
+                    var success = await _httpClient.PostAsync<Supplier>("supplier/create", model);
                     if (success) return RedirectToAction("AllSuppliers");
 
                     ViewBag.Message = Localization.CloudERP.Messages.Messages.AlreadyExists;
@@ -137,7 +134,7 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var success = await _httpClient.PutAsync($"supplier/update/{model.SupplierID}", model);
+                    var success = await _httpClient.PutAsync<Supplier>($"supplier/update/{model.SupplierID}", model);
                     if (success) return RedirectToAction("AllSuppliers");
 
                     ViewBag.Message = Localization.CloudERP.Messages.Messages.AlreadyExists;

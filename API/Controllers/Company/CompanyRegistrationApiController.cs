@@ -7,6 +7,7 @@ using Utils.Helpers;
 namespace API.Controllers.Company
 {
     [ApiController]
+    [Route("api/[controller]/[action]")]
     public class CompanyRegistrationApiController : ControllerBase
     {
         private readonly CompanyRegistrationFacade _companyRegistrationFacade;

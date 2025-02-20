@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web.Mvc;
-using CloudERP.Helpers;
+﻿using CloudERP.Helpers;
 using Domain.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace CloudERP.Controllers
+namespace CloudERP.Controllers.Branch
 {
     public class BranchController : Controller
     {
@@ -18,8 +16,8 @@ namespace CloudERP.Controllers
             SessionHelper sessionHelper,
             HttpClientHelper httpClient)
         {
-            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
-            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
         }
 
         // GET: Branch
@@ -30,7 +28,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var branches = await _httpClient.GetAsync<List<Branch>>(
+                var branches = await _httpClient.GetAsync<List<Domain.Models.Branch>>(
                     $"branch/all/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}/{MAIN_BRANCH_TYPE_ID}");
                 if (branches == null) return RedirectToAction("EP404", "EP");
 
@@ -52,7 +50,7 @@ namespace CloudERP.Controllers
             try
             {
                 await PopulateViewBags(_sessionHelper.CompanyID);
-                return View(new Branch());
+                return View(new Domain.Models.Branch());
             }
             catch (Exception ex)
             {
@@ -64,7 +62,7 @@ namespace CloudERP.Controllers
         // POST: Branch/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Branch model)
+        public async Task<ActionResult> Create(Domain.Models.Branch model)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -76,7 +74,7 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    await _httpClient.PostAsync("branch/create", model);
+                    await _httpClient.PostAsync<Domain.Models.Branch>("branch/create", model);
                     return RedirectToAction("Index");
                 }
 
@@ -99,7 +97,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var branch = await _httpClient.GetAsync<Branch>($"branch/{id.Value}");
+                var branch = await _httpClient.GetAsync<Domain.Models.Branch>($"branch/{id}");
                 if (branch == null) return RedirectToAction("EP404", "EP");
 
                 return View(branch);
@@ -114,7 +112,7 @@ namespace CloudERP.Controllers
         // POST: Branch/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(Branch model)
+        public async Task<ActionResult> Edit(Domain.Models.Branch model)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -125,7 +123,7 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    await _httpClient.PutAsync($"api/branch/update/{model.BranchID}", model);
+                    await _httpClient.PutAsync<Domain.Models.Branch>($"api/branch/update/{model.BranchID}", model);
                     return RedirectToAction("Index");
                 }
 
@@ -145,7 +143,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var branches = await _httpClient.GetAsync<List<Branch>>(
+                var branches = await _httpClient.GetAsync<List<Domain.Models.Branch>>(
                     $"branch/sub-branches/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
                 return View(branches);
             }
@@ -158,7 +156,7 @@ namespace CloudERP.Controllers
 
         private async Task PopulateViewBags(int companyID, int? selectedParentBranchID = null, int? selectedBranchTypeID = null)
         {
-            var branches = await _httpClient.GetAsync<List<Branch>>($"branch/{_sessionHelper.CompanyID}");
+            var branches = await _httpClient.GetAsync<List<Domain.Models.Branch>>($"branch/{_sessionHelper.CompanyID}");
             var branchTypes = await _httpClient.GetAsync<List<BranchType>>("branch-type");
 
             ViewBag.BrchID = new SelectList(branches, "BranchID", "BranchName", selectedParentBranchID);

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web.Mvc;
-using CloudERP.Helpers;
+﻿using CloudERP.Helpers;
 using Domain.Models;
+using Microsoft.AspNetCore.Mvc;
 
-namespace CloudERP.Controllers
+namespace CloudERP.Controllers.Account
 {
     public class AccountControlController : Controller
     {
@@ -16,8 +13,8 @@ namespace CloudERP.Controllers
             SessionHelper sessionHelper,
             HttpClientHelper httpClient)
         {
-            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
-            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
         }
 
         public async Task<ActionResult> Index()
@@ -28,7 +25,7 @@ namespace CloudERP.Controllers
             try
             {
                 var accountControls = await _httpClient.GetAsync<List<AccountControl>>(
-                    $"account-control/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
+                    $"accountcontrolapi?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 if (accountControls == null) return RedirectToAction("EP404", "EP");
 
                 return View(accountControls);
@@ -75,7 +72,7 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    await _httpClient.PostAsync("account-control/create", model);
+                    await _httpClient.PostAsync<AccountControl>("accountcontrolapi/create", model);
                     return RedirectToAction("Index");
                 }
 
@@ -97,7 +94,7 @@ namespace CloudERP.Controllers
             {
                 if (id == null) return RedirectToAction("Index");
 
-                var accountControl = await _httpClient.GetAsync<AccountControl>($"account-control/{id.Value}");
+                var accountControl = await _httpClient.GetAsync<AccountControl>($"accountcontrolapi/getbyid?id={id.Value}");
                 if (accountControl == null) return RedirectToAction("EP404", "EP");
 
                 await PopulateViewBag();
@@ -122,7 +119,7 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    await _httpClient.PutAsync($"account-control/update/{model.AccountControlID}", model);
+                    await _httpClient.PutAsync<AccountControl>($"accountcontrolapi/update?id={model.AccountControlID}", model);
                     return RedirectToAction("Index");
                 }
 
@@ -137,6 +134,6 @@ namespace CloudERP.Controllers
         }
 
         private async Task PopulateViewBag() =>
-            ViewBag.AccountHeadList = await _httpClient.GetAsync<List<AccountHead>>("account-head");
+            ViewBag.AccountHeadList = await _httpClient.GetAsync<List<AccountHead>>("accountheadapi/getall");
     }
 }

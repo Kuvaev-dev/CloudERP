@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers.Purchase.Cart
 {
     [ApiController]
+    [Route("api/[controller]/[action]")]
     public class PurchaseCartApiController : ControllerBase
     {
         private readonly IPurchaseCartDetailRepository _purchaseCartDetailRepository;
@@ -39,7 +40,7 @@ namespace API.Controllers.Purchase.Cart
         }
 
         [HttpGet]
-        public async Task<ActionResult<Stock>> GetProductDetails(int id)
+        public async Task<ActionResult<Domain.Models.Stock>> GetProductDetails(int id)
         {
             try
             {

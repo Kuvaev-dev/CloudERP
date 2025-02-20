@@ -1,22 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Net.Http;
-using System.Text.Json;
-using System.Threading.Tasks;
+﻿using System.Text.Json;
 using Utils.Interfaces;
 
 namespace CloudERP.Helpers
 {
     public class CurrencyService : ICurrencyService
     {
-        private readonly string _apiUrl = ConfigurationManager.AppSettings["ExchangeRateApiUrl"];
+        private readonly IConfiguration _configuration;
+        private readonly string _apiUrl;
 
         private readonly HttpClient _httpClient;
 
-        public CurrencyService(HttpClient httpClient)
+        public CurrencyService(HttpClient httpClient, IConfiguration configuration)
         {
             _httpClient = httpClient;
+            _configuration = configuration;
+            _apiUrl = _configuration["ExchangeRateApiUrl"] ?? throw new ArgumentException("ExchangeRateApiUrl is not configured");
         }
 
         public async Task<Dictionary<string, decimal>> GetExchangeRatesAsync(string baseCurrency = "USD")
@@ -27,7 +25,7 @@ namespace CloudERP.Helpers
                 var response = await _httpClient.GetAsync(apiUrl);
 
                 if (!response.IsSuccessStatusCode)
-                    return new Dictionary<string, decimal>();
+                    return [];
 
                 var json = await response.Content.ReadAsStringAsync();
                 Console.WriteLine($"API Response: {json}");
@@ -37,18 +35,18 @@ namespace CloudERP.Helpers
                     PropertyNameCaseInsensitive = true
                 });
 
-                return rates?.Rates ?? new Dictionary<string, decimal>();
+                return rates?.Rates ?? [];
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error fetching exchange rates: {ex.Message}");
-                return new Dictionary<string, decimal>();
+                return [];
             }
         }
 
         private class ExchangeRateResponse
         {
-            public Dictionary<string, decimal> Rates { get; set; }
+            public required Dictionary<string, decimal> Rates { get; set; }
         }
     }
 }

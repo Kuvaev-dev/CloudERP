@@ -1,10 +1,7 @@
 ﻿using CloudERP.Helpers;
-using Domain.Models;
-using System;
-using System.Threading.Tasks;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
-namespace CloudERP.Controllers
+namespace CloudERP.Controllers.User.Settings
 {
     public class UserSettingController : Controller
     {
@@ -26,7 +23,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var user = await _httpClient.GetAsync<User>($"user-setting/user/{employeeID}");
+                var user = await _httpClient.GetAsync<Domain.Models.User>($"user-setting/user/{employeeID}");
                 return View(user);
             }
             catch (Exception ex)
@@ -39,7 +36,7 @@ namespace CloudERP.Controllers
         // POST: Create User
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateUser(User user)
+        public async Task<ActionResult> CreateUser(Domain.Models.User user)
         {
             if (!ModelState.IsValid)
             {
@@ -51,7 +48,7 @@ namespace CloudERP.Controllers
                 user.Password = Request.Form["Password"];
                 user.Salt = Request.Form["Salt"];
 
-                var success = await _httpClient.PostAsync($"user-setting/create-user/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}", user);
+                var success = await _httpClient.PostAsync<Domain.Models.User>($"user-setting/create-user/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}", user);
                 if (success) return RedirectToAction("Employees", "CompanyEmployee");
 
                 return View(user);
@@ -70,7 +67,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var user = await _httpClient.GetAsync<User>($"user-setting/user/{userID}");
+                var user = await _httpClient.GetAsync<Domain.Models.User>($"user-setting/user/{userID}");
                 return View(user);
             }
             catch (Exception ex)
@@ -83,7 +80,7 @@ namespace CloudERP.Controllers
         // POST: Update User
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> UpdateUser(User user)
+        public async Task<ActionResult> UpdateUser(Domain.Models.User user)
         {
             if (!ModelState.IsValid)
             {
@@ -95,7 +92,7 @@ namespace CloudERP.Controllers
                 user.Password = Request.Form["Password"];
                 user.Salt = Request.Form["Salt"];
 
-                var success = await _httpClient.PutAsync($"user-setting/update-user", user);
+                var success = await _httpClient.PutAsync<Domain.Models.User> ($"user-setting/update-user", user);
                 if (success) return RedirectToAction("Employees", "CompanyEmployee");
 
                 return View(user);

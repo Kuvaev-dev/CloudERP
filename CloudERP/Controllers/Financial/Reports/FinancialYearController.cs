@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web.Mvc;
-using CloudERP.Helpers;
+﻿using CloudERP.Helpers;
 using Domain.Models;
+using Microsoft.AspNetCore.Mvc;
 
-namespace CloudERP.Controllers
+namespace CloudERP.Controllers.Financial.Reports
 {
     public class FinancialYearController : Controller
     {
@@ -16,8 +13,8 @@ namespace CloudERP.Controllers
             SessionHelper sessionHelper,
             HttpClientHelper httpClient)
         {
-            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
-            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
         }
 
         public async Task<ActionResult> Index()
@@ -39,12 +36,12 @@ namespace CloudERP.Controllers
             }
         }
 
-        public ActionResult Create() 
+        public ActionResult Create()
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            return View(new FinancialYear()); 
+            return View(new FinancialYear());
         }
 
         [HttpPost]
@@ -60,7 +57,7 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var success = await _httpClient.PostAsync("financial-year/create", model);
+                    var success = await _httpClient.PostAsync<FinancialYear>("financial-year/create", model);
                     if (success) return RedirectToAction("Index");
                 }
 
@@ -105,7 +102,7 @@ namespace CloudERP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var success = await _httpClient.PutAsync($"financial-year/update/{model.FinancialYearID}", model);
+                    var success = await _httpClient.PutAsync<FinancialYear>($"financial-year/update/{model.FinancialYearID}", model);
                     if (success) return RedirectToAction("Index");
                 }
                 return View(model);

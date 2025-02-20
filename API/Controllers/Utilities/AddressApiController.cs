@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers.Utilities
 {
     [ApiController]
+    [Route("api/[controller]/[action]")]
     public class AddressApiController : ControllerBase
     {
         private readonly IConfiguration _configuration;

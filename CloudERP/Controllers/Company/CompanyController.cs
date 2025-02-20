@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using CloudERP.Helpers;
-using Domain.Models;
+﻿using CloudERP.Helpers;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
-namespace CloudERP.Controllers
+namespace CloudERP.Controllers.Company
 {
     public class CompanyController : Controller
     {
@@ -18,8 +13,8 @@ namespace CloudERP.Controllers
             SessionHelper sessionHelper,
             HttpClientHelper httpClient)
         {
-            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
-            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
         }
 
         // GET: Company
@@ -30,7 +25,7 @@ namespace CloudERP.Controllers
 
             try
             {
-                var companies = await _httpClient.GetAsync<List<Company>>("company");
+                var companies = await _httpClient.GetAsync<List<Domain.Models.Company>>("company");
                 return View(companies);
             }
             catch (Exception ex)
@@ -50,7 +45,7 @@ namespace CloudERP.Controllers
             {
                 if (id == null) return RedirectToAction("EP404", "EP");
 
-                var company = await _httpClient.GetAsync<Company>($"company/{id.Value}");
+                var company = await _httpClient.GetAsync<Domain.Models.Company>($"company/{id.Value}");
                 if (company == null) return RedirectToAction("EP404", "EP");
 
                 return View(company);
@@ -68,13 +63,13 @@ namespace CloudERP.Controllers
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            return View(new Company());
+            return View(new Domain.Models.Company());
         }
 
         // POST: Company/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Company model, HttpPostedFileBase logo)
+        public async Task<ActionResult> Create(Domain.Models.Company model, IFormFile logo)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -83,22 +78,30 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    using (var content = new MultipartFormDataContent())
+                    using var content = new MultipartFormDataContent
                     {
-                        content.Add(new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(model)), "model");
+                        { new StringContent(JsonConvert.SerializeObject(model)), "model" }
+                    };
 
-                        if (logo != null)
-                        {
-                            var stream = logo.InputStream;
-                            var fileContent = new StreamContent(stream);
-                            fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(logo.ContentType);
-                            content.Add(fileContent, "file", logo.FileName);
-                        }
-
-                        await _httpClient.PostAsync("company/create", content);
+                    if (logo != null)
+                    {
+                        var stream = logo.OpenReadStream();
+                        var fileContent = new StreamContent(stream);
+                        fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(logo.ContentType);
+                        content.Add(fileContent, "file", logo.FileName);
                     }
 
-                    return RedirectToAction("Index");
+                    var success = await _httpClient.PostAsync<Domain.Models.Company>("company/create", content);
+
+                    if (success)
+                    {
+                        return RedirectToAction("Employee");
+                    }
+                    else
+                    {
+                        TempData["ErrorMessage"] = "Ошибка при регистрации сотрудника.";
+                        return RedirectToAction("EP500", "EP");
+                    }
                 }
 
                 return View(model);
@@ -120,7 +123,7 @@ namespace CloudERP.Controllers
             {
                 if (id == null) return RedirectToAction("EP404", "EP");
 
-                var company = await _httpClient.GetAsync<Company>($"company/{id.Value}");
+                var company = await _httpClient.GetAsync<Domain.Models.Company>($"company/{id.Value}");
                 if (company == null) return RedirectToAction("EP404", "EP");
 
                 return View(company);
@@ -135,7 +138,7 @@ namespace CloudERP.Controllers
         // POST: Company/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(Company model, HttpPostedFileBase logo)
+        public async Task<ActionResult> Edit(Domain.Models.Company model, IFormFile logo)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -144,22 +147,30 @@ namespace CloudERP.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    using (var content = new MultipartFormDataContent())
+                    using var content = new MultipartFormDataContent
                     {
-                        content.Add(new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(model)), "model");
+                        { new StringContent(JsonConvert.SerializeObject(model)), "model" }
+                    };
 
-                        if (logo != null)
-                        {
-                            var stream = logo.InputStream;
-                            var fileContent = new StreamContent(stream);
-                            fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(logo.ContentType);
-                            content.Add(fileContent, "file", logo.FileName);
-                        }
-
-                        await _httpClient.PutAsync($"company/update/{model.CompanyID}", model);
+                    if (logo != null)
+                    {
+                        var stream = logo.OpenReadStream();
+                        var fileContent = new StreamContent(stream);
+                        fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(logo.ContentType);
+                        content.Add(fileContent, "file", logo.FileName);
                     }
 
-                    return RedirectToAction("Index");
+                    var success = await _httpClient.PutAsync<Domain.Models.Company>($"company/update/{model.CompanyID}", model);
+
+                    if (success)
+                    {
+                        return RedirectToAction("Employee");
+                    }
+                    else
+                    {
+                        TempData["ErrorMessage"] = "Ошибка при регистрации сотрудника.";
+                        return RedirectToAction("EP500", "EP");
+                    }
                 }
 
                 return View(model);
