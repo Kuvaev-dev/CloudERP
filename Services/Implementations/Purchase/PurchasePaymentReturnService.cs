@@ -33,17 +33,17 @@ namespace Services.Purchase
             return await _supplierReturnPaymentRepository.GetBySupplierReturnInvoiceId(invoiceId);
         }
 
-        public async Task<double> GetRemainingAmountAsync(int invoiceId)
+        public async Task<double> GetRemainingAmountAsync(int? invoiceId)
         {
-            var list = await GetSupplierReturnPaymentsAsync(invoiceId);
-            double remainingAmount = list.Sum(item => item.RemainingBalance);
+            var list = await GetSupplierReturnPaymentsAsync(invoiceId.Value);
+            double? remainingAmount = list.Sum(item => item.RemainingBalance);
 
             if (remainingAmount == 0)
             {
-                remainingAmount = await _supplierReturnInvoiceRepository.GetTotalAmount(invoiceId);
+                remainingAmount = await _supplierReturnInvoiceRepository.GetTotalAmount(invoiceId.Value);
             }
 
-            return remainingAmount;
+            return remainingAmount.Value;
         }
 
         public async Task<string> ProcessReturnPaymentAsync(PurchaseReturnAmount returnAmountDto, int branchId, int companyId, int userId)
@@ -55,7 +55,7 @@ namespace Services.Purchase
 
             string payInvoiceNo = "RPP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
             var supplierID = await _supplierReturnInvoiceRepository.GetSupplierIdByInvoice(returnAmountDto.InvoiceId);
-            var supplier = await _supplierRepository.GetByIdAsync(supplierID);
+            var supplier = await _supplierRepository.GetByIdAsync(supplierID.Value);
             var purchaseInvoice = await _supplierReturnInvoiceRepository.GetById(returnAmountDto.InvoiceId);
 
             return await _purchaseEntryService.ReturnPurchasePayment(

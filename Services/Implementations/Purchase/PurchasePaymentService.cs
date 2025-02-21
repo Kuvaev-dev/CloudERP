@@ -32,9 +32,9 @@ namespace Services.Purchase
             var paymentHistory = await _purchasePaymentFacade.PurchaseRepository.PurchasePaymentHistory(invoiceId);
             var returnDetails = await _purchasePaymentFacade.SupplierReturnInvoiceRepository.GetReturnDetails(invoiceId);
 
-            double totalInvoiceAmount = await _purchasePaymentFacade.SupplierInvoiceRepository.GetTotalAmountAsync(invoiceId);
+            double? totalInvoiceAmount = await _purchasePaymentFacade.SupplierInvoiceRepository.GetTotalAmountAsync(invoiceId);
             double totalPaidAmount = await _purchasePaymentFacade.SupplierPaymentRepository.GetTotalPaidAmount(invoiceId);
-            double remainingAmount = totalInvoiceAmount - totalPaidAmount;
+            double remainingAmount = totalInvoiceAmount.Value - totalPaidAmount;
 
             return (paymentHistory, returnDetails, remainingAmount);
         }
@@ -44,7 +44,7 @@ namespace Services.Purchase
             return await _purchaseRepository.PurchasePaymentHistory(invoiceId);
         }
 
-        public async Task<double> GetTotalAmountByIdAsync(int invoiceId)
+        public async Task<double?> GetTotalAmountByIdAsync(int invoiceId)
         {
             return await _supplierInvoiceRepository.GetTotalAmountAsync(invoiceId);
         }

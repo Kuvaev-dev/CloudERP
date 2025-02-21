@@ -1,76 +1,102 @@
-﻿using System.Data;
-using System.Data.SqlClient;
+﻿using System.Collections.Generic;
+using System;
+using Microsoft.Data.SqlClient;
 using System.Threading.Tasks;
 using Utils.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace Utils.Helpers
 {
     public class DatabaseQuery
     {
         private readonly IConnectionStringProvider _connectionStringProvider;
+        private readonly ILogger<DatabaseQuery> _logger;
 
-        public DatabaseQuery(IConnectionStringProvider connectionStringProvider)
+        public DatabaseQuery(IConnectionStringProvider connectionStringProvider, ILogger<DatabaseQuery> logger)
         {
             _connectionStringProvider = connectionStringProvider;
+            _logger = logger;
         }
 
-        public async Task<SqlConnection> ConnOpen()
+        public async Task<SqlConnection> ConnOpenAsync()
         {
             var connection = new SqlConnection(_connectionStringProvider.GetConnectionString("CloudDBDirect"));
             await connection.OpenAsync();
             return connection;
         }
 
-        public async Task Insert(string query, params SqlParameter[] parameters)
+        public async Task InsertAsync(string query, params SqlParameter[] parameters)
         {
-            await ExecuteNonQuery(query, parameters);
+            await ExecuteNonQueryAsync(query, parameters);
         }
 
-        public async Task<bool> Update(string query, params SqlParameter[] parameters)
+        public async Task<bool> UpdateAsync(string query, params SqlParameter[] parameters)
         {
-            return await ExecuteNonQuery(query, parameters);
+            return await ExecuteNonQueryAsync(query, parameters);
         }
 
-        public async Task<bool> Delete(string query, params SqlParameter[] parameters)
+        public async Task<bool> DeleteAsync(string query, params SqlParameter[] parameters)
         {
-            return await ExecuteNonQuery(query, parameters);
+            return await ExecuteNonQueryAsync(query, parameters);
         }
 
-        private async Task<bool> ExecuteNonQuery(string query, SqlParameter[] parameters)
+        private async Task<bool> ExecuteNonQueryAsync(string query, params SqlParameter[] parameters)
         {
             try
             {
-                using (var connection = await ConnOpen())
-                using (var command = new SqlCommand(query, connection))
+                using (SqlConnection connection = await ConnOpenAsync())
                 {
-                    if (parameters != null)
-                        command.Parameters.AddRange(parameters);
+                    using (var command = new SqlCommand(query, connection))
+                    {
+                        if (parameters != null)
+                            command.Parameters.AddRange(parameters);
 
-                    int noOfRows = await command.ExecuteNonQueryAsync();
-                    return noOfRows > 0;
+                        int affectedRows = await command.ExecuteNonQueryAsync();
+                        return affectedRows > 0;
+                    }
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                _logger.LogError(ex, "Ошибка выполнения запроса: {Query}", query);
                 return false;
             }
         }
 
-        public async Task<DataTable> Retrieve(string query, params SqlParameter[] parameters)
+        public async Task<List<Dictionary<string, object>>> RetrieveAsync(string query, params SqlParameter[] parameters)
         {
-            var dt = new DataTable();
-            using (var connection = await ConnOpen())
-            using (var cmd = new SqlCommand(query, connection))
-            {
-                if (parameters != null)
-                    cmd.Parameters.AddRange(parameters);
+            var results = new List<Dictionary<string, object>>();
 
-                using (var da = new SqlDataAdapter(cmd))
+            try
+            {
+                using (SqlConnection connection = await ConnOpenAsync())
                 {
-                    da.Fill(dt);
+                    using (var command = new SqlCommand(query, connection))
+                    {
+                        if (parameters != null)
+                            command.Parameters.AddRange(parameters);
+
+                        using (var reader = await command.ExecuteReaderAsync())
+                        {
+                            while (await reader.ReadAsync())
+                            {
+                                var row = new Dictionary<string, object>();
+                                for (int i = 0; i < reader.FieldCount; i++)
+                                {
+                                    row[reader.GetName(i)] = reader.IsDBNull(i) ? null : reader.GetValue(i);
+                                }
+                                results.Add(row);
+                            }
+                        }
+                    }
                 }
             }
-            return dt;
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Ошибка при выполнении запроса: {Query}", query);
+            }
+
+            return results;
         }
     }
 }

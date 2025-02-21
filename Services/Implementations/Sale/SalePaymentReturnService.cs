@@ -33,14 +33,14 @@ namespace Services.Sale
             if (paymentReturnDto.PaymentAmount > paymentReturnDto.PreviousRemainingAmount)
             {
                 var list = await _customerReturnPaymentRepository.GetListByReturnInvoiceIdAsync(paymentReturnDto.InvoiceId);
-                double remainingAmount = list.Sum(item => item.RemainingBalance);
+                double? remainingAmount = list.Sum(item => item.RemainingBalance);
 
                 if (remainingAmount == 0)
                 {
                     remainingAmount = await _customerReturnInvoiceRepository.GetTotalAmountByIdAsync(paymentReturnDto.InvoiceId);
                 }
 
-                return (false, "Purchase Payment Remaining Amount Error", list, remainingAmount);
+                return (false, "Purchase Payment Remaining Amount Error", list, remainingAmount.Value);
             }
 
             string payInvoiceNo = "RIP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;

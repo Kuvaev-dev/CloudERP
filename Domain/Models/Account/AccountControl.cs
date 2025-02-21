@@ -19,6 +19,6 @@ namespace Domain.Models
         public int CompanyID { get; set; }
         public int UserID { get; set; }
         public string FullName { get; set; }
-        public bool IsGlobal { get; set; }
+        public bool? IsGlobal { get; set; }
     }
 }

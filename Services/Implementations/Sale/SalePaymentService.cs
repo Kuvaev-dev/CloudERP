@@ -34,7 +34,7 @@ namespace Services.Sale
             return await _saleRepository.SalePaymentHistory(invoiceId);
         }
 
-        public async Task<double> GetTotalAmountByIdAsync(int invoiceId)
+        public async Task<double?> GetTotalAmountByIdAsync(int invoiceId)
         {
             return await _customerInvoiceRepository.GetTotalAmountByIdAsync(invoiceId);
         }

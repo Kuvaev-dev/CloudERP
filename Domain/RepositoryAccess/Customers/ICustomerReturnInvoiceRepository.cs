@@ -8,7 +8,7 @@ namespace Domain.RepositoryAccess
     {
         Task<IEnumerable<CustomerReturnInvoice>> GetListByIdAsync(int id);
         Task<CustomerReturnInvoice> GetByIdAsync(int id);
-        Task<double> GetTotalAmountByIdAsync(int id);
+        Task<double?> GetTotalAmountByIdAsync(int id);
         Task AddAsync(CustomerReturnInvoice customerReturnInvoice);
     }
 }
