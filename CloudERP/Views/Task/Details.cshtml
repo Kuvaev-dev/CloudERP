@@ -1,14 +1,14 @@
 ﻿@model Domain.Models.TaskModel
 
 @{
-    ViewBag.Title = Localization.CloudERP.Task.TaskDetails.ToString();
+    ViewBag.Title = Localization.CloudERP.Task.TaskDetails;
 }
 
 <div class="form-horizontal">
     <div class="col-md-10">
         <dl class="dl-horizontal">
             <dt>
-                @Localization.CloudERP.Task.TaskTitle.ToString()
+                @Localization.CloudERP.Task.TaskTitle
             </dt>
 
             <dd>
@@ -16,7 +16,7 @@
             </dd>
 
             <dt>
-                @Localization.CloudERP.Task.Description.ToString()
+                @Localization.CloudERP.Task.Description
             </dt>
 
             <dd>
@@ -24,7 +24,7 @@
             </dd>
 
             <dt>
-                @Localization.CloudERP.Task.DueDate.ToString()
+                @Localization.CloudERP.Task.DueDate
             </dt>
 
             <dd>
@@ -32,7 +32,7 @@
             </dd>
 
             <dt>
-                @Localization.CloudERP.Task.ReminderDate.ToString()
+                @Localization.CloudERP.Task.ReminderDate
             </dt>
 
             <dd>
@@ -40,7 +40,7 @@
             </dd>
 
             <dt>
-                @Localization.CloudERP.Task.IsCompleted.ToString()
+                @Localization.CloudERP.Task.IsCompleted
             </dt>
 
             <dd>
@@ -49,8 +49,8 @@
         </dl>
         <div class="form-group">
             <div class="col-md-offset-2">
-                @Html.ActionLink(Localization.CloudERP.Common.Edit.ToString(), "Edit", new { id = Model.TaskID }, new { @class = "btn btn-primary" })
-                @Html.ActionLink(Localization.CloudERP.Common.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
+                @Html.ActionLink(Localization.CloudERP.Common.Edit, "Edit", new { id = Model.TaskID }, new { @class = "btn btn-primary" })
+                @Html.ActionLink(Localization.CloudERP.Common.BackToList, "Index", null, new { @class = "btn btn-default" })
             </div>
         </div>
     </div>

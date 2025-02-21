@@ -3,7 +3,7 @@ using Domain.ServiceAccess;
 using System;
 using System.Threading.Tasks;
 
-namespace Domain.Implementations
+namespace Services.Implementations
 {
     public class GeneralTransactionService : IGeneralTransactionService
     {

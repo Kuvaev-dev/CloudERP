@@ -1,6 +1,6 @@
-﻿using Domain.RepositoryAccess;
+﻿using API.Factories;
+using Domain.RepositoryAccess;
 using Microsoft.AspNetCore.Mvc;
-using Services.Factories;
 using Utils.Interfaces;
 
 namespace API.Controllers.Company

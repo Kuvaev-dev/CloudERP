@@ -28,6 +28,18 @@ namespace CloudERP.Helpers
             return response.IsSuccessStatusCode;
         }
 
+        public async Task<T?> PostAndReturnAsync<T>(string endpoint, object data)
+        {
+            var json = JsonConvert.SerializeObject(data);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _client.PostAsync(endpoint, content);
+            if (!response.IsSuccessStatusCode) return default;
+
+            var responseString = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<T>(responseString);
+        }
+
         public async Task<bool> PutAsync<T>(string endpoint, object data)
         {
             var json = JsonConvert.SerializeObject(data);

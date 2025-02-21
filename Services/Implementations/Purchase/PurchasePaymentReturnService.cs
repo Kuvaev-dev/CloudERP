@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Domain.Services
+namespace Services.Purchase
 {
     public class PurchasePaymentReturnService : IPurchasePaymentReturnService
     {

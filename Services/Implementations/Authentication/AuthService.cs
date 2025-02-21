@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Utils.Helpers;
 using Utils.Interfaces;
 
-namespace Domain.Implementations
+namespace Services.Implementations
 {
     public class AuthService : IAuthService
     {

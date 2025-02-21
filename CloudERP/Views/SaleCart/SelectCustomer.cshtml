@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Domain.Models.Customer>
 
 @{
-    ViewBag.Title = Localization.CloudERP.Sale.Finilize.ToString();
+    ViewBag.Title = Localization.CloudERP.Sale.Finilize;
 }
 
 <script src="~/Scripts/jQuery/jquery-3.7.1.js"></script>
@@ -21,7 +21,7 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Sale.SaleDetails))</h4>
+        <h4>@Html.Raw(Localization.CloudERP.Sale.SaleDetails)</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <h3 class="text-danger">@ViewBag.Message</h3>
@@ -29,7 +29,7 @@
 
         <!-- Description -->
         <div class="form-group">
-            <label class="control-label col-md-2">@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Sale.SaleDescription))</label>
+            <label class="control-label col-md-2">@Html.Raw(Localization.CloudERP.Sale.SaleDescription)</label>
             <div class="col-md-12">
                 <input type="text" class="form-control" id="Description" name="Description" required />
             </div>
@@ -37,7 +37,7 @@
 
         <!-- IsPayment -->
         <div class="form-group">
-            <label class="control-label col-md-4">@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Sale.IsSalePaymentPaid))</label>
+            <label class="control-label col-md-4">@Html.Raw(Localization.CloudERP.Sale.IsSalePaymentPaid)</label>
             <div class="col-md-12">
                 <input type="checkbox" name="IsPayment" />
             </div>
@@ -55,10 +55,10 @@
                     <table class="table table-striped table-hover" id="dataTable">
                         <thead style="background-color:lightgray;">
                             <tr>
-                                <th>@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Miscellaneous.CustomerFullName))</th>
-                                <th>@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Miscellaneous.ContactNo))</th>
-                                <th>@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Miscellaneous.Address))</th>
-                                <th>@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Common.Actions))</th>
+                                <th>@Html.Raw(Localization.CloudERP.Miscellaneous.CustomerFullName)</th>
+                                <th>@Html.Raw(Localization.CloudERP.Miscellaneous.ContactNo)</th>
+                                <th>@Html.Raw(Localization.CloudERP.Miscellaneous.Address)</th>
+                                <th>@Html.Raw(Localization.CloudERP.Common.Actions)</th>
                             </tr>
                         </thead>
                         <tbody id="customerList">

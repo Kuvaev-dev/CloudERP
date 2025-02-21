@@ -124,7 +124,6 @@
     <Compile Include="Facades\Sale\SaleEntryFacade.cs" />
     <Compile Include="Facades\Sale\SalePaymentFacade.cs" />
     <Compile Include="Facades\Transactions\SalaryTransactionFacade.cs" />
-    <Compile Include="Factories\FileAdapterFactory.cs" />
     <Compile Include="Implementations\Financial\BalanceSheetService.cs" />
     <Compile Include="Implementations\Financial\GeneralTransactionService.cs" />
     <Compile Include="Implementations\Financial\IncomeStatementService.cs" />

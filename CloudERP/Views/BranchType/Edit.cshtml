@@ -1,11 +1,12 @@
 ﻿@model Domain.Models.BranchType
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
     ViewBag.Title = "Edit Branch Type";
 }
 
 <script>
-    window.Culture = '@Session["Culture"]';
+    window.Culture = '@HttpContextAccessor.HttpContext?.Session.GetString("Culture")';
 </script>
 <script src="~/Scripts/CustomScripts/VoiceRecognition.js"></script>
 
@@ -30,8 +31,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="@Localization.CloudERP.Common.Save.ToString()" class="btn btn-success" />
-                @Html.ActionLink(Localization.CloudERP.Common.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
+                <input type="submit" value="@Localization.CloudERP.Common.Save" class="btn btn-success" />
+                @Html.ActionLink(Localization.CloudERP.Common.BackToList, "Index", null, new { @class = "btn btn-default" })
                 <button id="voiceRecognitionButton" class="btn btn-link" type="button">
                     <i class="fas fa-microphone" style="font-size: 1.5em; color: gray;"></i>
                 </button>

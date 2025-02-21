@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Domain.Models.Supplier>
 
 @{
-    ViewBag.Title = Localization.CloudERP.Supplier.BranchSuppliers.ToString();
+    ViewBag.Title = Localization.CloudERP.Supplier.BranchSuppliers;
 }
 
 <!-- Tables Sorting-->
@@ -22,28 +22,28 @@
                 <thead>
                     <tr>
                         <th>
-                            @Localization.CloudERP.Supplier.CompanyTitle.ToString()
+                            @Localization.CloudERP.Supplier.CompanyTitle
                         </th>
                         <th>
-                            @Localization.CloudERP.Supplier.BranchTitle.ToString()
+                            @Localization.CloudERP.Supplier.BranchTitle
                         </th>
                         <th>
-                            @Localization.CloudERP.Supplier.SupplierName.ToString()
+                            @Localization.CloudERP.Supplier.SupplierName
                         </th>
                         <th>
-                            @Localization.CloudERP.Supplier.ConatctNo.ToString()
+                            @Localization.CloudERP.Supplier.ConatctNo
                         </th>
                         <th>
-                            @Localization.CloudERP.Supplier.Email.ToString()
+                            @Localization.CloudERP.Supplier.Email
                         </th>
                         <th>
-                            @Localization.CloudERP.Supplier.Address.ToString()
+                            @Localization.CloudERP.Supplier.Address
                         </th>
                         <th>
-                            @Localization.CloudERP.Supplier.User.ToString()
+                            @Localization.CloudERP.Supplier.User
                         </th>
                         <th>
-                            @Localization.CloudERP.Common.Actions.ToString()
+                            @Localization.CloudERP.Common.Actions
                         </th>
                     </tr>
                 </thead>
@@ -73,8 +73,8 @@
                                 @Html.DisplayFor(modelItem => item.UserName)
                             </td>
                             <td class="btn-group">
-                                @Html.ActionLink(Localization.CloudERP.Common.Edit.ToString(), "Edit", new { id = item.SupplierID }, new { @class = "btn btn-primary" })
-                                @Html.ActionLink(Localization.CloudERP.Common.Details.ToString(), "Details", new { id = item.SupplierID }, new { @class = "btn btn-info" })
+                                @Html.ActionLink(Localization.CloudERP.Common.Edit, "Edit", new { id = item.SupplierID }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink(Localization.CloudERP.Common.Details, "Details", new { id = item.SupplierID }, new { @class = "btn btn-info" })
                             </td>
                         </tr>
                     }

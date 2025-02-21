@@ -1,11 +1,12 @@
 ﻿@model Domain.Models.Stock
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
-    ViewBag.Title = Localization.CloudERP.Miscellaneous.UpdateProduct.ToString();
+    ViewBag.Title = Localization.CloudERP.Miscellaneous.UpdateProduct;
 }
 
 <script>
-    window.Culture = '@Session["Culture"]';
+    window.Culture = '@HttpContextAccessor.HttpContext?.Session.GetString("Culture")';
 </script>
 <script src="~/Scripts/CustomScripts/VoiceRecognition.js"></script>
 
@@ -24,7 +25,7 @@
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CategoryID, Localization.CloudERP.Miscellaneous.SelectCategory.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CategoryID, Localization.CloudERP.Miscellaneous.SelectCategory, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.DropDownList("CategoryID", null, "Category", htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
@@ -32,7 +33,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ProductName, Localization.CloudERP.Miscellaneous.ProductName.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ProductName, Localization.CloudERP.Miscellaneous.ProductName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
@@ -40,7 +41,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Quantity, Localization.CloudERP.Miscellaneous.Quantity.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Quantity, Localization.CloudERP.Miscellaneous.Quantity, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
@@ -48,7 +49,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.SaleUnitPrice, Localization.CloudERP.Miscellaneous.SaleUnitPrice.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
+            @Html.LabelFor(model => model.SaleUnitPrice, Localization.CloudERP.Miscellaneous.SaleUnitPrice, htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.SaleUnitPrice, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.SaleUnitPrice, "", new { @class = "text-danger" })
@@ -56,7 +57,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CurrentPurchaseUnitPrice, Localization.CloudERP.Miscellaneous.CurrentPurchaseUnitPrice.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
+            @Html.LabelFor(model => model.CurrentPurchaseUnitPrice, Localization.CloudERP.Miscellaneous.CurrentPurchaseUnitPrice, htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.CurrentPurchaseUnitPrice, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.CurrentPurchaseUnitPrice, "", new { @class = "text-danger" })
@@ -64,7 +65,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ExpiryDate, Localization.CloudERP.Miscellaneous.ExpiryDate.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ExpiryDate, Localization.CloudERP.Miscellaneous.ExpiryDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ExpiryDate, "", new { @class = "text-danger" })
@@ -72,7 +73,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Manufacture, Localization.CloudERP.Miscellaneous.ManufactureDate.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Manufacture, Localization.CloudERP.Miscellaneous.ManufactureDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Manufacture, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Manufacture, "", new { @class = "text-danger" })
@@ -80,7 +81,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.StockTreshHoldQuantity, Localization.CloudERP.Miscellaneous.TresholdQuantity.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
+            @Html.LabelFor(model => model.StockTreshHoldQuantity, Localization.CloudERP.Miscellaneous.TresholdQuantity, htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.StockTreshHoldQuantity, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.StockTreshHoldQuantity, "", new { @class = "text-danger" })
@@ -88,7 +89,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.IsActive, Localization.CloudERP.Miscellaneous.Status.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.IsActive, Localization.CloudERP.Miscellaneous.Status, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 <div class="checkbox">
                     @Html.EditorFor(model => model.IsActive, new { htmlAttributes = new { @class = "form-control" } })
@@ -98,7 +99,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Description, Localization.CloudERP.Miscellaneous.Description.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Description, Localization.CloudERP.Miscellaneous.Description, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
@@ -107,8 +108,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="@Localization.CloudERP.Common.Save.ToString()" class="btn btn-success" />
-                @Html.ActionLink(Localization.CloudERP.Common.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
+                <input type="submit" value="@Localization.CloudERP.Common.Save" class="btn btn-success" />
+                @Html.ActionLink(Localization.CloudERP.Common.BackToList, "Index", null, new { @class = "btn btn-default" })
                 <button id="voiceRecognitionButton" class="btn btn-link" type="button">
                     <i class="fas fa-microphone" style="font-size: 1.5em; color: gray;"></i>
                 </button>

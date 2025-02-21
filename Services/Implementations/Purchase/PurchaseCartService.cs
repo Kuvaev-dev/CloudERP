@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Utils.Helpers;
 
-namespace Domain.Services
+namespace Services.Purchase
 {
     public class PurchaseCartService : IPurchaseCartService
     {

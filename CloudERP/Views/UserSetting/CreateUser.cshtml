@@ -1,7 +1,8 @@
 ﻿@model Domain.Models.User
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
-    ViewBag.Title = Localization.CloudERP.Account.CreateUser.ToString();
+    ViewBag.Title = Localization.CloudERP.Account.CreateUser;
 }
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
@@ -10,7 +11,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
 
 <script>
-    window.Culture = '@Session["Culture"]';
+    window.Culture = '@HttpContextAccessor.HttpContext?.Session.GetString("Culture")';
 </script>
 <script src="~/Scripts/CustomScripts/VoiceRecognition.js"></script>
 
@@ -27,7 +28,7 @@
         @Html.Hidden("Salt", ViewBag.Salt as string)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.UserTypeID, Localization.CloudERP.Account.UserTypeID.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.UserTypeID, Localization.CloudERP.Account.UserTypeID, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.DropDownList("UserTypeID", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.UserTypeID, "", new { @class = "text-danger" })
@@ -35,7 +36,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.FullName, Localization.CloudERP.Account.FullName.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.FullName, Localization.CloudERP.Account.FullName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
@@ -43,7 +44,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Email, Localization.CloudERP.Account.Email.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Email, Localization.CloudERP.Account.Email, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
@@ -51,7 +52,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ContactNo, Localization.CloudERP.Account.ContactNo.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ContactNo, Localization.CloudERP.Account.ContactNo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.ContactNo, new { htmlAttributes = new { @class = "form-control", @id = "PhoneNumber" } })
                 @Html.ValidationMessageFor(model => model.ContactNo, "", new { @class = "text-danger" })
@@ -59,7 +60,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.UserName, Localization.CloudERP.Account.UserName.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.UserName, Localization.CloudERP.Account.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
@@ -67,7 +68,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.IsActive, Localization.CloudERP.Account.Status.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.IsActive, Localization.CloudERP.Account.Status, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 <div class="checkbox">
                     @Html.EditorFor(model => model.IsActive)
@@ -78,8 +79,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-5">
-                <input type="submit" value="@Localization.CloudERP.Common.Create.ToString()" class="btn btn-success" />
-                @Html.ActionLink(Localization.CloudERP.Common.BackToList.ToString(), "Employee", "BranchEmployee", htmlAttributes: new { @class = "btn btn-default" })
+                <input type="submit" value="@Localization.CloudERP.Common.Create" class="btn btn-success" />
+                @Html.ActionLink(Localization.CloudERP.Common.BackToList, "Employee", "BranchEmployee", htmlAttributes: new { @class = "btn btn-default" })
                 <button id="voiceRecognitionButton" class="btn btn-link" type="button">
                     <i class="fas fa-microphone" style="font-size: 1.5em; color: gray;"></i>
                 </button>

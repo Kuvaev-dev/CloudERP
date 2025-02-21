@@ -2,7 +2,7 @@
 @model IEnumerable<Domain.Models.User>
 
 @{
-    ViewBag.Title = Localization.CloudERP.User.AllUsers.ToString();
+    ViewBag.Title = Localization.CloudERP.User.AllUsers;
 }
 
 <!-- Tables Sorting-->
@@ -23,25 +23,25 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.User.FullName))
+                            @Html.Raw(Localization.CloudERP.User.FullName)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.User.EmailAddress))
+                            @Html.Raw(Localization.CloudERP.User.EmailAddress)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.User.ContactNo))
+                            @Html.Raw(Localization.CloudERP.User.ContactNo)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.User.UserName))
+                            @Html.Raw(Localization.CloudERP.User.UserName)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.User.Status))
+                            @Html.Raw(Localization.CloudERP.User.Status)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.User.UserType))
+                            @Html.Raw(Localization.CloudERP.User.UserType)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Common.Actions))
+                            @Html.Raw(Localization.CloudERP.Common.Actions)
                         </th>
                     </tr>
                 </thead>
@@ -68,8 +68,8 @@
                                 @Html.DisplayFor(modelItem => item.UserTypeName)
                             </td>
                             <td class="btn-group">
-                                @Html.ActionLink(Localization.CloudERP.Common.Edit.ToString(), "Edit", new { id = item.UserID }, new { @class = "btn btn-primary" })
-                                @Html.ActionLink(Localization.CloudERP.Common.Details.ToString(), "Details", new { id = item.UserID }, new { @class = "btn btn-info" })
+                                @Html.ActionLink(Localization.CloudERP.Common.Edit, "Edit", new { id = item.UserID }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink(Localization.CloudERP.Common.Details, "Details", new { id = item.UserID }, new { @class = "btn btn-info" })
                             </td>
                         </tr>
                     }

@@ -1,4 +1,5 @@
-﻿using API.Models;
+﻿using API.Factories;
+using API.Models;
 using Domain.Models;
 using Domain.Models.FinancialModels;
 using Microsoft.AspNetCore.Mvc;
@@ -12,13 +13,17 @@ namespace API.Controllers.Company
     public class CompanyEmployeeApiController : ControllerBase
     {
         private readonly CompanyEmployeeFacade _companyEmployeeFacade;
+        private readonly IFileAdapterFactory _fileAdapterFactory;
 
         private const string DEFAULT_PHOTO_PATH = "~/Content/EmployeePhoto/Default/default.png";
         private const string PHOTO_FOLDER_PATH = "~/Content/EmployeePhoto";
 
-        public CompanyEmployeeApiController(CompanyEmployeeFacade companyEmployeeFacade)
+        public CompanyEmployeeApiController(
+            CompanyEmployeeFacade companyEmployeeFacade,
+            IFileAdapterFactory fileAdapterFactory)
         {
             _companyEmployeeFacade = companyEmployeeFacade;
+            _fileAdapterFactory = fileAdapterFactory;
         }
 
         [HttpGet]
@@ -63,7 +68,7 @@ namespace API.Controllers.Company
                     var file = Request.Form.Files[0];
                     var fileName = $"{model.UserID}.jpg";
 
-                    var fileAdapter = _companyEmployeeFacade.FileAdapterFactory.Create(file);
+                    var fileAdapter = _fileAdapterFactory.Create(file);
                     model.Photo = _companyEmployeeFacade.FileService.UploadPhoto(fileAdapter, PHOTO_FOLDER_PATH, fileName);
                 }
                 else

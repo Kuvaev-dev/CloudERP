@@ -1,4 +1,4 @@
-﻿@model Services.Models.ForecastInputModel
+﻿@model Utils.Models.ForecastInputModel
 
 @{
     ViewBag.Title = Localization.CloudERP.Miscellaneous.Forecasting;
@@ -7,7 +7,7 @@
 <div class="card">
     <div class="card card-float">
         <div class="card-header">
-            <h4>@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Miscellaneous.SelectToDate))</h4>
+            <h4>@Html.Raw(Localization.CloudERP.Miscellaneous.SelectToDate)</h4>
             <h3 class="text-danger">@ViewBag.Message</h3>
             <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
         </div>
@@ -17,7 +17,7 @@
                 @Html.AntiForgeryToken()
                 <div class="row">
                     <div class="col-md-4">
-                        <label>@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Miscellaneous.Date))</label>
+                        <label>@Html.Raw(Localization.CloudERP.Miscellaneous.Date)</label>
                         <input type="date" id="ToDate" name="EndDate" value="@Model.EndDate.ToString("yyyy-MM-dd")" class="form-control" required>
                     </div>
                 </div>

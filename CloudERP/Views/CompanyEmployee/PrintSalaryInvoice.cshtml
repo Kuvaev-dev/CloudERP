@@ -38,7 +38,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
-                        <h3 class="m-0">@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Company.PrintInvoiceNo)): @Model.PayrollInvoiceNo</h3>
+                        <h3 class="m-0">@Html.Raw(Localization.CloudERP.Company.PrintInvoiceNo): @Model.PayrollInvoiceNo</h3>
                     </div>
                     <hr>
                     <div class="row mb-3">
@@ -69,7 +69,7 @@
                                 </div>
                                 <div class="col-lg-10">
                                     <h4>@Model.BranchName</h4>
-                                    <h5>@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.User.ContactNo)): @Model.BranchContact</h5>
+                                    <h5>@Html.Raw(Localization.CloudERP.User.ContactNo): @Model.BranchContact</h5>
                                     <address>@Model.BranchAddress</address>
                                 </div>
                             </div>
@@ -77,15 +77,15 @@
                         <hr>
                         <div class="col-xl-4 col-12 py-2">
                             <div class="clearfix">
-                                <p class="float-left">@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Company.PrintInvoiceNo))</p>
+                                <p class="float-left">@Html.Raw(Localization.CloudERP.Company.PrintInvoiceNo)</p>
                                 <p class="float-right mr-2">@Model.PayrollInvoiceNo</p>
                             </div>
                             <div class="clearfix">
-                                <p class="float-left">@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Company.PrintDate))</p>
+                                <p class="float-left">@Html.Raw(Localization.CloudERP.Company.PrintDate)</p>
                                 <p class="float-right mr-2">@DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt")</p>
                             </div>
                             <div class="clearfix">
-                                <p class="float-left">@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Company.SalaryPaidDate))</p>
+                                <p class="float-left">@Html.Raw(Localization.CloudERP.Company.SalaryPaidDate)</p>
                                 <p class="float-right mr-2">@Model.PaymentDate.ToString("dd/MM/yyyy")</p>
                             </div>
                         </div>
@@ -94,10 +94,10 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Company.EmployeeName))</th>
-                                    <th>@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Company.SalaryMonth))</th>
-                                    <th>@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Company.SalaryYear))</th>
-                                    <th>@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Company.CreatedBy))</th>
+                                    <th>@Html.Raw(Localization.CloudERP.Company.EmployeeName)</th>
+                                    <th>@Html.Raw(Localization.CloudERP.Company.SalaryMonth)</th>
+                                    <th>@Html.Raw(Localization.CloudERP.Company.SalaryYear)</th>
+                                    <th>@Html.Raw(Localization.CloudERP.Company.CreatedBy)</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -115,17 +115,17 @@
                         <div class="col-lg-6 py-2">
                             <div class="row mb-3 align-items-center">
                                 <div class="col-7">
-                                    <div class="h3">@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Company.TotalSalary))</div>
+                                    <div class="h3">@Html.Raw(Localization.CloudERP.Company.TotalSalary)</div>
                                 </div>
                                 <div class="col-5">
-                                    <div class="text-right h3">@Model.TransferAmount @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Common.UAH))</div>
+                                    <div class="text-right h3">@Model.TransferAmount @Html.Raw(Localization.CloudERP.Common.UAH)</div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <hr class="d-print-none">
                     <div class="clearfix">
-                        <button class="btn btn-secondary float-left" type="button" onclick="window.print();">@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Company.Print))</button>
+                        <button class="btn btn-secondary float-left" type="button" onclick="window.print();">@Html.Raw(Localization.CloudERP.Company.Print)</button>
                     </div>
                 </div>
             </div>

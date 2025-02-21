@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Domain.Models.Supplier>
 
 @{
-    ViewBag.Title = Localization.CloudERP.Supplier.AllSuppliers.ToString();
+    ViewBag.Title = Localization.CloudERP.Supplier.AllSuppliers;
 }
 
 <!-- Tables Sorting-->
@@ -22,28 +22,28 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Supplier.CompanyTitle))
+                            @Html.Raw(Localization.CloudERP.Supplier.CompanyTitle)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Supplier.BranchTitle))
+                            @Html.Raw(Localization.CloudERP.Supplier.BranchTitle)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Supplier.SupplierName))
+                            @Html.Raw(Localization.CloudERP.Supplier.SupplierName)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Supplier.ConatctNo))
+                            @Html.Raw(Localization.CloudERP.Supplier.ConatctNo)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Supplier.Email))
+                            @Html.Raw(Localization.CloudERP.Supplier.Email)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Supplier.Address))
+                            @Html.Raw(Localization.CloudERP.Supplier.Address)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Supplier.User))
+                            @Html.Raw(Localization.CloudERP.Supplier.User)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Supplier.Description))
+                            @Html.Raw(Localization.CloudERP.Supplier.Description)
                         </th>
                     </tr>
                 </thead>

@@ -3,7 +3,7 @@ using Utils.Interfaces;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Services.Factories;
+using API.Factories;
 
 namespace API.Controllers.Branch
 {

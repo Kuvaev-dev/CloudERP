@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Domain.Models.FinancialModels.TrialBalanceModel>
 
 @{
-    ViewBag.Title = Localization.CloudERP.Miscellaneous.TrialBalance.ToString();
+    ViewBag.Title = Localization.CloudERP.Miscellaneous.TrialBalance;
 }
 
 <script src="~/Scripts/jQuery/jquery-3.7.1.js"></script>
@@ -14,9 +14,9 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">
-                        <label>@Localization.CloudERP.Financial.SelectFinancialYear.ToString()</label>
-                        @Html.DropDownList("id", (SelectList)ViewBag.FinancialYears, Localization.CloudERP.Financial.SelectFinancialYear.ToString(), new { @class = "form-control", required = "required" })
-                        <input type="submit" value="@Localization.CloudERP.Miscellaneous.GetTrialBalance.ToString()" class="btn btn-success form-control mt-2">
+                        <label>@Localization.CloudERP.Financial.SelectFinancialYear</label>
+                        @Html.DropDownList("id", (SelectList)ViewBag.FinancialYears, Localization.CloudERP.Financial.SelectFinancialYear, new { @class = "form-control", required = "required" })
+                        <input type="submit" value="@Localization.CloudERP.Miscellaneous.GetTrialBalance" class="btn btn-success form-control mt-2">
                     </div>
                     <div class="col-md-4">
                         <h3 class="text-danger">@ViewBag.Message</h3>
@@ -30,20 +30,20 @@
 
 <div class="card">
     <div class="card-header">
-        <div class="card-title">@Localization.CloudERP.Miscellaneous.Export.ToString()</div>
+        <div class="card-title">@Localization.CloudERP.Miscellaneous.Export</div>
     </div>
     <div class="card-body">
         <table class="table my-4 w-100" id="dataTable">
             <thead>
                 <tr>
                     <th>
-                        @Localization.CloudERP.Financial.AccountTitle.ToString()
+                        @Localization.CloudERP.Financial.AccountTitle
                     </th>
                     <th>
-                        @Localization.CloudERP.Miscellaneous.Debit.ToString()
+                        @Localization.CloudERP.Miscellaneous.Debit
                     </th>
                     <th>
-                        @Localization.CloudERP.Miscellaneous.Credit.ToString()
+                        @Localization.CloudERP.Miscellaneous.Credit
                     </th>
                 </tr>
             </thead>

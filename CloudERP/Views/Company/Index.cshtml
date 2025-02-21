@@ -2,7 +2,7 @@
 @model IEnumerable<Domain.Models.Company>
 
 @{
-    ViewBag.Title = Localization.CloudERP.Company.AllCompanies.ToString();
+    ViewBag.Title = Localization.CloudERP.Company.AllCompanies;
 }
 
 <!-- Tables Sorting-->
@@ -18,7 +18,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        @Html.ActionLink(Localization.CloudERP.Company.AddCompanyTitle.ToString(), "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
+        @Html.ActionLink(Localization.CloudERP.Company.AddCompanyTitle, "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
         <h3 class="text-danger">@ViewBag.Message</h3>
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
     </div>
@@ -28,13 +28,13 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Company.CompanyTitle))
+                            @Html.Raw(Localization.CloudERP.Company.CompanyTitle)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Company.Logo))
+                            @Html.Raw(Localization.CloudERP.Company.Logo)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Common.Actions))
+                            @Html.Raw(Localization.CloudERP.Common.Actions)
                         </th>
                     </tr>
                 </thead>
@@ -52,8 +52,8 @@
                                 }
                             </td>
                             <td class="btn-group d-flex align-items-center">
-                                @Html.ActionLink(Localization.CloudERP.Company.UpdateProfile.ToString(), "Edit", new { id = item.CompanyID }, new { @class = "btn btn-primary" })
-                                @Html.ActionLink(Localization.CloudERP.Common.Details.ToString(), "Details", new { id = item.CompanyID }, new { @class = "btn btn-info" })
+                                @Html.ActionLink(Localization.CloudERP.Company.UpdateProfile, "Edit", new { id = item.CompanyID }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink(Localization.CloudERP.Common.Details, "Details", new { id = item.CompanyID }, new { @class = "btn btn-info" })
                             </td>
                         </tr>
                     }

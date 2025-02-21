@@ -1,6 +1,8 @@
 ﻿@model CloudERP.Models.GeneralTransactionMV
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
 @{
-    ViewBag.Title = Localization.CloudERP.Miscellaneous.NewGeneralTransaction.ToString();
+    ViewBag.Title = Localization.CloudERP.Miscellaneous.NewGeneralTransaction;
 }
 
 @using (Html.BeginForm("SaveGeneralTransaction", "GeneralTransaction", FormMethod.Post, null))
@@ -8,30 +10,30 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h3 class="text-danger">@Session["GNMessage"]</h3>
+        <h3 class="text-danger">@HttpContextAccessor.HttpContext?.Session.GetString("GNMessage")</h3>
         <h3 class="text-danger">@ViewBag.Message</h3>
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div class="form-group">
-            <label class="control-label col-md-3">@Localization.CloudERP.Miscellaneous.SelectAccountCredit.ToString()</label>
+            <label class="control-label col-md-3">@Localization.CloudERP.Miscellaneous.SelectAccountCredit</label>
             <div class="col-md-5">
-                @Html.DropDownList("CreditAccountControlID", (SelectList)ViewBag.CreditAccountControlID, Localization.CloudERP.Miscellaneous.SelectAccountCredit.ToString(), new { @class = "form-control", required = "required" })
+                @Html.DropDownList("CreditAccountControlID", (SelectList)ViewBag.CreditAccountControlID, Localization.CloudERP.Miscellaneous.SelectAccountCredit, new { @class = "form-control", required = "required" })
                 @Html.ValidationMessageFor(model => model.CreditAccountControlID, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-3">@Localization.CloudERP.Miscellaneous.SelectAccountDebit.ToString()</label>
+            <label class="control-label col-md-3">@Localization.CloudERP.Miscellaneous.SelectAccountDebit</label>
             <div class="col-md-5">
-                @Html.DropDownList("DebitAccountControlID", (SelectList)ViewBag.DebitAccountControlID, Localization.CloudERP.Miscellaneous.SelectAccountDebit.ToString(), new { @class = "form-control", required = "required" })
+                @Html.DropDownList("DebitAccountControlID", (SelectList)ViewBag.DebitAccountControlID, Localization.CloudERP.Miscellaneous.SelectAccountDebit, new { @class = "form-control", required = "required" })
                 @Html.ValidationMessageFor(model => model.DebitAccountControlID, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.TransferAmount, Localization.CloudERP.Miscellaneous.EnterAmount.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.TransferAmount, Localization.CloudERP.Miscellaneous.EnterAmount, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.TransferAmount, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.TransferAmount, "", new { @class = "text-danger" })
@@ -39,7 +41,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Reason, Localization.CloudERP.Miscellaneous.EnterReason.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Reason, Localization.CloudERP.Miscellaneous.EnterReason, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Reason, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Reason, "", new { @class = "text-danger" })
@@ -48,8 +50,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-5">
-                <input type="submit" value="@Localization.CloudERP.Miscellaneous.SubmitTransaction.ToString()" class="btn btn-success" />
-                @Html.ActionLink(Localization.CloudERP.Common.BackToList.ToString(), "AllTransactions", null, new { @class = "btn btn-default" })
+                <input type="submit" value="@Localization.CloudERP.Miscellaneous.SubmitTransaction" class="btn btn-success" />
+                @Html.ActionLink(Localization.CloudERP.Common.BackToList, "AllTransactions", null, new { @class = "btn btn-default" })
             </div>
         </div>
     </div>

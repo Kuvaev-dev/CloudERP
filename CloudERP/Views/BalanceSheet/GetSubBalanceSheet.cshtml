@@ -1,6 +1,6 @@
 ﻿@model Domain.Models.FinancialModels.BalanceSheetModel
 @{
-    ViewBag.Title = Localization.CloudERP.Financial.SubBranchBalanceSheet.ToString();
+    ViewBag.Title = Localization.CloudERP.Financial.SubBranchBalanceSheet;
 }
 
 <script src="~/Scripts/jQuery/jquery-3.7.1.js"></script>
@@ -14,9 +14,9 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">
-                        <label>@Localization.CloudERP.Financial.SelectFinancialYear.ToString()</label>
-                        @Html.DropDownList("id", (SelectList)ViewBag.FinancialYears, Localization.CloudERP.Financial.SelectFinancialYear.ToString(), new { @class = "form-control", required = "required" })
-                        <input type="submit" value="@Localization.CloudERP.Financial.RetrieveBalanceSheet.ToString()" class="btn btn-success form-control">
+                        <label>@Localization.CloudERP.Financial.SelectFinancialYear</label>
+                        @Html.DropDownList("id", (SelectList)ViewBag.FinancialYears, Localization.CloudERP.Financial.SelectFinancialYear, new { @class = "form-control", required = "required" })
+                        <input type="submit" value="@Localization.CloudERP.Financial.RetrieveBalanceSheet" class="btn btn-success form-control">
                     </div>
                 </div>
             </div>
@@ -27,7 +27,7 @@
 @{
     <div class="card card-default col-md-12">
         <div class="card-header">
-            <h3 class="text-primary">@Localization.CloudERP.Financial.BalanceSheetStr.ToString()</h3>
+            <h3 class="text-primary">@Localization.CloudERP.Financial.BalanceSheetStr</h3>
             <h3 class="text-danger">@ViewBag.Message</h3>
             <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
         </div>
@@ -37,13 +37,13 @@
                     <thead>
                         <tr>
                             <th>
-                                @Localization.CloudERP.Financial.AccountTitle.ToString()
+                                @Localization.CloudERP.Financial.AccountTitle
                             </th>
                             <th>
-                                @Localization.CloudERP.Financial.Amount.ToString()
+                                @Localization.CloudERP.Financial.Amount
                             </th>
                             <th>
-                                @Localization.CloudERP.Financial.Total.ToString()
+                                @Localization.CloudERP.Financial.Total
                             </th>
                         </tr>
                         @if (Model.AccountHeadTotals != null)
@@ -101,7 +101,7 @@
                                 {
                                     <tr style="background-color:black;color:white;">
                                         <td>
-                                            @Localization.CloudERP.Financial.TotalAssets.ToString():
+                                            @Localization.CloudERP.Financial.TotalAssets:
                                         </td>
                                         <td></td>
                                         <td>
@@ -113,7 +113,7 @@
                                 {
                                     <tr style="background-color:lightcyan;color:black;">
                                         <td>
-                                            @Localization.CloudERP.Financial.TotalLiabilities.ToString():
+                                            @Localization.CloudERP.Financial.TotalLiabilities:
                                         </td>
                                         <td></td>
                                         <td>
@@ -125,7 +125,7 @@
                                 {
                                     <tr style="background-color:lightcyan;color:black;">
                                         <td>
-                                            @Localization.CloudERP.Financial.TotalOwnerEquity.ToString():
+                                            @Localization.CloudERP.Financial.TotalOwnerEquity:
                                         </td>
                                         <td></td>
                                         <td>
@@ -137,7 +137,7 @@
                             }
                             <tr style="background-color:lightcyan;color:black;">
                                 <td>
-                                    @Localization.CloudERP.Financial.TotalReturnEarning.ToString():
+                                    @Localization.CloudERP.Financial.TotalReturnEarning:
                                 </td>
                                 <td></td>
                                 <td>
@@ -146,7 +146,7 @@
                             </tr>
                             <tr style="background-color:black;color:white;">
                                 <td>
-                                    @Localization.CloudERP.Financial.TotalBalanceLiabilitiesOwnerEquityReturnEarning.ToString():
+                                    @Localization.CloudERP.Financial.TotalBalanceLiabilitiesOwnerEquityReturnEarning:
                                 </td>
                                 <td></td>
                                 <td>

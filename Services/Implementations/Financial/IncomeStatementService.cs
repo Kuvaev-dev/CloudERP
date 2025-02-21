@@ -5,7 +5,7 @@ using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
 
-namespace Domain.Implementations
+namespace Services.Implementations
 {
     public class IncomeStatementService : IIncomeStatementService
     {

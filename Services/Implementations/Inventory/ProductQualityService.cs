@@ -4,7 +4,7 @@ using Domain.ServiceAccess;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Domain.Implementations
+namespace Services.Implementations
 {
     public class ProductQualityService : IProductQualityService
     {

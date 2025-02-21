@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Domain.Models.Branch>
 
 @{
-    ViewBag.Title = Localization.CloudERP.Branch.AllBranches.ToString();
+    ViewBag.Title = Localization.CloudERP.Branch.AllBranches;
 }
 
 <!-- Tables Sorting-->
@@ -17,7 +17,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        @Html.ActionLink(Localization.CloudERP.Branch.AddBranch.ToString(), "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
+        @Html.ActionLink(Localization.CloudERP.Branch.AddBranch, "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
         <h3 class="text-danger">@ViewBag.Message</h3>
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
     </div>
@@ -27,19 +27,19 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Branch.Level))
+                            @Html.Raw(Localization.CloudERP.Branch.Level)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Branch.BranchTitle))
+                            @Html.Raw(Localization.CloudERP.Branch.BranchTitle)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.User.ContactNo))
+                            @Html.Raw(Localization.CloudERP.User.ContactNo)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Branch.BranchAddress))
+                            @Html.Raw(Localization.CloudERP.Branch.BranchAddress)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Common.Actions))
+                            @Html.Raw(Localization.CloudERP.Common.Actions)
                         </th>
                     </tr>
                 </thead>

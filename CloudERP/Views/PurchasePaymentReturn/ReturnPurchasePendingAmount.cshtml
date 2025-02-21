@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<Domain.Models.FinancialModels.PurchasePaymentModel>
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
     ViewBag.Title = Localization.CloudERP.Purchase.ReturnPurchasesPaymentPending;
@@ -17,7 +18,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        <h3 style="float:left;">@Session["Message"]</h3>
+        <h3 style="float:left;">@HttpContextAccessor.HttpContext?.Session.GetString("Message")</h3>
         <h3 class="text-danger">@ViewBag.Message</h3>
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
     </div>

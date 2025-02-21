@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Domain.Models.FinancialModels.PurchasePaymentModel>
 @{
-    ViewBag.Title = Localization.CloudERP.Purchase.PurchasePayment.ToString();
+    ViewBag.Title = Localization.CloudERP.Purchase.PurchasePayment;
 }
 
 <script src="~/Scripts/jQuery/jquery-3.7.1.js"></script>
@@ -8,7 +8,7 @@
 <div class="card">
     <div class="card card-flat">
         <div class="card-header">
-            <h4>@Localization.CloudERP.Purchase.EnterPaymentsDetails.ToString()</h4>
+            <h4>@Localization.CloudERP.Purchase.EnterPaymentsDetails</h4>
             <h3 class="text-danger">@ViewBag.Message</h3>
             <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
         </div>
@@ -19,21 +19,21 @@
                 <input type="text" value="@ViewBag.InvoiceID" id="id" name="id" style="display:none;" />
                 <div class="row">
                     <div class="col-md-4">
-                        <label>@Localization.CloudERP.Purchase.PreviousRemainingAmount.ToString()</label>
+                        <label>@Localization.CloudERP.Purchase.PreviousRemainingAmount</label>
                         <input type="text" id="previousRemainingAmount" name="previousRemainingAmount" value="@ViewBag.PreviousRemainingAmount" readonly="readonly" class="form-control" required>
                     </div>
                     <div class="col-md-4">
-                        <label>@Localization.CloudERP.Purchase.PaymentAmount.ToString()</label>
+                        <label>@Localization.CloudERP.Purchase.PaymentAmount</label>
                         <input min="0" type="number" id="paymentAmount" name="paymentAmount" value="10" class="form-control" required>
                     </div>
                     <div class="col-md-4">
-                        <label>@Localization.CloudERP.Purchase.CurrentRemainingAmount.ToString()</label>
+                        <label>@Localization.CloudERP.Purchase.CurrentRemainingAmount</label>
                         <input type="text" id="remainingAmount" name="remainingAmount" value="10" readonly="readonly" class="form-control" required>
                     </div>
                 </div>
                 <br />
                 <br />
-                <input type="submit" value="@Localization.CloudERP.Purchase.SubmitPayment.ToString()" class="btn btn-success" style="float: right;">
+                <input type="submit" value="@Localization.CloudERP.Purchase.SubmitPayment" class="btn btn-success" style="float: right;">
             }
         </div>
     </div>
@@ -41,7 +41,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        <h4 style="float:left;">@Localization.CloudERP.Purchase.PurchaseInvoicePaymentDetail.ToString()</h4>
+        <h4 style="float:left;">@Localization.CloudERP.Purchase.PurchaseInvoicePaymentDetail</h4>
     </div>
     <div class="card-body">
         <div class="table-responsive bootgrid">
@@ -49,25 +49,25 @@
                 <thead>
                     <tr>
                         <th>
-                            @Localization.CloudERP.Supplier.SupplierName.ToString()
+                            @Localization.CloudERP.Supplier.SupplierName
                         </th>
                         <th>
-                            @Localization.CloudERP.Miscellaneous.ContactNo.ToString()
+                            @Localization.CloudERP.Miscellaneous.ContactNo
                         </th>
                         <th>
-                            @Localization.CloudERP.Miscellaneous.InvoiceNo.ToString()
+                            @Localization.CloudERP.Miscellaneous.InvoiceNo
                         </th>
                         <th>
-                            @Localization.CloudERP.Miscellaneous.Date.ToString()
+                            @Localization.CloudERP.Miscellaneous.Date
                         </th>
                         <th>
-                            @Localization.CloudERP.Purchase.TotalAmount.ToString()
+                            @Localization.CloudERP.Purchase.TotalAmount
                         </th>
                         <th>
-                            @Localization.CloudERP.Purchase.PaidAmount.ToString()
+                            @Localization.CloudERP.Purchase.PaidAmount
                         </th>
                         <th>
-                            @Localization.CloudERP.Purchase.RemainingBalance.ToString()
+                            @Localization.CloudERP.Purchase.RemainingBalance
                         </th>
                     </tr>
                 </thead>

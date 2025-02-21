@@ -1,7 +1,8 @@
 ﻿@model IEnumerable<Domain.Models.FinancialModels.SalePaymentModel>
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
-    ViewBag.Title = Localization.CloudERP.Sale.AllReturnSalesAmountPending.ToString();
+    ViewBag.Title = Localization.CloudERP.Sale.AllReturnSalesAmountPending;
 }
 
 <!-- Tables Sorting-->
@@ -17,7 +18,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        <h5 style="float:left;">@Session["ReturnMessage"]</h5>
+        <h5 style="float:left;">@HttpContextAccessor.HttpContext?.Session.GetString("ReturnMessage")</h5>
         <h3 class="text-danger">@ViewBag.Message</h3>
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
     </div>
@@ -27,37 +28,37 @@
                 <thead>
                     <tr>
                         <th>
-                            @Localization.CloudERP.Sale.Customer.ToString()
+                            @Localization.CloudERP.Sale.Customer
                         </th>
                         <th>
-                            @Localization.CloudERP.Sale.ContactNo.ToString()
+                            @Localization.CloudERP.Sale.ContactNo
                         </th>
                         <th>
-                            @Localization.CloudERP.Sale.InvoiceNo.ToString()
+                            @Localization.CloudERP.Sale.InvoiceNo
                         </th>
                         <th>
-                            @Localization.CloudERP.Sale.Date.ToString()
+                            @Localization.CloudERP.Sale.Date
                         </th>
                         <th>
-                            @Localization.CloudERP.Sale.SaleTotalAmount.ToString()
+                            @Localization.CloudERP.Sale.SaleTotalAmount
                         </th>
                         <th>
-                            @Localization.CloudERP.Sale.ReturnProductsTotalAmount.ToString()
+                            @Localization.CloudERP.Sale.ReturnProductsTotalAmount
                         </th>
                         <th>
-                            @Localization.CloudERP.Sale.AfterReturnSaleTotalAmount.ToString()
+                            @Localization.CloudERP.Sale.AfterReturnSaleTotalAmount
                         </th>
                         <th>
-                            @Localization.CloudERP.Sale.PaidAmount.ToString()
+                            @Localization.CloudERP.Sale.PaidAmount
                         </th>
                         <th>
-                            @Localization.CloudERP.Sale.PaymentToCustomer.ToString()
+                            @Localization.CloudERP.Sale.PaymentToCustomer
                         </th>
                         <th>
-                            @Localization.CloudERP.Sale.RemainingBalance.ToString()
+                            @Localization.CloudERP.Sale.RemainingBalance
                         </th>
                         <th>
-                            @Localization.CloudERP.Common.Actions.ToString()
+                            @Localization.CloudERP.Common.Actions
                         </th>
                     </tr>
                 </thead>
@@ -90,7 +91,7 @@
                                 @{
                                     if (item.PaymentAmount == 0)
                                     {
-                                        @Html.ActionLink(Localization.CloudERP.Sale.SetPaid.ToString(), "PaidAmount", "SalePayment", new { id = item.CustomerInvoiceID }, new { @class = "text-success" })
+                                        @Html.ActionLink(Localization.CloudERP.Sale.SetPaid, "PaidAmount", "SalePayment", new { id = item.CustomerInvoiceID }, new { @class = "text-success" })
                                     }
                                     else
                                     {
@@ -106,7 +107,7 @@
                                     if (item.RemainingBalance == 0 && item.PaymentAmount != 0)
                                     {
                                         <em class="icon-check">
-                                            <label class="text-success">@Localization.CloudERP.Sale.Clear.ToString()</label>
+                                            <label class="text-success">@Localization.CloudERP.Sale.Clear</label>
                                         </em>
                                     }
                                     else if (item.RemainingBalance < 0)
@@ -123,16 +124,16 @@
                                 @{
                                     if (item.RemainingBalance < item.TotalAmount && item.PaymentAmount != 0)
                                     {
-                                        @Html.ActionLink(Localization.CloudERP.Sale.PayHistory.ToString(), "PaidHistory", "SalePayment", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-primary" })
+                                        @Html.ActionLink(Localization.CloudERP.Sale.PayHistory, "PaidHistory", "SalePayment", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-primary" })
                                     }
                                     else
                                     {
                                         <em class="icon-book-open">
-                                            <label class="text-danger"><b>@Localization.CloudERP.Sale.NoHistory.ToString()</b></label>
+                                            <label class="text-danger"><b>@Localization.CloudERP.Sale.NoHistory</b></label>
                                         </em>
                                         <br />
                                     }
-                                    @Html.ActionLink(Localization.CloudERP.Sale.ViewDetails.ToString(), "SaleItemDetail", "SalePayment", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-info" })
+                                    @Html.ActionLink(Localization.CloudERP.Sale.ViewDetails, "SaleItemDetail", "SalePayment", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-info" })
                                 }
                             </td>
                         </tr>

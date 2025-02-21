@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<Domain.Models.FinancialModels.PurchasePaymentModel>
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
     ViewBag.Title = Localization.CloudERP.Purchase.CustomBasePurchasesHistory;
@@ -9,7 +10,7 @@
 <div class="card">
     <div class="card card-float">
         <div class="card-header">
-            <h4>@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Miscellaneous.SelectRangeFromDateAndToDate))</h4>
+            <h4>@Html.Raw(Localization.CloudERP.Miscellaneous.SelectRangeFromDateAndToDate)</h4>
             <h3 class="text-danger">@ViewBag.Message</h3>
             <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
         </div>
@@ -20,11 +21,11 @@
                 <input type="text" value="@ViewBag.InvoiceID" id="id" name="id" style="display:none;" />
                 <div class="row">
                     <div class="col-md-4">
-                        <label>@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Miscellaneous.SelectFromDate))</label>
+                        <label>@Html.Raw(Localization.CloudERP.Miscellaneous.SelectFromDate)</label>
                         <input type="date" id="FromDate" name="FromDate" value="@DateTime.Now" class="form-control" required>
                     </div>
                     <div class="col-md-4">
-                        <label>@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Miscellaneous.SelectToDate))</label>
+                        <label>@Html.Raw(Localization.CloudERP.Miscellaneous.SelectToDate)</label>
                         <input type="date" id="ToDate" name="ToDate" value="@DateTime.Now" class="form-control" required>
                     </div>
                 </div>
@@ -38,7 +39,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        <h5 style="float:left;">@Session["Message"]</h5>
+        <h5 style="float:left;">@HttpContextAccessor.HttpContext?.Session.GetString("Message")</h5>
     </div>
     <div class="card-body">
         <div class="table-responsive bootgrid">
@@ -46,37 +47,37 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Sale.Supplier))
+                            @Html.Raw(Localization.CloudERP.Sale.Supplier)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Miscellaneous.ContactNo))
+                            @Html.Raw(Localization.CloudERP.Miscellaneous.ContactNo)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Miscellaneous.InvoiceNo))
+                            @Html.Raw(Localization.CloudERP.Miscellaneous.InvoiceNo)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Miscellaneous.Date))
+                            @Html.Raw(Localization.CloudERP.Miscellaneous.Date)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Sale.TotalAmount))
+                            @Html.Raw(Localization.CloudERP.Sale.TotalAmount)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Sale.ReturnProductsTotalAmount))
+                            @Html.Raw(Localization.CloudERP.Sale.ReturnProductsTotalAmount)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Purchase.AfterReturnTotalAmount))
+                            @Html.Raw(Localization.CloudERP.Purchase.AfterReturnTotalAmount)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Sale.PaidAmount))
+                            @Html.Raw(Localization.CloudERP.Sale.PaidAmount)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Sale.PaymentAmount))
+                            @Html.Raw(Localization.CloudERP.Sale.PaymentAmount)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Sale.RemainingBalance))
+                            @Html.Raw(Localization.CloudERP.Sale.RemainingBalance)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Common.Actions))
+                            @Html.Raw(Localization.CloudERP.Common.Actions)
                         </th>
                     </tr>
                 </thead>
@@ -125,7 +126,7 @@
                                     if (item.RemainingBalance == 0 && item.PaymentAmount != 0)
                                     {
                                         <em class="icon-check">
-                                            <label class="text-success">@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Purchase.Clear))</label>
+                                            <label class="text-success">@Html.Raw(Localization.CloudERP.Purchase.Clear)</label>
                                         </em>
                                     }
                                     else if (item.RemainingBalance < 0)
@@ -147,7 +148,7 @@
                                     else
                                     {
                                         <em class="icon-book-open">
-                                            <label class="text-danger"><b>@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Purchase.NoHistory))</b></label>
+                                            <label class="text-danger"><b>@Html.Raw(Localization.CloudERP.Purchase.NoHistory)</b></label>
                                         </em>
                                     }
                                 }

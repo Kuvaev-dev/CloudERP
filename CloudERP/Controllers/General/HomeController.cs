@@ -61,7 +61,7 @@ namespace CloudERP.Controllers.General
         {
             try
             {
-                var user = await _httpClient.PostAsync<User>("home/login", loginRequest);
+                var user = await _httpClient.PostAndReturnAsync<Domain.Models.User>("home/login", loginRequest);
                 if (user == null)
                 {
                     ViewBag.Message = Localization.CloudERP.Messages.Messages.PleaseProvideCorrectDetails;
@@ -70,23 +70,23 @@ namespace CloudERP.Controllers.General
 
                 await SignInUser(user);
 
-                var employee = await _httpClient.PostAsync<Employee>("home/employee", new { user.UserID });
+                var employee = await _httpClient.PostAndReturnAsync<Employee>("home/employee", new { user.UserID });
                 if (employee == null)
                 {
                     ClearSession();
                     return RedirectToAction("Login", "Home");
                 }
 
-                await SetEmployeeSession(employee);
+                SetEmployeeSession(employee);
 
-                var company = await _httpClient.PostAsync<Domain.Models.Company>("home/company", new { employee.CompanyID });
+                var company = await _httpClient.PostAndReturnAsync<Domain.Models.Company>("home/company", new { employee.CompanyID });
                 if (company == null)
                 {
                     ClearSession();
                     return RedirectToAction("Login", "Home");
                 }
 
-                await SetCompanySession(company);
+                SetCompanySession(company);
 
                 var isFirstLogin = await _httpClient.PostAsync<bool>("home/isFirstLogin", new { employee.UserID });
                 if (isFirstLogin) HttpContext.Session.SetString("StartTour", "true");
@@ -103,7 +103,7 @@ namespace CloudERP.Controllers.General
             }
         }
 
-        private async Task SignInUser(User user)
+        private async Task SignInUser(Domain.Models.User user)
         {
             var claims = new List<Claim>
             {

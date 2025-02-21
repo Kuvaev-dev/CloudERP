@@ -3,7 +3,7 @@ using System.IO;
 using System.Web;
 using Utils.Interfaces;
 
-namespace DatabaseAccess.Adapters
+namespace Services.Adapters
 {
     public class HttpPostedFileAdapter : IFile
     {

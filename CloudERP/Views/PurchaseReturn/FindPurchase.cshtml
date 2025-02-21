@@ -1,4 +1,5 @@
 ﻿@model Domain.Models.SupplierInvoice
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
     ViewBag.Title = Localization.CloudERP.Purchase.SearchPurchaseByInvoiceNo;
@@ -39,19 +40,19 @@
 
             <div class="card mt-4">
                 <div class="card-header">
-                    <h3>@Localization.CloudERP.Purchase.Invoice.ToString() №: @Model.InvoiceNo</h3>
-                    <h3 class="text-danger">@Session["PurchaseReturnMessage"]</h3>
+                    <h3>@Localization.CloudERP.Purchase.Invoice №: @Model.InvoiceNo</h3>
+                    <h3 class="text-danger">@HttpContextAccessor.HttpContext?.Session.GetString("PurchaseReturnMessage")</h3>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
-                            <h4>@Localization.CloudERP.Company.CompanyTitle.ToString():</h4>
+                            <h4>@Localization.CloudERP.Company.CompanyTitle:</h4>
                             <p>@Model.CompanyName - @Model.BranchName</p>
-                            <p>@Localization.CloudERP.Branch.BranchAddress.ToString(): @Model.BranchAddress</p>
-                            <p>@Localization.CloudERP.Purchase.ContactNo.ToString(): @Model.BranchContact</p>
+                            <p>@Localization.CloudERP.Branch.BranchAddress: @Model.BranchAddress</p>
+                            <p>@Localization.CloudERP.Purchase.ContactNo: @Model.BranchContact</p>
                         </div>
                         <div class="col-md-6">
-                            <h4>@Localization.CloudERP.Purchase.Supplier.ToString():</h4>
+                            <h4>@Localization.CloudERP.Purchase.Supplier:</h4>
                             <p>@Model.SupplierName</p>
                             <p>@Model.SupplierAddress</p>
                             <p>@Model.SupplierConatctNo</p>
@@ -61,11 +62,11 @@
                     <table class="table table-bordered mt-4">
                         <thead>
                             <tr>
-                                <th>@Localization.CloudERP.Sale.Product.ToString()</th>
-                                <th>@Localization.CloudERP.Purchase.PurchaseQty.ToString()</th>
-                                <th>@Localization.CloudERP.Purchase.ReturnQty.ToString()</th>
-                                <th>@Localization.CloudERP.Purchase.UnitPrice.ToString()</th>
-                                <th>@Localization.CloudERP.Purchase.ItemCost.ToString()</th>
+                                <th>@Localization.CloudERP.Sale.Product</th>
+                                <th>@Localization.CloudERP.Purchase.PurchaseQty</th>
+                                <th>@Localization.CloudERP.Purchase.ReturnQty</th>
+                                <th>@Localization.CloudERP.Purchase.UnitPrice</th>
+                                <th>@Localization.CloudERP.Purchase.ItemCost</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -88,10 +89,10 @@
 
                     <div class="form-check mt-3">
                         <input type="checkbox" class="form-check-input" id="IsPayment" name="IsPayment" />
-                        <label class="form-check-label" for="IsPayment">@Localization.CloudERP.Purchase.IsReturnPurchasePaymentPaid.ToString()</label>
+                        <label class="form-check-label" for="IsPayment">@Localization.CloudERP.Purchase.IsReturnPurchasePaymentPaid</label>
                     </div>
 
-                    <button type="submit" class="btn btn-success mt-3">@Localization.CloudERP.Purchase.SubmitReturn.ToString()</button>
+                    <button type="submit" class="btn btn-success mt-3">@Localization.CloudERP.Purchase.SubmitReturn</button>
                 </div>
             </div>
         }

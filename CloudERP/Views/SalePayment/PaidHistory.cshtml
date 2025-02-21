@@ -2,7 +2,7 @@
 
 @{
     double remainingBalance = 0;
-    ViewBag.Title = Localization.CloudERP.Sale.SalePaymentDetails.ToString();
+    ViewBag.Title = Localization.CloudERP.Sale.SalePaymentDetails;
 }
 
 <script src="~/Scripts/jQuery/jquery-3.7.1.js"></script>
@@ -14,25 +14,25 @@
                 <thead>
                     <tr>
                         <th>
-                            @Localization.CloudERP.Sale.Customer.ToString()
+                            @Localization.CloudERP.Sale.Customer
                         </th>
                         <th>
-                            @Localization.CloudERP.Sale.ContactNo.ToString()
+                            @Localization.CloudERP.Sale.ContactNo
                         </th>
                         <th>
-                            @Localization.CloudERP.Sale.InvoiceNo.ToString()
+                            @Localization.CloudERP.Sale.InvoiceNo
                         </th>
                         <th>
-                            @Localization.CloudERP.Sale.Date.ToString()
+                            @Localization.CloudERP.Sale.Date
                         </th>
                         <th>
-                            @Localization.CloudERP.Sale.TotalAmount.ToString()
+                            @Localization.CloudERP.Sale.TotalAmount
                         </th>
                         <th>
-                            @Localization.CloudERP.Sale.PaidAmount.ToString()
+                            @Localization.CloudERP.Sale.PaidAmount
                         </th>
                         <th>
-                            @Localization.CloudERP.Sale.RemainingBalance.ToString()
+                            @Localization.CloudERP.Sale.RemainingBalance
                         </th>
                     </tr>
                 </thead>
@@ -75,13 +75,13 @@
 
     if (ViewData["ReturnSaleDetails"] != null)
     {
-        <h3>@Localization.CloudERP.Sale.SaleReturnDetails.ToString()</h3>
-        var returnSaleDetail = ViewData["ReturnSaleDetails"] as List<DatabaseAccess.tblCustomerReturnInvoice>;
-        foreach (DatabaseAccess.tblCustomerReturnInvoice item in returnSaleDetail)
+        <h3>@Localization.CloudERP.Sale.SaleReturnDetails</h3>
+        var returnSaleDetail = ViewData["ReturnSaleDetails"] as List<Domain.Models.CustomerReturnInvoice>;
+        foreach (Domain.Models.CustomerReturnInvoice item in returnSaleDetail)
         {
             noOfInvoice += 1;
             double invoiceRemainingBalance = 0;
-            double payAmount = item.tblCustomerReturnPayment.Sum(s => s.PaidAmount);
+            double payAmount = item.CustomerReturnPayment.Sum(s => s.PaidAmount);
             invoiceRemainingBalance = item.TotalAmount - payAmount;
             totalReturnRemainingBalance += invoiceRemainingBalance;
 
@@ -95,15 +95,15 @@
                                         <div class="row">
                                             <div class="col-md-1">
                                                 <div>
-                                                    @Localization.CloudERP.Sale.Customer.ToString():
+                                                    @Localization.CloudERP.Sale.Customer:
                                                     <div>
-                                                        @item.tblCustomer.Customername
+                                                        @item.Customername
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
                                                 <div>
-                                                    @Localization.CloudERP.Sale.InvoiceDate.ToString():
+                                                    @Localization.CloudERP.Sale.InvoiceDate:
                                                     <div>
                                                         @item.InvoiceDate
                                                     </div>
@@ -111,7 +111,7 @@
                                             </div>
                                             <div class="col-md-2">
                                                 <div>
-                                                    @Localization.CloudERP.Sale.InvoiceNo.ToString():
+                                                    @Localization.CloudERP.Sale.InvoiceNo:
                                                     <div>
                                                         @item.InvoiceNo
                                                     </div>
@@ -119,7 +119,7 @@
                                             </div>
                                             <div class="col-md-2">
                                                 <div>
-                                                    @Localization.CloudERP.Sale.ReturnTotal.ToString():
+                                                    @Localization.CloudERP.Sale.ReturnTotal:
                                                     <div>
                                                         @item.TotalAmount
                                                     </div>
@@ -127,7 +127,7 @@
                                             </div>
                                             <div class="col-md-2">
                                                 <div>
-                                                    @Localization.CloudERP.Sale.ReturnPayment.ToString():
+                                                    @Localization.CloudERP.Sale.ReturnPayment:
                                                     <div>
                                                         @payAmount
                                                     </div>
@@ -135,7 +135,7 @@
                                             </div>
                                             <div class="col-md-3">
                                                 <div>
-                                                    @Localization.CloudERP.Sale.RemainingReturn.ToString():
+                                                    @Localization.CloudERP.Sale.RemainingReturn:
                                                     <div>
                                                         @invoiceRemainingBalance
                                                     </div>
@@ -154,24 +154,24 @@
                                                 <thead>
                                                     <tr>
                                                         <th>
-                                                            @Localization.CloudERP.Sale.InvoiceNo.ToString()
+                                                            @Localization.CloudERP.Sale.InvoiceNo
                                                         </th>
                                                         <th>
-                                                            @Localization.CloudERP.Sale.PaymentDate.ToString()
+                                                            @Localization.CloudERP.Sale.PaymentDate
                                                         </th>
                                                         <th>
-                                                            @Localization.CloudERP.Sale.TotalAmount.ToString()
+                                                            @Localization.CloudERP.Sale.TotalAmount
                                                         </th>
                                                         <th>
-                                                            @Localization.CloudERP.Sale.PaymentAmount.ToString()
+                                                            @Localization.CloudERP.Sale.PaymentAmount
                                                         </th>
                                                         <th>
-                                                            @Localization.CloudERP.Sale.RemainingBalance.ToString()
+                                                            @Localization.CloudERP.Sale.RemainingBalance
                                                         </th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="paymentList">
-                                                    @foreach (var paymentDetails in item.tblCustomerReturnPayment)
+                                                    @foreach (var paymentDetails in item.CustomerReturnPayment)
                                                     {
                                                         <tr>
                                                             <td>
@@ -197,7 +197,7 @@
                                         else
                                         {
                                             <div class="text-center">
-                                                @Localization.CloudERP.Sale.NoPaymentRecord.ToString()
+                                                @Localization.CloudERP.Sale.NoPaymentRecord
                                             </div>
                                         }
                                     </div>
@@ -219,7 +219,7 @@
     <div class="col-lg-6 py-2">
         <div class="row mb-3 align-items-center">
             <div class="col-7">
-                <div class="h3">@Localization.CloudERP.Sale.RemainingTotalBalance.ToString(): </div>
+                <div class="h3">@Localization.CloudERP.Sale.RemainingTotalBalance: </div>
             </div>
             <div class="col-5">
                 <div id="previousRemainingAmounts" class="text-left h3">@remainingBalance.ToString("F2")</div>

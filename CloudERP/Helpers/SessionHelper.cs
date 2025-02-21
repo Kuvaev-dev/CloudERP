@@ -45,7 +45,7 @@
             }
         }
 
-        public string InvoiceNo
+        public string? InvoiceNo
         {
             get => _session.GetString("InvoiceNo");
             set
@@ -61,7 +61,7 @@
             }
         }
 
-        public string SaleInvoiceNo
+        public string? SaleInvoiceNo
         {
             get => _session.GetString("SaleInvoiceNo");
             set

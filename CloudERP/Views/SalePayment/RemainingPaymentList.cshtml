@@ -1,7 +1,8 @@
 ﻿@model IEnumerable<Domain.Models.FinancialModels.SalePaymentModel>
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
-    ViewBag.Title = Localization.CloudERP.Sale.SalesPaymentPendingList.ToString();
+    ViewBag.Title = Localization.CloudERP.Sale.SalesPaymentPendingList;
 }
 
 <!-- Tables Sorting-->
@@ -17,7 +18,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        <h3 style="float:left;">@Session["Message"]</h3>
+        <h3 style="float:left;">@HttpContextAccessor.HttpContext?.Session.GetString("Message")</h3>
         <h3 class="text-danger">@ViewBag.Message</h3>
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
     </div>
@@ -27,28 +28,28 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Sale.Customer))
+                            @Html.Raw(Localization.CloudERP.Sale.Customer)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.User.ContactNo))
+                            @Html.Raw(Localization.CloudERP.User.ContactNo)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Sale.InvoiceNo))
+                            @Html.Raw(Localization.CloudERP.Sale.InvoiceNo)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Sale.Date))
+                            @Html.Raw(Localization.CloudERP.Sale.Date)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Sale.TotalAmount))
+                            @Html.Raw(Localization.CloudERP.Sale.TotalAmount)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Sale.PaidAmount))
+                            @Html.Raw(Localization.CloudERP.Sale.PaidAmount)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Sale.RemainingBalance))
+                            @Html.Raw(Localization.CloudERP.Sale.RemainingBalance)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Common.Actions))
+                            @Html.Raw(Localization.CloudERP.Common.Actions)
                         </th>
                     </tr>
                 </thead>
@@ -80,11 +81,11 @@
                             <td class="btn-group">
                                 @if (item.TotalAmount - 1 > item.PaymentAmount)
                                 {
-                                    @Html.ActionLink(Localization.CloudERP.Sale.PayAmount.ToString(), "PaidAmount", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-primary" });
+                                    @Html.ActionLink(Localization.CloudERP.Sale.PayAmount, "PaidAmount", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-primary" });
                                 }
                                 @if (item.PaymentAmount > 0)
                                 {
-                                    @Html.ActionLink(Localization.CloudERP.Sale.PayHistory.ToString(), "PaidHistory", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-info" });
+                                    @Html.ActionLink(Localization.CloudERP.Sale.PayHistory, "PaidHistory", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-info" });
                                 }
                             </td>
                         </tr>

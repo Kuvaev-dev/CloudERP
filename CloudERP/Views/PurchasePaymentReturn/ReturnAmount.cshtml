@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<Domain.Models.SupplierReturnPayment>
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
     double remainingBalance = (double)ViewBag.PreviousRemainingAmount;
@@ -42,7 +43,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        <h5 style="float:left;">@Session["Message"]</h5>
+        <h5 style="float:left;">@HttpContextAccessor.HttpContext?.Session.GetString("Message")</h5>
     </div>
     <div class="card-body">
         <div class="table-responsive bootgrid">

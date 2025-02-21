@@ -1,7 +1,8 @@
 ﻿@model Domain.Models.Branch
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
-    ViewBag.Title = Localization.CloudERP.Branch.AddBranch.ToString();
+    ViewBag.Title = Localization.CloudERP.Branch.AddBranch;
 }
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
@@ -10,7 +11,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
 
 <script>
-    window.Culture = '@Session["Culture"]';
+    window.Culture = '@HttpContextAccessor.HttpContext?.Session.GetString("Culture")';
 </script>
 
 <script src="~/Scripts/CustomScripts/VoiceRecognition.js"></script>
@@ -28,23 +29,23 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div class="form-group">
-            @Html.LabelFor(model => model.BrchID, Localization.CloudERP.Branch.SelectTopBranch.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
+            @Html.LabelFor(model => model.BrchID, Localization.CloudERP.Branch.SelectTopBranch, htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-5">
-                @Html.DropDownList("BrchID", null, Localization.CloudERP.Branch.TopBranch.ToString(), htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("BrchID", null, Localization.CloudERP.Branch.TopBranch, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.BrchID, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.BranchTypeID, Localization.CloudERP.Branch.BranchLevel.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.BranchTypeID, Localization.CloudERP.Branch.BranchLevel, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
-                @Html.DropDownList("BranchTypeID", null, Localization.CloudERP.Branch.BranchLevel.ToString(), htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("BranchTypeID", null, Localization.CloudERP.Branch.BranchLevel, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.BranchTypeID, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.BranchName, Localization.CloudERP.Branch.BranchName.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.BranchName, Localization.CloudERP.Branch.BranchName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.BranchName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.BranchName, "", new { @class = "text-danger" })
@@ -52,7 +53,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.BranchContact, Localization.CloudERP.User.ContactNo.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.BranchContact, Localization.CloudERP.User.ContactNo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.BranchContact, new { htmlAttributes = new { @class = "form-control", @id = "PhoneNumber" } })
                 @Html.ValidationMessageFor(model => model.BranchContact, "", new { @class = "text-danger" })
@@ -60,7 +61,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.BranchAddress, Localization.CloudERP.Branch.BranchAddress.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.BranchAddress, Localization.CloudERP.Branch.BranchAddress, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 <div class="input-group">
                     @Html.EditorFor(model => model.BranchAddress, new { htmlAttributes = new { @class = "form-control", @id = "address" } })
@@ -71,15 +72,15 @@
                     </div>
                 </div>
                 @Html.ValidationMessageFor(model => model.BranchAddress, "", new { @class = "text-danger" })
-                <h5 class="mt-3">@Localization.CloudERP.Branch.ClickHereToChooseACorrectAddressBelow.ToString()</h5>
+                <h5 class="mt-3">@Localization.CloudERP.Branch.ClickHereToChooseACorrectAddressBelow</h5>
                 <ul id="suggestions"></ul>
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="@Localization.CloudERP.Common.Create.ToString()" class="btn btn-success" />
-                @Html.ActionLink(Localization.CloudERP.Common.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
+                <input type="submit" value="@Localization.CloudERP.Common.Create" class="btn btn-success" />
+                @Html.ActionLink(Localization.CloudERP.Common.BackToList, "Index", null, new { @class = "btn btn-default" })
                 <button id="voiceRecognitionButton" class="btn btn-link" type="button">
                     <i class="fas fa-microphone" style="font-size: 1.5em; color: gray;"></i>
                 </button>

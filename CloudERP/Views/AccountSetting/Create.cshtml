@@ -1,7 +1,7 @@
 ﻿@model Domain.Models.AccountSetting
 
 @{
-    ViewBag.Title = Localization.CloudERP.Account.NewAccountSetting.ToString();
+    ViewBag.Title = Localization.CloudERP.Account.NewAccountSetting;
 }
 
 <script src="~/Scripts/jQuery/jquery-3.7.1.js"></script>
@@ -17,12 +17,12 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div class="form-group">
-            @Html.LabelFor(model => model.AccountHeadID, Localization.CloudERP.Account.SelectHeadAccount.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
+            @Html.LabelFor(model => model.AccountHeadID, Localization.CloudERP.Account.SelectHeadAccount, htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-5">
                 @Html.DropDownListFor(
                     model => model.AccountHeadID,
                     ViewBag.AccountHeadList as SelectList,
-                    Localization.CloudERP.Account.HeadAccount.ToString(),
+                    Localization.CloudERP.Account.HeadAccount,
                     new { @class = "form-control", @id = "AccountHeadID" }
                 )
                 @Html.ValidationMessageFor(model => model.AccountHeadID, "", new { @class = "text-danger" })
@@ -30,12 +30,12 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.AccountControlID, Localization.CloudERP.Account.SelectControlAccount.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
+            @Html.LabelFor(model => model.AccountControlID, Localization.CloudERP.Account.SelectControlAccount, htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-5">
                 @Html.DropDownListFor(
                     model => model.AccountControlID,
                     ViewBag.AccountControlList as SelectList,
-                    Localization.CloudERP.Account.ControlAccount.ToString(),
+                    Localization.CloudERP.Account.ControlAccount,
                     new { @class = "form-control", @id = "AccountControlID" }
                 )
                 @Html.ValidationMessageFor(model => model.AccountControlID, "", new { @class = "text-danger" })
@@ -43,12 +43,12 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.AccountSubControlID, Localization.CloudERP.Account.SelectSubControlAccount.ToString(), htmlAttributes: new { @class = "control-label col-md-4" })
+            @Html.LabelFor(model => model.AccountSubControlID, Localization.CloudERP.Account.SelectSubControlAccount, htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-5">
                 @Html.DropDownListFor(
                     model => model.AccountSubControlID,
                     ViewBag.AccountSubControlList as SelectList,
-                    Localization.CloudERP.Account.SubAccount.ToString(),
+                    Localization.CloudERP.Account.SubAccount,
                     new { @class = "form-control", @id = "AccountSubControlID" }
                 )
                 @Html.ValidationMessageFor(model => model.AccountSubControlID, "", new { @class = "text-danger" })
@@ -56,12 +56,12 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.AccountActivityID, Localization.CloudERP.Account.SelectActivity.ToString(), htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.AccountActivityID, Localization.CloudERP.Account.SelectActivity, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.DropDownListFor(
                     model => model.AccountActivityID,
                     ViewBag.AccountActivityList as SelectList,
-                    Localization.CloudERP.Account.Activity.ToString(),
+                    Localization.CloudERP.Account.Activity,
                     new { @class = "form-control", @id = "AccountActivityID" }
                 )
                 @Html.ValidationMessageFor(model => model.AccountActivityID, "", new { @class = "text-danger" })
@@ -70,8 +70,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="@Localization.CloudERP.Common.Create.ToString()" class="btn btn-success" />
-                @Html.ActionLink(Localization.CloudERP.Common.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
+                <input type="submit" value="@Localization.CloudERP.Common.Create" class="btn btn-success" />
+                @Html.ActionLink(Localization.CloudERP.Common.BackToList, "Index", null, new { @class = "btn btn-default" })
             </div>
         </div>
     </div>

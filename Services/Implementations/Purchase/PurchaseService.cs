@@ -4,7 +4,7 @@ using Domain.ServiceAccess;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Domain.Services
+namespace Services.Purchase
 {
     public class PurchaseService : IPurchaseService
     {

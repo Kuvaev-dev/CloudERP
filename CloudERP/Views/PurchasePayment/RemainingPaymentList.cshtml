@@ -1,7 +1,8 @@
 ﻿@model IEnumerable<Domain.Models.FinancialModels.PurchasePaymentModel>
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
-    ViewBag.Title = Localization.CloudERP.Miscellaneous.PurchasesPaymentPending.ToString();
+    ViewBag.Title = Localization.CloudERP.Miscellaneous.PurchasesPaymentPending;
 }
 
 <!-- Tables Sorting-->
@@ -17,7 +18,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        <h5 style="float:left;">@Session["Message"]</h5>
+        <h5 style="float:left;">@HttpContextAccessor.HttpContext?.Session.GetString("Message")</h5>
     </div>
     <div class="card-body">
         <div class="table-responsive bootgrid">
@@ -25,34 +26,34 @@
                 <thead>
                     <tr>
                         <th>
-                            @Localization.CloudERP.Supplier.SupplierName.ToString()
+                            @Localization.CloudERP.Supplier.SupplierName
                         </th>
                         <th>
-                            @Localization.CloudERP.Miscellaneous.InvoiceNo.ToString()
+                            @Localization.CloudERP.Miscellaneous.InvoiceNo
                         </th>
                         <th>
-                            @Localization.CloudERP.Miscellaneous.Date.ToString()
+                            @Localization.CloudERP.Miscellaneous.Date
                         </th>
                         <th>
-                            @Localization.CloudERP.Purchase.TotalAmount.ToString()
+                            @Localization.CloudERP.Purchase.TotalAmount
                         </th>
                         <th>
-                            @Localization.CloudERP.Purchase.ReturnProductsTotalAmount.ToString()
+                            @Localization.CloudERP.Purchase.ReturnProductsTotalAmount
                         </th>
                         <th>
-                            @Localization.CloudERP.Purchase.AmountAfterReturn.ToString()
+                            @Localization.CloudERP.Purchase.AmountAfterReturn
                         </th>
                         <th>
-                            @Localization.CloudERP.Purchase.PaidAmount.ToString()
+                            @Localization.CloudERP.Purchase.PaidAmount
                         </th>
                         <th>
-                            @Localization.CloudERP.Purchase.PaymentAmount.ToString()
+                            @Localization.CloudERP.Purchase.PaymentAmount
                         </th>
                         <th>
-                            @Localization.CloudERP.Purchase.RemainingBalance.ToString()
+                            @Localization.CloudERP.Purchase.RemainingBalance
                         </th>
                         <th>
-                            @Localization.CloudERP.Common.Actions.ToString()
+                            @Localization.CloudERP.Common.Actions
                         </th>
                     </tr>
                 </thead>
@@ -90,11 +91,11 @@
                             <td class="btn-group">
                                 @if (item.TotalAmount - 1 > item.PaymentAmount)
                                 {
-                                    @Html.ActionLink(Localization.CloudERP.Sale.PayAmount.ToString(), "PaidAmount", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-primary" });
+                                    @Html.ActionLink(Localization.CloudERP.Sale.PayAmount, "PaidAmount", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-primary" });
                                 }
                                 @if (item.PaymentAmount > 0)
                                 {
-                                    @Html.ActionLink(Localization.CloudERP.Purchase.PayHistory.ToString(), "PaidHistory", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-info" });
+                                    @Html.ActionLink(Localization.CloudERP.Purchase.PayHistory, "PaidHistory", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-info" });
                                 }
                             </td>
                         </tr>

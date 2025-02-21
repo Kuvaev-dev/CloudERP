@@ -1,15 +1,14 @@
-﻿@*Localized*@
-@model Domain.Models.User
+﻿@model Domain.Models.User
 
 @{
-    ViewBag.Title = Localization.CloudERP.User.UserDetails.ToString();
+    ViewBag.Title = Localization.CloudERP.User.UserDetails;
 }
 
 <div class="form-horizontal">
     <div class="form-group">
         <dl class="col-md-offset-2 col-md-10">
             <dt>
-                @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.User.FullName))
+                @Html.Raw(Localization.CloudERP.User.FullName)
             </dt>
 
             <dd>
@@ -17,7 +16,7 @@
             </dd>
 
             <dt>
-                @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.User.EmailAddress))
+                @Html.Raw(Localization.CloudERP.User.EmailAddress)
             </dt>
 
             <dd>
@@ -25,7 +24,7 @@
             </dd>
 
             <dt>
-                @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.User.ContactNo))
+                @Html.Raw(Localization.CloudERP.User.ContactNo)
             </dt>
 
             <dd>
@@ -33,7 +32,7 @@
             </dd>
 
             <dt>
-                @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.User.UserName))
+                @Html.Raw(Localization.CloudERP.User.UserName)
             </dt>
 
             <dd>
@@ -41,7 +40,7 @@
             </dd>
 
             <dt>
-                @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.User.Status))
+                @Html.Raw(Localization.CloudERP.User.Status)
             </dt>
 
             <dd>
@@ -49,7 +48,7 @@
             </dd>
 
             <dt>
-                @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.User.UserType))
+                @Html.Raw(Localization.CloudERP.User.UserType)
             </dt>
 
             <dd>
@@ -60,8 +59,8 @@
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            @Html.ActionLink(Localization.CloudERP.Common.Edit.ToString(), "Edit", new { id = Model.UserID }, new { @class = "btn btn-primary" })
-            @Html.ActionLink(Localization.CloudERP.Common.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
+            @Html.ActionLink(Localization.CloudERP.Common.Edit, "Edit", new { id = Model.UserID }, new { @class = "btn btn-primary" })
+            @Html.ActionLink(Localization.CloudERP.Common.BackToList, "Index", null, new { @class = "btn btn-default" })
         </div>
     </div>
 </div>

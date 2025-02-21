@@ -1,11 +1,12 @@
 ﻿@model Domain.Models.UserType
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
-    ViewBag.Title = Localization.CloudERP.Account.EditUserType.ToString();
+    ViewBag.Title = Localization.CloudERP.Account.EditUserType;
 }
 
 <script>
-    window.Culture = '@Session["Culture"]';
+    window.Culture = '@HttpContextAccessor.HttpContext?.Session.GetString("Culture")';
 </script>
 <script src="~/Scripts/CustomScripts/VoiceRecognition.js"></script>
 
@@ -21,7 +22,7 @@
         @Html.HiddenFor(model => model.UserTypeID)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.UserTypeName, Localization.CloudERP.Account.UserType.ToString(), htmlAttributes: new { @class = "control-label col-md-3" })
+            @Html.LabelFor(model => model.UserTypeName, Localization.CloudERP.Account.UserType, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.UserTypeName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.UserTypeName, "", new { @class = "text-danger" })
@@ -30,8 +31,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="@Localization.CloudERP.Common.Save.ToString()" class="btn btn-success" />
-                @Html.ActionLink(Localization.CloudERP.Common.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
+                <input type="submit" value="@Localization.CloudERP.Common.Save" class="btn btn-success" />
+                @Html.ActionLink(Localization.CloudERP.Common.BackToList, "Index", null, new { @class = "btn btn-default" })
                 <button id="voiceRecognitionButton" class="btn btn-link" type="button">
                     <i class="fas fa-microphone" style="font-size: 1.5em; color: gray;"></i>
                 </button>

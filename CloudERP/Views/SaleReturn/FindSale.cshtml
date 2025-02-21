@@ -1,7 +1,8 @@
 ﻿@model Domain.Models.CustomerInvoice
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
-    ViewBag.Title = Localization.CloudERP.Sale.SearchSaleByInvoiceNo.ToString();
+    ViewBag.Title = Localization.CloudERP.Sale.SearchSaleByInvoiceNo;
 }
 
 @using (Html.BeginForm("FindSale", "SaleReturn", FormMethod.Post))
@@ -13,7 +14,7 @@
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
 
         <div class="form-group">
-            <label for="invoiceID" class="control-label col-md-4">@Localization.CloudERP.Sale.EnterSaleInvoice.ToString() №</label>
+            <label for="invoiceID" class="control-label col-md-4">@Localization.CloudERP.Sale.EnterSaleInvoice №</label>
             <div class="col-md-5">
                 <input type="text" class="form-control" id="invoiceID" name="invoiceID" placeholder="Enter Sale Invoice..." required />
             </div>
@@ -37,19 +38,19 @@
 
         <div class="card mt-4">
             <div class="card-header">
-                <h3>@Localization.CloudERP.Sale.Invoice.ToString() №: @Model.InvoiceNo</h3>
-                <h3 class="text-danger">@Session["SaleReturnMessage"]</h3>
+                <h3>@Localization.CloudERP.Sale.Invoice №: @Model.InvoiceNo</h3>
+                <h3 class="text-danger">@HttpContextAccessor.HttpContext?.Session.GetString("SaleReturnMessage")</h3>
             </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <h4>@Localization.CloudERP.Sale.Company.ToString():</h4>
+                        <h4>@Localization.CloudERP.Sale.Company:</h4>
                         <p>@Model.CompanyName - @Model.BranchName</p>
-                        <p>@Localization.CloudERP.Sale.Address.ToString(): @Model.BranchAddress</p>
-                        <p>@Localization.CloudERP.Sale.ContactNo.ToString(): @Model.BranchContact</p>
+                        <p>@Localization.CloudERP.Sale.Address: @Model.BranchAddress</p>
+                        <p>@Localization.CloudERP.Sale.ContactNo: @Model.BranchContact</p>
                     </div>
                     <div class="col-md-6">
-                        <h4>@Localization.CloudERP.Sale.Customer.ToString():</h4>
+                        <h4>@Localization.CloudERP.Sale.Customer:</h4>
                         <p>@Model.Customername</p>
                         <p>@Model.CustomerAddress</p>
                         <p>@Model.CustomerContact</p>
@@ -59,11 +60,11 @@
                 <table class="table table-bordered mt-4">
                     <thead>
                         <tr>
-                            <th>@Localization.CloudERP.Sale.Product.ToString()</th>
-                            <th>@Localization.CloudERP.Sale.SaleQty.ToString()</th>
-                            <th>@Localization.CloudERP.Sale.ReturnQty.ToString()</th>
-                            <th>@Localization.CloudERP.Sale.UnitPrice.ToString()</th>
-                            <th>@Localization.CloudERP.Sale.ItemCost.ToString()</th>
+                            <th>@Localization.CloudERP.Sale.Product</th>
+                            <th>@Localization.CloudERP.Sale.SaleQty</th>
+                            <th>@Localization.CloudERP.Sale.ReturnQty</th>
+                            <th>@Localization.CloudERP.Sale.UnitPrice</th>
+                            <th>@Localization.CloudERP.Sale.ItemCost</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -86,10 +87,10 @@
 
                 <div class="form-check mt-3">
                     <input type="checkbox" class="form-check-input" id="IsPayment" name="IsPayment" />
-                    <label class="form-check-label" for="IsPayment">@Localization.CloudERP.Sale.IsReturnSalePaymentPaid.ToString()</label>
+                    <label class="form-check-label" for="IsPayment">@Localization.CloudERP.Sale.IsReturnSalePaymentPaid</label>
                 </div>
 
-                <button type="submit" class="btn btn-success mt-3">@Localization.CloudERP.Sale.SubmitReturn.ToString()</button>
+                <button type="submit" class="btn btn-success mt-3">@Localization.CloudERP.Sale.SubmitReturn</button>
             </div>
         </div>
     }

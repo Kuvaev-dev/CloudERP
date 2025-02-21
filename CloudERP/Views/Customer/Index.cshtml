@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Domain.Models.Customer>
 
 @{
-    ViewBag.Title = Localization.CloudERP.Miscellaneous.BranchCustomers.ToString();
+    ViewBag.Title = Localization.CloudERP.Miscellaneous.BranchCustomers;
 }
 
 <!-- Tables Sorting-->
@@ -22,25 +22,25 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Miscellaneous.CompanyTitle))
+                            @Html.Raw(Localization.CloudERP.Miscellaneous.CompanyTitle)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Miscellaneous.BranchTitle))
+                            @Html.Raw(Localization.CloudERP.Miscellaneous.BranchTitle)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.User.FullName))
+                            @Html.Raw(Localization.CloudERP.User.FullName)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Miscellaneous.ContactNo))
+                            @Html.Raw(Localization.CloudERP.Miscellaneous.ContactNo)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Miscellaneous.Address))
+                            @Html.Raw(Localization.CloudERP.Miscellaneous.Address)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Miscellaneous.User))
+                            @Html.Raw(Localization.CloudERP.Miscellaneous.User)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Common.Actions))
+                            @Html.Raw(Localization.CloudERP.Common.Actions)
                         </th>
                     </tr>
                 </thead>
@@ -67,7 +67,7 @@
                                 @Html.DisplayFor(modelItem => item.UserName)
                             </td>
                             <td>
-                                @Html.ActionLink(Localization.CloudERP.Common.Update.ToString(), "Edit", new { id = item.CustomerID }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink(Localization.CloudERP.Common.Update, "Edit", new { id = item.CustomerID }, new { @class = "btn btn-primary" })
                             </td>
                         </tr>
                     }

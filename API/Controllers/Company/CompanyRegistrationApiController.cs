@@ -65,7 +65,7 @@ namespace API.Controllers.Company
                 await _companyRegistrationFacade.BranchRepository.AddAsync(branch);
 
                 string hashedPassword = _passwordHelper.HashPassword(model.EmployeeContactNo, out string salt);
-                var user = new User
+                var user = new Domain.Models.User
                 {
                     ContactNo = model.EmployeeContactNo,
                     Email = model.EmployeeEmail,

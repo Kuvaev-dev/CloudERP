@@ -1,7 +1,8 @@
 ﻿@model IEnumerable<Domain.Models.AccountSubControl>
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
-    ViewBag.Title = Localization.CloudERP.Account.AllAccountSubControls.ToString();
+    ViewBag.Title = Localization.CloudERP.Account.AllAccountSubControls;
 }
 
 <!-- Tables Sorting-->
@@ -17,7 +18,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        @Html.ActionLink(Localization.CloudERP.Account.AddAccountSubControl.ToString(), "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
+        @Html.ActionLink(Localization.CloudERP.Account.AddAccountSubControl, "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
         <h3 class="text-danger">@ViewBag.Message</h3>
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
     </div>
@@ -26,11 +27,11 @@
             <table class="table table-striped table-bordered table-hover" id="dataTable">
                 <thead>
                     <tr>
-                        <th>@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Account.HeadAccount))</th>
-                        <th>@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Account.ControlAccount))</th>
-                        <th>@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Account.SubControlAccount))</th>
-                        <th>@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Account.User))</th>
-                        <th>@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Common.Actions))</th>
+                        <th>@Html.Raw(Localization.CloudERP.Account.HeadAccount)</th>
+                        <th>@Html.Raw(Localization.CloudERP.Account.ControlAccount)</th>
+                        <th>@Html.Raw(Localization.CloudERP.Account.SubControlAccount)</th>
+                        <th>@Html.Raw(Localization.CloudERP.Account.User)</th>
+                        <th>@Html.Raw(Localization.CloudERP.Common.Actions)</th>
                     </tr>
                 </thead>
                 <tbody id="accountSubControlList">
@@ -42,7 +43,7 @@
                             <td>@Html.DisplayFor(modelItem => item.AccountSubControlName)</td>
                             <td>@Html.DisplayFor(modelItem => item.FullName)</td>
                             <td>
-                                @if (!item.IsGlobal || Convert.ToInt32(Session["UserTypeID"]) == 1)
+                                @if (!item.IsGlobal || HttpContextAccessor.HttpContext?.Session.GetInt32("UserTypeID") == 1)
                                 {
                                     @Html.ActionLink(Localization.CloudERP.Common.Edit.ToString(), "Edit", new { id = item.AccountSubControlID }, new { @class = "btn btn-primary" })
                                 }

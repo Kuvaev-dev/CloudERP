@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Domain.Models.FinancialYear>
 
 @{
-    ViewBag.Title = Localization.CloudERP.Miscellaneous.AllFinancialYears.ToString();
+    ViewBag.Title = Localization.CloudERP.Miscellaneous.AllFinancialYears;
 }
 
 <!-- Tables Sorting-->
@@ -17,7 +17,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        @Html.ActionLink(Localization.CloudERP.Financial.AddFinancialYear.ToString(), "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
+        @Html.ActionLink(Localization.CloudERP.Financial.AddFinancialYear, "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
         <h3 class="text-danger">@ViewBag.Message</h3>
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
     </div>
@@ -27,22 +27,22 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Financial.FinancialYearTitle))
+                            @Html.Raw(Localization.CloudERP.Financial.FinancialYearTitle)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Financial.StartDate))
+                            @Html.Raw(Localization.CloudERP.Financial.StartDate)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Financial.EndDate))
+                            @Html.Raw(Localization.CloudERP.Financial.EndDate)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Financial.Status))
+                            @Html.Raw(Localization.CloudERP.Financial.Status)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Miscellaneous.User))
+                            @Html.Raw(Localization.CloudERP.Miscellaneous.User)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Common.Actions))
+                            @Html.Raw(Localization.CloudERP.Common.Actions)
                         </th>
                     </tr>
                 </thead>
@@ -66,7 +66,7 @@
                                 @Html.DisplayFor(modelItem => item.UserName)
                             </td>
                             <td>
-                                @Html.ActionLink(Localization.CloudERP.Common.Edit.ToString(), "Edit", new { id = item.FinancialYearID }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink(Localization.CloudERP.Common.Edit, "Edit", new { id = item.FinancialYearID }, new { @class = "btn btn-primary" })
                             </td>
                         </tr>
                     }

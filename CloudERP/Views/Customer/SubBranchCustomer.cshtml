@@ -1,7 +1,7 @@
-﻿﻿@model IEnumerable<Domain.Models.Customer>
+﻿@model IEnumerable<Domain.Models.Customer>
 
 @{
-    ViewBag.Title = Localization.CloudERP.Miscellaneous.SubBranchCustomers.ToString();
+    ViewBag.Title = Localization.CloudERP.Miscellaneous.SubBranchCustomers;
 }
 
 <!-- Tables Sorting-->
@@ -22,25 +22,25 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Miscellaneous.CompanyTitle))
+                            @Html.Raw(Localization.CloudERP.Miscellaneous.CompanyTitle)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Miscellaneous.BranchTitle))
+                            @Html.Raw(Localization.CloudERP.Miscellaneous.BranchTitle)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Miscellaneous.CustomerName))
+                            @Html.Raw(Localization.CloudERP.Miscellaneous.CustomerName)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Miscellaneous.ContactNo))
+                            @Html.Raw(Localization.CloudERP.Miscellaneous.ContactNo)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Miscellaneous.Address))
+                            @Html.Raw(Localization.CloudERP.Miscellaneous.Address)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Miscellaneous.Description))
+                            @Html.Raw(Localization.CloudERP.Miscellaneous.Description)
                         </th>
                         <th>
-                            @Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.Miscellaneous.User))
+                            @Html.Raw(Localization.CloudERP.Miscellaneous.User)
                         </th>
                     </tr>
                 </thead>
@@ -51,25 +51,25 @@
                         {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.CompanyName)
+                                    @item.CompanyName
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.BranchName)
+                                    @item.BranchName
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Customername)
+                                    @item.Customername
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.CustomerContact)
+                                    @item.CustomerContact
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.CustomerAddress)
+                                    @item.CustomerAddress
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Description)
+                                    @item.Description
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.UserName)
+                                    @item.UserName
                                 </td>
                             </tr>
                         }

@@ -1,7 +1,8 @@
 ﻿@model List<Domain.Models.EmployeeStatistics>
+@inject System.Text.Json.JsonSerializerOptions JsonOptions
 
 @{
-    ViewBag.Title = Localization.CloudERP.User.EmployeeRegistrationStatistics.ToString();
+    ViewBag.Title = Localization.CloudERP.User.EmployeeRegistrationStatistics;
     var chartData = ViewBag.ChartData;
 }
 
@@ -9,7 +10,7 @@
 <div class="card">
     <div class="card card-float">
         <div class="card-header">
-            <h4>@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.User.SelectRangeFromDateAndToDate.ToString()))</h4>
+            <h4>@Html.Raw(Localization.CloudERP.User.SelectRangeFromDateAndToDate)</h4>
             <h3 class="text-danger">@TempData["ErrorMessage"]</h3>
         </div>
         <div class="card-body">
@@ -18,16 +19,16 @@
                 @Html.AntiForgeryToken()
                 <div class="row">
                     <div class="col-md-4">
-                        <label>@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.User.SelectFromDate.ToString()))</label>
-                        <input type="date" id="startDate" name="startDate" value="@Request.QueryString["startDate"]" class="form-control" required>
+                        <label>@Html.Raw(Localization.CloudERP.User.SelectFromDate)</label>
+                        <input type="date" id="startDate" name="startDate" value="@Context.Request.Query["startDate"]" class="form-control" required>
                     </div>
                     <div class="col-md-4">
-                        <label>@Html.Raw(HttpUtility.HtmlDecode(Localization.CloudERP.User.SelectToDate.ToString()))</label>
-                        <input type="date" id="endDate" name="endDate" value="@Request.QueryString["endDate"]" class="form-control" required>
+                        <label>@Html.Raw(Localization.CloudERP.User.SelectToDate)</label>
+                        <input type="date" id="endDate" name="endDate" value="@Context.Request.Query["endDate"]" class="form-control" required>
                     </div>
                 </div>
                 <br />
-                <input type="submit" value="@Localization.CloudERP.User.Retrieve.ToString()" class="btn btn-success" style="float: right;">
+                <input type="submit" value="@Localization.CloudERP.User.Retrieve" class="btn btn-success" style="float: right;">
             }
         </div>
     </div>
@@ -36,7 +37,7 @@
 <!-- Chart -->
 <div class="card card-default col-md-12">
     <div class="card-header">
-        <h5>@Localization.CloudERP.User.Statistics.ToString()</h5>
+        <h5>@Localization.CloudERP.User.Statistics</h5>
     </div>
     <div class="card-body">
         <canvas id="chartContainer" style="height: 400px; width: 100%;"></canvas>
@@ -46,7 +47,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        var chartData = @Html.Raw(Json.Encode(chartData));
+        var chartData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(chartData, JsonOptions));
         var canvas = document.getElementById('chartContainer');
 
         if (canvas) {
@@ -56,7 +57,7 @@
                 data: {
                     labels: chartData.Labels,
                     datasets: [{
-                        label: '@Localization.CloudERP.User.NumberOfRegistrations.ToString()',
+                        label: '@Localization.CloudERP.User.NumberOfRegistrations',
                         data: chartData.Data,
                         backgroundColor: 'rgba(75, 192, 192, 0.2)',
                         borderColor: 'rgba(75, 192, 192, 1)',
@@ -75,7 +76,7 @@
                 }
             });
         } else {
-            console.error('@Localization.CloudERP.User.CanvasElementWithIdChartContainerNotFound.ToString().');
+            console.error('@Localization.CloudERP.User.CanvasElementWithIdChartContainerNotFound.');
         }
     });
 </script>
