@@ -30,7 +30,7 @@ namespace CloudERP.Controllers.Sale.Cart
                     $"sale-cart/new-sale-details/{_sessionHelper.BranchID}/{_sessionHelper.CompanyID}/{_sessionHelper.UserID}");
 
                 ViewBag.TotalAmount = findDetail?.Sum(item => item.SaleQuantity * item.SaleUnitPrice);
-                ViewBag.Products = await _httpClientHelper.GetAsync<List<Stock>>(
+                ViewBag.Products = await _httpClientHelper.GetAsync<List<Domain.Models.Stock>>(
                     $"stock/products/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
 
                 return View(findDetail);
@@ -46,7 +46,7 @@ namespace CloudERP.Controllers.Sale.Cart
         {
             try
             {
-                var product = await _httpClientHelper.GetAsync<Stock>(
+                var product = await _httpClientHelper.GetAsync<Domain.Models.Stock>(
                     $"sale-cart/product-details/{id}");
 
                 return Json(new { data = product?.SaleUnitPrice });
@@ -68,7 +68,7 @@ namespace CloudERP.Controllers.Sale.Cart
 
             try
             {
-                var checkQty = await _httpClientHelper.GetAsync<Stock>(
+                var checkQty = await _httpClientHelper.GetAsync<Domain.Models.Stock>(
                     $"stock/products/{PID}");
 
                 if (Qty > checkQty?.Quantity)

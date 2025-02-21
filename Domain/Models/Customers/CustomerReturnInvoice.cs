@@ -15,6 +15,7 @@ namespace Domain.Models
         [Required(ErrorMessage = "Customer ID is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "Custmer ID must be a positive integer.")]
         public int CustomerID { get; set; }
+        public string CustomerName { get; set; }
 
         [Required(ErrorMessage = "Company ID is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "Company ID must be a positive integer.")]
@@ -44,5 +45,6 @@ namespace Domain.Models
         public int UserID { get; set; }
 
         public List<CustomerReturnInvoiceDetail> ReturnDetails { get; set; }
+        public List<CustomerReturnPayment> CustomerReturnPayment { get; set; }
     }
 }

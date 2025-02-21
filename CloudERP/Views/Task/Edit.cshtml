@@ -1,11 +1,12 @@
 ﻿@model Domain.Models.TaskModel
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
     ViewBag.Title = Localization.CloudERP.Task.EditTask;
 }
 
 <script>
-    window.Culture = '@Session["Culture"]';
+    window.Culture = '@HttpContextAccessor.HttpContext?.Session.GetString("Culture")';
 </script>
 <script src="~/Scripts/CustomScripts/VoiceRecognition.js"></script>
 

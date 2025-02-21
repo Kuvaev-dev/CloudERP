@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models
@@ -40,5 +41,7 @@ namespace Domain.Models
         [Required(ErrorMessage = "User ID is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "User ID must be a positive integer.")]
         public int UserID { get; set; }
+        public string SupplierName { get; set; }
+        public List<SupplierReturnPayment> SupplierReturnPayment { get; set; }
     }
 }
