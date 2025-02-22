@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Services.Purchase
+namespace Services.Implementations
 {
     public class PurchaseReturnService : IPurchaseReturnService
     {

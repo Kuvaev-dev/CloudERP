@@ -2,7 +2,7 @@
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
-    ViewBag.Title = Localization.CloudERP.Account.AllAccountControls.ToString();
+    ViewBag.Title = Localization.CloudERP.Account.AllAccountControls;
 }
 
 <!-- Tables Sorting-->
@@ -18,7 +18,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        @Html.ActionLink(Localization.CloudERP.Account.AddAccountControl.ToString(), "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
+        @Html.ActionLink(Localization.CloudERP.Account.AddAccountControl, "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
         <h2 class="text-danger">@ViewBag.Message</h2>
         <h2 class="text-danger">@ViewBag.ErrorMessage</h2>
     </div>
@@ -40,10 +40,10 @@
                             <td>@Html.DisplayFor(modelItem => item.AccountHeadName)</td>
                             <td>@Html.DisplayFor(modelItem => item.AccountControlName)</td>
                             <td>@Html.DisplayFor(modelItem => item.FullName)</td>
-                            @if (!item.IsGlobal || HttpContextAccessor.HttpContext?.Session.GetInt32("UserTypeID") == 1)
+                            @if (!item.IsGlobal.GetValueOrDefault() || HttpContextAccessor.HttpContext?.Session.GetInt32("UserTypeID") == 1)
                             {
                                 <td>
-                                    @Html.ActionLink(Localization.CloudERP.Common.Edit.ToString(), "Edit", new { id = item.AccountControlID }, new { @class = "btn btn-primary" })
+                                    @Html.ActionLink(Localization.CloudERP.Common.Edit, "Edit", new { id = item.AccountControlID }, new { @class = "btn btn-primary" })
                                 </td>
                             }
                             else

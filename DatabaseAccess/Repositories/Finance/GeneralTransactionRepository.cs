@@ -59,7 +59,7 @@ namespace DatabaseAccess.Repositories.Finance
 
                 string transactionTitle = reason;
                 var financialYearCheck = await _query.RetrieveAsync("SELECT TOP 1 FinancialYearID FROM tblFinancialYear WHERE IsActive = 1");
-                string financialYearId = Convert.ToString(financialYearCheck.Rows[0][0]);
+                string financialYearId = financialYearCheck.FirstOrDefault()?["FinancialYearID"].ToString();
 
                 if (string.IsNullOrEmpty(financialYearId))
                 {

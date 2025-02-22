@@ -69,7 +69,7 @@ namespace API.Controllers.Company
                     var fileName = $"{model.UserID}.jpg";
 
                     var fileAdapter = _fileAdapterFactory.Create(file);
-                    model.Photo = _companyEmployeeFacade.FileService.UploadPhoto(fileAdapter, PHOTO_FOLDER_PATH, fileName);
+                    model.Photo = await _companyEmployeeFacade.FileService.UploadPhotoAsync(fileAdapter, PHOTO_FOLDER_PATH, fileName);
                 }
                 else
                 {

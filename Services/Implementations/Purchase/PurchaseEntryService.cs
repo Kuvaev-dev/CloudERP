@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 
-namespace Services.Purchase
+namespace Services.Implementations
 {
     public class PurchaseEntryService : IPurchaseEntryService
     {

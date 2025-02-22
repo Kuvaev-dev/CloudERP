@@ -1,6 +1,5 @@
 ﻿using Microsoft.ML;
 using Services.ServiceAccess;
-using System.Collections.Generic;
 using Utils.Interfaces;
 using Utils.Models;
 

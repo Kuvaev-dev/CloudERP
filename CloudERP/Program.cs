@@ -1,4 +1,5 @@
 using CloudERP.Helpers;
+using Utils.Interfaces;
 
 namespace CloudERP
 {
@@ -10,13 +11,20 @@ namespace CloudERP
 
             // Add services to the container.
             builder.Services.AddRazorPages();
+
             builder.Services.AddHttpClient<HttpClientHelper>(client =>
             {
                 client.BaseAddress = new Uri("http://localhost:5145/api");
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
             });
+
             builder.Services.AddScoped<SessionHelper>();
+
+            builder.Services.AddScoped<IEmailService, EmailService>();
+            builder.Services.AddScoped<ICurrencyService, CurrencyService>();
+
             builder.Services.AddDistributedMemoryCache();
+
             builder.Services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);

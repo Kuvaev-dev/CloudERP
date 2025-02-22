@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System;
-using Microsoft.Data.SqlClient;
-using System.Threading.Tasks;
+﻿using Microsoft.Data.SqlClient;
 using Utils.Interfaces;
 using Microsoft.Extensions.Logging;
 

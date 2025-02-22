@@ -5,7 +5,7 @@ using Domain.Models.FinancialModels;
 using Utils.Helpers;
 using DatabaseAccess.Context;
 
-namespace DatabaseAccess.Repositories
+namespace DatabaseAccess.Repositories.Purchase
 {
     public class PurchaseRepository : IPurchaseRepository
     {
@@ -17,9 +17,9 @@ namespace DatabaseAccess.Repositories
         private DataTable _dtEntries;
 
         public PurchaseRepository(
-            CloudDBEntities dbContext, 
-            DatabaseQuery query, 
-            ISupplierRepository suppliers, 
+            CloudDBEntities dbContext,
+            DatabaseQuery query,
+            ISupplierRepository suppliers,
             IUserRepository users)
         {
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(CloudDBEntities));
@@ -179,7 +179,7 @@ namespace DatabaseAccess.Repositories
             using (SqlCommand command = new("GetSupplierReturnPurchasePaymentPending", await _query.ConnOpenAsync()))
             {
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@SupplierInvoiceID", SupplierInvoiceID.HasValue ? (object)SupplierInvoiceID.Value : DBNull.Value);
+                command.Parameters.AddWithValue("@SupplierInvoiceID", SupplierInvoiceID.HasValue ? SupplierInvoiceID.Value : DBNull.Value);
 
                 var dt = new DataTable();
                 using (SqlDataAdapter da = new(command))

@@ -4,7 +4,7 @@ using Domain.Models;
 using Domain.RepositoryAccess;
 using Microsoft.EntityFrameworkCore;
 
-namespace DatabaseAccess.Repositories
+namespace DatabaseAccess.Repositories.Branch
 {
     public class BranchTypeRepository : IBranchTypeRepository
     {

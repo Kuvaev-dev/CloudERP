@@ -57,7 +57,7 @@ namespace API.Controllers.Company
         }
 
         [HttpPost]
-        public async Task<ActionResult<Domain.Models.Company>> Create([FromBody] Domain.Models.Company model, [FromBody] IFormFile logo)
+        public async Task<ActionResult<Domain.Models.Company>> Create([FromBody] Domain.Models.Company model, [FromForm] IFormFile logo)
         {
             if (model == null) return BadRequest("Invalid data.");
 
@@ -74,7 +74,7 @@ namespace API.Controllers.Company
                     var fileName = $"{model.Name}.jpg";
 
                     var fileAdapter = _fileAdapterFactory.Create(logo);
-                    model.Logo = _fileService.UploadPhoto(fileAdapter, COMPANY_LOGO_PATH, fileName);
+                    model.Logo = await _fileService.UploadPhotoAsync(fileAdapter, COMPANY_LOGO_PATH, fileName);
                 }
                 else
                 {
@@ -91,7 +91,7 @@ namespace API.Controllers.Company
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update([FromBody] Domain.Models.Company model, [FromBody] IFormFile logo)
+        public async Task<IActionResult> Update([FromBody] Domain.Models.Company model, [FromForm] IFormFile logo)
         {
             if (model == null) return BadRequest("Invalid data.");
 
@@ -108,7 +108,7 @@ namespace API.Controllers.Company
                     var fileName = $"{model.Name}.jpg";
 
                     var fileAdapter = _fileAdapterFactory.Create(logo);
-                    model.Logo = _fileService.UploadPhoto(fileAdapter, COMPANY_LOGO_PATH, fileName);
+                    model.Logo = await _fileService.UploadPhotoAsync(fileAdapter, COMPANY_LOGO_PATH, fileName);
                 }
                 else
                 {

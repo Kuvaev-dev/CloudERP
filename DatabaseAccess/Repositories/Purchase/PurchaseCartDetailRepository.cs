@@ -76,7 +76,7 @@ namespace DatabaseAccess.Repositories.Purchase
             {
                 PurchaseCartDetailID = pcd.PurchaseCartDetailID,
                 ProductID = pcd.ProductID,
-                ProductName = pcd.Stock.ProductName,
+                ProductName = pcd.Product.ProductName,
                 PurchaseQuantity = pcd.PurchaseQuantity,
                 PurchaseUnitPrice = pcd.PurchaseUnitPrice,
                 CompanyID = pcd.CompanyID,

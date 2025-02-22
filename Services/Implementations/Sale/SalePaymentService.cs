@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Services.Sale
+namespace Services.Implementations
 {
     public class SalePaymentService : ISalePaymentService
     {

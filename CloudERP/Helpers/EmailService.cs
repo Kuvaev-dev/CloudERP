@@ -1,9 +1,10 @@
 ﻿using System.Net;
 using System.Net.Mail;
+using Utils.Interfaces;
 
 namespace CloudERP.Helpers
 {
-    public class EmailService
+    public class EmailService : IEmailService
     {
         private readonly IConfiguration _configuration;
 

@@ -1,4 +1,5 @@
 ﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{ var culture = HttpContextAccessor.HttpContext?.Session.GetString("Culture"); }
 
 <!DOCTYPE html>
 
@@ -128,9 +129,9 @@
                             {
                                 <div class="dropdown-item">
                                     <select name="culture" class="custom-select" onchange="document.getElementById('languageForm').submit()">
-                                        <option value="en-US" @(HttpContextAccessor.HttpContext?.Session.GetString("Culture") == "en-US" ? "selected" : "")>English</option>
-                                        <option value="ru-RU" @(HttpContextAccessor.HttpContext?.Session.GetString("Culture") == "ru-RU" ? "selected" : "")>Русский</option>
-                                        <option value="uk-UA" @(HttpContextAccessor.HttpContext?.Session.GetString("Culture") == "uk-UA" ? "selected" : "")>Українська</option>
+                                        <option value="en-US" @Html.Raw(culture == "en-US" ? "selected" : "")>English</option>
+                                        <option value="ru-RU" @Html.Raw(culture == "ru-RU" ? "selected" : "")>Русский</option>
+                                        <option value="uk-UA" @Html.Raw(culture == "uk-UA" ? "selected" : "")>Українська</option>
                                     </select>
                                 </div>
                             }

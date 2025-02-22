@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Utils.Helpers;
 
-namespace Services.Sale
+namespace Services.Implementations
 {
     public class SaleCartService : ISaleCartService
     {

@@ -37,7 +37,7 @@ namespace DatabaseAccess.Repositories.Customers
                 .Select(d => new CustomerInvoiceDetail
                 {
                     ProductID = d.ProductID,
-                    ProductName = d.Stock != null ? d.Stock.ProductName : "Unknown Product",
+                    ProductName = d.Product != null ? d.Product.ProductName : "Unknown Product",
                     SaleQuantity = d.SaleQuantity,
                     SaleUnitPrice = d.SaleUnitPrice,
                     ReturnedQuantity = d.tblCustomerReturnInvoiceDetail

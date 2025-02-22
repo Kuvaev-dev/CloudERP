@@ -71,7 +71,7 @@ namespace API.Controllers.Branch
                     var fileName = $"{model.UserID}.jpg";
 
                     var fileAdapter = _fileAdapterFactory.Create(file);
-                    model.Photo = _fileService.UploadPhoto(fileAdapter, EMPLOYEE_AVATAR_PATH, fileName);
+                    model.Photo = await _fileService.UploadPhotoAsync(fileAdapter, EMPLOYEE_AVATAR_PATH, fileName);
                 }
                 else
                 {
@@ -131,7 +131,7 @@ namespace API.Controllers.Branch
                     var fileName = $"{model.UserID}.jpg";
 
                     var fileAdapter = _fileAdapterFactory.Create(file);
-                    model.Photo = _fileService.UploadPhoto(fileAdapter, EMPLOYEE_AVATAR_PATH, fileName);
+                    model.Photo = await _fileService.UploadPhotoAsync(fileAdapter, EMPLOYEE_AVATAR_PATH, fileName);
                 }
                 else
                 {

@@ -2,7 +2,7 @@
 {
     public interface IFileService
     {
-        string UploadPhoto(IFile file, string folderPath, string fileName);
+        Task<string?> UploadPhotoAsync(IFile file, string folderPath, string fileName);
         string SetDefaultPhotoPath(string defaultPath);
     }
 }

@@ -1,6 +1,5 @@
 ﻿using DatabaseAccess.Context;
 using DatabaseAccess.Models;
-using Domain.Models;
 using Domain.RepositoryAccess;
 using Microsoft.EntityFrameworkCore;
 

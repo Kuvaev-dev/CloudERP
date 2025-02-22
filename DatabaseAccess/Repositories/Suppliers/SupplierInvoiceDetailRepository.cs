@@ -2,6 +2,7 @@
 using DatabaseAccess.Models;
 using Domain.Models;
 using Domain.RepositoryAccess;
+using Microsoft.EntityFrameworkCore;
 
 namespace DatabaseAccess.Repositories.Suppliers
 {
@@ -53,7 +54,7 @@ namespace DatabaseAccess.Repositories.Suppliers
                     ProductID = sid.ProductID,
                     PurchaseQuantity = sid.PurchaseQuantity,
                     PurchaseUnitPrice = sid.PurchaseUnitPrice,
-                    ProductName = sid.Stock.ProductName,
+                    ProductName = sid.Product.ProductName,
                     CompanyName = sid.SupplierInvoice.Company.Name,
                     CompanyLogo = sid.SupplierInvoice.Company.Logo,
                     Branch = new Domain.Models.Branch
@@ -83,7 +84,7 @@ namespace DatabaseAccess.Repositories.Suppliers
                         PurchaseReturnUnitPrice = srid.PurchaseReturnUnitPrice,
                         InvoiceNo = srid.SupplierReturnInvoice.InvoiceNo,
                         InvoiceDate = srid.SupplierReturnInvoice.InvoiceDate,
-                        ProductName = srid.Stock.ProductName
+                        ProductName = srid.Product.ProductName
                     }).ToList()
                 })
                 .ToListAsync();

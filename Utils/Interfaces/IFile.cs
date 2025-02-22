@@ -1,11 +1,9 @@
-﻿using System.IO;
-
-namespace Utils.Interfaces
+﻿namespace Utils.Interfaces
 {
     public interface IFile
     {
         string FileName { get; }
-        int ContentLength { get; }
+        long ContentLength { get; }
         Stream InputStream { get; }
         void SaveAs(string path);
     }

@@ -12,7 +12,7 @@ namespace API.Adapters
         }
 
         public string FileName => _file.FileName;
-        public int ContentLength => (int)_file.Length;
+        public long ContentLength => (long)_file.Length;
         public Stream InputStream => _file.OpenReadStream();
 
         public void SaveAs(string path)

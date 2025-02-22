@@ -98,7 +98,7 @@ namespace DatabaseAccess.Repositories.Sale
             {
                 SaleCartDetailID = scd.SaleCartDetailID,
                 ProductID = scd.ProductID,
-                ProductName = scd.Stock.ProductName,
+                ProductName = scd.Product.ProductName,
                 SaleQuantity = scd.SaleQuantity,
                 SaleUnitPrice = scd.SaleUnitPrice,
                 CompanyID = scd.CompanyID,
