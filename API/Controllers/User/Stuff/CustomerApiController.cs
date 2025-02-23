@@ -1,11 +1,13 @@
 ﻿using Domain.Models;
 using Domain.RepositoryAccess;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.User.Stuff
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
+    [Authorize]
     public class CustomerApiController : ControllerBase
     {
         private readonly ICustomerRepository _customerRepository;

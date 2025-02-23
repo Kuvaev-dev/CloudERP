@@ -147,21 +147,6 @@
   <data name="Date" xml:space="preserve">
     <value>Дата</value>
   </data>
-  <data name="Description" xml:space="preserve">
-    <value>Опис</value>
-  </data>
-  <data name="Debit" xml:space="preserve">
-    <value>Дебет</value>
-  </data>
-  <data name="Credit" xml:space="preserve">
-    <value>Кредит</value>
-  </data>
-  <data name="Total" xml:space="preserve">
-    <value>Усього</value>
-  </data>
-  <data name="CompanyFinancialYearNotSet" xml:space="preserve">
-    <value>Фінансовий рік вашої компанії не встановлено! Будь ласка, зв'яжіться з адміністратором!</value>
-  </data>
   <data name="DebitAccountNotFound" xml:space="preserve">
     <value>Дебетовий рахунок не знайдено.</value>
   </data>
@@ -173,15 +158,6 @@
   </data>
   <data name="UnexpectedErrorOccurred" xml:space="preserve">
     <value>Сталася непередбачена помилка. Будь ласка, спробуйте ще раз!</value>
-  </data>
-  <data name="NetIncome" xml:space="preserve">
-    <value>Чистий дохід</value>
-  </data>
-  <data name="TotalRevenue" xml:space="preserve">
-    <value>Загальний дохід</value>
-  </data>
-  <data name="TotalExpenses" xml:space="preserve">
-    <value>Загальні витрати</value>
   </data>
   <data name="AccountSettingsForPurchaseNotFound" xml:space="preserve">
     <value>Налаштування облікового запису для покупки не знайдено.</value>

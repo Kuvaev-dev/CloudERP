@@ -13,7 +13,6 @@ namespace Domain.Facades
         private readonly ISupplierInvoiceDetailRepository _supplierInvoiceDetailRepository;
         private readonly ISupplierPaymentRepository _supplierPaymentRepository;
         private readonly IPurchaseEntryService _purchaseEntryService;
-        private readonly IPurchasePaymentService _purchasePaymentService;
         private readonly IPurchaseService _purchaseService;
 
         public PurchasePaymentFacade(
@@ -23,7 +22,6 @@ namespace Domain.Facades
             ISupplierInvoiceRepository supplierInvoiceRepository,
             ISupplierPaymentRepository supplierPaymentRepository,
             IPurchaseEntryService purchaseEntryService,
-            IPurchasePaymentService purchasePaymentService,
             IPurchaseService purchaseService,
             ISupplierInvoiceDetailRepository supplierInvoiceDetailRepository)
         {
@@ -33,7 +31,6 @@ namespace Domain.Facades
             _supplierInvoiceRepository = supplierInvoiceRepository ?? throw new ArgumentNullException(nameof(ISupplierInvoiceRepository));
             _supplierPaymentRepository = supplierPaymentRepository ?? throw new ArgumentNullException(nameof(ISupplierPaymentRepository));
             _purchaseEntryService = purchaseEntryService ?? throw new ArgumentNullException(nameof(IPurchaseEntryService));
-            _purchasePaymentService = purchasePaymentService;
             _purchaseService = purchaseService;
             _supplierInvoiceDetailRepository = supplierInvoiceDetailRepository;
         }
@@ -44,7 +41,6 @@ namespace Domain.Facades
         public ISupplierInvoiceRepository SupplierInvoiceRepository => _supplierInvoiceRepository;
         public ISupplierPaymentRepository SupplierPaymentRepository => _supplierPaymentRepository;
         public IPurchaseEntryService PurchaseEntryService => _purchaseEntryService;
-        public IPurchasePaymentService PurchasePaymentService => _purchasePaymentService;
         public IPurchaseService PurchaseService => _purchaseService;
         public ISupplierInvoiceDetailRepository SupplierInvoiceDetailRepository => _supplierInvoiceDetailRepository;
     }

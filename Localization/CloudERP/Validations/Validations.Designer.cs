@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Localization.DatabaseAccess.Validations {
+namespace Localization.CloudERP.Validations {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Localization.DatabaseAccess.Validations {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Localization.DatabaseAccess.Validations.Validations", typeof(Validations).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Localization.CloudERP.Validations.Validations", typeof(Validations).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

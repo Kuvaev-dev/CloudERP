@@ -5,10 +5,10 @@ namespace Domain.Models
     public class SupportTicket
     {
         public int TicketID { get; set; }
-        public string Subject { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string Message { get; set; }
+        public string? Subject { get; set; }
+        public string? Name { get; set; }
+        public string? Email { get; set; }
+        public string? Message { get; set; }
         public DateTime DateCreated { get; set; }
         public string? AdminResponse { get; set; }
         public string? RespondedBy { get; set; }

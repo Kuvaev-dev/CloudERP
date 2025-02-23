@@ -62,7 +62,6 @@ namespace DatabaseAccess.Repositories.Account
         {
             var entity = new tblAccountHead
             {
-                AccountHeadID = accountHead.AccountHeadID,
                 AccountHeadName = accountHead.AccountHeadName,
                 Code = accountHead.Code,
                 UserID = accountHead.UserID
@@ -76,7 +75,6 @@ namespace DatabaseAccess.Repositories.Account
         {
             var entity = await _dbContext.tblAccountHead.FindAsync(accountHead.AccountHeadID);
 
-            entity.AccountHeadID = accountHead.AccountHeadID;
             entity.AccountHeadName = accountHead.AccountHeadName;
             entity.Code = accountHead.Code;
             entity.UserID = accountHead.UserID;

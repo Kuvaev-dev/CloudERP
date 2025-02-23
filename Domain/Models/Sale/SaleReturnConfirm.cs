@@ -1,15 +1,14 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models.FinancialModels
 {
     public class SaleReturnConfirm
     {
         [Required(ErrorMessage = "Product IDs are required.")]
-        public List<int> ProductIDs { get; set; }
+        public List<int>? ProductIDs { get; set; }
 
         [Required(ErrorMessage = "Return quantities are required.")]
-        public List<int> ReturnQty { get; set; }
+        public List<int>? ReturnQty { get; set; }
 
         [Required(ErrorMessage = "Customer Invoice ID is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "Customer Invoice ID must be a positive integer.")]

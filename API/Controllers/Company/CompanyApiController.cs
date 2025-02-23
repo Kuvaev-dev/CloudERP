@@ -1,5 +1,6 @@
 ﻿using API.Factories;
 using Domain.RepositoryAccess;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Utils.Interfaces;
 
@@ -7,6 +8,7 @@ namespace API.Controllers.Company
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
+    [Authorize]
     public class CompanyApiController : ControllerBase
     {
         private readonly ICompanyRepository _companyRepository;

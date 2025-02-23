@@ -1,11 +1,13 @@
 ﻿using Domain.Models;
 using Domain.RepositoryAccess;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.User.Analytics
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
+    [Authorize]
     public class AnalyticsApiController : ControllerBase
     {
         private readonly IEmployeeRepository _employeeRepository;

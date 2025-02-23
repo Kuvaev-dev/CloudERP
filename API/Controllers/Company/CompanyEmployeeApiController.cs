@@ -2,6 +2,7 @@
 using API.Models;
 using Domain.Models;
 using Domain.Models.FinancialModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Services.Facades;
@@ -10,6 +11,7 @@ namespace API.Controllers.Company
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
+    [Authorize]
     public class CompanyEmployeeApiController : ControllerBase
     {
         private readonly CompanyEmployeeFacade _companyEmployeeFacade;

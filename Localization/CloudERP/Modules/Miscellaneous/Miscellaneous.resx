@@ -126,9 +126,6 @@
   <data name="CurrentMonthExpenses" xml:space="preserve">
     <value>Current Month &lt;br/&gt; Expenses</value>
   </data>
-  <data name="CurrentMonthRecovery" xml:space="preserve">
-    <value>Current Month &lt;br/&gt; Recovery</value>
-  </data>
   <data name="NetProfitLoss" xml:space="preserve">
     <value>Net Profit / &lt;br/&gt; Loss</value>
   </data>
@@ -165,9 +162,6 @@
   <data name="PaidSales" xml:space="preserve">
     <value>Paid Sales</value>
   </data>
-  <data name="PurchasesPaymentPending" xml:space="preserve">
-    <value>Purchases Payment Pending</value>
-  </data>
   <data name="TotalPurchases" xml:space="preserve">
     <value>Total Purchases</value>
   </data>
@@ -182,9 +176,6 @@
   </data>
   <data name="TotalReturnPurchases" xml:space="preserve">
     <value>Total Return Purchases</value>
-  </data>
-  <data name="ReturnPurchasesPaymentPending" xml:space="preserve">
-    <value>Return Purchases Payment Pending</value>
   </data>
   <data name="SalesPurchases" xml:space="preserve">
     <value>Sales / Purchases</value>
@@ -241,10 +232,6 @@
     <value>All Customers</value>
     <comment>Sidebar Option Menu String</comment>
   </data>
-  <data name="AllSuppliers" xml:space="preserve">
-    <value>All Suppliers</value>
-    <comment>Sidebar Option Menu String</comment>
-  </data>
   <data name="Companies" xml:space="preserve">
     <value>Companies</value>
     <comment>Sidebar Option String</comment>
@@ -292,14 +279,6 @@
   <data name="UserTypes" xml:space="preserve">
     <value>User Types</value>
     <comment>Sidebar Option Menu String</comment>
-  </data>
-  <data name="Company" xml:space="preserve">
-    <value>Companies</value>
-    <comment>Sidebar Option String</comment>
-  </data>
-  <data name="NewFinancialYear" xml:space="preserve">
-    <value>New Financial Year</value>
-    <comment>Sidebar Option String</comment>
   </data>
   <data name="Home" xml:space="preserve">
     <value>Home</value>
@@ -399,14 +378,6 @@
     <value>New Supplier</value>
     <comment>Sidebar Option String</comment>
   </data>
-  <data name="BranchSuppliers" xml:space="preserve">
-    <value>Branch Suppliers</value>
-    <comment>Sidebar Option String</comment>
-  </data>
-  <data name="SubBranchSuppliers" xml:space="preserve">
-    <value>Sub Branch Suppliers</value>
-    <comment>Sidebar Option String</comment>
-  </data>
   <data name="Purchases" xml:space="preserve">
     <value>Purchases</value>
     <comment>Sidebar Option String</comment>
@@ -478,9 +449,6 @@
   <data name="CategoryTitle" xml:space="preserve">
     <value>Category</value>
   </data>
-  <data name="User" xml:space="preserve">
-    <value>User</value>
-  </data>
   <data name="AddCategory" xml:space="preserve">
     <value>Add Category</value>
   </data>
@@ -493,26 +461,11 @@
   <data name="EnterNewCategoryName" xml:space="preserve">
     <value>Enter New Category Name</value>
   </data>
-  <data name="CompanyTitle" xml:space="preserve">
-    <value>Company</value>
-  </data>
-  <data name="BranchTitle" xml:space="preserve">
-    <value>Branch</value>
-  </data>
   <data name="CustomerName" xml:space="preserve">
     <value>Customer</value>
   </data>
-  <data name="ContactNo" xml:space="preserve">
-    <value>Contact №</value>
-  </data>
-  <data name="Address" xml:space="preserve">
-    <value>Address</value>
-  </data>
   <data name="CustomerFullName" xml:space="preserve">
     <value>Customer Full Name</value>
-  </data>
-  <data name="Description" xml:space="preserve">
-    <value>Description</value>
   </data>
   <data name="ClickHereToChooseACorrectAddressBelow" xml:space="preserve">
     <value>Click here to choose a correct address below</value>
@@ -523,14 +476,8 @@
   <data name="SubBranchCustomer" xml:space="preserve">
     <value>Sub Branch Customer</value>
   </data>
-  <data name="SelectToDate" xml:space="preserve">
-    <value>Select To Date</value>
-  </data>
   <data name="SubmitForecast" xml:space="preserve">
     <value>Get Forecast</value>
-  </data>
-  <data name="Date" xml:space="preserve">
-    <value>Date</value>
   </data>
   <data name="Value" xml:space="preserve">
     <value>Value</value>
@@ -547,9 +494,6 @@
   <data name="SelectRangeFromDateAndToDate" xml:space="preserve">
     <value>Select Range (From Date and To Date)</value>
   </data>
-  <data name="SelectFromDate" xml:space="preserve">
-    <value>Select From Date</value>
-  </data>
   <data name="RetrieveTransactions" xml:space="preserve">
     <value>Retrieve Transactions</value>
   </data>
@@ -561,9 +505,6 @@
   </data>
   <data name="Title" xml:space="preserve">
     <value>Title</value>
-  </data>
-  <data name="InvoiceNo" xml:space="preserve">
-    <value>Invoice №</value>
   </data>
   <data name="Debit" xml:space="preserve">
     <value>Debit</value>
@@ -592,20 +533,11 @@
   <data name="SubBranchIncomeStatement" xml:space="preserve">
     <value>Sub Branch Income Statement</value>
   </data>
-  <data name="SelectFinancialYear" xml:space="preserve">
-    <value>Select Financial Year</value>
-  </data>
   <data name="RetrieveIncomeStatement" xml:space="preserve">
     <value>Retrieve Income Statement</value>
   </data>
   <data name="IncomeStatementStr" xml:space="preserve">
     <value>Income Statement</value>
-  </data>
-  <data name="AccountTitle" xml:space="preserve">
-    <value>Account Title</value>
-  </data>
-  <data name="Amount" xml:space="preserve">
-    <value>Amount</value>
   </data>
   <data name="Total" xml:space="preserve">
     <value>Total</value>
@@ -628,9 +560,6 @@
   <data name="AddProduct" xml:space="preserve">
     <value>Add Product</value>
   </data>
-  <data name="Items" xml:space="preserve">
-    <value>Items</value>
-  </data>
   <data name="CurrentQty" xml:space="preserve">
     <value>Current Qty</value>
   </data>
@@ -642,9 +571,6 @@
   </data>
   <data name="Status" xml:space="preserve">
     <value>Status</value>
-  </data>
-  <data name="Update" xml:space="preserve">
-    <value>Update</value>
   </data>
   <data name="ItemDetail" xml:space="preserve">
     <value>Item Detail</value>
@@ -676,9 +602,6 @@
   <data name="Photo" xml:space="preserve">
     <value>Photo</value>
   </data>
-  <data name="Designation" xml:space="preserve">
-    <value>Designation</value>
-  </data>
   <data name="GetTrialBalance" xml:space="preserve">
     <value>Get Trial Balance</value>
   </data>
@@ -686,54 +609,30 @@
     <value>Employee Updation</value>
   </data>
   <data name="Area" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Profile" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CreateUser" xml:space="preserve">
-    <value />
-  </data>
-  <data name="UpdateUser" xml:space="preserve">
-    <value />
+    <value>Area</value>
   </data>
   <data name="BasicSalary" xml:space="preserve">
-    <value />
-  </data>
-  <data name="EditProfile" xml:space="preserve">
-    <value />
+    <value>Basic Salary</value>
   </data>
   <data name="SomethingWentWrong" xml:space="preserve">
-    <value />
+    <value>Oh! Something went wrong :(</value>
   </data>
   <data name="DontWorry" xml:space="preserve">
-    <value />
+    <value>Don't worry, we're now checking this.</value>
   </data>
   <data name="TryLinksBelow" xml:space="preserve">
-    <value />
-  </data>
-  <data name="MonthlySalaryAmount" xml:space="preserve">
-    <value />
-  </data>
-  <data name="AllEmployees" xml:space="preserve">
-    <value />
+    <value>In the meantime, please try one of those links below or come back in a moment</value>
   </data>
   <data name="AddEmployee" xml:space="preserve">
-    <value />
-  </data>
-  <data name="EmployeeName" xml:space="preserve">
-    <value />
+    <value>Add Employee</value>
   </data>
   <data name="MonthlySalary" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Invoice" xml:space="preserve">
-    <value>Invoice</value>
+    <value>Monthly Salary</value>
   </data>
   <data name="RetriveTransactions" xml:space="preserve">
-    <value />
+    <value>Retrieve Transactions</value>
   </data>
   <data name="RetriveIncomeStatement" xml:space="preserve">
-    <value />
+    <value>Retrieve Income Statement</value>
   </data>
 </root>

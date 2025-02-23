@@ -20,6 +20,7 @@ namespace DatabaseAccess.Repositories.Account
             var entities = await _dbContext.tblAccountControl
                 .AsNoTracking()
                 .Include(ac => ac.User)
+                .Include(ac => ac.AccountHead)
                 .Where(ac => ac.CompanyID == companyId && ac.BranchID == branchId || ac.IsGlobal == true)
                 .ToListAsync();
 
@@ -41,6 +42,7 @@ namespace DatabaseAccess.Repositories.Account
         {
             var entity = await _dbContext.tblAccountControl
                 .Include(ac => ac.User)
+                .Include(ac => ac.AccountHead)
                 .FirstOrDefaultAsync(ac => ac.AccountControlID == id);
 
             return entity == null ? null : new AccountControl
@@ -48,10 +50,11 @@ namespace DatabaseAccess.Repositories.Account
                 AccountControlID = entity.AccountControlID,
                 AccountControlName = entity.AccountControlName,
                 AccountHeadID = entity.AccountHeadID,
+                AccountHeadName = entity.AccountHead.AccountHeadName,
                 BranchID = entity.BranchID,
                 CompanyID = entity.CompanyID,
                 UserID = entity.UserID,
-                FullName = entity.User?.UserName,
+                FullName = entity.User.UserName,
                 IsGlobal = entity.IsGlobal
             };
         }
@@ -60,7 +63,6 @@ namespace DatabaseAccess.Repositories.Account
         {
             var entity = new tblAccountControl
             {
-                AccountControlID = accountControl.AccountControlID,
                 AccountControlName = accountControl.AccountControlName,
                 AccountHeadID = accountControl.AccountHeadID,
                 BranchID = accountControl.BranchID,

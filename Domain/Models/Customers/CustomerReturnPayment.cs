@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models
 {
@@ -17,7 +16,7 @@ namespace Domain.Models
         public int CustomerID { get; set; }
 
         [Required(ErrorMessage = "Customer Name is required.")]
-        public string CustomerName { get; set; }
+        public string? CustomerName { get; set; }
 
         [Required(ErrorMessage = "Customer Invoice ID is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "Customer Invoice ID must be a positive integer.")]
@@ -33,7 +32,7 @@ namespace Domain.Models
 
         [Required(ErrorMessage = "Invoice Number is required.")]
         [StringLength(50, ErrorMessage = "Invoice Number cannot exceed 50 characters.")]
-        public string InvoiceNo { get; set; }
+        public string? InvoiceNo { get; set; }
 
         [Required(ErrorMessage = "Total Amount is required.")]
         [Range(0.01, double.MaxValue, ErrorMessage = "Total Amount must be greater than zero.")]
@@ -52,7 +51,7 @@ namespace Domain.Models
         public int UserID { get; set; }
 
         [Required(ErrorMessage = "User Name is required.")]
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
 
         [Required(ErrorMessage = "Invoice Date is required.")]
         [DataType(DataType.Date, ErrorMessage = "Invalid date format.")]

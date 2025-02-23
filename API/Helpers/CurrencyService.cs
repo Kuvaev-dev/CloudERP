@@ -1,26 +1,27 @@
 ﻿using System.Text.Json;
 using Utils.Interfaces;
 
-namespace CloudERP.Helpers
+namespace API.Helpers
 {
     public class CurrencyService : ICurrencyService
     {
         private readonly IConfiguration _configuration;
         private readonly string _apiUrl;
 
-        private readonly HttpClient _httpClient;
+        private HttpClient _httpClient;
 
-        public CurrencyService(HttpClient httpClient, IConfiguration configuration)
+        public CurrencyService(IConfiguration configuration)
         {
-            _httpClient = httpClient;
             _configuration = configuration;
-            _apiUrl = _configuration["ExchangeRateApiUrl"] ?? throw new ArgumentException("ExchangeRateApiUrl is not configured");
+            _apiUrl = _configuration["CurrencyApi:BaseUrl"] ?? throw new ArgumentException("ExchangeRateApiUrl is not configured");
         }
 
         public async Task<Dictionary<string, decimal>> GetExchangeRatesAsync(string baseCurrency = "USD")
         {
             try
             {
+                _httpClient = new HttpClient();
+
                 var apiUrl = $"{_apiUrl}/latest/{baseCurrency}";
                 var response = await _httpClient.GetAsync(apiUrl);
 

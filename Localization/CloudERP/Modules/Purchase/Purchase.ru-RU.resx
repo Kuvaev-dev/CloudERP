@@ -1,449 +1,261 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-	<!-- 
-		Microsoft ResX Schema
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
 
-		Version 1.3
-
-		The primary goals of this format is to allow a simple XML format 
-		that is mostly human readable. The generation and parsing of the 
-		various data types are done through the TypeConverter classes 
-		associated with the data types.
-
-		Example:
-
-		... ado.net/XML headers & schema ...
-		<resheader name="resmimetype">text/microsoft-resx</resheader>
-		<resheader name="version">1.3</resheader>
-		<resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-		<resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-		<data name="Name1">this is my long string</data>
-		<data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-		<data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-			[base64 mime encoded serialized .NET Framework object]
-		</data>
-		<data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-			[base64 mime encoded string representing a byte array form of the .NET Framework object]
-		</data>
-
-		There are any number of "resheader" rows that contain simple 
-		name/value pairs.
-
-		Each data row contains a name, and value. The row also contains a 
-		type or mimetype. Type corresponds to a .NET class that support 
-		text/value conversion through the TypeConverter architecture. 
-		Classes that don't support this are serialized and stored with the 
-		mimetype set.
-
-		The mimetype is used for serialized objects, and tells the 
-		ResXResourceReader how to depersist the object. This is currently not 
-		extensible. For a given mimetype the value must be set accordingly:
-
-		Note - application/x-microsoft.net.object.binary.base64 is the format 
-		that the ResXResourceWriter will generate, however the reader can 
-		read any of the formats listed below.
-
-		mimetype: application/x-microsoft.net.object.binary.base64
-		value   : The object must be serialized with 
-			: System.Serialization.Formatters.Binary.BinaryFormatter
-			: and then encoded with base64 encoding.
-
-		mimetype: application/x-microsoft.net.object.soap.base64
-		value   : The object must be serialized with 
-			: System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-			: and then encoded with base64 encoding.
-
-		mimetype: application/x-microsoft.net.object.bytearray.base64
-		value   : The object must be serialized into a byte array 
-			: using a System.ComponentModel.TypeConverter
-			: and then encoded with base64 encoding.
-	-->
-	
-	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-		<xsd:element name="root" msdata:IsDataSet="true">
-			<xsd:complexType>
-				<xsd:choice maxOccurs="unbounded">
-					<xsd:element name="data">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
-							<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-							<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="resheader">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" use="required" />
-						</xsd:complexType>
-					</xsd:element>
-				</xsd:choice>
-			</xsd:complexType>
-		</xsd:element>
-	</xsd:schema>
-	<resheader name="resmimetype">
-		<value>text/microsoft-resx</value>
-	</resheader>
-	<resheader name="version">
-		<value>1.3</value>
-	</resheader>
-	<resheader name="reader">
-		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
-	<resheader name="writer">
-		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
-
-  <!--PurchaseCart-->
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
   <data name="Purchasing" xml:space="preserve">
     <value>Закупка</value>
-    <comment></comment>
   </data>
   <data name="SelectProduct" xml:space="preserve">
     <value>Выберите продукт</value>
-    <comment></comment>
-  </data>
-  <data name="Quantity" xml:space="preserve">
-    <value>Количество</value>
-    <comment></comment>
   </data>
   <data name="UnitPrice" xml:space="preserve">
     <value>Цена за единицу</value>
-    <comment></comment>
-  </data>
-  <data name="AddItem" xml:space="preserve">
-    <value>Добавить товар</value>
-    <comment></comment>
   </data>
   <data name="ItemsList" xml:space="preserve">
     <value>Список товаров</value>
-    <comment></comment>
   </data>
   <data name="Items" xml:space="preserve">
     <value>Товары</value>
-    <comment></comment>
   </data>
   <data name="ItemCost" xml:space="preserve">
     <value>Стоимость товара</value>
-    <comment></comment>
-  </data>
-  <data name="User" xml:space="preserve">
-    <value>Пользователь</value>
-    <comment></comment>
   </data>
   <data name="TotalPurchaseAmount" xml:space="preserve">
     <value>Итоговая сумма закупки</value>
-    <comment></comment>
-  </data>
-  <data name="Next" xml:space="preserve">
-    <value>Далее</value>
-    <comment></comment>
-  </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>Отмена</value>
-    <comment></comment>
   </data>
   <data name="FinilizePurchasing" xml:space="preserve">
     <value>Завершить закупку</value>
-    <comment></comment>
   </data>
   <data name="PurchaseDetails" xml:space="preserve">
     <value>Детали закупки</value>
-    <comment></comment>
   </data>
   <data name="PurchaseDescription" xml:space="preserve">
     <value>Описание закупки</value>
-    <comment></comment>
   </data>
   <data name="IsPurchasePaymentPaid" xml:space="preserve">
     <value>Оплачена ли закупка?</value>
-    <comment></comment>
-  </data>
-  <data name="Supplier" xml:space="preserve">
-    <value>Поставщик</value>
-    <comment></comment>
-  </data>
-  <data name="ConatctNo" xml:space="preserve">
-    <value>Номер телефона</value>
-    <comment></comment>
   </data>
   <data name="Email" xml:space="preserve">
     <value>Электронная почта</value>
-    <comment></comment>
   </data>
   <data name="FinilizePurchase" xml:space="preserve">
     <value>Завершить закупку</value>
-    <comment></comment>
   </data>
-
-  <!--PurchasePayment-->
-
-  <!--SubCustomPurchasesHistory-->
   <data name="CustomBasePurchasesHistory" xml:space="preserve">
     <value>История закупок по базе</value>
-    <comment></comment>
-  </data>
-  <data name="CustomBaseSalesHistory" xml:space="preserve">
-    <value>Индивидуальная история продаж</value>
-    <comment></comment>
-  </data>
-  <data name="SelectRangeFromDateAndToDate" xml:space="preserve">
-    <value>Выберите диапазон (С даты и По дату)</value>
-    <comment></comment>
-  </data>
-  <data name="SelectFromDate" xml:space="preserve">
-    <value>Выберите начальную дату</value>
-    <comment></comment>
-  </data>
-  <data name="SelectToDate" xml:space="preserve">
-    <value>Выберите конечную дату</value>
-    <comment></comment>
   </data>
   <data name="RetrivePurchasesRecord" xml:space="preserve">
     <value>Получить запись о закупке</value>
-    <comment></comment>
-  </data>
-  <data name="ContactNo" xml:space="preserve">
-    <value>Номер телефона</value>
-    <comment></comment>
-  </data>
-  <data name="InvoiceNo" xml:space="preserve">
-    <value>Номер счёта</value>
-    <comment></comment>
-  </data>
-  <data name="Date" xml:space="preserve">
-    <value>Дата</value>
-    <comment></comment>
-  </data>
-  <data name="TotalAmount" xml:space="preserve">
-    <value>Итоговая сумма</value>
-    <comment></comment>
   </data>
   <data name="AfterReturnTotalAmount" xml:space="preserve">
     <value>После возврата (Итоговая сумма)</value>
-    <comment></comment>
   </data>
   <data name="PaymentAmount" xml:space="preserve">
     <value>Сумма платежа</value>
-    <comment></comment>
-  </data>
-  <data name="RemainingBalance" xml:space="preserve">
-    <value>Оставшийся баланс</value>
-    <comment></comment>
   </data>
   <data name="SetPayment" xml:space="preserve">
     <value>Установить платеж</value>
-    <comment></comment>
-  </data>
-  <data name="Clear" xml:space="preserve">
-    <value>Чисто</value>
-    <comment></comment>
-  </data>
-  <data name="PayHistory" xml:space="preserve">
-    <value>История платежей</value>
-    <comment></comment>
-  </data>
-  <data name="PrintInvoice" xml:space="preserve">
-    <value>Распечатать счёт</value>
-    <comment></comment>
   </data>
   <data name="PurchasesPaymentPending" xml:space="preserve">
     <value>Оплата покупки в ожидании</value>
-    <comment></comment>
   </data>
   <data name="ReturnProductsTotalAmount" xml:space="preserve">
     <value>Возврат товаров (Итоговая сумма)</value>
-    <comment></comment>
   </data>
   <data name="AmountAfterReturn" xml:space="preserve">
     <value>Сумма после возврата</value>
-    <comment></comment>
-  </data>
-  <data name="PaidAmount" xml:space="preserve">
-    <value>Оплаченная сумма</value>
-    <comment></comment>
   </data>
   <data name="PayAmount" xml:space="preserve">
     <value>Сумма к оплате</value>
-    <comment></comment>
   </data>
   <data name="PurchasePayment" xml:space="preserve">
     <value>Оплата закупки</value>
-    <comment></comment>
-  </data>
-  <data name="EnterPaymentsDetails" xml:space="preserve">
-    <value>Введите детали платежа</value>
-    <comment></comment>
   </data>
   <data name="PreviousRemainingAmount" xml:space="preserve">
     <value>Предыдущая оставшаяся сумма</value>
-    <comment></comment>
-  </data>
-  <data name="SubmitPayment" xml:space="preserve">
-    <value>Подтвердить платёж</value>
-    <comment></comment>
   </data>
   <data name="PurchaseInvoicePaymentDetail" xml:space="preserve">
     <value>Детали оплаты счета на закупку</value>
-    <comment></comment>
   </data>
   <data name="PurchaseReturnDetails" xml:space="preserve">
     <value>Детали возврата закупки</value>
-    <comment></comment>
-  </data>
-  <data name="InvoiceDate" xml:space="preserve">
-    <value>Дата счёта</value>
-    <comment></comment>
-  </data>
-  <data name="ReturnTotal" xml:space="preserve">
-    <value>Итог возврата</value>
-    <comment></comment>
   </data>
   <data name="ReturnPayment" xml:space="preserve">
     <value>Оплата возврата</value>
-    <comment></comment>
   </data>
   <data name="RemainingReturn" xml:space="preserve">
     <value>Оставшийся возврат</value>
-    <comment></comment>
   </data>
   <data name="PaymentDate" xml:space="preserve">
     <value>Дата платежа</value>
-    <comment></comment>
-  </data>
-  <data name="NoPaymentRecord" xml:space="preserve">
-    <value>Нет записи о платеже</value>
-    <comment></comment>
   </data>
   <data name="RemainingTotalBalance" xml:space="preserve">
     <value>Оставшийся общий баланс</value>
-    <comment></comment>
   </data>
-
   <data name="PurchasePaidDetails" xml:space="preserve">
     <value>Детали оплаченной закупки</value>
-    <comment></comment>
   </data>
-
   <data name="AllReturnPurchasesPendingReturnPayment" xml:space="preserve">
     <value>Все возвраты покупок (В ожидании оплаты)</value>
-    <comment></comment>
-  </data>
-  <data name="NoHistory" xml:space="preserve">
-    <value>Нет истории</value>
-    <comment></comment>
-  </data>
-  <data name="ViewDetails" xml:space="preserve">
-    <value>Просмотреть детали</value>
-    <comment></comment>
-  </data>
-
-  <!--PurchasePaymentReturn
-
-  PurchaseReturn-->
-  <data name="Payroll" xml:space="preserve">
-    <value>Зарплата</value>
-    <comment></comment>
   </data>
   <data name="PurchaseInvoice" xml:space="preserve">
     <value>Счёт на закупку</value>
-    <comment></comment>
   </data>
   <data name="PrintDate" xml:space="preserve">
     <value>Дата печати</value>
-    <comment></comment>
   </data>
   <data name="ItemNo" xml:space="preserve">
     <value>Номер товара</value>
-    <comment></comment>
-  </data>
-  <data name="GRANDTOTAL" xml:space="preserve">
-    <value>ОБЩАЯ СУММА</value>
-    <comment></comment>
-  </data>
-  <data name="Print" xml:space="preserve">
-    <value>Печать</value>
-    <comment></comment>
   </data>
   <data name="PurchaseProductsDetail" xml:space="preserve">
     <value>Детали закупки товаров</value>
-    <comment></comment>
   </data>
   <data name="ReturnProductsDetail" xml:space="preserve">
     <value>Детали возврата товаров</value>
-    <comment></comment>
   </data>
   <data name="EnterReturnPaymentsDetails" xml:space="preserve">
     <value>Введите детали платежа по возврату</value>
-    <comment></comment>
-  </data>
-  <data name="ReturnRemainingAmount" xml:space="preserve">
-    <value>Оставшаяся сумма возврата</value>
-    <comment></comment>
-  </data>
-  <data name="CurrentRemainingAmount" xml:space="preserve">
-    <value>Текущая оставшаяся сумма</value>
-    <comment></comment>
   </data>
   <data name="ReturnPurchaseTotalAmount" xml:space="preserve">
     <value>Возврат (Итоговая сумма покупки)</value>
-    <comment></comment>
   </data>
   <data name="ReturnTotalAmount" xml:space="preserve">
     <value>Возврат (Итоговая сумма)</value>
-    <comment></comment>
   </data>
   <data name="ReturnPaymentAmount" xml:space="preserve">
     <value>Возврат (Сумма платежа)</value>
-    <comment></comment>
-  </data>
-  <data name="ReturnRemainingBalance" xml:space="preserve">
-    <value>Возврат (Оставшийся баланс)</value>
-    <comment></comment>
   </data>
   <data name="ReturnAmount" xml:space="preserve">
     <value>Сумма возврата</value>
-    <comment></comment>
   </data>
   <data name="ReturnPurchasesPaymentPending" xml:space="preserve">
     <value>Ожидается оплата возвратных закупок</value>
-    <comment></comment>
   </data>
   <data name="SearchPurchaseByInvoiceNo" xml:space="preserve">
     <value>Поиск покупки по номеру счета</value>
-    <comment></comment>
   </data>
   <data name="EnterPurchaseInvoiceNo" xml:space="preserve">
     <value>Введите номер счёта на закупку</value>
-    <comment></comment>
-  </data>
-  <data name="CreatedBy" xml:space="preserve">
-    <value>Создано</value>
-    <comment></comment>
   </data>
   <data name="PurchaseQty" xml:space="preserve">
     <value>Количество на покупки</value>
-    <comment></comment>
-  </data>
-  <data name="ReturnQty" xml:space="preserve">
-    <value>Количество на возврат</value>
-    <comment></comment>
   </data>
   <data name="IsReturnPurchasePaymentPaid" xml:space="preserve">
     <value>Оплачен ли возврат покупки?</value>
-    <comment></comment>
-  </data>
-  <data name="Invoice" xml:space="preserve">
-    <value>Счёт</value>
-    <comment></comment>
-  </data>
-  <data name="SubmitReturn" xml:space="preserve">
-    <value>Подтвердить возврат</value>
-    <comment></comment>
   </data>
 </root>

@@ -2,12 +2,14 @@
 using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Purchase.Payment
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
+    [Authorize]
     public class PurchasePaymentReturnApiController : ControllerBase
     {
         private readonly IPurchasePaymentReturnService _purchasePaymentReturnService;

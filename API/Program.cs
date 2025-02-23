@@ -18,10 +18,14 @@ using DatabaseAccess.Repositories.Utilities;
 using Domain.Facades;
 using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.ML;
 using Services.Adapters;
 using Services.Facades;
 using Services.Implementations;
 using Services.ServiceAccess;
+using System.Text;
 using Utils.Helpers;
 using Utils.Interfaces;
 
@@ -35,10 +39,25 @@ namespace API
 
             builder.Services.AddControllers();
             builder.Services.AddOpenApi();
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                    ValidAudience = builder.Configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                };
+            });
 
-            #region DbContext
+            #region Context
             // Main DB Context
             builder.Services.AddScoped<CloudDBEntities>();
+            // ML Context
+            builder.Services.AddSingleton<MLContext>();
             #endregion
 
             #region Helpers
@@ -61,7 +80,6 @@ namespace API
             builder.Services.AddScoped<PurchaseReturnFacade>();
             builder.Services.AddScoped<SalaryTransactionFacade>();
             builder.Services.AddScoped<SaleCartFacade>();
-            builder.Services.AddScoped<SalePaymentFacade>();
             builder.Services.AddScoped<SaleEntryFacade>();
             // Cloud ERP
             builder.Services.AddScoped<AccountSettingFacade>();
@@ -141,11 +159,13 @@ namespace API
             // Main
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IBalanceSheetService, BalanceSheetService>();
+            builder.Services.AddScoped<ICurrencyService, CurrencyService>();
             builder.Services.AddScoped<IDashboardService, DashboardService>();
             builder.Services.AddScoped<IEmployeeSalaryService, EmployeeSalaryService>();
             builder.Services.AddScoped<IEmployeeStatisticsService, EmployeeStatisticsService>();
             builder.Services.AddScoped<IGeneralTransactionService, GeneralTransactionService>();
             builder.Services.AddScoped<IIncomeStatementService, IncomeStatementService>();
+            builder.Services.AddScoped<IEmailService, EmailService>();
             builder.Services.AddScoped<IProductQualityService, ProductQualityService>();
             builder.Services.AddScoped<IReminderService, ReminderService>();
             builder.Services.AddScoped<ISalaryTransactionService, SalaryTransactionService>();
@@ -175,7 +195,6 @@ namespace API
             // Forecasting
             builder.Services.AddScoped<IFinancialForecastAdapter, FinancialForecastAdapter>();
             // File Upload
-            builder.Services.AddScoped<IFile, HttpPostedFileAdapter>();
             builder.Services.AddScoped<IFileAdapterFactory, FileAdapterFactory>();
             #endregion
 
@@ -188,6 +207,7 @@ namespace API
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

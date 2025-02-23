@@ -4,11 +4,13 @@ using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using API.Factories;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers.Branch
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
+    [Authorize]
     public class BranchEmployeeApiController : ControllerBase
     {
         private readonly IEmployeeRepository _employeeRepository;

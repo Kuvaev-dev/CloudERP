@@ -1,11 +1,13 @@
 ﻿using Domain.Models;
 using Domain.RepositoryAccess;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Branch
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
+    [Authorize]
     public class BranchTypeApiController : ControllerBase
     {
         private readonly IBranchTypeRepository _branchTypeRepository;

@@ -18,7 +18,9 @@ namespace DatabaseAccess.Repositories.Users
 
         public async Task<IEnumerable<User>> GetAllAsync()
         {
-            var entities = await _dbContext.tblUser.ToListAsync();
+            var entities = await _dbContext.tblUser
+                .Include(ut => ut.UserType)
+                .ToListAsync();
 
             return entities.Select(u => new User
             {
@@ -130,7 +132,9 @@ namespace DatabaseAccess.Repositories.Users
 
         public async Task<User?> GetByEmailAsync(string email)
         {
-            var entity = await _dbContext.tblUser.SingleOrDefaultAsync(u => u.Email == email);
+            var entity = await _dbContext.tblUser
+                .Include(ut => ut.UserType)
+                .SingleOrDefaultAsync(u => u.Email == email);
 
             return entity == null ? null : new User
             {

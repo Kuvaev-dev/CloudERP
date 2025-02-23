@@ -147,21 +147,6 @@
   <data name="Date" xml:space="preserve">
     <value>Дата</value>
   </data>
-  <data name="Description" xml:space="preserve">
-    <value>Описание</value>
-  </data>
-  <data name="Debit" xml:space="preserve">
-    <value>Дебет</value>
-  </data>
-  <data name="Credit" xml:space="preserve">
-    <value>Кредит</value>
-  </data>
-  <data name="Total" xml:space="preserve">
-    <value>Всего</value>
-  </data>
-  <data name="CompanyFinancialYearNotSet" xml:space="preserve">
-    <value>Финансовый год вашей компании не установлен! Пожалуйста, свяжитесь с администратором!</value>
-  </data>
   <data name="DebitAccountNotFound" xml:space="preserve">
     <value>Дебетовый счет не найден.</value>
   </data>
@@ -173,15 +158,6 @@
   </data>
   <data name="UnexpectedErrorOccurred" xml:space="preserve">
     <value>Произошла непредвиденная ошибка. Пожалуйста, попробуйте снова!</value>
-  </data>
-  <data name="NetIncome" xml:space="preserve">
-    <value>Чистый доход</value>
-  </data>
-  <data name="TotalRevenue" xml:space="preserve">
-    <value>Общая выручка</value>
-  </data>
-  <data name="TotalExpenses" xml:space="preserve">
-    <value>Общие расходы</value>
   </data>
   <data name="AccountSettingsForPurchaseNotFound" xml:space="preserve">
     <value>Настройки учетной записи для покупки не найдены.</value>

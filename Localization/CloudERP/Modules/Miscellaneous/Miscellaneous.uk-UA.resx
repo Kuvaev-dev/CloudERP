@@ -1,245 +1,209 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-	<!-- 
-		Microsoft ResX Schema
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
 
-		Version 1.3
-
-		The primary goals of this format is to allow a simple XML format 
-		that is mostly human readable. The generation and parsing of the 
-		various data types are done through the TypeConverter classes 
-		associated with the data types.Photo
-
-		Example:
-
-		... ado.net/XML headers & schema ...
-		<resheader name="resmimetype">text/microsoft-resx</resheader>
-		<resheader name="version">1.3</resheader>
-		<resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-		<resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-		<data name="Name1">this is my long string</data>
-		<data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-		<data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-			[base64 mime encoded serialized .NET Framework object]
-		</data>
-		<data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-			[base64 mime encoded string representing a byte array form of the .NET Framework object]
-		</data>
-
-		There are any number of "resheader" rows that contain simple 
-		name/value pairs.
-
-		Each data row contains a name, and value. The row also contains a 
-		type or mimetype. Type corresponds to a .NET class that support 
-		text/value conversion through the TypeConverter architecture. 
-		Classes that don't support this are serialized and stored with the 
-		mimetype set.
-
-		The mimetype is used for serialized objects, and tells the 
-		ResXResourceReader how to depersist the object. This is currently not 
-		extensible. For a given mimetype the value must be set accordingly:
-
-		Note - application/x-microsoft.net.object.binary.base64 is the format 
-		that the ResXResourceWriter will generate, however the reader can 
-		read any of the formats listed below.
-
-		mimetype: application/x-microsoft.net.object.binary.base64
-		value   : The object must be serialized with 
-			: System.Serialization.Formatters.Binary.BinaryFormatter
-			: and then encoded with base64 encoding.
-
-		mimetype: application/x-microsoft.net.object.soap.base64
-		value   : The object must be serialized with 
-			: System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-			: and then encoded with base64 encoding.
-
-		mimetype: application/x-microsoft.net.object.bytearray.base64
-		value   : The object must be serialized into a byte array 
-			: using a System.ComponentModel.TypeConverter
-			: and then encoded with base64 encoding.
-	-->
-	
-	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-		<xsd:element name="root" msdata:IsDataSet="true">
-			<xsd:complexType>
-				<xsd:choice maxOccurs="unbounded">
-					<xsd:element name="data">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
-							<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-							<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="resheader">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" use="required" />
-						</xsd:complexType>
-					</xsd:element>
-				</xsd:choice>
-			</xsd:complexType>
-		</xsd:element>
-	</xsd:schema>
-	<resheader name="resmimetype">
-		<value>text/microsoft-resx</value>
-	</resheader>
-	<resheader name="version">
-		<value>1.3</value>
-	</resheader>
-	<resheader name="reader">
-		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
-	<resheader name="writer">
-		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
-
-  <!--Address
-
-  Guide
-
-  Home
-  Dashboard-->
-
-  <!--Index-->
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
   <data name="DashboardTitle" xml:space="preserve">
     <value>Панель управління</value>
-    <comment></comment>
   </data>
   <data name="CurrentMonthRevenue" xml:space="preserve">
     <value>Доходи за поточний місяць</value>
-    <comment></comment>
   </data>
   <data name="CurrentMonthExpenses" xml:space="preserve">
     <value>Витрати за поточний місяць</value>
-    <comment></comment>
-  </data>
-  <data name="CurrentMonthRecovery" xml:space="preserve">
-    <value>Відновлено за поточний місяць</value>
-    <comment></comment>
   </data>
   <data name="NetProfitLoss" xml:space="preserve">
     <value>Чистий прибуток / &lt;br/&gt; Збиток</value>
-    <comment></comment>
   </data>
   <data name="CaseBankBalance" xml:space="preserve">
     <value>Каса / &lt;br/&gt; Банківський баланс</value>
-    <comment></comment>
   </data>
   <data name="TotalReceivable" xml:space="preserve">
     <value>Загалом / &lt;br/&gt; Дебіторська заборгованість</value>
-    <comment></comment>
   </data>
   <data name="TotalPayable" xml:space="preserve">
     <value>Загалом / &lt;br/&gt; Кредиторська заборгованість</value>
-    <comment></comment>
   </data>
   <data name="TotalSalesPerDay" xml:space="preserve">
     <value>Загальна сума продажів за день</value>
-    <comment></comment>
   </data>
   <data name="TotalPurchasesPerDay" xml:space="preserve">
     <value>Загальна сума покупок за день</value>
-    <comment></comment>
   </data>
   <data name="TotalSalesPerMonth" xml:space="preserve">
     <value>Загальна сума продажів за місяць</value>
-    <comment></comment>
   </data>
   <data name="TotalPurchasesPerMonth" xml:space="preserve">
     <value>Загальна сума покупок за місяць</value>
-    <comment></comment>
   </data>
-  <!--Today Sales / Purchases-->
   <data name="TodaySalesPurchases" xml:space="preserve">
     <value>Продажі / Закупівлі сьогодні</value>
-    <comment></comment>
   </data>
   <data name="TotalSales" xml:space="preserve">
     <value>Загальна сума продажів</value>
-    <comment></comment>
   </data>
   <data name="ReturnSales" xml:space="preserve">
     <value>Повернення продажів</value>
-    <comment></comment>
   </data>
   <data name="PaidSales" xml:space="preserve">
     <value>Оплачені продажі</value>
-    <comment></comment>
-  </data>
-  <data name="PurchasesPaymentPending" xml:space="preserve">
-    <value>Очікується оплата за закупівлі</value>
-    <comment></comment>
-  </data>
-  <!--Today Return Sales / Return Purchases-->
-  <data name="TodayReturnSalesReturnPurchases" xml:space="preserve">
-    <value>Повернено продажів / Закупівель сьогодні</value>
-    <comment></comment>
-  </data>
-  <data name="TotalReturnPurchases" xml:space="preserve">
-    <value>Загалом повернено закупівель</value>
-    <comment></comment>
-  </data>
-  <data name="ReturnPurchasesPaymentPending" xml:space="preserve">
-    <value>Очікується оплата за повернення закупівель</value>
-    <comment></comment>
-  </data>
-  <!--Sales / Purchases-->
-  <data name="SalesPurchases" xml:space="preserve">
-    <value>Продажі / Закупівлі</value>
-    <comment></comment>
-  </data>
-  <data name="SalesPaymentPending" xml:space="preserve">
-    <value>Очікується оплата за продажі</value>
-    <comment></comment>
-  </data>
-  <data name="SalesPaymentPaid" xml:space="preserve">
-    <value>Оплачено за продажі</value>
-    <comment></comment>
   </data>
   <data name="TotalPurchases" xml:space="preserve">
     <value>Загальні покупки</value>
-    <comment></comment>
   </data>
   <data name="ReturnPurchases" xml:space="preserve">
     <value>Повернення покупок</value>
-    <comment></comment>
   </data>
   <data name="PaidPurchases" xml:space="preserve">
     <value>Оплачені покупки</value>
-    <comment></comment>
+  </data>
+  <data name="TodayReturnSalesReturnPurchases" xml:space="preserve">
+    <value>Повернено продажів / Закупівель сьогодні</value>
+  </data>
+  <data name="TotalReturnPurchases" xml:space="preserve">
+    <value>Загалом повернено закупівель</value>
+  </data>
+  <data name="SalesPurchases" xml:space="preserve">
+    <value>Продажі / Закупівлі</value>
+  </data>
+  <data name="SalesPaymentPending" xml:space="preserve">
+    <value>Очікується оплата за продажі</value>
+  </data>
+  <data name="SalesPaymentPaid" xml:space="preserve">
+    <value>Оплачено за продажі</value>
   </data>
   <data name="PurchasesPaymentPaid" xml:space="preserve">
     <value>Оплачено за закупівлі</value>
-    <comment></comment>
   </data>
-  <!--Return Sales / Return Purchases-->
   <data name="ReturnSalesReturnPurchases" xml:space="preserve">
     <value>Повернення продажів / Закупівель</value>
-    <comment></comment>
   </data>
   <data name="TotalReturnSales" xml:space="preserve">
     <value>Загалом повернено продажів</value>
-    <comment></comment>
   </data>
   <data name="ReturnSalesPaymentPending" xml:space="preserve">
     <value>Очікується оплата за повернення продажів</value>
-    <comment></comment>
   </data>
   <data name="ReturnSalesPaymentPaid" xml:space="preserve">
     <value>Оплачено за повернення продажів</value>
-    <comment></comment>
   </data>
   <data name="ReturnPurchasesPaymentPaid" xml:space="preserve">
     <value>Оплачено за повернення закупівель</value>
-    <comment></comment>
   </data>
-
   <data name="AccountControls" xml:space="preserve">
     <value>Керування рахунками</value>
     <comment>Строка меню бокової панелі</comment>
@@ -266,10 +230,6 @@
   </data>
   <data name="AllCustomers" xml:space="preserve">
     <value>Усі клієнти</value>
-    <comment>Строка меню бокової панелі</comment>
-  </data>
-  <data name="AllSuppliers" xml:space="preserve">
-    <value>Усі постачальники</value>
     <comment>Строка меню бокової панелі</comment>
   </data>
   <data name="Companies" xml:space="preserve">
@@ -319,14 +279,6 @@
   <data name="UserTypes" xml:space="preserve">
     <value>Типи користувачів</value>
     <comment>Строка меню бокової панелі</comment>
-  </data>
-  <data name="Company" xml:space="preserve">
-    <value>Компанії</value>
-    <comment>Строка бокової панелі</comment>
-  </data>
-  <data name="NewFinancialYear" xml:space="preserve">
-    <value>Новий фінансовий рік</value>
-    <comment>Строка бокової панелі</comment>
   </data>
   <data name="Home" xml:space="preserve">
     <value>Головна</value>
@@ -378,7 +330,6 @@
   </data>
   <data name="StockDetails" xml:space="preserve">
     <value>Деталі запасів</value>
-    <comment>Строка бокової панелі</comment>
   </data>
   <data name="AllFinancialYears" xml:space="preserve">
     <value>Всі фінансові роки</value>
@@ -386,7 +337,6 @@
   </data>
   <data name="NewCustomer" xml:space="preserve">
     <value>Новий клієнт</value>
-    <comment>Строка бокової панелі</comment>
   </data>
   <data name="BranchCustomers" xml:space="preserve">
     <value>Клієнти філії</value>
@@ -428,14 +378,6 @@
     <value>Новий постачальник</value>
     <comment>Строка бокової панелі</comment>
   </data>
-  <data name="BranchSuppliers" xml:space="preserve">
-    <value>Постачальники філії</value>
-    <comment>Строка бокової панелі</comment>
-  </data>
-  <data name="SubBranchSuppliers" xml:space="preserve">
-    <value>Постачальники підрозділу</value>
-    <comment>Строка бокової панелі</comment>
-  </data>
   <data name="Purchases" xml:space="preserve">
     <value>Закупівлі</value>
     <comment>Строка бокової панелі</comment>
@@ -462,7 +404,6 @@
   </data>
   <data name="Transactions" xml:space="preserve">
     <value>Транзакції</value>
-    <comment>Строка бокової панелі</comment>
   </data>
   <data name="GeneralTransaction" xml:space="preserve">
     <value>Головна транзакція</value>
@@ -473,8 +414,7 @@
     <comment>Строка бокової панелі</comment>
   </data>
   <data name="AccountsLedger" xml:space="preserve">
-    <value>Головна книга</value>
-    <comment>Строка бокової панелі</comment>
+    <value>Головна книга рахунків</value>
   </data>
   <data name="TrialBalance" xml:space="preserve">
     <value>Баланс</value>
@@ -484,392 +424,215 @@
     <value>Звіт про прибутки</value>
     <comment>Строка бокової панелі</comment>
   </data>
-  <data name="RetrieveIncomeStatement" xml:space="preserve">
-    <value>Отримати звіт про прибутки</value>
-    <comment></comment>
-	</data>
   <data name="BalanceSheet" xml:space="preserve">
     <value>Балансовий звіт</value>
     <comment>Строка бокової панелі</comment>
   </data>
   <data name="TasksList" xml:space="preserve">
     <value>Список завдань</value>
-    <comment></comment>
   </data>
   <data name="TicketList" xml:space="preserve">
     <value>Список звернень</value>
-    <comment></comment>
   </data>
   <data name="Support" xml:space="preserve">
     <value>Підтримка</value>
-    <comment></comment>
   </data>
   <data name="Forecasting" xml:space="preserve">
     <value>Прогнозування</value>
-    <comment></comment>
   </data>
   <data name="EmployeeStatistics" xml:space="preserve">
     <value>Статистика співробітників</value>
-    <comment></comment>
   </data>
-  <!--Index-->
   <data name="AllCategories" xml:space="preserve">
     <value>Всі категорії</value>
-    <comment></comment>
   </data>
   <data name="CategoryTitle" xml:space="preserve">
     <value>Категорія</value>
-    <comment></comment>
   </data>
-  <data name="User" xml:space="preserve">
-    <value>Користувач</value>
-    <comment></comment>
-  </data>
-  <!--Create-->
   <data name="AddCategory" xml:space="preserve">
     <value>Додати категорію</value>
-    <comment></comment>
   </data>
   <data name="CategoryName" xml:space="preserve">
     <value>Назва категорії</value>
-    <comment></comment>
   </data>
-  <!--Edit-->
   <data name="EditCategory" xml:space="preserve">
     <value>Редагувати категорію</value>
-    <comment></comment>
   </data>
   <data name="EnterNewCategoryName" xml:space="preserve">
     <value>Введіть нову назву категорії</value>
-    <comment></comment>
-  </data>
-  <!--AllCustomers-->
-  <data name="CompanyTitle" xml:space="preserve">
-    <value>Компанія</value>
-    <comment></comment>
-  </data>
-  <data name="BranchTitle" xml:space="preserve">
-    <value>Філія</value>
-    <comment></comment>
   </data>
   <data name="CustomerName" xml:space="preserve">
     <value>Клієнт</value>
-    <comment></comment>
-  </data>
-  <data name="ContactNo" xml:space="preserve">
-    <value>Номер телефону</value>
-    <comment></comment>
-  </data>
-  <data name="Address" xml:space="preserve">
-    <value>Адреса</value>
-    <comment></comment>
-  </data>
-  <!--Create-->
-  <data name="NewCustomer" xml:space="preserve">
-    <value>Новий клієнт</value>
-    <comment></comment>
   </data>
   <data name="CustomerFullName" xml:space="preserve">
     <value>Повне ім'я клієнта</value>
-    <comment></comment>
-  </data>
-  <data name="Description" xml:space="preserve">
-    <value>Опис</value>
-    <comment></comment>
   </data>
   <data name="ClickHereToChooseACorrectAddressBelow" xml:space="preserve">
     <value>Натисніть тут, щоб вибрати правильну адресу</value>
-    <comment></comment>
   </data>
-  <!--Edit-->
   <data name="UpdateCustomer" xml:space="preserve">
     <value>Оновити клієнта</value>
-    <comment></comment>
   </data>
-  <!--SubBranchCustomer-->
   <data name="SubBranchCustomer" xml:space="preserve">
     <value>Клієнт підфілії</value>
-    <comment></comment>
-  </data>
-  <data name="SelectToDate" xml:space="preserve">
-    <value>Виберіть діапазон (По дату)</value>
-    <comment></comment>
   </data>
   <data name="SubmitForecast" xml:space="preserve">
     <value>Отримати прогноз</value>
-    <comment></comment>
-  </data>
-  <data name="Date" xml:space="preserve">
-    <value>Дата</value>
-    <comment></comment>
   </data>
   <data name="Value" xml:space="preserve">
     <value>Значення</value>
-    <comment></comment>
   </data>
   <data name="NoForecastDataAvailable." xml:space="preserve">
     <value>Дані прогнозу недоступні.</value>
-    <comment></comment>
   </data>
   <data name="JournalByTransactionsDate" xml:space="preserve">
     <value>Журнал (По датам транзакцій)</value>
-    <comment></comment>
   </data>
   <data name="SubBranchJournalByTransactionsDate" xml:space="preserve">
     <value>Журнал підрозділу (По датам транзакцій)</value>
-    <comment></comment>
   </data>
   <data name="SelectRangeFromDateAndToDate" xml:space="preserve">
     <value>Виберіть діапазон (З дати та По дату)</value>
-    <comment></comment>
-  </data>
-  <data name="SelectFromDate" xml:space="preserve">
-    <value>Виберіть початкову дату</value>
-    <comment></comment>
-  </data>
-  <data name="SelectToDate" xml:space="preserve">
-    <value>Виберіть кінцеву дату</value>
-    <comment></comment>
-  </data>
-  <data name="RetriveTransactions" xml:space="preserve">
-    <value>Отримати транзакції</value>
-    <comment></comment>
-  </data>
-  <data name="Export" xml:space="preserve">
-    <value>Експортувати</value>
-    <comment></comment>
-  </data>
-  <data name="Transactions" xml:space="preserve">
-    <value>Транзакції</value>
-    <comment></comment>
-  </data>
-  <data name="Date" xml:space="preserve">
-    <value>Дата</value>
-    <comment></comment>
-  </data>
-  <data name="Account" xml:space="preserve">
-    <value>Рахунок</value>
-    <comment></comment>
-  </data>
-  <data name="Title" xml:space="preserve">
-    <value>Назва</value>
-    <comment></comment>
-  </data>
-  <data name="InvoiceNo" xml:space="preserve">
-    <value>Номер рахунку</value>
-    <comment></comment>
-  </data>
-  <data name="Debit" xml:space="preserve">
-    <value>Дебет</value>
-    <comment></comment>
-  </data>
-  <data name="Credit" xml:space="preserve">
-    <value>Кредит</value>
-    <comment></comment>
-  </data>
-  <data name="NewGeneralTransaction" xml:space="preserve">
-    <value>Нова головна транзакція</value>
-    <comment></comment>
-  </data>
-  <data name="SelectAccountCredit" xml:space="preserve">
-    <value>Виберіть кредитний рахунок</value>
-    <comment></comment>
-  </data>
-  <data name="SelectAccountDebit" xml:space="preserve">
-    <value>Виберіть дебетовий рахунок</value>
-    <comment></comment>
-  </data>
-  <data name="EnterAmount" xml:space="preserve">
-    <value>Введіть суму</value>
-    <comment></comment>
-  </data>
-  <data name="EnterReason" xml:space="preserve">
-    <value>Введіть причину</value>
-    <comment></comment>
-  </data>
-  <data name="SubmitTransaction" xml:space="preserve">
-    <value>Підтвердити транзакцію</value>
-    <comment></comment>
-  </data>
-  <data name="SubBranchIncomeStatement" xml:space="preserve">
-    <value>Звіт про доходи підрозділу</value>
-    <comment></comment>
-  </data>
-  <data name="SelectFinancialYear" xml:space="preserve">
-    <value>Виберіть фінансовий рік</value>
-    <comment></comment>
-  </data>
-  <data name="RetriveIncomeStatement" xml:space="preserve">
-    <value>Отримати звіт про доходи</value>
-    <comment></comment>
-  </data>
-  <data name="IncomeStatementStr" xml:space="preserve">
-    <value>Звіт про доходи</value>
-    <comment></comment>
-  </data>
-  <data name="AccountTitle" xml:space="preserve">
-    <value>Назва рахунку</value>
-    <comment></comment>
-  </data>
-  <data name="Amount" xml:space="preserve">
-    <value>Сума</value>
-    <comment></comment>
-  </data>
-  <data name="Total" xml:space="preserve">
-    <value>Всього</value>
-    <comment></comment>
-  </data>
-  <data name="TotalRevenue" xml:space="preserve">
-    <value>Загальний дохід</value>
-    <comment></comment>
-  </data>
-  <data name="TotalExpenses" xml:space="preserve">
-    <value>Загальні витрати</value>
-    <comment></comment>
-  </data>
-  <data name="NetIncome" xml:space="preserve">
-    <value>Чистий дохід</value>
-    <comment></comment>
-  </data>
-  <data name="SubBranchAccountsLedger" xml:space="preserve">
-    <value>Головна книга підрозділу</value>
-    <comment></comment>
-  </data>
-  <data name="SelectFinancialYear" xml:space="preserve">
-    <value>Виберіть фінансовий рік</value>
-    <comment></comment>
-  </data>
-  <data name="RetrieveLedger" xml:space="preserve">
-    <value>Отримати головну книгу</value>
-    <comment></comment>
-  </data>
-  <data name="Export" xml:space="preserve">
-    <value>Експортувати</value>
-    <comment></comment>
-  </data>
-  <data name="AccountsLedger" xml:space="preserve">
-    <value>Головна книга рахунків</value>
-    <comment></comment>
-  </data>
-  <data name="Account" xml:space="preserve">
-    <value>Рахунок</value>
-    <comment></comment>
-  </data>
-  <data name="Date" xml:space="preserve">
-    <value>Дата</value>
-    <comment></comment>
-  </data>
-  <data name="Description" xml:space="preserve">
-    <value>Опис</value>
-    <comment></comment>
-  </data>
-  <data name="Debit" xml:space="preserve">
-    <value>Дебет</value>
-    <comment></comment>
-  </data>
-  <data name="Credit" xml:space="preserve">
-    <value>Кредит</value>
-    <comment></comment>
-  </data>
-  <!--Index-->
-  <data name="StockDetails" xml:space="preserve">
-    <value>Деталі запасів</value>
-    <comment></comment>
-  </data>
-  <data name="AddProduct" xml:space="preserve">
-    <value>Додати товар</value>
-    <comment></comment>
-  </data>
-  <data name="Items" xml:space="preserve">
-    <value>Товари</value>
-    <comment></comment>
-  </data>
-  <data name="CurrentQty" xml:space="preserve">
-    <value>Поточна кількість</value>
-    <comment></comment>
-  </data>
-  <data name="ExpiryDate" xml:space="preserve">
-    <value>Дата закінчення терміну</value>
-    <comment></comment>
-  </data>
-  <data name="ManufactureDate" xml:space="preserve">
-    <value>Дата виготовлення</value>
-    <comment></comment>
-  </data>
-  <data name="Status" xml:space="preserve">
-    <value>Статус</value>
-    <comment></comment>
-  </data>
-  <data name="Update" xml:space="preserve">
-    <value>Оновити</value>
-    <comment></comment>
-  </data>
-  <data name="ItemDetail" xml:space="preserve">
-    <value>Деталі товару</value>
-    <comment></comment>
-  </data>
-  <!--Create-->
-  <data name="AddProduct" xml:space="preserve">
-    <value>Додати товар</value>
-    <comment></comment>
-  </data>
-  <data name="SelectCategory" xml:space="preserve">
-    <value>Обрати категорію</value>
-    <comment></comment>
-  </data>
-  <data name="ProductName" xml:space="preserve">
-    <value>Назва продукту</value>
-    <comment></comment>
-  </data>
-  <data name="Quantity" xml:space="preserve">
-    <value>Кількість</value>
-    <comment></comment>
-  </data>
-  <data name="SaleUnitPrice" xml:space="preserve">
-    <value>Ціна за одиницю продажу</value>
-    <comment></comment>
-  </data>
-  <data name="CurrentPurchaseUnitPrice" xml:space="preserve">
-    <value>Поточна ціна за одиницю закупівлі</value>
-    <comment></comment>
-  </data>
-  <data name="TresholdQuantity" xml:space="preserve">
-    <value>Кількість на межі</value>
-    <comment></comment>
-  </data>
-  <data name="Description" xml:space="preserve">
-    <value>Опис</value>
-    <comment></comment>
-  </data>
-  <!--Edit-->
-  <data name="UpdateProduct" xml:space="preserve">
-    <value>Оновити продукт</value>
-    <comment></comment>
-  </data>
-  <!--Details-->
-  <data name="ProductDetails" xml:space="preserve">
-    <value>Деталі продукту</value>
-    <comment></comment>
-  </data>
-  
-  <data name="Photo" xml:space="preserve">
-    <value>Фото</value>
-    <comment></comment>
-  </data>
-  <data name="Designation" xml:space="preserve">
-    <value>Посада</value>
-    <comment></comment>
   </data>
   <data name="RetrieveTransactions" xml:space="preserve">
     <value>Отримати транзакції</value>
-    <comment></comment>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Експортувати</value>
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value>Рахунок</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Назва</value>
+  </data>
+  <data name="Debit" xml:space="preserve">
+    <value>Дебет</value>
+  </data>
+  <data name="Credit" xml:space="preserve">
+    <value>Кредит</value>
+  </data>
+  <data name="NewGeneralTransaction" xml:space="preserve">
+    <value>Нова головна транзакція</value>
+  </data>
+  <data name="SelectAccountCredit" xml:space="preserve">
+    <value>Виберіть кредитний рахунок</value>
+  </data>
+  <data name="SelectAccountDebit" xml:space="preserve">
+    <value>Виберіть дебетовий рахунок</value>
+  </data>
+  <data name="EnterAmount" xml:space="preserve">
+    <value>Введіть суму</value>
+  </data>
+  <data name="EnterReason" xml:space="preserve">
+    <value>Введіть причину</value>
+  </data>
+  <data name="SubmitTransaction" xml:space="preserve">
+    <value>Підтвердити транзакцію</value>
+  </data>
+  <data name="SubBranchIncomeStatement" xml:space="preserve">
+    <value>Звіт про доходи підрозділу</value>
+  </data>
+  <data name="RetrieveIncomeStatement" xml:space="preserve">
+    <value>Отримати звіт про прибутки</value>
+  </data>
+  <data name="IncomeStatementStr" xml:space="preserve">
+    <value>Звіт про доходи</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Всього</value>
+  </data>
+  <data name="TotalRevenue" xml:space="preserve">
+    <value>Загальний дохід</value>
+  </data>
+  <data name="TotalExpenses" xml:space="preserve">
+    <value>Загальні витрати</value>
+  </data>
+  <data name="NetIncome" xml:space="preserve">
+    <value>Чистий дохід</value>
+  </data>
+  <data name="SubBranchAccountsLedger" xml:space="preserve">
+    <value>Головна книга підрозділу</value>
+  </data>
+  <data name="RetrieveLedger" xml:space="preserve">
+    <value>Отримати головну книгу</value>
+  </data>
+  <data name="AddProduct" xml:space="preserve">
+    <value>Додати товар</value>
+  </data>
+  <data name="CurrentQty" xml:space="preserve">
+    <value>Поточна кількість</value>
+  </data>
+  <data name="ExpiryDate" xml:space="preserve">
+    <value>Дата закінчення терміну</value>
+  </data>
+  <data name="ManufactureDate" xml:space="preserve">
+    <value>Дата виготовлення</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Статус</value>
+  </data>
+  <data name="ItemDetail" xml:space="preserve">
+    <value>Деталі товару</value>
+  </data>
+  <data name="SelectCategory" xml:space="preserve">
+    <value>Обрати категорію</value>
+  </data>
+  <data name="ProductName" xml:space="preserve">
+    <value>Назва продукту</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Кількість</value>
+  </data>
+  <data name="SaleUnitPrice" xml:space="preserve">
+    <value>Ціна за одиницю продажу</value>
+  </data>
+  <data name="CurrentPurchaseUnitPrice" xml:space="preserve">
+    <value>Поточна ціна за одиницю закупівлі</value>
+  </data>
+  <data name="TresholdQuantity" xml:space="preserve">
+    <value>Кількість на межі</value>
+  </data>
+  <data name="UpdateProduct" xml:space="preserve">
+    <value>Оновити продукт</value>
+  </data>
+  <data name="ProductDetails" xml:space="preserve">
+    <value>Деталі продукту</value>
+  </data>
+  <data name="Photo" xml:space="preserve">
+    <value>Фото</value>
   </data>
   <data name="GetTrialBalance" xml:space="preserve">
     <value>Отримати баланс</value>
-    <comment></comment>
   </data>
   <data name="EmployeeUpdation" xml:space="preserve">
     <value>Оновити співробітника</value>
-    <comment></comment>
+  </data>
+  <data name="Area" xml:space="preserve">
+    <value>Область</value>
+  </data>
+  <data name="BasicSalary" xml:space="preserve">
+    <value>Базова З/П</value>
+  </data>
+  <data name="SomethingWentWrong" xml:space="preserve">
+    <value>О! Щось пішло не так :(</value>
+  </data>
+  <data name="DontWorry" xml:space="preserve">
+    <value>Не хвилюйтеся, ми зараз це перевіряємо.</value>
+  </data>
+  <data name="TryLinksBelow" xml:space="preserve">
+    <value>Тим часом, будь ласка, спробуйте одне з цих посилань нижче або поверніться через мить</value>
+  </data>
+  <data name="AddEmployee" xml:space="preserve">
+    <value>Додати робітника</value>
+  </data>
+  <data name="MonthlySalary" xml:space="preserve">
+    <value>Місячна З/П</value>
+  </data>
+  <data name="RetriveTransactions" xml:space="preserve">
+    <value>Отримати транзакції</value>
+  </data>
+  <data name="RetriveIncomeStatement" xml:space="preserve">
+    <value>Отримати звіт про доходи</value>
   </data>
 </root>

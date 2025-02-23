@@ -1,11 +1,13 @@
 ﻿using Domain.Models;
 using Domain.RepositoryAccess;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Utilities
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
+    [Authorize]
     public class SupportApiController : ControllerBase
     {
         private readonly ISupportTicketRepository _supportTicketRepository;

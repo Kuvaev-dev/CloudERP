@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Utilities
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
+    [Authorize]
     public class AddressApiController : ControllerBase
     {
         private readonly IConfiguration _configuration;
@@ -13,8 +15,8 @@ namespace API.Controllers.Utilities
         public AddressApiController(IConfiguration configuration)
         {
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-            _apiKey = _configuration["GeoapifyApiKey"] ?? throw new ArgumentNullException("GeoapifyApiKey is missing in configuration.");
-            _apiUrl = _configuration["GeoapifyApiUrl"] ?? throw new ArgumentNullException("GeoapifyApiUrl is missing in configuration.");
+            _apiKey = _configuration["GeoapifyApi:Key"] ?? throw new ArgumentNullException("Geoapify Api Key is missing in configuration.");
+            _apiUrl = _configuration["GeoapifyApi:BaseUrl"] ?? throw new ArgumentNullException("Geoapify Api Url is missing in configuration.");
         }
 
         [HttpGet("autocomplete")]

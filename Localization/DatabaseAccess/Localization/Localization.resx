@@ -147,21 +147,6 @@
   <data name="Date" xml:space="preserve">
     <value>Date</value>
   </data>
-  <data name="Description" xml:space="preserve">
-    <value>Description</value>
-  </data>
-  <data name="Debit" xml:space="preserve">
-    <value>Debit</value>
-  </data>
-  <data name="Credit" xml:space="preserve">
-    <value>Credit</value>
-  </data>
-  <data name="Total" xml:space="preserve">
-    <value>Total</value>
-  </data>
-  <data name="CompanyFinancialYearNotSet" xml:space="preserve">
-    <value>Your Company Financial Year is not Set! Please Contact the Administrator!</value>
-  </data>
   <data name="DebitAccountNotFound" xml:space="preserve">
     <value>Debit account not found.</value>
   </data>
@@ -173,15 +158,6 @@
   </data>
   <data name="UnexpectedErrorOccurred" xml:space="preserve">
     <value>Unexpected Error Occurred. Please Try Again!</value>
-  </data>
-  <data name="NetIncome" xml:space="preserve">
-    <value>Net Income</value>
-  </data>
-  <data name="TotalRevenue" xml:space="preserve">
-    <value>Total Revenue</value>
-  </data>
-  <data name="TotalExpenses" xml:space="preserve">
-    <value>Total Expenses</value>
   </data>
   <data name="AccountSettingsForPurchaseNotFound" xml:space="preserve">
     <value>Account settings for Purchase not found.</value>

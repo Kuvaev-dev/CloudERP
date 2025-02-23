@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models
 {
@@ -29,8 +28,8 @@ namespace Domain.Models
 
         [Range(0, double.MaxValue, ErrorMessage = "Purchase Return Unit Price must be a positive value.")]
         public double PurchaseReturnUnitPrice { get; set; }
-        public string InvoiceNo { get; set; }
-        public string ProductName { get; set; }
+        public string? InvoiceNo { get; set; }
+        public string? ProductName { get; set; }
         public DateTime InvoiceDate { get; set; }
     }
 }

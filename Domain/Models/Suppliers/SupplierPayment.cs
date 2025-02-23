@@ -26,7 +26,7 @@ namespace Domain.Models
 
         [Required(ErrorMessage = "Invoice Number is required.")]
         [StringLength(50, ErrorMessage = "Invoice Number cannot be longer than 50 characters.")]
-        public string InvoiceNo { get; set; }
+        public string? InvoiceNo { get; set; }
 
         [Range(0, double.MaxValue, ErrorMessage = "Total Amount must be a positive value.")]
         public double TotalAmount { get; set; }

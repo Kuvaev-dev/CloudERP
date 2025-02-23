@@ -12,4 +12,19 @@
     <Folder Include="Utils\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="CloudERP\Validations\Validations.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Validations.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="CloudERP\Validations\Validations.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Validations.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>

@@ -1,11 +1,13 @@
 ﻿using Domain.Models;
 using Domain.RepositoryAccess;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Utilities
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
+    [Authorize]
     public class TaskApiController : ControllerBase
     {
         private readonly ITaskRepository _taskRepository;

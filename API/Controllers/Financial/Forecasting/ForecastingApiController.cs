@@ -1,4 +1,5 @@
 ﻿using Domain.RepositoryAccess;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Utils.Interfaces;
 using Utils.Models;
@@ -7,6 +8,7 @@ namespace API.Controllers.Financial.Forecasting
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
+    [Authorize]
     public class ForecastingApiController : ControllerBase
     {
         private readonly IForecastingRepository _forecastingRepository;

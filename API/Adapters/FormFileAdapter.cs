@@ -4,23 +4,28 @@ namespace API.Adapters
 {
     public class FormFileAdapter : IFile
     {
-        private readonly IFormFile _file;
+        private readonly byte[] _fileBytes;
+        private readonly string _fileName;
 
         public FormFileAdapter(IFormFile file)
         {
-            _file = file ?? throw new ArgumentNullException(nameof(file));
+            if (file == null) throw new ArgumentNullException(nameof(file));
+
+            _fileName = file.FileName;
+            using (var memoryStream = new MemoryStream())
+            {
+                file.CopyTo(memoryStream);
+                _fileBytes = memoryStream.ToArray();
+            }
         }
 
-        public string FileName => _file.FileName;
-        public long ContentLength => (long)_file.Length;
-        public Stream InputStream => _file.OpenReadStream();
+        public string FileName => _fileName;
+        public long ContentLength => _fileBytes.Length;
+        public Stream InputStream => new MemoryStream(_fileBytes);
 
         public void SaveAs(string path)
         {
-            using (var stream = new FileStream(path, FileMode.Create))
-            {
-                _file.CopyTo(stream);
-            }
+            File.WriteAllBytes(path, _fileBytes);
         }
     }
 }

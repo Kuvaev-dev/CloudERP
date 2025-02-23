@@ -2,12 +2,14 @@
 using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Sale.Payment
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
+    [Authorize]
     public class SalePaymentApiController : ControllerBase
     {
         private readonly ISalePaymentService _salePaymentService;

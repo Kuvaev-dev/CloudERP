@@ -1,11 +1,13 @@
 ﻿using Domain.Models;
 using Domain.RepositoryAccess;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Financial.Reports
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
+    [Authorize]
     public class FinancialYearApiController : ControllerBase
     {
         private readonly IFinancialYearRepository _financialYearRepository;

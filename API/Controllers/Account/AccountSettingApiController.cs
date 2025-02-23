@@ -1,4 +1,5 @@
 ﻿using Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Facades;
 
@@ -6,6 +7,7 @@ namespace API.Controllers.Account
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
+    [Authorize]
     public class AccountSettingApiController : ControllerBase
     {
         private readonly AccountSettingFacade _accountSettingFacade;

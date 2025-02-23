@@ -1,11 +1,13 @@
 ﻿using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Financial.Reports
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
+    [Authorize]
     public class LedgerApiController : ControllerBase
     {
         private readonly ILedgerRepository _ledgerRepository;

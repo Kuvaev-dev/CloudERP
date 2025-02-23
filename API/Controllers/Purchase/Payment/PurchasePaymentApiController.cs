@@ -2,19 +2,26 @@
 using Domain.Models;
 using Domain.Models.FinancialModels;
 using Domain.Models.Purchase;
+using Domain.ServiceAccess;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Purchase.Payment
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
+    [Authorize]
     public class PurchasePaymentApiController : ControllerBase
     {
         private readonly PurchasePaymentFacade _purchasePaymentFacade;
+        private readonly IPurchasePaymentService _purchasePaymentService;
 
-        public PurchasePaymentApiController(PurchasePaymentFacade purchasePaymentFacade)
+        public PurchasePaymentApiController(
+            PurchasePaymentFacade purchasePaymentFacade,
+            IPurchasePaymentService purchasePaymentService)
         {
             _purchasePaymentFacade = purchasePaymentFacade ?? throw new ArgumentNullException(nameof(purchasePaymentFacade));
+            _purchasePaymentService = purchasePaymentService ?? throw new ArgumentNullException(nameof(purchasePaymentService));
         }
 
         [HttpGet]
@@ -28,7 +35,7 @@ namespace API.Controllers.Purchase.Payment
         [HttpGet]
         public async Task<ActionResult<List<PurchasePaymentModel>>> GetPaidHistory(int id)
         {
-            var list = await _purchasePaymentFacade.PurchasePaymentService.GetPurchasePaymentHistoryAsync(id);
+            var list = await _purchasePaymentService.GetPurchasePaymentHistoryAsync(id);
             if (list.Count == 0) return NotFound();
             return Ok(list);
         }
@@ -36,7 +43,7 @@ namespace API.Controllers.Purchase.Payment
         [HttpPost]
         public async Task<ActionResult<string>> ProcessPayment(PurchasePayment paymentDto)
         {
-            string message = await _purchasePaymentFacade.PurchasePaymentService.ProcessPaymentAsync(
+            string message = await _purchasePaymentService.ProcessPaymentAsync(
                 paymentDto.CompanyID,
                 paymentDto.BranchID,
                 paymentDto.UserID,

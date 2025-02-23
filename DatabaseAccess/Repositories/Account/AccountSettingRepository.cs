@@ -88,7 +88,6 @@ namespace DatabaseAccess.Repositories.Account
         {
             var entity = new tblAccountSetting
             {
-                AccountSettingID = accountSetting.AccountSettingID,
                 AccountHeadID = accountSetting.AccountHeadID,
                 AccountControlID = accountSetting.AccountControlID,
                 AccountSubControlID = accountSetting.AccountSubControlID,

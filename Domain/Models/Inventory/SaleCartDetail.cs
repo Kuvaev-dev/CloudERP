@@ -10,8 +10,7 @@ namespace Domain.Models
         [Required(ErrorMessage = "Product ID is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "Product ID must be a positive integer.")]
         public int ProductID { get; set; }
-
-        public string ProductName { get; set; }
+        public string? ProductName { get; set; }
 
         [Required(ErrorMessage = "Sale Quantity is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "Sale Quantity must be greater than 0.")]
@@ -23,6 +22,6 @@ namespace Domain.Models
         public int CompanyID { get; set; }
         public int BranchID { get; set; }
         public int UserID { get; set; }
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
     }
 }

@@ -2,12 +2,14 @@
 using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Financial.Reports
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
+    [Authorize]
     public class IncomeStatementApiController : ControllerBase
     {
         private readonly IIncomeStatementService _incomeStatementService;

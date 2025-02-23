@@ -1,30 +1,17 @@
 ﻿using Domain.Facades;
 using Domain.Models.FinancialModels;
-using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Services.Implementations
 {
     public class PurchasePaymentService : IPurchasePaymentService
     {
         private readonly PurchasePaymentFacade _purchasePaymentFacade;
-        private readonly IPurchaseRepository _purchaseRepository;
-        private readonly ISupplierInvoiceRepository _supplierInvoiceRepository;
-        private readonly ISupplierPaymentRepository _supplierPaymentRepository;
 
         public PurchasePaymentService(
-            PurchasePaymentFacade purchasePaymentFacade, 
-            IPurchaseRepository purchaseRepository,
-            ISupplierInvoiceRepository supplierInvoiceRepository,
-            ISupplierPaymentRepository supplierPaymentRepository)
+            PurchasePaymentFacade purchasePaymentFacade)
         {
             _purchasePaymentFacade = purchasePaymentFacade ?? throw new ArgumentNullException(nameof(PurchasePaymentFacade));
-            _purchaseRepository = purchaseRepository;
-            _supplierInvoiceRepository = supplierInvoiceRepository;
-            _supplierPaymentRepository = supplierPaymentRepository;
         }
 
         public async Task<(IEnumerable<object> PaymentHistory, IEnumerable<object> ReturnDetails, double RemainingAmount)> GetPaymentDetailsAsync(int invoiceId)
@@ -41,17 +28,17 @@ namespace Services.Implementations
 
         public async Task<List<PurchasePaymentModel>> GetPurchasePaymentHistoryAsync(int invoiceId)
         {
-            return await _purchaseRepository.PurchasePaymentHistory(invoiceId);
+            return await _purchasePaymentFacade.PurchaseRepository.PurchasePaymentHistory(invoiceId);
         }
 
         public async Task<double?> GetTotalAmountByIdAsync(int invoiceId)
         {
-            return await _supplierInvoiceRepository.GetTotalAmountAsync(invoiceId);
+            return await _purchasePaymentFacade.SupplierInvoiceRepository.GetTotalAmountAsync(invoiceId);
         }
 
         public async Task<double> GetTotalPaidAmountByIdAsync(int invoiceId)
         {
-            return await _supplierPaymentRepository.GetTotalPaidAmount(invoiceId);
+            return await _purchasePaymentFacade.SupplierPaymentRepository.GetTotalPaidAmount(invoiceId);
         }
 
         public async Task<string> ProcessPaymentAsync(int companyId, int branchId, int userId, PurchasePayment paymentDto)

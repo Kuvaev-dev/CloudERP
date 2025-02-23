@@ -1,7 +1,12 @@
 ﻿using API.Models;
 using Domain.Models.FinancialModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Services.Facades;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace API.Controllers.General
 {
@@ -32,11 +37,14 @@ namespace API.Controllers.General
                 var company = await _homeFacade.CompanyRepository.GetByIdAsync(employee.CompanyID);
                 if (company == null) return Unauthorized();
 
+                var token = GenerateJwtToken(user);
+
                 return Ok(new
                 {
                     user,
                     employee,
-                    company
+                    company,
+                    token
                 });
             }
             catch (Exception ex)
@@ -147,6 +155,27 @@ namespace API.Controllers.General
             {
                 return Problem(detail: ex.Message, statusCode: 500);
             }
+        }
+
+        private string GenerateJwtToken(Domain.Models.User user)
+        {
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.Name, user.Email),
+                new Claim(ClaimTypes.NameIdentifier, user.UserID.ToString()),
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var token = new JwtSecurityToken(
+                issuer: _configuration["Jwt:Issuer"],
+                audience: _configuration["Jwt:Audience"],
+                claims: claims,
+                expires: DateTime.Now.AddHours(1),
+                signingCredentials: creds
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

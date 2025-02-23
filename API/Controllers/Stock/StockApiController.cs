@@ -1,12 +1,14 @@
 ﻿using Domain.Models;
 using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Stock
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
+    [Authorize]
     public class StockApiController : ControllerBase
     {
         private readonly IStockRepository _stockRepository;

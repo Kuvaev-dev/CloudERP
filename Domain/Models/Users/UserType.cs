@@ -9,6 +9,6 @@ namespace Domain.Models
 
         [Required(ErrorMessage = "User Type Name is required.")]
         [StringLength(50, ErrorMessage = "User Type Name cannot exceed 50 characters.")]
-        public string UserTypeName { get; set; }
+        public string? UserTypeName { get; set; }
     }
 }

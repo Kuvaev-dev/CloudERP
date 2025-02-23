@@ -1,10 +1,12 @@
 ﻿using Domain.RepositoryAccess;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Branch
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
+    [Authorize]
     public class BranchApiController : ControllerBase
     {
         private readonly IBranchRepository _branchRepository;
@@ -31,21 +33,6 @@ namespace API.Controllers.Branch
                 var branches = mainBranchTypeID == MAIN_BRANCH_TYPE_ID
                     ? await _branchRepository.GetByCompanyAsync(companyId)
                     : await _branchRepository.GetSubBranchAsync(companyId, branchId);
-                if (branches == null) return NotFound();
-                return Ok(branches);
-            }
-            catch (Exception ex)
-            {
-                return Problem(detail: ex.Message, statusCode: 500);
-            }
-        }
-
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Domain.Models.Branch>>> GetAll(int companyId)
-        {
-            try
-            {
-                var branches = await _branchRepository.GetByCompanyAsync(companyId);
                 if (branches == null) return NotFound();
                 return Ok(branches);
             }

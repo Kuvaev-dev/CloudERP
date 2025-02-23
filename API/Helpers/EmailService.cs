@@ -2,7 +2,7 @@
 using System.Net.Mail;
 using Utils.Interfaces;
 
-namespace CloudERP.Helpers
+namespace API.Helpers
 {
     public class EmailService : IEmailService
     {

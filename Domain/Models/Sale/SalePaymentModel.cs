@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models.FinancialModels
 {
@@ -16,14 +14,14 @@ namespace Domain.Models.FinancialModels
 
         [Required(ErrorMessage = "Customer Name is required.")]
         [StringLength(100, ErrorMessage = "Customer Name cannot exceed 100 characters.")]
-        public string CustomerName { get; set; }
+        public string? CustomerName { get; set; }
 
         [Phone(ErrorMessage = "Invalid phone number format.")]
         [StringLength(15, ErrorMessage = "Customer Contact Number cannot exceed 15 characters.")]
-        public string CustomerContactNo { get; set; }
+        public string? CustomerContactNo { get; set; }
 
         [StringLength(200, ErrorMessage = "Customer Address cannot exceed 200 characters.")]
-        public string CustomerAddress { get; set; }
+        public string? CustomerAddress { get; set; }
 
         [Required(ErrorMessage = "Customer Invoice ID is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "Customer Invoice ID must be a positive integer.")]
@@ -42,7 +40,7 @@ namespace Domain.Models.FinancialModels
 
         [Required(ErrorMessage = "Invoice Number is required.")]
         [StringLength(50, ErrorMessage = "Invoice Number cannot exceed 50 characters.")]
-        public string InvoiceNo { get; set; }
+        public string? InvoiceNo { get; set; }
 
         [Range(0, double.MaxValue, ErrorMessage = "Total Amount must be a positive value.")]
         public double TotalAmount { get; set; }
@@ -68,6 +66,6 @@ namespace Domain.Models.FinancialModels
 
         [Required(ErrorMessage = "User Name is required.")]
         [StringLength(50, ErrorMessage = "User Name cannot exceed 50 characters.")]
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
     }
 }

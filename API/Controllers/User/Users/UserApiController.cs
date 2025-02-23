@@ -1,4 +1,5 @@
 ﻿using Domain.RepositoryAccess;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Utils.Helpers;
 
@@ -6,6 +7,7 @@ namespace API.Controllers.User.Users
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
+    [Authorize]
     public class UserApiController : ControllerBase
     {
         private readonly IUserRepository _userRepository;

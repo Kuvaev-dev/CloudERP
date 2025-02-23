@@ -5,7 +5,7 @@ namespace Domain.Models
     public class ProductQuality
     {
         public int ProductID { get; set; }
-        public string ProductName { get; set; }
+        public string? ProductName { get; set; }
         public DateTime ExpiryDate { get; set; }
         public DateTime Manufacture { get; set; }
         public int StockTreshHoldQuantity { get; set; }

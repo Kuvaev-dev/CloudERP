@@ -1,3 +1,4 @@
+using API.Helpers;
 using CloudERP.Helpers;
 using Utils.Interfaces;
 
@@ -19,9 +20,6 @@ namespace CloudERP
             });
 
             builder.Services.AddScoped<SessionHelper>();
-
-            builder.Services.AddScoped<IEmailService, EmailService>();
-            builder.Services.AddScoped<ICurrencyService, CurrencyService>();
 
             builder.Services.AddDistributedMemoryCache();
 

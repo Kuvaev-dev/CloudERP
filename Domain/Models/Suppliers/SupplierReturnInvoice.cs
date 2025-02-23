@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models
 {
@@ -27,7 +25,7 @@ namespace Domain.Models
 
         [Required(ErrorMessage = "Invoice Number is required.")]
         [StringLength(50, ErrorMessage = "Invoice Number cannot be longer than 50 characters.")]
-        public string InvoiceNo { get; set; }
+        public string? InvoiceNo { get; set; }
 
         [Range(0, double.MaxValue, ErrorMessage = "Total Amount must be a positive value.")]
         public double TotalAmount { get; set; }
@@ -36,12 +34,12 @@ namespace Domain.Models
         public DateTime InvoiceDate { get; set; }
 
         [StringLength(500, ErrorMessage = "Description cannot be longer than 500 characters.")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [Required(ErrorMessage = "User ID is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "User ID must be a positive integer.")]
         public int UserID { get; set; }
-        public string SupplierName { get; set; }
-        public List<SupplierReturnPayment> SupplierReturnPayment { get; set; }
+        public string? SupplierName { get; set; }
+        public List<SupplierReturnPayment>? SupplierReturnPayment { get; set; }
     }
 }

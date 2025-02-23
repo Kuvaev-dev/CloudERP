@@ -2,12 +2,14 @@
 using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Purchase.Cart
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
+    [Authorize]
     public class PurchaseCartApiController : ControllerBase
     {
         private readonly IPurchaseCartDetailRepository _purchaseCartDetailRepository;

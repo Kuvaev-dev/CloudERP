@@ -1,12 +1,10 @@
-﻿using System;
-
-namespace Domain.Models
+﻿namespace Domain.Models
 {
     public class TaskModel
     {
         public int TaskID { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
+        public string? Title { get; set; }
+        public string? Description { get; set; }
         public DateTime DueDate { get; set; }
         public DateTime? ReminderDate { get; set; }
         public int? AssignedByUserID { get; set; }

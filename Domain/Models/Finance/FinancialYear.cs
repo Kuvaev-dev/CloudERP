@@ -10,7 +10,7 @@ namespace Domain.Models
 
         [Required(ErrorMessage = "Financial Year Name is required.")]
         [StringLength(100, ErrorMessage = "Financial Year Name cannot exceed 100 characters.")]
-        public string FinancialYearName { get; set; }
+        public string? FinancialYearName { get; set; }
 
         [Required(ErrorMessage = "Start Date is required.")]
         [DataType(DataType.Date, ErrorMessage = "Invalid Start Date format.")]
@@ -25,6 +25,6 @@ namespace Domain.Models
         [Required(ErrorMessage = "IsActive status is required.")]
         public bool IsActive { get; set; }
         public int UserID { get; set; }
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
     }
 }

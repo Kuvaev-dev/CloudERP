@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models
 {
@@ -26,21 +24,21 @@ namespace Domain.Models
         public double SaleUnitPrice { get; set; }
 
         [StringLength(150, ErrorMessage = "Product Name cannot exceed 150 characters.")]
-        public string ProductName { get; set; }
-        public string CompanyName { get; set; }
-        public string CompanyLogo { get; set; }
-        public string CustomerInvoiceNo { get; set; }
+        public string? ProductName { get; set; }
+        public string? CompanyName { get; set; }
+        public string? CompanyLogo { get; set; }
+        public string? CustomerInvoiceNo { get; set; }
         public DateTime CustomerInvoiceDate { get; set; }
         public int ReturnedQuantity { get; set; }
         public int Qty { get; set; }
         public double ItemCost { get; set; }
         public double TotalCost { get; set; }
 
-        public CustomerInvoice CustomerInvoice { get; set; }
-        public Customer Customer { get; set; }
-        public Branch Branch { get; set; }
-        public List<CustomerInvoiceDetail> CustomerInvoiceDetails { get; set; }
-        public List<CustomerReturnInvoice> ReturnInvoices { get; set; }
-        public List<CustomerReturnInvoiceDetail> CustomerReturnInvoiceDetail { get; set; }
+        public CustomerInvoice? CustomerInvoice { get; set; }
+        public Customer? Customer { get; set; }
+        public Branch? Branch { get; set; }
+        public List<CustomerInvoiceDetail>? CustomerInvoiceDetails { get; set; }
+        public List<CustomerReturnInvoice>? ReturnInvoices { get; set; }
+        public List<CustomerReturnInvoiceDetail>? CustomerReturnInvoiceDetail { get; set; }
     }
 }

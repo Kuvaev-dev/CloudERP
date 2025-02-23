@@ -9,6 +9,6 @@ namespace Domain.Models
 
         [Required(ErrorMessage = "Branch Type Name is required.")]
         [StringLength(50, ErrorMessage = "Branch Type Name cannot exceed 50 characters.")]
-        public string BranchTypeName { get; set; }
+        public string? BranchTypeName { get; set; }
     }
 }

@@ -8,7 +8,7 @@ namespace Domain.Models.FinancialModels
         public int SupplierId { get; set; }
 
         [StringLength(500, ErrorMessage = "Description cannot be longer than 500 characters.")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [Required(ErrorMessage = "IsPayment flag is required.")]
         public bool IsPayment { get; set; }

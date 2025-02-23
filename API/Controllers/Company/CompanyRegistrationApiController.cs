@@ -1,5 +1,6 @@
 ﻿using API.Models;
 using Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Facades;
 using Utils.Helpers;
@@ -8,6 +9,7 @@ namespace API.Controllers.Company
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
+    [Authorize]
     public class CompanyRegistrationApiController : ControllerBase
     {
         private readonly CompanyRegistrationFacade _companyRegistrationFacade;
