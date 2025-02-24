@@ -17,8 +17,8 @@ namespace API.Controllers.Branch
         private readonly IFileService _fileService;
         private readonly IFileAdapterFactory _fileAdapterFactory;
 
-        private const string EMPLOYEE_AVATAR_PATH = "~/Content/EmployeePhoto";
-        private const string DEFAULT_EMPLOYEE_AVATAR_PATH = "~/Content/EmployeePhoto/Default/default.png";
+        private const string EMPLOYEE_AVATAR_PATH = "~/wwwroot/EmployeePhoto";
+        private const string DEFAULT_EMPLOYEE_AVATAR_PATH = "~/wwwroot/EmployeePhoto/Default/default.png";
 
         public BranchEmployeeApiController(
             IEmployeeRepository employeeRepository,
@@ -105,7 +105,7 @@ namespace API.Controllers.Branch
             }
         }
 
-        [HttpPost, Route("updation")]
+        [HttpPost]
         public async Task<ActionResult<Employee>> EmployeeUpdation()
         {
             if (!Request.HasFormContentType && string.IsNullOrEmpty(Request.Form["model"]))

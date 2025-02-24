@@ -47,7 +47,7 @@ namespace API.Controllers.Branch
             }
         }
 
-        [HttpPost, Route("create")]
+        [HttpPost]
         public async Task<ActionResult<BranchType>> Create([FromBody] BranchType model)
         {
             if (model == null) return BadRequest("Invalid data.");

@@ -63,22 +63,6 @@ namespace API.Controllers.Financial.Transactions
             }
         }
 
-        // GET: api/general-transaction/sub-journal/{id}
-        [HttpGet]
-        public async Task<ActionResult<List<JournalModel>>> GetSubJournal(int companyId, int id, DateTime fromDate, DateTime toDate)
-        {
-            try
-            {
-                var subJournalEntries = await _generalTransactionRepository.GetJournal(companyId, id, fromDate, toDate);
-                if (subJournalEntries == null) return NotFound();
-                return Ok(subJournalEntries);
-            }
-            catch (Exception ex)
-            {
-                return Problem(detail: ex.Message, statusCode: 500);
-            }
-        }
-
         // GET: api/general-transaction/accounts
         [HttpGet]
         public async Task<ActionResult<List<AllAccountModel>>> GetAccounts(int companyId, int branchId)

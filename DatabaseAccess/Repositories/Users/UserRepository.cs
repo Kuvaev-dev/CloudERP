@@ -91,7 +91,6 @@ namespace DatabaseAccess.Repositories.Users
         {
             var entity = new tblUser
             {
-                UserID = user.UserID,
                 UserTypeID = 2,
                 FullName = user.FullName,
                 Email = user.Email,

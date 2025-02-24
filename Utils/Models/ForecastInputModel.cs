@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Utils.Models
+﻿namespace Utils.Models
 {
     public class ForecastInputModel
     {

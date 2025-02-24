@@ -82,29 +82,20 @@ namespace API.Controllers.Stock
             }
             catch (Exception ex)
             {
-                return Problem(detail: ex.Message, statusCode: 500);
+                return Problem(detail: ex.Message + " " + ex.InnerException, statusCode: 500);
             }
         }
 
         // PUT: api/stock/{id}
         [HttpPut]
-        public async Task<IActionResult> Update(int id, [FromBody] Domain.Models.Stock model, int userId)
+        public async Task<IActionResult> Update(int id, [FromBody] Domain.Models.Stock model)
         {
+            if (model == null || id != model.ProductID) return BadRequest("Invalid data.");
+
             try
             {
-                model.UserID = userId;
-
-                if (ModelState.IsValid)
-                {
-                    var existingStock = await _stockRepository.GetByProductNameAsync(model.CompanyID, model.BranchID, model.ProductName);
-
-                    if (existingStock != null && existingStock.ProductID != model.ProductID) return Conflict();
-
-                    await _stockRepository.UpdateAsync(model);
-                    return Ok(model);
-                }
-
-                return BadRequest("Invalid data.");
+                await _stockRepository.UpdateAsync(model);
+                return Ok(model);
             }
             catch (Exception ex)
             {

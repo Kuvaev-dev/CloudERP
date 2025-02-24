@@ -1,9 +1,6 @@
 ﻿using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Services.Implementations
 {
@@ -75,7 +72,7 @@ namespace Services.Implementations
 
             totalReturnEarning = totalRevenue - totalExpenses;
 
-            balanceSheet.Title = "Trial Balance";
+            balanceSheet.Title = "Balance Sheet";
             balanceSheet.ReturnEarning = totalReturnEarning;
             balanceSheet.Total_Liabilities_OwnerEquity_ReturnEarning = totalLiabilities + totalOwnerEquity + totalReturnEarning;
             balanceSheet.TotalAssets = totalAssets;

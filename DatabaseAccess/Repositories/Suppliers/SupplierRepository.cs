@@ -66,7 +66,11 @@ namespace DatabaseAccess.Repositories.Suppliers
 
         public async Task<Supplier?> GetByIdAsync(int id)
         {
-            var entity = await _dbContext.tblSupplier.FindAsync(id);
+            var entity = await _dbContext.tblSupplier
+                .Include(s => s.Company)
+                .Include(s => s.Branch)
+                .Include(s => s.User)
+                .FirstOrDefaultAsync(s => s.SupplierID == id);
 
             return entity == null ? null : new Supplier
             {

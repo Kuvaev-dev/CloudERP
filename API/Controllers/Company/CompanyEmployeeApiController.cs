@@ -120,25 +120,19 @@ namespace API.Controllers.Company
         }
 
         [HttpPost]
-        public async Task<ActionResult<SalaryMV>> ProcessSalary([FromBody] SalaryMV salary)
+        public async Task<ActionResult<SalaryMV>> ProcessSalary(string TIN)
         {
-            try
+            var employee = await _companyEmployeeFacade.EmployeeRepository.GetByTINAsync(TIN);
+            if (employee == null) return NotFound($"Employee with TIN {TIN} not found.");
+
+            return Ok(new SalaryMV
             {
-                var employee = await _companyEmployeeFacade.EmployeeRepository.GetByTINAsync(salary.TIN);
-                if (employee != null)
-                {
-                    salary.EmployeeID = employee.EmployeeID;
-                    salary.EmployeeName = employee.FullName;
-                    salary.Designation = employee.Designation;
-                    salary.TIN = employee.TIN;
-                    salary.TransferAmount = employee.MonthlySalary;
-                }
-                return Ok(salary);
-            }
-            catch (Exception ex)
-            {
-                return Problem(detail: ex.Message, statusCode: 500);
-            }
+                EmployeeID = employee.EmployeeID,
+                EmployeeName = employee.FullName,
+                Designation = employee.Designation,
+                TIN = employee.TIN,
+                TransferAmount = employee.MonthlySalary
+            });
         }
 
         [HttpPost]

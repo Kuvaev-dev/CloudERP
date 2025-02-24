@@ -96,7 +96,11 @@ namespace DatabaseAccess.Repositories.Account
 
         public async Task<AccountSubControl?> GetBySettingAsync(int id, int companyId, int branchId)
         {
-            var entity = await _dbContext.tblAccountSubControl.FirstOrDefaultAsync(a =>
+            var entity = await _dbContext.tblAccountSubControl
+                .Include(a => a.AccountHead)
+                .Include(a => a.AccountControl)
+                .Include(a => a.User)
+                .FirstOrDefaultAsync(a =>
                     a.AccountSubControlID == id &&
                     a.CompanyID == companyId &&
                     a.BranchID == branchId);

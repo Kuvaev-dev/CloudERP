@@ -24,7 +24,7 @@ namespace API.Controllers.Financial.Reports
 
         // GET: BalanceSheet
         [HttpGet]
-        public async Task<ActionResult<List<TrialBalanceModel>>> GetBalanceSheet(int companyId, int branchId)
+        public async Task<ActionResult<List<TrialBalanceModel>>> GetTrialBalance(int companyId, int branchId)
         {
             try
             {
@@ -44,50 +44,10 @@ namespace API.Controllers.Financial.Reports
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<TrialBalanceModel>>> GetBalanceSheetByFinancialYear(int companyId, int branchId, int financialYearId)
+        public async Task<ActionResult<List<TrialBalanceModel>>> GetTrialBalanceByFinancialYear(int companyId, int branchId, int financialYearId)
         {
             try
             {
-                var balanceSheet = await _trialBalanceRepository.GetTrialBalanceAsync(
-                    companyId,
-                    branchId,
-                    financialYearId);
-
-                return Ok(balanceSheet);
-            }
-            catch (Exception ex)
-            {
-                return Problem(detail: ex.Message, statusCode: 500);
-            }
-        }
-
-        [HttpGet]
-        public async Task<ActionResult<List<TrialBalanceModel>>> GetSubBalanceSheet(int companyId, int branchId)
-        {
-            try
-            {
-                var financialYear = await GetActiveAsync();
-
-                var balanceSheet = await _trialBalanceRepository.GetTrialBalanceAsync(
-                    companyId,
-                    branchId,
-                    financialYear.FinancialYearID);
-
-                return Ok(balanceSheet);
-            }
-            catch (Exception ex)
-            {
-                return Problem(detail: ex.Message, statusCode: 500);
-            }
-        }
-
-        [HttpGet]
-        public async Task<ActionResult<List<TrialBalanceModel>>> GetSubBalanceSheetByFinancialYear(int companyId, int branchId, int financialYearId)
-        {
-            try
-            {
-                await GetActiveAsync();
-
                 var balanceSheet = await _trialBalanceRepository.GetTrialBalanceAsync(
                     companyId,
                     branchId,

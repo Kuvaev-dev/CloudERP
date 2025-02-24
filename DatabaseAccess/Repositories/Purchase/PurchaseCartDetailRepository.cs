@@ -19,7 +19,6 @@ namespace DatabaseAccess.Repositories.Purchase
         {
             var entity = new tblPurchaseCartDetail
             {
-                PurchaseCartDetailID = purchaseCartDetail.PurchaseCartDetailID,
                 ProductID = purchaseCartDetail.ProductID,
                 PurchaseQuantity = purchaseCartDetail.PurchaseQuantity,
                 PurchaseUnitPrice = purchaseCartDetail.PurchaseUnitPrice,
@@ -69,6 +68,8 @@ namespace DatabaseAccess.Repositories.Purchase
         public async Task<IEnumerable<PurchaseCartDetail>> GetByDefaultSettingsAsync(int branchId, int companyId, int userId)
         {
             var entities = await _dbContext.tblPurchaseCartDetail
+                .Include(i => i.Product)
+                .Include(i => i.User)
                 .Where(i => i.BranchID == branchId && i.CompanyID == companyId && i.UserID == userId)
                 .ToListAsync();
 

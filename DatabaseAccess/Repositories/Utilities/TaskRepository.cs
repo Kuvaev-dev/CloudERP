@@ -61,7 +61,6 @@ namespace DatabaseAccess.Repositories.Utilities
         {
             var entity = new tblTask
             {
-                TaskID = task.TaskID,
                 Title = task.Title,
                 Description = task.Description,
                 DueDate = task.DueDate,
@@ -82,7 +81,6 @@ namespace DatabaseAccess.Repositories.Utilities
         {
             var entity = await _dbContext.tblTask.FindAsync(task.TaskID);
 
-            entity.TaskID = task.TaskID;
             entity.Title = task.Title;
             entity.Description = task.Description;
             entity.DueDate = task.DueDate;

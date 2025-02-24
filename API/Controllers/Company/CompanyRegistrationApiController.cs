@@ -15,8 +15,8 @@ namespace API.Controllers.Company
         private readonly CompanyRegistrationFacade _companyRegistrationFacade;
         private readonly PasswordHelper _passwordHelper;
 
-        private const string DEFAULT_COMPANY_LOGO_PATH = "~/Content/CompanyLogo/erp-logo.png";
-        private const string DEFAULT_EMPLOYEE_PHOTO_PATH = "~/Content/EmployeePhoto/Default/default.png";
+        private const string DEFAULT_COMPANY_LOGO_PATH = "~/wwwroot/CompanyLogo/erp-logo.png";
+        private const string DEFAULT_EMPLOYEE_PHOTO_PATH = "~/wwwroot/EmployeePhoto/Default/default.png";
         private const int MAIN_BRANCH_ID = 1;
         private const int DEFAULT_USER_TYPE_ID = 2;
 
@@ -88,6 +88,7 @@ namespace API.Controllers.Company
                     CompanyID = company.CompanyID,
                     ContactNumber = model.EmployeeContactNo,
                     Designation = model.EmployeeDesignation,
+                    Description = string.Empty,
                     Email = model.EmployeeEmail,
                     MonthlySalary = model.EmployeeMonthlySalary,
                     UserID = user.UserID,

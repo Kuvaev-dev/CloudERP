@@ -77,7 +77,6 @@ namespace DatabaseAccess.Repositories.Branch
         {
             var entity = new tblBranch
             {
-                BranchID = branch.BranchID,
                 BranchTypeID = branch.BranchTypeID,
                 BranchName = branch.BranchName,
                 BranchContact = branch.BranchContact,
@@ -97,7 +96,6 @@ namespace DatabaseAccess.Repositories.Branch
         {
             var entity = await _dbContext.tblBranch.FindAsync(branch.BranchID);
 
-            entity.BranchID = branch.BranchID;
             entity.BranchTypeID = branch.BranchTypeID;
             entity.BranchName = branch.BranchName;
             entity.BranchContact = branch.BranchContact;

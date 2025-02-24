@@ -4,6 +4,7 @@ using Domain.RepositoryAccess;
 using System.Data;
 using Microsoft.Data.SqlClient;
 using Utils.Helpers;
+using Microsoft.Extensions.Configuration;
 
 namespace DatabaseAccess.Repositories.Finance
 {
@@ -12,17 +13,20 @@ namespace DatabaseAccess.Repositories.Finance
         private readonly CloudDBEntities _dbContext;
         private readonly DatabaseQuery _query;
         private readonly IAccountSubControlRepository _accountSubControlRepository;
+        private readonly IConfiguration _configuration;
 
         private DataTable _dtEntries;
 
         public GeneralTransactionRepository(
             CloudDBEntities dbContext,
             DatabaseQuery query,
-            IAccountSubControlRepository accountSubControlRepository)
+            IAccountSubControlRepository accountSubControlRepository,
+            IConfiguration configuration)
         {
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(CloudDBEntities));
             _query = query ?? throw new ArgumentNullException(nameof(DatabaseQuery));
             _accountSubControlRepository = accountSubControlRepository ?? throw new ArgumentNullException(nameof(IAccountSubControlRepository));
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(IConfiguration));
         }
 
         private void InitializeDataTable()

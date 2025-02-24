@@ -67,48 +67,6 @@ namespace API.Controllers.Financial.Reports
             }
         }
 
-        [HttpGet, Route("sub-branch-balance-sheet/{companyId:int}/{branchId:int}")]
-        public async Task<ActionResult<BalanceSheetModel>> GetSubBalanceSheet(int companyId, int branchId)
-        {
-            try
-            {
-                var financialYear = await GetActiveAsync();
-
-                var balanceSheet = await _balanceSheetService.GetBalanceSheetAsync(
-                    companyId,
-                    branchId,
-                    financialYear.FinancialYearID,
-                    await GetHeadsIDsList());
-
-                return Ok(balanceSheet);
-            }
-            catch (Exception ex)
-            {
-                return Problem(detail: ex.Message, statusCode: 500);
-            }
-        }
-
-        [HttpGet, Route("branch-balance-sheet/{companyId:int}/{branchId:int}/{financialYearId:int}")]
-        public async Task<ActionResult<BalanceSheetModel>> GetSubBalanceSheetByFinancialYear(int companyId, int branchId, int financialYearId)
-        {
-            try
-            {
-                await GetActiveAsync();
-
-                var balanceSheet = await _balanceSheetService.GetBalanceSheetAsync(
-                    companyId,
-                    branchId,
-                    financialYearId,
-                    await GetHeadsIDsList());
-
-                return Ok(balanceSheet);
-            }
-            catch (Exception ex)
-            {
-                return Problem(detail: ex.Message, statusCode: 500);
-            }
-        }
-
         private async Task<List<int>> GetHeadsIDsList()
         {
             IEnumerable<int> accountHeadsIDs = await _accountHeadRepository.GetAllIdsAsync();

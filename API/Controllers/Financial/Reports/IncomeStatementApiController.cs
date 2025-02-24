@@ -44,35 +44,6 @@ namespace API.Controllers.Financial.Reports
         {
             try
             {
-                return Ok(await _incomeStatementService.GetIncomeStatementAsync(companyId, branchId, FinancialYearID));
-            }
-            catch (Exception ex)
-            {
-                return Problem(detail: ex.Message, statusCode: 500);
-            }
-        }
-
-        // GET: IncomeStatement
-        [HttpGet]
-        public async Task<ActionResult<IncomeStatementModel>> GetSubIncomeStatement(int companyId, int branchId)
-        {
-            try
-            {
-                var FinancialYear = await GetActiveAsync();
-
-                return Ok(await _incomeStatementService.GetIncomeStatementAsync(companyId, branchId, FinancialYear.FinancialYearID));
-            }
-            catch (Exception ex)
-            {
-                return Problem(detail: ex.Message, statusCode: 500);
-            }
-        }
-
-        [HttpGet]
-        public async Task<ActionResult<IncomeStatementModel>> GetSubIncomeStatementByFinancialYear(int companyId, int branchId, int FinancialYearID)
-        {
-            try
-            {
                 var FinancialYear = await GetActiveAsync();
 
                 return Ok(await _incomeStatementService.GetIncomeStatementAsync(companyId, branchId, FinancialYearID));

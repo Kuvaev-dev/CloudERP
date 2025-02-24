@@ -18,6 +18,7 @@ namespace DatabaseAccess.Repositories.Inventory
         public async Task<IEnumerable<Stock>> GetAllAsync(int companyID, int branchID)
         {
             var entities = await _dbContext.tblStock
+                .Include(s => s.Category)
                 .Where(s => s.CompanyID == companyID && s.BranchID == branchID)
                 .ToListAsync();
 
@@ -43,7 +44,12 @@ namespace DatabaseAccess.Repositories.Inventory
 
         public async Task<Stock?> GetByIdAsync(int id)
         {
-            var entity = await _dbContext.tblStock.FindAsync(id);
+            var entity = await _dbContext.tblStock
+                .Include(p => p.Category)
+                .Include(p => p.Company)
+                .Include(p => p.Branch)
+                .Include(p => p.User)
+                .FirstOrDefaultAsync(p => p.ProductID == id);
 
             return entity == null ? null : new Stock
             {
@@ -97,7 +103,6 @@ namespace DatabaseAccess.Repositories.Inventory
         {
             var entity = new tblStock
             {
-                ProductID = stock.ProductID,
                 CategoryID = stock.CategoryID,
                 CompanyID = stock.CompanyID,
                 BranchID = stock.BranchID,
@@ -121,7 +126,6 @@ namespace DatabaseAccess.Repositories.Inventory
         {
             var entity = await _dbContext.tblStock.FindAsync(stock.ProductID);
 
-            entity.ProductID = stock.ProductID;
             entity.CategoryID = stock.CategoryID;
             entity.CompanyID = stock.CompanyID;
             entity.BranchID = stock.BranchID;
@@ -144,27 +148,21 @@ namespace DatabaseAccess.Repositories.Inventory
         {
             return await _dbContext.tblStock
                 .Where(s => s.CompanyID == companyID)
-                .Select(s => s.Quantity)
-                .DefaultIfEmpty(0)
-                .SumAsync();
+                .SumAsync(s => (int?)s.Quantity) ?? 0;
         }
 
         public async Task<int> GetTotalAvaliableItemsByCompanyAsync(int companyID)
         {
             return await _dbContext.tblStock
                 .Where(s => s.CompanyID == companyID && s.IsActive == true)
-                .Select(s => s.Quantity)
-                .DefaultIfEmpty(0)
-                .SumAsync();
+                .SumAsync(s => (int?)s.Quantity) ?? 0;
         }
 
         public async Task<int> GetTotalExpiredItemsByCompanyAsync(int companyID)
         {
             return await _dbContext.tblStock
                 .Where(s => s.CompanyID == companyID && s.ExpiryDate < DateTime.Now)
-                .Select(s => s.Quantity)
-                .DefaultIfEmpty(0)
-                .SumAsync();
+                .SumAsync(s => (int?)s.Quantity) ?? 0;
         }
     }
 }

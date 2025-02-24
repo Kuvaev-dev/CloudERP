@@ -118,6 +118,13 @@ namespace DatabaseAccess.Repositories.Account
         public async Task<AccountSetting?> GetByActivityAsync(int id, int companyId, int branchId)
         {
             var entity = await _dbContext.tblAccountSetting
+                .Include(a => a.AccountHead)
+                .Include(a => a.AccountControl)
+                .Include(a => a.AccountSubControl)
+                .Include(a => a.AccountActivity)
+                .Include(a => a.Company)
+                .Include(a => a.Branch)
+                .Include(a => a.User)
                 .Where(a => a.AccountActivityID == id && a.CompanyID == companyId && a.BranchID == branchId)
                 .FirstOrDefaultAsync();
 

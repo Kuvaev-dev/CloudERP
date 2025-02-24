@@ -84,7 +84,6 @@ namespace DatabaseAccess.Repositories.Finance
         {
             var entity = new tblFinancialYear
             {
-                FinancialYearID = financialYear.FinancialYearID,
                 FinancialYear = financialYear.FinancialYearName,
                 StartDate = financialYear.StartDate,
                 EndDate = financialYear.EndDate,
@@ -100,7 +99,6 @@ namespace DatabaseAccess.Repositories.Finance
         {
             var entity = await _dbContext.tblFinancialYear.FindAsync(financialYear.FinancialYearID);
 
-            entity.FinancialYearID = financialYear.FinancialYearID;
             entity.FinancialYear = financialYear.FinancialYearName;
             entity.StartDate = financialYear.StartDate;
             entity.EndDate = financialYear.EndDate;

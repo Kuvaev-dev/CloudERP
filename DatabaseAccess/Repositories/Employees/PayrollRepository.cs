@@ -16,7 +16,12 @@ namespace DatabaseAccess.Repositories.Employees
 
         public async Task<Payroll?> GetByIdAsync(int id)
         {
-            var entity = await _dbContext.tblPayroll.FirstOrDefaultAsync(p => p.PayrollID == id);
+            var entity = await _dbContext.tblPayroll
+                .Include(p => p.Employee)
+                .Include(p => p.Branch)
+                .Include(p => p.Company)
+                .Include(p => p.User)
+                .FirstOrDefaultAsync(p => p.PayrollID == id);
 
             return entity == null ? null : new Payroll
             {
@@ -92,6 +97,8 @@ namespace DatabaseAccess.Repositories.Employees
         public async Task<IEnumerable<Payroll>> GetSalaryHistoryAsync(int branchID, int companyID)
         {
             var entities = await _dbContext.tblPayroll
+                .Include(p => p.Employee)
+                .Include(p => p.User)
                 .Where(p => p.BranchID == branchID && p.CompanyID == companyID)
                 .OrderByDescending(p => p.PayrollID)
                 .ToListAsync();

@@ -18,6 +18,7 @@ namespace DatabaseAccess.Repositories.Employees
         public async Task<IEnumerable<Employee>> GetByBranchAsync(int companyId, int branchId)
         {
             var entities = await _dbContext.tblEmployee
+                .Include(e => e.Branch)
                 .Where(e => e.CompanyID == companyId && e.BranchID == branchId)
                 .ToListAsync();
 
@@ -65,6 +66,7 @@ namespace DatabaseAccess.Repositories.Employees
         public async Task<IEnumerable<Employee>> GetByCompanyIdAsync(int companyId)
         {
             var entities = await _dbContext.tblEmployee
+                .Include(e => e.Branch)
                 .Where(e => e.CompanyID == companyId)
                 .ToListAsync();
 
@@ -93,7 +95,9 @@ namespace DatabaseAccess.Repositories.Employees
 
         public async Task<Employee?> GetByIdAsync(int id)
         {
-            var entity = await _dbContext.tblEmployee.FindAsync(id);
+            var entity = await _dbContext.tblEmployee
+                .Include(e => e.Branch)
+                .FirstOrDefaultAsync(e => e.EmployeeID == id);
 
             return entity == null ? null : new Employee
             {
@@ -246,6 +250,7 @@ namespace DatabaseAccess.Repositories.Employees
         public async Task<Employee?> GetByTINAsync(string TIN)
         {
             var entity = await _dbContext.tblEmployee
+                .Include(e => e.Branch)
                 .Where(e => e.TIN == TIN)
                 .FirstOrDefaultAsync();
 

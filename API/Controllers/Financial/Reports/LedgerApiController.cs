@@ -42,44 +42,8 @@ namespace API.Controllers.Financial.Reports
             }
         }
 
-        [HttpGet, Route("branch-ledger/{companyId:int}/{branchId:int}/{financialYearId:int}")]
+        [HttpGet]
         public async Task<ActionResult<List<AccountLedgerModel>>> GetLedgerByFinancialYear(int companyId, int branchId, int financialYearId)
-        {
-            try
-            {
-                await PopulateViewBag(financialYearId);
-
-                return Ok(await _ledgerRepository.GetLedgerAsync(companyId, branchId, financialYearId));
-            }
-            catch (Exception ex)
-            {
-                return Problem(detail: ex.Message, statusCode: 500);
-            }
-        }
-
-        [HttpGet, Route("sub-branch-ledger/{companyId:int}/{branchId:int}")]
-        public async Task<ActionResult<List<AccountLedgerModel>>> GetSubLedger(int companyId, int branchId)
-        {
-            try
-            {
-                await PopulateViewBag();
-
-                var defaultFinancialYear = await _financialYearRepository.GetSingleActiveAsync();
-                if (defaultFinancialYear != null)
-                {
-                    return Ok(await _ledgerRepository.GetLedgerAsync(companyId, branchId, defaultFinancialYear.FinancialYearID));
-                }
-
-                return Ok(new List<AccountLedgerModel>());
-            }
-            catch (Exception ex)
-            {
-                return Problem(detail: ex.Message, statusCode: 500);
-            }
-        }
-
-        [HttpGet, Route("sub-branch-ledger/{companyId:int}/{branchId:int}/{financialYearId:int}")]
-        public async Task<ActionResult<List<AccountLedgerModel>>> GetSubLedgerByFinancialYear(int companyId, int branchId, int financialYearId)
         {
             try
             {

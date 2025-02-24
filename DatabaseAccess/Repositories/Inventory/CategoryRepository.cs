@@ -19,6 +19,8 @@ namespace DatabaseAccess.Repositories.Inventory
         {
             var entities = await _dbContext.tblCategory
                 .Include(c => c.User)
+                .Include(c => c.Company)
+                .Include(c => c.Branch)
                 .Where(c => c.CompanyID == companyID && c.BranchID == branchID)
                 .ToListAsync();
 
@@ -37,7 +39,11 @@ namespace DatabaseAccess.Repositories.Inventory
 
         public async Task<Category?> GetByIdAsync(int id)
         {
-            var entity = await _dbContext.tblCategory.FindAsync(id);
+            var entity = await _dbContext.tblCategory
+                .Include(c => c.Branch)
+                .Include(c => c.Company)
+                .Include(c => c.User)
+                .FirstOrDefaultAsync(c => c.CategoryID == id);
 
             return entity == null ? null : new Category
             {
@@ -56,7 +62,6 @@ namespace DatabaseAccess.Repositories.Inventory
         {
             var entity = new tblCategory
             {
-                CategoryID = category.CategoryID,
                 CategoryName = category.CategoryName,
                 BranchID = category.BranchID,
                 CompanyID = category.CompanyID,

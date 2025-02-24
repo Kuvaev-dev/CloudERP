@@ -49,7 +49,7 @@ namespace API.Controllers.Stock
         }
 
         [HttpPut]
-        public async Task<IActionResult> Edit(int id, [FromBody] Category model)
+        public async Task<IActionResult> Update(int id, [FromBody] Category model)
         {
             if (model == null || id != model.CategoryID) return BadRequest("Invalid data.");
 

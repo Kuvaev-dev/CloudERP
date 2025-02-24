@@ -88,7 +88,6 @@ namespace DatabaseAccess.Repositories.Utilities
         {
             var entity = new tblSupportTicket
             {
-                TicketID = ticket.TicketID,
                 Subject = ticket.Subject,
                 Name = ticket.Name,
                 Email = ticket.Email,

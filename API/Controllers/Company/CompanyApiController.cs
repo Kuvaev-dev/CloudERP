@@ -2,6 +2,7 @@
 using Domain.RepositoryAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Utils.Interfaces;
 
 namespace API.Controllers.Company
@@ -15,8 +16,8 @@ namespace API.Controllers.Company
         private readonly IFileService _fileService;
         private readonly IFileAdapterFactory _fileAdapterFactory;
 
-        private const string COMPANY_LOGO_PATH = "~/Content/CompanyLogo";
-        private const string DEFAULT_COMPANY_LOGO_PATH = "~/Content/CompanyLogo/erp-logo.png";
+        private const string COMPANY_LOGO_PATH = "~/wwwroot/CompanyLogo";
+        private const string DEFAULT_COMPANY_LOGO_PATH = "~/wwwroot/CompanyLogo/erp-logo.png";
 
         public CompanyApiController(
             ICompanyRepository companyRepository,
@@ -59,23 +60,32 @@ namespace API.Controllers.Company
         }
 
         [HttpPost]
-        public async Task<ActionResult<Domain.Models.Company>> Create([FromBody] Domain.Models.Company model, [FromForm] IFormFile logo)
+        public async Task<ActionResult<Domain.Models.Company>> Create([FromBody] Domain.Models.Company model)
         {
             if (model == null) return BadRequest("Invalid data.");
 
             try
             {
-                if (await _companyRepository.CheckCompanyExistsAsync(model.Name))
+                if (model == null || (!Request.HasFormContentType && string.IsNullOrEmpty(Request.Form["model"])))
+                    return BadRequest("Invalid data.");
+
+                try
                 {
-                    ModelState.AddModelError("Name", Localization.CloudERP.Messages.Messages.AlreadyExists);
-                    return NotFound();
+                    model = JsonConvert.DeserializeObject<Domain.Models.Company>(Request.Form["model"]);
+                }
+                catch
+                {
+                    return BadRequest("Invalid employee data format.");
                 }
 
-                if (logo != null)
+                if (model == null) return BadRequest("Invalid data.");
+
+                if (Request.Form.Files.Count > 0)
                 {
+                    var file = Request.Form.Files[0];
                     var fileName = $"{model.Name}.jpg";
 
-                    var fileAdapter = _fileAdapterFactory.Create(logo);
+                    var fileAdapter = _fileAdapterFactory.Create(file);
                     model.Logo = await _fileService.UploadPhotoAsync(fileAdapter, COMPANY_LOGO_PATH, fileName);
                 }
                 else
@@ -93,9 +103,10 @@ namespace API.Controllers.Company
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update([FromBody] Domain.Models.Company model, [FromForm] IFormFile logo)
+        public async Task<IActionResult> Update([FromBody] Domain.Models.Company model)
         {
-            if (model == null) return BadRequest("Invalid data.");
+            if (model == null || (!Request.HasFormContentType && string.IsNullOrEmpty(Request.Form["model"])))
+                return BadRequest("Invalid data.");
 
             try
             {
@@ -105,11 +116,12 @@ namespace API.Controllers.Company
                     return NotFound();
                 }
 
-                if (logo != null)
+                if (Request.Form.Files.Count > 0)
                 {
+                    var file = Request.Form.Files[0];
                     var fileName = $"{model.Name}.jpg";
 
-                    var fileAdapter = _fileAdapterFactory.Create(logo);
+                    var fileAdapter = _fileAdapterFactory.Create(file);
                     model.Logo = await _fileService.UploadPhotoAsync(fileAdapter, COMPANY_LOGO_PATH, fileName);
                 }
                 else
