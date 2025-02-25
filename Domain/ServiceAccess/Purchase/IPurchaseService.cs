@@ -1,5 +1,4 @@
-﻿using Domain.Models.Purchase;
-using System.Threading.Tasks;
+﻿using Domain.Models;
 
 namespace Domain.ServiceAccess
 {

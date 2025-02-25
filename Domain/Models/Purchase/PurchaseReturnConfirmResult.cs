@@ -1,6 +1,6 @@
 ﻿namespace Domain.Models
 {
-    public class ReturnConfirmResult
+    public class PurchaseReturnConfirmResult
     {
         public bool IsSuccess { get; set; }
         public string? Message { get; set; }

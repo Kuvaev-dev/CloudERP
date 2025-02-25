@@ -1,4 +1,4 @@
-﻿namespace Domain.Models.Sale
+﻿namespace Domain.Models
 {
     public class SaleItemDetailDto
     {

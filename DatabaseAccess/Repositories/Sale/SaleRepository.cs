@@ -4,6 +4,7 @@ using Domain.RepositoryAccess;
 using System.Data;
 using Microsoft.Data.SqlClient;
 using Utils.Helpers;
+using Domain.Models;
 
 namespace DatabaseAccess.Repositories.Sale
 {
@@ -69,9 +70,9 @@ namespace DatabaseAccess.Repositories.Sale
             }
         }
 
-        public async Task<List<SalePaymentModel>> CustomSalesList(int CompanyID, int BranchID, DateTime FromDate, DateTime ToDate)
+        public async Task<List<SaleInfo>> CustomSalesList(int CompanyID, int BranchID, DateTime FromDate, DateTime ToDate)
         {
-            var remainingPaymentList = new List<SalePaymentModel>();
+            var remainingPaymentList = new List<SaleInfo>();
 
             using (SqlConnection connection = await _query.ConnOpenAsync())
             {
@@ -94,7 +95,7 @@ namespace DatabaseAccess.Repositories.Sale
                         var customerID = Convert.ToInt32(row["CustomerID"]);
                         var customer = await _customerRepository.GetByIdAsync(customerID);
 
-                        var payment = new SalePaymentModel
+                        var payment = new SaleInfo
                         {
                             CustomerInvoiceID = Convert.ToInt32(row["CustomerInvoiceID"]),
                             BranchID = Convert.ToInt32(row["BranchID"]),
@@ -121,9 +122,9 @@ namespace DatabaseAccess.Repositories.Sale
             return remainingPaymentList;
         }
 
-        public async Task<List<SalePaymentModel>> GetReturnSaleAmountPending(int CompanyID, int BranchID)
+        public async Task<List<SaleInfo>> GetReturnSaleAmountPending(int CompanyID, int BranchID)
         {
-            var remainingPaymentList = new List<SalePaymentModel>();
+            var remainingPaymentList = new List<SaleInfo>();
 
             using (SqlConnection connection = await _query.ConnOpenAsync())
             {
@@ -144,7 +145,7 @@ namespace DatabaseAccess.Repositories.Sale
                         var customerID = Convert.ToInt32(row["CustomerID"]);
                         var customer = await _customerRepository.GetByIdAsync(customerID);
 
-                        var payment = new SalePaymentModel
+                        var payment = new SaleInfo
                         {
                             CustomerInvoiceID = Convert.ToInt32(row["CustomerInvoiceID"]),
                             BranchID = Convert.ToInt32(row["BranchID"]),
@@ -202,9 +203,9 @@ namespace DatabaseAccess.Repositories.Sale
             }
         }
 
-        public async Task<List<SalePaymentModel>> RemainingPaymentList(int CompanyID, int BranchID)
+        public async Task<List<SaleInfo>> RemainingPaymentList(int CompanyID, int BranchID)
         {
-            var remainingPaymentList = new List<SalePaymentModel>();
+            var remainingPaymentList = new List<SaleInfo>();
 
             using (SqlConnection connection = await _query.ConnOpenAsync())
             {
@@ -225,7 +226,7 @@ namespace DatabaseAccess.Repositories.Sale
                         var customerID = Convert.ToInt32(row["CustomerID"]);
                         var customer = await _customerRepository.GetByIdAsync(customerID);
 
-                        var payment = new SalePaymentModel
+                        var payment = new SaleInfo
                         {
                             CustomerInvoiceID = Convert.ToInt32(row["CustomerInvoiceID"]),
                             BranchID = Convert.ToInt32(row["BranchID"]),
@@ -320,9 +321,9 @@ namespace DatabaseAccess.Repositories.Sale
             }
         }
 
-        public async Task<List<SalePaymentModel>> SalePaymentHistory(int CustomerInvoiceID)
+        public async Task<List<SaleInfo>> SalePaymentHistory(int CustomerInvoiceID)
         {
-            var remainingPaymentList = new List<SalePaymentModel>();
+            var remainingPaymentList = new List<SaleInfo>();
 
             using (SqlConnection connection = await _query.ConnOpenAsync())
             {
@@ -344,7 +345,7 @@ namespace DatabaseAccess.Repositories.Sale
                         var customer = await _customerRepository.GetByIdAsync(customerID);
                         var user = await _userRepository.GetByIdAsync(userID);
 
-                        var payment = new SalePaymentModel
+                        var payment = new SaleInfo
                         {
                             CustomerInvoiceID = Convert.ToInt32(row["CustomerInvoiceID"]),
                             BranchID = Convert.ToInt32(row["BranchID"]),

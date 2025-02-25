@@ -1,7 +1,7 @@
-﻿using Domain.RepositoryAccess;
-using System;
+﻿using Domain.Models;
+using Domain.RepositoryAccess;
+using Domain.ServiceAccess;
 using Utils.Interfaces;
-using Utils.Models;
 
 namespace Services.Implementations
 {

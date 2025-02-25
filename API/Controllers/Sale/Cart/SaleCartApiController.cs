@@ -1,5 +1,4 @@
 ﻿using Domain.Models;
-using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
 using Microsoft.AspNetCore.Authorization;
@@ -27,55 +26,99 @@ namespace API.Controllers.Sale.Cart
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<SaleCartDetail>>> GetNewSaleDetails(int branchId, int companyId, int userId)
+        public async Task<ActionResult<IEnumerable<SaleCartDetail>>> GetSaleCartDetails(int branchId, int companyId, int userId)
         {
-            var details = await _saleCartDetailRepository.GetByDefaultSettingAsync(branchId, companyId, userId);
-            if (details == null) return NotFound();
-            return Ok(details);
+            try
+            {
+                var details = await _saleCartDetailRepository.GetByDefaultSettingAsync(branchId, companyId, userId);
+                if (details == null) return NotFound();
+                return Ok(details);
+            }
+            catch (Exception ex)
+            {
+                return Problem(detail: ex.Message, statusCode: 500);
+            }
         }
 
         [HttpGet]
         public async Task<ActionResult<object>> GetProductDetails(int id)
         {
-            var product = await _stockRepository.GetByIdAsync(id);
-            if (product != null)
+            try
             {
-                return Ok(new { data = product.SaleUnitPrice });
+                var product = await _stockRepository.GetByIdAsync(id);
+                if (product == null) return NotFound();
+                return Ok(new { product?.SaleUnitPrice });
             }
-            return Ok(new { data = 0 });
+            catch (Exception ex)
+            {
+                return Problem(detail: ex.Message, statusCode: 500);
+            }
         }
 
         [HttpPost]
-        public async Task<ActionResult<string>> AddItem(SaleCartDetail newItem)
+        public async Task<ActionResult<string>> AddItem(SaleCartDetail item)
         {
-            await _saleCartDetailRepository.AddAsync(newItem);
-            return Ok("Item added successfully");
+            try
+            {
+                await _saleCartDetailRepository.AddAsync(item);
+                if (item == null) return BadRequest("Invalid data.");
+                return Ok(new { message = "Item added successfully" });
+            }
+            catch (Exception ex)
+            {
+                return Problem(detail: ex.Message, statusCode: 500);
+            }
         }
 
-        [HttpPost]
+        [HttpDelete]
         public async Task<ActionResult<string>> DeleteItem(int id)
         {
-            await _saleCartDetailRepository.DeleteAsync(id);
-            return Ok("Item deleted successfully");
+            try
+            {
+                await _saleCartDetailRepository.DeleteAsync(id);
+                return Ok(new { message = "Deleted successfully" });
+            }
+            catch (Exception ex)
+            {
+                return Problem(detail: ex.Message, statusCode: 500);
+            }
         }
 
         [HttpPost]
         public async Task<ActionResult<string>> CancelSale(int branchId, int companyId, int userId)
         {
-            var saleDetails = await _saleCartDetailRepository.GetByDefaultSettingAsync(branchId, companyId, userId);
-            await _saleCartDetailRepository.DeleteListAsync(saleDetails);
-            return Ok("Sale canceled successfully");
+            try
+            {
+                var details = await _saleCartDetailRepository.GetByDefaultSettingAsync(branchId, companyId, userId);
+                if (details == null) return BadRequest();
+                await _saleCartDetailRepository.DeleteListAsync(details);
+                return Ok(new { message = "Purchase canceled" });
+            }
+            catch (Exception ex)
+            {
+                return Problem(detail: ex.Message, statusCode: 500);
+            }
         }
 
         [HttpPost]
-        public async Task<ActionResult<object>> ConfirmSale(SaleConfirm saleConfirmDto, int branchId, int companyId, int userId)
+        public async Task<ActionResult<string>> ConfirmSale(SaleConfirm saleConfirmDto, int branchId, int companyId, int userId)
         {
-            var result = await _saleCartService.ConfirmSaleAsync(saleConfirmDto, branchId, companyId, userId);
-            if (result.IsSuccess)
+            try
             {
-                return Ok(new { Success = true, result.Value });
+                var result = await _saleCartService.ConfirmSaleAsync(
+                    saleConfirmDto,
+                    saleConfirmDto.CompanyID,
+                    saleConfirmDto.BranchID,
+                    saleConfirmDto.UserID);
+
+                if (result.IsSuccess) return Ok(new { id = result.Value });
+
+                return BadRequest(result.ErrorMessage);
             }
-            return Ok(new { Success = false, result.ErrorMessage });
+            catch (Exception ex)
+            {
+                return Problem(detail: ex.Message, statusCode: 500);
+            }
         }
     }
 }

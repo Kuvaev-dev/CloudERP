@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace Utils.Interfaces
+﻿namespace Domain.ServiceAccess
 {
     public interface ICurrencyService
     {

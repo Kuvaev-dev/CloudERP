@@ -78,9 +78,12 @@ namespace API
             builder.Services.AddScoped<PurchaseCartFacade>();
             builder.Services.AddScoped<PurchasePaymentFacade>();
             builder.Services.AddScoped<PurchaseReturnFacade>();
+            builder.Services.AddScoped<PurchaseEntryFacade>();
             builder.Services.AddScoped<SalaryTransactionFacade>();
             builder.Services.AddScoped<SaleCartFacade>();
+            builder.Services.AddScoped<SalePaymentFacade>();
             builder.Services.AddScoped<SaleEntryFacade>();
+            builder.Services.AddScoped<SaleReturnFacade>();
             // Cloud ERP
             builder.Services.AddScoped<AccountSettingFacade>();
             builder.Services.AddScoped<CompanyEmployeeFacade>();

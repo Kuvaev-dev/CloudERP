@@ -1,6 +1,5 @@
 ﻿using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
-using System;
 
 namespace Domain.Facades
 {
@@ -31,8 +30,8 @@ namespace Domain.Facades
             _supplierInvoiceRepository = supplierInvoiceRepository ?? throw new ArgumentNullException(nameof(ISupplierInvoiceRepository));
             _supplierPaymentRepository = supplierPaymentRepository ?? throw new ArgumentNullException(nameof(ISupplierPaymentRepository));
             _purchaseEntryService = purchaseEntryService ?? throw new ArgumentNullException(nameof(IPurchaseEntryService));
-            _purchaseService = purchaseService;
-            _supplierInvoiceDetailRepository = supplierInvoiceDetailRepository;
+            _purchaseService = purchaseService ?? throw new ArgumentNullException(nameof(purchaseService));
+            _supplierInvoiceDetailRepository = supplierInvoiceDetailRepository ?? throw new ArgumentNullException(nameof(supplierInvoiceDetailRepository));
         }
 
         public IPurchaseRepository PurchaseRepository => _purchaseRepository;

@@ -1,6 +1,6 @@
 ﻿using CloudERP.Helpers;
+using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
-using Utils.Models;
 
 namespace CloudERP.Controllers.Financial.Forecasting
 {

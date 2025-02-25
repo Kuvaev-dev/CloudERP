@@ -1,4 +1,4 @@
-﻿namespace Utils.Models
+﻿namespace Domain.Models
 {
     public class ForecastInputModel
     {

@@ -1,9 +1,7 @@
-﻿using Microsoft.ML;
+﻿using Domain.Models;
+using Microsoft.ML;
 using Services.Models;
 using Services.ServiceAccess;
-using System.Collections.Generic;
-using System.Linq;
-using Utils.Models;
 
 namespace Services.Implementations
 {

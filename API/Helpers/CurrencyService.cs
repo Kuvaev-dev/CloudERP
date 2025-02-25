@@ -1,5 +1,5 @@
-﻿using System.Text.Json;
-using Utils.Interfaces;
+﻿using Domain.ServiceAccess;
+using System.Text.Json;
 
 namespace API.Helpers
 {

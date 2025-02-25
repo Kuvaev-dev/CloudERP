@@ -129,9 +129,9 @@
                             {
                                 <div class="dropdown-item">
                                     <select name="culture" class="custom-select" onchange="document.getElementById('languageForm').submit()">
-                                        <option value="en-US" @Html.Raw(culture == "en-US" ? "selected" : "")>English</option>
-                                        <option value="ru-RU" @Html.Raw(culture == "ru-RU" ? "selected" : "")>Русский</option>
-                                        <option value="uk-UA" @Html.Raw(culture == "uk-UA" ? "selected" : "")>Українська</option>
+                                        <option value="en-US" selected="@(culture == "en-US")">English</option>
+                                        <option value="ru-RU" selected="@(culture == "ru-RU")">Русский</option>
+                                        <option value="uk-UA" selected="@(culture == "uk-UA")">Українська</option>
                                     </select>
                                 </div>
                             }
@@ -149,9 +149,13 @@
                                     <select id="currencySelect" class="custom-select" onchange="document.getElementById('currencyForm').submit()">
                                         @if (ViewBag.Currencies != null)
                                         {
+                                            var selectedCurrency = HttpContextAccessor.HttpContext?.Session.GetString("SelectedCurrency");
+
                                             foreach (var currency in (List<Dictionary<string, string>>)ViewBag.Currencies)
                                             {
-                                                <option value="@currency["Code"]" @(currency["Code"] == (HttpContextAccessor.HttpContext?.Session.GetString("SelectedCurrency") as string) ? "selected" : "")>
+                                                bool isSelected = currency["Code"] == selectedCurrency;
+
+                                                <option value="@currency["Code"]" selected="@(isSelected)">
                                                     @currency["Name"] (@currency["Rate"])
                                                 </option>
                                             }

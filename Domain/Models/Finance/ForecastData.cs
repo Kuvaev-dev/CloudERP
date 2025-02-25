@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Utils.Models
+﻿namespace Domain.Models
 {
     public class ForecastData
     {

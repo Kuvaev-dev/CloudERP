@@ -28,16 +28,9 @@ namespace Domain.Models
         [StringLength(255, MinimumLength = 6, ErrorMessage = "Password must be between 6 and 255 characters.")]
         public string? Password { get; set; }
         public string? Salt { get; set; }
-
-        [Required(ErrorMessage = "User Type ID is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "User Type ID must be a positive integer.")]
         public int UserTypeID { get; set; }
         public bool IsActive { get; set; }
-
-        [StringLength(50, ErrorMessage = "User Type Name cannot exceed 50 characters.")]
         public string? UserTypeName { get; set; }
-
-        [StringLength(100, ErrorMessage = "Branch Name cannot exceed 100 characters.")]
         public string? BranchName { get; set; }
         public string? ResetPasswordCode { get; set; }
         public DateTime? LastPasswordResetRequest { get; set; }

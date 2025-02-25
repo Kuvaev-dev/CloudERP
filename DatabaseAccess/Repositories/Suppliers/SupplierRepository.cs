@@ -22,7 +22,11 @@ namespace DatabaseAccess.Repositories.Suppliers
 
         public async Task<IEnumerable<Supplier>> GetAllAsync()
         {
-            var entities = await _dbContext.tblSupplier.ToListAsync();
+            var entities = await _dbContext.tblSupplier
+                .Include(s => s.Company)
+                .Include(s => s.Branch)
+                .Include(s => s.User)
+                .ToListAsync();
 
             return entities.Select(s => new Supplier
             {
@@ -138,7 +142,6 @@ namespace DatabaseAccess.Repositories.Suppliers
         {
             var entity = new tblSupplier
             {
-                SupplierID = supplier.SupplierID,
                 SupplierName = supplier.SupplierName,
                 SupplierConatctNo = supplier.SupplierConatctNo,
                 SupplierAddress = supplier.SupplierAddress,
@@ -157,7 +160,6 @@ namespace DatabaseAccess.Repositories.Suppliers
         {
             var entity = await _dbContext.tblSupplier.FindAsync(supplier.SupplierID);
 
-            entity.SupplierID = supplier.SupplierID;
             entity.SupplierName = supplier.SupplierName;
             entity.SupplierAddress = supplier.SupplierName;
             entity.SupplierConatctNo = supplier.SupplierConatctNo;

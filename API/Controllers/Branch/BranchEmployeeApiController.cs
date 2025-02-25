@@ -1,10 +1,10 @@
 ﻿using Domain.RepositoryAccess;
-using Utils.Interfaces;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using API.Factories;
 using Microsoft.AspNetCore.Authorization;
+using Domain.ServiceAccess;
 
 namespace API.Controllers.Branch
 {

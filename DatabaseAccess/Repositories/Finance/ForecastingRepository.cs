@@ -1,6 +1,6 @@
 ﻿using DatabaseAccess.Context;
+using Domain.Models;
 using Domain.RepositoryAccess;
-using Utils.Models;
 
 namespace DatabaseAccess.Repositories.Finance
 {

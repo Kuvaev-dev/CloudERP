@@ -1,4 +1,4 @@
-﻿using Domain.Models.FinancialModels;
+﻿using Domain.Models;
 using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
 using Microsoft.AspNetCore.Authorization;
@@ -26,7 +26,7 @@ namespace API.Controllers.Purchase.Cart
         }
 
         [HttpGet]
-        public async Task<ActionResult<object>> GetPurchaseByInvoice(string invoiceID)
+        public async Task<ActionResult<object>> FindPurchase(string invoiceID)
         {
             try
             {
@@ -45,7 +45,7 @@ namespace API.Controllers.Purchase.Cart
         }
 
         [HttpPost]
-        public async Task<ActionResult<object>> ProcessPurchaseReturn(PurchaseReturnConfirm returnConfirmDto)
+        public async Task<ActionResult<object>> ProcessPurchaseReturn([FromBody] PurchaseReturnConfirm returnConfirmDto)
         {
             try
             {

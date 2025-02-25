@@ -1,9 +1,6 @@
-﻿using Domain.Models.FinancialModels;
+﻿using Domain.Models;
 using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Services.Implementations
 {
@@ -29,7 +26,7 @@ namespace Services.Implementations
             _saleEntryService = saleEntryService ?? throw new ArgumentNullException(nameof(ISaleEntryService));
         }
 
-        public async Task<List<SalePaymentModel>> GetSalePaymentHistoryAsync(int invoiceId)
+        public async Task<List<SaleInfo>> GetSalePaymentHistoryAsync(int invoiceId)
         {
             return await _saleRepository.SalePaymentHistory(invoiceId);
         }
@@ -44,7 +41,7 @@ namespace Services.Implementations
             return await _customerPaymentRepository.GetTotalPaidAmountById(invoiceId);
         }
 
-        public async Task<string> ProcessPaymentAsync(SalePayment paymentDto, int branchId, int companyId, int userId)
+        public async Task<string> ProcessPaymentAsync(int companyId, int branchId, int userId, SaleAmount paymentDto)
         {
             if (paymentDto.PaidAmount > paymentDto.PreviousRemainingAmount)
             {

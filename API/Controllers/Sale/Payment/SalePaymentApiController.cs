@@ -1,9 +1,7 @@
 ﻿using Domain.Models;
-using Domain.Models.FinancialModels;
-using Domain.RepositoryAccess;
-using Domain.ServiceAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Services.Facades;
 
 namespace API.Controllers.Sale.Payment
 {
@@ -12,57 +10,74 @@ namespace API.Controllers.Sale.Payment
     [Authorize]
     public class SalePaymentApiController : ControllerBase
     {
-        private readonly ISalePaymentService _salePaymentService;
-        private readonly ISaleRepository _saleRepository;
-        private readonly ICustomerReturnInvoiceRepository _customerReturnInvoiceRepository;
+        private readonly SalePaymentFacade _salePaymentFacade;
 
-        public SalePaymentApiController(
-            ISalePaymentService salePaymentService,
-            ISaleRepository saleRepository,
-            ICustomerReturnInvoiceRepository customerReturnInvoiceRepository)
+        public SalePaymentApiController(SalePaymentFacade salePaymentFacade)
         {
-            _salePaymentService = salePaymentService ?? throw new ArgumentNullException(nameof(salePaymentService));
-            _saleRepository = saleRepository ?? throw new ArgumentNullException(nameof(saleRepository));
-            _customerReturnInvoiceRepository = customerReturnInvoiceRepository;
+            _salePaymentFacade = salePaymentFacade ?? throw new ArgumentNullException(nameof(salePaymentFacade));
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<SalePaymentModel>>> GetRemainingPaymentList(int companyID, int branchID)
+        public async Task<ActionResult<List<SaleInfo>>> GetRemainingPaymentList(int companyID, int branchID)
         {
-            var list = await _saleRepository.RemainingPaymentList(companyID, branchID);
-            if (list == null) return NotFound();
+            var list = await _salePaymentFacade.SaleRepository.RemainingPaymentList(companyID, branchID);
+            if (list.Count == 0) return NotFound();
             return Ok(list);
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<SalePaymentModel>>> GetSalePaymentHistory(int invoiceID)
+        public async Task<ActionResult<List<SaleInfo>>> GetPaidHistory(int id)
         {
-            var history = await _salePaymentService.GetSalePaymentHistoryAsync(invoiceID);
-            if (history == null) return NotFound();
+            var history = await _salePaymentFacade.SalePaymentService.GetSalePaymentHistoryAsync(id);
+            if (history.Count == 0) return NotFound();
             return Ok(history);
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CustomerReturnInvoice>>> GetReturnSaleDetails(int invoiceID)
         {
-            var returnDetails = await _customerReturnInvoiceRepository.GetListByIdAsync(invoiceID);
+            var returnDetails = await _salePaymentFacade.CustomerReturnInvoiceRepository.GetReturnDetails(invoiceID);
             if (returnDetails == null) return NotFound();
             return Ok(returnDetails);
         }
 
         [HttpPost]
-        public async Task<ActionResult<string>> ProcessPayment(SalePayment paymentDto, int branchId, int companyId, int userId)
+        public async Task<ActionResult<string>> ProcessPayment(SaleAmount paymentDto)
         {
-            var message = await _salePaymentService.ProcessPaymentAsync(paymentDto, branchId, companyId, userId);
-            return Ok(new { Message = message });
+            string message = await _salePaymentFacade.SalePaymentService.ProcessPaymentAsync(
+                paymentDto.CompanyID,
+                paymentDto.BranchID,
+                paymentDto.UserID,
+                paymentDto);
+
+            if (message == Localization.CloudERP.Messages.Messages.PurchasePaymentRemainingAmountError)
+                return BadRequest(message);
+
+            return Ok(message);
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<SalePaymentModel>>> GetCustomSalesHistory(int companyID, int branchID, DateTime fromDate, DateTime toDate)
+        public async Task<ActionResult<List<SaleInfo>>> GetCustomSalesHistory(int companyID, int branchID, DateTime fromDate, DateTime toDate)
         {
-            var list = await _saleRepository.CustomSalesList(companyID, branchID, fromDate, toDate);
+            var list = await _salePaymentFacade.SaleRepository.CustomSalesList(companyID, branchID, fromDate, toDate);
             if (list == null) return NotFound();
             return Ok(list);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<PurchaseItemDetailDto>> GetSaleItemDetail(int id)
+        {
+            var saleDetail = await _salePaymentFacade.SaleService.GetSaleItemDetailAsync(id);
+            if (saleDetail == null) return NotFound();
+            return Ok(saleDetail);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<SupplierInvoiceDetail>> GetSaleInvoice(int id)
+        {
+            var invoiceDetails = await _salePaymentFacade.CustomerInvoiceDetailRepository.GetListByIdAsync(id);
+            if (invoiceDetails == null) return NotFound();
+            return Ok(invoiceDetails);
         }
     }
 }

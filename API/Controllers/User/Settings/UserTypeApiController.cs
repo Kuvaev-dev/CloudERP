@@ -51,7 +51,6 @@ namespace API.Controllers.User.Settings
 
         // POST: api/user-types
         [HttpPost]
-        [Route("create")]
         public async Task<ActionResult<UserType>> Create([FromBody] UserType model)
         {
             try

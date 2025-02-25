@@ -1,11 +1,6 @@
 ﻿using Domain.Models;
-using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Services.Implementations
 {
@@ -28,11 +23,11 @@ namespace Services.Implementations
             _saleEntryService = saleEntryService ?? throw new ArgumentNullException(nameof(ISaleEntryService));
         }
 
-        public async Task<(bool IsSuccess, string Message, IEnumerable<CustomerReturnPayment> Items, double RemainingAmount)> ProcessReturnAmountAsync(SalePaymentReturn paymentReturnDto, int branchId, int companyId, int userId)
+        public async Task<string> ProcessReturnAmountAsync(SaleReturn paymentReturnDto, int branchId, int companyId, int userId)
         {
             if (paymentReturnDto.PaymentAmount > paymentReturnDto.PreviousRemainingAmount)
             {
-                var list = await _customerReturnPaymentRepository.GetListByReturnInvoiceIdAsync(paymentReturnDto.InvoiceId);
+                var list = await _customerReturnPaymentRepository.GetByCustomerReturnInvoiceId(paymentReturnDto.InvoiceId);
                 double? remainingAmount = list.Sum(item => item.RemainingBalance);
 
                 if (remainingAmount == 0)
@@ -40,7 +35,7 @@ namespace Services.Implementations
                     remainingAmount = await _customerReturnInvoiceRepository.GetTotalAmountByIdAsync(paymentReturnDto.InvoiceId);
                 }
 
-                return (false, "Purchase Payment Remaining Amount Error", list, remainingAmount.Value);
+                return "Purchase Payment Remaining Amount Error";
             }
 
             string payInvoiceNo = "RIP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
@@ -60,7 +55,7 @@ namespace Services.Implementations
                 customer.Customername,
                 paymentReturnDto.PreviousRemainingAmount - paymentReturnDto.PaymentAmount);
 
-            return (true, message, null, 0);
+            return message;
         }
     }
 }

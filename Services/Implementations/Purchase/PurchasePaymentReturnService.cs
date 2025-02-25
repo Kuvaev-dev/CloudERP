@@ -46,7 +46,7 @@ namespace Services.Implementations
             return remainingAmount.Value;
         }
 
-        public async Task<string> ProcessReturnPaymentAsync(PurchaseReturnAmount returnAmountDto, int branchId, int companyId, int userId)
+        public async Task<string> ProcessReturnPaymentAsync(PurchaseReturn returnAmountDto, int branchId, int companyId, int userId)
         {
             if (returnAmountDto.PaymentAmount > returnAmountDto.PreviousRemainingAmount)
             {

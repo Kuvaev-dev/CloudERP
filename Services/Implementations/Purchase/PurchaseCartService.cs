@@ -1,11 +1,6 @@
 ﻿using Domain.Facades;
 using Domain.Models;
-using Domain.Models.FinancialModels;
 using Domain.ServiceAccess;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Utils.Helpers;
 
 namespace Services.Implementations
@@ -116,7 +111,7 @@ namespace Services.Implementations
                     stockItem.Quantity += item.PurchaseQuantity;
                     await _purchaseCartFacade.StockRepository.UpdateAsync(stockItem);
                 }
-                await _purchaseCartFacade.PurchaseCartDetailRepository.DeleteAsync(item);
+                await _purchaseCartFacade.PurchaseCartDetailRepository.DeleteAsync(item.PurchaseCartDetailID);
             }
         }
     }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Utils.Models;
+﻿using Domain.Models;
 
 namespace Domain.RepositoryAccess
 {

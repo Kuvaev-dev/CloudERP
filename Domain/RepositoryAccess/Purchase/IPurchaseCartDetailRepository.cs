@@ -13,7 +13,7 @@ namespace Domain.RepositoryAccess
         Task<PurchaseCartDetail> GetByIdAsync(int PCID);
         Task AddAsync(PurchaseCartDetail tblPurchaseCartDetail);
         Task UpdateAsync(PurchaseCartDetail tblPurchaseCartDetail);
-        Task DeleteAsync(PurchaseCartDetail tblPurchaseCartDetail);
+        Task DeleteAsync(int detailID);
         Task DeleteListAsync(IEnumerable<PurchaseCartDetail> purchaseCartDetails);
         Task<bool> IsCanceled(int branchId, int companyId, int userId);
     }

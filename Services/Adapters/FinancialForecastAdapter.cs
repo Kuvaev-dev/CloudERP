@@ -1,7 +1,7 @@
-﻿using Microsoft.ML;
+﻿using Domain.Models;
+using Domain.ServiceAccess;
+using Microsoft.ML;
 using Services.ServiceAccess;
-using Utils.Interfaces;
-using Utils.Models;
 
 namespace Services.Adapters
 {

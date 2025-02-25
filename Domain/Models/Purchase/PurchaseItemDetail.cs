@@ -1,4 +1,4 @@
-﻿namespace Domain.Models.Purchase
+﻿namespace Domain.Models
 {
     public class PurchaseItemDetailDto
     {

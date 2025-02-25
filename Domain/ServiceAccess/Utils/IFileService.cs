@@ -1,4 +1,6 @@
-﻿namespace Utils.Interfaces
+﻿using Utils.Interfaces;
+
+namespace Domain.ServiceAccess  
 {
     public interface IFileService
     {

@@ -31,19 +31,12 @@ namespace DatabaseAccess.Repositories.Purchase
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(PurchaseCartDetail purchaseCartDetail)
+        public async Task DeleteAsync(int detailID)
         {
-            var entity = await _dbContext.tblPurchaseCartDetail.FindAsync(purchaseCartDetail.PurchaseCartDetailID);
+            var entity = await _dbContext.tblPurchaseCartDetail
+                .FirstOrDefaultAsync(pcd => pcd.PurchaseCartDetailID == detailID);
 
-            entity.PurchaseCartDetailID = purchaseCartDetail.PurchaseCartDetailID;
-            entity.ProductID = purchaseCartDetail.ProductID;
-            entity.PurchaseQuantity = purchaseCartDetail.PurchaseQuantity;
-            entity.PurchaseUnitPrice = purchaseCartDetail.PurchaseUnitPrice;
-            entity.CompanyID = purchaseCartDetail.CompanyID;
-            entity.BranchID = purchaseCartDetail.BranchID;
-            entity.UserID = purchaseCartDetail.UserID;
-
-            _dbContext.tblPurchaseCartDetail.Update(entity);
+            _dbContext.tblPurchaseCartDetail.Remove(entity);
             await _dbContext.SaveChangesAsync();
         }
 
@@ -196,7 +189,7 @@ namespace DatabaseAccess.Repositories.Purchase
                 else
                 {
                     _dbContext.tblPurchaseCartDetail.Attach(entity);
-                    _dbContext.Entry(entity).State = EntityState.Deleted;
+                    _dbContext.tblPurchaseCartDetail.Remove(entity);
                 }
             }
 

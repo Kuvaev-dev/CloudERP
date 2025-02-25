@@ -1,8 +1,8 @@
-﻿using Domain.RepositoryAccess;
+﻿using Domain.Models;
+using Domain.RepositoryAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Utils.Interfaces;
-using Utils.Models;
 
 namespace API.Controllers.Financial.Forecasting
 {

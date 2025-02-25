@@ -124,7 +124,6 @@ namespace DatabaseAccess.Repositories.Customers
         {
             var entity = new tblCustomer
             {
-                CustomerID = customer.CustomerID,
                 Customername = customer.Customername,
                 CustomerContact = customer.CustomerContact,
                 CustomerAddress = customer.CustomerAddress,
@@ -142,7 +141,6 @@ namespace DatabaseAccess.Repositories.Customers
         {
             var entity = await _dbContext.tblCustomer.FindAsync(customer.CustomerID);
 
-            entity.CustomerID = customer.CustomerID;
             entity.Customername = customer.Customername;
             entity.CustomerContact = customer.CustomerContact;
             entity.CustomerAddress = customer.CustomerAddress;

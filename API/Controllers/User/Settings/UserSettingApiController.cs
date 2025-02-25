@@ -69,18 +69,13 @@ namespace API.Controllers.User.Settings
                 if (!ModelState.IsValid)
                     return BadRequest("Model is invalid.");
 
-                var existingUser = (await _userRepository.GetAllAsync())
-                    .FirstOrDefault(u => u.Email == user.Email && u.UserID != user.UserID);
-
-                if (existingUser != null) return Conflict();
-
                 await _userRepository.UpdateAsync(user);
 
                 return Ok(user);
             }
             catch (Exception ex)
             {
-                return Problem(detail: ex.Message, statusCode: 500);
+                return Problem(detail: ex.Message + " " + ex.InnerException, statusCode: 500);
             }
         }
 

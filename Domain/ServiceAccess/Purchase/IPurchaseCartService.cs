@@ -1,4 +1,4 @@
-﻿using Domain.Models.FinancialModels;
+﻿using Domain.Models;
 using Utils.Helpers;
 
 namespace Domain.ServiceAccess

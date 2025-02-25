@@ -1,5 +1,5 @@
-﻿using Domain.Models;
-using Domain.Models.FinancialModels;
+﻿using DatabaseAccess.Repositories.Suppliers;
+using Domain.Models;
 using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
 using Microsoft.AspNetCore.Authorization;
@@ -27,7 +27,7 @@ namespace API.Controllers.Sale.Payment
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<SalePaymentModel>>> GetReturnSalePendingAmount(int companyId, int branchId)
+        public async Task<ActionResult<List<SaleInfo>>> GetReturnSalePendingAmount(int companyId, int branchId)
         {
             var result = await _saleRepository.GetReturnSaleAmountPending(companyId, branchId);
             if (result == null) return NotFound();
@@ -35,23 +35,18 @@ namespace API.Controllers.Sale.Payment
         }
 
         [HttpGet]
-        public async Task<ActionResult<object>> GetReturnAmount(int invoiceID)
+        public async Task<ActionResult<IEnumerable<CustomerReturnPayment>>> GetCustomerReturnPayments(int id)
         {
-            var list = await _customerReturnPaymentRepository.GetListByReturnInvoiceIdAsync(invoiceID);
-            if (list == null) return NotFound();
-
-            double remainingAmount = list.Sum(item => item.RemainingBalance);
-
-            return Ok(new { RemainingAmount = remainingAmount, Payments = list });
+            var payments = await _customerReturnPaymentRepository.GetByCustomerReturnInvoiceId(id);
+            if (payments == null) return NotFound();
+            return Ok(payments);
         }
 
         [HttpPost]
-        public async Task<ActionResult<(bool IsSuccess, string Message, IEnumerable<CustomerReturnPayment> Items, double RemainingAmount)>> 
-            ProcessReturnAmount(SalePaymentReturn paymentReturnDto, int branchId, int companyId, int userId)
+        public async Task<ActionResult<string>> ProcessReturnAmount(SaleReturn paymentReturnDto, int branchId, int companyId, int userId)
         {
-            var result = await _salePaymentReturnService.ProcessReturnAmountAsync(paymentReturnDto, branchId, companyId, userId);
-            if (!result.IsSuccess) return BadRequest(result.Message);
-            return Ok(result);
+            string message = await _salePaymentReturnService.ProcessReturnAmountAsync(paymentReturnDto, branchId, companyId, userId);
+            return Ok(message);
         }
     }
 }

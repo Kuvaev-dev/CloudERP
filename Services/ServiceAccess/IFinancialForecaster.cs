@@ -1,6 +1,5 @@
-﻿using Microsoft.ML;
-using System.Collections.Generic;
-using Utils.Models;
+﻿using Domain.Models;
+using Microsoft.ML;
 
 namespace Services.ServiceAccess
 {

@@ -1,5 +1,4 @@
 ﻿using Domain.Models;
-using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
 using Microsoft.AspNetCore.Authorization;
@@ -29,25 +28,44 @@ namespace API.Controllers.Sale.Cart
         [HttpGet]
         public async Task<ActionResult<object>> FindSale(string invoiceID)
         {
-            var invoiceDetails = _customerReturnInvoiceDetailRepository.GetInvoiceDetails(invoiceID);
-            if (invoiceDetails == null) return NotFound();
+            try
+            {
+                var invoice = await _customerInvoiceRepository.GetByInvoiceNoAsync(invoiceID);
+                if (invoice == null) return NotFound();
 
-            var invoice = await _customerInvoiceRepository.GetByInvoiceNoAsync(invoiceID);
-            if (invoice == null) return NotFound();
+                var invoiceDetails = _customerReturnInvoiceDetailRepository.GetInvoiceDetails(invoiceID);
+                if (invoiceDetails == null) return NotFound();
 
-            return Ok(new { InvoiceDetails = invoiceDetails, Invoice = invoice });
+                return Ok(new { invoice, invoiceDetails });
+            }
+            catch (Exception ex)
+            {
+                return Problem(detail: ex.Message, statusCode: 500);
+            }
         }
 
         [HttpPost]
-        public async Task<ActionResult<ReturnConfirmResult>> ReturnConfirm(SaleReturnConfirm returnConfirmDto)
+        public async Task<ActionResult<SaleReturnConfirmResult>> ProcessSaleReturn([FromBody] SaleReturnConfirm returnConfirmDto)
         {
-            var result = await _saleReturnService.ProcessReturnConfirmAsync(
-                returnConfirmDto,
-                returnConfirmDto.BranchID,
-                returnConfirmDto.CompanyID,
-                returnConfirmDto.UserID);
+            try
+            {
+                var result = await _saleReturnService.ProcessReturnConfirmAsync(
+                    returnConfirmDto,
+                    returnConfirmDto.BranchID,
+                    returnConfirmDto.CompanyID,
+                    returnConfirmDto.UserID);
 
-            return Ok(result);
+                if (result.IsSuccess)
+                {
+                    return Ok(new { invoiceNo = result.InvoiceNo, message = result.Message });
+                }
+
+                return BadRequest(result.Message);
+            }
+            catch (Exception ex)
+            {
+                return Problem(detail: ex.Message, statusCode: 500);
+            }
         }
     }
 }

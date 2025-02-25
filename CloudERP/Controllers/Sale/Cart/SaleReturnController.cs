@@ -2,6 +2,8 @@
 using CloudERP.Models;
 using Domain.Models;
 using Domain.Models.FinancialModels;
+using Domain.Models.Payment;
+using Domain.Models.Purchase;
 using Localization.CloudERP;
 using Microsoft.AspNetCore.Mvc;
 
@@ -85,7 +87,7 @@ namespace CloudERP.Controllers.Sale.Cart
                     UserID = _sessionHelper.UserID
                 };
 
-                var result = await _httpClient.PostAndReturnAsync<ReturnConfirmResult>(
+                var result = await _httpClient.PostAndReturnAsync<SaleReturnConfirmResult>(
                     "sale-return/return-confirm", returnConfirmDto);
 
                 HttpContext.Session.SetString("SaleInvoiceNo", result.InvoiceNo);

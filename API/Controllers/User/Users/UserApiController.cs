@@ -95,7 +95,7 @@ namespace API.Controllers.User.Users
 
         // PUT: api/user/update/{id}
         [HttpPut]
-        public async Task<ActionResult<string>> UpdateUser(int id, [FromBody] Domain.Models.User model)
+        public async Task<ActionResult<string>> Update(int id, [FromBody] Domain.Models.User model)
         {
             try
             {
@@ -113,6 +113,7 @@ namespace API.Controllers.User.Users
                     model.Salt = salt;
                 }
 
+                model.UserID = id;
                 await _userRepository.UpdateAsync(model);
                 return Ok("User updated successfully.");
             }

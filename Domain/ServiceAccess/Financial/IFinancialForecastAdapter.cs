@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using Utils.Models;
+﻿using Domain.Models;
 
-namespace Utils.Interfaces
+namespace Domain.ServiceAccess
 {
     public interface IFinancialForecastAdapter
     {

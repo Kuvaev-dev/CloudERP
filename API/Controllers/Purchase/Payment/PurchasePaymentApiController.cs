@@ -1,7 +1,5 @@
 ﻿using Domain.Facades;
 using Domain.Models;
-using Domain.Models.FinancialModels;
-using Domain.Models.Purchase;
 using Domain.ServiceAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +23,7 @@ namespace API.Controllers.Purchase.Payment
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<PurchasePaymentModel>>> GetRemainingPaymentList(int companyId, int branchId)
+        public async Task<ActionResult<List<PurchaseInfo>>> GetRemainingPaymentList(int companyId, int branchId)
         {
             var list = await _purchasePaymentFacade.PurchaseRepository.RemainingPaymentList(companyId, branchId);
             if (list.Count == 0) return NotFound();
@@ -33,15 +31,23 @@ namespace API.Controllers.Purchase.Payment
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<PurchasePaymentModel>>> GetPaidHistory(int id)
+        public async Task<ActionResult<List<PurchaseInfo>>> GetPaidHistory(int id)
         {
             var list = await _purchasePaymentService.GetPurchasePaymentHistoryAsync(id);
             if (list.Count == 0) return NotFound();
             return Ok(list);
         }
 
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<SupplierReturnInvoice>>> GetReturnPurchaseDetails(int invoiceID)
+        {
+            var returnDetails = await _purchasePaymentFacade.SupplierReturnInvoiceRepository.GetReturnDetails(invoiceID);
+            if (returnDetails == null) return NotFound();
+            return Ok(returnDetails);
+        }
+
         [HttpPost]
-        public async Task<ActionResult<string>> ProcessPayment(PurchasePayment paymentDto)
+        public async Task<ActionResult<string>> ProcessPayment(PurchaseAmount paymentDto)
         {
             string message = await _purchasePaymentService.ProcessPaymentAsync(
                 paymentDto.CompanyID,
@@ -56,7 +62,7 @@ namespace API.Controllers.Purchase.Payment
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<PurchasePaymentModel>>> GetCustomPurchasesHistory(int companyId, int branchId, DateTime fromDate, DateTime toDate)
+        public async Task<ActionResult<List<PurchaseInfo>>> GetCustomPurchasesHistory(int companyId, int branchId, DateTime fromDate, DateTime toDate)
         {
             var list = await _purchasePaymentFacade.PurchaseRepository.CustomPurchasesList(companyId, branchId, fromDate, toDate);
             if (list.Count == 0) return NotFound();

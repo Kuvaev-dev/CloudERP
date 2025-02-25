@@ -1,6 +1,6 @@
-﻿using System.Net;
+﻿using Domain.ServiceAccess;
+using System.Net;
 using System.Net.Mail;
-using Utils.Interfaces;
 
 namespace API.Helpers
 {

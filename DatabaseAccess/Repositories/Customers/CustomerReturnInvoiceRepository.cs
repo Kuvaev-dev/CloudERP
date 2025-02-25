@@ -15,7 +15,7 @@ namespace DatabaseAccess.Repositories.Customers
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(CloudDBEntities));
         }
 
-        public async Task<IEnumerable<CustomerReturnInvoice>> GetListByIdAsync(int id)
+        public async Task<IEnumerable<CustomerReturnInvoice>> GetReturnDetails(int id)
         {
             var entities = await _dbContext.tblCustomerReturnInvoice
                 .Where(r => r.CustomerInvoiceID == id)

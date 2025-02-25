@@ -4,6 +4,7 @@ using Domain.RepositoryAccess;
 using Domain.Models.FinancialModels;
 using Utils.Helpers;
 using DatabaseAccess.Context;
+using Domain.Models;
 
 namespace DatabaseAccess.Repositories.Purchase
 {
@@ -33,9 +34,9 @@ namespace DatabaseAccess.Repositories.Purchase
             _dtEntries = dataTable;
         }
 
-        public async Task<List<PurchasePaymentModel>> RemainingPaymentList(int CompanyID, int BranchID)
+        public async Task<List<PurchaseInfo>> RemainingPaymentList(int CompanyID, int BranchID)
         {
-            var remainingPaymentList = new List<PurchasePaymentModel>();
+            var remainingPaymentList = new List<PurchaseInfo>();
 
             using (SqlCommand command = new("GetSupplierRemainingPaymentRecord", await _query.ConnOpenAsync()))
             {
@@ -54,7 +55,7 @@ namespace DatabaseAccess.Repositories.Purchase
                     var supplierID = Convert.ToInt32(row["SupplierID"]);
                     var supplier = await _suppliers.GetByIdAsync(supplierID);
 
-                    var payment = new PurchasePaymentModel
+                    var payment = new PurchaseInfo
                     {
                         SupplierInvoiceID = Convert.ToInt32(row["SupplierInvoiceID"]),
                         BranchID = Convert.ToInt32(row["BranchID"]),
@@ -79,9 +80,9 @@ namespace DatabaseAccess.Repositories.Purchase
             return remainingPaymentList;
         }
 
-        public async Task<List<PurchasePaymentModel>> CustomPurchasesList(int CompanyID, int BranchID, DateTime FromDate, DateTime ToDate)
+        public async Task<List<PurchaseInfo>> CustomPurchasesList(int CompanyID, int BranchID, DateTime FromDate, DateTime ToDate)
         {
-            var remainingPaymentList = new List<PurchasePaymentModel>();
+            var remainingPaymentList = new List<PurchaseInfo>();
 
             using (SqlCommand command = new("GetPurchasesHistory", await _query.ConnOpenAsync()))
             {
@@ -102,7 +103,7 @@ namespace DatabaseAccess.Repositories.Purchase
                     var supplierID = Convert.ToInt32(row["SupplierID"]);
                     var supplier = await _suppliers.GetByIdAsync(supplierID);
 
-                    var payment = new PurchasePaymentModel
+                    var payment = new PurchaseInfo
                     {
                         SupplierInvoiceID = Convert.ToInt32(row["SupplierInvoiceID"]),
                         BranchID = Convert.ToInt32(row["BranchID"]),
@@ -127,9 +128,9 @@ namespace DatabaseAccess.Repositories.Purchase
             return remainingPaymentList;
         }
 
-        public async Task<List<PurchasePaymentModel>> PurchasePaymentHistory(int SupplierInvoiceID)
+        public async Task<List<PurchaseInfo>> PurchasePaymentHistory(int SupplierInvoiceID)
         {
-            var remainingPaymentList = new List<PurchasePaymentModel>();
+            var remainingPaymentList = new List<PurchaseInfo>();
 
             using (SqlCommand command = new("GetSupplierPaymentHistory", await _query.ConnOpenAsync()))
             {
@@ -147,7 +148,7 @@ namespace DatabaseAccess.Repositories.Purchase
                     var supplier = await _suppliers.GetByIdAsync(Convert.ToInt32(row["SupplierID"]));
                     var user = await _users.GetByIdAsync(Convert.ToInt32(row["UserID"]));
 
-                    var payment = new PurchasePaymentModel
+                    var payment = new PurchaseInfo
                     {
                         SupplierInvoiceID = Convert.ToInt32(row["SupplierInvoiceID"]),
                         BranchID = Convert.ToInt32(row["BranchID"]),
@@ -218,9 +219,9 @@ namespace DatabaseAccess.Repositories.Purchase
             return remainingPaymentList;
         }
 
-        public async Task<List<PurchasePaymentModel>> GetReturnPurchasesPaymentPending(int CompanyID, int BranchID)
+        public async Task<List<PurchaseInfo>> GetReturnPurchasesPaymentPending(int CompanyID, int BranchID)
         {
-            var remainingPaymentList = new List<PurchasePaymentModel>();
+            var remainingPaymentList = new List<PurchaseInfo>();
 
             using (SqlCommand command = new("GetReturnPurchasePaymentPending", await _query.ConnOpenAsync()))
             {
@@ -238,7 +239,7 @@ namespace DatabaseAccess.Repositories.Purchase
                 {
                     var supplier = await _suppliers.GetByIdAsync(Convert.ToInt32(row["SupplierID"]));
 
-                    var payment = new PurchasePaymentModel
+                    var payment = new PurchaseInfo
                     {
                         SupplierInvoiceID = Convert.ToInt32(row["SupplierInvoiceID"]),
                         BranchID = Convert.ToInt32(row["BranchID"]),

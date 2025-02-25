@@ -19,7 +19,6 @@ namespace DatabaseAccess.Repositories.Sale
         {
             var entity = new tblSaleCartDetail
             {
-                SaleCartDetailID = saleCartDetail.SaleCartDetailID,
                 ProductID = saleCartDetail.ProductID,
                 SaleQuantity = saleCartDetail.SaleQuantity,
                 SaleUnitPrice = saleCartDetail.SaleUnitPrice,
@@ -34,9 +33,10 @@ namespace DatabaseAccess.Repositories.Sale
 
         public async Task DeleteAsync(int detailID)
         {
-            var item = await _dbContext.tblSaleCartDetail.FirstOrDefaultAsync(d => d.SaleCartDetailID == detailID);
-            _dbContext.tblSaleCartDetail.Update(item);
+            var entity = await _dbContext.tblSaleCartDetail
+                .FirstOrDefaultAsync(scd => scd.SaleCartDetailID == detailID);
 
+            _dbContext.tblSaleCartDetail.Remove(entity);
             await _dbContext.SaveChangesAsync();
         }
 
@@ -65,7 +65,7 @@ namespace DatabaseAccess.Repositories.Sale
                 else
                 {
                     _dbContext.tblSaleCartDetail.Attach(entity);
-                    _dbContext.Entry(entity).State = EntityState.Deleted;
+                    _dbContext.tblSaleCartDetail.Remove(entity);
                 }
             }
 
@@ -91,6 +91,8 @@ namespace DatabaseAccess.Repositories.Sale
         public async Task<IEnumerable<SaleCartDetail>> GetByDefaultSettingAsync(int branchId, int companyId, int userId)
         {
             var entities = await _dbContext.tblSaleCartDetail
+                .Include(i => i.Product)
+                .Include(i => i.User)
                 .Where(i => i.BranchID == branchId && i.CompanyID == companyId && i.UserID == userId)
                 .ToListAsync();
 

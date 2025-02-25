@@ -76,13 +76,8 @@ namespace API.Controllers.Purchase.Cart
         {
             try
             {
-                var item = await _purchaseCartDetailRepository.GetByIdAsync(id);
-                if (item != null)
-                {
-                    await _purchaseCartDetailRepository.DeleteAsync(item);
-                    return Ok(new { message = "Deleted successfully" });
-                }
-                return NotFound();
+                await _purchaseCartDetailRepository.DeleteAsync(id);
+                return Ok(new { message = "Deleted successfully" });
             }
             catch (Exception ex)
             {

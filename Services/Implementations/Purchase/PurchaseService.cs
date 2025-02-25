@@ -1,8 +1,6 @@
-﻿using Domain.Models.Purchase;
+﻿using Domain.Models;
 using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Services.Implementations
 {

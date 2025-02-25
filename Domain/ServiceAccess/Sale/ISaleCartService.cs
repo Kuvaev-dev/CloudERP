@@ -1,5 +1,4 @@
-﻿using Domain.Models.FinancialModels;
-using System.Threading.Tasks;
+﻿using Domain.Models;
 using Utils.Helpers;
 
 namespace Domain.ServiceAccess

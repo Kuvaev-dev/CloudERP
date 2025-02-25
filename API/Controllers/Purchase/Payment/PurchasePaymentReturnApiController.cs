@@ -1,5 +1,4 @@
 ﻿using Domain.Models;
-using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
 using Microsoft.AspNetCore.Authorization;
@@ -27,7 +26,7 @@ namespace API.Controllers.Purchase.Payment
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<PurchasePaymentModel>>> GetReturnPurchasePendingAmount(int companyId, int branchId)
+        public async Task<ActionResult<List<PurchaseInfo>>> GetReturnPurchasePendingAmount(int companyId, int branchId)
         {
             var purchases = await _purchaseRepository.GetReturnPurchasesPaymentPending(companyId, branchId);
             if (purchases == null) return NotFound();
@@ -43,7 +42,7 @@ namespace API.Controllers.Purchase.Payment
         }
 
         [HttpPost]
-        public async Task<ActionResult<string>> ProcessReturnPayment(PurchaseReturnAmount returnAmountDto, int companyId, int branchId, int userId)
+        public async Task<ActionResult<string>> ProcessReturnAmount(PurchaseReturn returnAmountDto, int companyId, int branchId, int userId)
         {
             string message = await _purchasePaymentReturnService.ProcessReturnPaymentAsync(returnAmountDto, branchId, companyId, userId);
             return Ok(message);

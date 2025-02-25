@@ -1,5 +1,5 @@
 ﻿using Domain.Facades;
-using Domain.Models.FinancialModels;
+using Domain.Models;
 using Domain.ServiceAccess;
 
 namespace Services.Implementations
@@ -26,7 +26,7 @@ namespace Services.Implementations
             return (paymentHistory, returnDetails, remainingAmount);
         }
 
-        public async Task<List<PurchasePaymentModel>> GetPurchasePaymentHistoryAsync(int invoiceId)
+        public async Task<List<PurchaseInfo>> GetPurchasePaymentHistoryAsync(int invoiceId)
         {
             return await _purchasePaymentFacade.PurchaseRepository.PurchasePaymentHistory(invoiceId);
         }
@@ -41,7 +41,7 @@ namespace Services.Implementations
             return await _purchasePaymentFacade.SupplierPaymentRepository.GetTotalPaidAmount(invoiceId);
         }
 
-        public async Task<string> ProcessPaymentAsync(int companyId, int branchId, int userId, PurchasePayment paymentDto)
+        public async Task<string> ProcessPaymentAsync(int companyId, int branchId, int userId, PurchaseAmount paymentDto)
         {
             if (paymentDto.PaidAmount > paymentDto.PreviousRemainingAmount)
             {

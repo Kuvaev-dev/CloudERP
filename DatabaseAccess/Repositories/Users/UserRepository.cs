@@ -70,7 +70,9 @@ namespace DatabaseAccess.Repositories.Users
 
         public async Task<User?> GetByIdAsync(int id)
         {
-            var entity = await _dbContext.tblUser.FindAsync(id);
+            var entity = await _dbContext.tblUser
+                .Include(u => u.UserType)
+                .FirstOrDefaultAsync(u => u.UserID == id);
 
             return entity == null ? null : new User
             {
@@ -111,8 +113,8 @@ namespace DatabaseAccess.Repositories.Users
         public async Task UpdateAsync(User user)
         {
             var entity = await _dbContext.tblUser.FindAsync(user.UserID);
+            if (entity == null) throw new Exception("User not found.");
 
-            entity.UserID = user.UserID;
             entity.UserTypeID = user.UserTypeID;
             entity.FullName = user.FullName;
             entity.Email = user.Email;
