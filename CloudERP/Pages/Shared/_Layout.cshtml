@@ -12,31 +12,32 @@
     <!-- =============== VENDOR STYLES ===============-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/css/intlTelInput.css" />
     <!-- FONT AWESOME-->
-    <link rel="stylesheet" href="~/Content/Template/vendor/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="~/wwwroot/Template/vendor/font-awesome/css/font-awesome.css">
     <!-- SIMPLE LINE ICONS-->
-    <link rel="stylesheet" href="~/Content/Template/vendor/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="~/wwwroot/Template/vendor/simple-line-icons/css/simple-line-icons.css">
     <!-- ANIMATE.CSS-->
-    <link rel="stylesheet" href="~/Content/Template/vendor/animate.css/animate.css">
+    <link rel="stylesheet" href="~/wwwroot/Template/vendor/animate.css/animate.css">
     <!-- WHIRL (spinners)-->
-    <link rel="stylesheet" href="~/Content/Template/vendor/whirl/dist/whirl.css">
+    <link rel="stylesheet" href="~/wwwroot/Template/vendor/whirl/dist/whirl.css">
     <!-- =============== PAGE VENDOR STYLES ===============-->
     <!-- Datatables-->
-    <link rel="stylesheet" href="~/Content/Template/vendor/datatables.net-bs4/css/dataTables.bootstrap4.css">
-    <link rel="stylesheet" href="~/Content/Template/vendor/datatables.net-keytable-bs/css/keyTable.bootstrap.css">
-    <link rel="stylesheet" href="~/Content/Template/vendor/datatables.net-responsive-bs/css/responsive.bootstrap.css">
+    <link rel="stylesheet" href="~/wwwroot/Template/vendor/datatables.net-bs4/css/dataTables.bootstrap4.css">
+    <link rel="stylesheet" href="~/wwwroot/Template/vendor/datatables.net-keytable-bs/css/keyTable.bootstrap.css">
+    <link rel="stylesheet" href="~/wwwroot/Template/vendor/datatables.net-responsive-bs/css/responsive.bootstrap.css">
     <!-- =============== BOOTSTRAP STYLES ===============-->
-    <link rel="stylesheet" href="~/Content/Template/css/bootstrap.css" id="bscss">
+    <link rel="stylesheet" href="~/wwwroot/Template/css/bootstrap.css" id="bscss">
     <!-- =============== APP STYLES ===============-->
-    <link rel="stylesheet" href="~/Content/Template/css/app.css" id="maincss">
+    <link rel="stylesheet" href="~/wwwroot/Template/css/app.css" id="maincss">
     <!-- Bootgrid-->
-    <link rel="stylesheet" href="~/Content/Template/vendor/jquery-bootgrid/dist/jquery.bootgrid.css">
+    <link rel="stylesheet" href="~/wwwroot/Template/vendor/jquery-bootgrid/dist/jquery.bootgrid.css">
     <!-- Icons-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.2/font/bootstrap-icons.min.css" />
     <!-- Themes-->
-    <link rel="stylesheet" href="~/Scripts/Theme/dark-theme.css">
-
+    <link rel="stylesheet" href="~/wwwroot/js/Theme/dark-theme.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shepherd.js/8.0.1/css/shepherd.css">
+    <!-- Data Tables-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.6/css/jquery.dataTables.min.css" rel="stylesheet" />
 </head>
 <body>
     <div class="wrapper">
@@ -52,7 +53,7 @@
                                 string logo = string.Empty;
                                 if (string.IsNullOrEmpty(HttpContextAccessor.HttpContext?.Session.GetString("CLogo")))
                                 {
-                                    logo = "~/Content/CompanyLogo/erp-logo.png";
+                                    logo = "~/wwwroot/CompanyLogo/erp-logo.png";
                                 }
                                 else
                                 {
@@ -101,7 +102,7 @@
                     <!-- START Loading-->
                     <li class="nav-item">
                         <div style="display:none;">
-                            <img src="~/Content/Template/img/loading.gif" alt="Loading..." />
+                            <img src="~/wwwroot/Template/img/loading.gif" alt="Loading..." />
                         </div>
                     </li>
                     <!-- END Loading-->
@@ -195,7 +196,7 @@
                                                 string userImg = string.Empty;
                                                 if (string.IsNullOrEmpty(HttpContextAccessor.HttpContext?.Session.GetString("EPhoto")))
                                                 {
-                                                    userImg = "~/Content/Template/img/user-default-img.png";
+                                                    userImg = "~/wwwroot/Template/img/user-default-img.png";
                                                 }
                                                 else
                                                 {
@@ -743,54 +744,54 @@
     <!-- =============== VENDOR SCRIPTS ===============-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/intlTelInput.min.js"></script>
     <!-- MODERNIZR-->
-    <script src="~/Content/Template/vendor/modernizr/modernizr.custom.js"></script>
+    <script src="~/wwwroot/Template/vendor/modernizr/modernizr.custom.js"></script>
     <!-- JQUERY-->
-    <script src="~/Content/Template/vendor/jquery/dist/jquery.js"></script>
+    <script src="~/wwwroot/Template/vendor/jquery/dist/jquery.js"></script>
     <!-- BOOTSTRAP-->
-    <script src="~/Content/Template/vendor/popper.js/dist/umd/popper.js"></script>
-    <script src="~/Content/Template/vendor/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/wwwroot/Template/vendor/popper.js/dist/umd/popper.js"></script>
+    <script src="~/wwwroot/Template/vendor/bootstrap/dist/js/bootstrap.js"></script>
     <!-- STORAGE API-->
-    <script src="~/Content/Template/vendor/js-storage/js.storage.js"></script>
+    <script src="~/wwwroot/Template/vendor/js-storage/js.storage.js"></script>
     <!-- JQUERY EASING-->
-    <script src="~/Content/Template/vendor/jquery.easing/jquery.easing.js"></script>
+    <script src="~/wwwroot/Template/vendor/jquery.easing/jquery.easing.js"></script>
     <!-- ANIMO-->
-    <script src="~/Content/Template/vendor/animo/animo.js"></script>
+    <script src="~/wwwroot/Template/vendor/animo/animo.js"></script>
     <!-- SCREENFULL-->
-    <script src="~/Content/Template/vendor/screenfull/dist/screenfull.js"></script>
+    <script src="~/wwwroot/Template/vendor/screenfull/dist/screenfull.js"></script>
     <!-- LOCALIZE-->
-    <script src="~/Content/Template/vendor/jquery-localize/dist/jquery.localize.js"></script>
+    <script src="~/wwwroot/Template/vendor/jquery-localize/dist/jquery.localize.js"></script>
     <!-- =============== PAGE VENDOR SCRIPTS ===============-->
     <!-- Bootgrid-->
-    <script src="~/Content/Template/vendor/jquery-bootgrid/dist/jquery.bootgrid.js"></script>
-    <script src="~/Content/Template/vendor/jquery-bootgrid/dist/jquery.bootgrid.fa.js"></script>
+    <script src="~/wwwroot/Template/vendor/jquery-bootgrid/dist/jquery.bootgrid.js"></script>
+    <script src="~/wwwroot/Template/vendor/jquery-bootgrid/dist/jquery.bootgrid.fa.js"></script>
     <!-- JQUERY VALIDATE-->
-    <script src="~/Content/Template/vendor/jquery-validation/dist/jquery.validate.js"></script>
-    <script src="~/Content/Template/vendor/jquery-validation/dist/additional-methods.js"></script>
+    <script src="~/wwwroot/Template/vendor/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/wwwroot/Template/vendor/jquery-validation/dist/additional-methods.js"></script>
     <!-- JQUERY STEPS-->
-    <script src="~/Content/Template/vendor/jquery-steps/build/jquery.steps.js"></script>
+    <script src="~/wwwroot/Template/vendor/jquery-steps/build/jquery.steps.js"></script>
     <!-- Datatables-->
-    <script src="~/Content/Template/vendor/datatables.net/js/jquery.dataTables.js"></script>
-    <script src="~/Content/Template/vendor/datatables.net-bs4/js/dataTables.bootstrap4.js"></script>
-    <script src="~/Content/Template/vendor/datatables.net-buttons/js/dataTables.buttons.js"></script>
-    <script src="~/Content/Template/vendor/datatables.net-buttons-bs/js/buttons.bootstrap.js"></script>
-    <script src="~/Content/Template/vendor/datatables.net-buttons/js/buttons.colVis.js"></script>
-    <script src="~/Content/Template/vendor/datatables.net-buttons/js/buttons.flash.js"></script>
-    <script src="~/Content/Template/vendor/datatables.net-buttons/js/buttons.html5.js"></script>
-    <script src="~/Content/Template/vendor/datatables.net-buttons/js/buttons.print.js"></script>
-    <script src="~/Content/Template/vendor/datatables.net-keytable/js/dataTables.keyTable.js"></script>
-    <script src="~/Content/Template/vendor/datatables.net-responsive/js/dataTables.responsive.js"></script>
-    <script src="~/Content/Template/vendor/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
-    <script src="~/Content/Template/vendor/jszip/dist/jszip.js"></script>
-    <script src="~/Content/Template/vendor/pdfmake/build/pdfmake.js"></script>
-    <script src="~/Content/Template/vendor/pdfmake/build/vfs_fonts.js"></script>
+    <script src="~/wwwroot/Template/vendor/datatables.net/js/jquery.dataTables.js"></script>
+    <script src="~/wwwroot/Template/vendor/datatables.net-bs4/js/dataTables.bootstrap4.js"></script>
+    <script src="~/wwwroot/Template/vendor/datatables.net-buttons/js/dataTables.buttons.js"></script>
+    <script src="~/wwwroot/Template/vendor/datatables.net-buttons-bs/js/buttons.bootstrap.js"></script>
+    <script src="~/wwwroot/Template/vendor/datatables.net-buttons/js/buttons.colVis.js"></script>
+    <script src="~/wwwroot/Template/vendor/datatables.net-buttons/js/buttons.flash.js"></script>
+    <script src="~/wwwroot/Template/vendor/datatables.net-buttons/js/buttons.html5.js"></script>
+    <script src="~/wwwroot/Template/vendor/datatables.net-buttons/js/buttons.print.js"></script>
+    <script src="~/wwwroot/Template/vendor/datatables.net-keytable/js/dataTables.keyTable.js"></script>
+    <script src="~/wwwroot/Template/vendor/datatables.net-responsive/js/dataTables.responsive.js"></script>
+    <script src="~/wwwroot/Template/vendor/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+    <script src="~/wwwroot/Template/vendor/jszip/dist/jszip.js"></script>
+    <script src="~/wwwroot/Template/vendor/pdfmake/build/pdfmake.js"></script>
+    <script src="~/wwwroot/Template/vendor/pdfmake/build/vfs_fonts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/shepherd.js/8.0.1/js/shepherd.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.6/js/jquery.dataTables.min.js"></script>
     <!-- Themes-->
-    @*TODO: Dark Theme
-        <script src="~/Scripts/Theme/theme-switcher.js"></script>*@
+    <script src="~/wwwroot/js/Theme/theme-switcher.js"></script>
     <!-- =============== APP SCRIPTS ===============-->
-    <script src="~/Content/Template/js/app.js"></script>
-    <script src="~/Scripts/CustomScripts/FullscreenMode.js"></script>
-    <script src="~/Scripts/CustomScripts/Tour.js"></script>
+    <script src="~/wwwroot/Template/js/app.js"></script>
+    <script src="~/wwwroot/js/CustomScripts/FullscreenMode.js"></script>
+    <script src="~/wwwroot/js/CustomScripts/Tour.js"></script>
     @{
         bool.TryParse(HttpContextAccessor.HttpContext?.Session.GetString("StartTour"), out bool startTour);
         HttpContextAccessor.HttpContext?.Session.SetString("StartTour", "false");

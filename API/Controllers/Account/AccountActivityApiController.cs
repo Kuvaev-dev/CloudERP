@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using DatabaseAccess.Repositories.Branch;
+using Domain.Models;
 using Domain.RepositoryAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +24,6 @@ namespace API.Controllers.Account
             try
             {
                 var activities = await _accountActivityRepository.GetAllAsync();
-                if (activities == null) return NotFound();
                 return Ok(activities);
             }
             catch (Exception ex)
@@ -38,7 +38,7 @@ namespace API.Controllers.Account
             try
             {
                 var activity = await _accountActivityRepository.GetByIdAsync(id);
-                if (activity == null) return NotFound();
+                if (activity == null) return NotFound("Model not found.");
                 return Ok(activity);
             }
             catch (Exception ex)
@@ -50,7 +50,7 @@ namespace API.Controllers.Account
         [HttpPost]
         public async Task<ActionResult<AccountActivity>> Create([FromBody] AccountActivity model)
         {
-            if (model == null) return BadRequest("Invalid data.");
+            if (model == null) return BadRequest("Model cannot be null.");
 
             try
             {
@@ -66,12 +66,13 @@ namespace API.Controllers.Account
         [HttpPut]
         public async Task<IActionResult> Update(int id, [FromBody] AccountActivity model)
         {
-            if (model == null || id != model.AccountActivityID) return BadRequest("Invalid data.");
+            if (model == null) return BadRequest("Model cannot be null.");
+            if (id != model.AccountActivityID) return BadRequest("ID in the request does not match the model ID.");
 
             try
             {
                 await _accountActivityRepository.UpdateAsync(model);
-                return Ok();
+                return Ok(model);
             }
             catch (Exception ex)
             {

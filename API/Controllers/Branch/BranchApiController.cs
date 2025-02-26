@@ -33,7 +33,7 @@ namespace API.Controllers.Branch
                 var branches = mainBranchTypeID == MAIN_BRANCH_TYPE_ID
                     ? await _branchRepository.GetByCompanyAsync(companyId)
                     : await _branchRepository.GetSubBranchAsync(companyId, branchId);
-                if (branches == null) return NotFound();
+
                 return Ok(branches);
             }
             catch (Exception ex)
@@ -73,7 +73,7 @@ namespace API.Controllers.Branch
         [HttpPost]
         public async Task<ActionResult<Domain.Models.Branch>> Create([FromBody] Domain.Models.Branch model)
         {
-            if (model == null) return BadRequest("Invalid data.");
+            if (model == null) return BadRequest("Model cannot be null.");
 
             try
             {
@@ -89,15 +89,13 @@ namespace API.Controllers.Branch
         [HttpPut]
         public async Task<IActionResult> Update(int id, [FromBody] Domain.Models.Branch model)
         {
-            if (model == null || id != model.BranchID) return BadRequest("Invalid data.");
+            if (model == null) return BadRequest("Model cannot be null.");
+            if (id != model.BranchID) return BadRequest("ID in the request does not match the model ID.");
 
             try
             {
-                var existingBranch = await _branchRepository.GetByIdAsync(id);
-                if (existingBranch == null) return NotFound();
-
                 await _branchRepository.UpdateAsync(model);
-                return Ok();
+                return Ok(model);
             }
             catch (Exception ex)
             {

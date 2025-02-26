@@ -12,7 +12,7 @@ namespace CloudERP.Controllers.Purchase.Payment
         private readonly SessionHelper _sessionHelper;
         private readonly HttpClientHelper _httpClient;
 
-        private const string DEFAULT_IMAGE_PATH = "~/Content/StuffLogo/supplier.png";
+        private const string DEFAULT_IMAGE_PATH = "~/wwwroot/StuffLogo/supplier.png";
 
         public PurchasePaymentController(
             SessionHelper sessionHelper,
@@ -30,8 +30,8 @@ namespace CloudERP.Controllers.Purchase.Payment
 
             try
             {
-                var list = await _httpClient.GetAsync<List<PurchasePayment>>(
-                    $"purchase-payment/remaining-payment-list/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
+                var list = await _httpClient.GetAsync<List<PurchaseInfo>>(
+                    $"purchasepaymentapi/getremainingpaymentlist?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 return View(list);
             }
             catch (Exception ex)
@@ -48,8 +48,7 @@ namespace CloudERP.Controllers.Purchase.Payment
 
             try
             {
-                var list = await _httpClient.GetAsync<List<PurchasePaymentModel>>(
-                    $"purchase-payment/paid-history/{id}");
+                var list = await _httpClient.GetAsync<List<PurchaseInfo>>($"purchasepaymentapi/getpaidhistory?id={id}");
                 return View(list);
             }
             catch (Exception ex)
@@ -66,7 +65,7 @@ namespace CloudERP.Controllers.Purchase.Payment
 
             try
             {
-                var list = await _httpClient.GetAsync<List<PurchasePaymentModel>>(
+                var list = await _httpClient.GetAsync<List<PurchaseInfo>>(
                     $"purchase-payment/paid-history/{id}");
 
                 double remainingAmount = list?.LastOrDefault()?.RemainingBalance ?? 0;

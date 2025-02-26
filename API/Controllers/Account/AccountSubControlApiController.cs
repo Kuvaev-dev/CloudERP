@@ -30,7 +30,6 @@ namespace API.Controllers.Account
             try
             {
                 var subControls = await _accountSubControlRepository.GetAllAsync(companyId, branchId);
-                if (subControls == null) return NotFound();
                 return Ok(subControls);
             }
             catch (Exception ex)
@@ -45,7 +44,7 @@ namespace API.Controllers.Account
             try
             {
                 var subControl = await _accountSubControlRepository.GetByIdAsync(id);
-                if (subControl == null) return NotFound();
+                if (subControl == null) return NotFound("Model not found.");
                 return Ok(subControl);
             }
             catch (Exception ex)
@@ -57,7 +56,7 @@ namespace API.Controllers.Account
         [HttpPost]
         public async Task<ActionResult<AccountSubControl>> Create([FromBody] AccountSubControl model)
         {
-            if (model == null) return BadRequest("Invalid data.");
+            if (model == null) return BadRequest("Model cannot be null.");
 
             try
             {
@@ -73,12 +72,13 @@ namespace API.Controllers.Account
         [HttpPut]
         public async Task<IActionResult> Update(int id, [FromBody] AccountSubControl model)
         {
-            if (model == null || id != model.AccountSubControlID) return BadRequest("Invalid data.");
+            if (model == null) return BadRequest("Model cannot be null.");
+            if (id != model.AccountSubControlID) return BadRequest("ID in the request does not match the model ID.");
 
             try
             {
                 await _accountSubControlRepository.UpdateAsync(model);
-                return Ok();
+                return Ok(model);
             }
             catch (Exception ex)
             {

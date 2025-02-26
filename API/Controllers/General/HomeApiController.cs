@@ -29,13 +29,13 @@ namespace API.Controllers.General
             try
             {
                 var user = await _homeFacade.AuthService.AuthenticateUserAsync(loginRequest.Email, loginRequest.Password);
-                if (user == null) return Unauthorized();
+                if (user == null) return Unauthorized("User authentication failed");
 
                 var employee = await _homeFacade.EmployeeRepository.GetByUserIdAsync(user.UserID);
-                if (employee == null) return Unauthorized();
+                if (employee == null) return Unauthorized("Employee authentication failed");
 
                 var company = await _homeFacade.CompanyRepository.GetByIdAsync(employee.CompanyID);
-                if (company == null) return Unauthorized();
+                if (company == null) return Unauthorized("Company authentication failed");
 
                 var token = GenerateJwtToken(user);
 
@@ -60,7 +60,6 @@ namespace API.Controllers.General
             try
             {
                 var dashboardValues = await _homeFacade.DashboardService.GetDashboardValues(branchId, companyId);
-                if (dashboardValues == null) return NotFound();
                 return Ok(dashboardValues);
             }
             catch (Exception ex)
@@ -90,21 +89,17 @@ namespace API.Controllers.General
         public async Task<ActionResult<string>> ForgotPassword([FromBody] string email)
         {
             if (string.IsNullOrEmpty(email))
-            {
                 return BadRequest(Localization.CloudERP.Messages.Messages.EmailIsRequired);
-            }
 
             try
             {
                 if (await _homeFacade.AuthService.IsPasswordResetRequestedRecentlyAsync(email))
-                {
                     return BadRequest(Localization.CloudERP.Messages.Messages.PasswordResetAlreadyRequested);
-                }
 
                 var user = await _homeFacade.UserRepository.GetByEmailAsync(email);
                 if (user == null)
                 {
-                    return Ok("Password reset email sent.");
+                    return NotFound("User not found");
                 }
 
                 user.ResetPasswordCode = Guid.NewGuid().ToString();
@@ -130,7 +125,7 @@ namespace API.Controllers.General
             try
             {
                 var user = await _homeFacade.UserRepository.GetByPasswordCodesAsync(id, DateTime.Now);
-                if (user == null) return NotFound();
+                if (user == null) return NotFound("Model not found.");
 
                 return Ok(new { ResetCode = id });
             }
@@ -146,10 +141,7 @@ namespace API.Controllers.General
             try
             {
                 var success = await _homeFacade.AuthService.ResetPasswordAsync(request.ResetCode, request.NewPassword, request.ConfirmPassword);
-                if (!success)
-                {
-                    return BadRequest("Passwords do not match or link expired.");
-                }
+                if (!success) return BadRequest("Passwords do not match or link expired.");
 
                 return Ok("Password reset successfully.");
             }

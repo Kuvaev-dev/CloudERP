@@ -42,7 +42,7 @@ namespace CloudERP.Controllers.Company
 
             try
             {
-                bool isSuccess = await _httpClient.PostAsync<RegistrationMV>("company-registration/register", model);
+                bool isSuccess = await _httpClient.PostAsync("companyregistrationapi/register", model);
                 if (isSuccess)
                 {
                     ViewBag.Message = "Регистрация прошла успешно.";

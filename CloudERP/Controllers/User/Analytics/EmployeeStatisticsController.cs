@@ -65,7 +65,9 @@ namespace CloudERP.Controllers.User.Analytics
             DateTime end = endDate ?? DateTime.Now;
 
             var statistics = await _httpClientHelper.GetAsync<List<EmployeeStatistics>>(
-                $"employee-statistics/statistics/{start:yyyy-MM-dd}/{end:yyyy-MM-dd}/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}"
+                $"employeestatisticsapi/getemployeestatistics" +
+                $"?startDate={start:yyyy-MM-dd}&endDate={end:yyyy-MM-dd}" +
+                $"&companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}"
             );
 
             var chartData = new

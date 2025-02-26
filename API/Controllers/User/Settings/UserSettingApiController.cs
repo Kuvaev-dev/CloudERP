@@ -33,15 +33,14 @@ namespace API.Controllers.User.Settings
         {
             try
             {
-                if (!ModelState.IsValid)
-                    return BadRequest("Model is invalid.");
+                if (!ModelState.IsValid) return BadRequest("Model is invalid.");
 
                 var existingUser = (await _userRepository.GetAllAsync())
                     .FirstOrDefault(u => u.Email == user.Email && u.UserID != user.UserID);
                 var existingEmployee = (await _employeeRepository.GetByBranchAsync(branchId, companyId))
                     .FirstOrDefault(u => u.Email == user.Email && u.UserID == user.UserID);
 
-                if (existingUser != null || existingEmployee != null) return Conflict();
+                if (existingUser != null || existingEmployee != null) return Conflict("User or employee already exists");
 
                 await _userRepository.AddAsync(user);
 
@@ -66,8 +65,7 @@ namespace API.Controllers.User.Settings
         {
             try
             {
-                if (!ModelState.IsValid)
-                    return BadRequest("Model is invalid.");
+                if (!ModelState.IsValid) return BadRequest("Model is invalid.");
 
                 await _userRepository.UpdateAsync(user);
 
@@ -86,7 +84,7 @@ namespace API.Controllers.User.Settings
             try
             {
                 var user = await _userRepository.GetByIdAsync(userId);
-                if (user == null) return NotFound();
+                if (user == null) return NotFound("Model cannot be null.");
 
                 return Ok(user);
             }

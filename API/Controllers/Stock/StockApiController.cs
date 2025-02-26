@@ -32,8 +32,6 @@ namespace API.Controllers.Stock
             try
             {
                 var stocks = await _stockRepository.GetAllAsync(companyId, branchId);
-                if (stocks == null) return NotFound();
-
                 return Ok(stocks);
             }
             catch (Exception ex)
@@ -49,7 +47,7 @@ namespace API.Controllers.Stock
             try
             {
                 var stock = await _stockRepository.GetByIdAsync(id);
-                if (stock == null) return NotFound();
+                if (stock == null) return NotFound("Model not found.");
 
                 return Ok(stock);
             }
@@ -61,17 +59,13 @@ namespace API.Controllers.Stock
 
         // POST: api/stock
         [HttpPost]
-        public async Task<ActionResult<Domain.Models.Stock>> Create([FromBody] Domain.Models.Stock model, int companyId, int branchId, int userId)
+        public async Task<ActionResult<Domain.Models.Stock>> Create([FromBody] Domain.Models.Stock model)
         {
             try
             {
-                model.CompanyID = companyId;
-                model.BranchID = branchId;
-                model.UserID = userId;
-
                 if (ModelState.IsValid)
                 {
-                    var existingStock = await _stockRepository.GetByProductNameAsync(companyId, branchId, model.ProductName);
+                    var existingStock = await _stockRepository.GetByProductNameAsync(model.CompanyID, model.BranchID, model.ProductName);
                     if (existingStock != null) return Conflict();
 
                     await _stockRepository.AddAsync(model);
@@ -90,7 +84,8 @@ namespace API.Controllers.Stock
         [HttpPut]
         public async Task<IActionResult> Update(int id, [FromBody] Domain.Models.Stock model)
         {
-            if (model == null || id != model.ProductID) return BadRequest("Invalid data.");
+            if (model == null) return BadRequest("Model cannot be null.");
+            if (id != model.ProductID) return BadRequest("ID in the request does not match the model ID.");
 
             try
             {
@@ -110,7 +105,6 @@ namespace API.Controllers.Stock
             try
             {
                 var allProducts = await _productQualityService.GetAllProductsQualityAsync(branchId, companyId);
-                if (allProducts == null) return NotFound();
                 return Ok(allProducts);
             }
             catch (Exception ex)

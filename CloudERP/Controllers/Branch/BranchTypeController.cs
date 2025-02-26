@@ -25,7 +25,7 @@ namespace CloudERP.Controllers.Branch
 
             try
             {
-                var branchTypes = await _httpClient.GetAsync<List<BranchType>>("branch-type");
+                var branchTypes = await _httpClient.GetAsync<List<BranchType>>("branchtypeapi/getall");
                 if (branchTypes == null) return RedirectToAction("EP404", "EP");
 
                 return View(branchTypes);
@@ -58,7 +58,7 @@ namespace CloudERP.Controllers.Branch
             {
                 if (ModelState.IsValid)
                 {
-                    await _httpClient.PostAsync<BranchType>("branch-type/create", model);
+                    await _httpClient.PostAsync("branchtypeapi/create", model);
                     return RedirectToAction("Index");
                 }
 
@@ -79,7 +79,7 @@ namespace CloudERP.Controllers.Branch
 
             try
             {
-                var accountHead = await _httpClient.GetAsync<BranchType>($"branch-type/{id}");
+                var accountHead = await _httpClient.GetAsync<BranchType>($"branchtypeapi/getbyid?id={id}");
                 if (accountHead == null) return RedirectToAction("EP404", "EP");
 
                 return View(accountHead);
@@ -103,7 +103,7 @@ namespace CloudERP.Controllers.Branch
             {
                 if (ModelState.IsValid)
                 {
-                    await _httpClient.PutAsync<BranchType>($"branch-type/{model.BranchTypeID}", model);
+                    await _httpClient.PutAsync($"branchtypeapi/update?id={model.BranchTypeID}", model);
                     return RedirectToAction("Index");
                 }
                 return View(model);

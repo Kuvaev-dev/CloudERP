@@ -6,9 +6,6 @@
     var products = ViewBag.Products as IEnumerable<Domain.Models.Stock> ?? new List<Domain.Models.Stock>();
 }
 
-<script src="~/Scripts/jQuery/jquery-3.7.1.js"></script>
-
-
 @using (Html.BeginForm("AddItem", "PurchaseCart", FormMethod.Post, null))
 {
     @Html.AntiForgeryToken()

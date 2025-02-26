@@ -24,7 +24,7 @@ namespace CloudERP.Controllers.Financial.Reports
 
             try
             {
-                var financialYears = await _httpClient.GetAsync<List<FinancialYear>>("financial-year");
+                var financialYears = await _httpClient.GetAsync<List<FinancialYear>>("financialyearapi/getall");
                 if (financialYears == null) return RedirectToAction("EP404", "EP");
 
                 return View(financialYears);
@@ -57,7 +57,7 @@ namespace CloudERP.Controllers.Financial.Reports
 
                 if (ModelState.IsValid)
                 {
-                    var success = await _httpClient.PostAsync<FinancialYear>("financial-year/create", model);
+                    var success = await _httpClient.PostAsync("financialyearapi/create", model);
                     if (success) return RedirectToAction("Index");
                 }
 
@@ -77,7 +77,7 @@ namespace CloudERP.Controllers.Financial.Reports
 
             try
             {
-                var financialYear = await _httpClient.GetAsync<FinancialYear>($"financial-year/{id}");
+                var financialYear = await _httpClient.GetAsync<FinancialYear>($"financialyearapi/getbyid?id={id}");
                 if (financialYear == null) return RedirectToAction("EP404", "EP");
 
                 return View(financialYear);
@@ -102,7 +102,7 @@ namespace CloudERP.Controllers.Financial.Reports
 
                 if (ModelState.IsValid)
                 {
-                    var success = await _httpClient.PutAsync<FinancialYear>($"financial-year/update/{model.FinancialYearID}", model);
+                    var success = await _httpClient.PutAsync($"financialyearapi/update?id={model.FinancialYearID}", model);
                     if (success) return RedirectToAction("Index");
                 }
                 return View(model);

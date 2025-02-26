@@ -35,7 +35,6 @@ namespace API.Controllers.Company
             try
             {
                 var companies = await _companyRepository.GetAllAsync();
-                if (companies == null) return NotFound();
                 return Ok(companies);
             }
             catch (Exception ex)
@@ -50,7 +49,7 @@ namespace API.Controllers.Company
             try
             {
                 var company = await _companyRepository.GetByIdAsync(id);
-                if (company == null) return NotFound();
+                if (company == null) return NotFound("Model cannot be null.");
                 return Ok(company);
             }
             catch (Exception ex)
@@ -62,12 +61,12 @@ namespace API.Controllers.Company
         [HttpPost]
         public async Task<ActionResult<Domain.Models.Company>> Create([FromBody] Domain.Models.Company model)
         {
-            if (model == null) return BadRequest("Invalid data.");
+            if (model == null) return BadRequest("Model cannot be null.");
 
             try
             {
                 if (model == null || (!Request.HasFormContentType && string.IsNullOrEmpty(Request.Form["model"])))
-                    return BadRequest("Invalid data.");
+                    return BadRequest("Form data cannot be null");
 
                 try
                 {
@@ -78,7 +77,7 @@ namespace API.Controllers.Company
                     return BadRequest("Invalid employee data format.");
                 }
 
-                if (model == null) return BadRequest("Invalid data.");
+                if (model == null) return BadRequest("Model cannot be null.");
 
                 if (Request.Form.Files.Count > 0)
                 {
@@ -106,7 +105,7 @@ namespace API.Controllers.Company
         public async Task<IActionResult> Update([FromBody] Domain.Models.Company model)
         {
             if (model == null || (!Request.HasFormContentType && string.IsNullOrEmpty(Request.Form["model"])))
-                return BadRequest("Invalid data.");
+                return BadRequest("Form data cannot be null");
 
             try
             {
@@ -115,6 +114,8 @@ namespace API.Controllers.Company
                     ModelState.AddModelError("Name", Localization.CloudERP.Messages.Messages.AlreadyExists);
                     return NotFound();
                 }
+
+                if (model == null) return BadRequest("Model cannot be null.");
 
                 if (Request.Form.Files.Count > 0)
                 {
@@ -130,7 +131,7 @@ namespace API.Controllers.Company
                 }
 
                 await _companyRepository.UpdateAsync(model);
-                return Ok();
+                return Ok(model);
             }
             catch (Exception ex)
             {

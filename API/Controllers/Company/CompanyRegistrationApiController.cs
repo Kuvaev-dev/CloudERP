@@ -39,14 +39,10 @@ namespace API.Controllers.Company
             try
             {
                 if (await _companyRegistrationFacade.UserRepository.GetByEmailAsync(model.EmployeeEmail) != null)
-                {
-                    return Conflict("Пользователь с таким email уже существует.");
-                }
+                    return Conflict("User with provided Email already exists.");
 
                 if (await _companyRegistrationFacade.CompanyRepository.GetByNameAsync(model.CompanyName) != null)
-                {
-                    return Conflict("Компания с таким названием уже зарегистрирована.");
-                }
+                    return Conflict("Company with provided Name already exists.");
 
                 var company = new Domain.Models.Company
                 {
@@ -100,7 +96,7 @@ namespace API.Controllers.Company
 
                 SendEmail(employee, company);
 
-                return Ok("Регистрация прошла успешно.");
+                return Ok("Registration succeeded");
             }
             catch (Exception ex)
             {
@@ -111,12 +107,12 @@ namespace API.Controllers.Company
         private void SendEmail(Employee employee, Domain.Models.Company company)
         {
             var subject = $"Welcome to {company.Name}";
-            var body = $"Здравствуйте, {employee.FullName},\n\n" +
-                       "Ваша регистрация успешна. Вот ваши данные:\n" +
-                       $"Имя: {employee.FullName}\n" +
+            var body = $"Hello, {employee.FullName},\n\n" +
+                       "Your registration succeeded. Here is your data:\n" +
+                       $"Full Name: {employee.FullName}\n" +
                        $"Email: {employee.Email}\n" +
-                       $"Контактный номер: {employee.ContactNumber}\n\n" +
-                       $"С наилучшими пожеланиями,\nКоманда {company.Name}";
+                       $"Contact Number: {employee.ContactNumber}\n\n" +
+                       $"Best regards,\n{company.Name}'s command.";
 
             _companyRegistrationFacade.EmailService.SendEmail(employee.Email, subject, body);
         }

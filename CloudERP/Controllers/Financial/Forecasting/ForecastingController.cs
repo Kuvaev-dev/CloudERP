@@ -41,7 +41,7 @@ namespace CloudERP.Controllers.Financial.Forecasting
                 inputModel.CompanyID = _sessionHelper.CompanyID;
                 inputModel.BranchID = _sessionHelper.BranchID;
 
-                var isSuccess = await _httpClient.PostAsync<ForecastInputModel>("forecasting/generate", inputModel);
+                var isSuccess = await _httpClient.PostAsync("forecastingapi/generateforecast", inputModel);
 
                 if (isSuccess)
                 {

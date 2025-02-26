@@ -24,7 +24,8 @@ namespace CloudERP.Controllers.Utilities.TaskList
 
             try
             {
-                var tasks = await _httpClient.GetAsync<List<AccountHead>>($"task/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}/{_sessionHelper.UserID}");
+                var tasks = await _httpClient.GetAsync<List<AccountHead>>(
+                    $"taskapi/getall?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&userId={_sessionHelper.UserID}");
                 if (tasks == null) return RedirectToAction("EP404", "EP");
 
                 return View(tasks);
@@ -43,7 +44,7 @@ namespace CloudERP.Controllers.Utilities.TaskList
 
             try
             {
-                var task = await _httpClient.GetAsync<TaskModel>($"task/{id}");
+                var task = await _httpClient.GetAsync<TaskModel>($"taskapi/getbyid?id={id}");
                 if (task == null) return RedirectToAction("EP404", "EP");
 
                 return View(task);
@@ -80,7 +81,7 @@ namespace CloudERP.Controllers.Utilities.TaskList
 
                 if (ModelState.IsValid)
                 {
-                    await _httpClient.PostAsync<TaskModel>("task/create", model);
+                    await _httpClient.PostAsync("taskapi/create", model);
                     return RedirectToAction("Index");
                 }
                 return View(model);
@@ -94,7 +95,8 @@ namespace CloudERP.Controllers.Utilities.TaskList
 
         public async Task<ActionResult> AssignTask()
         {
-            var employees = await _httpClient.GetAsync<List<Employee>>($"task/employees/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
+            var employees = await _httpClient.GetAsync<List<Employee>>(
+                $"taskapi/getemployeesfortaskassignment?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
             ViewBag.Employees = employees;
             return View(new TaskModel() { DueDate = DateTime.Now });
         }
@@ -109,11 +111,12 @@ namespace CloudERP.Controllers.Utilities.TaskList
 
             if (ModelState.IsValid)
             {
-                await _httpClient.PostAsync<TaskModel>("task/create", model);
+                await _httpClient.PostAsync("taskapi/create", model);
                 return RedirectToAction("AssignTask");
             }
 
-            var employees = await _httpClient.GetAsync<List<Employee>>($"task/employees/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
+            var employees = await _httpClient.GetAsync<List<Employee>>(
+                $"taskapi/getemployeesfortaskassignment?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
             ViewBag.Employees = employees;
 
             return View(model);
@@ -126,7 +129,7 @@ namespace CloudERP.Controllers.Utilities.TaskList
 
             try
             {
-                var task = await _httpClient.GetAsync<TaskModel>($"task/{id}");
+                var task = await _httpClient.GetAsync<TaskModel>($"taskapi/getbyid?id={id}");
                 if (task == null) return RedirectToAction("EP404", "EP");
 
                 return View(task);
@@ -149,7 +152,7 @@ namespace CloudERP.Controllers.Utilities.TaskList
             {
                 if (ModelState.IsValid)
                 {
-                    await _httpClient.PutAsync<TaskModel>($"task/update/{model.TaskID}", model);
+                    await _httpClient.PutAsync($"taskapi/update?id={model.TaskID}", model);
                     return RedirectToAction("Index");
                 }
                 return View(model);
@@ -168,11 +171,11 @@ namespace CloudERP.Controllers.Utilities.TaskList
 
             try
             {
-                var task = await _httpClient.GetAsync<TaskModel>($"task/{id}");
+                var task = await _httpClient.GetAsync<TaskModel>($"taskapi/getbyid?id={id}");
                 if (task == null) return RedirectToAction("EP404", "EP");
                 task.IsCompleted = true;
 
-                await _httpClient.PutAsync<TaskModel>($"account-head/update/{task.TaskID}", task);
+                await _httpClient.PutAsync($"taskapi/update?id={task.TaskID}", task);
 
                 return RedirectToAction("Index");
             }
@@ -190,7 +193,7 @@ namespace CloudERP.Controllers.Utilities.TaskList
 
             try
             {
-                var task = await _httpClient.GetAsync<TaskModel>($"task/{id}");
+                var task = await _httpClient.GetAsync<TaskModel>($"taskapi/getbyid?id={id}");
                 if (task == null) return RedirectToAction("EP404", "EP");
 
                 return View(task);
@@ -211,7 +214,7 @@ namespace CloudERP.Controllers.Utilities.TaskList
 
             try
             {
-                await _httpClient.PostAsync<TaskModel>("account-head/delete", id);
+                await _httpClient.DeleteAsync($"taskapi/delete?id={id}");
                 return RedirectToAction("Index");
             }
             catch (Exception ex)

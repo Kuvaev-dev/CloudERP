@@ -3,7 +3,7 @@ using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
 using Utils.Interfaces;
 
-namespace Services.Implementations
+namespace Services.Implementations.Financial
 {
     public class ForecastingService : IForecastingService
     {

@@ -3,8 +3,6 @@
     ViewBag.Title = Localization.CloudERP.Financial.BalanceSheetStr;
 }
 
-<script src="~/Scripts/jQuery/jquery-3.7.1.js"></script>
-
 @using (Html.BeginForm("GetBalanceSheet", "BalanceSheet", FormMethod.Post))
 {
     @Html.AntiForgeryToken()

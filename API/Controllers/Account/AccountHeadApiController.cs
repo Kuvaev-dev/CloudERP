@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using DatabaseAccess.Repositories.Account;
+using Domain.Models;
 using Domain.RepositoryAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +24,6 @@ namespace API.Controllers.Account
             try
             {
                 var accountHeads = await _accountHeadRepository.GetAllAsync();
-                if (accountHeads == null) return NotFound();
                 return Ok(accountHeads);
             }
             catch (Exception ex)
@@ -38,7 +38,7 @@ namespace API.Controllers.Account
             try
             {
                 var accountHead = await _accountHeadRepository.GetByIdAsync(id);
-                if (accountHead == null) return NotFound();
+                if (accountHead == null) return NotFound("Model not found.");
                 return Ok(accountHead);
             }
             catch (Exception ex)
@@ -50,7 +50,7 @@ namespace API.Controllers.Account
         [HttpPost]
         public async Task<ActionResult<AccountHead>> Create([FromBody] AccountHead model)
         {
-            if (model == null) return BadRequest("Invalid data.");
+            if (model == null) return BadRequest("Model cannot be null.");
 
             try
             {
@@ -66,12 +66,13 @@ namespace API.Controllers.Account
         [HttpPut]
         public async Task<IActionResult> Update(int id, [FromBody] AccountHead model)
         {
-            if (model == null || id != model.AccountHeadID) return BadRequest("Invalid data.");
+            if (model == null) return BadRequest("Model cannot be null.");
+            if (id != model.AccountHeadID) return BadRequest("ID in the request does not match the model ID.");
 
             try
             {
                 await _accountHeadRepository.UpdateAsync(model);
-                return Ok();
+                return Ok(model);
             }
             catch (Exception ex)
             {

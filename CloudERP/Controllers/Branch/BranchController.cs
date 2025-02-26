@@ -29,7 +29,7 @@ namespace CloudERP.Controllers.Branch
             try
             {
                 var branches = await _httpClient.GetAsync<List<Domain.Models.Branch>>(
-                    $"branch/all/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}/{MAIN_BRANCH_TYPE_ID}");
+                    $"branchapi/getall?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&mainBranchTypeID={MAIN_BRANCH_TYPE_ID}");
                 if (branches == null) return RedirectToAction("EP404", "EP");
 
                 return View(branches);
@@ -74,7 +74,7 @@ namespace CloudERP.Controllers.Branch
 
                 if (ModelState.IsValid)
                 {
-                    await _httpClient.PostAsync<Domain.Models.Branch>("branch/create", model);
+                    await _httpClient.PostAsync("branchapi/create", model);
                     return RedirectToAction("Index");
                 }
 
@@ -97,7 +97,7 @@ namespace CloudERP.Controllers.Branch
 
             try
             {
-                var branch = await _httpClient.GetAsync<Domain.Models.Branch>($"branch/{id}");
+                var branch = await _httpClient.GetAsync<Domain.Models.Branch>($"branchapi/getbyid?id={id}");
                 if (branch == null) return RedirectToAction("EP404", "EP");
 
                 return View(branch);
@@ -123,7 +123,7 @@ namespace CloudERP.Controllers.Branch
 
                 if (ModelState.IsValid)
                 {
-                    await _httpClient.PutAsync<Domain.Models.Branch>($"api/branch/update/{model.BranchID}", model);
+                    await _httpClient.PutAsync($"branchapi/update?id={model.BranchID}", model);
                     return RedirectToAction("Index");
                 }
 
@@ -144,7 +144,7 @@ namespace CloudERP.Controllers.Branch
             try
             {
                 var branches = await _httpClient.GetAsync<List<Domain.Models.Branch>>(
-                    $"branch/sub-branches/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
+                    $"branchapi/getsubbranches?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 return View(branches);
             }
             catch (Exception ex)
@@ -156,8 +156,8 @@ namespace CloudERP.Controllers.Branch
 
         private async Task PopulateViewBags(int companyID, int? selectedParentBranchID = null, int? selectedBranchTypeID = null)
         {
-            var branches = await _httpClient.GetAsync<List<Domain.Models.Branch>>($"branch/{_sessionHelper.CompanyID}");
-            var branchTypes = await _httpClient.GetAsync<List<BranchType>>("branch-type");
+            var branches = await _httpClient.GetAsync<List<Domain.Models.Branch>>($"branchapi/getbycompany?companyId={_sessionHelper.CompanyID}");
+            var branchTypes = await _httpClient.GetAsync<List<BranchType>>("branchtypeapi/getall");
 
             ViewBag.BrchID = new SelectList(branches, "BranchID", "BranchName", selectedParentBranchID);
             ViewBag.BranchTypeID = new SelectList(branchTypes, "BranchTypeID", "BranchTypeName", selectedBranchTypeID);

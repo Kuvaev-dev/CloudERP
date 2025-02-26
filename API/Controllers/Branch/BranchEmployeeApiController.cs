@@ -36,7 +36,6 @@ namespace API.Controllers.Branch
             try
             {
                 var employees = await _employeeRepository.GetByBranchAsync(companyId, branchId);
-                if (employees == null) return NotFound();
                 return Ok(employees);
             }
             catch (Exception ex)
@@ -49,9 +48,7 @@ namespace API.Controllers.Branch
         public async Task<ActionResult<Employee>> EmployeeRegistration()
         {
             if (!Request.HasFormContentType && string.IsNullOrEmpty(Request.Form["model"]))
-            {
-                return BadRequest("Invalid data.");
-            }
+                return BadRequest("Form data cannot be null.");
 
             Employee model;
             try
@@ -63,7 +60,7 @@ namespace API.Controllers.Branch
                 return BadRequest("Invalid employee data format.");
             }
 
-            if (model == null) return BadRequest("Invalid data.");
+            if (model == null) return BadRequest("Model cannot be null.");
 
             try
             {
@@ -109,21 +106,19 @@ namespace API.Controllers.Branch
         public async Task<ActionResult<Employee>> EmployeeUpdation()
         {
             if (!Request.HasFormContentType && string.IsNullOrEmpty(Request.Form["model"]))
-            {
-                return BadRequest("Invalid data.");
-            }
+                return BadRequest("Form data cannot be null.");
 
             Employee model;
             try
             {
-                model = Newtonsoft.Json.JsonConvert.DeserializeObject<Employee>(Request.Form["model"]);
+                model = JsonConvert.DeserializeObject<Employee>(Request.Form["model"]);
             }
             catch
             {
                 return BadRequest("Invalid employee data format.");
             }
 
-            if (model == null) return BadRequest("Invalid data.");
+            if (model == null) return BadRequest("Model cannot be null.");
 
             try
             {
@@ -141,7 +136,7 @@ namespace API.Controllers.Branch
                 }
 
                 await _employeeRepository.UpdateAsync(model);
-                return Ok();
+                return Ok(model);
             }
             catch (Exception ex)
             {

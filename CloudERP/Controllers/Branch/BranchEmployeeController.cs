@@ -27,7 +27,7 @@ namespace CloudERP.Controllers.Branch
             try
             {
                 var branches = await _httpClient.GetAsync<List<Employee>>(
-                    $"branch-employee/employee/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
+                    $"branchemployeeapi/employee?companyId={_sessionHelper.CompanyID}?branchId={_sessionHelper.BranchID}");
                 if (branches == null) return RedirectToAction("EP404", "EP");
 
                 return View(branches);
@@ -72,7 +72,7 @@ namespace CloudERP.Controllers.Branch
                         content.Add(fileContent, "file", logo.FileName);
                     }
 
-                    var success = await _httpClient.PostAsync<Employee>("branch-employee/registration", content);
+                    var success = await _httpClient.PostAsync("branchemployeeapi/employeeregistration", content);
 
                     if (success)
                     {
@@ -102,7 +102,7 @@ namespace CloudERP.Controllers.Branch
 
             try
             {
-                var employee = await _httpClient.GetAsync<Employee>($"branch-employee/{id}");
+                var employee = await _httpClient.GetAsync<Employee>($"branchemployeeapi/getbyid?id={id}");
                 if (employee == null) return RedirectToAction("EP404", "EP");
 
                 return View(employee);
@@ -139,7 +139,7 @@ namespace CloudERP.Controllers.Branch
                         content.Add(fileContent, "file", logo.FileName);
                     }
 
-                    var success = await _httpClient.PutAsync<Employee>("branch-employee/updation", content);
+                    var success = await _httpClient.PostAsync("branchapi/create", content);
 
                     if (success)
                     {
@@ -169,7 +169,7 @@ namespace CloudERP.Controllers.Branch
 
             try
             {
-                var employee = await _httpClient.GetAsync<Employee>($"branch-employee/{id}");
+                var employee = await _httpClient.GetAsync<Employee>($"branchemployeeapi/getbyid?id={id}");
                 if (employee == null) return RedirectToAction("EP404", "EP");
 
                 return View(employee);

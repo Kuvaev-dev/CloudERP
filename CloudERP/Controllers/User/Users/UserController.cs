@@ -1,6 +1,5 @@
 ﻿using CloudERP.Helpers;
 using Microsoft.AspNetCore.Mvc;
-using Utils.Helpers;
 
 namespace CloudERP.Controllers.User.Users
 {
@@ -8,16 +7,13 @@ namespace CloudERP.Controllers.User.Users
     {
         private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
-        private readonly PasswordHelper _passwordHelper;
 
         public UserController(
             SessionHelper sessionHelper,
-            PasswordHelper passwordHelper,
             HttpClientHelper httpClient)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
-            _passwordHelper = passwordHelper ?? throw new ArgumentNullException(nameof(PasswordHelper));
         }
 
         // GET: User
@@ -28,7 +24,7 @@ namespace CloudERP.Controllers.User.Users
 
             try
             {
-                var users = await _httpClient.GetAsync<List<Domain.Models.User>>($"user");
+                var users = await _httpClient.GetAsync<List<Domain.Models.User>>($"userapi/getall");
                 return View(users);
             }
             catch (Exception ex)
@@ -46,7 +42,7 @@ namespace CloudERP.Controllers.User.Users
 
             try
             {
-                var user = await _httpClient.GetAsync<Domain.Models.User>($"user/{id}");
+                var user = await _httpClient.GetAsync<Domain.Models.User>($"userapi/getbyia?id={id}");
                 return View(user);
             }
             catch (Exception ex)
@@ -77,10 +73,7 @@ namespace CloudERP.Controllers.User.Users
             {
                 if (ModelState.IsValid)
                 {
-                    model.Password = _passwordHelper.HashPassword(model.Password, out string salt);
-                    model.Salt = salt;
-
-                    var success = await _httpClient.PostAsync<Domain.Models.User>($"user/create", model);
+                    var success = await _httpClient.PostAsync($"user/create", model);
                     if (success) return RedirectToAction("EP500", "EP");
 
                     return RedirectToAction("Index");
@@ -103,7 +96,7 @@ namespace CloudERP.Controllers.User.Users
 
             try
             {
-                var user = await _httpClient.GetAsync<Domain.Models.User>($"user/{id}");
+                var user = await _httpClient.GetAsync<Domain.Models.User>($"userapi/getbyid?id={id}");
                 return View(user);
             }
             catch (Exception ex)
@@ -125,20 +118,7 @@ namespace CloudERP.Controllers.User.Users
             {
                 if (ModelState.IsValid)
                 {
-                    if (string.IsNullOrEmpty(model.Password))
-                    {
-                        var existingUser = await _httpClient.GetAsync<Domain.Models.User>($"user/{model.UserID}");
-
-                        model.Password = existingUser?.Password;
-                        model.Salt = existingUser?.Salt;
-                    }
-                    else
-                    {
-                        model.Password = _passwordHelper.HashPassword(model.Password, out string salt);
-                        model.Salt = salt;
-                    }
-
-                    var response = await _httpClient.PutAsync<Domain.Models.User>($"user/update/{model.UserID}", model);
+                    var response = await _httpClient.PutAsync($"userapi/update?id={model.UserID}", model);
 
                     return RedirectToAction("Index");
                 }

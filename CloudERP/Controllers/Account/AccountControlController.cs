@@ -25,7 +25,7 @@ namespace CloudERP.Controllers.Account
             try
             {
                 var accountControls = await _httpClient.GetAsync<List<AccountControl>>(
-                    $"accountcontrolapi?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                    $"accountcontrolapi/getall?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 if (accountControls == null) return RedirectToAction("EP404", "EP");
 
                 return View(accountControls);
@@ -72,7 +72,7 @@ namespace CloudERP.Controllers.Account
 
                 if (ModelState.IsValid)
                 {
-                    await _httpClient.PostAsync<AccountControl>("accountcontrolapi/create", model);
+                    await _httpClient.PostAsync("accountcontrolapi/create", model);
                     return RedirectToAction("Index");
                 }
 
@@ -119,7 +119,7 @@ namespace CloudERP.Controllers.Account
             {
                 if (ModelState.IsValid)
                 {
-                    await _httpClient.PutAsync<AccountControl>($"accountcontrolapi/update?id={model.AccountControlID}", model);
+                    await _httpClient.PutAsync($"accountcontrolapi/update?id={model.AccountControlID}", model);
                     return RedirectToAction("Index");
                 }
 

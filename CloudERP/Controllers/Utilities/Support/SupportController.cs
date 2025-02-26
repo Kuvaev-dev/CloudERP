@@ -21,7 +21,8 @@ namespace CloudERP.Controllers.Utilities.Support
         {
             try
             {
-                ViewBag.UserTickets = await _httpClient.GetAsync<List<SupportTicket>>($"support/{_sessionHelper.UserID}");
+                ViewBag.UserTickets = await _httpClient.GetAsync<List<SupportTicket>>(
+                    $"supportapi/getusertickets?userId={_sessionHelper.UserID}");
 
                 return View(new SupportTicket());
             }
@@ -38,8 +39,8 @@ namespace CloudERP.Controllers.Utilities.Support
         {
             try
             {
-                var user = await _httpClient.GetAsync<Domain.Models.User>($"user/{_sessionHelper.UserID}");
-                var userTickets = await _httpClient.GetAsync<List<SupportTicket>>($"support/user/{_sessionHelper.UserID}");
+                var user = await _httpClient.GetAsync<Domain.Models.User>($"userapi/getbyid?id={_sessionHelper.UserID}");
+                var userTickets = await _httpClient.GetAsync<List<SupportTicket>>($"supportapi/getusertickets?userId={_sessionHelper.UserID}");
 
                 model.CompanyID = _sessionHelper.CompanyID;
                 model.BranchID = _sessionHelper.BranchID;
@@ -54,7 +55,7 @@ namespace CloudERP.Controllers.Utilities.Support
 
                 if (ModelState.IsValid)
                 {
-                    await _httpClient.PostAsync<SupportTicket>("support/create", model);
+                    await _httpClient.PostAsync("supportapi/create", model);
                     ViewBag.Message = Localization.CloudERP.Messages.Messages.SupportRequestSubmitted;
 
                     ViewBag.UserTickets = userTickets;
@@ -77,7 +78,7 @@ namespace CloudERP.Controllers.Utilities.Support
         {
             try
             {
-                var tickets = await _httpClient.GetAsync<List<SupportTicket>>("support/admin/list");
+                var tickets = await _httpClient.GetAsync<List<SupportTicket>>("supportapi/getadminlist");
                 if (tickets == null) return RedirectToAction("AdminList");
 
                 return View(tickets);
@@ -95,8 +96,8 @@ namespace CloudERP.Controllers.Utilities.Support
         {
             try
             {
-                var ticket = await _httpClient.GetAsync<SupportTicket>($"support/{id}");
-                var admin = await _httpClient.GetAsync<Domain.Models.User>($"user/{_sessionHelper.UserID}");
+                var ticket = await _httpClient.GetAsync<SupportTicket>($"supportapi/getbyid?id={id}");
+                var admin = await _httpClient.GetAsync<Domain.Models.User>($"userapi/getbyid?id={_sessionHelper.UserID}");
 
                 if (ticket == null) return RedirectToAction("AdminList");
 
@@ -105,9 +106,7 @@ namespace CloudERP.Controllers.Utilities.Support
                 ticket.ResponseDate = DateTime.Now;
                 ticket.IsResolved = true;
 
-                var success = await _httpClient.PostAsync<SupportTicket>($"support/resolve/{id}", ticket);
-                if (success) return RedirectToAction("Index");
-                await _httpClient.PutAsync<SupportTicket>($"support/update/{ticket.TicketID}", ticket);
+                var success = await _httpClient.PostAsync($"supportapi/resolveticket?id={id}", ticket);
 
                 return RedirectToAction("AdminList");
             }

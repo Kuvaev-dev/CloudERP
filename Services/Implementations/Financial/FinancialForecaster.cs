@@ -1,7 +1,7 @@
 ﻿using Domain.Models;
+using Domain.ServiceAccess;
 using Microsoft.ML;
 using Services.Models;
-using Services.ServiceAccess;
 
 namespace Services.Implementations
 {
@@ -14,7 +14,7 @@ namespace Services.Implementations
             _mlContext = mlContext;
         }
 
-        public ITransformer TrainModel(IEnumerable<ForecastData> data)
+        public object TrainModel(IEnumerable<ForecastData> data)
         {
             var dataView = _mlContext.Data.LoadFromEnumerable(data);
 
@@ -24,9 +24,10 @@ namespace Services.Implementations
             return pipeline.Fit(dataView);
         }
 
-        public double Predict(ITransformer model, ForecastData data)
+        public double Predict(object model, ForecastData data)
         {
-            var predictionEngine = _mlContext.Model.CreatePredictionEngine<ForecastData, ForecastPrediction>(model);
+            var transformer = model as ITransformer;
+            var predictionEngine = _mlContext.Model.CreatePredictionEngine<ForecastData, ForecastPrediction>(transformer);
             var prediction = predictionEngine.Predict(data);
             return prediction.PredictedValue;
         }

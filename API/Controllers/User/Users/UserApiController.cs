@@ -11,16 +11,13 @@ namespace API.Controllers.User.Users
     public class UserApiController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
-        private readonly IUserTypeRepository _userTypeRepository;
         private readonly PasswordHelper _passwordHelper;
 
         public UserApiController(
             IUserRepository userRepository,
-            IUserTypeRepository userTypeRepository,
             PasswordHelper passwordHelper)
         {
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
-            _userTypeRepository = userTypeRepository ?? throw new ArgumentNullException(nameof(userTypeRepository));
             _passwordHelper = passwordHelper ?? throw new ArgumentNullException(nameof(passwordHelper));
         }
 
@@ -31,7 +28,6 @@ namespace API.Controllers.User.Users
             try
             {
                 var users = await _userRepository.GetAllAsync();
-                if (users == null) return NotFound();
                 return Ok(users);
             }
             catch (Exception ex)
@@ -47,8 +43,6 @@ namespace API.Controllers.User.Users
             try
             {
                 var users = await _userRepository.GetByBranchAsync(companyId, branchTypeId, branchId);
-                if (users == null) return NotFound();
-
                 return Ok(users);
             }
             catch (Exception ex)
@@ -64,7 +58,7 @@ namespace API.Controllers.User.Users
             try
             {
                 var user = await _userRepository.GetByIdAsync(id);
-                if (user == null) return NotFound();
+                if (user == null) return NotFound("Model not found.");
                 return Ok(user);
             }
             catch (Exception ex)
@@ -79,13 +73,13 @@ namespace API.Controllers.User.Users
         {
             try
             {
-                if (model == null) return BadRequest("Invalid data.");
+                if (model == null) return BadRequest("Model cannot be null.");
 
                 model.Password = _passwordHelper.HashPassword(model.Password, out string salt);
                 model.Salt = salt;
 
-                await _userRepository.AddAsync(model);
-                return Ok("User created successfully.");
+                await _userRepository.AddAsync(model); 
+                return CreatedAtAction(nameof(GetById), new { id = model.UserID }, model);
             }
             catch (Exception ex)
             {
@@ -99,7 +93,7 @@ namespace API.Controllers.User.Users
         {
             try
             {
-                if (model == null) return BadRequest("Invalid data.");
+                if (model == null) return BadRequest("Model cannot be null.");
 
                 if (string.IsNullOrEmpty(model.Password))
                 {
@@ -114,8 +108,10 @@ namespace API.Controllers.User.Users
                 }
 
                 model.UserID = id;
+
                 await _userRepository.UpdateAsync(model);
-                return Ok("User updated successfully.");
+
+                return Ok(model);
             }
             catch (Exception ex)
             {

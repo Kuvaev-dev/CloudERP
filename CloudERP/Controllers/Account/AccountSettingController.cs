@@ -71,7 +71,7 @@ namespace CloudERP.Controllers.Account
 
                 if (ModelState.IsValid)
                 {
-                    await _httpClient.PostAsync<AccountSetting>("accountsettingapi/create", model);
+                    await _httpClient.PostAsync("accountsettingapi/create", model);
                     return RedirectToAction("Index");
                 }
 
@@ -120,7 +120,7 @@ namespace CloudERP.Controllers.Account
             {
                 if (ModelState.IsValid)
                 {
-                    await _httpClient.PutAsync<AccountSetting>($"accountsettingapi/update?id={model.AccountSettingID}", model);
+                    await _httpClient.PutAsync($"accountsettingapi/update?id={model.AccountSettingID}", model);
                     return RedirectToAction("Index");
                 }
 
@@ -148,27 +148,27 @@ namespace CloudERP.Controllers.Account
         private async Task PopulateDropdownsAsync(AccountSetting? model = null)
         {
             ViewBag.AccountHeadList = await CreateSelectListAsync<AccountHead>(
-                async () => await _httpClient.GetAsync<List<AccountHead>>("accountheadapi/getall"),
+                async () => await _httpClient.GetAsync<List<AccountHead>>("accountheadapi/getall") ?? [],
                 "AccountHeadID",
                 "AccountHeadName",
                 model?.AccountHeadID);
 
             ViewBag.AccountControlList = await CreateSelectListAsync<AccountControl>(
                 async () => await _httpClient.GetAsync<List<AccountControl>>(
-                    $"accountcontrolapi/getall?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}"),
+                    $"accountcontrolapi/getall?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}") ?? [],
                 "AccountControlID",
                 "AccountControlName",
                 model?.AccountControlID);
 
             ViewBag.AccountSubControlList = await CreateSelectListAsync<AccountSubControl>(
                 async () => await _httpClient.GetAsync<List<AccountSubControl>>(
-                    $"account-sub-control/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}"),
+                    $"accountsubcontrolapi/getall?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}") ?? [],
                 "AccountSubControlID",
                 "AccountSubControlName",
                 model?.AccountSubControlID);
 
             ViewBag.AccountActivityList = await CreateSelectListAsync<AccountActivity>(
-                async () => await _httpClient.GetAsync<List<AccountActivity>>("account-activity"),
+                async () => await _httpClient.GetAsync<List<AccountActivity>>("accountactivityapi/getall") ?? [],
                 "AccountActivityID",
                 "Name",
                 model?.AccountActivityID);

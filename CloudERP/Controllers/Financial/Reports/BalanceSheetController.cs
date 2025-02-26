@@ -30,7 +30,7 @@ namespace CloudERP.Controllers.Financial.Reports
                 await PopulateViewBag();
 
                 var balanceSheet = await _httpClient.GetAsync<BalanceSheetModel>(
-                    $"balance-sheet/branch-balance-sheet/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
+                    $"balancesheetapi/getbalancesheet?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
 
                 return View(balanceSheet);
             }
@@ -59,7 +59,7 @@ namespace CloudERP.Controllers.Financial.Reports
                 await PopulateViewBag();
 
                 var balanceSheet = await _httpClient.GetAsync<BalanceSheetModel>(
-                    $"balance-sheet/branch-balance-sheet/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}/{id}");
+                    $"balancesheetapi/getbalancesheetbyfinancialyear?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&financialYearId={id}");
 
                 return View(balanceSheet);
             }
@@ -70,7 +70,7 @@ namespace CloudERP.Controllers.Financial.Reports
             }
         }
 
-        public async Task<ActionResult> GetSubBalanceSheet()
+        public async Task<ActionResult> GetSubBalanceSheet(int? id)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -78,7 +78,7 @@ namespace CloudERP.Controllers.Financial.Reports
             try
             {
                 var balanceSheet = await _httpClient.GetAsync<BalanceSheetModel>(
-                    $"balance-sheet/sub-branch-balance-sheet/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
+                    $"balancesheetapi/getbalancesheet?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 return View(balanceSheet);
             }
             catch (Exception ex)
@@ -90,7 +90,7 @@ namespace CloudERP.Controllers.Financial.Reports
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> GetSubBalanceSheet(int? id)
+        public async Task<ActionResult> GetSubBalanceSheet(int? id, int? financialYearId)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -106,7 +106,7 @@ namespace CloudERP.Controllers.Financial.Reports
                 await PopulateViewBag();
 
                 var balanceSheet = await _httpClient.GetAsync<BalanceSheetModel>(
-                    $"balance-sheet/sub-branch-balance-sheet/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}/{id}");
+                    $"balancesheetapi/getbalancesheetbyfinancialyear?companyId={_sessionHelper.CompanyID}&branchId={id}&financialYearId={financialYearId}");
 
                 return View(balanceSheet);
             }
@@ -120,7 +120,7 @@ namespace CloudERP.Controllers.Financial.Reports
         private async Task PopulateViewBag()
         {
             ViewBag.FinancialYears = new SelectList(await _httpClient.GetAsync<List<FinancialYear>>(
-                    "financial-year"), "FinancialYearID", "FinancialYearName");
+                    "financialyearapi/getall"), "FinancialYearID", "FinancialYearName");
         }
     }
 }

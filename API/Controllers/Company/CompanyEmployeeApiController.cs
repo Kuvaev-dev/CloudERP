@@ -34,7 +34,6 @@ namespace API.Controllers.Company
             try
             {
                 var employees = await _companyEmployeeFacade.EmployeeRepository.GetByCompanyIdAsync(companyId);
-                if (employees == null) return NotFound();
                 return Ok(employees);
             }
             catch (Exception ex)
@@ -47,9 +46,7 @@ namespace API.Controllers.Company
         public async Task<ActionResult<Employee>> EmployeeRegistration()
         {
             if (Request.HasFormContentType && string.IsNullOrEmpty(Request.Form["model"]))
-            {
-                return BadRequest("Invalid data.");
-            }
+                return BadRequest("Model cannot be null.");
 
             Employee model;
             try
@@ -61,7 +58,7 @@ namespace API.Controllers.Company
                 return BadRequest("Invalid employee data format.");
             }
 
-            if (model == null) return BadRequest("Invalid data.");
+            if (model == null) return BadRequest("Model cannot be null.");
 
             try
             {
@@ -96,7 +93,7 @@ namespace API.Controllers.Company
             try
             {
                 var employee = await _companyEmployeeFacade.EmployeeRepository.GetByIdAsync(id);
-                if (employee == null) return NotFound();
+                if (employee == null) return NotFound("Model not found.");
                 return Ok(employee);
             }
             catch (Exception ex)
@@ -114,7 +111,7 @@ namespace API.Controllers.Company
                        $"Email: {employee.Email}<br/>" +
                        $"Contact No: {employee.ContactNumber}<br/>" +
                        $"Designation: {employee.Designation}<br/><br/>" +
-                       $"Best regards,<br/>Company Team";
+                       $"Best regards,<br/>Cloud ERP's Team";
 
             _companyEmployeeFacade.EmailService.SendEmail(employee.Email, subject, body);
         }
@@ -168,7 +165,6 @@ namespace API.Controllers.Company
             try
             {
                 var history = await _companyEmployeeFacade.PayrollRepository.GetSalaryHistoryAsync(branchId, companyId);
-                if (history == null) return NotFound();
                 return Ok(history);
             }
             catch (Exception ex)
@@ -183,7 +179,7 @@ namespace API.Controllers.Company
             try
             {
                 var invoice = await _companyEmployeeFacade.PayrollRepository.GetByIdAsync(id);
-                if (invoice == null) return BadRequest();
+                if (invoice == null) return BadRequest("Model not found.");
                 return Ok(invoice);
             }
             catch (Exception ex)

@@ -7,14 +7,14 @@ namespace CloudERP.Controllers.Stock
     public class CategoryController : Controller
     {
         private readonly SessionHelper _sessionHelper;
-        private readonly HttpClientHelper _httpClientHelper;
+        private readonly HttpClientHelper _httpClient;
 
         public CategoryController(
             SessionHelper sessionHelper,
-            HttpClientHelper httpClientHelper)
+            HttpClientHelper httpClient)
         {
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
-            _httpClientHelper = httpClientHelper ?? throw new ArgumentNullException(nameof(HttpClientHelper));
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
         }
 
         public async Task<ActionResult> Index()
@@ -24,8 +24,8 @@ namespace CloudERP.Controllers.Stock
 
             try
             {
-                var response = await _httpClientHelper.GetAsync<List<Category>>(
-                    $"category/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
+                var response = await _httpClient.GetAsync<List<Category>>(
+                    $"categoryapi/getall&companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 return View(response);
             }
             catch (Exception ex)
@@ -42,7 +42,7 @@ namespace CloudERP.Controllers.Stock
 
             try
             {
-                var response = await _httpClientHelper.GetAsync<Category>($"category/{id}");
+                var response = await _httpClient.GetAsync<Category>($"categoryapi/getbyid?id={id}");
                 return View(response);
             }
             catch (Exception ex)
@@ -75,7 +75,7 @@ namespace CloudERP.Controllers.Stock
 
                 if (ModelState.IsValid)
                 {
-                    var response = await _httpClientHelper.PostAsync<Category>("category/create", model);
+                    var response = await _httpClient.PostAsync("categoryapi/create", model);
                     if (response) return RedirectToAction("Index");
                 }
 
@@ -95,7 +95,7 @@ namespace CloudERP.Controllers.Stock
 
             try
             {
-                var response = await _httpClientHelper.GetAsync<Category>($"category/{id}");
+                var response = await _httpClient.GetAsync<Category>($"categoryapi/getbyid?id={id}");
                 return View(response);
             }
             catch (Exception ex)
@@ -121,7 +121,7 @@ namespace CloudERP.Controllers.Stock
 
                 if (ModelState.IsValid)
                 {
-                    var response = await _httpClientHelper.PutAsync<Category>("category/edit", model);
+                    var response = await _httpClient.PutAsync($"categoryapi/update?id={model.CategoryID}", model);
                     if (response) return RedirectToAction("Index");
                 }
 

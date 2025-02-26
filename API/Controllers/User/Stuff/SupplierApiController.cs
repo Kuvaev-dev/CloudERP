@@ -23,7 +23,20 @@ namespace API.Controllers.User.Stuff
             try
             {
                 var suppliers = await _repository.GetAllAsync();
-                if (suppliers == null) return NotFound();
+                return Ok(suppliers);
+            }
+            catch (Exception ex)
+            {
+                return Problem(detail: ex.Message, statusCode: 500);
+            }
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Supplier>>> GetBySetting(int companyId, int branchId)
+        {
+            try
+            {
+                var suppliers = await _repository.GetByCompanyAndBranchAsync(companyId, branchId);
                 return Ok(suppliers);
             }
             catch (Exception ex)
@@ -38,7 +51,7 @@ namespace API.Controllers.User.Stuff
             try
             {
                 var supplier = await _repository.GetByIdAsync(id);
-                if (supplier == null) return NotFound();
+                if (supplier == null) return NotFound("Model not found.");
                 return Ok(supplier);
             }
             catch (Exception ex)
@@ -50,7 +63,7 @@ namespace API.Controllers.User.Stuff
         [HttpPost]
         public async Task<ActionResult<Supplier>> Create([FromBody] Supplier model)
         {
-            if (model == null) return BadRequest("Invalid data.");
+            if (model == null) return BadRequest("Model cannot be null.");
 
             try
             {
@@ -66,12 +79,13 @@ namespace API.Controllers.User.Stuff
         [HttpPut]
         public async Task<IActionResult> Update(int id, [FromBody] Supplier model)
         {
-            if (model == null || id != model.SupplierID) return BadRequest("Invalid data.");
+            if (model == null) return BadRequest("Model cannot be null.");
+            if (id != model.SupplierID) return BadRequest("ID in the request does not match the model ID.");
 
             try
             {
                 await _repository.UpdateAsync(model);
-                return Ok();
+                return Ok(model);
             }
             catch (Exception ex)
             {
@@ -85,7 +99,6 @@ namespace API.Controllers.User.Stuff
             try
             {
                 var suppliers = await _repository.GetSuppliersByBranchesAsync(branchId);
-                if (suppliers == null) return NotFound();
                 return Ok(suppliers);
             }
             catch (Exception ex)

@@ -21,7 +21,6 @@ namespace API.Controllers.Stock
         public async Task<ActionResult<IEnumerable<Category>>> GetAll(int companyID, int branchID)
         {
             var categories = await _categoryRepository.GetAllAsync(companyID, branchID);
-            if (categories == null) return NotFound();
             return Ok(categories);
         }
 
@@ -29,13 +28,13 @@ namespace API.Controllers.Stock
         public async Task<ActionResult<Category>> GetById(int id)
         {
             var category = await _categoryRepository.GetByIdAsync(id);
-            return category != null ? Ok(category) : NotFound();
+            return category != null ? Ok(category) : NotFound("Model not found.");
         }
 
         [HttpPost]
         public async Task<ActionResult<Category>> Create(Category model)
         {
-            if (model == null) return BadRequest("Invalid data.");
+            if (model == null) return BadRequest("Model cannot be null.");
 
             try
             {
@@ -51,12 +50,13 @@ namespace API.Controllers.Stock
         [HttpPut]
         public async Task<IActionResult> Update(int id, [FromBody] Category model)
         {
-            if (model == null || id != model.CategoryID) return BadRequest("Invalid data.");
+            if (model == null) return BadRequest("Model cannot be null.");
+            if (id != model.CategoryID) return BadRequest("ID in the request does not match the model ID.");
 
             try
             {
                 await _categoryRepository.UpdateAsync(model);
-                return Ok();
+                return Ok(model);
             }
             catch (Exception ex)
             {

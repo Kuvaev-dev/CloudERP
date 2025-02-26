@@ -1,4 +1,5 @@
 ﻿using CloudERP.Helpers;
+using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudERP.Controllers.User.Analytics
@@ -23,12 +24,15 @@ namespace CloudERP.Controllers.User.Analytics
 
             try
             {
-                var analyticsData = await _httpClientHelper.GetAsync<dynamic>("analytics/index");
+                var model = await _httpClientHelper.GetAsync<AnalyticsModel>(
+                    $"analyticsapi/getanalytics?companyID={_sessionHelper.CompanyID}");
 
-                var model = analyticsData?.model;
-                var chartData = analyticsData?.chartData;
-
-                ViewBag.ChartData = chartData;
+                ViewBag.ChartData = new
+                {
+                    Employees = new { model?.TotalEmployees, model?.NewEmployeesThisMonth, model?.NewEmployeesThisYear },
+                    Stock = new { model?.TotalStockItems, model?.StockAvailable, model?.StockExpired },
+                    Support = new { model?.TotalSupportTickets, model?.ResolvedSupportTickets, model?.PendingSupportTickets }
+                };
 
                 return View(model);
             }

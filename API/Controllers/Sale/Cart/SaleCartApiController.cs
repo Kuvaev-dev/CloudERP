@@ -92,7 +92,7 @@ namespace API.Controllers.Sale.Cart
                 var details = await _saleCartDetailRepository.GetByDefaultSettingAsync(branchId, companyId, userId);
                 if (details == null) return BadRequest();
                 await _saleCartDetailRepository.DeleteListAsync(details);
-                return Ok(new { message = "Purchase canceled" });
+                return Ok(new { message = "Sale canceled" });
             }
             catch (Exception ex)
             {

@@ -25,7 +25,7 @@ namespace CloudERP.Controllers.User.Stuff
 
             try
             {
-                var customers = await _httpClient.GetAsync<List<Customer>>("customer");
+                var customers = await _httpClient.GetAsync<List<Customer>>("customerapi/getall");
                 return View(customers);
             }
             catch (Exception ex)
@@ -43,7 +43,8 @@ namespace CloudERP.Controllers.User.Stuff
 
             try
             {
-                var customers = await _httpClient.GetAsync<List<Customer>>($"customer/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
+                var customers = await _httpClient.GetAsync<List<Customer>>(
+                    $"customerapi/getbysetting?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 return View(customers);
             }
             catch (Exception ex)
@@ -61,7 +62,7 @@ namespace CloudERP.Controllers.User.Stuff
 
             try
             {
-                var customer = await _httpClient.GetAsync<Customer>($"customer/{id}");
+                var customer = await _httpClient.GetAsync<Customer>($"customerapi/getbyid?id={id}");
                 return View(customer);
             }
             catch (Exception ex)
@@ -96,7 +97,7 @@ namespace CloudERP.Controllers.User.Stuff
 
                 if (ModelState.IsValid)
                 {
-                    var success = await _httpClient.PostAsync<Customer>("customer", model);
+                    var success = await _httpClient.PostAsync("customerapi/create", model);
                     if (success) return RedirectToAction("Index");
                 }
 
@@ -117,7 +118,7 @@ namespace CloudERP.Controllers.User.Stuff
 
             try
             {
-                var customer = await _httpClient.GetAsync<Customer>($"customer/{id}");
+                var customer = await _httpClient.GetAsync<Customer>($"customerapi/getbyid?id={id}");
                 return View(customer);
             }
             catch (Exception ex)
@@ -141,7 +142,7 @@ namespace CloudERP.Controllers.User.Stuff
 
                 if (ModelState.IsValid)
                 {
-                    var success = await _httpClient.PutAsync<Customer>($"customer/update/{model.CustomerID}", model);
+                    var success = await _httpClient.PutAsync($"customer/update?id={model.CustomerID}", model);
                     if (success) return RedirectToAction("Index");
                 }
 

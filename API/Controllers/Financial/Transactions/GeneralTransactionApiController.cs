@@ -26,7 +26,7 @@ namespace API.Controllers.Financial.Transactions
         [HttpPost]
         public async Task<ActionResult<string>> SaveTransaction([FromBody] GeneralTransactionMV model, int companyId, int branchId, int userId)
         {
-            if (model == null) return BadRequest("Invalid data.");
+            if (model == null) return BadRequest("Model cannot be null.");
 
             try
             {
@@ -54,7 +54,6 @@ namespace API.Controllers.Financial.Transactions
             try
             {
                 var journalEntries = await _generalTransactionRepository.GetJournal(companyId, branchId, fromDate, toDate);
-                if (journalEntries == null) return NotFound();
                 return Ok(journalEntries);
             }
             catch (Exception ex)
@@ -70,7 +69,6 @@ namespace API.Controllers.Financial.Transactions
             try
             {
                 var accounts = await _generalTransactionRepository.GetAllAccounts(companyId, branchId);
-                if (accounts == null) return NotFound();
                 return Ok(accounts);
             }
             catch (Exception ex)

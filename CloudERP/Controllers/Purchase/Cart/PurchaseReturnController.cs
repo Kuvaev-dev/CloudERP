@@ -1,7 +1,6 @@
 ﻿using CloudERP.Helpers;
 using CloudERP.Models;
 using Domain.Models;
-using Domain.Models.FinancialModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudERP.Controllers.Purchase.Cart
@@ -47,15 +46,16 @@ namespace CloudERP.Controllers.Purchase.Cart
                 HttpContext.Session.SetString("InvoiceNo", string.Empty);
                 HttpContext.Session.SetString("ReturnMessage", string.Empty);
 
-                var response = await _httpClient.GetAsync<dynamic>($"invoice/{invoiceID}");
-                if (response == null)
+                var response = await _httpClient.GetAsync<object>($"purchasereturnapi/findpurchase?invoiceID={invoiceID}");
+                if (response is null)
                 {
                     TempData["ErrorMessage"] = "Invoice not found.";
-                    return RedirectToAction("FindPurchase");
+                    return RedirectToAction("FindPurchase", new { invoiceID });
                 }
 
-                ViewBag.InvoiceDetails = response.invoiceDetails;
-                return View(response.invoice);
+                dynamic result = response;
+                ViewBag.InvoiceDetails = result.invoiceDetails;
+                return View(result.invoice);
             }
             catch (Exception ex)
             {
@@ -87,11 +87,8 @@ namespace CloudERP.Controllers.Purchase.Cart
                     UserID = _sessionHelper.UserID
                 };
 
-                var response = await _httpClient.PostAsync<PurchaseReturnConfirm>("return", returnConfirmDto);
-                if (response)
-                {
-                    return RedirectToAction("AllPurchasesPendingPayment", "PurchasePaymentReturn");
-                }
+                var response = await _httpClient.PostAsync("purchasereturnapi/processpurchasereturn", returnConfirmDto);
+                if (response) return RedirectToAction("AllPurchasesPendingPayment", "PurchasePaymentReturn");
 
                 return RedirectToAction("FindPurchase");
             }

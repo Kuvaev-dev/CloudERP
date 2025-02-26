@@ -24,7 +24,20 @@ namespace API.Controllers.User.Stuff
             try
             {
                 var customers = await _customerRepository.GetAllAsync();
-                if (customers == null) return NotFound();
+                return Ok(customers);
+            }
+            catch (Exception ex)
+            {
+                return Problem(detail: ex.Message, statusCode: 500);
+            }
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Customer>>> GetBySetting(int companyId, int branchId)
+        {
+            try
+            {
+                var customers = await _customerRepository.GetByCompanyAndBranchAsync(companyId, branchId);
                 return Ok(customers);
             }
             catch (Exception ex)
@@ -40,7 +53,7 @@ namespace API.Controllers.User.Stuff
             try
             {
                 var customer = await _customerRepository.GetByIdAsync(id);
-                if (customer == null) return NotFound();
+                if (customer == null) return NotFound("Model not found.");
                 return Ok(customer);
             }
             catch (Exception ex)
@@ -53,10 +66,10 @@ namespace API.Controllers.User.Stuff
         [HttpPost]
         public async Task<ActionResult<Customer>> Create([FromBody] Customer model)
         {
+            if (model == null) return BadRequest("Model cannot be null.");
+
             try
             {
-                if (model == null) return BadRequest("Invalid customer data.");
-
                 await _customerRepository.AddAsync(model);
                 return CreatedAtAction(nameof(GetById), new { id = model.CustomerID }, model);
             }
@@ -68,15 +81,15 @@ namespace API.Controllers.User.Stuff
 
         // PUT: api/customers/5
         [HttpPut]
-        public async Task<IActionResult> Update(int id, [FromBody] Customer customer)
+        public async Task<IActionResult> Update(int id, [FromBody] Customer model)
         {
+            if (model == null) return BadRequest("Model cannot be null.");
+            if (id != model.CustomerID) return BadRequest("ID in the request does not match the model ID.");
+
             try
             {
-                var existingCustomer = await _customerRepository.GetByIdAsync(id);
-                if (existingCustomer == null) return NotFound();
-
-                await _customerRepository.UpdateAsync(customer);
-                return Ok(customer);
+                await _customerRepository.UpdateAsync(model);
+                return Ok(model);
             }
             catch (Exception ex)
             {

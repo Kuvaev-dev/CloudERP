@@ -29,7 +29,7 @@ namespace CloudERP.Controllers.Financial.Reports
                 await PopulateViewBag();
 
                 var trialBalance = await _httpClient.GetAsync<List<TrialBalanceModel>>(
-                    $"trial-balance/branch-trial-balance/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
+                    $"trialbalanceapi/gettrialbalance?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
 
                 return View(trialBalance);
             }
@@ -52,7 +52,51 @@ namespace CloudERP.Controllers.Financial.Reports
                 await PopulateViewBag(id);
 
                 var trialBalance = await _httpClient.GetAsync<BalanceSheetModel>(
-                    $"trial-balance/branch-trial-balance/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}/{id}");
+                    $"trialbalanceapi/gettrialbalancebyfinancialyear?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&financialYearId={id}");
+
+                return View(trialBalance);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
+        }
+
+        public async Task<ActionResult> GetSubTrialBalance()
+        {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            try
+            {
+                await PopulateViewBag();
+
+                var trialBalance = await _httpClient.GetAsync<List<TrialBalanceModel>>(
+                    $"trialbalanceapi/gettrialbalance?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+
+                return View(trialBalance);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> GetSubTrialBalance(int? id)
+        {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            try
+            {
+                await PopulateViewBag(id);
+
+                var trialBalance = await _httpClient.GetAsync<BalanceSheetModel>(
+                    $"trialbalanceapi/gettrialbalancebyfinancialyear?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&financialYearId={id}");
 
                 return View(trialBalance);
             }

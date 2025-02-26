@@ -25,7 +25,7 @@ namespace CloudERP.Controllers.User.Settings
 
             try
             {
-                var userTypes = await _httpClient.GetAsync<List<UserType>>("user-type");
+                var userTypes = await _httpClient.GetAsync<List<UserType>>("usertypeapi/getall");
                 return View(userTypes);
             }
             catch (Exception ex)
@@ -43,7 +43,7 @@ namespace CloudERP.Controllers.User.Settings
 
             try
             {
-                var userType = await _httpClient.GetAsync<UserType>($"user-type/{id}");
+                var userType = await _httpClient.GetAsync<UserType>($"usertypeapi/getbyid?id={id}");
                 return View(userType);
             }
             catch (Exception ex)
@@ -74,7 +74,7 @@ namespace CloudERP.Controllers.User.Settings
             {
                 if (ModelState.IsValid)
                 {
-                    var success = await _httpClient.PostAsync<UserType>("user-type/create", model);
+                    var success = await _httpClient.PostAsync("usertypeapi/create", model);
                     if (success) return RedirectToAction("Index");
                 }
 
@@ -95,7 +95,7 @@ namespace CloudERP.Controllers.User.Settings
 
             try
             {
-                var userType = await _httpClient.GetAsync<UserType>($"user-type/{id}");
+                var userType = await _httpClient.GetAsync<UserType>($"usertypeapi/getbyid?id={id}");
                 return View(userType);
             }
             catch (Exception ex)
@@ -117,7 +117,7 @@ namespace CloudERP.Controllers.User.Settings
             {
                 if (ModelState.IsValid)
                 {
-                    var success = await _httpClient.PutAsync<UserType>($"user-type/update/{model.UserTypeID}", model);
+                    var success = await _httpClient.PutAsync($"usertypeapi/update?id={model.UserTypeID}", model);
                     if (success) return RedirectToAction("Index");
                 }
 

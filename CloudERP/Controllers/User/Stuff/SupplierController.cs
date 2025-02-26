@@ -25,7 +25,25 @@ namespace CloudERP.Controllers.User.Stuff
 
             try
             {
-                var suppliers = await _httpClient.GetAsync<List<Supplier>>("supplier");
+                var suppliers = await _httpClient.GetAsync<List<Supplier>>("supplierapi/getall");
+                return View(suppliers);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
+        }
+
+        public async Task<ActionResult> Index()
+        {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            try
+            {
+                var suppliers = await _httpClient.GetAsync<List<Supplier>>(
+                    $"supplierapi/getbysetting?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 return View(suppliers);
             }
             catch (Exception ex)
@@ -45,7 +63,7 @@ namespace CloudERP.Controllers.User.Stuff
             {
                 if (id == null) return RedirectToAction("EP404", "EP");
 
-                var supplier = await _httpClient.GetAsync<Supplier>($"supplier/{id}");
+                var supplier = await _httpClient.GetAsync<Supplier>($"supplierapi/getbyid?id={id}");
                 if (supplier == null) return RedirectToAction("EP404", "EP");
 
                 return View(supplier);
@@ -82,7 +100,7 @@ namespace CloudERP.Controllers.User.Stuff
 
                 if (ModelState.IsValid)
                 {
-                    var success = await _httpClient.PostAsync<Supplier>("supplier/create", model);
+                    var success = await _httpClient.PostAsync("supplierapi/create", model);
                     if (success) return RedirectToAction("AllSuppliers");
 
                     ViewBag.Message = Localization.CloudERP.Messages.Messages.AlreadyExists;
@@ -108,7 +126,7 @@ namespace CloudERP.Controllers.User.Stuff
             {
                 if (id == null) return RedirectToAction("EP404", "EP");
 
-                var supplier = await _httpClient.GetAsync<Supplier>($"supplier/{id}");
+                var supplier = await _httpClient.GetAsync<Supplier>($"supplierapi/getbyid?id={id}");
                 if (supplier == null) return RedirectToAction("EP404", "EP");
 
                 return View(supplier);
@@ -134,7 +152,7 @@ namespace CloudERP.Controllers.User.Stuff
 
                 if (ModelState.IsValid)
                 {
-                    var success = await _httpClient.PutAsync<Supplier>($"supplier/update/{model.SupplierID}", model);
+                    var success = await _httpClient.PutAsync($"supplierapi/update?id={model.SupplierID}", model);
                     if (success) return RedirectToAction("AllSuppliers");
 
                     ViewBag.Message = Localization.CloudERP.Messages.Messages.AlreadyExists;

@@ -1,10 +1,9 @@
 ﻿@model Domain.Models.AccountSetting
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
     ViewBag.Title = Localization.CloudERP.Account.ManageTransactions;
 }
-
-<script src="~/Scripts/jQuery/jquery-3.7.1.js"></script>
 
 @using (Html.BeginForm())
 {
@@ -71,6 +70,17 @@
                 @Html.ValidationMessageFor(model => model.AccountActivityID, "", new { @class = "text-danger" })
             </div>
         </div>
+
+        @if (HttpContextAccessor.HttpContext?.Session.GetInt32("UserTypeID") == 1)
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.IsGlobal, "Global", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-5">
+                    @Html.EditorFor(model => model.IsGlobal, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.IsGlobal, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        }
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-5">

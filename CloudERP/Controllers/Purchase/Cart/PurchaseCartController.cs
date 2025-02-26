@@ -1,6 +1,7 @@
 ﻿using CloudERP.Helpers;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Resources;
 
 namespace CloudERP.Controllers.Purchase.Cart
 {
@@ -25,7 +26,7 @@ namespace CloudERP.Controllers.Purchase.Cart
             try
             {
                 var details = await _httpClient.GetAsync<PurchaseCartDetail[]>(
-                    $"details/{_sessionHelper.BranchID}/{_sessionHelper.CompanyID}/{_sessionHelper.UserID}");
+                    $"purchasecartapi/getpurchasecartdetails?branchId={_sessionHelper.BranchID}&companyId={_sessionHelper.CompanyID}&userId={_sessionHelper.UserID}");
 
                 ViewBag.TotalAmount = details?.Sum(item => item.PurchaseQuantity * item.PurchaseUnitPrice);
                 return View(details);
@@ -56,7 +57,7 @@ namespace CloudERP.Controllers.Purchase.Cart
                     UserID = _sessionHelper.UserID
                 };
 
-                var success = await _httpClient.PostAsync<PurchaseCartDetail>("additem", newItem);
+                var success = await _httpClient.PostAsync("purchasecartapi/additem", newItem);
                 if (success) ViewBag.Message = "Item added successfully";
 
                 return RedirectToAction("NewPurchase");
@@ -77,7 +78,7 @@ namespace CloudERP.Controllers.Purchase.Cart
 
             try
             {
-                var success = await _httpClient.PostAsync<object>($"delete/{id}", new { });
+                var success = await _httpClient.DeleteAsync($"purchasecartapi/deleteitem?id={id}");
                 if (success) ViewBag.Message = "Deleted successfully";
 
                 return RedirectToAction("NewPurchase");
@@ -98,7 +99,7 @@ namespace CloudERP.Controllers.Purchase.Cart
 
             try
             {
-                var success = await _httpClient.PostAsync<object>($"cancel", new
+                var success = await _httpClient.PostAsync($"purchasecartapi/cancelpurchase", new
                 {
                     branchId = _sessionHelper.BranchID,
                     companyId = _sessionHelper.CompanyID,
@@ -107,6 +108,40 @@ namespace CloudERP.Controllers.Purchase.Cart
 
                 if (success) ViewBag.Message = "Purchase canceled";
 
+                return RedirectToAction("NewPurchase");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
+                return RedirectToAction("NewPurchase");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> PurchaseConfirm(PurchaseConfirm purchaseConfirmDto)
+        {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            try
+            {
+                purchaseConfirmDto.CompanyID = _sessionHelper.CompanyID;
+                purchaseConfirmDto.BranchID = _sessionHelper.BranchID;
+                purchaseConfirmDto.UserID = _sessionHelper.UserID;
+
+                var result = await _httpClient.PostAndReturnAsync<object>("purchasecartapi/confirmpurchase", purchaseConfirmDto);
+
+                if (result is not null)
+                {
+                    dynamic response = result;
+                    if (response.id is int purchaseId)
+                    {
+                        return RedirectToAction("PrintPurchaseInvoice", "PurchasePayment", new { id = purchaseId });
+                    }
+                }
+
+                TempData["ErrorMessage"] = "Purchase confirm error";
                 return RedirectToAction("NewPurchase");
             }
             catch (Exception ex)

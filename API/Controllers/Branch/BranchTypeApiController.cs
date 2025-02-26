@@ -23,7 +23,6 @@ namespace API.Controllers.Branch
             try
             {
                 var branchTypes = await _branchTypeRepository.GetAllAsync();
-                if (branchTypes == null) return NotFound();
                 return Ok(branchTypes);
             }
             catch (Exception ex)
@@ -38,7 +37,7 @@ namespace API.Controllers.Branch
             try
             {
                 var branchType = await _branchTypeRepository.GetByIdAsync(id);
-                if (branchType == null) return NotFound();
+                if (branchType == null) return NotFound("Model cannot be null.");
                 return Ok(branchType);
             }
             catch (Exception ex)
@@ -50,7 +49,7 @@ namespace API.Controllers.Branch
         [HttpPost]
         public async Task<ActionResult<BranchType>> Create([FromBody] BranchType model)
         {
-            if (model == null) return BadRequest("Invalid data.");
+            if (model == null) return BadRequest("Model cannot be null.");
 
             try
             {
@@ -66,15 +65,13 @@ namespace API.Controllers.Branch
         [HttpPut]
         public async Task<IActionResult> Update(int id, [FromBody] BranchType model)
         {
-            if (model == null || id != model.BranchTypeID) return BadRequest("Invalid data.");
+            if (model == null) return BadRequest("Model cannot be null.");
+            if (id != model.BranchTypeID) return BadRequest("ID in the request does not match the model ID.");
 
             try
             {
-                var existingBranchType = await _branchTypeRepository.GetByIdAsync(id);
-                if (existingBranchType == null) return NotFound();
-
                 await _branchTypeRepository.UpdateAsync(model);
-                return Ok();
+                return Ok(model);
             }
             catch (Exception ex)
             {

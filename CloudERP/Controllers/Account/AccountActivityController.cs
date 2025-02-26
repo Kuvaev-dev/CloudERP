@@ -53,7 +53,7 @@ namespace CloudERP.Controllers.Account
 
             try
             {
-                var success = await _httpClient.PostAsync<AccountActivity>("accountactivityapi/create", model);
+                var success = await _httpClient.PostAsync("accountactivityapi/create", model);
                 if (success) return RedirectToAction("Index");
 
                 TempData["ErrorMessage"] = "Error Creating a New Record";
@@ -96,7 +96,7 @@ namespace CloudERP.Controllers.Account
 
             try
             {
-                var success = await _httpClient.PutAsync<AccountActivity>($"accountactivityapi/update?id={model.AccountActivityID}", model);
+                var success = await _httpClient.PutAsync($"accountactivityapi/update?id={model.AccountActivityID}", model);
                 if (success) return RedirectToAction("Index");
 
                 TempData["ErrorMessage"] = "Error Updating a Record";

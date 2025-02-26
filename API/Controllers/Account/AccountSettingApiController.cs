@@ -22,8 +22,8 @@ namespace API.Controllers.Account
         {
             try
             {
-                var activities = await _accountSettingFacade.AccountSettingRepository.GetAllAsync(companyId, branchId);
-                return Ok(activities);
+                var settings = await _accountSettingFacade.AccountSettingRepository.GetAllAsync(companyId, branchId);
+                return Ok(settings);
             }
             catch (Exception ex)
             {
@@ -36,9 +36,9 @@ namespace API.Controllers.Account
         {
             try
             {
-                var activity = await _accountSettingFacade.AccountSettingRepository.GetByIdAsync(id);
-                if (activity == null) return NotFound();
-                return Ok(activity);
+                var setting = await _accountSettingFacade.AccountSettingRepository.GetByIdAsync(id);
+                if (setting == null) return NotFound("Model not found.");
+                return Ok(setting);
             }
             catch (Exception ex)
             {
@@ -49,7 +49,7 @@ namespace API.Controllers.Account
         [HttpPost]
         public async Task<ActionResult<AccountSetting>> Create([FromBody] AccountSetting model)
         {
-            if (model == null) return BadRequest("Invalid data.");
+            if (model == null) return BadRequest("Model cannot be null.");
 
             try
             {
@@ -65,12 +65,13 @@ namespace API.Controllers.Account
         [HttpPut]
         public async Task<IActionResult> Update(int id, [FromBody] AccountSetting model)
         {
-            if (model == null || id != model.AccountSettingID) return BadRequest("Invalid data.");
+            if (model == null) return BadRequest("Model cannot be null.");
+            if (id != model.AccountSettingID) return BadRequest("ID in the request does not match the model ID.");
 
             try
             {
                 await _accountSettingFacade.AccountSettingRepository.UpdateAsync(model);
-                return Ok();
+                return Ok(model);
             }
             catch (Exception ex)
             {

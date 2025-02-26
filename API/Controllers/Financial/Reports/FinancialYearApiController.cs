@@ -23,7 +23,6 @@ namespace API.Controllers.Financial.Reports
             try
             {
                 var financialYears = await _financialYearRepository.GetAllAsync();
-                if (financialYears == null) return NotFound();
                 return Ok(financialYears);
             }
             catch (Exception ex)
@@ -38,7 +37,7 @@ namespace API.Controllers.Financial.Reports
             try
             {
                 var financialYear = await _financialYearRepository.GetByIdAsync(id);
-                if (financialYear == null) return NotFound();
+                if (financialYear == null) return NotFound("Model not found.");
                 return Ok(financialYear);
             }
             catch (Exception ex)
@@ -50,7 +49,7 @@ namespace API.Controllers.Financial.Reports
         [HttpPost]
         public async Task<ActionResult<FinancialYear>> Create([FromBody] FinancialYear model)
         {
-            if (model == null) return BadRequest("Invalid data.");
+            if (model == null) return BadRequest("Model not found.");
 
             try
             {
@@ -66,12 +65,13 @@ namespace API.Controllers.Financial.Reports
         [HttpPut]
         public async Task<IActionResult> Update(int id, [FromBody] FinancialYear model)
         {
-            if (model == null || id != model.FinancialYearID) return BadRequest("Invalid data.");
+            if (model == null) return BadRequest("Model cannot be null.");
+            if (id != model.FinancialYearID) return BadRequest("ID in the request does not match the model ID.");
 
             try
             {
                 await _financialYearRepository.UpdateAsync(model);
-                return Ok();
+                return Ok(model);
             }
             catch (Exception ex)
             {

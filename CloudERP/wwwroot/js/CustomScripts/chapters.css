@@ -1,0 +1,14 @@
+﻿.chapter {
+    display: none;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+    .chapter.active {
+        display: block;
+    }
+
+.nav-buttons {
+    margin-top: 20px;
+    margin-left: 20px;
+}

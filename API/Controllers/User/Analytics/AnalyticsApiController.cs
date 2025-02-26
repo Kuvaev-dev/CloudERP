@@ -25,7 +25,7 @@ namespace API.Controllers.User.Analytics
         }
 
         [HttpGet]
-        public async Task<ActionResult<object>> GetAnalytics(int companyID)
+        public async Task<ActionResult<AnalyticsModel>> GetAnalytics(int companyID)
         {
             try
             {

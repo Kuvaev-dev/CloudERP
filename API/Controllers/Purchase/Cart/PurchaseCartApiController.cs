@@ -1,5 +1,4 @@
 ﻿using Domain.Models;
-using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
 using Microsoft.AspNetCore.Authorization;
@@ -102,7 +101,7 @@ namespace API.Controllers.Purchase.Cart
         }
 
         [HttpPost]
-        public async Task<ActionResult<string>> ConfirmPurchase(PurchaseConfirm purchaseConfirmDto)
+        public async Task<ActionResult<object>> ConfirmPurchase(PurchaseConfirm purchaseConfirmDto)
         {
             try
             {

@@ -4,7 +4,6 @@ using Domain.Models;
 using Domain.Models.FinancialModels;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Reflection;
 
 namespace CloudERP.Controllers.Company
 {
@@ -30,7 +29,7 @@ namespace CloudERP.Controllers.Company
 
             try
             {
-                return View(await _httpClient.GetAsync<List<Employee>>("company-employee/employees"));
+                return View(await _httpClient.GetAsync<List<Employee>>($"companyemployeeapi/getall?companyId={_sessionHelper.CompanyID}"));
             }
             catch (Exception ex)
             {
@@ -46,7 +45,7 @@ namespace CloudERP.Controllers.Company
 
             try
             {
-                ViewBag.Branches = await _httpClient.GetAsync<List<Domain.Models.Branch>>($"branch/{_sessionHelper.CompanyID}");
+                ViewBag.Branches = await _httpClient.GetAsync<List<Domain.Models.Branch>>($"branchapi/getbycompany?companyId={_sessionHelper.CompanyID}");
                 return View(new Employee());
             }
             catch (Exception ex)
@@ -85,7 +84,7 @@ namespace CloudERP.Controllers.Company
                         content.Add(fileContent, "file", avatar.FileName);
                     }
 
-                    var success = await _httpClient.PostAsync<Employee>("company-employee/registration", content);
+                    var success = await _httpClient.PostAsync("companyemployeeapi/employeeregistration", content);
 
                     if (success)
                     {
@@ -98,7 +97,7 @@ namespace CloudERP.Controllers.Company
                     }
                 }
 
-                ViewBag.Branches = await _httpClient.GetAsync<List<Domain.Models.Branch>>($"branch/{_sessionHelper.CompanyID}");
+                ViewBag.Branches = await _httpClient.GetAsync<List<Domain.Models.Branch>>($"branchapi/getbycompany?companyId={_sessionHelper.CompanyID}");
             }
             catch (Exception ex)
             {
@@ -127,7 +126,7 @@ namespace CloudERP.Controllers.Company
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EmployeeSalary(SalaryMV salary)
         {
-            var result = await _httpClient.PostAsync<SalaryMV>("salary/process", salary);
+            var result = await _httpClient.PostAsync($"companyemployeeapi/processsalary?TIN={salary.TIN}", salary);
             return View(result ? salary : null);
         }
 
@@ -135,7 +134,9 @@ namespace CloudERP.Controllers.Company
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EmployeeSalaryConfirm(SalaryMV salaryMV)
         {
-            var result = await _httpClient.PostAsync<SalaryMV>("salary/confirm", salaryMV);
+            salaryMV.TotalAmount = salaryMV.TransferAmount + (salaryMV.TransferAmount * (salaryMV.BonusPercentage ?? 0) / 100);
+
+            var result = await _httpClient.PostAsync("companyemployeeapi/confirmsalary", salaryMV);
             if (result)
             {
                 return RedirectToAction("PrintSalaryInvoice", new { id = salaryMV.EmployeeID });
@@ -145,13 +146,13 @@ namespace CloudERP.Controllers.Company
 
         public async Task<ActionResult> SalaryHistory()
         {
-            var history = await _httpClient.GetAsync<List<Salary>>("salary/history");
+            var history = await _httpClient.GetAsync<List<Salary>>($"companyemployeeapi/getsalaryhistory?branchId={_sessionHelper.BranchID}&companyId={_sessionHelper.CompanyID}");
             return View(history);
         }
 
         public async Task<ActionResult> PrintSalaryInvoice(int id)
         {
-            var invoice = await _httpClient.GetAsync<Salary>($"salary/invoice/{id}");
+            var invoice = await _httpClient.GetAsync<Salary>($"companyemployeeapi/getsalaryinvoice?id={id}");
             return View(invoice);
         }
     }

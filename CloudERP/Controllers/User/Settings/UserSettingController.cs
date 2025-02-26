@@ -23,7 +23,7 @@ namespace CloudERP.Controllers.User.Settings
 
             try
             {
-                var user = await _httpClient.GetAsync<Domain.Models.User>($"user-setting/user/{employeeID}");
+                var user = await _httpClient.GetAsync<Domain.Models.User>($"usersettingapi/getuser?userId={employeeID}");
                 return View(user);
             }
             catch (Exception ex)
@@ -48,7 +48,9 @@ namespace CloudERP.Controllers.User.Settings
                 user.Password = Request.Form["Password"];
                 user.Salt = Request.Form["Salt"];
 
-                var success = await _httpClient.PostAsync<Domain.Models.User>($"user-setting/create-user/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}", user);
+                var success = await _httpClient.PostAsync(
+                    $"usersettingapi/createuser?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}",
+                    user);
                 if (success) return RedirectToAction("Employees", "CompanyEmployee");
 
                 return View(user);
@@ -67,7 +69,7 @@ namespace CloudERP.Controllers.User.Settings
 
             try
             {
-                var user = await _httpClient.GetAsync<Domain.Models.User>($"user-setting/user/{userID}");
+                var user = await _httpClient.GetAsync<Domain.Models.User>($"usersettingapi/getuser?userId={userID}");
                 return View(user);
             }
             catch (Exception ex)
@@ -92,7 +94,7 @@ namespace CloudERP.Controllers.User.Settings
                 user.Password = Request.Form["Password"];
                 user.Salt = Request.Form["Salt"];
 
-                var success = await _httpClient.PutAsync<Domain.Models.User> ($"user-setting/update-user", user);
+                var success = await _httpClient.PutAsync($"usersettingapi/updateuser", user);
                 if (success) return RedirectToAction("Employees", "CompanyEmployee");
 
                 return View(user);

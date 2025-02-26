@@ -52,8 +52,8 @@ namespace CloudERP.Controllers.Financial.Transactions
 
             try
             {
-                var endpoint = $"save-transaction/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}/{_sessionHelper.UserID}";
-                var result = await _httpClient.PostAsync<GeneralTransactionMV>(endpoint, transaction);
+                var endpoint = $"generaltransactionapi/savetransaction?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&userId={_sessionHelper.UserID}";
+                var result = await _httpClient.PostAsync(endpoint, transaction);
 
                 if (result)
                 {
@@ -80,7 +80,7 @@ namespace CloudERP.Controllers.Financial.Transactions
 
             try
             {
-                var endpoint = $"journal/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}/{DateTime.Now:yyyy-MM-dd}/{DateTime.Now:yyyy-MM-dd}";
+                var endpoint = $"generaltransactionapi/getjournal?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&fromDate={DateTime.Now:yyyy-MM-dd}&toDate={DateTime.Now:yyyy-MM-dd}";
                 var journalEntries = await _httpClient.GetAsync<JournalModel>(endpoint);
                 return View(journalEntries);
             }
@@ -101,7 +101,7 @@ namespace CloudERP.Controllers.Financial.Transactions
 
             try
             {
-                var endpoint = $"journal/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}/{FromDate:yyyy-MM-dd}/{ToDate:yyyy-MM-dd}";
+                var endpoint = $"generaltransactionapi/getjournal?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&fromDate={FromDate:yyyy-MM-dd}&toDate={ToDate:yyyy-MM-dd}";
                 var journalEntries = await _httpClient.GetAsync<JournalModel>(endpoint);
                 return View(journalEntries);
             }
@@ -120,7 +120,7 @@ namespace CloudERP.Controllers.Financial.Transactions
 
             try
             {
-                var endpoint = $"sub-journal/{id ?? _sessionHelper.BranchID}/{_sessionHelper.CompanyID}/{DateTime.Now:yyyy-MM-dd}/{DateTime.Now:yyyy-MM-dd}";
+                var endpoint = $"generaltransactionapi/getjournal?companyId={_sessionHelper.CompanyID}&branchId={id ?? _sessionHelper.BranchID}&fromDate={DateTime.Now:yyyy-MM-dd}&toDate={DateTime.Now:yyyy-MM-dd}";
                 var subJournalEntries = await _httpClient.GetAsync<JournalModel>(endpoint);
                 return View(subJournalEntries);
             }
@@ -141,7 +141,7 @@ namespace CloudERP.Controllers.Financial.Transactions
 
             try
             {
-                var endpoint = $"sub-journal/{id ?? _sessionHelper.BranchID}/{_sessionHelper.CompanyID}/{FromDate:yyyy-MM-dd}/{ToDate:yyyy-MM-dd}";
+                var endpoint = $"generaltransactionapi/getjournal?companyId={_sessionHelper.CompanyID}&branchId={id ?? _sessionHelper.BranchID}&fromDate{FromDate:yyyy-MM-dd}&toDate={ToDate:yyyy-MM-dd}";
                 var subJournalEntries = await _httpClient.GetAsync<object>(endpoint);
                 return View(subJournalEntries);
             }
@@ -154,7 +154,7 @@ namespace CloudERP.Controllers.Financial.Transactions
 
         private async Task PopulateViewBag()
         {
-            var endpoint = $"accounts/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}";
+            var endpoint = $"generaltransactionapi/getaccounts?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}";
             var accounts = await _httpClient.GetAsync<List<AllAccountModel>>(endpoint);
 
             ViewBag.CreditAccountControlID = new SelectList(accounts, "AccountSubControlID", "AccountSubControl");

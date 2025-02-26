@@ -24,6 +24,7 @@ using Microsoft.ML;
 using Services.Adapters;
 using Services.Facades;
 using Services.Implementations;
+using Services.Implementations.Financial;
 using Services.ServiceAccess;
 using System.Text;
 using Utils.Helpers;

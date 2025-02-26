@@ -35,7 +35,7 @@ namespace CloudERP.Controllers.General
 
             try
             {
-                var dashboardValues = await _httpClient.GetAsync<DashboardModel>($"home/dashboard/{_sessionHelper.BranchID}/{_sessionHelper.CompanyID}");
+                var dashboardValues = await _httpClient.GetAsync<DashboardModel>($"homeapi/getdashboardvalues?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 var currencies = await _httpClient.GetAsync<Dictionary<string, decimal>>("home/currencies");
 
                 ViewBag.Currencies = currencies;
@@ -61,40 +61,38 @@ namespace CloudERP.Controllers.General
         {
             try
             {
-                var user = await _httpClient.PostAndReturnAsync<Domain.Models.User>("home/login", loginRequest);
-                if (user == null)
+                var userData = await _httpClient.PostAndReturnAsync<(Employee Employee, 
+                    Domain.Models.Company Company, Domain.Models.User, string token)>("homeapi/loginuser", loginRequest);
+
+                if (userData.Item3 == null)
                 {
-                    ViewBag.Message = Localization.CloudERP.Messages.Messages.PleaseProvideCorrectDetails;
+                    TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.PleaseProvideCorrectDetails;
                     return View("Login");
                 }
 
-                await SignInUser(user);
+                var employee = userData.Employee;
+                var company = userData.Company;
+                var user = userData.Item3;
+                var token = userData.token;
 
-                var employee = await _httpClient.PostAndReturnAsync<Employee>("home/employee", new { user.UserID });
-                if (employee == null)
+                if (employee == null || company == null)
                 {
-                    ClearSession();
-                    return RedirectToAction("Login", "Home");
+                    TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage;
+                    return View("Login");
                 }
 
+                await SignInUser(user, userData.token);
                 SetEmployeeSession(employee);
-
-                var company = await _httpClient.PostAndReturnAsync<Domain.Models.Company>("home/company", new { employee.CompanyID });
-                if (company == null)
-                {
-                    ClearSession();
-                    return RedirectToAction("Login", "Home");
-                }
-
                 SetCompanySession(company);
 
-                var isFirstLogin = await _httpClient.PostAsync<bool>("home/isFirstLogin", new { employee.UserID });
-                if (isFirstLogin) HttpContext.Session.SetString("StartTour", "true");
+                HttpContext.Session.SetString("Token", token);
+
+                if (employee.IsFirstLogin.HasValue && employee.IsFirstLogin.Value) HttpContext.Session.SetString("StartTour", "true");
 
                 var currencies = await _httpClient.GetAsync<Dictionary<string, decimal>>("home/currencies");
-                ViewBag.Currencies = currencies;
+                ViewBag.Currencies = currencies ?? [];
 
-                return user.UserTypeID == ADMIN_USER_TYPE_ID ? RedirectToAction("AdminMenuGuide", "Guide") : RedirectToAction("Index", "Home");
+                return userData.Item3.UserTypeID == ADMIN_USER_TYPE_ID ? RedirectToAction("AdminMenuGuide", "Guide") : RedirectToAction("Index", "Home");
             }
             catch (Exception ex)
             {
@@ -103,12 +101,13 @@ namespace CloudERP.Controllers.General
             }
         }
 
-        private async Task SignInUser(Domain.Models.User user)
+        private async Task SignInUser(Domain.Models.User user, string token)
         {
             var claims = new List<Claim>
             {
                 new(ClaimTypes.Name, user.Email),
-                new("UserID", user.UserID.ToString())
+                new("UserID", user.UserID.ToString()),
+                new("token", token)
             };
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -188,7 +187,7 @@ namespace CloudERP.Controllers.General
 
             try
             {
-                var success = await _httpClient.PostAsync<string>("home/forgot-password", new { email });
+                var success = await _httpClient.PostAsync("homeapi/forgotpassword", new { email });
                 if (success) return View("ForgotPasswordEmailSent");
 
                 return View();
@@ -204,7 +203,7 @@ namespace CloudERP.Controllers.General
         {
             try
             {
-                var response = await _httpClient.GetAsync<dynamic>($"home/reset-password/{id}");
+                var response = await _httpClient.GetAsync<dynamic>($"homeapi/getresetpassword?id={id}");
                 if (response?.IsSuccessStatusCode)
                 {
                     var content = await response?.Content.ReadAsAsync<dynamic>();
@@ -234,7 +233,7 @@ namespace CloudERP.Controllers.General
                     ConfirmPassword = confirmPassword
                 };
 
-                var success = await _httpClient.PostAsync<ResetPasswordRequest>("home/reset-password", request);
+                var success = await _httpClient.PostAsync("home/reset-password", request);
                 if (success) return View("ResetPasswordSuccess");
 
                 return View();

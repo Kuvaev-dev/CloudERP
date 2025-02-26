@@ -29,7 +29,7 @@ namespace CloudERP.Controllers.Financial.Reports
                 await PopulateViewBag();
 
                 var ledger = await _httpClient.GetAsync<AccountLedgerModel>(
-                    $"ledger/branch-ledger/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
+                    $"ledgerapi/getledger?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
 
                 return View(new List<AccountLedgerModel>());
             }
@@ -51,7 +51,7 @@ namespace CloudERP.Controllers.Financial.Reports
                 await PopulateViewBag(id);
 
                 return View(await _httpClient.GetAsync<AccountLedgerModel>(
-                    $"ledger/branch-ledger/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}/{id}"));
+                    $"ledgerapi/getledgerbyfinancialyear?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&financialYearId={id}"));
             }
             catch (Exception ex)
             {
@@ -70,7 +70,7 @@ namespace CloudERP.Controllers.Financial.Reports
                 await PopulateViewBag();
 
                 var balanceSheet = await _httpClient.GetAsync<AccountLedgerModel>(
-                    $"ledger/sub-branch-ledger/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
+                    $"ledgerapi/getledger?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 return View(balanceSheet);
             }
             catch (Exception ex)
@@ -90,7 +90,8 @@ namespace CloudERP.Controllers.Financial.Reports
             {
                 await PopulateViewBag(id);
 
-                return View(await _httpClient.GetAsync<AccountLedgerModel>($"ledger/sub-branch-ledger/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}/{id}"));
+                return View(await _httpClient.GetAsync<AccountLedgerModel>
+                    ($"ledgerapi/getledgerbyfinancialyear?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&financialYearId={id}"));
             }
             catch (Exception ex)
             {
@@ -101,7 +102,7 @@ namespace CloudERP.Controllers.Financial.Reports
 
         private async Task PopulateViewBag(int? selectedId = null)
         {
-            var financialYears = await _httpClient.GetAsync<List<FinancialYear>>("financial-year");
+            var financialYears = await _httpClient.GetAsync<List<FinancialYear>>("financialyearapi/getall");
             ViewBag.FinancialYears = new SelectList(financialYears, "FinancialYearID", "FinancialYearName", selectedId);
         }
     }

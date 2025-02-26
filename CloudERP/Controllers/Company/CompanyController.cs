@@ -25,7 +25,7 @@ namespace CloudERP.Controllers.Company
 
             try
             {
-                var companies = await _httpClient.GetAsync<List<Domain.Models.Company>>("company");
+                var companies = await _httpClient.GetAsync<List<Domain.Models.Company>>("companyapi/getall");
                 return View(companies);
             }
             catch (Exception ex)
@@ -45,7 +45,7 @@ namespace CloudERP.Controllers.Company
             {
                 if (id == null) return RedirectToAction("EP404", "EP");
 
-                var company = await _httpClient.GetAsync<Domain.Models.Company>($"company/{id.Value}");
+                var company = await _httpClient.GetAsync<Domain.Models.Company>($"companyapi/getbyid?id={id.Value}");
                 if (company == null) return RedirectToAction("EP404", "EP");
 
                 return View(company);
@@ -91,7 +91,7 @@ namespace CloudERP.Controllers.Company
                         content.Add(fileContent, "file", logo.FileName);
                     }
 
-                    var success = await _httpClient.PostAsync<Domain.Models.Company>("company/create", content);
+                    var success = await _httpClient.PostAsync("companyapi/create", content);
 
                     if (success)
                     {
@@ -123,7 +123,7 @@ namespace CloudERP.Controllers.Company
             {
                 if (id == null) return RedirectToAction("EP404", "EP");
 
-                var company = await _httpClient.GetAsync<Domain.Models.Company>($"company/{id.Value}");
+                var company = await _httpClient.GetAsync<Domain.Models.Company>($"companyapi/getbyid?id={id.Value}");
                 if (company == null) return RedirectToAction("EP404", "EP");
 
                 return View(company);
@@ -160,7 +160,7 @@ namespace CloudERP.Controllers.Company
                         content.Add(fileContent, "file", logo.FileName);
                     }
 
-                    var success = await _httpClient.PutAsync<Domain.Models.Company>($"company/update/{model.CompanyID}", model);
+                    var success = await _httpClient.PutAsync($"companyapi/update?id={model.CompanyID}", model);
 
                     if (success)
                     {

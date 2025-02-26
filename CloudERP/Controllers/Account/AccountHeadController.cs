@@ -54,7 +54,7 @@ namespace CloudERP.Controllers.Account
             try
             {
                 model.UserID = _sessionHelper.UserID;
-                var success = await _httpClient.PostAsync<AccountHead>("accountheadapi/create", model);
+                var success = await _httpClient.PostAsync("accountheadapi/create", model);
 
                 if (success) return RedirectToAction("Index");
 
@@ -99,7 +99,7 @@ namespace CloudERP.Controllers.Account
             {
                 model.UserID = _sessionHelper.UserID;
 
-                var success = await _httpClient.PutAsync<AccountHead>($"accountheadapi/update?id={model.AccountHeadID}", model);
+                var success = await _httpClient.PutAsync($"accountheadapi/update?id={model.AccountHeadID}", model);
                 if (success) return RedirectToAction("Index");
 
                 return View(model);

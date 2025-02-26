@@ -14,39 +14,90 @@ namespace CloudERP.Helpers
 
         public async Task<T?> GetAsync<T>(string endpoint)
         {
-            var response = await _client.GetAsync(endpoint);
-            response.EnsureSuccessStatusCode();
-            return JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync());
+            try
+            {
+                var response = await _client.GetAsync(endpoint).ConfigureAwait(false);
+                response.EnsureSuccessStatusCode();
+                var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                return JsonConvert.DeserializeObject<T>(responseString);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"GET {endpoint} failed: {ex.Message}");
+                return default;
+            }
         }
 
-        public async Task<bool> PostAsync<T>(string endpoint, object data)
+        public async Task<bool> PostAsync(string endpoint, object data)
         {
-            var json = JsonConvert.SerializeObject(data);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            try
+            {
+                var json = JsonConvert.SerializeObject(data);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _client.PostAsync(endpoint, content);
-            return response.IsSuccessStatusCode;
+                var response = await _client.PostAsync(endpoint, content).ConfigureAwait(false);
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"POST {endpoint} failed: {ex.Message}");
+                return false;
+            }
         }
 
         public async Task<T?> PostAndReturnAsync<T>(string endpoint, object data)
         {
-            var json = JsonConvert.SerializeObject(data);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            try
+            {
+                var json = JsonConvert.SerializeObject(data);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _client.PostAsync(endpoint, content);
-            if (!response.IsSuccessStatusCode) return default;
+                var response = await _client.PostAsync(endpoint, content).ConfigureAwait(false);
+                if (!response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine($"POST {endpoint} failed with status {response.StatusCode}");
+                    return default;
+                }
 
-            var responseString = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<T>(responseString);
+                var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                return JsonConvert.DeserializeObject<T>(responseString);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"POST {endpoint} failed: {ex.Message}");
+                return default;
+            }
         }
 
-        public async Task<bool> PutAsync<T>(string endpoint, object data)
+        public async Task<bool> PutAsync(string endpoint, object data)
         {
-            var json = JsonConvert.SerializeObject(data);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            try
+            {
+                var json = JsonConvert.SerializeObject(data);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _client.PutAsync(endpoint, content);
-            return response.IsSuccessStatusCode;
+                var response = await _client.PutAsync(endpoint, content).ConfigureAwait(false);
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"PUT {endpoint} failed: {ex.Message}");
+                return false;
+            }
+        }
+
+        public async Task<bool> DeleteAsync(string endpoint)
+        {
+            try
+            {
+                var response = await _client.DeleteAsync(endpoint).ConfigureAwait(false);
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"DELETE {endpoint} failed: {ex.Message}");
+                return false;
+            }
         }
 
         public void Dispose()
