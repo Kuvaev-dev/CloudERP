@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Domain.ServiceAccess
+﻿namespace Domain.ServiceAccess
 {
     public interface IGeneralTransactionService
     {

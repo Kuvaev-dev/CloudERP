@@ -64,7 +64,7 @@ namespace CloudERP.Controllers.User.Analytics
             DateTime start = startDate ?? DateTime.Now.AddMonths(-1);
             DateTime end = endDate ?? DateTime.Now;
 
-            var statistics = await _httpClientHelper.GetAsync<List<EmployeeStatistics>>(
+            var statistics = await _httpClientHelper.GetAsync<IEnumerable<EmployeeStatistics>>(
                 $"employeestatisticsapi/getemployeestatistics" +
                 $"?startDate={start:yyyy-MM-dd}&endDate={end:yyyy-MM-dd}" +
                 $"&companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}"

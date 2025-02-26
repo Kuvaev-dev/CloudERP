@@ -24,7 +24,7 @@ namespace CloudERP.Controllers.Account
 
             try
             {
-                var accountActivities = await _httpClient.GetAsync<List<AccountActivity>>("accountactivityapi/getall");
+                var accountActivities = await _httpClient.GetAsync<IEnumerable<AccountActivity>>("accountactivityapi/getall");
                 return View(accountActivities);
             }
             catch (Exception ex)

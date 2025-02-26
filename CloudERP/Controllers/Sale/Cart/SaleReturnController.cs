@@ -1,10 +1,6 @@
 ﻿using CloudERP.Helpers;
 using CloudERP.Models;
 using Domain.Models;
-using Domain.Models.FinancialModels;
-using Domain.Models.Payment;
-using Domain.Models.Purchase;
-using Localization.CloudERP;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudERP.Controllers.Sale.Cart
@@ -52,7 +48,7 @@ namespace CloudERP.Controllers.Sale.Cart
                 HttpContext.Session.SetString("SaleReturnMessage", string.Empty);
 
                 var response = await _httpClient.GetAsync<dynamic>(
-                    $"sale-return/find-sale/{invoiceID}");
+                    $"salereturnapi/findsale?invoiceID={invoiceID}");
 
                 ViewBag.InvoiceDetails = response?.InvoiceDetails;
                 return View(response?.Invoice);
@@ -88,10 +84,10 @@ namespace CloudERP.Controllers.Sale.Cart
                 };
 
                 var result = await _httpClient.PostAndReturnAsync<SaleReturnConfirmResult>(
-                    "sale-return/return-confirm", returnConfirmDto);
+                    "salereturnapi/processsalereturn", returnConfirmDto);
 
-                HttpContext.Session.SetString("SaleInvoiceNo", result.InvoiceNo);
-                HttpContext.Session.SetString("SaleReturnMessage", result.Message);
+                HttpContext.Session.SetString("SaleInvoiceNo", result?.InvoiceNo ?? string.Empty);
+                HttpContext.Session.SetString("SaleReturnMessage", result?.Message ?? string.Empty);
 
                 if (result.IsSuccess)
                 {

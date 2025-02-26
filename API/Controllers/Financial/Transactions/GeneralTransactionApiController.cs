@@ -49,7 +49,7 @@ namespace API.Controllers.Financial.Transactions
 
         // GET: api/general-transaction/journal
         [HttpGet]
-        public async Task<ActionResult<List<JournalModel>>> GetJournal(int companyId, int branchId, DateTime fromDate, DateTime toDate)
+        public async Task<ActionResult<IEnumerable<JournalModel>>> GetJournal(int companyId, int branchId, DateTime fromDate, DateTime toDate)
         {
             try
             {
@@ -64,7 +64,7 @@ namespace API.Controllers.Financial.Transactions
 
         // GET: api/general-transaction/accounts
         [HttpGet]
-        public async Task<ActionResult<List<AllAccountModel>>> GetAccounts(int companyId, int branchId)
+        public async Task<ActionResult<IEnumerable<AllAccountModel>>> GetAccounts(int companyId, int branchId)
         {
             try
             {

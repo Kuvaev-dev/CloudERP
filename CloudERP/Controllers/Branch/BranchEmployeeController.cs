@@ -26,7 +26,7 @@ namespace CloudERP.Controllers.Branch
 
             try
             {
-                var branches = await _httpClient.GetAsync<List<Employee>>(
+                var branches = await _httpClient.GetAsync<IEnumerable<Employee>>(
                     $"branchemployeeapi/employee?companyId={_sessionHelper.CompanyID}?branchId={_sessionHelper.BranchID}");
                 if (branches == null) return RedirectToAction("EP404", "EP");
 

@@ -1,5 +1,4 @@
 ﻿using Domain.Models.FinancialModels;
-using System.Threading.Tasks;
 
 namespace Domain.RepositoryAccess
 {

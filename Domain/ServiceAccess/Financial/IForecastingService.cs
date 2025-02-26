@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Utils.Interfaces
+﻿namespace Utils.Interfaces
 {
     public interface IForecastingService
     {

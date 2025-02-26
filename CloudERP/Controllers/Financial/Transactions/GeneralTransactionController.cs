@@ -81,7 +81,7 @@ namespace CloudERP.Controllers.Financial.Transactions
             try
             {
                 var endpoint = $"generaltransactionapi/getjournal?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&fromDate={DateTime.Now:yyyy-MM-dd}&toDate={DateTime.Now:yyyy-MM-dd}";
-                var journalEntries = await _httpClient.GetAsync<JournalModel>(endpoint);
+                var journalEntries = await _httpClient.GetAsync<IEnumerable<JournalModel>>(endpoint);
                 return View(journalEntries);
             }
             catch (Exception ex)
@@ -102,7 +102,7 @@ namespace CloudERP.Controllers.Financial.Transactions
             try
             {
                 var endpoint = $"generaltransactionapi/getjournal?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&fromDate={FromDate:yyyy-MM-dd}&toDate={ToDate:yyyy-MM-dd}";
-                var journalEntries = await _httpClient.GetAsync<JournalModel>(endpoint);
+                var journalEntries = await _httpClient.GetAsync<IEnumerable<JournalModel>>(endpoint);
                 return View(journalEntries);
             }
             catch (Exception ex)
@@ -121,7 +121,7 @@ namespace CloudERP.Controllers.Financial.Transactions
             try
             {
                 var endpoint = $"generaltransactionapi/getjournal?companyId={_sessionHelper.CompanyID}&branchId={id ?? _sessionHelper.BranchID}&fromDate={DateTime.Now:yyyy-MM-dd}&toDate={DateTime.Now:yyyy-MM-dd}";
-                var subJournalEntries = await _httpClient.GetAsync<JournalModel>(endpoint);
+                var subJournalEntries = await _httpClient.GetAsync<IEnumerable<JournalModel>>(endpoint);
                 return View(subJournalEntries);
             }
             catch (Exception ex)
@@ -142,7 +142,7 @@ namespace CloudERP.Controllers.Financial.Transactions
             try
             {
                 var endpoint = $"generaltransactionapi/getjournal?companyId={_sessionHelper.CompanyID}&branchId={id ?? _sessionHelper.BranchID}&fromDate{FromDate:yyyy-MM-dd}&toDate={ToDate:yyyy-MM-dd}";
-                var subJournalEntries = await _httpClient.GetAsync<object>(endpoint);
+                var subJournalEntries = await _httpClient.GetAsync<IEnumerable<JournalModel>>(endpoint);
                 return View(subJournalEntries);
             }
             catch (Exception ex)
@@ -155,7 +155,7 @@ namespace CloudERP.Controllers.Financial.Transactions
         private async Task PopulateViewBag()
         {
             var endpoint = $"generaltransactionapi/getaccounts?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}";
-            var accounts = await _httpClient.GetAsync<List<AllAccountModel>>(endpoint);
+            var accounts = await _httpClient.GetAsync<IEnumerable<AllAccountModel>>(endpoint);
 
             ViewBag.CreditAccountControlID = new SelectList(accounts, "AccountSubControlID", "AccountSubControl");
             ViewBag.DebitAccountControlID = new SelectList(accounts, "AccountSubControlID", "AccountSubControl");

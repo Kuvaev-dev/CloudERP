@@ -25,7 +25,7 @@ namespace CloudERP.Controllers.Company
 
             try
             {
-                var companies = await _httpClient.GetAsync<List<Domain.Models.Company>>("companyapi/getall");
+                var companies = await _httpClient.GetAsync<IEnumerable<Domain.Models.Company>>("companyapi/getall");
                 return View(companies);
             }
             catch (Exception ex)

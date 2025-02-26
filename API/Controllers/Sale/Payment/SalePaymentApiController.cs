@@ -79,5 +79,21 @@ namespace API.Controllers.Sale.Payment
             if (invoiceDetails == null) return NotFound();
             return Ok(invoiceDetails);
         }
+
+        [HttpGet]
+        public async Task<ActionResult<double>> GetRemainingAmount(int id)
+        {
+            double? totalInvoiceAmount = await _salePaymentFacade.SalePaymentService.GetTotalAmountByIdAsync(id);
+            double totalPaidAmount = await _salePaymentFacade.SalePaymentService.GetTotalPaidAmountByIdAsync(id);
+            double remainingAmount = totalInvoiceAmount.Value - totalPaidAmount;
+            return Ok(remainingAmount);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<double>> GetTotalAmount(int id)
+        {
+            double? totalInvoiceAmount = await _salePaymentFacade.SalePaymentService.GetTotalAmountByIdAsync(id);
+            return Ok(totalInvoiceAmount);
+        }
     }
 }

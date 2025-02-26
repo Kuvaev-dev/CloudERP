@@ -28,8 +28,28 @@ namespace CloudERP.Controllers.Branch
 
             try
             {
-                var branches = await _httpClient.GetAsync<List<Domain.Models.Branch>>(
+                var branches = await _httpClient.GetAsync<IEnumerable<Domain.Models.Branch>>(
                     $"branchapi/getall?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&mainBranchTypeID={MAIN_BRANCH_TYPE_ID}");
+                if (branches == null) return RedirectToAction("EP404", "EP");
+
+                return View(branches);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
+        }
+
+        public async Task<ActionResult> SubBranchs()
+        {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            try
+            {
+                var branches = await _httpClient.GetAsync<IEnumerable<Domain.Models.Branch>>(
+                    $"branchapi/getsubbranches?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&mainBranchTypeID={MAIN_BRANCH_TYPE_ID}");
                 if (branches == null) return RedirectToAction("EP404", "EP");
 
                 return View(branches);
@@ -143,7 +163,7 @@ namespace CloudERP.Controllers.Branch
 
             try
             {
-                var branches = await _httpClient.GetAsync<List<Domain.Models.Branch>>(
+                var branches = await _httpClient.GetAsync<IEnumerable<Domain.Models.Branch>>(
                     $"branchapi/getsubbranches?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 return View(branches);
             }
@@ -156,8 +176,8 @@ namespace CloudERP.Controllers.Branch
 
         private async Task PopulateViewBags(int companyID, int? selectedParentBranchID = null, int? selectedBranchTypeID = null)
         {
-            var branches = await _httpClient.GetAsync<List<Domain.Models.Branch>>($"branchapi/getbycompany?companyId={_sessionHelper.CompanyID}");
-            var branchTypes = await _httpClient.GetAsync<List<BranchType>>("branchtypeapi/getall");
+            var branches = await _httpClient.GetAsync<IEnumerable<Domain.Models.Branch>>($"branchapi/getbycompany?companyId={_sessionHelper.CompanyID}");
+            var branchTypes = await _httpClient.GetAsync<IEnumerable<BranchType>>("branchtypeapi/getall");
 
             ViewBag.BrchID = new SelectList(branches, "BranchID", "BranchName", selectedParentBranchID);
             ViewBag.BranchTypeID = new SelectList(branchTypes, "BranchTypeID", "BranchTypeName", selectedBranchTypeID);

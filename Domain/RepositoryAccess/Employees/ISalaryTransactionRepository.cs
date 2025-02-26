@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Domain.RepositoryAccess
+﻿namespace Domain.RepositoryAccess
 {
     public interface ISalaryTransactionRepository
     {

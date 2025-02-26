@@ -25,7 +25,7 @@ namespace CloudERP.Controllers.Purchase.Cart
 
             try
             {
-                var details = await _httpClient.GetAsync<PurchaseCartDetail[]>(
+                var details = await _httpClient.GetAsync<IEnumerable<PurchaseCartDetail>>(
                     $"purchasecartapi/getpurchasecartdetails?branchId={_sessionHelper.BranchID}&companyId={_sessionHelper.CompanyID}&userId={_sessionHelper.UserID}");
 
                 ViewBag.TotalAmount = details?.Sum(item => item.PurchaseQuantity * item.PurchaseUnitPrice);
@@ -82,6 +82,23 @@ namespace CloudERP.Controllers.Purchase.Cart
                 if (success) ViewBag.Message = "Deleted successfully";
 
                 return RedirectToAction("NewPurchase");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
+                return RedirectToAction("NewPurchase");
+            }
+        }
+
+        public async Task<ActionResult> SelectSupplier()
+        {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            try
+            {
+                return View(await _httpClient.GetAsync<IEnumerable<Supplier>>(
+                    $"supplierapi/getbysetting?branchId={_sessionHelper.BranchID}&companyId={_sessionHelper.CompanyID}"));
             }
             catch (Exception ex)
             {

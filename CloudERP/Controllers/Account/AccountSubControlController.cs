@@ -24,7 +24,7 @@ namespace CloudERP.Controllers.Account
 
             try
             {
-                var subControls = await _httpClient.GetAsync<List<AccountSubControl>>(
+                var subControls = await _httpClient.GetAsync<IEnumerable<AccountSubControl>>(
                     $"accountsubcontrolapi?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 if (subControls == null) return RedirectToAction("EP404", "EP");
 

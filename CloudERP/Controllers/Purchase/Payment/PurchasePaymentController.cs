@@ -1,8 +1,6 @@
 ﻿using CloudERP.Helpers;
 using CloudERP.Models;
 using Domain.Models;
-using Domain.Models.FinancialModels;
-using Domain.Models.Purchase;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudERP.Controllers.Purchase.Payment
@@ -30,7 +28,7 @@ namespace CloudERP.Controllers.Purchase.Payment
 
             try
             {
-                var list = await _httpClient.GetAsync<List<PurchaseInfo>>(
+                var list = await _httpClient.GetAsync<IEnumerable<PurchaseInfo>>(
                     $"purchasepaymentapi/getremainingpaymentlist?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 return View(list);
             }
@@ -48,7 +46,11 @@ namespace CloudERP.Controllers.Purchase.Payment
 
             try
             {
-                var list = await _httpClient.GetAsync<List<PurchaseInfo>>($"purchasepaymentapi/getpaidhistory?id={id}");
+                var list = await _httpClient.GetAsync<IEnumerable<PurchaseInfo>>($"purchasepaymentapi/getpaidhistory?id={id}");
+
+                ViewBag.PreviousRemainingAmount = await _httpClient.GetAsync<double>($"purchasepaymentapi/getremainingamount?id={id}");
+                ViewBag.InvoiceID = id;
+
                 return View(list);
             }
             catch (Exception ex)
@@ -65,15 +67,15 @@ namespace CloudERP.Controllers.Purchase.Payment
 
             try
             {
-                var list = await _httpClient.GetAsync<List<PurchaseInfo>>(
-                    $"purchase-payment/paid-history/{id}");
+                var list = await _httpClient.GetAsync<IEnumerable<PurchaseInfo>>(
+                    $"purchasepaymentapi/getpaidhistory?id={id}");
 
                 double remainingAmount = list?.LastOrDefault()?.RemainingBalance ?? 0;
 
                 if (remainingAmount == 0)
                 {
                     remainingAmount = await _httpClient.GetAsync<double>(
-                        $"purchase-payment/total-amount/{id}");
+                        $"purchasepaymentapi/gettotalamount?id={id}");
                 }
 
                 ViewBag.PreviousRemainingAmount = remainingAmount;
@@ -97,20 +99,23 @@ namespace CloudERP.Controllers.Purchase.Payment
 
             try
             {
-                var paymentDto = new PurchasePayment
+                var paymentDto = new PurchaseAmount
                 {
                     InvoiceId = id,
                     PreviousRemainingAmount = previousRemainingAmount,
-                    PaidAmount = paymentAmount
+                    PaidAmount = paymentAmount,
+                    CompanyID = _sessionHelper.CompanyID,
+                    BranchID = _sessionHelper.BranchID,
+                    UserID = _sessionHelper.UserID
                 };
 
-                var success = await _httpClient.PostAsync<PurchasePayment>(
-                    "purchase-payment/process-payment", paymentDto);
+                var success = await _httpClient.PostAsync(
+                    "purchasepaymentapi/processpayment", paymentDto);
 
                 if (!success)
                 {
-                    var list = await _httpClient.GetAsync<List<PurchasePaymentModel>>(
-                        $"purchase-payment/paid-history/{id}");
+                    var list = await _httpClient.GetAsync<IEnumerable<PurchaseInfo>>(
+                        $"purchasepaymentapi/getpaidhistory?id={id}");
                     ViewBag.PreviousRemainingAmount = previousRemainingAmount;
                     ViewBag.InvoiceID = id;
                     return View(list);
@@ -121,11 +126,7 @@ namespace CloudERP.Controllers.Purchase.Payment
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
-                var list = await _httpClient.GetAsync<List<PurchasePaymentModel>>(
-                    $"purchase-payment/paid-history/{id}");
-                ViewBag.PreviousRemainingAmount = previousRemainingAmount;
-                ViewBag.InvoiceID = id;
-                return View(list);
+                return View();
             }
         }
 
@@ -136,8 +137,10 @@ namespace CloudERP.Controllers.Purchase.Payment
 
             try
             {
-                var list = await _httpClient.GetAsync<List<List<PurchasePaymentModel>>>(
-                    $"purchase-payment/custom-purchases-history/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}/{fromDate:yyyy-MM-dd}/{toDate:yyyy-MM-dd}");
+                var list = await _httpClient.GetAsync<IEnumerable<PurchaseInfo>>(
+                    $"purchasepaymentapi/getcustompurchaseshistory" +
+                    $"?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}" +
+                    $"&fromDate={fromDate:yyyy-MM-dd}&toDate={toDate:yyyy-MM-dd}");
 
                 return View(list);
             }
@@ -156,7 +159,7 @@ namespace CloudERP.Controllers.Purchase.Payment
             try
             {
                 var purchaseDetail = await _httpClient.GetAsync<PurchaseItemDetailDto>(
-                    $"purchase-payment/purchase-item-detail/{id}");
+                    $"purchasepaymentapi/getpurchaseitemdetail?id={id}");
                 return View(purchaseDetail);
             }
             catch (Exception ex)
@@ -174,9 +177,9 @@ namespace CloudERP.Controllers.Purchase.Payment
             try
             {
                 var invoiceDetails = await _httpClient.GetAsync<List<SupplierInvoiceDetail>>(
-                    $"purchase-payment/purchase-invoice/{id}");
+                    $"purchasepaymentapi/getpurchaseinvoice?id={id}");
 
-                if (invoiceDetails?.Any() != true)
+                if (invoiceDetails == null || invoiceDetails.Count == 0)
                     return RedirectToAction("EP500", "EP");
 
                 var firstItem = invoiceDetails.First();

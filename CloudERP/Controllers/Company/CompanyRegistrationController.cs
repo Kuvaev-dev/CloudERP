@@ -36,7 +36,7 @@ namespace CloudERP.Controllers.Company
 
             if (!ModelState.IsValid)
             {
-                ViewBag.Message = "Пожалуйста, введите корректные данные.";
+                ViewBag.Message = "Please provide correct details";
                 return View(model);
             }
 
@@ -45,17 +45,17 @@ namespace CloudERP.Controllers.Company
                 bool isSuccess = await _httpClient.PostAsync("companyregistrationapi/register", model);
                 if (isSuccess)
                 {
-                    ViewBag.Message = "Регистрация прошла успешно.";
+                    ViewBag.Message = "Registration successfull";
                     return RedirectToAction("Login", "Home");
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Ошибка при регистрации. Попробуйте снова.");
+                    ModelState.AddModelError("", "Unexpected error. Try again, please");
                 }
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Произошла ошибка: " + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
 

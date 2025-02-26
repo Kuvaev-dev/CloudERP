@@ -24,7 +24,7 @@ namespace CloudERP.Controllers.Account
 
             try
             {
-                var accountHeads = await _httpClient.GetAsync<List<AccountHead>>("accountheadapi/getall");
+                var accountHeads = await _httpClient.GetAsync<IEnumerable<AccountHead>>("accountheadapi/getall");
                 return View(accountHeads);
             }
             catch (Exception ex)
@@ -54,8 +54,8 @@ namespace CloudERP.Controllers.Account
             try
             {
                 model.UserID = _sessionHelper.UserID;
-                var success = await _httpClient.PostAsync("accountheadapi/create", model);
 
+                var success = await _httpClient.PostAsync("accountheadapi/create", model);
                 if (success) return RedirectToAction("Index");
 
                 return View(model);

@@ -25,12 +25,12 @@ namespace CloudERP.Controllers.User.Stuff
 
             try
             {
-                var customers = await _httpClient.GetAsync<List<Customer>>("customerapi/getall");
+                var customers = await _httpClient.GetAsync<IEnumerable<Customer>>("customerapi/getall");
                 return View(customers);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Ошибка при получении клиентов: " + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -43,13 +43,33 @@ namespace CloudERP.Controllers.User.Stuff
 
             try
             {
-                var customers = await _httpClient.GetAsync<List<Customer>>(
+                var customers = await _httpClient.GetAsync<IEnumerable<Customer>>(
                     $"customerapi/getbysetting?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 return View(customers);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Ошибка при получении клиентов: " + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
+        }
+
+        public async Task<ActionResult> SubBranchCustomer()
+        {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            try
+            {
+                if (HttpContext.Session.GetInt32("BrchID") == null) return View();
+                var customers = await _httpClient.GetAsync<IEnumerable<Customer>>(
+                    $"customerapi/getbysetting?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BrchID}");
+
+                return View(customers);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -67,7 +87,7 @@ namespace CloudERP.Controllers.User.Stuff
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Ошибка при получении данных о клиенте: " + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -105,7 +125,7 @@ namespace CloudERP.Controllers.User.Stuff
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Ошибка при создании клиента: " + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -123,7 +143,7 @@ namespace CloudERP.Controllers.User.Stuff
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Ошибка при получении данных клиента: " + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -138,6 +158,8 @@ namespace CloudERP.Controllers.User.Stuff
 
             try
             {
+                model.CompanyID = _sessionHelper.CompanyID;
+                model.BranchID = _sessionHelper.BranchID;
                 model.UserID = _sessionHelper.UserID;
 
                 if (ModelState.IsValid)
@@ -150,7 +172,7 @@ namespace CloudERP.Controllers.User.Stuff
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Ошибка при обновлении клиента: " + ex.Message;
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

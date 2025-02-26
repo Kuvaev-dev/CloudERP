@@ -1,6 +1,5 @@
 ﻿using CloudERP.Helpers;
 using Domain.Models;
-using Domain.Models.FinancialModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudERP.Controllers.Purchase.Payment
@@ -8,14 +7,14 @@ namespace CloudERP.Controllers.Purchase.Payment
     public class PurchasePaymentReturnController : Controller
     {
         private readonly SessionHelper _sessionHelper;
-        private readonly HttpClientHelper _httpClientHelper;
+        private readonly HttpClientHelper _httpClient;
 
         public PurchasePaymentReturnController(
             SessionHelper sessionHelper,
-            HttpClientHelper httpClientHelper)
+            HttpClientHelper httpClient)
         {
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
-            _httpClientHelper = httpClientHelper ?? throw new ArgumentNullException(nameof(HttpClientHelper));
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
         }
 
         // GET: PurchasePaymentReturn/ReturnPurchasePendingAmount
@@ -26,8 +25,9 @@ namespace CloudERP.Controllers.Purchase.Payment
 
             try
             {
-                var list = await _httpClientHelper.GetAsync<List<PurchasePaymentModel>>(
-                    $"purchase-payment-return/return-purchase-pending-amount/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
+                var list = await _httpClient.GetAsync<IEnumerable<PurchaseInfo>>(
+                    $"purchasepaymentreturnapi/getreturnpurchasependingamount" +
+                    $"?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 return View(list);
             }
             catch (Exception ex)
@@ -44,8 +44,9 @@ namespace CloudERP.Controllers.Purchase.Payment
 
             try
             {
-                var list = await _httpClientHelper.GetAsync<List<PurchasePaymentModel>>(
-                    $"purchase-payment-return/return-purchase-pending-amount/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
+                var list = await _httpClient.GetAsync<IEnumerable<PurchaseInfo>>(
+                    $"purchasepaymentreturnapi/getreturnpurchasependingamount" +
+                    $"?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 return View(list);
             }
             catch (Exception ex)
@@ -62,8 +63,8 @@ namespace CloudERP.Controllers.Purchase.Payment
 
             try
             {
-                var list = await _httpClientHelper.GetAsync<List<SupplierReturnPayment>>(
-                    $"purchase-payment-return/supplier-return-payments/{id}");
+                var list = await _httpClient.GetAsync<IEnumerable<SupplierReturnPayment>>(
+                    $"purchasepaymentreturnapi/getsupplierreturnpayments?id={id}");
 
                 double? remainingAmount = list?.Sum(item => item.RemainingBalance);
                 if (remainingAmount == 0) return RedirectToAction("AllPurchasesPendingPayment");
@@ -89,14 +90,14 @@ namespace CloudERP.Controllers.Purchase.Payment
 
             try
             {
-                var returnAmountDto = new PurchaseReturnAmount
+                var returnAmountDto = new PurchaseReturn
                 {
                     InvoiceId = id,
                     PreviousRemainingAmount = previousRemainingAmount,
                     PaymentAmount = paymentAmount
                 };
 
-                bool isSuccess = await _httpClientHelper.PostAsync<PurchaseReturnAmount>("purchase-payment-return/process-return-payment", returnAmountDto);
+                bool isSuccess = await _httpClient.PostAsync("purchasepaymentreturnapi/processreturnamount", returnAmountDto);
 
                 HttpContext.Session.SetString("Message", isSuccess ? "Payment processed successfully" : "Payment processing failed");
 

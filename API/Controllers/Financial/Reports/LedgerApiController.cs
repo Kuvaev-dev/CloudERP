@@ -22,7 +22,7 @@ namespace API.Controllers.Financial.Reports
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<AccountLedgerModel>>> GetLedger(int companyId, int branchId)
+        public async Task<ActionResult<IEnumerable<AccountLedgerModel>>> GetLedger(int companyId, int branchId)
         {
             try
             {
@@ -43,7 +43,7 @@ namespace API.Controllers.Financial.Reports
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<AccountLedgerModel>>> GetLedgerByFinancialYear(int companyId, int branchId, int financialYearId)
+        public async Task<ActionResult<IEnumerable<AccountLedgerModel>>> GetLedgerByFinancialYear(int companyId, int branchId, int financialYearId)
         {
             try
             {

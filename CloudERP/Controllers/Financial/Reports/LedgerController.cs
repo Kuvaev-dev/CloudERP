@@ -28,7 +28,7 @@ namespace CloudERP.Controllers.Financial.Reports
             {
                 await PopulateViewBag();
 
-                var ledger = await _httpClient.GetAsync<AccountLedgerModel>(
+                var ledger = await _httpClient.GetAsync<IEnumerable<AccountLedgerModel>>(
                     $"ledgerapi/getledger?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
 
                 return View(new List<AccountLedgerModel>());
@@ -50,7 +50,7 @@ namespace CloudERP.Controllers.Financial.Reports
             {
                 await PopulateViewBag(id);
 
-                return View(await _httpClient.GetAsync<AccountLedgerModel>(
+                return View(await _httpClient.GetAsync<IEnumerable<AccountLedgerModel>>(
                     $"ledgerapi/getledgerbyfinancialyear?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&financialYearId={id}"));
             }
             catch (Exception ex)
@@ -69,7 +69,7 @@ namespace CloudERP.Controllers.Financial.Reports
             {
                 await PopulateViewBag();
 
-                var balanceSheet = await _httpClient.GetAsync<AccountLedgerModel>(
+                var balanceSheet = await _httpClient.GetAsync<IEnumerable<AccountLedgerModel>>(
                     $"ledgerapi/getledger?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 return View(balanceSheet);
             }
@@ -90,7 +90,7 @@ namespace CloudERP.Controllers.Financial.Reports
             {
                 await PopulateViewBag(id);
 
-                return View(await _httpClient.GetAsync<AccountLedgerModel>
+                return View(await _httpClient.GetAsync<IEnumerable<AccountLedgerModel>>
                     ($"ledgerapi/getledgerbyfinancialyear?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&financialYearId={id}"));
             }
             catch (Exception ex)

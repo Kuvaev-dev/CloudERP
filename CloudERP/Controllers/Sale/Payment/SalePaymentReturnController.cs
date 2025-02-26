@@ -1,5 +1,5 @@
 ﻿using CloudERP.Helpers;
-using Domain.Models.FinancialModels;
+using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudERP.Controllers.Sale.Payment
@@ -25,9 +25,10 @@ namespace CloudERP.Controllers.Sale.Payment
 
             try
             {
-                var response = await _httpClient.GetAsync<dynamic>(
-                    $"sale-payment-return/return-sale-pending-amount/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
-                return View(response);
+                var list = await _httpClient.GetAsync<List<SaleInfo>>(
+                    $"salepaymentreturnapi/getreturnsalependingamount" +
+                    $"?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                return View(list);
             }
             catch (Exception ex)
             {
@@ -43,9 +44,10 @@ namespace CloudERP.Controllers.Sale.Payment
 
             try
             {
-                var response = await _httpClient.GetAsync<dynamic>(
-                    $"sale-payment-return/return-sale-pending-amount/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
-                return View(response);
+                var list = await _httpClient.GetAsync<List<SaleInfo>>(
+                    $"salepaymentreturnapi/getreturnsalependingamount" +
+                    $"?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                return View(list);
             }
             catch (Exception ex)
             {
@@ -61,17 +63,16 @@ namespace CloudERP.Controllers.Sale.Payment
 
             try
             {
-                var response = await _httpClient.GetAsync<dynamic>(
-                    $"sale-payment-return/return-amount/{id}");
+                var list = await _httpClient.GetAsync<List<CustomerReturnPayment>>(
+                    $"salepaymentreturnapi/getcustomerreturnpayments?id={id}");
 
-                double remainingAmount = response?.RemainingAmount;
-                if (remainingAmount == 0)
-                    return RedirectToAction("AllReturnSalesPendingAmount");
+                double? remainingAmount = list?.Sum(item => item.RemainingBalance);
+                if (remainingAmount == 0) return RedirectToAction("AllSalesPendingPayment");
 
                 ViewBag.PreviousRemainingAmount = remainingAmount;
                 ViewBag.InvoiceID = id;
 
-                return View(response?.Payments);
+                return View(list);
             }
             catch (Exception ex)
             {
@@ -89,17 +90,16 @@ namespace CloudERP.Controllers.Sale.Payment
 
             try
             {
-                var paymentReturnDto = new SalePaymentReturn
+                var returnAmountDto = new SaleReturn
                 {
                     InvoiceId = id,
                     PreviousRemainingAmount = previousRemainingAmount,
                     PaymentAmount = paymentAmount
                 };
 
-                var response = await _httpClient.PostAsync<dynamic>(
-                    $"sale-payment-return/process-return-amount/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}/{_sessionHelper.UserID}", paymentReturnDto);
+                bool isSuccess = await _httpClient.PostAsync("salepaymentreturnapi/processreturnamount", returnAmountDto);
 
-                if (response) HttpContext.Session.SetString("SaleMessage", "Payment return successfully processed.");
+                HttpContext.Session.SetString("Message", isSuccess ? "Payment processed successfully" : "Payment processing failed");
 
                 return RedirectToAction("PurchasePaymentReturn", new { id });
             }

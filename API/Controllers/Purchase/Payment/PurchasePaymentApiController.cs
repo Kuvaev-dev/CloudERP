@@ -78,11 +78,27 @@ namespace API.Controllers.Purchase.Payment
         }
 
         [HttpGet]
-        public async Task<ActionResult<SupplierInvoiceDetail>> GetPurchaseInvoice(int id)
+        public async Task<ActionResult<List<SupplierInvoiceDetail>>> GetPurchaseInvoice(int id)
         {
             var invoiceDetails = await _purchasePaymentFacade.SupplierInvoiceDetailRepository.GetListByIdAsync(id);
             if (invoiceDetails == null) return NotFound();
             return Ok(invoiceDetails);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<double>> GetRemainingAmount(int id)
+        {
+            double? totalInvoiceAmount = await _purchasePaymentService.GetTotalAmountByIdAsync(id);
+            double totalPaidAmount = await _purchasePaymentService.GetTotalPaidAmountByIdAsync(id);
+            double remainingAmount = totalInvoiceAmount.Value - totalPaidAmount;
+            return Ok(remainingAmount);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<double>> GetTotalAmount(int id)
+        {
+            double? totalInvoiceAmount = await _purchasePaymentService.GetTotalAmountByIdAsync(id);
+            return Ok(totalInvoiceAmount);
         }
     }
 }

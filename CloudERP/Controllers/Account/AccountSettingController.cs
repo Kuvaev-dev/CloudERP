@@ -25,7 +25,7 @@ namespace CloudERP.Controllers.Account
 
             try
             {
-                var accountSettings = await _httpClient.GetAsync<List<AccountSetting>>(
+                var accountSettings = await _httpClient.GetAsync<IEnumerable<AccountSetting>>(
                     $"accountsettingapi/getall?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 if (accountSettings == null) return RedirectToAction("EP404", "EP");
 

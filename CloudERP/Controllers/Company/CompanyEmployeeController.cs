@@ -29,7 +29,7 @@ namespace CloudERP.Controllers.Company
 
             try
             {
-                return View(await _httpClient.GetAsync<List<Employee>>($"companyemployeeapi/getall?companyId={_sessionHelper.CompanyID}"));
+                return View(await _httpClient.GetAsync<IEnumerable<Employee>>($"companyemployeeapi/getall?companyId={_sessionHelper.CompanyID}"));
             }
             catch (Exception ex)
             {
@@ -146,13 +146,13 @@ namespace CloudERP.Controllers.Company
 
         public async Task<ActionResult> SalaryHistory()
         {
-            var history = await _httpClient.GetAsync<List<Salary>>($"companyemployeeapi/getsalaryhistory?branchId={_sessionHelper.BranchID}&companyId={_sessionHelper.CompanyID}");
+            var history = await _httpClient.GetAsync<IEnumerable<Payroll>>($"companyemployeeapi/getsalaryhistory?branchId={_sessionHelper.BranchID}&companyId={_sessionHelper.CompanyID}");
             return View(history);
         }
 
         public async Task<ActionResult> PrintSalaryInvoice(int id)
         {
-            var invoice = await _httpClient.GetAsync<Salary>($"companyemployeeapi/getsalaryinvoice?id={id}");
+            var invoice = await _httpClient.GetAsync<Payroll>($"companyemployeeapi/getsalaryinvoice?id={id}");
             return View(invoice);
         }
     }

@@ -13,16 +13,19 @@ namespace API.Controllers.Purchase.Cart
     {
         private readonly IPurchaseCartDetailRepository _purchaseCartDetailRepository;
         private readonly IStockRepository _stockRepository;
+        private readonly ISupplierRepository _supplierRepository;
         private readonly IPurchaseCartService _purchaseCartService;
 
         public PurchaseCartApiController(
             IPurchaseCartDetailRepository purchaseCartDetailRepository,
             IStockRepository stockRepository,
-            IPurchaseCartService purchaseCartService)
+            IPurchaseCartService purchaseCartService,
+            ISupplierRepository supplierRepository)
         {
             _purchaseCartDetailRepository = purchaseCartDetailRepository;
             _stockRepository = stockRepository;
             _purchaseCartService = purchaseCartService;
+            _supplierRepository = supplierRepository;
         }
 
         [HttpGet]

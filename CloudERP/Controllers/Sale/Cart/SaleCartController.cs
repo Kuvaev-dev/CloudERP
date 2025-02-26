@@ -2,20 +2,21 @@
 using Domain.Models;
 using Domain.Models.FinancialModels;
 using Microsoft.AspNetCore.Mvc;
+using Utils.Helpers;
 
 namespace CloudERP.Controllers.Sale.Cart
 {
     public class SaleCartController : Controller
     {
         private readonly SessionHelper _sessionHelper;
-        private readonly HttpClientHelper _httpClientHelper;
+        private readonly HttpClientHelper _httpClient;
 
         public SaleCartController(
             SessionHelper sessionHelper,
-            HttpClientHelper httpClientHelper)
+            HttpClientHelper httpClient)
         {
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
-            _httpClientHelper = httpClientHelper ?? throw new ArgumentNullException(nameof(HttpClientHelper));
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
         }
 
         // GET: SaleCart/NewSale
@@ -26,12 +27,13 @@ namespace CloudERP.Controllers.Sale.Cart
 
             try
             {
-                var findDetail = await _httpClientHelper.GetAsync<List<SaleCartDetail>>(
-                    $"sale-cart/new-sale-details/{_sessionHelper.BranchID}/{_sessionHelper.CompanyID}/{_sessionHelper.UserID}");
+                var findDetail = await _httpClient.GetAsync<IEnumerable<SaleCartDetail>>(
+                    $"salecartapi/getsalecartdetails" +
+                    $"?branchId={_sessionHelper.BranchID}&companyId={_sessionHelper.CompanyID}&userId={_sessionHelper.UserID}");
 
                 ViewBag.TotalAmount = findDetail?.Sum(item => item.SaleQuantity * item.SaleUnitPrice);
-                ViewBag.Products = await _httpClientHelper.GetAsync<List<Domain.Models.Stock>>(
-                    $"stock/products/{_sessionHelper.CompanyID}/{_sessionHelper.BranchID}");
+                ViewBag.Products = await _httpClient.GetAsync<List<Domain.Models.Stock>>(
+                    $"stockapi/getall?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
 
                 return View(findDetail);
             }
@@ -46,8 +48,8 @@ namespace CloudERP.Controllers.Sale.Cart
         {
             try
             {
-                var product = await _httpClientHelper.GetAsync<Domain.Models.Stock>(
-                    $"sale-cart/product-details/{id}");
+                var product = await _httpClient.GetAsync<Domain.Models.Stock>(
+                    $"salecartapi/getproductdetails?id={id}");
 
                 return Json(new { data = product?.SaleUnitPrice });
             }
@@ -68,8 +70,7 @@ namespace CloudERP.Controllers.Sale.Cart
 
             try
             {
-                var checkQty = await _httpClientHelper.GetAsync<Domain.Models.Stock>(
-                    $"stock/products/{PID}");
+                var checkQty = await _httpClient.GetAsync<Domain.Models.Stock>($"stockapi/getbyid?id={PID}");
 
                 if (Qty > checkQty?.Quantity)
                 {
@@ -87,10 +88,8 @@ namespace CloudERP.Controllers.Sale.Cart
                     UserID = _sessionHelper.UserID
                 };
 
-                var responseMessage = await _httpClientHelper.PostAsync<SaleCartDetail>(
-                    "sale-cart/add-item", newItem);
-
-                ViewBag.Message = responseMessage;
+                var success = await _httpClient.PostAsync("salecartapi/additem", newItem);
+                if (success) ViewBag.Message = "Item added successfully";
 
                 return RedirectToAction("NewSale");
             }
@@ -111,15 +110,32 @@ namespace CloudERP.Controllers.Sale.Cart
 
             try
             {
-                var responseMessage = await _httpClientHelper.PutAsync<string>($"sale-cart/delete-item/{id}", new { });
+                var success = await _httpClient.PutAsync($"salecartapi/deleteitem?id={id}", new { });
+                if (success) ViewBag.Message = "Item deleted successfully";
 
-                ViewBag.Message = responseMessage;
                 return RedirectToAction("NewSale");
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
                 return RedirectToAction("EP500", "EP");
+            }
+        }
+
+        public async Task<ActionResult> SelectCustomer()
+        {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            try
+            {
+                return View(await _httpClient.GetAsync<IEnumerable<Customer>>(
+                    $"customerapi/getbysetting?branchId={_sessionHelper.BranchID}&companyId={_sessionHelper.CompanyID}"));
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
+                return RedirectToAction("NewPurchase");
             }
         }
 
@@ -133,8 +149,10 @@ namespace CloudERP.Controllers.Sale.Cart
 
             try
             {
-                var responseMessage = await _httpClientHelper.PostAsync<string>(
-                    $"sale-cart/cancel-sale/{_sessionHelper.BranchID}/{_sessionHelper.CompanyID}/{_sessionHelper.UserID}", new { });
+                var responseMessage = await _httpClient.PostAsync(
+                    $"salecartapi/cancelsale" +
+                    $"?branchId={_sessionHelper.BranchID}&companyId={_sessionHelper.CompanyID}&userId={_sessionHelper.UserID}",
+                    new { });
 
                 ViewBag.Message = responseMessage;
 
@@ -157,15 +175,22 @@ namespace CloudERP.Controllers.Sale.Cart
 
             try
             {
-                var response = await _httpClientHelper.PostAsync<int>(
-                    "sale-cart/confirm-sale", saleConfirmDto);
+                saleConfirmDto.CompanyID = _sessionHelper.CompanyID;
+                saleConfirmDto.BranchID = _sessionHelper.BranchID;
+                saleConfirmDto.UserID = _sessionHelper.UserID;
 
-                if (response)
+                var result = await _httpClient.PostAndReturnAsync<object>(
+                    "salecartapi/confirmsale", saleConfirmDto);
+                if (result is not null)
                 {
-                    return RedirectToAction("PrintSaleInvoice", "SalePayment", new { id = response });
+                    dynamic response = result;
+                    if (response.id is int saleId)
+                    {
+                        return RedirectToAction("PrintSaleInvoice", "SalePayment", new { id = saleId });
+                    }
                 }
 
-                TempData["ErrorMessage"] = response;
+                TempData["ErrorMessage"] = "Purchase return error";
                 return RedirectToAction("NewSale");
             }
             catch (Exception ex)

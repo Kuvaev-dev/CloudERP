@@ -1,5 +1,4 @@
-﻿using DatabaseAccess.Repositories.Branch;
-using Domain.Models;
+﻿using Domain.Models;
 using Domain.RepositoryAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

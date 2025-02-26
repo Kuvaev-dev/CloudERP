@@ -70,7 +70,7 @@ namespace API.Controllers.General
 
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult<object>> GetCurrencies()
+        public async Task<ActionResult<Dictionary<string, decimal>>> GetCurrencies()
         {
             try
             {

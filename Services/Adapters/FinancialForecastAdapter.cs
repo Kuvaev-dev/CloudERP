@@ -1,7 +1,6 @@
 ﻿using Domain.Models;
 using Domain.ServiceAccess;
 using Microsoft.ML;
-using Services.ServiceAccess;
 
 namespace Services.Adapters
 {
@@ -17,7 +16,7 @@ namespace Services.Adapters
 
         public void Train(IEnumerable<ForecastData> data)
         {
-            _trainedModel = _financialForecaster.TrainModel(data);
+            _trainedModel = (ITransformer)_financialForecaster.TrainModel(data);
         }
 
         public double Predict(ForecastData data)
