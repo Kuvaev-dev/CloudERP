@@ -111,7 +111,7 @@ namespace API.Controllers.Company
             {
                 if (await _companyRepository.CheckCompanyExistsAsync(model.Name))
                 {
-                    ModelState.AddModelError("Name", Localization.CloudERP.Messages.Messages.AlreadyExists);
+                    ModelState.AddModelError("Name", Localization.CloudERP.Messages.AlreadyExists);
                     return NotFound();
                 }
 

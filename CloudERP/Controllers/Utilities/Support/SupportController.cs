@@ -56,7 +56,7 @@ namespace CloudERP.Controllers.Utilities.Support
                 if (ModelState.IsValid)
                 {
                     await _httpClient.PostAsync("supportapi/create", model);
-                    ViewBag.Message = Localization.CloudERP.Messages.Messages.SupportRequestSubmitted;
+                    ViewBag.Message = Localization.CloudERP.Messages.SupportRequestSubmitted;
 
                     ViewBag.UserTickets = userTickets;
 
@@ -69,7 +69,7 @@ namespace CloudERP.Controllers.Utilities.Support
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -85,7 +85,7 @@ namespace CloudERP.Controllers.Utilities.Support
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -112,7 +112,7 @@ namespace CloudERP.Controllers.Utilities.Support
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

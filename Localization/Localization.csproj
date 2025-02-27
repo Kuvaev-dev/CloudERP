@@ -7,23 +7,161 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Domain\" />
-    <Folder Include="Services\" />
-    <Folder Include="Utils\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="CloudERP\Validations\Validations.Designer.cs">
+    <Compile Update="CloudERP\Common\Common.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Validations.resx</DependentUpon>
+      <DependentUpon>Common.resx</DependentUpon>
+    </Compile>
+    <Compile Update="CloudERP\Messages\Messages.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Messages.resx</DependentUpon>
+    </Compile>
+    <Compile Update="CloudERP\Modules\Account\Account.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Account.resx</DependentUpon>
+    </Compile>
+    <Compile Update="CloudERP\Modules\Branch\Branch.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Branch.resx</DependentUpon>
+    </Compile>
+    <Compile Update="CloudERP\Modules\Company\Company.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Company.resx</DependentUpon>
+    </Compile>
+    <Compile Update="CloudERP\Modules\Financial\Financial.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Financial.resx</DependentUpon>
+    </Compile>
+    <Compile Update="CloudERP\Modules\Guide\Guide.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Guide.resx</DependentUpon>
+    </Compile>
+    <Compile Update="CloudERP\Modules\Miscellaneous\Miscellaneous.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Miscellaneous.resx</DependentUpon>
+    </Compile>
+    <Compile Update="CloudERP\Modules\Purchase\Purchase.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Purchase.resx</DependentUpon>
+    </Compile>
+    <Compile Update="CloudERP\Modules\Sale\Sale.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Sale.resx</DependentUpon>
+    </Compile>
+    <Compile Update="CloudERP\Modules\Supplier\Supplier.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Supplier.resx</DependentUpon>
+    </Compile>
+    <Compile Update="CloudERP\Modules\Support\Support.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Support.resx</DependentUpon>
+    </Compile>
+    <Compile Update="CloudERP\Modules\Task\Task.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Task.resx</DependentUpon>
+    </Compile>
+    <Compile Update="CloudERP\Modules\User\User.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>User.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DatabaseAccess\Localization.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Localization.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Domain\Localization.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Localization.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Services\Localization.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Localization.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="CloudERP\Validations\Validations.resx">
+    <EmbeddedResource Update="CloudERP\Common\Common.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Validations.Designer.cs</LastGenOutput>
+      <LastGenOutput>Common.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="CloudERP\Messages\Messages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Messages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="CloudERP\Modules\Account\Account.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Account.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="CloudERP\Modules\Branch\Branch.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Branch.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="CloudERP\Modules\Company\Company.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Company.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="CloudERP\Modules\Financial\Financial.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Financial.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="CloudERP\Modules\Guide\Guide.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Guide.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="CloudERP\Modules\Miscellaneous\Miscellaneous.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Miscellaneous.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="CloudERP\Modules\Purchase\Purchase.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Purchase.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="CloudERP\Modules\Sale\Sale.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Sale.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="CloudERP\Modules\Supplier\Supplier.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Supplier.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="CloudERP\Modules\Support\Support.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Support.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="CloudERP\Modules\Task\Task.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Task.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="CloudERP\Modules\User\User.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>User.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DatabaseAccess\Localization.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Localization.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Domain\Localization.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Localization.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Services\Localization.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Localization.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 

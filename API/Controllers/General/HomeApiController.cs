@@ -89,12 +89,12 @@ namespace API.Controllers.General
         public async Task<ActionResult<string>> ForgotPassword([FromBody] string email)
         {
             if (string.IsNullOrEmpty(email))
-                return BadRequest(Localization.CloudERP.Messages.Messages.EmailIsRequired);
+                return BadRequest(Localization.CloudERP.Messages.EmailIsRequired);
 
             try
             {
                 if (await _homeFacade.AuthService.IsPasswordResetRequestedRecentlyAsync(email))
-                    return BadRequest(Localization.CloudERP.Messages.Messages.PasswordResetAlreadyRequested);
+                    return BadRequest(Localization.CloudERP.Messages.PasswordResetAlreadyRequested);
 
                 var user = await _homeFacade.UserRepository.GetByEmailAsync(email);
                 if (user == null)

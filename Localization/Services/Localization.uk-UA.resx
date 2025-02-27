@@ -98,42 +98,4 @@
 	<resheader name="writer">
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
-  <!--AdminList-->
-  <data name="SupportTickets" xml:space="preserve">
-    <value>Повідомлення про підтримку</value>
-    <comment></comment>
-  </data>
-  <data name="Name" xml:space="preserve">
-    <value>Ім'я</value>
-    <comment></comment>
-  </data>
-  <data name="Email" xml:space="preserve">
-    <value>Електронна пошта</value>
-    <comment></comment>
-  </data>
-  <data name="DateCreated" xml:space="preserve">
-    <value>Дата створення</value>
-    <comment></comment>
-  </data>
-  <data name="Status" xml:space="preserve">
-    <value>Статус</value>
-    <comment></comment>
-  </data>
-  <data name="MarkAsResolved" xml:space="preserve">
-    <value>Позначити як вирішене</value>
-    <comment></comment>
-  </data>
-  <!--Support-->
-  <data name="ContactSupport" xml:space="preserve">
-    <value>Зв'язатися з підтримкою</value>
-    <comment></comment>
-	</data>
-  <data name="Subject" xml:space="preserve">
-    <value>Тема</value>
-    <comment></comment>
-	</data>
-  <data name="Message" xml:space="preserve">
-    <value>Повідомлення</value>
-    <comment></comment>
-	</data>
 </root>

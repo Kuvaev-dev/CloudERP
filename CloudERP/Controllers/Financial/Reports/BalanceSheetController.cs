@@ -36,7 +36,7 @@ namespace CloudERP.Controllers.Financial.Reports
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -50,7 +50,7 @@ namespace CloudERP.Controllers.Financial.Reports
 
             if (!id.HasValue)
             {
-                ViewBag.ErrorMessage = Localization.CloudERP.Messages.Messages.InvalidFinancialYearID;
+                ViewBag.ErrorMessage = Localization.CloudERP.Messages.InvalidFinancialYearID;
                 return View(new BalanceSheetModel());
             }
 
@@ -65,7 +65,7 @@ namespace CloudERP.Controllers.Financial.Reports
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -83,7 +83,7 @@ namespace CloudERP.Controllers.Financial.Reports
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -97,7 +97,7 @@ namespace CloudERP.Controllers.Financial.Reports
 
             if (!id.HasValue)
             {
-                ViewBag.ErrorMessage = Localization.CloudERP.Messages.Messages.InvalidFinancialYearID;
+                ViewBag.ErrorMessage = Localization.CloudERP.Messages.InvalidFinancialYearID;
                 return View(new BalanceSheetModel());
             }
 
@@ -112,7 +112,7 @@ namespace CloudERP.Controllers.Financial.Reports
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

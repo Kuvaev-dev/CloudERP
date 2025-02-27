@@ -117,40 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Actions" xml:space="preserve">
-    <value>Действия</value>
-  </data>
-  <data name="Edit" xml:space="preserve">
-    <value>Редактировать</value>
-  </data>
-  <data name="Details" xml:space="preserve">
-    <value>Детали</value>
-  </data>
-  <data name="Create" xml:space="preserve">
-    <value>Создать</value>
-  </data>
-  <data name="BackToList" xml:space="preserve">
-    <value>Назад к списку</value>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Сохранить</value>
-  </data>
-  <data name="Delete" xml:space="preserve">
-    <value>Удалить</value>
-  </data>
-  <data name="Update" xml:space="preserve">
-    <value>Обновить</value>
-  </data>
-  <data name="UAH" xml:space="preserve">
-    <value>ГРН</value>
-  </data>
-  <data name="Succeed" xml:space="preserve">
-    <value>Успішно</value>
-  </data>
-  <data name="YourRightsTitle" xml:space="preserve">
-    <value>Ваши права</value>
-  </data>
-  <data name="YourRightsText" xml:space="preserve">
-    <value>Ваши права</value>
   </data>
 </root>

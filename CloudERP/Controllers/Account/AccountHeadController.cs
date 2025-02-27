@@ -29,7 +29,7 @@ namespace CloudERP.Controllers.Account
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("Error", "Home");
             }
         }
@@ -62,7 +62,7 @@ namespace CloudERP.Controllers.Account
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("Error", "Home");
             }
         }
@@ -81,7 +81,7 @@ namespace CloudERP.Controllers.Account
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("Error", "Home");
             }
         }
@@ -106,7 +106,7 @@ namespace CloudERP.Controllers.Account
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("Error", "Home");
             }
         }
