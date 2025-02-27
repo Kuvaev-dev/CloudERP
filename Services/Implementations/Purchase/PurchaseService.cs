@@ -17,8 +17,7 @@ namespace Services.Implementations
         {
             var list = await _supplierInvoiceDetailRepository.GetListByIdAsync(id);
 
-            if (list == null || !list.Any())
-                return null;
+            if (list == null || !list.Any()) return new PurchaseItemDetailDto();
 
             var invoiceNo = list.First().SupplierInvoice.InvoiceNo;
             var total = 0.0;

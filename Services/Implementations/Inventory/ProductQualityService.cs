@@ -1,8 +1,6 @@
 ﻿using Domain.Models;
 using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Services.Implementations
 {

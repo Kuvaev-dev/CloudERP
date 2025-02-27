@@ -1,4 +1,4 @@
-﻿using API.Models;
+﻿using Domain.Models;
 using Domain.Models.FinancialModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +24,7 @@ namespace API.Controllers.General
         }
 
         [HttpPost]
-        public async Task<ActionResult<object>> LoginUser([FromBody] LoginRequest loginRequest)
+        public async Task<ActionResult<LoginResponse>> LoginUser([FromBody] LoginRequest loginRequest)
         {
             try
             {
@@ -39,13 +39,30 @@ namespace API.Controllers.General
 
                 var token = GenerateJwtToken(user);
 
-                return Ok(new
+                var response = new LoginResponse
                 {
-                    user,
-                    employee,
-                    company,
-                    token
-                });
+                    User = new Domain.Models.User
+                    {
+                        UserID = user.UserID,
+                        Email = user.Email,
+                        UserTypeID = user.UserTypeID
+                    },
+                    Employee = new Domain.Models.Employee
+                    {
+                        EmployeeID = employee.EmployeeID,
+                        FullName = employee.FullName,
+                        CompanyID = employee.CompanyID,
+                        IsFirstLogin = employee.IsFirstLogin
+                    },
+                    Company = new Domain.Models.Company
+                    {
+                        CompanyID = company.CompanyID,
+                        Name = company.Name
+                    },
+                    Token = token
+                };
+
+                return Ok(response);
             }
             catch (Exception ex)
             {

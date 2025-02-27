@@ -3,13 +3,13 @@ using System.Text;
 
 namespace CloudERP.Helpers
 {
-    public class HttpClientHelper : IDisposable
+    public class HttpClientHelper
     {
         private readonly HttpClient _client;
 
-        public HttpClientHelper(string baseUrl = "http://localhost:5145/api")
+        public HttpClientHelper(HttpClient client)
         {
-            _client = new HttpClient { BaseAddress = new Uri(baseUrl.TrimEnd('/') + "/") };
+            _client = client;
         }
 
         public async Task<T?> GetAsync<T>(string endpoint)
@@ -98,11 +98,6 @@ namespace CloudERP.Helpers
                 Console.WriteLine($"DELETE {endpoint} failed: {ex.Message}");
                 return false;
             }
-        }
-
-        public void Dispose()
-        {
-            _client?.Dispose();
         }
     }
 }

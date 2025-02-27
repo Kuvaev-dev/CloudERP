@@ -2,7 +2,6 @@
 using Utils.Helpers;
 using Domain.Models.FinancialModels;
 using Domain.Models;
-using CloudERP.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -57,42 +56,33 @@ namespace CloudERP.Controllers.General
         }
 
         [HttpPost]
-        public async Task<IActionResult> LoginUser([FromBody] LoginRequest loginRequest)
+        public async Task<IActionResult> LoginUser(LoginRequest loginRequest)
         {
             try
             {
-                var userData = await _httpClient.PostAndReturnAsync<(Employee Employee, 
-                    Domain.Models.Company Company, Domain.Models.User, string token)>("homeapi/loginuser", loginRequest);
+                var userData = await _httpClient.PostAndReturnAsync<LoginResponse>("homeapi/loginuser", loginRequest);
 
-                if (userData.Item3 == null)
+                if (userData?.User == null)
                 {
                     TempData["ErrorMessage"] = Localization.CloudERP.Messages.PleaseProvideCorrectDetails;
                     return View("Login");
                 }
 
-                var employee = userData.Employee;
-                var company = userData.Company;
-                var user = userData.Item3;
-                var token = userData.token;
+                await SignInUser(userData.User, userData.Token);
+                SetEmployeeSession(userData.Employee);
+                SetCompanySession(userData.Company);
 
-                if (employee == null || company == null)
-                {
-                    TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage;
-                    return View("Login");
-                }
+                HttpContext.Session.SetString("Token", userData.Token);
 
-                await SignInUser(user, userData.token);
-                SetEmployeeSession(employee);
-                SetCompanySession(company);
-
-                HttpContext.Session.SetString("Token", token);
-
-                if (employee.IsFirstLogin.HasValue && employee.IsFirstLogin.Value) HttpContext.Session.SetString("StartTour", "true");
+                if (userData.Employee.IsFirstLogin.HasValue && userData.Employee.IsFirstLogin.Value)
+                    HttpContext.Session.SetString("StartTour", "true");
 
                 var currencies = await _httpClient.GetAsync<Dictionary<string, decimal>>("home/currencies");
                 ViewBag.Currencies = currencies ?? [];
 
-                return userData.Item3.UserTypeID == ADMIN_USER_TYPE_ID ? RedirectToAction("AdminMenuGuide", "Guide") : RedirectToAction("Index", "Home");
+                return userData.User.UserTypeID == ADMIN_USER_TYPE_ID
+                    ? RedirectToAction("AdminMenuGuide", "Guide")
+                    : RedirectToAction("Index", "Home");
             }
             catch (Exception ex)
             {

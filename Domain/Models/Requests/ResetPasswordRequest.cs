@@ -1,4 +1,4 @@
-﻿namespace CloudERP.Models
+﻿namespace Domain.Models
 {
     public class ResetPasswordRequest
     {

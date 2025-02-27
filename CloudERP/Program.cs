@@ -1,5 +1,6 @@
 using API.Helpers;
 using CloudERP.Helpers;
+using Utils.Helpers;
 using Utils.Interfaces;
 
 namespace CloudERP
@@ -15,18 +16,21 @@ namespace CloudERP
 
             builder.Services.AddHttpClient<HttpClientHelper>(client =>
             {
-                client.BaseAddress = new Uri("http://localhost:5145/api");
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
+                client.BaseAddress = new Uri("https://localhost:44311/api");
             });
 
-            builder.Services.AddScoped<SessionHelper>();
-
+            builder.Services.AddHttpContextAccessor();
             builder.Services.AddDistributedMemoryCache();
-
             builder.Services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
             });
+
+            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            builder.Services.AddScoped<SessionHelper>();
+            builder.Services.AddScoped<ResourceManagerHelper>();
 
             var app = builder.Build();
 
@@ -38,12 +42,16 @@ namespace CloudERP
                 app.UseHsts();
             }
 
+            app.UseSession();
             app.UseHttpsRedirection();
-
+            app.UseStaticFiles();
             app.UseRouting();
-
             app.UseAuthorization();
 
+            app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Login}/{id?}"
+            );
             app.MapStaticAssets();
             app.MapRazorPages()
                .WithStaticAssets();

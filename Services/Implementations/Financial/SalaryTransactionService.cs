@@ -1,14 +1,12 @@
 ﻿using Domain.Facades;
 using Domain.ServiceAccess;
-using System;
 using System.Data;
-using System.Threading.Tasks;
 
 namespace Services.Implementations
 {
     public class SalaryTransactionService : ISalaryTransactionService
     {
-        private DataTable _dtEntries = null;
+        private DataTable _dtEntries;
         private readonly SalaryTransactionFacade _salaryTransactionFacade;
 
         const int SALE_RETURN_PAYMENT_PENDING_ACTIVITY_ID = 8;
@@ -125,16 +123,16 @@ namespace Services.Implementations
             int columnCount = _dtEntries.Columns.Count;
             int itemCount = new object[]
             {
-            FinancialYearID,
-            AccountHeadID,
-            AccountControlID,
-            AccountSubControlID,
-            InvoiceNo,
-            UserID,
-            Credit,
-            Debit,
-            TransactionDate.ToString("yyyy-MM-dd HH:mm:ss"),
-            TransectionTitle
+                FinancialYearID,
+                AccountHeadID,
+                AccountControlID,
+                AccountSubControlID,
+                InvoiceNo,
+                UserID,
+                Credit,
+                Debit,
+                TransactionDate.ToString("yyyy-MM-dd HH:mm:ss"),
+                TransectionTitle
             }.Length;
 
             if (itemCount == columnCount)

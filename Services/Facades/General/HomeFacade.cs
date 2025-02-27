@@ -1,7 +1,5 @@
 ﻿using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
-using System;
-using Utils.Interfaces;
 
 namespace Services.Facades
 {

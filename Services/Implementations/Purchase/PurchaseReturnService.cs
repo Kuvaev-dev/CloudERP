@@ -1,10 +1,6 @@
 ﻿using Domain.Facades;
 using Domain.Models;
-using Domain.Models.FinancialModels;
 using Domain.ServiceAccess;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Services.Implementations
 {

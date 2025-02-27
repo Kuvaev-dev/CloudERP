@@ -9,7 +9,6 @@ namespace Services.Implementations
     {
         private readonly PurchaseEntryFacade _purchaseEntryFacade;
 
-        private readonly string selectsupplierid = string.Empty;
         private DataTable _dtEntries;
 
         private const int PURCHASE_ACCOUNT_ACTIVITY_ID = 1;

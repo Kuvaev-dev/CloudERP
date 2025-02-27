@@ -1,7 +1,5 @@
 ﻿using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
-using System;
-using System.Threading.Tasks;
 
 namespace Services.Implementations
 {

@@ -8,8 +8,7 @@ namespace Services.Implementations
     {
         private readonly PurchasePaymentFacade _purchasePaymentFacade;
 
-        public PurchasePaymentService(
-            PurchasePaymentFacade purchasePaymentFacade)
+        public PurchasePaymentService(PurchasePaymentFacade purchasePaymentFacade)
         {
             _purchasePaymentFacade = purchasePaymentFacade ?? throw new ArgumentNullException(nameof(PurchasePaymentFacade));
         }

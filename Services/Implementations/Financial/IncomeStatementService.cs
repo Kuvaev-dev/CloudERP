@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System;
-using System.Threading.Tasks;
-using Domain.Models.FinancialModels;
+﻿using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
 
@@ -24,7 +21,7 @@ namespace Services.Implementations
             var incomeStatement = new IncomeStatementModel
             {
                 Title = Localization.DatabaseAccess.Localization.NetIncome,
-                IncomeStatementHeads = new List<IncomeStatementHead>()
+                IncomeStatementHeads = []
             };
 
             var revenue = await _balanceSheetRepository.GetHeadAccountsWithTotal(companyID, branchID, financialYearID, REVENUE_HEAD_ID);
