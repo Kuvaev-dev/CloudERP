@@ -10,7 +10,6 @@
     <meta name="keywords" content="app, responsive, jquery, bootstrap, dashboard, admin">
     <title>@ViewBag.Title</title>
     <!-- =============== VENDOR STYLES ===============-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/css/intlTelInput.css" />
     <!-- FONT AWESOME-->
     <link rel="stylesheet" href="~/Template/vendor/font-awesome/css/font-awesome.css">
     <!-- SIMPLE LINE ICONS-->
@@ -30,14 +29,14 @@
     <link rel="stylesheet" href="~/Template/css/app.css" id="maincss">
     <!-- Bootgrid-->
     <link rel="stylesheet" href="~/Template/vendor/jquery-bootgrid/dist/jquery.bootgrid.css">
-    <!-- Icons-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.2/font/bootstrap-icons.min.css" />
     <!-- Themes-->
     <link rel="stylesheet" href="~/js/Theme/dark-theme.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shepherd.js/8.0.1/css/shepherd.css">
     <!-- Data Tables-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.6/css/jquery.dataTables.min.css" />
+    <!-- Icons-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.2/font/bootstrap-icons.min.css" />
 </head>
 <body>
     <div class="wrapper">
@@ -152,12 +151,12 @@
                                         {
                                             var selectedCurrency = HttpContextAccessor.HttpContext?.Session.GetString("SelectedCurrency");
 
-                                            foreach (var currency in (List<Dictionary<string, string>>)ViewBag.Currencies)
+                                            @foreach (var currency in (Dictionary<string, decimal>)ViewBag.Currencies)
                                             {
-                                                bool isSelected = currency["Code"] == selectedCurrency;
+                                                bool isSelected = currency.Key == selectedCurrency;
 
-                                                <option value="@currency["Code"]" selected="@(isSelected)">
-                                                    @currency["Name"] (@currency["Rate"])
+                                                <option value="@currency.Key" selected="@(isSelected ? "selected" : null)">
+                                                    @currency.Key (@currency.Value)
                                                 </option>
                                             }
                                         }
@@ -727,11 +726,10 @@
             <!-- Page content-->
             <div class="content-wrapper">
                 <div class="content-heading">
-                    <div>
-                        @ViewBag.Title
-                    </div>
+                    @ViewBag.Title
                 </div>
                 <div>
+                    <div>Layout загружен</div>
                     @RenderBody()
                 </div>
             </div>
@@ -741,6 +739,10 @@
             <span>&copy; @DateTime.Now.ToString("yyyy") - Kuvaiev Inc</span>
         </footer>
     </div>
+    @{
+        bool.TryParse(HttpContextAccessor.HttpContext?.Session.GetString("StartTour"), out bool startTour);
+        HttpContextAccessor.HttpContext?.Session.SetString("StartTour", "false");
+    }
     <!-- =============== VENDOR SCRIPTS ===============-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/intlTelInput.min.js"></script>
     <!-- MODERNIZR-->
@@ -792,10 +794,6 @@
     <script src="~/Template/js/app.js"></script>
     <script src="~/js/CustomScripts/FullscreenMode.js"></script>
     <script src="~/js/CustomScripts/Tour.js"></script>
-    @{
-        bool.TryParse(HttpContextAccessor.HttpContext?.Session.GetString("StartTour"), out bool startTour);
-        HttpContextAccessor.HttpContext?.Session.SetString("StartTour", "false");
-    }
     <script>
         $(document).ready(function () {
             if (@startTour.ToString().ToLower()) {

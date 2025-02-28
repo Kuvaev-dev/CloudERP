@@ -44,20 +44,32 @@ namespace API.Controllers.General
                     User = new Domain.Models.User
                     {
                         UserID = user.UserID,
+                        UserTypeID = user.UserTypeID,
+                        FullName = user.FullName,
                         Email = user.Email,
-                        UserTypeID = user.UserTypeID
+                        ContactNo = user.ContactNo,
+                        UserName = user.UserName,
+                        Password = user.Password,
+                        Salt = user.Salt,
+                        IsActive = user.IsActive,
                     },
                     Employee = new Domain.Models.Employee
                     {
                         EmployeeID = employee.EmployeeID,
                         FullName = employee.FullName,
-                        CompanyID = employee.CompanyID,
-                        IsFirstLogin = employee.IsFirstLogin
+                        Photo = employee.Photo,
+                        RegistrationDate = employee.RegistrationDate,
+                        Designation = employee.Designation,
+                        BranchID = employee.BranchID,
+                        BranchTypeID = employee.BranchTypeID,
+                        BrchID = employee.BrchID,
+                        CompanyID = employee.CompanyID
                     },
                     Company = new Domain.Models.Company
                     {
                         CompanyID = company.CompanyID,
-                        Name = company.Name
+                        Name = company.Name,
+                        Logo = company.Logo
                     },
                     Token = token
                 };

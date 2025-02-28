@@ -22,9 +22,9 @@ namespace CloudERP.Controllers.General
             ResourceManagerHelper resourceManagerHelper,
             HttpClientHelper httpClient)
         {
-            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
-            _resourceManagerHelper = resourceManagerHelper ?? throw new ArgumentNullException(nameof(ResourceManagerHelper));
-            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
+            _resourceManagerHelper = resourceManagerHelper ?? throw new ArgumentNullException(nameof(resourceManagerHelper));
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
 
         public async Task<IActionResult> Index()
@@ -72,17 +72,15 @@ namespace CloudERP.Controllers.General
                 SetEmployeeSession(userData.Employee);
                 SetCompanySession(userData.Company);
 
-                HttpContext.Session.SetString("Token", userData.Token);
-
                 if (userData.Employee.IsFirstLogin.HasValue && userData.Employee.IsFirstLogin.Value)
                     HttpContext.Session.SetString("StartTour", "true");
 
-                var currencies = await _httpClient.GetAsync<Dictionary<string, decimal>>("home/currencies");
+                var currencies = await _httpClient.GetAsync<Dictionary<string, decimal>>("homeapi/getcurrencies");
                 ViewBag.Currencies = currencies ?? [];
 
                 return userData.User.UserTypeID == ADMIN_USER_TYPE_ID
-                    ? RedirectToAction("AdminMenuGuide", "Guide")
-                    : RedirectToAction("Index", "Home");
+                    ? View("~/Views/Guide/AdminMenuGuide.cshtml")
+                    : View("~/Views/Home/Index.cshtml");
             }
             catch (Exception ex)
             {
@@ -113,6 +111,7 @@ namespace CloudERP.Controllers.General
             HttpContext.Session.SetString("Password", user.Password);
             HttpContext.Session.SetString("Salt", user.Salt);
             HttpContext.Session.SetString("IsActive", user.IsActive.ToString());
+            HttpContext.Session.SetString("Token", token);
         }
 
         private void SetEmployeeSession(Employee employee)
@@ -133,14 +132,9 @@ namespace CloudERP.Controllers.General
             HttpContext.Session.SetString("CLogo", company.Logo);
         }
 
-        private void ClearSession()
-        {
-            HttpContext.Session.Clear();
-        }
-
         public IActionResult Logout()
         {
-            ClearSession();
+            HttpContext.Session.Clear();
             return RedirectToAction("Login");
         }
 

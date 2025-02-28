@@ -1,5 +1,6 @@
 using API.Helpers;
 using CloudERP.Helpers;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Utils.Helpers;
 using Utils.Interfaces;
 
@@ -21,6 +22,7 @@ namespace CloudERP
 
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddDistributedMemoryCache();
+
             builder.Services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
@@ -31,6 +33,17 @@ namespace CloudERP
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             builder.Services.AddScoped<SessionHelper>();
             builder.Services.AddScoped<ResourceManagerHelper>();
+
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/Home/Login";
+                    options.LogoutPath = "/Home/Logout";
+                    options.AccessDeniedPath = "/EP/EP500";
+                    options.ExpireTimeSpan = TimeSpan.FromDays(7);
+                });
+
+            builder.Services.AddAuthorization();
 
             var app = builder.Build();
 
@@ -47,6 +60,7 @@ namespace CloudERP
             app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.MapControllerRoute(
                 name: "default",

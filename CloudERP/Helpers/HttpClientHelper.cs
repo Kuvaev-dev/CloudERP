@@ -6,10 +6,13 @@ namespace CloudERP.Helpers
     public class HttpClientHelper
     {
         private readonly HttpClient _client;
+        private readonly IConfiguration _configuration;
 
-        public HttpClientHelper(HttpClient client)
+        public HttpClientHelper(HttpClient client, IConfiguration configuration)
         {
-            _client = client;
+            _client = client ?? throw new ArgumentException(nameof(client));
+            _configuration = configuration ?? throw new ArgumentException(nameof(configuration));
+            _client.BaseAddress = new Uri(_configuration["ApiUri"]);
         }
 
         public async Task<T?> GetAsync<T>(string endpoint)
