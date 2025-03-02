@@ -98,4 +98,178 @@
 	<resheader name="writer">
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
+  <data name="TotalBalance" xml:space="preserve">
+    <value>Загальний баланс</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Дата</value>
+  </data>
+  <data name="DebitAccountNotFound" xml:space="preserve">
+    <value>Дебетовий рахунок не знайдено.</value>
+  </data>
+  <data name="CreditAccountNotFound" xml:space="preserve">
+    <value>Кредитовий рахунок не знайдено.</value>
+  </data>
+  <data name="GeneralTransactionSucceed" xml:space="preserve">
+    <value>Транзакцію успішно виконано!</value>
+  </data>
+  <data name="UnexpectedErrorOccurred" xml:space="preserve">
+    <value>Сталася непередбачена помилка. Будь ласка, спробуйте ще раз!</value>
+  </data>
+  <data name="AccountSettingsForPurchaseNotFound" xml:space="preserve">
+    <value>Налаштування облікового запису для покупки не знайдено.</value>
+  </data>
+  <data name="AccountSettingsForPurchasePaymentPendingNotFound" xml:space="preserve">
+    <value>Налаштування облікового запису для очікуваного платежу за покупку не знайдено.</value>
+  </data>
+  <data name="AccountSettingsForPurchasePaymentPaidNotFound" xml:space="preserve">
+    <value>Налаштування облікового запису для оплаченого платежу за покупку не знайдено.</value>
+  </data>
+  <data name="AccountSettingsForPurchasePaymentSuccessNotFound" xml:space="preserve">
+    <value>Налаштування облікового запису для успішного платежу за покупку не знайдено.</value>
+  </data>
+  <data name="PurchaseSuccessWithPayment" xml:space="preserve">
+    <value>Успішна покупка з оплатою.</value>
+  </data>
+  <data name="PurchaseSuccess" xml:space="preserve">
+    <value>Успішна покупка</value>
+  </data>
+  <data name="PurchaseFrom" xml:space="preserve">
+    <value>Покупка від </value>
+  </data>
+  <data name="ReturnPurchaseTo" xml:space="preserve">
+    <value>Повернення покупки до </value>
+  </data>
+  <data name="ReturnPurchaseSuccess" xml:space="preserve">
+    <value>Успішне повернення покупки</value>
+  </data>
+  <data name="AccountSettingsАForReturnPurchaseNotFound" xml:space="preserve">
+    <value>Налаштування облікового запису для зворотної покупки не знайдено.</value>
+  </data>
+  <data name="AccountSettingsForPurchaseReturnPaymentPendingNotFound" xml:space="preserve">
+    <value>Налаштування облікового запису для очікуваного платежу за повернення покупки не знайдено.</value>
+  </data>
+  <data name="ReturnPurchasePaymentIsPending" xml:space="preserve">
+    <value>, Очікується платіж за повернення покупки!</value>
+  </data>
+  <data name="ReturnPaymentFrom" xml:space="preserve">
+    <value>Повернення платежу від </value>
+  </data>
+  <data name="AccountSettingsForPurchaseReturnPaymentSucceedNotFound" xml:space="preserve">
+    <value>Налаштування облікового запису для успішного платежу за повернення покупки не знайдено.</value>
+  </data>
+  <data name="ReturnPurchasePaymentIsSucceed" xml:space="preserve">
+    <value>, Платіж за повернення покупки успішно завершено!</value>
+  </data>
+  <data name="WithPayment" xml:space="preserve">
+    <value> з оплатою.</value>
+  </data>
+  <data name="ReturnPurchasePaymentIsPaid" xml:space="preserve">
+    <value>Платіж за повернення покупки сплачено</value>
+  </data>
+  <data name="SalaryIsPending" xml:space="preserve">
+    <value>Очікується виплата зарплати</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>, До </value>
+  </data>
+  <data name="AccountSettingsNotFoundForTheProvidedCompanyIDAndBranchID" xml:space="preserve">
+    <value>Налаштування облікового запису для наданих CompanyID та BranchID не знайдено.</value>
+  </data>
+  <data name="SalarySucceed" xml:space="preserve">
+    <value>Зарплата успішно виплачена</value>
+  </data>
+  <data name="SaleTo" xml:space="preserve">
+    <value>Продаж до </value>
+  </data>
+  <data name="AccountSettingsForSaleNotFound" xml:space="preserve">
+    <value>Налаштування облікового запису для продажу не знайдено</value>
+  </data>
+  <data name="AccountSettingsForSalePaymentPendingNotFound" xml:space="preserve">
+    <value>Налаштування облікового запису для очікуваного платежу за продаж не знайдено.</value>
+  </data>
+  <data name="AccountSettingsForSalePaymentPaidNotFound" xml:space="preserve">
+    <value>Налаштування облікового запису для оплаченого платежу за продаж не знайдено.</value>
+  </data>
+  <data name="AccountSettingsForSalePaymentSuccessNotFound" xml:space="preserve">
+    <value>Налаштування облікового запису для успішного платежу за продаж не знайдено.</value>
+  </data>
+  <data name="SaleSuccessWithPayment" xml:space="preserve">
+    <value>Успішний продаж з оплатою.</value>
+  </data>
+  <data name="SaleSuccess" xml:space="preserve">
+    <value>Продаж успішно завершено</value>
+  </data>
+  <data name="PaidSuccessfully" xml:space="preserve">
+    <value>Успішно оплачено</value>
+  </data>
+  <data name="ReturnSaleFrom" xml:space="preserve">
+    <value>Повернення продажу від </value>
+  </data>
+  <data name="AccountSettingsForSaleReturnNotFound" xml:space="preserve">
+    <value>Налаштування облікового запису для повернення продажу не знайдено.</value>
+  </data>
+  <data name="AccountSettingsForSaleReturnPaymentPendingNotFound" xml:space="preserve">
+    <value>Налаштування облікового запису для очікуваного платежу за повернення продажу не знайдено.</value>
+  </data>
+  <data name="AccountSettingsForSaleReturnPaymentPaidNotFound" xml:space="preserve">
+    <value>Налаштування облікового запису для оплати повернення продажу не знайдено.</value>
+  </data>
+  <data name="AccountSettingsForSaleReturnPaymentSuccessNotFound" xml:space="preserve">
+    <value>Налаштування облікового запису для успішного платежу за повернення продажу не знайдено.</value>
+  </data>
+  <data name="ReturnSaleSuccessWithPayment" xml:space="preserve">
+    <value>Успішне повернення продажу з оплатою.</value>
+  </data>
+  <data name="ReturnSaleSuccess" xml:space="preserve">
+    <value>Повернення продажу успішно завершено</value>
+  </data>
+  <data name="ReturnSalePaymentPaidTo" xml:space="preserve">
+    <value>Оплата за повернення продажу оплачена для </value>
+  </data>
+  <data name="ReturnSalePaymentSsSucceed" xml:space="preserve">
+    <value>, оплата за повернення продажу успішно завершена!</value>
+  </data>
+  <data name="AccountSettingsForReturnPurchaseNotFound" xml:space="preserve">
+    <value>Налаштування облікового запису для повернення покупки не знайдено.</value>
+  </data>
+  <data name="CompanyFinancialYearNotSet" xml:space="preserve">
+    <value>Рік фінансування не встановлено для компанії</value>
+  </data>
+  <data name="PurchasePaymentRemainingAmountError" xml:space="preserve">
+    <value>Помилка залишкової суми оплати покупки</value>
+  </data>
+  <data name="SalePaymentRemainingAmountError" xml:space="preserve">
+    <value>Помилка залишкової суми оплати продажу</value>
+  </data>
+  <data name="OneProductReturnQtyError" xml:space="preserve">
+    <value>Помилка кількості повернення одного товару</value>
+  </data>
+  <data name="PurchaseReturn" xml:space="preserve">
+    <value>Повернення покупки</value>
+  </data>
+  <data name="ReturnSuccessfully" xml:space="preserve">
+    <value>Повернення успішно виконано</value>
+  </data>
+  <data name="UnexpectedIssue" xml:space="preserve">
+    <value>Неочікувана помилка</value>
+  </data>
+  <data name="SaleInvoice" xml:space="preserve">
+    <value>Рахунок-фактура продажу</value>
+  </data>
+  <data name="SaleReturn" xml:space="preserve">
+    <value>Повернення продажу</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Опис</value>
+  </data>
+  <data name="Debit" xml:space="preserve">
+    <value>Дебет</value>
+  </data>
+  <data name="Credit" xml:space="preserve">
+    <value>Кредит</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Разом</value>
+  </data>
 </root>

@@ -1,10 +1,7 @@
-using API.Helpers;
 using CloudERP.Helpers;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
-using Utils.Helpers;
-using Utils.Interfaces;
 
 namespace CloudERP
 {
@@ -17,10 +14,7 @@ namespace CloudERP
             // Add services to the container.
             builder.Services.AddRazorPages();
 
-            builder.Services.AddHttpClient<HttpClientHelper>(client =>
-            {
-                client.BaseAddress = new Uri("https://localhost:44311/api");
-            });
+            builder.Services.AddHttpClient<HttpClientHelper>();
 
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddDistributedMemoryCache();

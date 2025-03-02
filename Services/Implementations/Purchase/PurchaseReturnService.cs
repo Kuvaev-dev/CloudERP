@@ -13,7 +13,7 @@ namespace Services.Implementations
             _purchaseReturnFacade = purchaseReturnFacade ?? throw new ArgumentNullException(nameof(purchaseReturnFacade));
         }
 
-        public async Task<(bool IsSuccess, string Message, string InvoiceNo)> ProcessReturnAsync(PurchaseReturnConfirm returnConfirmDto, int branchId, int companyId, int userId)
+        public async Task<PurchaseReturnConfirmResult> ProcessReturnAsync(PurchaseReturnConfirm returnConfirmDto, int branchId, int companyId, int userId)
         {
             double totalAmount = 0;
             var purchaseDetails = await _purchaseReturnFacade.SupplierInvoiceDetailRepository.GetListByIdAsync(returnConfirmDto.SupplierInvoiceID);
@@ -35,7 +35,7 @@ namespace Services.Implementations
 
             if (totalAmount == 0)
             {
-                return (false, "One Product Return Qty Error", string.Empty);
+                return new PurchaseReturnConfirmResult { IsSuccess = false, Message = Localization.Services.Localization.OneProductReturnQtyError, InvoiceNo = string.Empty };
             }
 
             string invoiceNo = "RPU" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
@@ -43,7 +43,7 @@ namespace Services.Implementations
             {
                 BranchID = branchId,
                 CompanyID = companyId,
-                Description = "Purchase Return",
+                Description = Localization.Services.Localization.PurchaseReturn,
                 InvoiceDate = DateTime.Now,
                 InvoiceNo = invoiceNo,
                 SupplierID = supplierID,
@@ -97,10 +97,10 @@ namespace Services.Implementations
                     }
                 }
 
-                return (true, "Return Successfully", invoiceNo);
+                return new PurchaseReturnConfirmResult { IsSuccess = true, Message = Localization.Services.Localization.ReturnSuccessfully, InvoiceNo = invoiceNo };
             }
 
-            return (false, "Unexpected Issue", invoiceNo);
+            return new PurchaseReturnConfirmResult { IsSuccess = false, Message = Localization.Services.Localization.UnexpectedIssue, InvoiceNo = invoiceNo };
         }
     }
 }

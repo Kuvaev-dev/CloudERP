@@ -98,4 +98,208 @@
 	<resheader name="writer">
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
+<data name="SalaryIsAlreadyPaid" xml:space="preserve">
+    <value>Salary Is Already Paid</value>
+  </data>
+  <data name="BalanceSheet" xml:space="preserve">
+    <value>Balance Sheet</value>
+  </data>
+  <data name="NetIncome" xml:space="preserve">
+    <value>Net Income</value>
+  </data>
+  <data name="TotalRevenue" xml:space="preserve">
+    <value>Total Revenue</value>
+  </data>
+  <data name="TotalExpenses" xml:space="preserve">
+    <value>Total Expenses</value>
+  </data>
+  <data name="ReminderFor" xml:space="preserve">
+    <value>Reminder for</value>
+  </data>
+  <data name="ReminderForTask" xml:space="preserve">
+    <value>Reminder for Task</value>
+  </data>
+  <data name="DueDate" xml:space="preserve">
+    <value>Due Date</value>
+  </data>
+  <data name="MakeSureToCompleteTask" xml:space="preserve">
+    <value>Make sure to complete task</value>
+  </data>
+  <data name="PurchaseInvoice" xml:space="preserve">
+    <value>Purchase Invoice</value>
+  </data>
+  <data name="TotalBalance" xml:space="preserve">
+    <value>Total Balance</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="DebitAccountNotFound" xml:space="preserve">
+    <value>Debit account not found.</value>
+  </data>
+  <data name="CreditAccountNotFound" xml:space="preserve">
+    <value>Credit account not found.</value>
+  </data>
+  <data name="GeneralTransactionSucceed" xml:space="preserve">
+    <value>General Transaction Succeed!</value>
+  </data>
+  <data name="UnexpectedErrorOccurred" xml:space="preserve">
+    <value>Unexpected Error Occurred. Please Try Again!</value>
+  </data>
+  <data name="AccountSettingsForPurchaseNotFound" xml:space="preserve">
+    <value>Account settings for Purchase not found.</value>
+  </data>
+  <data name="AccountSettingsForPurchasePaymentPendingNotFound" xml:space="preserve">
+    <value>Account settings for Purchase Payment Pending not found.</value>
+  </data>
+  <data name="AccountSettingsForPurchasePaymentPaidNotFound" xml:space="preserve">
+    <value>Account settings for Purchase Payment Paid not found.</value>
+  </data>
+  <data name="AccountSettingsForPurchasePaymentSuccessNotFound" xml:space="preserve">
+    <value>Account settings for Purchase Payment Success not found.</value>
+  </data>
+  <data name="PurchaseSuccessWithPayment" xml:space="preserve">
+    <value>Purchase Success with Payment.</value>
+  </data>
+  <data name="PurchaseSuccess" xml:space="preserve">
+    <value>Purchase Success</value>
+  </data>
+  <data name="PurchaseFrom" xml:space="preserve">
+    <value>Purchase From </value>
+  </data>
+  <data name="ReturnPurchaseTo" xml:space="preserve">
+    <value>Return Purchase to </value>
+  </data>
+  <data name="ReturnPurchaseSuccess" xml:space="preserve">
+    <value>Return Purchase Success</value>
+  </data>
+  <data name="AccountSettingsАForReturnPurchaseNotFound" xml:space="preserve">
+    <value>Account settings for Return Purchase not found.</value>
+  </data>
+  <data name="AccountSettingsForPurchaseReturnPaymentPendingNotFound" xml:space="preserve">
+    <value>Account settings for Purchase Return Payment Pending not found.</value>
+  </data>
+  <data name="ReturnPurchasePaymentIsPending" xml:space="preserve">
+    <value>, Return Purchase Payment is Pending!</value>
+  </data>
+  <data name="ReturnPaymentFrom" xml:space="preserve">
+    <value>Return Payment from </value>
+  </data>
+  <data name="AccountSettingsForPurchaseReturnPaymentSucceedNotFound" xml:space="preserve">
+    <value>Account settings for Purchase Return Payment Succeed not found.</value>
+  </data>
+  <data name="ReturnPurchasePaymentIsSucceed" xml:space="preserve">
+    <value>, Return Purchase Payment is Succeed!</value>
+  </data>
+  <data name="WithPayment" xml:space="preserve">
+    <value> with Payment.</value>
+  </data>
+  <data name="ReturnPurchasePaymentIsPaid" xml:space="preserve">
+    <value>Return Purchase Payment is Paid</value>
+  </data>
+  <data name="SalaryIsPending" xml:space="preserve">
+    <value>Salary is Pending</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>, To </value>
+  </data>
+  <data name="AccountSettingsNotFoundForTheProvidedCompanyIDAndBranchID" xml:space="preserve">
+    <value>Account settings not found for the provided CompanyID and BranchID.</value>
+  </data>
+  <data name="SalarySucceed" xml:space="preserve">
+    <value>Salary Succeed </value>
+  </data>
+  <data name="SaleTo" xml:space="preserve">
+    <value>Sale to </value>
+  </data>
+  <data name="AccountSettingsForSaleNotFound" xml:space="preserve">
+    <value>Account settings for Sale not found</value>
+  </data>
+  <data name="AccountSettingsForSalePaymentPendingNotFound" xml:space="preserve">
+    <value>Account settings for Sale Payment Pending not found.</value>
+  </data>
+  <data name="AccountSettingsForSalePaymentPaidNotFound" xml:space="preserve">
+    <value>Account settings for Sale Payment Paid not found.</value>
+  </data>
+  <data name="AccountSettingsForSalePaymentSuccessNotFound" xml:space="preserve">
+    <value>Account settings for Sale Payment Success not found.</value>
+  </data>
+  <data name="SaleSuccessWithPayment" xml:space="preserve">
+    <value>Sale Success with Payment.</value>
+  </data>
+  <data name="SaleSuccess" xml:space="preserve">
+    <value>Sale Success</value>
+  </data>
+  <data name="PaidSuccessfully" xml:space="preserve">
+    <value>Paid Successfully</value>
+  </data>
+  <data name="ReturnSaleFrom" xml:space="preserve">
+    <value>Return Sale from </value>
+  </data>
+  <data name="AccountSettingsForSaleReturnNotFound" xml:space="preserve">
+    <value>Account settings for Sale Return not found.</value>
+  </data>
+  <data name="AccountSettingsForSaleReturnPaymentPendingNotFound" xml:space="preserve">
+    <value>Account settings for Sale Return Payment Pending not found.</value>
+  </data>
+  <data name="AccountSettingsForSaleReturnPaymentPaidNotFound" xml:space="preserve">
+    <value>Account settings for Sale Return Payment Paid not found.</value>
+  </data>
+  <data name="AccountSettingsForSaleReturnPaymentSuccessNotFound" xml:space="preserve">
+    <value>Account settings for Sale Return Payment Success not found.</value>
+  </data>
+  <data name="ReturnSaleSuccessWithPayment" xml:space="preserve">
+    <value>Return Sale Success with Payment.</value>
+  </data>
+  <data name="ReturnSaleSuccess" xml:space="preserve">
+    <value>Return Sale Success</value>
+  </data>
+  <data name="ReturnSalePaymentPaidTo" xml:space="preserve">
+    <value>Return Sale Payment Paid to </value>
+  </data>
+  <data name="ReturnSalePaymentSsSucceed" xml:space="preserve">
+    <value>, Return Sale Payment is Succeed!</value>
+  </data>
+  <data name="AccountSettingsForReturnPurchaseNotFound" xml:space="preserve">
+    <value>Account settings for Purchase Return Payment Return Succeed</value>
+  </data>
+  <data name="CompanyFinancialYearNotSet" xml:space="preserve">
+    <value>Company Financial Year Not Set</value>
+  </data>
+  <data name="PurchasePaymentRemainingAmountError" xml:space="preserve">
+    <value>Purchase Payment Remaining Amount Error</value>
+  </data>
+  <data name="SalePaymentRemainingAmountError" xml:space="preserve">
+    <value>Sale Payment Remaining Amount Error</value>
+  </data>
+  <data name="OneProductReturnQtyError" xml:space="preserve">
+    <value>One Product Return Qty Error</value>
+  </data>
+  <data name="PurchaseReturn" xml:space="preserve">
+    <value>Purchase Return</value>
+  </data>
+  <data name="ReturnSuccessfully" xml:space="preserve">
+    <value>Return Successfully</value>
+  </data>
+  <data name="UnexpectedIssue" xml:space="preserve">
+    <value>Unexpected Issue</value>
+  </data>
+  <data name="SaleInvoice" xml:space="preserve">
+    <value>Sale Invoice</value>
+  </data>
+  <data name="SaleReturn" xml:space="preserve">
+    <value>Sale Return</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Debit" xml:space="preserve">
+    <value>Debit</value>
+  </data>
+  <data name="Credit" xml:space="preserve">
+    <value>Credit</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
 </root>

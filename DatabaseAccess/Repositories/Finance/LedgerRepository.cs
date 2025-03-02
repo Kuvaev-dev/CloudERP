@@ -61,7 +61,7 @@ namespace DatabaseAccess.Repositories.Finance
                             ledger.Add(new AccountLedgerModel
                             {
                                 SNo = sNo++,
-                                Date = Localization.DatabaseAccess.Localization.TotalBalance,
+                                Date = Localization.Services.Localization.TotalBalance,
                                 Debit = totalDebit.ToString(),
                                 Credit = totalCredit.ToString()
                             });
@@ -71,10 +71,10 @@ namespace DatabaseAccess.Repositories.Finance
                         {
                             SNo = sNo++,
                             Account = accountName,
-                            Date = Localization.DatabaseAccess.Localization.Date,
-                            Description = Localization.DatabaseAccess.Localization.Description,
-                            Debit = Localization.DatabaseAccess.Localization.Debit,
-                            Credit = Localization.DatabaseAccess.Localization.Credit
+                            Date = Localization.Services.Localization.Date,
+                            Description = Localization.Services.Localization.Description,
+                            Debit = Localization.Services.Localization.Debit,
+                            Credit = Localization.Services.Localization.Credit
                         });
 
                         totalDebit = 0;
@@ -100,7 +100,7 @@ namespace DatabaseAccess.Repositories.Finance
                     ledger.Add(new AccountLedgerModel
                     {
                         SNo = sNo++,
-                        Date = Localization.DatabaseAccess.Localization.TotalBalance,
+                        Date = Localization.Services.Localization.TotalBalance,
                         Debit = totalDebit.ToString(),
                         Credit = totalCredit.ToString()
                     });

@@ -30,8 +30,6 @@ namespace CloudERP.Controllers.Branch
             {
                 var branches = await _httpClient.GetAsync<IEnumerable<Domain.Models.Branch>>(
                     $"branchapi/getall?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&mainBranchTypeID={MAIN_BRANCH_TYPE_ID}");
-                if (branches == null) return RedirectToAction("EP404", "EP");
-
                 return View(branches);
             }
             catch (Exception ex)
@@ -50,8 +48,6 @@ namespace CloudERP.Controllers.Branch
             {
                 var branches = await _httpClient.GetAsync<IEnumerable<Domain.Models.Branch>>(
                     $"branchapi/getsubbranches?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&mainBranchTypeID={MAIN_BRANCH_TYPE_ID}");
-                if (branches == null) return RedirectToAction("EP404", "EP");
-
                 return View(branches);
             }
             catch (Exception ex)

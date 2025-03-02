@@ -27,7 +27,7 @@ namespace Services.Implementations
                 var invoiceHeader = new CustomerInvoice
                 {
                     BranchID = branchId,
-                    Title = "Sale Invoice " + customer.Customername,
+                    Title = $"{Localization.Services.Localization.SaleInvoice}: {customer.Customername}",
                     CompanyID = companyId,
                     Description = saleConfirmDto.Description,
                     InvoiceDate = DateTime.Now,

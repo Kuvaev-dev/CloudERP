@@ -35,7 +35,7 @@ namespace Services.Implementations
 
             if (totalAmount == 0)
             {
-                return new SaleReturnConfirmResult { IsSuccess = false, Message = "One Product Return Qty Error", InvoiceNo = string.Empty };
+                return new SaleReturnConfirmResult { IsSuccess = false, Message = Localization.Services.Localization.OneProductReturnQtyError, InvoiceNo = string.Empty };
             }
 
             string invoiceNo = "RIN" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
@@ -43,7 +43,7 @@ namespace Services.Implementations
             {
                 BranchID = branchId,
                 CompanyID = companyId,
-                Description = "Sale Return",
+                Description = Localization.Services.Localization.SaleReturn,
                 InvoiceDate = DateTime.Now,
                 InvoiceNo = invoiceNo,
                 CustomerID = customerID,
@@ -97,10 +97,10 @@ namespace Services.Implementations
                     }
                 }
 
-                return new SaleReturnConfirmResult { IsSuccess = true, Message = "Return Successfully", InvoiceNo = invoiceNo };
+                return new SaleReturnConfirmResult { IsSuccess = true, Message = Localization.Services.Localization.ReturnSuccessfully, InvoiceNo = invoiceNo };
             }
 
-            return new SaleReturnConfirmResult { IsSuccess = false, Message = "Unexpected Issue", InvoiceNo = invoiceNo };
+            return new SaleReturnConfirmResult { IsSuccess = false, Message = Localization.Services.Localization.UnexpectedIssue, InvoiceNo = invoiceNo };
         }
     }
 }

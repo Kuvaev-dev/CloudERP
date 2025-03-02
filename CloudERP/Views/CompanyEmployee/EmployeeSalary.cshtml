@@ -65,7 +65,7 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.Designation, Localization.CloudERP.Company.Designation, htmlAttributes: new { @class = "control-label col-md-4" })
+                        @Html.LabelFor(model => model.Designation, Localization.CloudERP.User.Designation, htmlAttributes: new { @class = "control-label col-md-4" })
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.Designation, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                             @Html.ValidationMessageFor(model => model.Designation, "", new { @class = "text-danger" })

@@ -1,6 +1,8 @@
 ﻿using CloudERP.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
+using System.Text;
 
 namespace CloudERP.Controllers.Company
 {
@@ -78,37 +80,40 @@ namespace CloudERP.Controllers.Company
             {
                 if (ModelState.IsValid)
                 {
-                    using var content = new MultipartFormDataContent
-                    {
-                        { new StringContent(JsonConvert.SerializeObject(model)), "model" }
-                    };
+                    using var content = new MultipartFormDataContent();
 
+                    // Корректная передача модели в JSON
+                    var modelJson = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+                    content.Add(modelJson, "model");
+
+                    // Добавление файла, если он присутствует
                     if (logo != null)
                     {
-                        var stream = logo.OpenReadStream();
+                        using var stream = logo.OpenReadStream();
                         var fileContent = new StreamContent(stream);
-                        fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(logo.ContentType);
+                        fileContent.Headers.ContentType = new MediaTypeHeaderValue(logo.ContentType);
                         content.Add(fileContent, "file", logo.FileName);
                     }
 
-                    var success = await _httpClient.PostAsync("companyapi/create", content);
+                    // Отправка данных через HttpClient
+                    var response = await _httpClient.PostAsync("companyapi/create", content);
 
-                    if (success)
+                    if (response)
                     {
-                        return RedirectToAction("Employee");
+                        return RedirectToAction("Index");
                     }
                     else
                     {
-                        TempData["ErrorMessage"] = "Ошибка при регистрации сотрудника.";
+                        TempData["ErrorMessage"] = "Ошибка при регистрации компании.";
                         return RedirectToAction("EP500", "EP");
                     }
                 }
 
                 return View(model);
             }
-            catch
+            catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -147,28 +152,26 @@ namespace CloudERP.Controllers.Company
             {
                 if (ModelState.IsValid)
                 {
-                    using var content = new MultipartFormDataContent
-                    {
-                        { new StringContent(JsonConvert.SerializeObject(model)), "model" }
-                    };
+                    using var content = new MultipartFormDataContent();
+                    var modelJson = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+                    content.Add(modelJson, "model");
 
                     if (logo != null)
                     {
-                        var stream = logo.OpenReadStream();
-                        var fileContent = new StreamContent(stream);
+                        using var stream = logo.OpenReadStream();
+                        using var fileContent = new StreamContent(stream);
                         fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(logo.ContentType);
                         content.Add(fileContent, "file", logo.FileName);
                     }
 
-                    var success = await _httpClient.PutAsync($"companyapi/update?id={model.CompanyID}", model);
-
-                    if (success)
+                    var response = await _httpClient.PostAsync("companyapi/create", content);
+                    if (response)
                     {
-                        return RedirectToAction("Employee");
+                        return RedirectToAction("Index");
                     }
                     else
                     {
-                        TempData["ErrorMessage"] = "Ошибка при регистрации сотрудника.";
+                        TempData["ErrorMessage"] = "Ошибка при регистрации компании.";
                         return RedirectToAction("EP500", "EP");
                     }
                 }

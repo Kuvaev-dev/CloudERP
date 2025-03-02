@@ -35,7 +35,7 @@ namespace Services.Implementations
                     remainingAmount = await _customerReturnInvoiceRepository.GetTotalAmountByIdAsync(paymentReturnDto.InvoiceId);
                 }
 
-                return "Purchase Payment Remaining Amount Error";
+                return Localization.Services.Localization.SalePaymentRemainingAmountError;
             }
 
             string payInvoiceNo = "RIP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;

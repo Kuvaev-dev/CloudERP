@@ -68,7 +68,7 @@ namespace DatabaseAccess.Repositories.Finance
                     {
                         Credit = totalCredit,
                         Debit = totalDebit,
-                        AccountSubControl = Localization.DatabaseAccess.Localization.Total
+                        AccountSubControl = Localization.Services.Localization.Total
                     };
                     trialBalance.Add(totalBalance);
                 }

@@ -39,7 +39,7 @@ namespace Services.Implementations
 
         private void SendEmailReminder(TaskModel task, string email)
         {
-            string subject = $"Reminder for: {task.Title}";
+            string subject = $"{Localization.Services.Localization.ReminderFor}: {task.Title}";
             string body = BuildEmailBody(task);
             string toEmail = email;
 
@@ -49,10 +49,10 @@ namespace Services.Implementations
         private string BuildEmailBody(TaskModel task)
         {
             return $@"
-            <h1>Reminder for Task: {task.Title}</h1>
+            <h1>{Localization.Services.Localization.ReminderForTask}: {task.Title}</h1>
             <p>{task.Description}</p>
-            <p>Due Date: {task.DueDate:g}</p>
-            <p>Make sure to complete task.</p>";
+            <p>{Localization.Services.Localization.DueDate}: {task.DueDate:g}</p>
+            <p>{Localization.Services.Localization.MakeSureToCompleteTask}</p>";
         }
     }
 }

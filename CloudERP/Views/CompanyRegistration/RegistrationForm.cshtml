@@ -36,7 +36,7 @@
                 <fieldset>
                     <div class="row">
                         <div class="col-md-4">
-                            <label for="userName">@Html.Raw(Localization.CloudERP.Company.UserName) *</label>
+                            <label for="userName">@Html.Raw(Localization.CloudERP.User.UserName) *</label>
                             @Html.TextBoxFor(model => model.UserName, new { @class = "form-control required", @id = "UserName" })
                             @Html.ValidationMessageFor(model => model.UserName)
                         </div>
@@ -67,7 +67,7 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <label for="email">@Html.Raw(Localization.CloudERP.Company.Email) *</label>
+                            <label for="email">Email *</label>
                             @Html.TextBoxFor(model => model.EmployeeEmail, new { @class = "form-control required", @id = "EEmail" })
                             @Html.ValidationMessageFor(model => model.EmployeeEmail)
                         </div>
@@ -77,17 +77,17 @@
                             @Html.ValidationMessageFor(model => model.EmployeeTIN)
                         </div>
                         <div class="col-md-4">
-                            <label>@Html.Raw(Localization.CloudERP.Company.Designation) *</label>
+                            <label>@Html.Raw(Localization.CloudERP.User.Designation) *</label>
                             @Html.TextBoxFor(model => model.EmployeeDesignation, new { @class = "form-control required", @id = "EDesignation" })
                             @Html.ValidationMessageFor(model => model.EmployeeDesignation)
                         </div>
                         <div class="col-md-4">
-                            <label>@Html.Raw(Localization.CloudERP.Company.BasicSalary) *</label>
+                            <label>@Html.Raw(Localization.CloudERP.User.BasicSalary) *</label>
                             @Html.TextBoxFor(model => model.EmployeeMonthlySalary, new { @class = "form-control required", @id = "EMonthlySalary", @type = "number" })
                             @Html.ValidationMessageFor(model => model.EmployeeMonthlySalary)
                         </div>
                         <div class="col-md-12">
-                            <label>@Html.Raw(Localization.CloudERP.Company.Address) *</label>
+                            <label>@Html.Raw(Localization.CloudERP.User.Address) *</label>
                             @Html.TextBoxFor(model => model.EmployeeAddress, new { @class = "form-control required", @id = "EAddress" })
                             @Html.ValidationMessageFor(model => model.EmployeeAddress)
                         </div>
@@ -107,7 +107,7 @@
                             @Html.ValidationMessageFor(model => model.CompanyName)
                         </div>
                         <div class="col-md-6">
-                            <label for="name">@Html.Raw(Localization.CloudERP.Company.BranchTitle) *</label>
+                            <label for="name">@Html.Raw(Localization.CloudERP.Branch.BranchName) *</label>
                             @Html.TextBoxFor(model => model.BranchName, new { @class = "form-control required", @id = "BranchName" })
                             @Html.ValidationMessageFor(model => model.BranchName)
                         </div>

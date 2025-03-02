@@ -180,4 +180,8 @@
   <data name="CanvasElementWithIdChartContainerNotFound" xml:space="preserve">
     <value>Элемент холста с id "chartContainer" не найден</value>
   </data>
+  <data name="BasicSalary" xml:space="preserve">
+    <value>Основная зарплата</value>
+    <comment></comment>
+	</data>
 </root>

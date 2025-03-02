@@ -25,8 +25,6 @@ namespace CloudERP.Controllers.Financial.Reports
             try
             {
                 var financialYears = await _httpClient.GetAsync<IEnumerable<FinancialYear>>("financialyearapi/getall");
-                if (financialYears == null) return RedirectToAction("EP404", "EP");
-
                 return View(financialYears);
             }
             catch (Exception ex)

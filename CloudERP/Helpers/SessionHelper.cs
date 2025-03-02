@@ -9,21 +9,27 @@
             _session = httpContextAccessor?.HttpContext?.Session ?? throw new ArgumentNullException(nameof(httpContextAccessor));
         }
 
-        private int GetInt(string key)
-        {
-            var value = _session.GetString(key);
-            if (int.TryParse(value, out int result))
-            {
-                return result;
-            }
-            throw new KeyNotFoundException($"{key} is not found in session.");
-        }
+        public int CompanyID => _session.GetInt32("CompanyID") ?? throw new BadHttpRequestException("CompanyID not set in current session");
+        public int BranchID => _session.GetInt32("BranchID") ?? throw new BadHttpRequestException("BranchID not set in current session");
+        public int BrchID => _session.GetInt32("BrchID") ?? -1;
+        public int UserID => _session.GetInt32("UserID") ?? throw new BadHttpRequestException("UserID not set in current session");
+        public int BranchTypeID => _session.GetInt32("BranchTypeID") ?? throw new BadHttpRequestException("BranchTypeID not set in current session");
 
-        public int CompanyID => GetInt("CompanyID");
-        public int BranchID => GetInt("BranchID");
-        public int BrchID => GetInt("BrchID");
-        public int UserID => GetInt("UserID");
-        public int BranchTypeID => GetInt("BranchTypeID");
+        public string? Token
+        {
+            get => _session.GetString("Token");
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    _session.SetString("Token", value);
+                }
+                else
+                {
+                    _session.Remove("Token");
+                }
+            }
+        }
 
         public int? CompanyEmployeeID
         {

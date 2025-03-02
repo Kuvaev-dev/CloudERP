@@ -46,14 +46,14 @@ namespace Services.Implementations
         {
             try
             {
-                string transectiontitle = Localization.DatabaseAccess.Localization.SalaryIsPending;
+                string transectiontitle = Localization.Services.Localization.SalaryIsPending;
 
                 var employee = await _salaryTransactionFacade.EmployeeRepository.GetByIdAsync(EmployeeID);
                 string employeename = string.Empty;
 
                 if (employee != null)
                 {
-                    employeename = Localization.DatabaseAccess.Localization.To + employee.FullName;
+                    employeename = Localization.Services.Localization.To + employee.FullName;
                     transectiontitle += employeename;
                 }
 
@@ -61,13 +61,13 @@ namespace Services.Implementations
                 string FinancialYearID = financialYearCheck != null ? Convert.ToString(financialYearCheck) : string.Empty;
                 if (string.IsNullOrEmpty(FinancialYearID))
                 {
-                    return Localization.DatabaseAccess.Localization.CompanyFinancialYearNotSet;
+                    return Localization.Services.Localization.CompanyFinancialYearNotSet;
                 }
 
                 var account = await _salaryTransactionFacade.AccountSettingRepository.GetByActivityAsync(SALE_RETURN_PAYMENT_PENDING_ACTIVITY_ID, CompanyID, BranchID);
                 if (account == null)
                 {
-                    return Localization.DatabaseAccess.Localization.AccountSettingsNotFoundForTheProvidedCompanyIDAndBranchID;
+                    return Localization.Services.Localization.AccountSettingsNotFoundForTheProvidedCompanyIDAndBranchID;
                 }
 
                 SetEntries(FinancialYearID,
@@ -81,7 +81,7 @@ namespace Services.Implementations
                     DateTime.Now,
                     transectiontitle);
 
-                transectiontitle = $"{Localization.DatabaseAccess.Localization.SalarySucceed} {employee.FullName}";
+                transectiontitle = $"{Localization.Services.Localization.SalarySucceed} {employee.FullName}";
 
                 SetEntries(FinancialYearID,
                     Convert.ToString(account.AccountHeadID),
@@ -97,12 +97,12 @@ namespace Services.Implementations
                 await _salaryTransactionFacade.SalaryTransactionRepository.Confirm(EmployeeID, TransferAmount, UserID, BranchID, CompanyID, InvoiceNo, SalaryMonth, SalaryYear);
                 await _salaryTransactionFacade.SalaryTransactionRepository.InsertTransaction(CompanyID, BranchID);
 
-                return Localization.DatabaseAccess.Localization.SalarySucceed;
+                return Localization.Services.Localization.SalarySucceed;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
-                return Localization.DatabaseAccess.Localization.UnexpectedErrorOccurred;
+                return Localization.Services.Localization.UnexpectedErrorOccurred;
             }
         }
 

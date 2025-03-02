@@ -26,8 +26,6 @@ namespace CloudERP.Controllers.Branch
             try
             {
                 var branchTypes = await _httpClient.GetAsync<IEnumerable<BranchType>>("branchtypeapi/getall");
-                if (branchTypes == null) return RedirectToAction("EP404", "EP");
-
                 return View(branchTypes);
             }
             catch (Exception ex)

@@ -98,7 +98,7 @@ namespace API.Controllers.Utilities
             }
         }
 
-        [HttpPost]
+        [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
             try

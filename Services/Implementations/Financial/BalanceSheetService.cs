@@ -72,7 +72,7 @@ namespace Services.Implementations
 
             totalReturnEarning = totalRevenue - totalExpenses;
 
-            balanceSheet.Title = "Balance Sheet";
+            balanceSheet.Title = Localization.Services.Localization.BalanceSheet;
             balanceSheet.ReturnEarning = totalReturnEarning;
             balanceSheet.Total_Liabilities_OwnerEquity_ReturnEarning = totalLiabilities + totalOwnerEquity + totalReturnEarning;
             balanceSheet.TotalAssets = totalAssets;

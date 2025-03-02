@@ -200,4 +200,8 @@
     <value>Canvas element with id "chartContainer" not found</value>
     <comment></comment>
 	</data>
+  <data name="BasicSalary" xml:space="preserve">
+    <value>Basic Salary</value>
+    <comment></comment>
+	</data>
 </root>

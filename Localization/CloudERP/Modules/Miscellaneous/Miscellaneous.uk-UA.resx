@@ -692,4 +692,7 @@
   <data name="Quality" xml:space="preserve">
     <value>Якість</value>
   </data>
+  <data name="CreatedBy" xml:space="preserve">
+    <value>Створено</value>
+  </data>
 </root>

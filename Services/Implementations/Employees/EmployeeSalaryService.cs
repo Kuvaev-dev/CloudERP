@@ -22,7 +22,7 @@ namespace Services.Implementations
 
             if (emp != null)
             {
-                return "Salary Is Already Paid";
+                return Localization.Services.Localization.SalaryIsAlreadyPaid;
             }
 
             string invoiceNo = $"ESA{DateTime.Now:yyyyMMddHHmmss}{DateTime.Now.Millisecond}";

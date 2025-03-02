@@ -27,21 +27,21 @@ namespace Services.Implementations
         public async Task<string> ConfirmPurchase(int CompanyID, int BranchID, int UserID, string InvoiceNo, string SupplierInvoiceID, float Amount, string SupplierID, string SupplierName, bool isPayment)
         {
             _dtEntries = new DataTable();
-            string purchaseTitle = Localization.DatabaseAccess.Localization.PurchaseFrom + SupplierName.Trim();
+            string purchaseTitle = Localization.Services.Localization.PurchaseFrom + SupplierName.Trim();
 
             // Retrieve the active financial year
             var financialYearCheck = await _purchaseEntryFacade.FinancialYearRepository.GetSingleActiveAsync();
             string FinancialYearID = financialYearCheck != null ? Convert.ToString(financialYearCheck) : string.Empty;
             if (string.IsNullOrEmpty(FinancialYearID))
             {
-                return Localization.DatabaseAccess.Localization.CompanyFinancialYearNotSet;
+                return Localization.Services.Localization.CompanyFinancialYearNotSet;
             }
 
             // Debit Entry Purchase
             var purchaseAccount = await _purchaseEntryFacade.AccountSettingRepository.GetByActivityAsync(PURCHASE_ACCOUNT_ACTIVITY_ID, CompanyID, BranchID);
             if (purchaseAccount == null)
             {
-                return Localization.DatabaseAccess.Localization.AccountSettingsForPurchaseNotFound;
+                return Localization.Services.Localization.AccountSettingsForPurchaseNotFound;
             }
             SetEntries(FinancialYearID,
                 purchaseAccount.AccountHeadID.ToString(),
@@ -57,7 +57,7 @@ namespace Services.Implementations
             purchaseAccount = await _purchaseEntryFacade.AccountSettingRepository.GetByActivityAsync(PURCHASE_PAYMENT_PENDING_ACTIVITY_ID, CompanyID, BranchID);
             if (purchaseAccount == null)
             {
-                return Localization.DatabaseAccess.Localization.AccountSettingsForPurchasePaymentPendingNotFound;
+                return Localization.Services.Localization.AccountSettingsForPurchasePaymentPendingNotFound;
             }
             SetEntries(FinancialYearID,
                 purchaseAccount.AccountHeadID.ToString(),
@@ -68,7 +68,7 @@ namespace Services.Implementations
                 Amount.ToString(),
                 "0",
                 DateTime.Now,
-                SupplierName + $", {Localization.DatabaseAccess.Localization.ReturnPurchasePaymentIsPending}");
+                SupplierName + $", {Localization.Services.Localization.ReturnPurchasePaymentIsPending}");
 
             if (isPayment)
             {
@@ -78,7 +78,7 @@ namespace Services.Implementations
                 purchaseAccount = await _purchaseEntryFacade.AccountSettingRepository.GetByActivityAsync(PURCHASE_PAYMENT_PAID_ACTIVITY_ID, CompanyID, BranchID);
                 if (purchaseAccount == null)
                 {
-                    return Localization.DatabaseAccess.Localization.AccountSettingsForPurchasePaymentPaidNotFound;
+                    return Localization.Services.Localization.AccountSettingsForPurchasePaymentPaidNotFound;
                 }
                 SetEntries(FinancialYearID,
                     purchaseAccount.AccountHeadID.ToString(),
@@ -95,7 +95,7 @@ namespace Services.Implementations
                 purchaseAccount = await _purchaseEntryFacade.AccountSettingRepository.GetByActivityAsync(PURCHASE_PAYMENT_SUCCESS_ACTIVITY_ID, CompanyID, BranchID);
                 if (purchaseAccount == null)
                 {
-                    return Localization.DatabaseAccess.Localization.AccountSettingsForPurchasePaymentSuccessNotFound;
+                    return Localization.Services.Localization.AccountSettingsForPurchasePaymentSuccessNotFound;
                 }
                 SetEntries(FinancialYearID,
                     purchaseAccount.AccountHeadID.ToString(),
@@ -124,21 +124,21 @@ namespace Services.Implementations
             {
                 _dtEntries = new DataTable();
 
-                string pruchaseTitle = Localization.DatabaseAccess.Localization.PurchaseFrom + SupplierName.Trim();
+                string pruchaseTitle = Localization.Services.Localization.PurchaseFrom + SupplierName.Trim();
 
                 // Retrieve the active financial year
                 var financialYearCheck = await _purchaseEntryFacade.FinancialYearRepository.GetSingleActiveAsync();
                 string FinancialYearID = financialYearCheck != null ? Convert.ToString(financialYearCheck) : string.Empty;
                 if (string.IsNullOrEmpty(FinancialYearID))
                 {
-                    return Localization.DatabaseAccess.Localization.CompanyFinancialYearNotSet;
+                    return Localization.Services.Localization.CompanyFinancialYearNotSet;
                 }
 
                 // Debit Entry Purchase
                 var purchaseAccount = await _purchaseEntryFacade.AccountSettingRepository.GetByActivityAsync(PURCHASE_ACCOUNT_ACTIVITY_ID, CompanyID, BranchID);
                 if (purchaseAccount == null)
                 {
-                    return Localization.DatabaseAccess.Localization.AccountSettingsForPurchaseNotFound;
+                    return Localization.Services.Localization.AccountSettingsForPurchaseNotFound;
                 }
                 SetEntries(FinancialYearID,
                     purchaseAccount.AccountHeadID.ToString(),
@@ -155,7 +155,7 @@ namespace Services.Implementations
                 purchaseAccount = await _purchaseEntryFacade.AccountSettingRepository.GetByActivityAsync(PURCHASE_PAYMENT_PENDING_ACTIVITY_ID, CompanyID, BranchID);
                 if (purchaseAccount == null)
                 {
-                    return Localization.DatabaseAccess.Localization.AccountSettingsForPurchasePaymentPendingNotFound;
+                    return Localization.Services.Localization.AccountSettingsForPurchasePaymentPendingNotFound;
                 }
                 SetEntries(FinancialYearID,
                     purchaseAccount.AccountHeadID.ToString(),
@@ -166,7 +166,7 @@ namespace Services.Implementations
                     Amount.ToString(),
                     "0",
                     DateTime.Now,
-                    SupplierName + $", {Localization.DatabaseAccess.Localization.ReturnPurchasePaymentIsPending}");
+                    SupplierName + $", {Localization.Services.Localization.ReturnPurchasePaymentIsPending}");
 
                 // Payment Process
                 if (Amount > 0)
@@ -177,7 +177,7 @@ namespace Services.Implementations
                     purchaseAccount = await _purchaseEntryFacade.AccountSettingRepository.GetByActivityAsync(PURCHASE_PAYMENT_PAID_ACTIVITY_ID, CompanyID, BranchID);
                     if (purchaseAccount == null)
                     {
-                        return Localization.DatabaseAccess.Localization.AccountSettingsForPurchasePaymentPaidNotFound;
+                        return Localization.Services.Localization.AccountSettingsForPurchasePaymentPaidNotFound;
                     }
                     SetEntries(FinancialYearID,
                         purchaseAccount.AccountHeadID.ToString(),
@@ -194,7 +194,7 @@ namespace Services.Implementations
                     purchaseAccount = await _purchaseEntryFacade.AccountSettingRepository.GetByActivityAsync(PURCHASE_PAYMENT_SUCCESS_ACTIVITY_ID, CompanyID, BranchID);
                     if (purchaseAccount == null)
                     {
-                        return Localization.DatabaseAccess.Localization.AccountSettingsForPurchasePaymentSuccessNotFound;
+                        return Localization.Services.Localization.AccountSettingsForPurchasePaymentSuccessNotFound;
                     }
                     SetEntries(FinancialYearID,
                         purchaseAccount.AccountHeadID.ToString(),
@@ -221,7 +221,7 @@ namespace Services.Implementations
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
-                return Localization.DatabaseAccess.Localization.UnexpectedErrorOccurred;
+                return Localization.Services.Localization.UnexpectedErrorOccurred;
             }
         }
 
@@ -230,23 +230,23 @@ namespace Services.Implementations
         {
             _dtEntries = new DataTable();
 
-            string returnPurchaseTitle = Localization.DatabaseAccess.Localization.ReturnPurchaseTo + SupplierName.Trim();
+            string returnPurchaseTitle = Localization.Services.Localization.ReturnPurchaseTo + SupplierName.Trim();
 
             // Retrieve the active financial year
             var financialYearCheck = await _purchaseEntryFacade.FinancialYearRepository.GetSingleActiveAsync();
             string FinancialYearID = (financialYearCheck != null ? Convert.ToString(financialYearCheck) : string.Empty);
             if (string.IsNullOrEmpty(FinancialYearID))
             {
-                return Localization.DatabaseAccess.Localization.CompanyFinancialYearNotSet;
+                return Localization.Services.Localization.CompanyFinancialYearNotSet;
             }
 
-            string successMessage = Localization.DatabaseAccess.Localization.ReturnPurchaseSuccess;
+            string successMessage = Localization.Services.Localization.ReturnPurchaseSuccess;
 
             // Credit Entry Return Purchase
             var returnPurchaseAccount = await _purchaseEntryFacade.AccountSettingRepository.GetByActivityAsync(PURCHASE_RETURN_ACTIVITY_ID, CompanyID, BranchID);
             if (returnPurchaseAccount == null)
             {
-                return Localization.DatabaseAccess.Localization.AccountSettingsАForReturnPurchaseNotFound;
+                return Localization.Services.Localization.AccountSettingsАForReturnPurchaseNotFound;
             }
             SetEntries(FinancialYearID,
                 returnPurchaseAccount.AccountHeadID.ToString(),
@@ -263,9 +263,9 @@ namespace Services.Implementations
             returnPurchaseAccount = await _purchaseEntryFacade.AccountSettingRepository.GetByActivityAsync(PURCHASE_RETURN_PAYMENT_PENDING_ACTIVITY_ID, CompanyID, BranchID);
             if (returnPurchaseAccount == null)
             {
-                return Localization.DatabaseAccess.Localization.AccountSettingsForPurchaseReturnPaymentPendingNotFound;
+                return Localization.Services.Localization.AccountSettingsForPurchaseReturnPaymentPendingNotFound;
             }
-            string pendingPaymentTitle = SupplierName + $", {Localization.DatabaseAccess.Localization.ReturnPurchasePaymentIsSucceed}";
+            string pendingPaymentTitle = SupplierName + $", {Localization.Services.Localization.ReturnPurchasePaymentIsSucceed}";
             SetEntries(FinancialYearID,
                 returnPurchaseAccount.AccountHeadID.ToString(),
                 returnPurchaseAccount.AccountControlID.ToString(),
@@ -285,9 +285,9 @@ namespace Services.Implementations
                 returnPurchaseAccount = await _purchaseEntryFacade.AccountSettingRepository.GetByActivityAsync(PURCHASE_RETURN_PAYMENT_PENDING_ACTIVITY_ID, CompanyID, BranchID);
                 if (returnPurchaseAccount == null)
                 {
-                    return Localization.DatabaseAccess.Localization.AccountSettingsForPurchaseReturnPaymentPendingNotFound;
+                    return Localization.Services.Localization.AccountSettingsForPurchaseReturnPaymentPendingNotFound;
                 }
-                string paymentFromTitle = $"{Localization.DatabaseAccess.Localization.ReturnPaymentFrom} " + SupplierName;
+                string paymentFromTitle = $"{Localization.Services.Localization.ReturnPaymentFrom} " + SupplierName;
                 SetEntries(FinancialYearID,
                     returnPurchaseAccount.AccountHeadID.ToString(),
                     returnPurchaseAccount.AccountControlID.ToString(),
@@ -303,9 +303,9 @@ namespace Services.Implementations
                 returnPurchaseAccount = await _purchaseEntryFacade.AccountSettingRepository.GetByActivityAsync(PURCHASE_RETURN_PAYMENT_SUCCESS_ACTIVITY_ID, CompanyID, BranchID);
                 if (returnPurchaseAccount == null)
                 {
-                    return Localization.DatabaseAccess.Localization.AccountSettingsForPurchaseReturnPaymentSucceedNotFound;
+                    return Localization.Services.Localization.AccountSettingsForPurchaseReturnPaymentSucceedNotFound;
                 }
-                string paymentSuccessTitle = SupplierName + Localization.DatabaseAccess.Localization.ReturnPurchasePaymentIsSucceed;
+                string paymentSuccessTitle = SupplierName + Localization.Services.Localization.ReturnPurchasePaymentIsSucceed;
                 SetEntries(FinancialYearID,
                     returnPurchaseAccount.AccountHeadID.ToString(),
                     returnPurchaseAccount.AccountControlID.ToString(),
@@ -334,7 +334,7 @@ namespace Services.Implementations
         {
             try
             {
-                string returnPurchaseTitle = Localization.DatabaseAccess.Localization.ReturnPurchaseTo + SupplierName.Trim();
+                string returnPurchaseTitle = Localization.Services.Localization.ReturnPurchaseTo + SupplierName.Trim();
                 string payInvoiceNo = "RPP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
                 // Retrieve the active financial year
                 var financialYearCheck = await _purchaseEntryFacade.FinancialYearRepository.GetSingleActiveAsync();
@@ -342,7 +342,7 @@ namespace Services.Implementations
 
                 if (string.IsNullOrEmpty(FinancialYearID))
                 {
-                    return Localization.DatabaseAccess.Localization.CompanyFinancialYearNotSet;
+                    return Localization.Services.Localization.CompanyFinancialYearNotSet;
                 }
 
                 string AccountHeadID = string.Empty;
@@ -354,7 +354,7 @@ namespace Services.Implementations
                 var returnPurchaseAccount = await _purchaseEntryFacade.AccountSettingRepository.GetByActivityAsync(PURCHASE_RETURN_PAYMENT_PENDING_ACTIVITY_ID, CompanyID, BranchID);
                 if (returnPurchaseAccount == null)
                 {
-                    return Localization.DatabaseAccess.Localization.AccountSettingsForPurchaseReturnPaymentPendingNotFound;
+                    return Localization.Services.Localization.AccountSettingsForPurchaseReturnPaymentPendingNotFound;
                 }
                 SetEntries(FinancialYearID,
                     returnPurchaseAccount.AccountHeadID.ToString(),
@@ -365,13 +365,13 @@ namespace Services.Implementations
                     Amount.ToString(),
                     "0",
                     DateTime.Now,
-                    $"{Localization.DatabaseAccess.Localization.ReturnPaymentFrom} " + SupplierName);
+                    $"{Localization.Services.Localization.ReturnPaymentFrom} " + SupplierName);
 
                 // Retrieve account settings for Purchase Return Payment Succeed
                 returnPurchaseAccount = await _purchaseEntryFacade.AccountSettingRepository.GetByActivityAsync(PURCHASE_RETURN_PAYMENT_SUCCESS_ACTIVITY_ID, CompanyID, BranchID);
                 if (returnPurchaseAccount == null)
                 {
-                    return Localization.DatabaseAccess.Localization.AccountSettingsForPurchaseReturnPaymentSucceedNotFound;
+                    return Localization.Services.Localization.AccountSettingsForPurchaseReturnPaymentSucceedNotFound;
                 }
                 SetEntries(FinancialYearID,
                     returnPurchaseAccount.AccountHeadID.ToString(),
@@ -382,7 +382,7 @@ namespace Services.Implementations
                     "0",
                     Amount.ToString(),
                     DateTime.Now,
-                    SupplierName + $", {Localization.DatabaseAccess.Localization.ReturnPurchasePaymentIsSucceed}");
+                    SupplierName + $", {Localization.Services.Localization.ReturnPurchasePaymentIsSucceed}");
 
                 _purchaseEntryFacade.PurchaseRepository.SetEntries(_dtEntries);
 
@@ -392,12 +392,12 @@ namespace Services.Implementations
                 // Insert transaction entries
                 await _purchaseEntryFacade.PurchaseRepository.InsertTransaction(CompanyID, BranchID);
 
-                return Localization.DatabaseAccess.Localization.ReturnPurchasePaymentIsSucceed;
+                return Localization.Services.Localization.ReturnPurchasePaymentIsSucceed;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}");
-                return Localization.DatabaseAccess.Localization.UnexpectedErrorOccurred;
+                return Localization.Services.Localization.UnexpectedErrorOccurred;
             }
 
         }

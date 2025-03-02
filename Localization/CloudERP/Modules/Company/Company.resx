@@ -104,6 +104,9 @@
   <data name="AddCompanyTitle" xml:space="preserve">
     <value>Add Company Title</value>
   </data>
+  <data name="CompanyTitle" xml:space="preserve">
+    <value>Company Title</value>
+  </data>
   <data name="Logo" xml:space="preserve">
     <value>Logo</value>
   </data>
@@ -149,6 +152,9 @@
   </data>
   <data name="CreateUser" xml:space="preserve">
     <value>Create User</value>
+  </data>
+  <data name="UpdateUser" xml:space="preserve">
+    <value>Update User</value>
   </data>
   <data name="SelectBranch" xml:space="preserve">
     <value>Select Branch</value>
@@ -263,5 +269,17 @@
   </data>
   <data name="SubmitRegistration" xml:space="preserve">
     <value>Submit Registration</value>
+  </data>
+  <data name="AddEmployee" xml:space="preserve">
+    <value>Add Employee</value>
+  </data>
+  <data name="EmployeeRegistration" xml:space="preserve">
+    <value>Employee Registration</value>
+  </data>
+  <data name="PrintDate" xml:space="preserve">
+    <value>Print Date</value>
+  </data>
+  <data name="EmployeeProfile" xml:space="preserve">
+    <value>Employee Profile</value>
   </data>
 </root>

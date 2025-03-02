@@ -45,7 +45,7 @@ namespace API.Controllers.Purchase.Cart
         }
 
         [HttpPost]
-        public async Task<ActionResult<object>> ProcessPurchaseReturn([FromBody] PurchaseReturnConfirm returnConfirmDto)
+        public async Task<ActionResult<PurchaseReturnConfirmResult>> ProcessPurchaseReturn([FromBody] PurchaseReturnConfirm returnConfirmDto)
         {
             try
             {
@@ -57,7 +57,7 @@ namespace API.Controllers.Purchase.Cart
 
                 if (result.IsSuccess)
                 {
-                    return Ok(new { invoiceNo = result.InvoiceNo, message = result.Message });
+                    return Ok(new PurchaseReturnConfirmResult { InvoiceNo = result.InvoiceNo, Message = result.Message });
                 }
 
                 return BadRequest(result.Message);

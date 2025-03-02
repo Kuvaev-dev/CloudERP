@@ -25,7 +25,7 @@ namespace CloudERP.Controllers.User.Settings
 
             try
             {
-                var userTypes = await _httpClient.GetAsync<List<UserType>>("usertypeapi/getall");
+                var userTypes = await _httpClient.GetAsync<IEnumerable<UserType>>("usertypeapi/getall");
                 return View(userTypes);
             }
             catch (Exception ex)

@@ -27,7 +27,7 @@ namespace Services.Implementations
                 var invoiceHeader = new SupplierInvoice
                 {
                     BranchID = branchId,
-                    Title = "Purchase Invoice " + supplier.SupplierName,
+                    Title = $"{Localization.Services.Localization.PurchaseInvoice}: {supplier.SupplierName}",
                     CompanyID = companyId,
                     Description = dto.Description,
                     InvoiceDate = DateTime.Now,

@@ -1,5 +1,4 @@
 ﻿using CloudERP.Helpers;
-using Utils.Helpers;
 using Domain.Models.FinancialModels;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -73,8 +72,8 @@ namespace CloudERP.Controllers.General
                 if (userData.Employee.IsFirstLogin.HasValue && userData.Employee.IsFirstLogin.Value)
                     HttpContext.Session.SetString("StartTour", "true");
 
-                var currencies = await _httpClient.GetAsync<Dictionary<string, decimal>>("homeapi/getcurrencies");
-                ViewBag.Currencies = currencies ?? [];
+                var currencies = await _httpClient.GetAsync<Dictionary<string, string>>("homeapi/getcurrencies");
+                ViewBag.Currencies = currencies ?? new Dictionary<string, string>();
 
                 return userData.User.UserTypeID == ADMIN_USER_TYPE_ID
                     ? View("~/Views/Guide/AdminMenuGuide.cshtml")

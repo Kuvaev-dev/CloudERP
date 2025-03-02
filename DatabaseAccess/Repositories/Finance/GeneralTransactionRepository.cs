@@ -1,10 +1,10 @@
-﻿using DatabaseAccess.Context;
-using Domain.Models.FinancialModels;
+﻿using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
 using System.Data;
 using Microsoft.Data.SqlClient;
 using Utils.Helpers;
 using Microsoft.Extensions.Configuration;
+using DatabaseAccess.Context;
 
 namespace DatabaseAccess.Repositories.Finance
 {
@@ -67,13 +67,13 @@ namespace DatabaseAccess.Repositories.Finance
 
                 if (string.IsNullOrEmpty(financialYearId))
                 {
-                    return Localization.DatabaseAccess.Localization.CompanyFinancialYearNotSet;
+                    return Localization.Services.Localization.CompanyFinancialYearNotSet;
                 }
 
                 var debitAccount = await _accountSubControlRepository.GetBySettingAsync(debitAccountControlId, companyId, branchId);
                 if (debitAccount == null)
                 {
-                    return Localization.DatabaseAccess.Localization.DebitAccountNotFound;
+                    return Localization.Services.Localization.DebitAccountNotFound;
                 }
 
                 SetEntries(financialYearId,
@@ -89,10 +89,10 @@ namespace DatabaseAccess.Repositories.Finance
                 var creditAccount = await _accountSubControlRepository.GetBySettingAsync(creditAccountControlId, companyId, branchId);
                 if (creditAccount == null)
                 {
-                    return Localization.DatabaseAccess.Localization.CreditAccountNotFound;
+                    return Localization.Services.Localization.CreditAccountNotFound;
                 }
 
-                transactionTitle = Localization.DatabaseAccess.Localization.GeneralTransactionSucceed;
+                transactionTitle = Localization.Services.Localization.GeneralTransactionSucceed;
 
                 SetEntries(financialYearId,
                     creditAccount.AccountHeadID.ToString(),
@@ -130,7 +130,7 @@ namespace DatabaseAccess.Repositories.Finance
                 }
 
                 transaction.Commit();
-                return Localization.DatabaseAccess.Localization.GeneralTransactionSucceed;
+                return Localization.Services.Localization.GeneralTransactionSucceed;
             }
         }
 

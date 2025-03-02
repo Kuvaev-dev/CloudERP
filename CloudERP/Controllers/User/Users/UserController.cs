@@ -1,5 +1,7 @@
 ﻿using CloudERP.Helpers;
+using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CloudERP.Controllers.User.Users
 {
@@ -42,7 +44,7 @@ namespace CloudERP.Controllers.User.Users
 
             try
             {
-                var user = await _httpClient.GetAsync<Domain.Models.User>($"userapi/getbyia?id={id}");
+                var user = await _httpClient.GetAsync<Domain.Models.User>($"userapi/getbyid?id={id}");
                 return View(user);
             }
             catch (Exception ex)
@@ -53,10 +55,17 @@ namespace CloudERP.Controllers.User.Users
         }
 
         // GET: User/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
+
+            var userTypes = await _httpClient.GetAsync<IEnumerable<UserType>>($"usertypeapi/getall");
+            ViewBag.UserTypeList = userTypes?.Select(ut => new SelectListItem
+            {
+                Value = ut.UserTypeID.ToString(),
+                Text = ut.UserTypeName
+            });
 
             return View(new Domain.Models.User());
         }
@@ -97,6 +106,14 @@ namespace CloudERP.Controllers.User.Users
             try
             {
                 var user = await _httpClient.GetAsync<Domain.Models.User>($"userapi/getbyid?id={id}");
+
+                var userTypes = await _httpClient.GetAsync<IEnumerable<UserType>>($"usertypeapi/getall");
+                ViewBag.UserTypeList = userTypes?.Select(ut => new SelectListItem
+                {
+                    Value = ut.UserTypeID.ToString(),
+                    Text = ut.UserTypeName
+                });
+
                 return View(user);
             }
             catch (Exception ex)

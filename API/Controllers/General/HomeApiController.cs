@@ -1,6 +1,5 @@
 ﻿using Domain.Models;
 using Domain.Models.FinancialModels;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Services.Facades;
@@ -97,13 +96,13 @@ namespace API.Controllers.General
         }
 
         [HttpGet]
-        public async Task<ActionResult<Dictionary<string, decimal>>> GetCurrencies()
+        public async Task<ActionResult<Dictionary<string, string>>> GetCurrencies()
         {
             try
             {
-                var defaultCurrency = _configuration["DefaultCurrency"] ?? "USD";
+                var defaultCurrency = _configuration["CurrencyApi:DefaultCurrency"] ?? "USD";
                 var rates = await _homeFacade.CurrencyService.GetExchangeRatesAsync(defaultCurrency);
-                var currencies = rates.Keys.Select(k => new { Code = k, Name = k, Rate = rates[k].ToString("F2") });
+                var currencies = rates.ToDictionary(k => k.Key, v => v.Value.ToString("F2"));
                 return Ok(currencies);
             }
             catch (Exception ex)

@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CloudERP.Controllers.User.Stuff
 {
-    public class SupplierApiController : Controller
+    public class SupplierController : Controller
     {
         private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
 
-        public SupplierApiController(
+        public SupplierController(
             SessionHelper sessionHelper,
             HttpClientHelper httpClient)
         {
@@ -25,7 +25,7 @@ namespace CloudERP.Controllers.User.Stuff
 
             try
             {
-                var suppliers = await _httpClient.GetAsync<List<Supplier>>("supplierapi/getall");
+                var suppliers = await _httpClient.GetAsync<IEnumerable<Supplier>>("supplierapi/getall");
                 return View(suppliers);
             }
             catch (Exception ex)

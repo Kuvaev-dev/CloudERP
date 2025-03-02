@@ -77,11 +77,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>User.resx</DependentUpon>
     </Compile>
-    <Compile Update="DatabaseAccess\Localization.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Localization.resx</DependentUpon>
-    </Compile>
     <Compile Update="Domain\Localization.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -150,10 +145,6 @@
     <EmbeddedResource Update="CloudERP\Modules\User\User.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>User.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="DatabaseAccess\Localization.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Localization.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Domain\Localization.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

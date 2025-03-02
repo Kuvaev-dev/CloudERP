@@ -79,6 +79,15 @@ namespace Localization.CloudERP {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Basic Salary.
+        /// </summary>
+        public static string BasicSalary {
+            get {
+                return ResourceManager.GetString("BasicSalary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Canvas context not found.
         /// </summary>
         public static string CanvasContextNotFound {

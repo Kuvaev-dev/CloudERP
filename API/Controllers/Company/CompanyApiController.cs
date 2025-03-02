@@ -59,22 +59,23 @@ namespace API.Controllers.Company
         }
 
         [HttpPost]
-        public async Task<ActionResult<Domain.Models.Company>> Create([FromBody] Domain.Models.Company model)
+        public async Task<ActionResult<Domain.Models.Company>> Create()
         {
-            if (model == null) return BadRequest("Model cannot be null.");
+            if (!Request.HasFormContentType) return BadRequest("Invalid form data.");
 
             try
             {
-                if (model == null || (!Request.HasFormContentType && string.IsNullOrEmpty(Request.Form["model"])))
-                    return BadRequest("Form data cannot be null");
+                if (!Request.Form.ContainsKey("model"))
+                    return BadRequest("Model data is missing.");
 
+                Domain.Models.Company model;
                 try
                 {
                     model = JsonConvert.DeserializeObject<Domain.Models.Company>(Request.Form["model"]);
                 }
                 catch
                 {
-                    return BadRequest("Invalid employee data format.");
+                    return BadRequest("Invalid company data format.");
                 }
 
                 if (model == null) return BadRequest("Model cannot be null.");

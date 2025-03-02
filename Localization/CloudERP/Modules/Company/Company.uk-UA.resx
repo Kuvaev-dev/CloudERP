@@ -104,6 +104,9 @@
   <data name="AddCompanyTitle" xml:space="preserve">
     <value>Додати компанію</value>
   </data>
+  <data name="CompanyTitle" xml:space="preserve">
+    <value>Назва компанії</value>
+  </data>
   <data name="Logo" xml:space="preserve">
     <value>Логотип</value>
   </data>
@@ -148,6 +151,9 @@
   </data>
   <data name="CreateUser" xml:space="preserve">
     <value>Створити користувача</value>
+  </data>
+  <data name="UpdateUser" xml:space="preserve">
+    <value>Оновити користувача</value>
   </data>
   <data name="SelectBranch" xml:space="preserve">
     <value>Оберіть філію</value>
@@ -262,5 +268,17 @@
   </data>
   <data name="SubmitRegistration" xml:space="preserve">
     <value>Відправити реєстрацію</value>
+  </data>
+  <data name="AddEmployee" xml:space="preserve">
+    <value>Додати співробітника</value>
+  </data>
+  <data name="EmployeeRegistration" xml:space="preserve">
+    <value>Реєстрація співробітника</value>
+  </data>
+  <data name="PrintDate" xml:space="preserve">
+    <value>Дата друку</value>
+  </data>
+  <data name="EmployeeProfile" xml:space="preserve">
+    <value>Профіль співробітника</value>
   </data>
 </root>

@@ -20,14 +20,14 @@ namespace Services.Implementations
         {
             var incomeStatement = new IncomeStatementModel
             {
-                Title = Localization.DatabaseAccess.Localization.NetIncome,
+                Title = Localization.Services.Localization.NetIncome,
                 IncomeStatementHeads = []
             };
 
             var revenue = await _balanceSheetRepository.GetHeadAccountsWithTotal(companyID, branchID, financialYearID, REVENUE_HEAD_ID);
             var revenueDetails = new IncomeStatementHead
             {
-                Title = Localization.DatabaseAccess.Localization.TotalRevenue,
+                Title = Localization.Services.Localization.TotalRevenue,
                 TotalAmount = Math.Abs(revenue.TotalAmount),
                 AccountHead = revenue
             };
@@ -36,7 +36,7 @@ namespace Services.Implementations
             var expenses = await _balanceSheetRepository.GetHeadAccountsWithTotal(companyID, branchID, financialYearID, EXPENSES_HEAD_ID);
             var expensesDetails = new IncomeStatementHead
             {
-                Title = Localization.DatabaseAccess.Localization.TotalExpenses,
+                Title = Localization.Services.Localization.TotalExpenses,
                 TotalAmount = Math.Abs(expenses.TotalAmount),
                 AccountHead = expenses
             };

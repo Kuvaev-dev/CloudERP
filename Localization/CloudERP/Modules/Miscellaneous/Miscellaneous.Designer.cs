@@ -322,6 +322,15 @@ namespace Localization.CloudERP {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Created By.
+        /// </summary>
+        public static string CreatedBy {
+            get {
+                return ResourceManager.GetString("CreatedBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Create User.
         /// </summary>
         public static string CreateUser {

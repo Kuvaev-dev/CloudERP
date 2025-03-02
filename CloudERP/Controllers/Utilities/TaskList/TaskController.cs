@@ -24,11 +24,9 @@ namespace CloudERP.Controllers.Utilities.TaskList
 
             try
             {
-                var tasks = await _httpClient.GetAsync<List<AccountHead>>(
+                var tasks = await _httpClient.GetAsync<IEnumerable<TaskModel>>(
                     $"taskapi/getall?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&userId={_sessionHelper.UserID}");
-                if (tasks == null) return RedirectToAction("EP404", "EP");
-
-                return View(tasks);
+                return View(tasks ?? []);
             }
             catch (Exception ex)
             {
@@ -95,7 +93,7 @@ namespace CloudERP.Controllers.Utilities.TaskList
 
         public async Task<ActionResult> AssignTask()
         {
-            var employees = await _httpClient.GetAsync<List<Employee>>(
+            var employees = await _httpClient.GetAsync<IEnumerable<Employee>>(
                 $"taskapi/getemployeesfortaskassignment?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
             ViewBag.Employees = employees;
             return View(new TaskModel() { DueDate = DateTime.Now });
@@ -115,7 +113,7 @@ namespace CloudERP.Controllers.Utilities.TaskList
                 return RedirectToAction("AssignTask");
             }
 
-            var employees = await _httpClient.GetAsync<List<Employee>>(
+            var employees = await _httpClient.GetAsync<IEnumerable<Employee>>(
                 $"taskapi/getemployeesfortaskassignment?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
             ViewBag.Employees = employees;
 

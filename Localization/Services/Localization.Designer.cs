@@ -22,7 +22,7 @@ namespace Localization.Services {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Localization {
+    public class Localization {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Localization.Services {
         ///   Возвращает кэшированный экземпляр ResourceManager, использованный этим классом.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Localization.Services.Localization", typeof(Localization).Assembly);
@@ -51,12 +51,624 @@ namespace Localization.Services {
         ///   обращений к ресурсу с помощью этого класса ресурса со строгой типизацией.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Account settings for Purchase not found..
+        /// </summary>
+        public static string AccountSettingsForPurchaseNotFound {
+            get {
+                return ResourceManager.GetString("AccountSettingsForPurchaseNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Account settings for Purchase Payment Paid not found..
+        /// </summary>
+        public static string AccountSettingsForPurchasePaymentPaidNotFound {
+            get {
+                return ResourceManager.GetString("AccountSettingsForPurchasePaymentPaidNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Account settings for Purchase Payment Pending not found..
+        /// </summary>
+        public static string AccountSettingsForPurchasePaymentPendingNotFound {
+            get {
+                return ResourceManager.GetString("AccountSettingsForPurchasePaymentPendingNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Account settings for Purchase Payment Success not found..
+        /// </summary>
+        public static string AccountSettingsForPurchasePaymentSuccessNotFound {
+            get {
+                return ResourceManager.GetString("AccountSettingsForPurchasePaymentSuccessNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Account settings for Purchase Return Payment Pending not found..
+        /// </summary>
+        public static string AccountSettingsForPurchaseReturnPaymentPendingNotFound {
+            get {
+                return ResourceManager.GetString("AccountSettingsForPurchaseReturnPaymentPendingNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Account settings for Purchase Return Payment Succeed not found..
+        /// </summary>
+        public static string AccountSettingsForPurchaseReturnPaymentSucceedNotFound {
+            get {
+                return ResourceManager.GetString("AccountSettingsForPurchaseReturnPaymentSucceedNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Account settings for Purchase Return Payment Return Succeed.
+        /// </summary>
+        public static string AccountSettingsForReturnPurchaseNotFound {
+            get {
+                return ResourceManager.GetString("AccountSettingsForReturnPurchaseNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Account settings for Sale not found.
+        /// </summary>
+        public static string AccountSettingsForSaleNotFound {
+            get {
+                return ResourceManager.GetString("AccountSettingsForSaleNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Account settings for Sale Payment Paid not found..
+        /// </summary>
+        public static string AccountSettingsForSalePaymentPaidNotFound {
+            get {
+                return ResourceManager.GetString("AccountSettingsForSalePaymentPaidNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Account settings for Sale Payment Pending not found..
+        /// </summary>
+        public static string AccountSettingsForSalePaymentPendingNotFound {
+            get {
+                return ResourceManager.GetString("AccountSettingsForSalePaymentPendingNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Account settings for Sale Payment Success not found..
+        /// </summary>
+        public static string AccountSettingsForSalePaymentSuccessNotFound {
+            get {
+                return ResourceManager.GetString("AccountSettingsForSalePaymentSuccessNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Account settings for Sale Return not found..
+        /// </summary>
+        public static string AccountSettingsForSaleReturnNotFound {
+            get {
+                return ResourceManager.GetString("AccountSettingsForSaleReturnNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Account settings for Sale Return Payment Paid not found..
+        /// </summary>
+        public static string AccountSettingsForSaleReturnPaymentPaidNotFound {
+            get {
+                return ResourceManager.GetString("AccountSettingsForSaleReturnPaymentPaidNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Account settings for Sale Return Payment Pending not found..
+        /// </summary>
+        public static string AccountSettingsForSaleReturnPaymentPendingNotFound {
+            get {
+                return ResourceManager.GetString("AccountSettingsForSaleReturnPaymentPendingNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Account settings for Sale Return Payment Success not found..
+        /// </summary>
+        public static string AccountSettingsForSaleReturnPaymentSuccessNotFound {
+            get {
+                return ResourceManager.GetString("AccountSettingsForSaleReturnPaymentSuccessNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Account settings not found for the provided CompanyID and BranchID..
+        /// </summary>
+        public static string AccountSettingsNotFoundForTheProvidedCompanyIDAndBranchID {
+            get {
+                return ResourceManager.GetString("AccountSettingsNotFoundForTheProvidedCompanyIDAndBranchID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Account settings for Return Purchase not found..
+        /// </summary>
+        public static string AccountSettingsАForReturnPurchaseNotFound {
+            get {
+                return ResourceManager.GetString("AccountSettingsАForReturnPurchaseNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Balance Sheet.
+        /// </summary>
+        public static string BalanceSheet {
+            get {
+                return ResourceManager.GetString("BalanceSheet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Company Financial Year Not Set.
+        /// </summary>
+        public static string CompanyFinancialYearNotSet {
+            get {
+                return ResourceManager.GetString("CompanyFinancialYearNotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Credit.
+        /// </summary>
+        public static string Credit {
+            get {
+                return ResourceManager.GetString("Credit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Credit account not found..
+        /// </summary>
+        public static string CreditAccountNotFound {
+            get {
+                return ResourceManager.GetString("CreditAccountNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Date.
+        /// </summary>
+        public static string Date {
+            get {
+                return ResourceManager.GetString("Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Debit.
+        /// </summary>
+        public static string Debit {
+            get {
+                return ResourceManager.GetString("Debit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Debit account not found..
+        /// </summary>
+        public static string DebitAccountNotFound {
+            get {
+                return ResourceManager.GetString("DebitAccountNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Description.
+        /// </summary>
+        public static string Description {
+            get {
+                return ResourceManager.GetString("Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Due Date.
+        /// </summary>
+        public static string DueDate {
+            get {
+                return ResourceManager.GetString("DueDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на General Transaction Succeed!.
+        /// </summary>
+        public static string GeneralTransactionSucceed {
+            get {
+                return ResourceManager.GetString("GeneralTransactionSucceed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Make sure to complete task.
+        /// </summary>
+        public static string MakeSureToCompleteTask {
+            get {
+                return ResourceManager.GetString("MakeSureToCompleteTask", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Net Income.
+        /// </summary>
+        public static string NetIncome {
+            get {
+                return ResourceManager.GetString("NetIncome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на One Product Return Qty Error.
+        /// </summary>
+        public static string OneProductReturnQtyError {
+            get {
+                return ResourceManager.GetString("OneProductReturnQtyError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Paid Successfully.
+        /// </summary>
+        public static string PaidSuccessfully {
+            get {
+                return ResourceManager.GetString("PaidSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Purchase From .
+        /// </summary>
+        public static string PurchaseFrom {
+            get {
+                return ResourceManager.GetString("PurchaseFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Purchase Invoice.
+        /// </summary>
+        public static string PurchaseInvoice {
+            get {
+                return ResourceManager.GetString("PurchaseInvoice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Purchase Payment Remaining Amount Error.
+        /// </summary>
+        public static string PurchasePaymentRemainingAmountError {
+            get {
+                return ResourceManager.GetString("PurchasePaymentRemainingAmountError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Purchase Return.
+        /// </summary>
+        public static string PurchaseReturn {
+            get {
+                return ResourceManager.GetString("PurchaseReturn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Purchase Success.
+        /// </summary>
+        public static string PurchaseSuccess {
+            get {
+                return ResourceManager.GetString("PurchaseSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Purchase Success with Payment..
+        /// </summary>
+        public static string PurchaseSuccessWithPayment {
+            get {
+                return ResourceManager.GetString("PurchaseSuccessWithPayment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Reminder for.
+        /// </summary>
+        public static string ReminderFor {
+            get {
+                return ResourceManager.GetString("ReminderFor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Reminder for Task.
+        /// </summary>
+        public static string ReminderForTask {
+            get {
+                return ResourceManager.GetString("ReminderForTask", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Return Payment from .
+        /// </summary>
+        public static string ReturnPaymentFrom {
+            get {
+                return ResourceManager.GetString("ReturnPaymentFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Return Purchase Payment is Paid.
+        /// </summary>
+        public static string ReturnPurchasePaymentIsPaid {
+            get {
+                return ResourceManager.GetString("ReturnPurchasePaymentIsPaid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на , Return Purchase Payment is Pending!.
+        /// </summary>
+        public static string ReturnPurchasePaymentIsPending {
+            get {
+                return ResourceManager.GetString("ReturnPurchasePaymentIsPending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на , Return Purchase Payment is Succeed!.
+        /// </summary>
+        public static string ReturnPurchasePaymentIsSucceed {
+            get {
+                return ResourceManager.GetString("ReturnPurchasePaymentIsSucceed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Return Purchase Success.
+        /// </summary>
+        public static string ReturnPurchaseSuccess {
+            get {
+                return ResourceManager.GetString("ReturnPurchaseSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Return Purchase to .
+        /// </summary>
+        public static string ReturnPurchaseTo {
+            get {
+                return ResourceManager.GetString("ReturnPurchaseTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Return Sale from .
+        /// </summary>
+        public static string ReturnSaleFrom {
+            get {
+                return ResourceManager.GetString("ReturnSaleFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Return Sale Payment Paid to .
+        /// </summary>
+        public static string ReturnSalePaymentPaidTo {
+            get {
+                return ResourceManager.GetString("ReturnSalePaymentPaidTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на , Return Sale Payment is Succeed!.
+        /// </summary>
+        public static string ReturnSalePaymentSsSucceed {
+            get {
+                return ResourceManager.GetString("ReturnSalePaymentSsSucceed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Return Sale Success.
+        /// </summary>
+        public static string ReturnSaleSuccess {
+            get {
+                return ResourceManager.GetString("ReturnSaleSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Return Sale Success with Payment..
+        /// </summary>
+        public static string ReturnSaleSuccessWithPayment {
+            get {
+                return ResourceManager.GetString("ReturnSaleSuccessWithPayment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Return Successfully.
+        /// </summary>
+        public static string ReturnSuccessfully {
+            get {
+                return ResourceManager.GetString("ReturnSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Salary Is Already Paid.
+        /// </summary>
+        public static string SalaryIsAlreadyPaid {
+            get {
+                return ResourceManager.GetString("SalaryIsAlreadyPaid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Salary is Pending.
+        /// </summary>
+        public static string SalaryIsPending {
+            get {
+                return ResourceManager.GetString("SalaryIsPending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Salary Succeed .
+        /// </summary>
+        public static string SalarySucceed {
+            get {
+                return ResourceManager.GetString("SalarySucceed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Sale Invoice.
+        /// </summary>
+        public static string SaleInvoice {
+            get {
+                return ResourceManager.GetString("SaleInvoice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Sale Payment Remaining Amount Error.
+        /// </summary>
+        public static string SalePaymentRemainingAmountError {
+            get {
+                return ResourceManager.GetString("SalePaymentRemainingAmountError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Sale Return.
+        /// </summary>
+        public static string SaleReturn {
+            get {
+                return ResourceManager.GetString("SaleReturn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Sale Success.
+        /// </summary>
+        public static string SaleSuccess {
+            get {
+                return ResourceManager.GetString("SaleSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Sale Success with Payment..
+        /// </summary>
+        public static string SaleSuccessWithPayment {
+            get {
+                return ResourceManager.GetString("SaleSuccessWithPayment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Sale to .
+        /// </summary>
+        public static string SaleTo {
+            get {
+                return ResourceManager.GetString("SaleTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на , To .
+        /// </summary>
+        public static string To {
+            get {
+                return ResourceManager.GetString("To", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Total.
+        /// </summary>
+        public static string Total {
+            get {
+                return ResourceManager.GetString("Total", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Total Balance.
+        /// </summary>
+        public static string TotalBalance {
+            get {
+                return ResourceManager.GetString("TotalBalance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Total Expenses.
+        /// </summary>
+        public static string TotalExpenses {
+            get {
+                return ResourceManager.GetString("TotalExpenses", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Total Revenue.
+        /// </summary>
+        public static string TotalRevenue {
+            get {
+                return ResourceManager.GetString("TotalRevenue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Unexpected Error Occurred. Please Try Again!.
+        /// </summary>
+        public static string UnexpectedErrorOccurred {
+            get {
+                return ResourceManager.GetString("UnexpectedErrorOccurred", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Unexpected Issue.
+        /// </summary>
+        public static string UnexpectedIssue {
+            get {
+                return ResourceManager.GetString("UnexpectedIssue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на  with Payment..
+        /// </summary>
+        public static string WithPayment {
+            get {
+                return ResourceManager.GetString("WithPayment", resourceCulture);
             }
         }
     }

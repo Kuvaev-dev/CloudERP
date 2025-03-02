@@ -28,8 +28,6 @@ namespace CloudERP.Controllers.Branch
             {
                 var branches = await _httpClient.GetAsync<IEnumerable<Employee>>(
                     $"branchemployeeapi/employee?companyId={_sessionHelper.CompanyID}?branchId={_sessionHelper.BranchID}");
-                if (branches == null) return RedirectToAction("EP404", "EP");
-
                 return View(branches);
             }
             catch (Exception ex)
@@ -77,11 +75,6 @@ namespace CloudERP.Controllers.Branch
                     if (success)
                     {
                         return RedirectToAction("Employee");
-                    }
-                    else
-                    {
-                        TempData["ErrorMessage"] = "Ошибка при регистрации сотрудника.";
-                        return RedirectToAction("EP500", "EP");
                     }
                 }
 

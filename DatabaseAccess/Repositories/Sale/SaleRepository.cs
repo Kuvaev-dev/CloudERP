@@ -1,10 +1,9 @@
-﻿using DatabaseAccess.Context;
-using Domain.Models.FinancialModels;
-using Domain.RepositoryAccess;
+﻿using Domain.RepositoryAccess;
 using System.Data;
 using Microsoft.Data.SqlClient;
 using Utils.Helpers;
 using Domain.Models;
+using DatabaseAccess.Context;
 
 namespace DatabaseAccess.Repositories.Sale
 {
@@ -66,7 +65,7 @@ namespace DatabaseAccess.Repositories.Sale
                 };
 
                 await _query.InsertAsync(paymentQuery, paymentParams);
-                return Localization.DatabaseAccess.Localization.SaleSuccessWithPayment;
+                return Localization.Services.Localization.SaleSuccessWithPayment;
             }
         }
 
@@ -199,7 +198,7 @@ namespace DatabaseAccess.Repositories.Sale
 
                     await _query.InsertAsync(entryQuery, entryParams);
                 }
-                return Localization.DatabaseAccess.Localization.PurchaseSuccess;
+                return Localization.Services.Localization.PurchaseSuccess;
             }
         }
 
@@ -282,7 +281,7 @@ namespace DatabaseAccess.Repositories.Sale
                 };
 
                 await _query.InsertAsync(paymentQuery, paymentParams);
-                return Localization.DatabaseAccess.Localization.ReturnSaleSuccessWithPayment;
+                return Localization.Services.Localization.ReturnSaleSuccessWithPayment;
             }
         }
 

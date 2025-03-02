@@ -42,7 +42,7 @@ namespace DatabaseAccess.Repositories.Employees
                 await _query.InsertAsync(paymentquery, paymentParameters);
 
                 transaction.Commit();
-                return Localization.DatabaseAccess.Localization.SalarySucceed;
+                return Localization.Services.Localization.SalarySucceed;
             }
         }
 
@@ -74,7 +74,7 @@ namespace DatabaseAccess.Repositories.Employees
                     await _query.InsertAsync(entryQuery, entryParams);
                 }
                 transaction.Commit();
-                return Localization.DatabaseAccess.Localization.SalarySucceed;
+                return Localization.Services.Localization.SalarySucceed;
             }
         }
 

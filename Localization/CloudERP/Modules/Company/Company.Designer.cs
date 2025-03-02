@@ -29,7 +29,7 @@ namespace Localization.CloudERP {
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public Company() {
+        internal Company() {
         }
         
         /// <summary>
@@ -59,806 +59,552 @@ namespace Localization.CloudERP {
                 resourceCulture = value;
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Add Company Title.
         /// </summary>
-        public static string AddCompanyTitle
-        {
-            get
-            {
+        public static string AddCompanyTitle {
+            get {
                 return ResourceManager.GetString("AddCompanyTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Add Employee.
         /// </summary>
-        public static string AddEmployee
-        {
-            get
-            {
+        public static string AddEmployee {
+            get {
                 return ResourceManager.GetString("AddEmployee", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Add New Company.
         /// </summary>
-        public static string AddNewCompany
-        {
-            get
-            {
+        public static string AddNewCompany {
+            get {
                 return ResourceManager.GetString("AddNewCompany", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Address.
-        /// </summary>
-        public static string Address
-        {
-            get
-            {
-                return ResourceManager.GetString("Address", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на All Companies.
         /// </summary>
-        public static string AllCompanies
-        {
-            get
-            {
+        public static string AllCompanies {
+            get {
                 return ResourceManager.GetString("AllCompanies", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на All Employees.
         /// </summary>
-        public static string AllEmployees
-        {
-            get
-            {
+        public static string AllEmployees {
+            get {
                 return ResourceManager.GetString("AllEmployees", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Basic Salary.
-        /// </summary>
-        public static string BasicSalary
-        {
-            get
-            {
-                return ResourceManager.GetString("BasicSalary", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Branch Address.
         /// </summary>
-        public static string BranchAddress
-        {
-            get
-            {
+        public static string BranchAddress {
+            get {
                 return ResourceManager.GetString("BranchAddress", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Branch Contact.
         /// </summary>
-        public static string BranchContact
-        {
-            get
-            {
+        public static string BranchContact {
+            get {
                 return ResourceManager.GetString("BranchContact", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Branch Title.
-        /// </summary>
-        public static string BranchTitle
-        {
-            get
-            {
-                return ResourceManager.GetString("BranchTitle", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на City Index.
         /// </summary>
-        public static string CityIndex
-        {
-            get
-            {
+        public static string CityIndex {
+            get {
                 return ResourceManager.GetString("CityIndex", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Company Details.
         /// </summary>
-        public static string CompanyDetails
-        {
-            get
-            {
+        public static string CompanyDetails {
+            get {
                 return ResourceManager.GetString("CompanyDetails", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Company Profile.
         /// </summary>
-        public static string CompanyProfile
-        {
-            get
-            {
+        public static string CompanyProfile {
+            get {
                 return ResourceManager.GetString("CompanyProfile", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Company.
+        ///   Ищет локализованную строку, похожую на Company Title.
         /// </summary>
-        public static string CompanyTitle
-        {
-            get
-            {
+        public static string CompanyTitle {
+            get {
                 return ResourceManager.GetString("CompanyTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Confirm Password.
         /// </summary>
-        public static string ConfirmPassword
-        {
-            get
-            {
+        public static string ConfirmPassword {
+            get {
                 return ResourceManager.GetString("ConfirmPassword", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Contact №.
-        /// </summary>
-        public static string ContactNo
-        {
-            get
-            {
-                return ResourceManager.GetString("ContactNo", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Created By.
-        /// </summary>
-        public static string CreatedBy
-        {
-            get
-            {
-                return ResourceManager.GetString("CreatedBy", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Create User.
         /// </summary>
-        public static string CreateUser
-        {
-            get
-            {
+        public static string CreateUser {
+            get {
                 return ResourceManager.GetString("CreateUser", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Date.
-        /// </summary>
-        public static string Date
-        {
-            get
-            {
-                return ResourceManager.GetString("Date", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Description.
         /// </summary>
-        public static string Description
-        {
-            get
-            {
+        public static string Description {
+            get {
                 return ResourceManager.GetString("Description", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Designation.
-        /// </summary>
-        public static string Designation
-        {
-            get
-            {
-                return ResourceManager.GetString("Designation", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Edit Company.
         /// </summary>
-        public static string EditCompany
-        {
-            get
-            {
+        public static string EditCompany {
+            get {
                 return ResourceManager.GetString("EditCompany", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Edit Profile.
         /// </summary>
-        public static string EditProfile
-        {
-            get
-            {
+        public static string EditProfile {
+            get {
                 return ResourceManager.GetString("EditProfile", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Email.
-        /// </summary>
-        public static string Email
-        {
-            get
-            {
-                return ResourceManager.GetString("Email", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Employee.
         /// </summary>
-        public static string Employee
-        {
-            get
-            {
+        public static string Employee {
+            get {
                 return ResourceManager.GetString("Employee", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Employee Full Name.
         /// </summary>
-        public static string EmployeeName
-        {
-            get
-            {
+        public static string EmployeeName {
+            get {
                 return ResourceManager.GetString("EmployeeName", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Employee Profile.
         /// </summary>
-        public static string EmployeeProfile
-        {
-            get
-            {
+        public static string EmployeeProfile {
+            get {
                 return ResourceManager.GetString("EmployeeProfile", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Employee Registration.
         /// </summary>
-        public static string EmployeeRegistration
-        {
-            get
-            {
+        public static string EmployeeRegistration {
+            get {
                 return ResourceManager.GetString("EmployeeRegistration", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Employee Salary.
         /// </summary>
-        public static string EmployeeSalary
-        {
-            get
-            {
+        public static string EmployeeSalary {
+            get {
                 return ResourceManager.GetString("EmployeeSalary", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Enter Company Description.
         /// </summary>
-        public static string EnterCompanyDescription
-        {
-            get
-            {
+        public static string EnterCompanyDescription {
+            get {
                 return ResourceManager.GetString("EnterCompanyDescription", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Enter Company Details.
         /// </summary>
-        public static string EnterCompanyDetails
-        {
-            get
-            {
+        public static string EnterCompanyDetails {
+            get {
                 return ResourceManager.GetString("EnterCompanyDetails", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Upload Company Logo.
         /// </summary>
-        public static string EnterCompanyLogo
-        {
-            get
-            {
+        public static string EnterCompanyLogo {
+            get {
                 return ResourceManager.GetString("EnterCompanyLogo", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Enter Company Title.
         /// </summary>
-        public static string EnterCompanyTitle
-        {
-            get
-            {
+        public static string EnterCompanyTitle {
+            get {
                 return ResourceManager.GetString("EnterCompanyTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Enter Employee TIN.
         /// </summary>
-        public static string EnterEmployeeTIN
-        {
-            get
-            {
+        public static string EnterEmployeeTIN {
+            get {
                 return ResourceManager.GetString("EnterEmployeeTIN", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Enter Focal Person Details.
         /// </summary>
-        public static string EnterFocalPersonDetails
-        {
-            get
-            {
+        public static string EnterFocalPersonDetails {
+            get {
                 return ResourceManager.GetString("EnterFocalPersonDetails", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Enter New Company Description.
         /// </summary>
-        public static string EnterNewCompanyDescription
-        {
-            get
-            {
+        public static string EnterNewCompanyDescription {
+            get {
                 return ResourceManager.GetString("EnterNewCompanyDescription", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Upload New Company Logo.
         /// </summary>
-        public static string EnterNewCompanyLogo
-        {
-            get
-            {
+        public static string EnterNewCompanyLogo {
+            get {
                 return ResourceManager.GetString("EnterNewCompanyLogo", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Enter New Company Title.
         /// </summary>
-        public static string EnterNewCompanyTitle
-        {
-            get
-            {
+        public static string EnterNewCompanyTitle {
+            get {
                 return ResourceManager.GetString("EnterNewCompanyTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Enter User Details.
         /// </summary>
-        public static string EnterUserDetails
-        {
-            get
-            {
+        public static string EnterUserDetails {
+            get {
                 return ResourceManager.GetString("EnterUserDetails", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Finish.
         /// </summary>
-        public static string Finish
-        {
-            get
-            {
+        public static string Finish {
+            get {
                 return ResourceManager.GetString("Finish", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Invoice №.
-        /// </summary>
-        public static string InvoiceNo
-        {
-            get
-            {
-                return ResourceManager.GetString("InvoiceNo", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Logo.
         /// </summary>
-        public static string Logo
-        {
-            get
-            {
+        public static string Logo {
+            get {
                 return ResourceManager.GetString("Logo", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Mandatory.
         /// </summary>
-        public static string Mandatory
-        {
-            get
-            {
+        public static string Mandatory {
+            get {
                 return ResourceManager.GetString("Mandatory", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Monthly Salary Amount.
         /// </summary>
-        public static string MonthlySalaryAmount
-        {
-            get
-            {
+        public static string MonthlySalaryAmount {
+            get {
                 return ResourceManager.GetString("MonthlySalaryAmount", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на One last check.
         /// </summary>
-        public static string OneLastCheck
-        {
-            get
-            {
+        public static string OneLastCheck {
+            get {
                 return ResourceManager.GetString("OneLastCheck", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Paid Salary.
         /// </summary>
-        public static string PaidSalary
-        {
-            get
-            {
+        public static string PaidSalary {
+            get {
                 return ResourceManager.GetString("PaidSalary", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Password.
-        /// </summary>
-        public static string Password
-        {
-            get
-            {
-                return ResourceManager.GetString("Password", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Personal Profile.
         /// </summary>
-        public static string PersonalProfile
-        {
-            get
-            {
+        public static string PersonalProfile {
+            get {
                 return ResourceManager.GetString("PersonalProfile", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Photo.
-        /// </summary>
-        public static string Photo
-        {
-            get
-            {
-                return ResourceManager.GetString("Photo", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Please Check Before Submission.
         /// </summary>
-        public static string PleaseCheckBeforeSubmission
-        {
-            get
-            {
+        public static string PleaseCheckBeforeSubmission {
+            get {
                 return ResourceManager.GetString("PleaseCheckBeforeSubmission", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Print.
         /// </summary>
-        public static string Print
-        {
-            get
-            {
+        public static string Print {
+            get {
                 return ResourceManager.GetString("Print", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Print Date.
         /// </summary>
-        public static string PrintDate
-        {
-            get
-            {
+        public static string PrintDate {
+            get {
                 return ResourceManager.GetString("PrintDate", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на INVOICE №.
         /// </summary>
-        public static string PrintInvoiceNo
-        {
-            get
-            {
+        public static string PrintInvoiceNo {
+            get {
                 return ResourceManager.GetString("PrintInvoiceNo", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Print Payroll.
         /// </summary>
-        public static string PrintPayroll
-        {
-            get
-            {
+        public static string PrintPayroll {
+            get {
                 return ResourceManager.GetString("PrintPayroll", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Print Salary Invoice.
         /// </summary>
-        public static string PrintSalaryInvoice
-        {
-            get
-            {
+        public static string PrintSalaryInvoice {
+            get {
                 return ResourceManager.GetString("PrintSalaryInvoice", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Process Salary.
         /// </summary>
-        public static string ProcessSalary
-        {
-            get
-            {
+        public static string ProcessSalary {
+            get {
                 return ResourceManager.GetString("ProcessSalary", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Profile.
         /// </summary>
-        public static string Profile
-        {
-            get
-            {
+        public static string Profile {
+            get {
                 return ResourceManager.GetString("Profile", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Register.
         /// </summary>
-        public static string Register
-        {
-            get
-            {
+        public static string Register {
+            get {
                 return ResourceManager.GetString("Register", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Registration.
         /// </summary>
-        public static string Registration
-        {
-            get
-            {
+        public static string Registration {
+            get {
                 return ResourceManager.GetString("Registration", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Salaries Succeed List.
         /// </summary>
-        public static string SalariesSucceedList
-        {
-            get
-            {
+        public static string SalariesSucceedList {
+            get {
                 return ResourceManager.GetString("SalariesSucceedList", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Salary Invoice.
         /// </summary>
-        public static string SalaryInvoice
-        {
-            get
-            {
+        public static string SalaryInvoice {
+            get {
                 return ResourceManager.GetString("SalaryInvoice", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Salary Month.
         /// </summary>
-        public static string SalaryMonth
-        {
-            get
-            {
+        public static string SalaryMonth {
+            get {
                 return ResourceManager.GetString("SalaryMonth", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Salary of the Month.
         /// </summary>
-        public static string SalaryOfTheMonth
-        {
-            get
-            {
+        public static string SalaryOfTheMonth {
+            get {
                 return ResourceManager.GetString("SalaryOfTheMonth", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Salary Paid Date.
         /// </summary>
-        public static string SalaryPaidDate
-        {
-            get
-            {
+        public static string SalaryPaidDate {
+            get {
                 return ResourceManager.GetString("SalaryPaidDate", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Salary Year.
         /// </summary>
-        public static string SalaryYear
-        {
-            get
-            {
+        public static string SalaryYear {
+            get {
                 return ResourceManager.GetString("SalaryYear", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Search.
         /// </summary>
-        public static string Search
-        {
-            get
-            {
+        public static string Search {
+            get {
                 return ResourceManager.GetString("Search", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Select Branch.
         /// </summary>
-        public static string SelectBranch
-        {
-            get
-            {
+        public static string SelectBranch {
+            get {
                 return ResourceManager.GetString("SelectBranch", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Submit Registration.
         /// </summary>
-        public static string SubmitRegistration
-        {
-            get
-            {
+        public static string SubmitRegistration {
+            get {
                 return ResourceManager.GetString("SubmitRegistration", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Total Salary.
         /// </summary>
-        public static string TotalSalary
-        {
-            get
-            {
+        public static string TotalSalary {
+            get {
                 return ResourceManager.GetString("TotalSalary", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Update Profile.
         /// </summary>
-        public static string UpdateProfile
-        {
-            get
-            {
+        public static string UpdateProfile {
+            get {
                 return ResourceManager.GetString("UpdateProfile", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Update User.
         /// </summary>
-        public static string UpdateUser
-        {
-            get
-            {
+        public static string UpdateUser {
+            get {
                 return ResourceManager.GetString("UpdateUser", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на User Name.
-        /// </summary>
-        public static string UserName
-        {
-            get
-            {
-                return ResourceManager.GetString("UserName", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на User Profile.
         /// </summary>
-        public static string UserProfile
-        {
-            get
-            {
+        public static string UserProfile {
+            get {
                 return ResourceManager.GetString("UserProfile", resourceCulture);
             }
         }

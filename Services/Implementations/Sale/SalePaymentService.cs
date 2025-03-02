@@ -45,7 +45,7 @@ namespace Services.Implementations
         {
             if (paymentDto.PaidAmount > paymentDto.PreviousRemainingAmount)
             {
-                return "Sale Payment Remaining Amount Error";
+                return Localization.Services.Localization.SalePaymentRemainingAmountError;
             }
 
             string payInvoiceNo = "INP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;

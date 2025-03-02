@@ -140,7 +140,7 @@
                                         {
                                             var selectedCurrency = HttpContextAccessor.HttpContext?.Session.GetString("SelectedCurrency");
 
-                                            @foreach (var currency in (Dictionary<string, decimal>)ViewBag.Currencies)
+                                            @foreach (var currency in (Dictionary<string, string>)ViewBag.Currencies)
                                             {
                                                 bool isSelected = currency.Key == selectedCurrency;
 
@@ -457,19 +457,19 @@
                                     <li>
                                         <a href="@Url.Action("Index", "AccountControl")" title="@Localization.CloudERP.Miscellaneous.AccountControls">
                                             <em class="bi bi-gear-wide h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.AccountControls))</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.AccountControls)</span>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="@Url.Action("Index", "AccountSubControl")" title="@Localization.CloudERP.Miscellaneous.AccountSubControls">
                                             <em class="bi bi-gear-wide-connected h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.AccountSubControls))</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.AccountSubControls)</span>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="@Url.Action("Index", "AccountSetting")" title="@Localization.CloudERP.Miscellaneous.AccountFlow">
                                             <em class="bi bi-person-lines-fill h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.AccountFlow))</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.AccountFlow)</span>
                                         </a>
                                     </li>
                                 }

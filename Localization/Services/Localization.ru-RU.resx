@@ -98,4 +98,178 @@
 	<resheader name="writer">
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
+  <data name="TotalBalance" xml:space="preserve">
+    <value>Общий баланс</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Дата</value>
+  </data>
+  <data name="DebitAccountNotFound" xml:space="preserve">
+    <value>Дебетовый счет не найден.</value>
+  </data>
+  <data name="CreditAccountNotFound" xml:space="preserve">
+    <value>Кредитовый счет не найден.</value>
+  </data>
+  <data name="GeneralTransactionSucceed" xml:space="preserve">
+    <value>Транзакция успешно выполнена!</value>
+  </data>
+  <data name="UnexpectedErrorOccurred" xml:space="preserve">
+    <value>Произошла непредвиденная ошибка. Пожалуйста, попробуйте снова!</value>
+  </data>
+  <data name="AccountSettingsForPurchaseNotFound" xml:space="preserve">
+    <value>Настройки учетной записи для покупки не найдены.</value>
+  </data>
+  <data name="AccountSettingsForPurchasePaymentPendingNotFound" xml:space="preserve">
+    <value>Настройки учетной записи для ожидающей оплаты покупки не найдены.</value>
+  </data>
+  <data name="AccountSettingsForPurchasePaymentPaidNotFound" xml:space="preserve">
+    <value>Настройки учетной записи для оплаченной покупки не найдены.</value>
+  </data>
+  <data name="AccountSettingsForPurchasePaymentSuccessNotFound" xml:space="preserve">
+    <value>Настройки учетной записи для успешной оплаты покупки не найдены.</value>
+  </data>
+  <data name="PurchaseSuccessWithPayment" xml:space="preserve">
+    <value>Покупка успешно завершена с оплатой.</value>
+  </data>
+  <data name="PurchaseSuccess" xml:space="preserve">
+    <value>Покупка успешно завершена</value>
+  </data>
+  <data name="PurchaseFrom" xml:space="preserve">
+    <value>Покупка от </value>
+  </data>
+  <data name="ReturnPurchaseTo" xml:space="preserve">
+    <value>Возврат покупки в </value>
+  </data>
+  <data name="ReturnPurchaseSuccess" xml:space="preserve">
+    <value>Возврат покупки успешно завершен</value>
+  </data>
+  <data name="AccountSettingsАForReturnPurchaseNotFound" xml:space="preserve">
+    <value>Настройки учетной записи для возврата покупки не найдены.</value>
+  </data>
+  <data name="AccountSettingsForPurchaseReturnPaymentPendingNotFound" xml:space="preserve">
+    <value>Настройки учетной записи для ожидающей оплаты возврата покупки не найдены.</value>
+  </data>
+  <data name="ReturnPurchasePaymentIsPending" xml:space="preserve">
+    <value>Оплата за возврат покупки ожидается!</value>
+  </data>
+  <data name="ReturnPaymentFrom" xml:space="preserve">
+    <value>Возврат оплаты от </value>
+  </data>
+  <data name="AccountSettingsForPurchaseReturnPaymentSucceedNotFound" xml:space="preserve">
+    <value>Настройки учетной записи для успешной оплаты возврата покупки не найдены.</value>
+  </data>
+  <data name="ReturnPurchasePaymentIsSucceed" xml:space="preserve">
+    <value>Оплата за возврат покупки успешно завершена!</value>
+  </data>
+  <data name="WithPayment" xml:space="preserve">
+    <value> с оплатой.</value>
+  </data>
+  <data name="ReturnPurchasePaymentIsPaid" xml:space="preserve">
+    <value>Оплата за возврат покупки завершена</value>
+  </data>
+  <data name="SalaryIsPending" xml:space="preserve">
+    <value>Зарплата ожидается</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>, к </value>
+  </data>
+  <data name="AccountSettingsNotFoundForTheProvidedCompanyIDAndBranchID" xml:space="preserve">
+    <value>Настройки учетной записи не найдены для предоставленных CompanyID и BranchID.</value>
+  </data>
+  <data name="SalarySucceed" xml:space="preserve">
+    <value>Зарплата успешно завершена</value>
+  </data>
+  <data name="SaleTo" xml:space="preserve">
+    <value>Продажа для </value>
+  </data>
+  <data name="AccountSettingsForSaleNotFound" xml:space="preserve">
+    <value>Настройки учетной записи для продажи не найдены</value>
+  </data>
+  <data name="AccountSettingsForSalePaymentPendingNotFound" xml:space="preserve">
+    <value>Настройки учетной записи для ожидаемого платежа по продаже не найдены.</value>
+  </data>
+  <data name="AccountSettingsForSalePaymentPaidNotFound" xml:space="preserve">
+    <value>Настройки учетной записи для оплаченного платежа по продаже не найдены.</value>
+  </data>
+  <data name="AccountSettingsForSalePaymentSuccessNotFound" xml:space="preserve">
+    <value>Настройки учетной записи для успешного платежа по продаже не найдены.</value>
+  </data>
+  <data name="SaleSuccessWithPayment" xml:space="preserve">
+    <value>Успешная продажа с оплатой.</value>
+  </data>
+  <data name="SaleSuccess" xml:space="preserve">
+    <value>Продажа успешно завершена</value>
+  </data>
+  <data name="PaidSuccessfully" xml:space="preserve">
+    <value>Оплачено успешно</value>
+  </data>
+  <data name="ReturnSaleFrom" xml:space="preserve">
+    <value>Возврат продажи от </value>
+  </data>
+  <data name="AccountSettingsForSaleReturnNotFound" xml:space="preserve">
+    <value>Настройки учетной записи для возврата продажи не найдены.</value>
+  </data>
+  <data name="AccountSettingsForSaleReturnPaymentPendingNotFound" xml:space="preserve">
+    <value>Настройки учетной записи для ожидаемого платежа по возврату продажи не найдены.</value>
+  </data>
+  <data name="AccountSettingsForSaleReturnPaymentPaidNotFound" xml:space="preserve">
+    <value>Настройки учетной записи для оплаты возврата продажи не найдены.</value>
+  </data>
+  <data name="AccountSettingsForSaleReturnPaymentSuccessNotFound" xml:space="preserve">
+    <value>Настройки учетной записи для успешного платежа по возврату продажи не найдены.</value>
+  </data>
+  <data name="ReturnSaleSuccessWithPayment" xml:space="preserve">
+    <value>Успешный возврат продажи с оплатой.</value>
+  </data>
+  <data name="ReturnSaleSuccess" xml:space="preserve">
+    <value>Возврат продажи успешно завершен</value>
+  </data>
+  <data name="ReturnSalePaymentPaidTo" xml:space="preserve">
+    <value>Оплата по возврату продажи оплачена для </value>
+  </data>
+  <data name="ReturnSalePaymentSsSucceed" xml:space="preserve">
+    <value>, оплата по возврату продажи успешно завершена!</value>
+  </data>
+  <data name="AccountSettingsForReturnPurchaseNotFound" xml:space="preserve">
+    <value>Настройки учетной записи для возврата покупки не найдены.</value>
+  </data>
+  <data name="CompanyFinancialYearNotSet" xml:space="preserve">
+    <value>Год финансирования не установлен для компании</value>
+  </data>
+  <data name="PurchasePaymentRemainingAmountError" xml:space="preserve">
+    <value>Ошибка оставшейся суммы оплаты покупки</value>
+  </data>
+  <data name="SalePaymentRemainingAmountError" xml:space="preserve">
+    <value>Ошибка оставшейся суммы оплаты продажи</value>
+  </data>
+  <data name="OneProductReturnQtyError" xml:space="preserve">
+    <value>Ошибка количества возврата одного товара</value>
+  </data>
+  <data name="PurchaseReturn" xml:space="preserve">
+    <value>Возврат покупки</value>
+  </data>
+  <data name="ReturnSuccessfully" xml:space="preserve">
+    <value>Возврат успешно выполнен</value>
+  </data>
+  <data name="UnexpectedIssue" xml:space="preserve">
+    <value>Непредвиденная ошибка</value>
+  </data>
+  <data name="SaleInvoice" xml:space="preserve">
+    <value>Счет-фактура продажи</value>
+  </data>
+  <data name="SaleReturn" xml:space="preserve">
+    <value>Возврат продажи</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Описание</value>
+  </data>
+  <data name="Debit" xml:space="preserve">
+    <value>Дебет</value>
+  </data>
+  <data name="Credit" xml:space="preserve">
+    <value>Кредит</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Итого</value>
+  </data>
 </root>
