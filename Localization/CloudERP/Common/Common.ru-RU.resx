@@ -117,10 +117,70 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="UAH" xml:space="preserve">
+    <value>ГРН</value>
+  </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Сохранить</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Действия</value>
+  </data>
+  <data name="IsGlobal" xml:space="preserve">
+    <value>Глобально</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Детали</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Редактировать</value>
+  </data>
+  <data name="NotAvaliable" xml:space="preserve">
+    <value>Недоступно</value>
+  </data>
+  <data name="TasksAssigment" xml:space="preserve">
+    <value>Назначение задания</value>
+  </data>
+  <data name="TaskList" xml:space="preserve">
+    <value>Список заданий</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Создать</value>
+  </data>
+  <data name="BackToList" xml:space="preserve">
+    <value>Назад к списку</value>
+  </data>
+  <data name="NewAccountActivity" xml:space="preserve">
+    <value>Новая активность аккаунта</value>
+  </data>
+  <data name="AccountActivityName" xml:space="preserve">
+    <value>Название активного счёта</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>Все</value>
+  </data>
+  <data name="New" xml:space="preserve">
+    <value>Новык</value>
+  </data>
+  <data name="NewInAMonth" xml:space="preserve">
+    <value>Новые в месяце</value>
+  </data>
+  <data name="InStock" xml:space="preserve">
+    <value>На складе</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>В ожидании</value>
+  </data>
+  <data name="Resolved" xml:space="preserve">
+    <value>Рассмотрено</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Обновить</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Удалить</value>
   </data>
 </root>

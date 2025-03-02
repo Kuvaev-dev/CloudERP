@@ -239,4 +239,7 @@
   <data name="IsReturnPurchasePaymentPaid" xml:space="preserve">
     <value>Чи оплачено повернення закупівлі?</value>
   </data>
+  <data name="Purchases" xml:space="preserve">
+    <value>Закупівлі</value>
+  </data>
 </root>

@@ -128,4 +128,16 @@
   <data name="EmployeeProfile" xml:space="preserve">
     <value>Employee Profile</value>
   </data>
+  <data name="AddNewBranchType" xml:space="preserve">
+    <value>Add New Branch Type</value>
+  </data>
+  <data name="BranchTypeName" xml:space="preserve">
+    <value>Branch Type Name</value>
+  </data>
+  <data name="EditBranchType" xml:space="preserve">
+    <value>Edit Branch Type</value>
+  </data>
+  <data name="AllBranchTypes" xml:space="preserve">
+    <value>All Branch Types</value>
+  </data>
 </root>

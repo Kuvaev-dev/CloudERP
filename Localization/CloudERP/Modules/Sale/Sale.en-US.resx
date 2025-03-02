@@ -299,4 +299,49 @@
   <data name="ReturnSaleProductsDetail" xml:space="preserve">
     <value>Return Sale Products Detail</value>
   </data>
+  <data name="Sales" xml:space="preserve">
+    <value>Sales</value>
+  </data>
+  <data name="NewSale" xml:space="preserve">
+    <value>New Sale</value>
+  </data>
+  <data name="SelectProduct" xml:space="preserve">
+    <value>Select Product</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Quantity</value>
+  </data>
+  <data name="UnitPrice" xml:space="preserve">
+    <value>Unit Price</value>
+  </data>
+  <data name="ItemCost" xml:space="preserve">
+    <value>Item Cost</value>
+  </data>
+  <data name="PrintDate" xml:space="preserve">
+    <value>Print Date</value>
+  </data>
+  <data name="ReturnProductsTotalAmount" xml:space="preserve">
+    <value>Return Products Total Amount</value>
+  </data>
+  <data name="ReturnTotalAmount" xml:space="preserve">
+    <value>Return Total Amount</value>
+  </data>
+  <data name="ReturnPaymentAmount" xml:space="preserve">
+    <value>Return Payment Amount</value>
+  </data>
+  <data name="PaymentAmount" xml:space="preserve">
+    <value>Payment Amount</value>
+  </data>
+  <data name="ReturnPayment" xml:space="preserve">
+    <value>Return Payment</value>
+  </data>
+  <data name="RemainingReturn" xml:space="preserve">
+    <value>Remaining Return</value>
+  </data>
+  <data name="PaymentDate" xml:space="preserve">
+    <value>Payment Date</value>
+  </data>
+  <data name="ReturnRemainingBalance" xml:space="preserve">
+    <value>Return Remaining Balance</value>
+  </data>
 </root>

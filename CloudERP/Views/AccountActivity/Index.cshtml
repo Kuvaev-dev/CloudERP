@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Domain.Models.AccountActivity>
 
 @{
-    ViewBag.Title = "All Account Activities";
+    ViewBag.Title = Localization.CloudERP.Account.AllAccountActivities;
 }
 
 <style>
@@ -22,7 +22,7 @@
                 <thead>
                     <tr>
                         <th class="col-md-7">
-                            @Html.DisplayNameFor(model => model.Name)
+                            @Localization.CloudERP.Account.AccountActivityName
                         </th>
                         <th>
                             @Html.Raw(Localization.CloudERP.Common.Actions)

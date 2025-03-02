@@ -29,7 +29,7 @@ namespace Localization.CloudERP {
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public Task() {
+        internal Task() {
         }
         
         /// <summary>
@@ -59,146 +59,129 @@ namespace Localization.CloudERP {
                 resourceCulture = value;
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Add Task.
         /// </summary>
-        public static string AddTask
-        {
-            get
-            {
+        public static string AddTask {
+            get {
                 return ResourceManager.GetString("AddTask", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Are you sure you want to delete this task?.
         /// </summary>
-        public static string AreYouSureYouWantToDeleteThisTask
-        {
-            get
-            {
+        public static string AreYouSureYouWantToDeleteThisTask {
+            get {
                 return ResourceManager.GetString("AreYouSureYouWantToDeleteThisTask", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Assign Task To Employee.
+        /// </summary>
+        public static string AssignTaskToEmployee {
+            get {
+                return ResourceManager.GetString("AssignTaskToEmployee", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Complete.
         /// </summary>
-        public static string Complete
-        {
-            get
-            {
+        public static string Complete {
+            get {
                 return ResourceManager.GetString("Complete", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Create Task.
         /// </summary>
-        public static string CreateTask
-        {
-            get
-            {
+        public static string CreateTask {
+            get {
                 return ResourceManager.GetString("CreateTask", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Delete Task.
         /// </summary>
-        public static string DeleteTask
-        {
-            get
-            {
+        public static string DeleteTask {
+            get {
                 return ResourceManager.GetString("DeleteTask", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Description.
         /// </summary>
-        public static string Description
-        {
-            get
-            {
+        public static string Description {
+            get {
                 return ResourceManager.GetString("Description", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Due Date.
         /// </summary>
-        public static string DueDate
-        {
-            get
-            {
+        public static string DueDate {
+            get {
                 return ResourceManager.GetString("DueDate", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Edit Task.
         /// </summary>
-        public static string EditTask
-        {
-            get
-            {
+        public static string EditTask {
+            get {
                 return ResourceManager.GetString("EditTask", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Is Completed.
         /// </summary>
-        public static string IsCompleted
-        {
-            get
-            {
+        public static string IsCompleted {
+            get {
                 return ResourceManager.GetString("IsCompleted", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Reminder Date.
         /// </summary>
-        public static string ReminderDate
-        {
-            get
-            {
+        public static string ReminderDate {
+            get {
                 return ResourceManager.GetString("ReminderDate", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Select Employee.
+        /// </summary>
+        public static string SelectEmployee {
+            get {
+                return ResourceManager.GetString("SelectEmployee", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Task Details.
         /// </summary>
-        public static string TaskDetails
-        {
-            get
-            {
+        public static string TaskDetails {
+            get {
                 return ResourceManager.GetString("TaskDetails", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Tasks List.
-        /// </summary>
-        public static string TasksList
-        {
-            get
-            {
-                return ResourceManager.GetString("TasksList", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Title.
         /// </summary>
-        public static string TaskTitle
-        {
-            get
-            {
+        public static string TaskTitle {
+            get {
                 return ResourceManager.GetString("TaskTitle", resourceCulture);
             }
         }

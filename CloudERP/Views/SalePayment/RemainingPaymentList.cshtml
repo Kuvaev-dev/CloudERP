@@ -36,7 +36,7 @@
                             @Html.Raw(Localization.CloudERP.Sale.InvoiceNo)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Sale.Date)
+                            @Html.Raw(Localization.CloudERP.Miscellaneous.Date)
                         </th>
                         <th>
                             @Html.Raw(Localization.CloudERP.Sale.TotalAmount)
@@ -80,7 +80,7 @@
                             <td class="btn-group">
                                 @if (item.TotalAmount - 1 > item.PaymentAmount)
                                 {
-                                    @Html.ActionLink(Localization.CloudERP.Sale.PayAmount, "PaidAmount", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-primary" });
+                                    @Html.ActionLink(Localization.CloudERP.Purchase.PayAmount, "PaidAmount", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-primary" });
                                 }
                                 @if (item.PaymentAmount > 0)
                                 {

@@ -25,7 +25,7 @@
                         <h4>@Localization.CloudERP.Sale.Customer</h4>
                         <hr />
                         <h4>@Model.CustomerName</h4>
-                        <h5>@Localization.CloudERP.Sale.ContactNo: @Model.CustomerContact</h5>
+                        <h5>@Localization.CloudERP.User.ContactNo: @Model.CustomerContact</h5>
                         <address>@Model.CustomerArea</address>
                         <h4>@Model.CompanyName</h4>
                     </div>
@@ -33,14 +33,14 @@
                         <img src="@Url.Content(Model.CompanyLogo)" class="img-fluid" style="max-width: 50px; height: auto;" />
                     </div>
                     <div class="col-xl-4 col-7 br py-2">
-                        <h4>@Localization.CloudERP.Branch.BranchTitle</h4>
+                        <h4>@Localization.CloudERP.Branch.BranchName</h4>
                         <hr />
                         <h4>@Model.BranchName</h4>
-                        <h5>@Localization.CloudERP.Sale.ContactNo: @Model.BranchContact</h5>
+                        <h5>@Localization.CloudERP.User.ContactNo: @Model.BranchContact</h5>
                         <address>@Model.BranchAddress</address>
                     </div>
                     <div class="col-xl-3 col-7 py-2">
-                        <h4>@Localization.CloudERP.Sale.Date</h4>
+                        <h4>@Localization.CloudERP.Miscellaneous.Date</h4>
                         <hr />
                         <p>@Localization.CloudERP.Sale.InvoiceNo: @Model.InvoiceNo</p>
                         <p>@Localization.CloudERP.Sale.InvoiceDate: @DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt")</p>
@@ -54,10 +54,10 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>@Localization.CloudERP.Sale.ItemNo</th>
+                                <th>№</th>
                                 <th>@Localization.CloudERP.Sale.Quantity</th>
                                 <th>@Localization.CloudERP.Sale.UnitPrice</th>
-                                <th>@Localization.CloudERP.Sale.Total</th>
+                                <th>@Localization.CloudERP.Sale.TotalAmount</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -105,10 +105,10 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>@Localization.CloudERP.Sale.ItemNo</th>
+                                    <th>№</th>
                                     <th>@Localization.CloudERP.Sale.Quantity</th>
                                     <th>@Localization.CloudERP.Sale.UnitPrice</th>
-                                    <th>@Localization.CloudERP.Sale.Total</th>
+                                    <th>@Localization.CloudERP.Sale.TotalAmount</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -127,7 +127,7 @@
                 }
 
                 <hr class="d-print-none">
-                <button class="btn btn-secondary" type="button" onclick="window.print();">@Localization.CloudERP.Sale.Print</button>
+                <button class="btn btn-secondary" type="button" onclick="window.print();">@Localization.CloudERP.Sale.PrintInvoice</button>
             </div>
         </div>
     </div>

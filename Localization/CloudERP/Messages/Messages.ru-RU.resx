@@ -215,4 +215,7 @@
   <data name="ForecastHasBeenGenerated" xml:space="preserve">
     <value>Данные для прогноза успешно сгенерированы:</value>
 	</data>
+  <data name="PleaseEnterAValidPhoneNumber" xml:space="preserve">
+    <value>Пожалуйста, введите корректный номер телефона</value>
+	</data>
 </root>

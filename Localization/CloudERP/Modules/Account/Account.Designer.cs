@@ -29,7 +29,7 @@ namespace Localization.CloudERP {
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public Account() {
+        internal Account() {
         }
         
         /// <summary>
@@ -59,24 +59,31 @@ namespace Localization.CloudERP {
                 resourceCulture = value;
             }
         }
-
+        
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Account Control.
+        ///   Ищет локализованную строку, похожую на Account Activity Name.
         /// </summary>
-        public static string AccountHeadTitle
-        {
-            get
-            {
-                return ResourceManager.GetString("AccountHeadTitle", resourceCulture);
+        public static string AccountActivityName {
+            get {
+                return ResourceManager.GetString("AccountActivityName", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Account Control.
         /// </summary>
         public static string AccountControlTitle {
             get {
                 return ResourceManager.GetString("AccountControlTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Account Head Title.
+        /// </summary>
+        public static string AccountHeadTitle {
+            get {
+                return ResourceManager.GetString("AccountHeadTitle", resourceCulture);
             }
         }
         
@@ -140,6 +147,15 @@ namespace Localization.CloudERP {
         public static string AddUserType {
             get {
                 return ResourceManager.GetString("AddUserType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на All Account Activities.
+        /// </summary>
+        public static string AllAccountActivities {
+            get {
+                return ResourceManager.GetString("AllAccountActivities", resourceCulture);
             }
         }
         
@@ -212,6 +228,15 @@ namespace Localization.CloudERP {
         public static string DeleteQuestion {
             get {
                 return ResourceManager.GetString("DeleteQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Edit Account Activity.
+        /// </summary>
+        public static string EditAccountActivity {
+            get {
+                return ResourceManager.GetString("EditAccountActivity", resourceCulture);
             }
         }
         
@@ -293,6 +318,15 @@ namespace Localization.CloudERP {
         public static string ManageTransactions {
             get {
                 return ResourceManager.GetString("ManageTransactions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на New Account Activity.
+        /// </summary>
+        public static string NewAccountActivity {
+            get {
+                return ResourceManager.GetString("NewAccountActivity", resourceCulture);
             }
         }
         

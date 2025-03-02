@@ -117,10 +117,64 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="UAH" xml:space="preserve">
+    <value>ГРН</value>
+  </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Зберегти</value>
+  </data>
+  <data name="TasksAssigment" xml:space="preserve">
+    <value>Призначення завдання</value>
+  </data>
+  <data name="IsGlobal" xml:space="preserve">
+    <value>Глобально</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Деталі</value>
+  </data>
+  <data name="NotAvaliable" xml:space="preserve">
+    <value>Недоступно</value>
+  </data>
+  <data name="TaskList" xml:space="preserve">
+    <value>Список завдань</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Створити</value>
+  </data>
+  <data name="BackToList" xml:space="preserve">
+    <value>Назад до списку</value>
+  </data>
+  <data name="NewAccountActivity" xml:space="preserve">
+    <value>Нова активність акаунту</value>
+  </data>
+  <data name="AccountActivityName" xml:space="preserve">
+    <value>Назва активного рахунку</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>Усі</value>
+  </data>
+  <data name="New" xml:space="preserve">
+    <value>Нові</value>
+  </data>
+  <data name="NewInAMonth" xml:space="preserve">
+    <value>Нові в місяці</value>
+  </data>
+  <data name="InStock" xml:space="preserve">
+    <value>На складі</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>В очікуванні</value>
+  </data>
+  <data name="Resolved" xml:space="preserve">
+    <value>Розглянуто</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Відновити</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Видалити</value>
   </data>
 </root>

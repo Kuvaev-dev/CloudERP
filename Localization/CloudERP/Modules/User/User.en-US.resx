@@ -176,6 +176,14 @@
     <value>Statistics</value>
     <comment></comment>
 	</data>
+  <data name="Designation" xml:space="preserve">
+    <value>Designation</value>
+    <comment></comment>
+	</data>
+  <data name="Address" xml:space="preserve">
+    <value>Address</value>
+    <comment></comment>
+	</data>
   <data name="NumberOfRegistrations" xml:space="preserve">
     <value>Number of Registrations</value>
     <comment></comment>

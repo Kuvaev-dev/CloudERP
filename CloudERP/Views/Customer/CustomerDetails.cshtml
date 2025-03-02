@@ -1,15 +1,13 @@
 ﻿@model Domain.Models.Customer
 
 @{
-    ViewBag.Title = "Customer Details";
+    ViewBag.Title = Localization.CloudERP.Miscellaneous.BranchCustomers;
 }
-
-<h2>Customer Details</h2>
 
 <div>
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Customername)
+            @Localization.CloudERP.Miscellaneous.CustomerFullName
         </dt>
 
         <dd>
@@ -17,7 +15,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.CustomerContact)
+            @Localization.CloudERP.User.ContactNo
         </dt>
 
         <dd>
@@ -25,7 +23,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.CustomerAddress)
+            @Localization.CloudERP.User.Address
         </dt>
 
         <dd>
@@ -33,7 +31,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Description)
+            @Localization.CloudERP.Company.Description
         </dt>
 
         <dd>
@@ -41,7 +39,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.BranchName)
+            @Localization.CloudERP.Branch.BranchName
         </dt>
 
         <dd>
@@ -49,7 +47,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.CompanyName)
+            @Localization.CloudERP.Company.CompanyTitle
         </dt>
 
         <dd>
@@ -57,7 +55,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.UserName)
+            @Localization.CloudERP.User.UserName
         </dt>
 
         <dd>

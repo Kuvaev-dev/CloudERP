@@ -42,7 +42,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CustomerAddress, Localization.CloudERP.Miscellaneous.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CustomerAddress, Localization.CloudERP.User.Address, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 <div class="input-group">
                     @Html.EditorFor(model => model.CustomerAddress, new { htmlAttributes = new { @class = "form-control", @id = "address" } })
@@ -53,13 +53,13 @@
                     </div>
                 </div>
                 @Html.ValidationMessageFor(model => model.CustomerAddress, "", new { @class = "text-danger" })
-                <h5 class="mt-3">@Localization.CloudERP.Branch.ClickHereToChooseACorrectAddressBelow</h5>
+                <h5 class="mt-3">@Localization.CloudERP.Miscellaneous.ClickHereToChooseACorrectAddressBelow</h5>
                 <ul id="suggestions"></ul>
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Description, Localization.CloudERP.Miscellaneous.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Description, Localization.CloudERP.Company.Description, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })

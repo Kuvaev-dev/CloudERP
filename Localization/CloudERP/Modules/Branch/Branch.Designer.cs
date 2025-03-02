@@ -29,7 +29,7 @@ namespace Localization.CloudERP {
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public Branch() {
+        internal Branch() {
         }
         
         /// <summary>
@@ -59,168 +59,129 @@ namespace Localization.CloudERP {
                 resourceCulture = value;
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Add Branch.
         /// </summary>
-        public static string AddBranch
-        {
-            get
-            {
+        public static string AddBranch {
+            get {
                 return ResourceManager.GetString("AddBranch", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Add New Branch Type.
+        /// </summary>
+        public static string AddNewBranchType {
+            get {
+                return ResourceManager.GetString("AddNewBranchType", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на All Branches.
         /// </summary>
-        public static string AllBranches
-        {
-            get
-            {
+        public static string AllBranches {
+            get {
                 return ResourceManager.GetString("AllBranches", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Branch Address.
+        ///   Ищет локализованную строку, похожую на All Branch Types.
         /// </summary>
-        public static string BranchAddress
-        {
-            get
-            {
-                return ResourceManager.GetString("BranchAddress", resourceCulture);
+        public static string AllBranchTypes {
+            get {
+                return ResourceManager.GetString("AllBranchTypes", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Branch Level.
         /// </summary>
-        public static string BranchLevel
-        {
-            get
-            {
+        public static string BranchLevel {
+            get {
                 return ResourceManager.GetString("BranchLevel", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Branch Name.
         /// </summary>
-        public static string BranchName
-        {
-            get
-            {
+        public static string BranchName {
+            get {
                 return ResourceManager.GetString("BranchName", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Branch Title.
+        ///   Ищет локализованную строку, похожую на Branch Type Name.
         /// </summary>
-        public static string BranchTitle
-        {
-            get
-            {
-                return ResourceManager.GetString("BranchTitle", resourceCulture);
+        public static string BranchTypeName {
+            get {
+                return ResourceManager.GetString("BranchTypeName", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Click here to choose a correct address below.
-        /// </summary>
-        public static string ClickHereToChooseACorrectAddressBelow
-        {
-            get
-            {
-                return ResourceManager.GetString("ClickHereToChooseACorrectAddressBelow", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Edit Branch.
         /// </summary>
-        public static string EditBranch
-        {
-            get
-            {
+        public static string EditBranch {
+            get {
                 return ResourceManager.GetString("EditBranch", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Edit Branch Type.
+        /// </summary>
+        public static string EditBranchType {
+            get {
+                return ResourceManager.GetString("EditBranchType", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Employee Profile.
         /// </summary>
-        public static string EmployeeProfile
-        {
-            get
-            {
+        public static string EmployeeProfile {
+            get {
                 return ResourceManager.GetString("EmployeeProfile", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Level.
         /// </summary>
-        public static string Level
-        {
-            get
-            {
+        public static string Level {
+            get {
                 return ResourceManager.GetString("Level", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Purchases.
-        /// </summary>
-        public static string Purchases
-        {
-            get
-            {
-                return ResourceManager.GetString("Purchases", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Sales.
-        /// </summary>
-        public static string Sales
-        {
-            get
-            {
-                return ResourceManager.GetString("Sales", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Select Top Branch.
         /// </summary>
-        public static string SelectTopBranch
-        {
-            get
-            {
+        public static string SelectTopBranch {
+            get {
                 return ResourceManager.GetString("SelectTopBranch", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Sub Branches.
         /// </summary>
-        public static string SubBranches
-        {
-            get
-            {
+        public static string SubBranches {
+            get {
                 return ResourceManager.GetString("SubBranches", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Top Branch.
         /// </summary>
-        public static string TopBranch
-        {
-            get
-            {
+        public static string TopBranch {
+            get {
                 return ResourceManager.GetString("TopBranch", resourceCulture);
             }
         }

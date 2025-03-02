@@ -32,17 +32,17 @@
                         <img src="@Url.Content(Model.CompanyLogo)" class="img-fluid" style="max-width: 50px; height: auto;" />
                     </div>
                     <div class="col-xl-4 col-7 br py-2">
-                        <h4>@Localization.CloudERP.Branch.BranchTitle</h4>
+                        <h4>@Localization.CloudERP.Branch.BranchName</h4>
                         <hr />
                         <h4>@Model.BranchName</h4>
                         <h5>@Localization.CloudERP.User.ContactNo: @Model.BranchContact</h5>
                         <address>@Model.BranchAddress</address>
                     </div>
                     <div class="col-xl-3 col-7 py-2">
-                        <h4>@Localization.CloudERP.Purchase.Date</h4>
+                        <h4>@Localization.CloudERP.Miscellaneous.Date</h4>
                         <hr />
-                        <p>@Localization.CloudERP.Purchase.InvoiceNo: @Model.InvoiceNo</p>
-                        <p>@Localization.CloudERP.Purchase.InvoiceDate: @DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt")</p>
+                        <p>@Localization.CloudERP.Sale.InvoiceNo: @Model.InvoiceNo</p>
+                        <p>@Localization.CloudERP.Sale.InvoiceDate: @DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt")</p>
                         <p>@Localization.CloudERP.Purchase.PrintDate: @DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt")</p>
                     </div>
                 </div>
@@ -54,7 +54,7 @@
                         <thead>
                             <tr>
                                 <th>@Localization.CloudERP.Purchase.ItemNo</th>
-                                <th>@Localization.CloudERP.Purchase.Quantity</th>
+                                <th>@Localization.CloudERP.Sale.Quantity</th>
                                 <th>@Localization.CloudERP.Purchase.UnitPrice</th>
                                 <th>@Localization.CloudERP.Miscellaneous.Total</th>
                             </tr>
@@ -78,7 +78,7 @@
                     <div class="col-lg-6 py-2">
                         <div class="row mb-3 align-items-center">
                             <div class="col-7">
-                                <div class="h3">@Localization.CloudERP.Purchase.GRANDTOTAL</div>
+                                <div class="h3">@Localization.CloudERP.Sale.GRANDTOTAL</div>
                             </div>
                             <div class="col-5">
                                 <div class="text-right h3">@Model.TotalCost.ToString("F2")</div>
@@ -95,8 +95,8 @@
                     <hr>
                     <div class="row mb-3">
                         <div class="col-xl-4 col-12 py-2">
-                            <p>@Localization.CloudERP.Purchase.InvoiceNo: @returnInvoice.ReturnInvoiceNo</p>
-                            <p>@Localization.CloudERP.Purchase.InvoiceDate: @returnInvoice.ReturnInvoiceDate</p>
+                            <p>@Localization.CloudERP.Sale.InvoiceNo: @returnInvoice.ReturnInvoiceNo</p>
+                            <p>@Localization.CloudERP.Sale.InvoiceDate: @returnInvoice.ReturnInvoiceDate</p>
                         </div>
                     </div>
 
@@ -105,7 +105,7 @@
                             <thead>
                                 <tr>
                                     <th>@Localization.CloudERP.Purchase.ItemNo</th>
-                                    <th>@Localization.CloudERP.Purchase.Quantity</th>
+                                    <th>@Localization.CloudERP.Sale.Quantity</th>
                                     <th>@Localization.CloudERP.Purchase.UnitPrice</th>
                                     <th>@Localization.CloudERP.Miscellaneous.Total</th>
                                 </tr>
@@ -126,7 +126,7 @@
                 }
 
                 <hr class="d-print-none">
-                <button class="btn btn-secondary" type="button" onclick="window.print();">@Localization.CloudERP.Purchase.Print</button>
+                <button class="btn btn-secondary" type="button" onclick="window.print();">@Localization.CloudERP.Sale.PrintInvoice</button>
             </div>
         </div>
     </div>

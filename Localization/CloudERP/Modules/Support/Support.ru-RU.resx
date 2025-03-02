@@ -136,4 +136,12 @@
     <value>Сообщение</value>
     <comment></comment>
 	</data>
+  <data name="Response" xml:space="preserve">
+    <value>Ответ</value>
+    <comment></comment>
+  </data>
+  <data name="ResponseDate" xml:space="preserve">
+    <value>Дата ответа</value>
+    <comment></comment>
+  </data>
 </root>

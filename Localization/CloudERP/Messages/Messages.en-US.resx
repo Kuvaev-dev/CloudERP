@@ -215,4 +215,7 @@
   <data name="ForecastHasBeenGenerated" xml:space="preserve">
     <value>Forecast has been generated:</value>
 	</data>
+  <data name="PleaseEnterAValidPhoneNumber" xml:space="preserve">
+    <value>Please enter a valid phone number.</value>
+	</data>
 </root>

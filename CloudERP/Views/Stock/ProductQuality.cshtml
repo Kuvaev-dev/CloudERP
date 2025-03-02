@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Domain.Models.ProductQuality>
 
 @{
-    ViewData["Title"] = "Product Quality List";
+    ViewBag.Title = Localization.CloudERP.Miscellaneous.ProductQualityList;
 }
 
 <!-- Tables Sorting-->
@@ -20,9 +20,9 @@
             <table class="table table-striped table-bordered table-hover" id="dataTable">
                 <thead>
                     <tr>
-                        <th class="col-md-2">Product ID</th>
-                        <th>Product Name</th>
-                        <th>Quality</th>
+                        <th class="col-md-2">@Localization.CloudERP.Miscellaneous.ProductID</th>
+                        <th>@Localization.CloudERP.Miscellaneous.ProductName</th>
+                        <th>@Localization.CloudERP.Miscellaneous.Quality</th>
                     </tr>
                 </thead>
                 <tbody id="productList">

@@ -6,24 +6,22 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Localization;
 
 namespace CloudERP.Controllers.General
 {
     public class HomeController : Controller
     {
         private readonly SessionHelper _sessionHelper;
-        private readonly ResourceManagerHelper _resourceManagerHelper;
         private readonly HttpClientHelper _httpClient;
 
         private const int ADMIN_USER_TYPE_ID = 1;
 
         public HomeController(
             SessionHelper sessionHelper,
-            ResourceManagerHelper resourceManagerHelper,
             HttpClientHelper httpClient)
         {
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
-            _resourceManagerHelper = resourceManagerHelper ?? throw new ArgumentNullException(nameof(resourceManagerHelper));
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
 
@@ -102,8 +100,8 @@ namespace CloudERP.Controllers.General
             var principal = new ClaimsPrincipal(identity);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-            HttpContext.Session.SetString("UserID", user.UserID.ToString());
-            HttpContext.Session.SetString("UserTypeID", user.UserTypeID.ToString());
+            HttpContext.Session.SetInt32("UserID", user.UserID);
+            HttpContext.Session.SetInt32("UserTypeID", user.UserTypeID);
             HttpContext.Session.SetString("FullName", user.FullName);
             HttpContext.Session.SetString("Email", user.Email);
             HttpContext.Session.SetString("ContactNo", user.ContactNo);
@@ -120,10 +118,10 @@ namespace CloudERP.Controllers.General
             HttpContext.Session.SetString("EPhoto", employee.Photo);
             HttpContext.Session.SetString("ERegistrationDate", employee.RegistrationDate.ToString() ?? "");
             HttpContext.Session.SetString("Designation", employee.Designation);
-            HttpContext.Session.SetString("BranchID", employee.BranchID.ToString());
-            HttpContext.Session.SetString("BranchTypeID", employee.BranchTypeID.ToString());
-            HttpContext.Session.SetString("BrchID", employee.BrchID.ToString() ?? "");
-            HttpContext.Session.SetString("CompanyID", employee.CompanyID.ToString());
+            HttpContext.Session.SetInt32("BranchID", employee.BranchID);
+            HttpContext.Session.SetInt32("BranchTypeID", employee.BranchTypeID);
+            HttpContext.Session.SetInt32("BrchID", employee.BrchID ?? 0);
+            HttpContext.Session.SetInt32("CompanyID", employee.CompanyID);
         }
 
         private void SetCompanySession(Domain.Models.Company company)
@@ -138,20 +136,16 @@ namespace CloudERP.Controllers.General
             return RedirectToAction("Login");
         }
 
-        public IActionResult SetCulture(string culture)
+        [HttpPost]
+        public IActionResult SetCulture(string culture, string returnUrl = "/")
         {
-            try
-            {
-                _resourceManagerHelper.SetCulture(culture);
-                HttpContext.Session.SetString("Culture", culture);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+            );
 
-            return Redirect(Request.Headers["Referer"].ToString());
+            return LocalRedirect(returnUrl);
         }
 
         public IActionResult ForgotPassword()

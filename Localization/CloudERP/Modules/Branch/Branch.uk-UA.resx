@@ -128,4 +128,16 @@
   <data name="EmployeeProfile" xml:space="preserve">
     <value>Профіль співробітника</value>
   </data>
+  <data name="AddNewBranchType" xml:space="preserve">
+    <value>Додати новий тип філії</value>
+  </data>
+  <data name="BranchTypeName" xml:space="preserve">
+    <value>Назва типу філії</value>
+  </data>
+  <data name="EditBranchType" xml:space="preserve">
+    <value>Редагувати тип філії</value>
+  </data>
+  <data name="AllBranchTypes" xml:space="preserve">
+    <value>Усі типи філій</value>
+  </data>
 </root>

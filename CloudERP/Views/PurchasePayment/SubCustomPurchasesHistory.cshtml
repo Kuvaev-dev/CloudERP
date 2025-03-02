@@ -48,7 +48,7 @@
                             @Html.Raw(Localization.CloudERP.Sale.Supplier)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Miscellaneous.ContactNo)
+                            @Html.Raw(Localization.CloudERP.User.ContactNo)
                         </th>
                         <th>
                             @Html.Raw(Localization.CloudERP.Miscellaneous.InvoiceNo)
@@ -124,7 +124,7 @@
                                     if (item.RemainingBalance == 0 && item.PaymentAmount != 0)
                                     {
                                         <em class="icon-check">
-                                            <label class="text-success">@Html.Raw(Localization.CloudERP.Purchase.Clear)</label>
+                                            <label class="text-success">@Html.Raw(Localization.CloudERP.Sale.Clear)</label>
                                         </em>
                                     }
                                     else if (item.RemainingBalance < 0)
@@ -141,17 +141,17 @@
                                 @{
                                     if (item.RemainingBalance < item.TotalAmount && item.PaymentAmount != 0)
                                     {
-                                        Html.ActionLink(Localization.CloudERP.Purchase.PayHistory, "PaidHistory", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-primary" });
+                                        Html.ActionLink(Localization.CloudERP.Sale.PayHistory, "PaidHistory", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-primary" });
                                     }
                                     else
                                     {
                                         <em class="icon-book-open">
-                                            <label class="text-danger"><b>@Html.Raw(Localization.CloudERP.Purchase.NoHistory)</b></label>
+                                            <label class="text-danger"><b>@Html.Raw(Localization.CloudERP.Sale.NoHistory)</b></label>
                                         </em>
                                     }
                                 }
 
-                                @Html.ActionLink(Localization.CloudERP.Purchase.ViewDetails, "PurchaseItemDetail", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-info" });
+                                @Html.ActionLink(Localization.CloudERP.Sale.ViewDetails, "PurchaseItemDetail", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-info" });
                             </td>
                         </tr>
                     }

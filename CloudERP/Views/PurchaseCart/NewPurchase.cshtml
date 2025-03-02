@@ -29,7 +29,7 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2">@Localization.CloudERP.Purchase.Quantity</label>
+            <label class="control-label col-md-2">@Localization.CloudERP.Miscellaneous.Quantity</label>
             <div class="col-md-5">
                 <input type="number" class="form-control" id="Qty" name="Qty" placeholder="Enter Purchase Quantity..." required />
             </div>
@@ -51,7 +51,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="@Localization.CloudERP.Purchase.AddItem" class="btn btn-success" />
+                <input type="submit" value="@Localization.CloudERP.Sale.AddItem" class="btn btn-success" />
             </div>
         </div>
     </div>
@@ -82,7 +82,7 @@
                             @Localization.CloudERP.Purchase.Items
                         </th>
                         <th>
-                            @Localization.CloudERP.Purchase.Quantity
+                            @Localization.CloudERP.Miscellaneous.Quantity
                         </th>
                         <th>
                             @Localization.CloudERP.Purchase.UnitPrice
@@ -91,7 +91,7 @@
                             @Localization.CloudERP.Purchase.ItemCost
                         </th>
                         <th>
-                            @Localization.CloudERP.Purchase.User
+                            @Localization.CloudERP.User.FullName
                         </th>
                         <th>
                             @Localization.CloudERP.Common.Actions
@@ -131,7 +131,7 @@
                 </tfoot>
             </table>
             <div style="float:right; margin-top:20px;" class="btn-group">
-                @Html.ActionLink(Localization.CloudERP.Purchase.Next, "SelectSupplier", null, new { @class = "btn btn-success", style = "padding:20px;" })
+                @Html.ActionLink(Localization.CloudERP.Sale.Next, "SelectSupplier", null, new { @class = "btn btn-success", style = "padding:20px;" })
                 @using (Html.BeginForm("CancelPurchase", "PurchaseCart", FormMethod.Post, new { @class = "form-inline" }))
                 {
                     @Html.AntiForgeryToken()

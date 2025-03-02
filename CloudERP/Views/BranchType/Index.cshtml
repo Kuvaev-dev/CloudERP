@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Domain.Models.BranchType>
 
 @{
-    ViewBag.Title = "All Branch Types";
+    ViewBag.Title = Localization.CloudERP.Branch.AllBranchTypes;
 }
 
 <!-- Tables Sorting-->
@@ -16,7 +16,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        @Html.ActionLink("Add Branch Type", "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
+        @Html.ActionLink(Localization.CloudERP.Branch.AddNewBranchType, "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
         <h2 class="text-danger">@ViewBag.Message</h2>
         <h2 class="text-danger">@ViewBag.ErrorMessage</h2>
     </div>
@@ -26,7 +26,7 @@
                 <thead>
                     <tr>
                         <th class="col-md-7">
-                            Branch Type
+                            @Localization.CloudERP.Branch.BranchTypeName
                         </th>
                         <th>
                             @Html.Raw(Localization.CloudERP.Common.Actions)
@@ -41,7 +41,7 @@
                                 @Html.DisplayFor(modelItem => item.BranchTypeName)
                             </td>
                             <td>
-                                @Html.ActionLink("Edit", "Edit", new { id = item.BranchTypeID }, new { @class="btn btn-primary" })
+                                @Html.ActionLink(Localization.CloudERP.Common.Edit, "Edit", new { id = item.BranchTypeID }, new { @class="btn btn-primary" })
                             </td>
                         </tr>
                     }

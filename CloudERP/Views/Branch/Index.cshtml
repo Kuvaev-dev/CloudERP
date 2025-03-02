@@ -29,13 +29,13 @@
                             @Html.Raw(Localization.CloudERP.Branch.Level)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Branch.BranchTitle)
+                            @Html.Raw(Localization.CloudERP.Branch.BranchName)
                         </th>
                         <th>
                             @Html.Raw(Localization.CloudERP.User.ContactNo)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Branch.BranchAddress)
+                            @Html.Raw(Localization.CloudERP.User.Address)
                         </th>
                         <th>
                             @Html.Raw(Localization.CloudERP.Common.Actions)
@@ -61,8 +61,8 @@
                             <td>
                                 <div class="mt-2 btn-group">
                                     @Html.ActionLink(Localization.CloudERP.Common.Edit, "Edit", new { id = item.BranchID }, new { @class = "btn btn-primary" })
-                                    @Html.ActionLink(Localization.CloudERP.Branch.Sales, "SubCustomSalesHistory", "SalePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now, id = item.BranchID }, new { @class = "btn btn-info" })
-                                    @Html.ActionLink(Localization.CloudERP.Branch.Purchases, "SubCustomPurchasesHistory", "PurchasePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now, id = item.BranchID }, new { @class = "btn btn-info" })
+                                    @Html.ActionLink(Localization.CloudERP.Sale.Sales, "SubCustomSalesHistory", "SalePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now, id = item.BranchID }, new { @class = "btn btn-info" })
+                                    @Html.ActionLink(Localization.CloudERP.Purchase.Purchases, "SubCustomPurchasesHistory", "PurchasePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now, id = item.BranchID }, new { @class = "btn btn-info" })
                                 </div>
                                 <div class="mt-2 btn-group">
                                     @Html.ActionLink(Localization.CloudERP.Miscellaneous.Journal, "SubJournal", "GeneralTransaction", new { FromDate = DateTime.Now, ToDate = DateTime.Now, id = item.BranchID }, new { @class = "btn btn-info" })

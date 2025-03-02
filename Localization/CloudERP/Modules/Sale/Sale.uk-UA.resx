@@ -299,4 +299,49 @@
   <data name="ReturnSaleProductsDetail" xml:space="preserve">
     <value>Деталі продуктів у поверненні продажу</value>
   </data>
+  <data name="Sales" xml:space="preserve">
+    <value>Продажі</value>
+  </data>
+  <data name="NewSale" xml:space="preserve">
+    <value>Новий продаж</value>
+  </data>
+  <data name="SelectProduct" xml:space="preserve">
+    <value>Оберіть продукт</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Кількість</value>
+  </data>
+  <data name="UnitPrice" xml:space="preserve">
+    <value>Ціна за одиницю</value>
+  </data>
+  <data name="ItemCost" xml:space="preserve">
+    <value>Стоимость товара</value>
+  </data>
+  <data name="PrintDate" xml:space="preserve">
+    <value>Дата друку</value>
+  </data>
+  <data name="ReturnProductsTotalAmount" xml:space="preserve">
+    <value>Фінальна сума повернення</value>
+  </data>
+  <data name="ReturnTotalAmount" xml:space="preserve">
+    <value>Підсумкова сума повернення</value>
+  </data>
+  <data name="ReturnPaymentAmount" xml:space="preserve">
+    <value>Сума оплати на повернення</value>
+  </data>
+  <data name="PaymentAmount" xml:space="preserve">
+    <value>Сумма оплати</value>
+  </data>
+  <data name="RemainingReturn" xml:space="preserve">
+    <value>Залишкове повернення</value>
+  </data>
+  <data name="PaymentDate" xml:space="preserve">
+    <value>Дата оплати</value>
+  </data>
+  <data name="RemainingTotalBalance" xml:space="preserve">
+    <value>Залишковий загальний баланс</value>
+  </data>
+  <data name="ReturnRemainingBalance" xml:space="preserve">
+    <value>Залишковий баланс повернення</value>
+  </data>
 </root>

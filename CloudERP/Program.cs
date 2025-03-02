@@ -1,6 +1,8 @@
 using API.Helpers;
 using CloudERP.Helpers;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
 using Utils.Helpers;
 using Utils.Interfaces;
 
@@ -32,7 +34,6 @@ namespace CloudERP
 
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             builder.Services.AddScoped<SessionHelper>();
-            builder.Services.AddScoped<ResourceManagerHelper>();
 
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
@@ -44,6 +45,14 @@ namespace CloudERP
                 });
 
             builder.Services.AddAuthorization();
+
+            var defaultCulture = new CultureInfo("en-US");
+            var localizationOptions = new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture(defaultCulture),
+                SupportedCultures = [defaultCulture],
+                SupportedUICultures = [defaultCulture]
+            };
 
             var app = builder.Build();
 
@@ -61,6 +70,7 @@ namespace CloudERP
             app.UseRouting();
             app.UseAuthorization();
             app.UseAuthentication();
+            app.UseRequestLocalization(localizationOptions);
 
             app.MapControllerRoute(
                 name: "default",

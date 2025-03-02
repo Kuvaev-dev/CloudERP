@@ -1,13 +1,13 @@
 ﻿@model Domain.Models.AnalyticsModel
 @{
-    ViewBag.Title = "System Analytics";
+    ViewBag.Title = Localization.CloudERP.Miscellaneous.SystemAnalytics;
 }
 
 <div class="container mt-4">
     <div class="row mb-4">
         <div class="col-md-6">
             <div class="card">
-                <div class="card-header bg-primary text-white">Users Activity</div>
+                <div class="card-header bg-primary text-white">@Localization.CloudERP.Miscellaneous.UsersActivity</div>
                 <div class="card-body">
                     <canvas id="usersChart" width="400" height="200"></canvas>
                 </div>
@@ -16,7 +16,7 @@
 
         <div class="col-md-6">
             <div class="card">
-                <div class="card-header bg-info text-white">Stock</div>
+                <div class="card-header bg-info text-white">@Localization.CloudERP.Miscellaneous.Stocks</div>
                 <div class="card-body">
                     <canvas id="stockChart" width="400" height="200"></canvas>
                 </div>
@@ -27,7 +27,7 @@
     <div class="row mb-4">
         <div class="col-md-6">
             <div class="card">
-                <div class="card-header bg-success text-white">Support</div>
+                <div class="card-header bg-success text-white">@Localization.CloudERP.Miscellaneous.Support</div>
                 <div class="card-body">
                     <canvas id="supportChart" width="400" height="200"></canvas>
                 </div>
@@ -48,9 +48,13 @@
             responsive: true
         },
         data: {
-            labels: ['All', 'New in a Month', 'New'],
+            labels: [
+                '@Localization.CloudERP.Common.All', 
+                '@Localization.CloudERP.Common.NewInAMonth', 
+                '@Localization.CloudERP.Common.New'
+            ],
             datasets: [{
-                label: 'Users',
+                label: '@Localization.CloudERP.Miscellaneous.Users',
                 data: [chartData.Employees.Total, chartData.Employees.NewInAMonth, chartData.Employees.NewInAYear],
                 backgroundColor: ['#007bff', '#28a745', '#ffc107']
             }]
@@ -65,9 +69,9 @@
             responsive: true
         },
         data: {
-            labels: ['All', 'In Stock'],
+            labels: ['@Localization.CloudERP.Common.All', '@Localization.CloudERP.Common.InStock'],
             datasets: [{
-                label: 'Stock',
+                label: '@Localization.CloudERP.Miscellaneous.Stocks',
                 data: [chartData.Stock.TotalItems, chartData.Stock.Available, chartData.Stock.Expired],
                 backgroundColor: ['#17a2b8', '#6c757d']
             }]
@@ -82,9 +86,13 @@
             responsive: true
         },
         data: {
-            labels: ['All', 'Resolved', 'Pending'],
+            labels: [
+                '@Localization.CloudERP.Common.All', 
+                '@Localization.CloudERP.Common.Resolved', 
+                '@Localization.CloudERP.Common.Pending'
+            ],
             datasets: [{
-                label: 'Support',
+                label: '@Localization.CloudERP.Miscellaneous.Support',
                 data: [chartData.Support.TotalTickets, chartData.Support.Resolved, chartData.Support.Pending],
                 backgroundColor: ['#6c757d', '#28a745', '#ffc107']
             }]

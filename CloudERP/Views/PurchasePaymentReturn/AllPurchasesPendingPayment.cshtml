@@ -21,10 +21,10 @@
                 <thead>
                     <tr>
                         <th>
-                            @Localization.CloudERP.Purchase.Supplier
+                            @Localization.CloudERP.Supplier.SupplierName
                         </th>
                         <th>
-                            @Localization.CloudERP.Miscellaneous.ContactNo
+                            @Localization.CloudERP.User.ContactNo
                         </th>
                         <th>
                             @Localization.CloudERP.Miscellaneous.InvoiceNo
@@ -33,7 +33,7 @@
                             @Localization.CloudERP.Miscellaneous.Date
                         </th>
                         <th>
-                            @Localization.CloudERP.Purchase.TotalAmount
+                            @Localization.CloudERP.Sale.TotalAmount
                         </th>
                         <th>
                             @Localization.CloudERP.Purchase.ReturnProductsTotalAmount
@@ -42,13 +42,13 @@
                             @Localization.CloudERP.Purchase.AfterReturnTotalAmount
                         </th>
                         <th>
-                            @Localization.CloudERP.Purchase.PaidAmount
+                            @Localization.CloudERP.Sale.PaidAmount
                         </th>
                         <th>
                             @Localization.CloudERP.Purchase.PaymentAmount
                         </th>
                         <th>
-                            @Localization.CloudERP.Purchase.RemainingBalance
+                            @Localization.CloudERP.Sale.RemainingBalance
                         </th>
                         <th>
                             @Localization.CloudERP.Common.Actions
@@ -102,16 +102,16 @@
                                 @{
                                     if (item.RemainingBalance < item.TotalAmount && item.PaymentAmount != 0)
                                     {
-                                        @Html.ActionLink(Localization.CloudERP.Purchase.PayHistory, "PaidHistory", "PurchasePayment", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-primary mb-2" });
+                                        @Html.ActionLink(Localization.CloudERP.Sale.PayHistory, "PaidHistory", "PurchasePayment", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-primary mb-2" });
                                     }
                                     else
                                     {
                                         <em class="icon-book-open">
-                                            <label class="text-danger"><b>@Localization.CloudERP.Purchase.NoHistory</b></label>
+                                            <label class="text-danger"><b>@Localization.CloudERP.Sale.NoHistory</b></label>
                                         </em>
                                     }
                                 }
-                                @Html.ActionLink(Localization.CloudERP.Purchase.ViewDetails, "PurchaseItemDetail", "PurchasePayment", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-info mt-2 mb-2" });
+                                @Html.ActionLink(Localization.CloudERP.Sale.ViewDetails, "PurchaseItemDetail", "PurchasePayment", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-info mt-2 mb-2" });
                             </td>
                         </tr>
                     }

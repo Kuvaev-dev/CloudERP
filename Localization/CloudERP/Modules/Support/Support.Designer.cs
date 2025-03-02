@@ -29,7 +29,7 @@ namespace Localization.CloudERP {
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public Support() {
+        internal Support() {
         }
         
         /// <summary>
@@ -59,102 +59,102 @@ namespace Localization.CloudERP {
                 resourceCulture = value;
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Contact Support.
         /// </summary>
-        public static string ContactSupport
-        {
-            get
-            {
+        public static string ContactSupport {
+            get {
                 return ResourceManager.GetString("ContactSupport", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Date Created.
         /// </summary>
-        public static string DateCreated
-        {
-            get
-            {
+        public static string DateCreated {
+            get {
                 return ResourceManager.GetString("DateCreated", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Email.
         /// </summary>
-        public static string Email
-        {
-            get
-            {
+        public static string Email {
+            get {
                 return ResourceManager.GetString("Email", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Mark as Resolved.
         /// </summary>
-        public static string MarkAsResolved
-        {
-            get
-            {
+        public static string MarkAsResolved {
+            get {
                 return ResourceManager.GetString("MarkAsResolved", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Message.
         /// </summary>
-        public static string Message
-        {
-            get
-            {
+        public static string Message {
+            get {
                 return ResourceManager.GetString("Message", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Name.
         /// </summary>
-        public static string Name
-        {
-            get
-            {
+        public static string Name {
+            get {
                 return ResourceManager.GetString("Name", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Response.
+        /// </summary>
+        public static string Response {
+            get {
+                return ResourceManager.GetString("Response", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Response Date.
+        /// </summary>
+        public static string ResponseDate {
+            get {
+                return ResourceManager.GetString("ResponseDate", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Status.
         /// </summary>
-        public static string Status
-        {
-            get
-            {
+        public static string Status {
+            get {
                 return ResourceManager.GetString("Status", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Subject.
         /// </summary>
-        public static string Subject
-        {
-            get
-            {
+        public static string Subject {
+            get {
                 return ResourceManager.GetString("Subject", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Support Tickets.
         /// </summary>
-        public static string SupportTickets
-        {
-            get
-            {
+        public static string SupportTickets {
+            get {
                 return ResourceManager.GetString("SupportTickets", resourceCulture);
             }
         }

@@ -2,7 +2,7 @@
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
-    ViewBag.Title = "Add New Branch Type";
+    ViewBag.Title = Localization.CloudERP.Branch.AddNewBranchType;
 }
 
 <script>
@@ -20,7 +20,7 @@
         <h2 class="text-danger">@ViewBag.ErrorMessage</h2>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.BranchTypeName, "Branch Type Name", htmlAttributes: new { @class = "control-label col-md-4" })
+            @Html.LabelFor(model => model.BranchTypeName, Localization.CloudERP.Branch.BranchTypeName, htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.BranchTypeName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.BranchTypeName, "", new { @class = "text-danger" })

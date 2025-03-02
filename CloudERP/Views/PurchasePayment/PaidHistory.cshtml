@@ -18,7 +18,7 @@
                             @Localization.CloudERP.Supplier.SupplierName
                         </th>
                         <th>
-                            @Localization.CloudERP.Miscellaneous.ContactNo
+                            @Localization.CloudERP.User.ContactNo
                         </th>
                         <th>
                             @Localization.CloudERP.Miscellaneous.InvoiceNo
@@ -27,13 +27,13 @@
                             @Localization.CloudERP.Miscellaneous.Date
                         </th>
                         <th>
-                            @Localization.CloudERP.Purchase.TotalAmount
+                            @Localization.CloudERP.Sale.TotalAmount
                         </th>
                         <th>
-                            @Localization.CloudERP.Purchase.PaidAmount
+                            @Localization.CloudERP.Sale.PaidAmount
                         </th>
                         <th>
-                            @Localization.CloudERP.Purchase.RemainingBalance
+                            @Localization.CloudERP.Sale.RemainingBalance
                         </th>
                     </tr>
                 </thead>
@@ -96,7 +96,7 @@
                                         <div class="row">
                                             <div class="col-md-2">
                                                 <div>
-                                                    <b>@Localization.CloudERP.Purchase.Supplier</b>
+                                                    <b>@Localization.CloudERP.Sale.Supplier</b>
                                                     <div>
                                                         @item.SupplierName
                                                     </div>
@@ -104,7 +104,7 @@
                                             </div>
                                             <div class="col-md-2">
                                                 <div>
-                                                    <b>@Localization.CloudERP.Purchase.InvoiceDate</b>
+                                                    <b>@Localization.CloudERP.Sale.InvoiceDate</b>
                                                     <div>
                                                         @item.InvoiceDate
                                                     </div>
@@ -120,7 +120,7 @@
                                             </div>
                                             <div class="col-md-2">
                                                 <div>
-                                                    <b>@Localization.CloudERP.Purchase.ReturnTotal</b>
+                                                    <b>@Localization.CloudERP.Sale.ReturnTotal</b>
                                                     <div>
                                                         @item.TotalAmount
                                                     </div>
@@ -161,13 +161,13 @@
                                                             @Localization.CloudERP.Purchase.PaymentDate
                                                         </th>
                                                         <th>
-                                                            @Localization.CloudERP.Purchase.TotalAmount
+                                                            @Localization.CloudERP.Sale.TotalAmount
                                                         </th>
                                                         <th>
                                                             @Localization.CloudERP.Purchase.PaymentAmount
                                                         </th>
                                                         <th>
-                                                            @Localization.CloudERP.Purchase.RemainingBalance
+                                                            @Localization.CloudERP.Sale.RemainingBalance
                                                         </th>
                                                     </tr>
                                                 </thead>
@@ -198,7 +198,7 @@
                                         else
                                         {
                                             <div class="text-center">
-                                                @Localization.CloudERP.Purchase.NoPaymentRecord
+                                                @Localization.CloudERP.Sale.NoPaymentRecord
                                             </div>
                                         }
                                     </div>

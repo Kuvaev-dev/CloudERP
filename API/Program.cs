@@ -66,8 +66,6 @@ namespace API
             builder.Services.AddScoped<BranchHelper>();
             // Password Helper
             builder.Services.AddScoped<PasswordHelper>();
-            // Culture Helper
-            builder.Services.AddScoped<ResourceManagerHelper>();
             // Connetion String Provider
             builder.Services.AddScoped<IConnectionStringProvider, WebConfigConnectionStringProvider>();
             #endregion

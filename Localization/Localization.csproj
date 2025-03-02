@@ -96,71 +96,71 @@
 
   <ItemGroup>
     <EmbeddedResource Update="CloudERP\Common\Common.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Common.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="CloudERP\Messages\Messages.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Messages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="CloudERP\Modules\Account\Account.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Account.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="CloudERP\Modules\Branch\Branch.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Branch.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="CloudERP\Modules\Company\Company.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Company.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="CloudERP\Modules\Financial\Financial.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Financial.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="CloudERP\Modules\Guide\Guide.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Guide.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="CloudERP\Modules\Miscellaneous\Miscellaneous.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Miscellaneous.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="CloudERP\Modules\Purchase\Purchase.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Purchase.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="CloudERP\Modules\Sale\Sale.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Sale.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="CloudERP\Modules\Supplier\Supplier.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Supplier.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="CloudERP\Modules\Support\Support.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Support.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="CloudERP\Modules\Task\Task.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Task.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="CloudERP\Modules\User\User.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>User.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="DatabaseAccess\Localization.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Localization.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Domain\Localization.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Localization.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Services\Localization.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Localization.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>

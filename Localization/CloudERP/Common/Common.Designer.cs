@@ -29,7 +29,7 @@ namespace Localization.CloudERP {
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public Common() {
+        internal Common() {
         }
         
         /// <summary>
@@ -59,113 +59,201 @@ namespace Localization.CloudERP {
                 resourceCulture = value;
             }
         }
-
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Account Activity Name.
+        /// </summary>
+        public static string AccountActivityName {
+            get {
+                return ResourceManager.GetString("AccountActivityName", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Actions.
         /// </summary>
-        public static string Actions
-        {
-            get
-            {
+        public static string Actions {
+            get {
                 return ResourceManager.GetString("Actions", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на All.
+        /// </summary>
+        public static string All {
+            get {
+                return ResourceManager.GetString("All", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Back to List.
         /// </summary>
-        public static string BackToList
-        {
-            get
-            {
+        public static string BackToList {
+            get {
                 return ResourceManager.GetString("BackToList", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Create.
         /// </summary>
-        public static string Create
-        {
-            get
-            {
+        public static string Create {
+            get {
                 return ResourceManager.GetString("Create", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Delete.
         /// </summary>
-        public static string Delete
-        {
-            get
-            {
+        public static string Delete {
+            get {
                 return ResourceManager.GetString("Delete", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Details.
         /// </summary>
-        public static string Details
-        {
-            get
-            {
+        public static string Details {
+            get {
                 return ResourceManager.GetString("Details", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Edit.
         /// </summary>
-        public static string Edit
-        {
-            get
-            {
+        public static string Edit {
+            get {
                 return ResourceManager.GetString("Edit", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Email.
+        /// </summary>
+        public static string Email {
+            get {
+                return ResourceManager.GetString("Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на In Stock.
+        /// </summary>
+        public static string InStock {
+            get {
+                return ResourceManager.GetString("InStock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Is Global.
+        /// </summary>
+        public static string IsGlobal {
+            get {
+                return ResourceManager.GetString("IsGlobal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на New.
+        /// </summary>
+        public static string New {
+            get {
+                return ResourceManager.GetString("New", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на New Account Activity.
+        /// </summary>
+        public static string NewAccountActivity {
+            get {
+                return ResourceManager.GetString("NewAccountActivity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на New in a Month.
+        /// </summary>
+        public static string NewInAMonth {
+            get {
+                return ResourceManager.GetString("NewInAMonth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Not Avaliable.
+        /// </summary>
+        public static string NotAvaliable {
+            get {
+                return ResourceManager.GetString("NotAvaliable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Pending.
+        /// </summary>
+        public static string Pending {
+            get {
+                return ResourceManager.GetString("Pending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Resolved.
+        /// </summary>
+        public static string Resolved {
+            get {
+                return ResourceManager.GetString("Resolved", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Save.
         /// </summary>
-        public static string Save
-        {
-            get
-            {
+        public static string Save {
+            get {
                 return ResourceManager.GetString("Save", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Succeed.
+        ///   Ищет локализованную строку, похожую на Task List.
         /// </summary>
-        public static string Succeed
-        {
-            get
-            {
-                return ResourceManager.GetString("Succeed", resourceCulture);
+        public static string TaskList {
+            get {
+                return ResourceManager.GetString("TaskList", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Tasks Assigment.
+        /// </summary>
+        public static string TasksAssigment {
+            get {
+                return ResourceManager.GetString("TasksAssigment", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на UAH.
         /// </summary>
-        public static string UAH
-        {
-            get
-            {
+        public static string UAH {
+            get {
                 return ResourceManager.GetString("UAH", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Update.
         /// </summary>
-        public static string Update
-        {
-            get
-            {
+        public static string Update {
+            get {
                 return ResourceManager.GetString("Update", resourceCulture);
             }
         }

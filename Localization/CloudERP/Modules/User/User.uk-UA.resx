@@ -160,6 +160,14 @@
   <data name="Statistics" xml:space="preserve">
 		<value>Статистика</value>
 	</data>
+  <data name="Designation" xml:space="preserve">
+    <value>Посада</value>
+    <comment></comment>
+	</data>
+  <data name="Address" xml:space="preserve">
+    <value>Адреса</value>
+    <comment></comment>
+	</data>
   <data name="NumberOfRegistrations" xml:space="preserve">
 		<value>Кількість реєстрацій</value>
 	</data>

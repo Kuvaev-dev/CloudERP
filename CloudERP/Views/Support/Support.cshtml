@@ -55,11 +55,11 @@
             <table class="table table-striped table-bordered" id="dataTable">
                 <thead>
                     <tr>
-                        <th>Subject</th>
-                        <th>Message</th>
-                        <th>Date Created</th>
-                        <th>Status</th>
-                        <th>Admin Response</th>
+                        <th>@Localization.CloudERP.Support.Subject</th>
+                        <th>@Localization.CloudERP.Support.Message</th>
+                        <th>@Localization.CloudERP.Support.DateCreated</th>
+                        <th>@Localization.CloudERP.Support.Status</th>
+                        <th>@Localization.CloudERP.Support.Response</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -71,7 +71,7 @@
                             <td>@ticket.Subject</td>
                             <td>@ticket.Message</td>
                             <td>@ticket.DateCreated.ToString("g")</td>
-                            <td>@(ticket.IsResolved ? "Resolved" : "Pending")</td>
+                            <td>@(ticket.IsResolved ? Localization.CloudERP.Common.Resolved : Localization.CloudERP.Common.Pending)</td>
                             <td>@(($"{ticket.RespondedBy}: {ticket.AdminResponse}") ?? "-")</td>
                         </tr>
                     }

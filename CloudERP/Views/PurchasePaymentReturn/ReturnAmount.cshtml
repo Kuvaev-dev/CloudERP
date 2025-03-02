@@ -20,7 +20,7 @@
                 <input type="text" value="@ViewBag.InvoiceID" id="id" name="id" style="display:none;" />
                 <div class="row">
                     <div class="col-md-4">
-                        <label>@Localization.CloudERP.Purchase.ReturnRemainingAmount</label>
+                        <label>@Localization.CloudERP.Sale.ReturnRemainingAmount</label>
                         <input type="text" id="previousRemainingAmount" name="previousRemainingAmount" value="@remainingBalance" readonly="readonly" class="form-control" required>
                     </div>
                     <div class="col-md-4">
@@ -28,14 +28,14 @@
                         <input min="0" type="number" id="paymentAmount" name="paymentAmount" value="10" class="form-control" required>
                     </div>
                     <div class="col-md-4">
-                        <label>@Localization.CloudERP.Purchase.CurrentRemainingAmount</label>
+                        <label>@Localization.CloudERP.Sale.CurrentRemainingAmount</label>
                         <input type="text" id="remainingAmount" name="remainingAmount" value="10" readonly="readonly" class="form-control" required>
                     </div>
                 </div>
                 <br />
                 <br />
                 @Html.ActionLink(Localization.CloudERP.Common.BackToList, "AllPurchasesPendingPayment", "PurchasePaymentReturn", null, new { @class="btn btn-primary" })
-                <input type="submit" value="@Localization.CloudERP.Purchase.SubmitPayment" class="btn btn-success" style="float: right;">
+                <input type="submit" value="@Localization.CloudERP.Sale.SubmitPayment" class="btn btn-success" style="float: right;">
             }
         </div>
     </div>
@@ -54,10 +54,10 @@
                             @Localization.CloudERP.Supplier.SupplierName
                         </th>
                         <th>
-                            @Localization.CloudERP.Purchase.InvoiceNo
+                            @Localization.CloudERP.Sale.InvoiceNo
                         </th>
                         <th>
-                            @Localization.CloudERP.Purchase.InvoiceDate
+                            @Localization.CloudERP.Sale.InvoiceDate
                         </th>
                         <th>
                             @Localization.CloudERP.Purchase.ReturnPurchaseTotalAmount
@@ -66,7 +66,7 @@
                             @Localization.CloudERP.Purchase.ReturnPaymentAmount
                         </th>
                         <th>
-                            @Localization.CloudERP.Purchase.ReturnRemainingBalance
+                            @Localization.CloudERP.Sale.ReturnRemainingBalance
                         </th>
                     </tr>
                 </thead>

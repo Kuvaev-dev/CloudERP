@@ -71,7 +71,7 @@
                     </div>
                 </div>
                 @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
-                <h5 class="mt-3">@Localization.CloudERP.Branch.ClickHereToChooseACorrectAddressBelow</h5>
+                <h5 class="mt-3">@Localization.CloudERP.Miscellaneous.ClickHereToChooseACorrectAddressBelow</h5>
                 <ul id="suggestions"></ul>
             </div>
         </div>
@@ -145,7 +145,7 @@
             var phoneNumber = iti.getNumber();
             if (!iti.isValidNumber()) {
                 e.preventDefault();
-                alert("Please enter a valid phone number.");
+                alert(@Localization.CloudERP.Messages.PleaseEnterAValidPhoneNumber);
             } else {
                 $('#PhoneNumber').val(phoneNumber);
             }

@@ -83,7 +83,6 @@ namespace API.Controllers.General
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<ActionResult<DashboardModel>> GetDashboardValues(int companyId, int branchId)
         {
             try
@@ -98,7 +97,6 @@ namespace API.Controllers.General
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<ActionResult<Dictionary<string, decimal>>> GetCurrencies()
         {
             try
