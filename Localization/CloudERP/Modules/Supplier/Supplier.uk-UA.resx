@@ -131,4 +131,16 @@
   <data name="SupplierDetails" xml:space="preserve">
     <value>Деталі постачальника</value>
   </data>
+  <data name="Email" xml:space="preserve">
+    <value>Електронна пошта</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>Користувач</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Опис</value>
+  </data>
+  <data name="NewSupplier" xml:space="preserve">
+    <value>Новий постачальник</value>
+  </data>
 </root>

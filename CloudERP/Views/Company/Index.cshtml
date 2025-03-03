@@ -5,8 +5,9 @@
 }
 
 <!-- Tables Sorting-->
-<link href="https://cdn.datatables.net/1.11.6/css/jquery.dataTables.min.css" rel="stylesheet" />
-<script src="https://cdn.datatables.net/1.11.6/js/jquery.dataTables.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<link href="https://cdn.datatables.net/v/bs5/dt-2.2.2/datatables.min.css" rel="stylesheet">
+<script src="https://cdn.datatables.net/v/bs5/dt-2.2.2/datatables.min.js"></script>
 
 <style>
     #dataTable_filter input[type="search"] {
@@ -16,7 +17,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        @Html.ActionLink(Localization.CloudERP.Company.AddCompanyTitle, "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
+        @Html.ActionLink(Localization.CloudERP.Company.AddCompanyTitle, "Create", "Company", null, new { @class = "btn btn-success" })
         <h3 class="text-danger">@ViewBag.Message</h3>
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
     </div>
@@ -49,7 +50,7 @@
                                     <img src="@Url.Content(item.Logo)" alt="image" style="width:50px;height:50px;max-width:100%;height:auto;" />
                                 }
                             </td>
-                            <td class="btn-group d-flex align-items-center">
+                            <td class="btn-group">
                                 @Html.ActionLink(Localization.CloudERP.Company.UpdateProfile, "Edit", new { id = item.CompanyID }, new { @class = "btn btn-primary" })
                                 @Html.ActionLink(Localization.CloudERP.Common.Details, "Details", new { id = item.CompanyID }, new { @class = "btn btn-info" })
                             </td>

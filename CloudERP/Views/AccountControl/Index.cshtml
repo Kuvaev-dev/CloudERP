@@ -5,6 +5,11 @@
     ViewBag.Title = Localization.CloudERP.Account.AllAccountControls;
 }
 
+<!-- Tables Sorting-->
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<link href="https://cdn.datatables.net/v/bs5/dt-2.2.2/datatables.min.css" rel="stylesheet">
+<script src="https://cdn.datatables.net/v/bs5/dt-2.2.2/datatables.min.js"></script>
+
 <style>
     #dataTable_filter input[type="search"] {
         width: 15rem;
@@ -58,6 +63,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#dataTable').DataTable({
+            "columnDefs": [{ "orderable": false, "targets": 3 }],
             "lengthMenu": [[5, 10, 25, 50, 75, 100, 150, 200, -1], [5, 10, 25, 50, 75, 100, 150, 200, "All"]],
         });
     });

@@ -25,7 +25,7 @@ namespace CloudERP.Controllers.Account
             try
             {
                 var subControls = await _httpClient.GetAsync<IEnumerable<AccountSubControl>>(
-                    $"accountsubcontrolapi?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                    $"accountsubcontrolapi/getall?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 return View(subControls);
             }
             catch (Exception ex)

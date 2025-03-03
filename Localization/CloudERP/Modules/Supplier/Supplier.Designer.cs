@@ -29,7 +29,7 @@ namespace Localization.CloudERP {
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public Supplier() {
+        internal Supplier() {
         }
         
         /// <summary>
@@ -59,190 +59,138 @@ namespace Localization.CloudERP {
                 resourceCulture = value;
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Address.
         /// </summary>
-        public static string Address
-        {
-            get
-            {
+        public static string Address {
+            get {
                 return ResourceManager.GetString("Address", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на All Suppliers.
         /// </summary>
-        public static string AllSuppliers
-        {
-            get
-            {
+        public static string AllSuppliers {
+            get {
                 return ResourceManager.GetString("AllSuppliers", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Branch Suppliers.
         /// </summary>
-        public static string BranchSuppliers
-        {
-            get
-            {
+        public static string BranchSuppliers {
+            get {
                 return ResourceManager.GetString("BranchSuppliers", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Branch.
         /// </summary>
-        public static string BranchTitle
-        {
-            get
-            {
+        public static string BranchTitle {
+            get {
                 return ResourceManager.GetString("BranchTitle", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Click here to choose a correct address below.
-        /// </summary>
-        public static string ClickHereToChooseACorrectAddressBelow
-        {
-            get
-            {
-                return ResourceManager.GetString("ClickHereToChooseACorrectAddressBelow", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Company.
         /// </summary>
-        public static string CompanyTitle
-        {
-            get
-            {
+        public static string CompanyTitle {
+            get {
                 return ResourceManager.GetString("CompanyTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Conatct №.
         /// </summary>
-        public static string ConatctNo
-        {
-            get
-            {
+        public static string ConatctNo {
+            get {
                 return ResourceManager.GetString("ConatctNo", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Description.
         /// </summary>
-        public static string Description
-        {
-            get
-            {
+        public static string Description {
+            get {
                 return ResourceManager.GetString("Description", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Edit Supplier.
         /// </summary>
-        public static string EditSupplier
-        {
-            get
-            {
+        public static string EditSupplier {
+            get {
                 return ResourceManager.GetString("EditSupplier", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Email.
         /// </summary>
-        public static string Email
-        {
-            get
-            {
+        public static string Email {
+            get {
                 return ResourceManager.GetString("Email", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на New Supplier.
         /// </summary>
-        public static string NewSupplier
-        {
-            get
-            {
+        public static string NewSupplier {
+            get {
                 return ResourceManager.GetString("NewSupplier", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Please enter a valid phone number.
         /// </summary>
-        public static string PleaseEnterAValidPhoneNumber
-        {
-            get
-            {
+        public static string PleaseEnterAValidPhoneNumber {
+            get {
                 return ResourceManager.GetString("PleaseEnterAValidPhoneNumber", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Register.
-        /// </summary>
-        public static string Register
-        {
-            get
-            {
-                return ResourceManager.GetString("Register", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Sub Branch Suppliers.
         /// </summary>
-        public static string SubBranchSuppliers
-        {
-            get
-            {
+        public static string SubBranchSuppliers {
+            get {
                 return ResourceManager.GetString("SubBranchSuppliers", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Supplier Details.
         /// </summary>
-        public static string SupplierDetails
-        {
-            get
-            {
+        public static string SupplierDetails {
+            get {
                 return ResourceManager.GetString("SupplierDetails", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Supplier Name.
         /// </summary>
-        public static string SupplierName
-        {
-            get
-            {
+        public static string SupplierName {
+            get {
                 return ResourceManager.GetString("SupplierName", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на User.
         /// </summary>
-        public static string User
-        {
-            get
-            {
+        public static string User {
+            get {
                 return ResourceManager.GetString("User", resourceCulture);
             }
         }

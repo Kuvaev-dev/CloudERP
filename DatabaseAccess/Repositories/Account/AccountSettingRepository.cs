@@ -29,6 +29,7 @@ namespace DatabaseAccess.Repositories.Account
                 .Include(a => a.AccountActivity)
                 .Include(a => a.Branch)
                 .Include(a => a.Company)
+                .Include(a => a.User)
                 .Where(x => x.CompanyID == companyId && x.BranchID == branchId || x.IsGlobal == true)
                 .ToListAsync();
 
@@ -48,7 +49,7 @@ namespace DatabaseAccess.Repositories.Account
                 BranchID = s.BranchID,
                 BranchName = s.Branch.BranchName,
                 UserID = s.UserID ?? 0,
-                FullName = s.User?.FullName,
+                FullName = s.User.FullName,
                 IsGlobal = s.IsGlobal ?? false
             });
         }
@@ -62,6 +63,7 @@ namespace DatabaseAccess.Repositories.Account
                 .Include(a => a.AccountActivity)
                 .Include(a => a.Branch)
                 .Include(a => a.Company)
+                .Include(a => a.User)
                 .FirstOrDefaultAsync(x => x.AccountSettingID == id);
 
             return entity == null ? null : new AccountSetting
