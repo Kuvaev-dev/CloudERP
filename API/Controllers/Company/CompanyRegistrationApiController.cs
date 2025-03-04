@@ -29,11 +29,11 @@ namespace API.Controllers.Company
         }
 
         [HttpPost]
-        public async Task<ActionResult<string>> Register([FromBody] RegistrationMV model)
+        public async Task<ActionResult> Register([FromBody] RegistrationMV model)
         {
             if (model == null || !ModelState.IsValid)
             {
-                return BadRequest("Неправильные данные.");
+                return BadRequest("Incorrect details.");
             }
 
             try

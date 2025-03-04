@@ -16,8 +16,8 @@ namespace API.Controllers.Company
         private readonly IFileService _fileService;
         private readonly IFileAdapterFactory _fileAdapterFactory;
 
-        private const string COMPANY_LOGO_PATH = "~/wwwroot/CompanyLogo";
-        private const string DEFAULT_COMPANY_LOGO_PATH = "~/wwwroot/CompanyLogo/erp-logo.png";
+        private const string COMPANY_LOGO_PATH = "~/CompanyLogo";
+        private const string DEFAULT_COMPANY_LOGO_PATH = "~/CompanyLogo/erp-logo.png";
 
         public CompanyApiController(
             ICompanyRepository companyRepository,
@@ -59,30 +59,15 @@ namespace API.Controllers.Company
         }
 
         [HttpPost]
-        public async Task<ActionResult<Domain.Models.Company>> Create()
+        public async Task<ActionResult<Domain.Models.Company>> Create([FromForm] Domain.Models.Company model, [FromForm] IFormFile file)
         {
-            if (!Request.HasFormContentType) return BadRequest("Invalid form data.");
+            if (model == null)
+                return BadRequest("Model cannot be null.");
 
             try
             {
-                if (!Request.Form.ContainsKey("model"))
-                    return BadRequest("Model data is missing.");
-
-                Domain.Models.Company model;
-                try
+                if (file != null)
                 {
-                    model = JsonConvert.DeserializeObject<Domain.Models.Company>(Request.Form["model"]);
-                }
-                catch
-                {
-                    return BadRequest("Invalid company data format.");
-                }
-
-                if (model == null) return BadRequest("Model cannot be null.");
-
-                if (Request.Form.Files.Count > 0)
-                {
-                    var file = Request.Form.Files[0];
                     var fileName = $"{model.Name}.jpg";
 
                     var fileAdapter = _fileAdapterFactory.Create(file);
@@ -102,28 +87,22 @@ namespace API.Controllers.Company
             }
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Update([FromBody] Domain.Models.Company model)
+        [HttpPut]
+        public async Task<IActionResult> Update([FromForm] Domain.Models.Company model, IFormFile file)
         {
             if (model == null || (!Request.HasFormContentType && string.IsNullOrEmpty(Request.Form["model"])))
                 return BadRequest("Form data cannot be null");
 
             try
             {
-                if (await _companyRepository.CheckCompanyExistsAsync(model.Name))
-                {
-                    ModelState.AddModelError("Name", Localization.CloudERP.Messages.AlreadyExists);
-                    return NotFound();
-                }
-
                 if (model == null) return BadRequest("Model cannot be null.");
 
                 if (Request.Form.Files.Count > 0)
                 {
-                    var file = Request.Form.Files[0];
+                    var fileForm = Request.Form.Files[0];
                     var fileName = $"{model.Name}.jpg";
 
-                    var fileAdapter = _fileAdapterFactory.Create(file);
+                    var fileAdapter = _fileAdapterFactory.Create(fileForm);
                     model.Logo = await _fileService.UploadPhotoAsync(fileAdapter, COMPANY_LOGO_PATH, fileName);
                 }
                 else

@@ -32,12 +32,12 @@ namespace CloudERP.Controllers.General
             try
             {
                 var dashboardValues = await _httpClient.GetAsync<DashboardModel>($"homeapi/getdashboardvalues?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
-                var currencies = await _httpClient.GetAsync<Dictionary<string, decimal>>("home/currencies");
+                var currencies = await _httpClient.GetAsync<Dictionary<string, decimal>>("homeapi/getcurrencies");
 
                 ViewBag.Currencies = currencies;
                 ViewBag.SelectedCurrency = HttpContext.Session.GetString("SelectedCurrency") ?? "UAH";
 
-                return View(dashboardValues);
+                return View(dashboardValues ?? new DashboardModel());
             }
             catch (Exception ex)
             {
@@ -109,6 +109,7 @@ namespace CloudERP.Controllers.General
             HttpContext.Session.SetString("Salt", user.Salt);
             HttpContext.Session.SetString("IsActive", user.IsActive.ToString());
             HttpContext.Session.SetString("Token", token);
+            HttpContext.Session.SetString("Culture", "en-US");
         }
 
         private void SetEmployeeSession(Employee employee)

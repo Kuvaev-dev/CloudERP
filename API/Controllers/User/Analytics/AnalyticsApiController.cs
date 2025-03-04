@@ -47,14 +47,7 @@ namespace API.Controllers.User.Analytics
                     PendingSupportTickets = await _supportTicketRepository.GetTotalPendingSupportTicketsByCompany(companyID)
                 };
 
-                var chartData = new
-                {
-                    Employees = new { Total = model.TotalEmployees, NewInAMonth = model.NewEmployeesThisMonth, NewInAYear = model.NewEmployeesThisYear },
-                    Stock = new { TotalItems = model.TotalStockItems, Available = model.StockAvailable, Expired = model.StockExpired },
-                    Support = new { TotalTickets = model.TotalSupportTickets, Resolved = model.ResolvedSupportTickets, Pending = model.PendingSupportTickets }
-                };
-
-                return Ok(new { model, chartData });
+                return Ok(model);
             }
             catch (Exception ex)
             {

@@ -29,9 +29,24 @@ namespace CloudERP.Controllers.User.Analytics
 
                 ViewBag.ChartData = new
                 {
-                    Employees = new { model?.TotalEmployees, model?.NewEmployeesThisMonth, model?.NewEmployeesThisYear },
-                    Stock = new { model?.TotalStockItems, model?.StockAvailable, model?.StockExpired },
-                    Support = new { model?.TotalSupportTickets, model?.ResolvedSupportTickets, model?.PendingSupportTickets }
+                    Employees = new
+                    {
+                        Total = model?.TotalEmployees ?? 0,
+                        NewInAMonth = model?.NewEmployeesThisMonth ?? 0,
+                        NewInAYear = model?.NewEmployeesThisYear ?? 0
+                    },
+                    Stock = new
+                    {
+                        TotalItems = model?.TotalStockItems ?? 0,
+                        Available = model?.StockAvailable ?? 0,
+                        Expired = model?.StockExpired ?? 0
+                    },
+                    Support = new
+                    {
+                        TotalTickets = model?.TotalSupportTickets ?? 0,
+                        Resolved = model?.ResolvedSupportTickets ?? 0,
+                        Pending = model?.PendingSupportTickets ?? 0
+                    }
                 };
 
                 return View(model);

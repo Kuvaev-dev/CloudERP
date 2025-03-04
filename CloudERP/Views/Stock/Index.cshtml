@@ -17,7 +17,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        @Html.ActionLink(Localization.CloudERP.Miscellaneous.AddProduct, "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
+        @Html.ActionLink(Localization.CloudERP.Miscellaneous.AddProduct, "Create", "Stock", null, new { @style = "float:left;", @class = "btn btn-success" })
         <h3 class="text-danger">@ViewBag.Message</h3>
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
     </div>
@@ -71,7 +71,7 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.IsActive)
                             </td>
-                            <td class="btn-group">
+                            <td class="d-flex btn-group">
                                 @Html.ActionLink(Localization.CloudERP.Common.Update, "Edit", new { id = item.ProductID }, new { @class = "btn btn-primary" })
                                 @Html.ActionLink(Localization.CloudERP.Miscellaneous.ItemDetail, "Details", new { id = item.ProductID }, new { @class = "btn btn-info" })
                             </td>

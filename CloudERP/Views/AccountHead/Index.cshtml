@@ -17,7 +17,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        @Html.ActionLink(Localization.CloudERP.Account.AddAccountHead, "Create", null, new { @style = "float:left;", @class = "btn btn-success" })
+        @Html.ActionLink(Localization.CloudERP.Account.AddAccountHead, "Create", "AccountHead", null, new { @style = "float:left;", @class = "btn btn-success" })
         <h2 class="text-danger">@ViewBag.Message</h2>
         <h2 class="text-danger">@ViewBag.ErrorMessage</h2>
     </div>
@@ -53,7 +53,7 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.FullName)
                             </td>
-                            <td class="btn btn-group">
+                            <td class="d-flex btn-group">
                                 @Html.ActionLink(Localization.CloudERP.Common.Edit, "Edit", new { id = item.AccountHeadID }, new { @class = "btn btn-primary" })
                             </td>
                         </tr>

@@ -107,7 +107,7 @@
                             <td>@Html.DisplayFor(modelItem => item.PurchaseUnitPrice)</td>
                             <td>@(string.Format("{0:0.000}", Math.Truncate(item.PurchaseQuantity * item.PurchaseUnitPrice * 10) / 10))</td>
                             <td>@Html.DisplayFor(modelItem => item.UserName)</td>
-                            <td>
+                            <td class="d-flex btn-group">
                                 @using (Html.BeginForm("DeleteConfirm", "PurchaseCart", FormMethod.Post))
                                 {
                                     @Html.AntiForgeryToken()

@@ -82,30 +82,25 @@ namespace CloudERP.Controllers.Company
                 {
                     using var content = new MultipartFormDataContent();
 
-                    // Корректная передача модели в JSON
                     var modelJson = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
                     content.Add(modelJson, "model");
 
-                    // Добавление файла, если он присутствует
                     if (logo != null)
                     {
-                        using var stream = logo.OpenReadStream();
+                        var stream = logo.OpenReadStream();
                         var fileContent = new StreamContent(stream);
                         fileContent.Headers.ContentType = new MediaTypeHeaderValue(logo.ContentType);
                         content.Add(fileContent, "file", logo.FileName);
                     }
 
-                    // Отправка данных через HttpClient
-                    var response = await _httpClient.PostAsync("companyapi/create", content);
-
+                    var response = await _httpClient.PostMultipartAsync("companyapi/create", content);
                     if (response)
                     {
                         return RedirectToAction("Index");
                     }
                     else
                     {
-                        TempData["ErrorMessage"] = "Ошибка при регистрации компании.";
-                        return RedirectToAction("EP500", "EP");
+                        ModelState.AddModelError("", "Failed to create company.");
                     }
                 }
 
@@ -158,22 +153,14 @@ namespace CloudERP.Controllers.Company
 
                     if (logo != null)
                     {
-                        using var stream = logo.OpenReadStream();
-                        using var fileContent = new StreamContent(stream);
-                        fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(logo.ContentType);
+                        var stream = logo.OpenReadStream();
+                        var fileContent = new StreamContent(stream);
+                        fileContent.Headers.ContentType = new MediaTypeHeaderValue(logo.ContentType);
                         content.Add(fileContent, "file", logo.FileName);
                     }
 
-                    var response = await _httpClient.PostAsync("companyapi/create", content);
-                    if (response)
-                    {
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        TempData["ErrorMessage"] = "Ошибка при регистрации компании.";
-                        return RedirectToAction("EP500", "EP");
-                    }
+                    var response = await _httpClient.PutMultipartAsync("companyapi/update", content);
+                    if (response) return RedirectToAction("Index");
                 }
 
                 return View(model);
