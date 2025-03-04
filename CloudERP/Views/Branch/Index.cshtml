@@ -61,7 +61,7 @@
                             </td>
                             <td>
                                 <div class="mt-2 btn-group">
-                                    @Html.ActionLink(Localization.CloudERP.Common.Edit, "Edit", new { id = item.BranchID }, new { @class = "btn btn-primary" })
+                                    @Html.ActionLink(Localization.CloudERP.Common.Edit, "Edit", "Branch", new { id = item.BranchID }, new { @class = "btn btn-primary" })
                                     @Html.ActionLink(Localization.CloudERP.Sale.Sales, "SubCustomSalesHistory", "SalePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now, id = item.BranchID }, new { @class = "btn btn-info" })
                                     @Html.ActionLink(Localization.CloudERP.Purchase.Purchases, "SubCustomPurchasesHistory", "PurchasePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now, id = item.BranchID }, new { @class = "btn btn-info" })
                                 </div>

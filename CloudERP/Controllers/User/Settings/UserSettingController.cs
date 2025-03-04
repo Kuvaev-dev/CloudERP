@@ -1,5 +1,7 @@
 ﻿using CloudERP.Helpers;
+using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CloudERP.Controllers.User.Settings
 {
@@ -24,6 +26,14 @@ namespace CloudERP.Controllers.User.Settings
             try
             {
                 var user = await _httpClient.GetAsync<Domain.Models.User>($"usersettingapi/getuser?userId={employeeID}");
+                var userTypes = await _httpClient.GetAsync<List<UserType>>("usersettingapi/getusertypes");
+
+                ViewBag.UserTypeID = userTypes.Select(x => new SelectListItem
+                {
+                    Value = x.UserTypeID.ToString(),
+                    Text = x.UserTypeName
+                });
+
                 return View(user);
             }
             catch (Exception ex)
@@ -70,6 +80,15 @@ namespace CloudERP.Controllers.User.Settings
             try
             {
                 var user = await _httpClient.GetAsync<Domain.Models.User>($"usersettingapi/getuser?userId={userID}");
+                var userTypes = await _httpClient.GetAsync<List<UserType>>("usersettingapi/getusertypes");
+
+                ViewBag.UserTypeID = userTypes.Select(x => new SelectListItem
+                {
+                    Value = x.UserTypeID.ToString(),
+                    Text = x.UserTypeName,
+                    Selected = x.UserTypeID == user.UserTypeID
+                });
+
                 return View(user);
             }
             catch (Exception ex)

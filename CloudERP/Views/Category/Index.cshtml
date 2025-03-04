@@ -39,7 +39,7 @@
                             <td>@Html.DisplayFor(modelItem => item.CategoryName)</td>
                             <td>@Html.DisplayFor(modelItem => item.BranchName)</td>
                             <td>@Html.DisplayFor(modelItem => item.CompanyName)</td>
-                            <td class="btn btn-group">
+                            <td class="d-flex btn-group">
                                 @Html.ActionLink(Localization.CloudERP.Common.Edit, "Edit", new { id = item.CategoryID }, new { @class = "btn btn-primary" })
                                 @Html.ActionLink(Localization.CloudERP.Common.Details, "Details", new { id = item.CategoryID }, new { @class = "btn btn-info" })
                             </td>

@@ -3,6 +3,11 @@
     ViewBag.Title = Localization.CloudERP.Miscellaneous.SubBranchAccountsLedger;
 }
 
+<!-- Tables Sorting-->
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<link href="https://cdn.datatables.net/v/bs5/dt-2.2.2/datatables.min.css" rel="stylesheet">
+<script src="https://cdn.datatables.net/v/bs5/dt-2.2.2/datatables.min.js"></script>
+
 @using (Html.BeginForm("GetSubLedger", "Ledger", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
@@ -33,7 +38,7 @@
         </div>
     </div>
     <div class="card-body">
-        <table class="table my-4 w-100" id="datatable2">
+        <table class="table my-4 w-100" id="dataTable">
             <thead>
                 <tr>
                     <th style="display:none;">

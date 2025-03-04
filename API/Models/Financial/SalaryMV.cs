@@ -9,6 +9,8 @@
         public double TransferAmount { get; set; }
         public string SalaryMonth { get; set; }
         public string SalaryYear { get; set; }
+        public double? BonusPercentage { get; set; }
+        public double TotalAmount { get; set; }
         public int CompanyID { get; set; }
         public int BranchID { get; set; }
         public int UserID { get; set; }

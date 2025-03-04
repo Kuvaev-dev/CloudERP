@@ -279,6 +279,15 @@
                                             </a>
                                         </li>
                                         <li class="nav-heading ">
+                                            <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Miscellaneous.Employees</span>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("Employees", "CompanyEmployee")" title="@Localization.CloudERP.Miscellaneous.EmployeeRegistration">
+                                                <em class="bi bi-person-add h4 mb-0"></em>
+                                                <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.EmployeeRegistration)</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-heading ">
                                             <span data-localize="sidebar.heading.COMPONENTS">Main Account Settings</span>
                                         </li>
                                         <li>
@@ -362,7 +371,7 @@
                                             <li>
                                                 <a href="@Url.Action("MainBranchEmployeeGuide", "Guide")" title="@Localization.CloudERP.Miscellaneous.MainEmployeeGuide">
                                                     <em class="bi bi-info-circle h4 mb-0"></em>
-                                                    <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.MainEmployeeGuide))</span>
+                                                    <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.MainEmployeeGuide)</span>
                                                 </a>
                                             </li>
                                             <li class="nav-heading ">
@@ -371,28 +380,28 @@
                                             <li>
                                                 <a href="@Url.Action("Create", "Branch")" title="@Localization.CloudERP.Miscellaneous.NewBranch">
                                                     <em class="bi bi-diagram-2 h4 mb-0"></em>
-                                                    <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.NewBranch))</span>
+                                                    <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.NewBranch)</span>
                                                 </a>
                                             </li>
                                             <li class="nav-heading ">
                                                 <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Miscellaneous.Employees</span>
                                             </li>
                                             <li>
-                                                <a href="@Url.Action("Employees", "CompanyEmployee")" title="@Localization.CloudERP.Miscellaneous.EmployeeRegistration">
+                                                <a href="@Url.Action("Employee", "BranchEmployee")" title="@Localization.CloudERP.Miscellaneous.EmployeeRegistration">
                                                     <em class="bi bi-person-add h4 mb-0"></em>
-                                                    <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.EmployeeRegistration))</span>
+                                                    <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.EmployeeRegistration)</span>
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="@Url.Action("EmployeeSalary", "CompanyEmployee")" title="@Localization.CloudERP.Miscellaneous.Payroll">
                                                     <em class="bi bi-coin h4 mb-0"></em>
-                                                    <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.Payroll))</span>
+                                                    <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.Payroll)</span>
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="@Url.Action("SalaryHistory", "CompanyEmployee")" title="@Localization.CloudERP.Miscellaneous.PaidSalariesHistory">
                                                     <em class="bi bi-cash-stack h4 mb-0"></em>
-                                                    <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.PaidSalariesHistory))</span>
+                                                    <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.PaidSalariesHistory)</span>
                                                 </a>
                                             </li>
                                         }
@@ -413,19 +422,19 @@
                                             <li>
                                                 <a href="@Url.Action("Employee", "BranchEmployee")" title="@Localization.CloudERP.Miscellaneous.EmployeeRegistration">
                                                     <em class="bi bi-person-add h4 mb-0"></em>
-                                                    <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.EmployeeRegistration))</span>
+                                                    <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.EmployeeRegistration)</span>
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="@Url.Action("EmployeeSalary", "CompanyEmployee")" title="@Localization.CloudERP.Miscellaneous.Payroll">
                                                     <em class="bi bi-coin h4 mb-0"></em>
-                                                    <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.Payroll))</span>
+                                                    <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.Payroll)</span>
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="@Url.Action("SalaryHistory", "CompanyEmployee")" title="@Localization.CloudERP.Miscellaneous.PaidSalariesHistory">
                                                     <em class="bi bi-cash-stack h4 mb-0"></em>
-                                                    <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.PaidSalariesHistory))</span>
+                                                    <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.PaidSalariesHistory)</span>
                                                 </a>
                                             </li>
                                         }
@@ -435,13 +444,13 @@
                                         <li>
                                             <a href="@Url.Action("Index", "Category")" title="@Localization.CloudERP.Miscellaneous.StockCategories">
                                                 <em class="bi bi-inboxes-fill h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.StockCategories))</span>
+                                                <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.StockCategories)</span>
                                             </a>
                                         </li>
                                         <li>
                                             <a href="@Url.Action("Index", "Stock")" title="@Localization.CloudERP.Miscellaneous.StockDetails">
                                                 <em class="bi bi-boxes h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.StockDetails))</span>
+                                                <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.StockDetails)</span>
                                             </a>
                                         </li>
                                         <li>
@@ -500,7 +509,7 @@
                                     <li>
                                         <a href="@Url.Action("Index", "FinancialYearView")" title="@Localization.CloudERP.Miscellaneous.AllFinancialYears">
                                             <em class="bi bi-calendar3 h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.AllFinancialYears))</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.AllFinancialYears)</span>
                                         </a>
                                     </li>
                                 }
@@ -512,19 +521,19 @@
                                     <li>
                                         <a href="@Url.Action("Create", "Customer")" title="@Localization.CloudERP.Miscellaneous.NewCustomer">
                                             <em class="bi bi-person-fill-add h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.NewCustomer))</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.NewCustomer)</span>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="@Url.Action("Index", "Customer")" title="@Localization.CloudERP.Miscellaneous.BranchCustomers">
                                             <em class="bi bi-cart h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.BranchCustomers))</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.BranchCustomers)</span>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="@Url.Action("SubBranchCustomer", "Customer")" title="@Localization.CloudERP.Miscellaneous.SubBranchCustomersNavlink">
                                             <em class="bi bi-cart-check h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.SubBranchCustomersNavlink))</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.SubBranchCustomersNavlink)</span>
                                         </a>
                                     </li>
                                     <li class="nav-heading ">
@@ -533,31 +542,31 @@
                                     <li>
                                         <a href="@Url.Action("NewSale", "SaleCart")" title="@Localization.CloudERP.Miscellaneous.NewSale">
                                             <em class="bi bi-bag-plus h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.NewSale))</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.NewSale)</span>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="@Url.Action("RemainingPaymentList", "SalePayment")" title="@Localization.CloudERP.Miscellaneous.SalePendingPayment">
                                             <em class="bi bi-paypal h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.SalePendingPayment))</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.SalePendingPayment)</span>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="@Url.Action("CustomSalesHistory", "SalePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now })" title="@Localization.CloudERP.Miscellaneous.AllSales">
                                             <em class="bi bi-card-checklist h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.AllSales))</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.AllSales)</span>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="@Url.Action("FindSale", "SaleReturn")" title="@Localization.CloudERP.Miscellaneous.SaleReturn">
                                             <em class="bi bi-bag-dash h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.SaleReturn))</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.SaleReturn)</span>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="@Url.Action("AllReturnSalesPendingAmount", "SalePaymentReturn")" title="@Localization.CloudERP.Miscellaneous.ReturnSalesPendingAmount">
                                             <em class="bi bi-wallet-fill h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.ReturnSalesPendingAmount))</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.ReturnSalesPendingAmount)</span>
                                         </a>
                                     </li>
                                 }
@@ -578,13 +587,13 @@
                                     <li>
                                         <a href="@Url.Action("Create", "Supplier")" title="@Localization.CloudERP.Miscellaneous.NewSupplier">
                                             <em class="bi bi-umbrella h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.NewSupplier))</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.NewSupplier)</span>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="@Url.Action("Index", "Supplier")" title="Branch Suppliers">
                                             <em class="bi bi-truck h4 mb-0"></em>
-                                            <span class="align-middle">Branch Suppliers"</span>
+                                            <span class="align-middle">Branch Suppliers</span>
                                         </a>
                                     </li>
                                     <li>
@@ -599,31 +608,31 @@
                                     <li>
                                         <a href="@Url.Action("NewPurchase", "PurchaseCart")" title="@Localization.CloudERP.Miscellaneous.NewPurchase">
                                             <em class="bi bi-cart-plus h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.NewPurchase))</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.NewPurchase)</span>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="@Url.Action("RemainingPaymentList", "PurchasePayment")" title="@Localization.CloudERP.Miscellaneous.PurchasePendingPayment">
                                             <em class="bi bi-currency-dollar h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.PurchasePendingPayment))</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.PurchasePendingPayment)</span>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="@Url.Action("CustomPurchasesHistory", "PurchasePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now })" title="@Localization.CloudERP.Miscellaneous.AllPurchases">
                                             <em class="bi bi-cart h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.AllPurchases))</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.AllPurchases)</span>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="@Url.Action("FindPurchase", "PurchaseReturn")" title="@Localization.CloudERP.Miscellaneous.PurchasesReturn">
                                             <em class="bi bi-cart-dash h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.PurchasesReturn))</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.PurchasesReturn)</span>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="@Url.Action("AllPurchasesPendingPayment", "PurchasePaymentReturn")" title="@Localization.CloudERP.Miscellaneous.ReturnPaymentPending">
                                             <em class="bi bi-currency-dollar h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.ReturnPaymentPending))</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.ReturnPaymentPending)</span>
                                         </a>
                                     </li>
                                     <li class="nav-heading ">
@@ -632,37 +641,37 @@
                                     <li>
                                         <a href="@Url.Action("GeneralTransaction", "GeneralTransaction", new { transaction = new CloudERP.Models.GeneralTransactionMV() { CreditAccountControlID = 0, DebitAccountControlID = 0, TransferAmount = 0 } })" title="@Localization.CloudERP.Miscellaneous.GeneralTransaction">
                                             <em class="bi bi-briefcase h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.GeneralTransaction))</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.GeneralTransaction)</span>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="@Url.Action("Journal", "GeneralTransaction")" title="@Localization.CloudERP.Miscellaneous.Journal">
                                             <em class="bi bi-journal-bookmark h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.Journal))</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.Journal)</span>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="@Url.Action("GetLedger", "Ledger")" title="@Localization.CloudERP.Miscellaneous.AccountsLedger">
                                             <em class="bi bi-book-half h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.AccountsLedger))</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.AccountsLedger)</span>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="@Url.Action("GetTrialBalance", "TrialBalance")" title="@Localization.CloudERP.Miscellaneous.TrialBalance">
                                             <em class="bi bi-currency-dollar h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.TrialBalance))</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.TrialBalance)</span>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="@Url.Action("GetIncomeStatement", "IncomeStatement")" title="@Localization.CloudERP.Miscellaneous.IncomeStatement">
                                             <em class="bi bi-currency-exchange h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.IncomeStatement))</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.IncomeStatement)</span>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="@Url.Action("GetBalanceSheet", "BalanceSheet")" title="@Localization.CloudERP.Miscellaneous.BalanceSheet">
                                             <em class="bi bi-file-earmark-spreadsheet h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.BalanceSheet))</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.BalanceSheet)</span>
                                         </a>
                                     </li>
                                 }
@@ -683,7 +692,7 @@
                                     <li>
                                         <a href="@Url.Action("AdminList", "Support")" title="@Localization.CloudERP.Miscellaneous.TicketList">
                                             <em class="bi bi-hammer h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.TicketList))</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.TicketList)</span>
                                         </a>
                                     </li>
                                 }
@@ -699,7 +708,7 @@
                                 <li>
                                     <a href="@Url.Action("PrivacyPolicy", "Guide")" title="@Localization.CloudERP.Miscellaneous.PrivacyPolicy">
                                         <em class="bi bi-sourceforge h4 mb-0"></em>
-                                        <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.PrivacyPolicy))</span>
+                                        <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.PrivacyPolicy)</span>
                                     </a>
                                 </li>
                             }

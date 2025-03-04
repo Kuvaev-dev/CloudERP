@@ -68,7 +68,7 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.Designation)
                             </td>
-                            <td class="btn-group">
+                            <td class="d-flex btn-group">
                                 @Html.ActionLink(Localization.CloudERP.Common.Update, "EmployeeUpdation", new { id = item.EmployeeID }, new { @class = "btn btn-primary" })
                                 @Html.ActionLink(Localization.CloudERP.Company.Profile, "ViewProfile", new { id = item.EmployeeID }, new { @class = "btn btn-info" })
 

@@ -21,7 +21,7 @@ namespace CloudERP.Controllers.Utilities.Support
         {
             try
             {
-                ViewBag.UserTickets = await _httpClient.GetAsync<List<SupportTicket>>(
+                ViewBag.UserTickets = await _httpClient.GetAsync<IEnumerable<SupportTicket>>(
                     $"supportapi/getusertickets?userId={_sessionHelper.UserID}");
 
                 return View(new SupportTicket());
@@ -40,7 +40,7 @@ namespace CloudERP.Controllers.Utilities.Support
             try
             {
                 var user = await _httpClient.GetAsync<Domain.Models.User>($"userapi/getbyid?id={_sessionHelper.UserID}");
-                var userTickets = await _httpClient.GetAsync<List<SupportTicket>>($"supportapi/getusertickets?userId={_sessionHelper.UserID}");
+                var userTickets = await _httpClient.GetAsync<IEnumerable<SupportTicket>>($"supportapi/getusertickets?userId={_sessionHelper.UserID}");
 
                 model.CompanyID = _sessionHelper.CompanyID;
                 model.BranchID = _sessionHelper.BranchID;
@@ -78,7 +78,7 @@ namespace CloudERP.Controllers.Utilities.Support
         {
             try
             {
-                var tickets = await _httpClient.GetAsync<List<SupportTicket>>("supportapi/getadminlist");
+                var tickets = await _httpClient.GetAsync<IEnumerable<SupportTicket>>("supportapi/getadminlist");
                 if (tickets == null) return RedirectToAction("AdminList");
 
                 return View(tickets);

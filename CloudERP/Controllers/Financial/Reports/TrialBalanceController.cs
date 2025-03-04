@@ -28,7 +28,7 @@ namespace CloudERP.Controllers.Financial.Reports
             {
                 await PopulateViewBag();
 
-                var trialBalance = await _httpClient.GetAsync<List<TrialBalanceModel>>(
+                var trialBalance = await _httpClient.GetAsync<IEnumerable<TrialBalanceModel>>(
                     $"trialbalanceapi/gettrialbalance?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
 
                 return View(trialBalance);
@@ -51,7 +51,7 @@ namespace CloudERP.Controllers.Financial.Reports
             {
                 await PopulateViewBag(id);
 
-                var trialBalance = await _httpClient.GetAsync<BalanceSheetModel>(
+                var trialBalance = await _httpClient.GetAsync<IEnumerable<BalanceSheetModel>>(
                     $"trialbalanceapi/gettrialbalancebyfinancialyear?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&financialYearId={id}");
 
                 return View(trialBalance);
@@ -72,7 +72,7 @@ namespace CloudERP.Controllers.Financial.Reports
             {
                 await PopulateViewBag();
 
-                var trialBalance = await _httpClient.GetAsync<List<TrialBalanceModel>>(
+                var trialBalance = await _httpClient.GetAsync<IEnumerable<TrialBalanceModel>>(
                     $"trialbalanceapi/gettrialbalance?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
 
                 return View(trialBalance);
@@ -95,7 +95,7 @@ namespace CloudERP.Controllers.Financial.Reports
             {
                 await PopulateViewBag(id);
 
-                var trialBalance = await _httpClient.GetAsync<BalanceSheetModel>(
+                var trialBalance = await _httpClient.GetAsync<IEnumerable<BalanceSheetModel>>(
                     $"trialbalanceapi/gettrialbalancebyfinancialyear?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&financialYearId={id}");
 
                 return View(trialBalance);
@@ -109,8 +109,8 @@ namespace CloudERP.Controllers.Financial.Reports
 
         private async Task PopulateViewBag(int? selectedId = null)
         {
-            ViewBag.FinancialYears = new SelectList(await _httpClient.GetAsync<List<FinancialYear>>(
-                    "financial-year"), "FinancialYearID", "FinancialYearName");
+            ViewBag.FinancialYears = new SelectList(await _httpClient.GetAsync<IEnumerable<FinancialYear>>(
+                    "financialyearapi/getall"), "FinancialYearID", "FinancialYearName");
         }
     }
 }

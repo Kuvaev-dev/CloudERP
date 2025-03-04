@@ -77,7 +77,7 @@ namespace CloudERP.Controllers.General
 
                 return userData.User.UserTypeID == ADMIN_USER_TYPE_ID
                     ? View("~/Views/Guide/AdminMenuGuide.cshtml")
-                    : View("~/Views/Home/Index.cshtml");
+                    : View("~/Views/Guide/PrivacyPolicy.cshtml");
             }
             catch (Exception ex)
             {

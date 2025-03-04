@@ -48,6 +48,9 @@ namespace DatabaseAccess.Repositories.Suppliers
         public async Task<IEnumerable<Supplier>> GetByCompanyAndBranchAsync(int companyID, int branchID)
         {
             var entities = await _dbContext.tblSupplier
+                .Include(s => s.Company)
+                .Include(s => s.Branch)
+                .Include(s => s.User)
                 .Where(s => s.CompanyID == companyID && s.BranchID == branchID)
                 .ToListAsync();
 

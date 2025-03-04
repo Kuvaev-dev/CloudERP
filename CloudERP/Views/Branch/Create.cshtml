@@ -5,6 +5,7 @@
     ViewBag.Title = Localization.CloudERP.Branch.AddBranch;
 }
 
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
 
@@ -102,7 +103,7 @@
             var phoneNumber = iti.getNumber();
             if (!iti.isValidNumber()) {
                 e.preventDefault();
-                alert(@Localization.CloudERP.Messages.PleaseEnterAValidPhoneNumber);
+                alert('@Localization.CloudERP.Messages.PleaseEnterAValidPhoneNumber');
             } else {
                 $('#PhoneNumber').val(phoneNumber);
             }

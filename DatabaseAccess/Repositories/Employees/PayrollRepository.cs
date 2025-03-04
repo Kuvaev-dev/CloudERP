@@ -47,50 +47,70 @@ namespace DatabaseAccess.Repositories.Employees
 
         public async Task<Payroll?> GetEmployeePayrollAsync(int employeeID, int branchID, int companyID, string salaryMonth, string salaryYear)
         {
-            var entity = await _dbContext.tblPayroll.FirstOrDefaultAsync(p =>
-                p.EmployeeID == employeeID &&
-                p.BranchID == branchID &&
-                p.CompanyID == companyID &&
-                p.SalaryMonth == salaryMonth &&
-                p.SalaryYear == salaryYear);
+            var entity = await _dbContext.tblPayroll
+                .Include(p => p.Employee)
+                .Include(p => p.Branch)
+                .Include(p => p.Company)
+                .Include(p => p.User)
+                .FirstOrDefaultAsync(p =>
+                    p.EmployeeID == employeeID &&
+                    p.BranchID == branchID &&
+                    p.CompanyID == companyID &&
+                    p.SalaryMonth == salaryMonth &&
+                    p.SalaryYear == salaryYear
+                );
 
             return entity == null ? null : new Payroll
             {
                 PayrollID = entity.PayrollID,
                 EmployeeID = entity.EmployeeID,
+                EmployeeName = entity.Employee.Name,
                 BranchID = entity.BranchID,
+                BranchName = entity.Branch.BranchName,
+                BranchAddress = entity.Branch.BranchAddress,
+                BranchContact = entity.Branch.BranchContact,
                 CompanyID = entity.CompanyID,
+                CompanyName = entity.Company.Name,
+                CompanyLogo = entity.Company.Logo,
                 TransferAmount = entity.TransferAmount,
                 PayrollInvoiceNo = entity.PayrollInvoiceNo,
                 PaymentDate = entity.PaymentDate,
                 SalaryMonth = entity.SalaryMonth,
                 SalaryYear = entity.SalaryYear,
-                UserID = entity.UserID
+                UserID = entity.UserID,
+                UserName = entity.User.UserName
             };
-        }
-
-        public async Task<int> GetLatestPayrollIdAsync()
-        {
-            return await _dbContext.tblPayroll.MaxAsync(p => p.PayrollID);
         }
 
         public async Task<Payroll?> GetLatestPayrollAsync()
         {
-            var payrollID = await GetLatestPayrollIdAsync();
-            var payroll = await _dbContext.tblPayroll.FirstOrDefaultAsync(p => p.PayrollID == payrollID);
+            var payrollID = await _dbContext.tblPayroll.MaxAsync(p => p.PayrollID);
+            var payroll = await _dbContext.tblPayroll
+                .Include(p => p.Employee)
+                .Include(p => p.Branch)
+                .Include(p => p.Company)
+                .Include(p => p.User)
+                .FirstOrDefaultAsync(p => p.PayrollID == payrollID);
 
             return payroll == null ? null : new Payroll
             {
                 PayrollID = payroll.PayrollID,
                 EmployeeID = payroll.EmployeeID,
+                EmployeeName = payroll.Employee.Name,
                 BranchID = payroll.BranchID,
+                BranchName = payroll.Branch.BranchName,
+                BranchAddress = payroll.Branch.BranchAddress,
+                BranchContact = payroll.Branch.BranchContact,
                 CompanyID = payroll.CompanyID,
+                CompanyName = payroll.Company.Name,
+                CompanyLogo = payroll.Company.Logo,
                 TransferAmount = payroll.TransferAmount,
                 PayrollInvoiceNo = payroll.PayrollInvoiceNo,
                 PaymentDate = payroll.PaymentDate,
                 SalaryMonth = payroll.SalaryMonth,
                 SalaryYear = payroll.SalaryYear,
-                UserID = payroll.UserID
+                UserID = payroll.UserID,
+                UserName = payroll.User.UserName
             };
         }
 

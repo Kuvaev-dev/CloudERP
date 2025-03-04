@@ -113,7 +113,7 @@ namespace CloudERP.Controllers.Branch
 
             try
             {
-                var branch = await _httpClient.GetAsync<Domain.Models.Branch>($"branchapi/getbyid?id={id}");
+                var branch = await _httpClient.GetAsync<Domain.Models.Branch>($"branchapi/getbyid?id={id.Value}");
                 if (branch == null) return RedirectToAction("EP404", "EP");
 
                 return View(branch);

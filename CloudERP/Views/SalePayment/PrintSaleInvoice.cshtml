@@ -47,7 +47,6 @@
                         <p>@Localization.CloudERP.Sale.PrintDate: @DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt")</p>
                     </div>
                 </div>
-
                 <h4>@Localization.CloudERP.Sale.SaleProductsDetail</h4>
                 <hr />
                 <div class="table-responsive table-bordered mb-3">
@@ -82,7 +81,7 @@
                                 <div class="h3">@Localization.CloudERP.Sale.GRANDTOTAL</div>
                             </div>
                             <div class="col-5">
-                                <div class="text-right h3">@Model.TotalCost.ToString("F2")</div>
+                                <div class="text-right h3">@Model.TotalCost.ToString("F2") @Html.Raw(Localization.CloudERP.Common.UAH)</div>
                             </div>
                         </div>
                     </div>

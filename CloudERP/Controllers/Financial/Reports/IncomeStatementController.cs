@@ -29,7 +29,7 @@ namespace CloudERP.Controllers.Financial.Reports
             {
                 await PopulateViewBag();
 
-                return View(_httpClient.GetAsync<IncomeStatementModel>(
+                return View(await _httpClient.GetAsync<IncomeStatementModel>(
                     $"incomestatementapi/getincomestatement?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}"));
             }
             catch (Exception ex)
@@ -46,17 +46,12 @@ namespace CloudERP.Controllers.Financial.Reports
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            if (!FinancialYearID.HasValue)
-            {
-                ViewBag.ErrorMessage = Localization.CloudERP.Messages.InvalidFinancialYearID;
-                return View(new IncomeStatementModel());
-            }
-
             try
             {
                 await PopulateViewBag();
 
-                return View(await _httpClient.GetAsync<IncomeStatementModel>($"incomestatementapi/getincomestatementbyfinancialyear?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&FinancialYearID={FinancialYearID}"));
+                return View(await _httpClient.GetAsync<IncomeStatementModel>(
+                    $"incomestatementapi/getincomestatementbyfinancialyear?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&FinancialYearID={FinancialYearID}"));
             }
             catch (Exception ex)
             {
@@ -75,7 +70,7 @@ namespace CloudERP.Controllers.Financial.Reports
             {
                 await PopulateViewBag();
 
-                return View(_httpClient.GetAsync<IncomeStatementModel>(
+                return View(await _httpClient.GetAsync<IncomeStatementModel>(
                     $"incomestatementapi/getincomestatement?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}"));
             }
             catch (Exception ex)
@@ -96,7 +91,8 @@ namespace CloudERP.Controllers.Financial.Reports
             {
                 await PopulateViewBag();
 
-                return View(await _httpClient.GetAsync<IncomeStatementModel>($"incomestatementapi/getincomestatementbyfinancialyear?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&FinancialYearID={id}"));
+                return View(await _httpClient.GetAsync<IncomeStatementModel>(
+                    $"incomestatementapi/getincomestatementbyfinancialyear?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&FinancialYearID={id}"));
             }
             catch (Exception ex)
             {

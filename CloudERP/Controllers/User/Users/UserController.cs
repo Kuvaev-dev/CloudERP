@@ -36,6 +36,25 @@ namespace CloudERP.Controllers.User.Users
             }
         }
 
+        // GET: User
+        public async Task<ActionResult> SubBranchUser()
+        {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            try
+            {
+                var users = await _httpClient.GetAsync<List<Domain.Models.User>>(
+                    $"userapi/getbybranch?companyId={_sessionHelper.CompanyID}&branchTypeId={_sessionHelper.BranchTypeID}&branchId={_sessionHelper.BrchID}");
+                return View(users ?? []);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
+        }
+
         // GET: User/Details/{id}
         public async Task<ActionResult> Details(int id)
         {

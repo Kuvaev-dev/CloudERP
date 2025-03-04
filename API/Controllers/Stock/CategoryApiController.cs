@@ -18,9 +18,9 @@ namespace API.Controllers.Stock
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Category>>> GetAll(int companyID, int branchID)
+        public async Task<ActionResult<IEnumerable<Category>>> GetAll(int companyId, int branchId)
         {
-            var categories = await _categoryRepository.GetAllAsync(companyID, branchID);
+            var categories = await _categoryRepository.GetAllAsync(companyId, branchId);
             return Ok(categories);
         }
 

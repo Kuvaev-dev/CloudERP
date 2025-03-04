@@ -116,7 +116,7 @@ namespace API.Controllers.Company
             _companyEmployeeFacade.EmailService.SendEmail(employee.Email, subject, body);
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<ActionResult<SalaryMV>> ProcessSalary(string TIN)
         {
             var employee = await _companyEmployeeFacade.EmployeeRepository.GetByTINAsync(TIN);
@@ -126,9 +126,11 @@ namespace API.Controllers.Company
             {
                 EmployeeID = employee.EmployeeID,
                 EmployeeName = employee.FullName,
-                Designation = employee.Designation,
                 TIN = employee.TIN,
-                TransferAmount = employee.MonthlySalary
+                Designation = employee.Designation,
+                TransferAmount = employee.MonthlySalary,
+                SalaryMonth = DateTime.Now.ToString("MMMM"),
+                SalaryYear = DateTime.Now.ToString("yyyy")
             });
         }
 
@@ -142,7 +144,7 @@ namespace API.Controllers.Company
                     EmployeeID = salaryMV.EmployeeID,
                     SalaryMonth = salaryMV.SalaryMonth,
                     SalaryYear = salaryMV.SalaryYear,
-                    TransferAmount = salaryMV.TransferAmount
+                    TransferAmount = salaryMV.TotalAmount <= 0 ? salaryMV.TransferAmount : salaryMV.TotalAmount
                 };
 
                 string message = await _companyEmployeeFacade.EmployeeSalaryService.ConfirmSalaryAsync(
@@ -174,11 +176,11 @@ namespace API.Controllers.Company
         }
 
         [HttpGet]
-        public async Task<ActionResult<Payroll>> GetSalaryInvoice(int id)
+        public async Task<ActionResult<Payroll>> GetLatestSalaryInvoice()
         {
             try
             {
-                var invoice = await _companyEmployeeFacade.PayrollRepository.GetByIdAsync(id);
+                var invoice = await _companyEmployeeFacade.PayrollRepository.GetLatestPayrollAsync();
                 if (invoice == null) return BadRequest("Model not found.");
                 return Ok(invoice);
             }

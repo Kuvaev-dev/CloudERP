@@ -4,6 +4,7 @@ using Domain.Models;
 using Domain.Models.FinancialModels;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace CloudERP.Controllers.Company
 {
@@ -124,23 +125,26 @@ namespace CloudERP.Controllers.Company
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EmployeeSalary(SalaryMV salary)
+        public async Task<ActionResult> EmployeeSalary(string TIN)
         {
-            var result = await _httpClient.PostAsync($"companyemployeeapi/processsalary?TIN={salary.TIN}", salary);
-            return View(result ? salary : null);
+            var salary = await _httpClient.GetAsync<SalaryMV>($"companyemployeeapi/processsalary?TIN={TIN}");
+            return View(salary);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EmployeeSalaryConfirm(SalaryMV salaryMV)
         {
-            salaryMV.TotalAmount = salaryMV.TransferAmount + (salaryMV.TransferAmount * (salaryMV.BonusPercentage ?? 0) / 100);
+            salaryMV.CompanyID = _sessionHelper.CompanyID;
+            salaryMV.BranchID = _sessionHelper.BranchID;
+            salaryMV.UserID = _sessionHelper.UserID;
 
-            var result = await _httpClient.PostAsync("companyemployeeapi/confirmsalary", salaryMV);
-            if (result)
+            var response = await _httpClient.PostAsync("companyemployeeapi/confirmsalary", salaryMV);
+            if (response)
             {
-                return RedirectToAction("PrintSalaryInvoice", new { id = salaryMV.EmployeeID });
+                return RedirectToAction("PrintSalaryInvoice");
             }
+
             return RedirectToAction("EmployeeSalary");
         }
 
@@ -150,9 +154,9 @@ namespace CloudERP.Controllers.Company
             return View(history);
         }
 
-        public async Task<ActionResult> PrintSalaryInvoice(int id)
+        public async Task<ActionResult> PrintSalaryInvoice()
         {
-            var invoice = await _httpClient.GetAsync<Payroll>($"companyemployeeapi/getsalaryinvoice?id={id}");
+            var invoice = await _httpClient.GetAsync<Payroll>($"companyemployeeapi/getlatestsalaryinvoice");
             return View(invoice);
         }
     }

@@ -70,6 +70,20 @@ namespace API.Controllers.Branch
             }
         }
 
+        [HttpGet]
+        public async Task<ActionResult<Domain.Models.Branch>> GetById(int id)
+        {
+            try
+            {
+                var branch = await _branchRepository.GetByIdAsync(id);
+                return Ok(branch);
+            }
+            catch (Exception ex)
+            {
+                return Problem(detail: ex.Message, statusCode: 500);
+            }
+        }
+
         [HttpPost]
         public async Task<ActionResult<Domain.Models.Branch>> Create([FromBody] Domain.Models.Branch model)
         {

@@ -25,7 +25,7 @@ namespace CloudERP.Controllers.Stock
             try
             {
                 var response = await _httpClient.GetAsync<IEnumerable<Category>>(
-                    $"categoryapi/getall&companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                    $"categoryapi/getall?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 return View(response);
             }
             catch (Exception ex)

@@ -72,7 +72,7 @@ namespace CloudERP.Controllers.Stock
 
                 ViewBag.CategoryID = new SelectList(categories, "CategoryID", "CategoryName");
 
-                return View(new Domain.Models.Stock());
+                return View(new Domain.Models.Stock() { ExpiryDate = DateTime.Now, Manufacture = DateTime.Now });
             }
             catch (Exception ex)
             {
@@ -100,6 +100,11 @@ namespace CloudERP.Controllers.Stock
                     var success = await _httpClient.PostAsync("stockapi/create", model);
                     if (success) return RedirectToAction("Index");
                 }
+
+                var categories = await _httpClient.GetAsync<List<Category>>(
+                    $"categoryapi/getall?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+
+                ViewBag.CategoryID = new SelectList(categories, "CategoryID", "CategoryName");
 
                 return View(model);
             }
@@ -155,6 +160,11 @@ namespace CloudERP.Controllers.Stock
                     if (success) return RedirectToAction("Index");
                 }
 
+                var categories = await _httpClient.GetAsync<List<Category>>(
+                    $"categoryapi/getall?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+
+                ViewBag.CategoryID = new SelectList(categories, "CategoryID", "CategoryName");
+
                 return View(model);
             }
             catch (Exception ex)
@@ -169,7 +179,7 @@ namespace CloudERP.Controllers.Stock
         {
             try
             {
-                var products = await _httpClient.GetAsync<List<Domain.Models.Stock>>(
+                var products = await _httpClient.GetAsync<IEnumerable<ProductQuality>>(
                     $"stockapi/getproductquality?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 return View(products);
             }

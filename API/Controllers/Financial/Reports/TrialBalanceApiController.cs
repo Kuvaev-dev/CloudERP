@@ -24,7 +24,7 @@ namespace API.Controllers.Financial.Reports
 
         // GET: BalanceSheet
         [HttpGet]
-        public async Task<ActionResult<List<TrialBalanceModel>>> GetTrialBalance(int companyId, int branchId)
+        public async Task<ActionResult<IEnumerable<TrialBalanceModel>>> GetTrialBalance(int companyId, int branchId)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace API.Controllers.Financial.Reports
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<TrialBalanceModel>>> GetTrialBalanceByFinancialYear(int companyId, int branchId, int financialYearId)
+        public async Task<ActionResult<IEnumerable<TrialBalanceModel>>> GetTrialBalanceByFinancialYear(int companyId, int branchId, int financialYearId)
         {
             try
             {

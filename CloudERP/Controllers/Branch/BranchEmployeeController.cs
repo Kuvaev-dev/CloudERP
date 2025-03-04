@@ -27,7 +27,7 @@ namespace CloudERP.Controllers.Branch
             try
             {
                 var branches = await _httpClient.GetAsync<IEnumerable<Employee>>(
-                    $"branchemployeeapi/employee?companyId={_sessionHelper.CompanyID}?branchId={_sessionHelper.BranchID}");
+                    $"branchemployeeapi/employee?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 return View(branches);
             }
             catch (Exception ex)
