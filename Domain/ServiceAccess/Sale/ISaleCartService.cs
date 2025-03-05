@@ -5,6 +5,6 @@ namespace Domain.ServiceAccess
 {
     public interface ISaleCartService
     {
-        Task<Result<int>> ConfirmSaleAsync(SaleConfirm saleConfirmDto, int branchId, int companyId, int userId);
+        Task<Result<int>> ConfirmSaleAsync(SaleConfirm saleConfirmDto);
     }
 }

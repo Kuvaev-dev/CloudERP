@@ -57,6 +57,9 @@ namespace DatabaseAccess.Repositories.Customers
         public async Task<CustomerInvoice?> GetByInvoiceNoAsync(string invoiceNo)
         {
             var entity = await _dbContext.tblCustomerInvoice
+                .Include(p => p.Customer)
+                .Include(p => p.Company)
+                .Include(p => p.Branch)
                 .Where(p => p.InvoiceNo == invoiceNo.Trim())
                 .FirstOrDefaultAsync();
 

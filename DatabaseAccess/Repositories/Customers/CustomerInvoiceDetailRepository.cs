@@ -32,6 +32,9 @@ namespace DatabaseAccess.Repositories.Customers
         public async Task<IEnumerable<CustomerInvoiceDetail>> GetListByIdAsync(int id)
         {
             return await _dbContext.tblCustomerInvoiceDetail
+                .Include(i => i.Product)
+                .Include(i => i.CustomerInvoice)
+                .Include(i => i.tblCustomerReturnInvoiceDetail)
                 .Where(i => i.CustomerInvoiceID == id)
                 .Select(ci => new CustomerInvoiceDetail
                 {

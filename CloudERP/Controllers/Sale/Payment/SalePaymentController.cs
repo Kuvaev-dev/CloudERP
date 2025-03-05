@@ -1,4 +1,4 @@
-﻿using API.Models;
+﻿using CloudERP.Models;
 using CloudERP.Helpers;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -178,11 +178,10 @@ namespace CloudERP.Controllers.Sale.Payment
 
             try
             {
-                var invoiceDetails = await _httpClient.GetAsync<List<CustomerInvoiceDetail>>(
+                var invoiceDetails = await _httpClient.GetAsync<IEnumerable<CustomerInvoiceDetail>>(
                     $"salepaymentapi/getsaleinvoice?id={id}");
 
-                if (invoiceDetails == null || invoiceDetails.Count == 0)
-                    return RedirectToAction("EP500", "EP");
+                if (invoiceDetails == null) return RedirectToAction("EP500", "EP");
 
                 var firstItem = invoiceDetails.First();
                 var customer = firstItem.Customer;

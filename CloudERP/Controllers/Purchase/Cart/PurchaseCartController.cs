@@ -29,6 +29,9 @@ namespace CloudERP.Controllers.Purchase.Cart
                     $"purchasecartapi/getpurchasecartdetails?branchId={_sessionHelper.BranchID}&companyId={_sessionHelper.CompanyID}&userId={_sessionHelper.UserID}");
 
                 ViewBag.TotalAmount = details?.Sum(item => item.PurchaseQuantity * item.PurchaseUnitPrice);
+                ViewBag.Products = await _httpClient.GetAsync<IEnumerable<Domain.Models.Stock>>(
+                    $"stockapi/getall?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+
                 return View(details);
             }
             catch (Exception ex)
@@ -147,15 +150,11 @@ namespace CloudERP.Controllers.Purchase.Cart
                 purchaseConfirmDto.BranchID = _sessionHelper.BranchID;
                 purchaseConfirmDto.UserID = _sessionHelper.UserID;
 
-                var result = await _httpClient.PostAndReturnAsync<object>("purchasecartapi/confirmpurchase", purchaseConfirmDto);
-
-                if (result is not null)
+                var result = await _httpClient.PostAndReturnAsync<int>(
+                    "purchasecartapi/confirmpurchase", purchaseConfirmDto);
+                if (result > 0)
                 {
-                    dynamic response = result;
-                    if (response.id is int purchaseId)
-                    {
-                        return RedirectToAction("PrintPurchaseInvoice", "PurchasePayment", new { id = purchaseId });
-                    }
+                    return RedirectToAction("PrintPurchaseInvoice", "PurchasePayment", new { id = result });
                 }
 
                 TempData["ErrorMessage"] = "Purchase confirm error";

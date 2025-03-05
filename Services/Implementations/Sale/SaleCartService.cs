@@ -14,26 +14,26 @@ namespace Services.Implementations
             _saleCartFacade = saleCartFacade ?? throw new ArgumentNullException(nameof(saleCartFacade));
         }
 
-        public async Task<Result<int>> ConfirmSaleAsync(SaleConfirm saleConfirmDto, int branchId, int companyId, int userId)
+        public async Task<Result<int>> ConfirmSaleAsync(SaleConfirm saleConfirmDto)
         {
             try
             {
                 var customer = await _saleCartFacade.CustomerRepository.GetByIdAsync(saleConfirmDto.CustomerID);
-                var saleDetails = await _saleCartFacade.SaleCartDetailRepository.GetAllAsync(branchId, companyId);
+                var saleDetails = await _saleCartFacade.SaleCartDetailRepository.GetAllAsync(saleConfirmDto.BranchID, saleConfirmDto.CompanyID);
 
                 double totalAmount = saleDetails.Sum(item => item.SaleQuantity * item.SaleUnitPrice);
 
                 string invoiceNo = "INV" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
                 var invoiceHeader = new CustomerInvoice
                 {
-                    BranchID = branchId,
+                    BranchID = saleConfirmDto.BranchID,
                     Title = $"{Localization.Services.Localization.SaleInvoice}: {customer.Customername}",
-                    CompanyID = companyId,
+                    CompanyID = saleConfirmDto.CompanyID,
                     Description = saleConfirmDto.Description,
                     InvoiceDate = DateTime.Now,
                     InvoiceNo = invoiceNo,
                     CustomerID = saleConfirmDto.CustomerID,
-                    UserID = userId,
+                    UserID = saleConfirmDto.UserID,
                     TotalAmount = totalAmount
                 };
 
@@ -41,17 +41,14 @@ namespace Services.Implementations
                 await _saleCartFacade.CustomerInvoiceDetailRepository.AddSaleDetailsAsync(saleDetails, invoiceHeader.CustomerInvoiceID);
 
                 string message = await _saleCartFacade.SaleEntryService.ConfirmSale(
-                    companyId,
-                    branchId,
-                    userId,
+                    saleConfirmDto,
                     invoiceNo,
                     invoiceHeader.CustomerInvoiceID.ToString(),
                     (float)totalAmount,
-                    saleConfirmDto.CustomerID.ToString(),
-                    customer.Customername,
-                    saleConfirmDto.IsPayment);
+                    customer.CustomerID.ToString(),
+                    customer.Customername);
 
-                if (message.Contains("Success"))
+                if (message.Contains(Localization.Services.Localization.PurchaseSuccess))
                 {
                     await _saleCartFacade.SaleEntryService.CompleteSale(saleDetails);
                     return Result<int>.Success(invoiceHeader.CustomerInvoiceID);

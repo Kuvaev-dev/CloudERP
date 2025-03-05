@@ -7,7 +7,7 @@ namespace Domain.RepositoryAccess
         Task AddAsync(SupplierInvoice supplierInvoice);
         Task<SupplierInvoice> GetByIdAsync(int id);
         Task<SupplierInvoice> GetByInvoiceNoAsync(string invoiceNo);
-        Task<double?> GetTotalAmountAsync(int id);
+        Task<double> GetTotalAmountAsync(int id);
         Task<int?> GetSupplierIdFromInvoice(int id);
         Task<int?> GetLatestIdAsync(int supplierId);
     }

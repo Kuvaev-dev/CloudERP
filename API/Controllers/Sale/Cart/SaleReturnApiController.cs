@@ -26,7 +26,7 @@ namespace API.Controllers.Sale.Cart
         }
 
         [HttpGet]
-        public async Task<ActionResult<object>> FindSale(string invoiceID)
+        public async Task<ActionResult<FindSaleResponse>> FindSale(string invoiceID)
         {
             try
             {
@@ -36,7 +36,7 @@ namespace API.Controllers.Sale.Cart
                 var invoiceDetails = _customerReturnInvoiceDetailRepository.GetInvoiceDetails(invoiceID);
                 if (invoiceDetails == null) return NotFound();
 
-                return Ok(new { invoice, invoiceDetails });
+                return Ok(new FindSaleResponse { Invoice = invoice, InvoiceDetails = invoiceDetails });
             }
             catch (Exception ex)
             {
@@ -45,19 +45,15 @@ namespace API.Controllers.Sale.Cart
         }
 
         [HttpPost]
-        public async Task<ActionResult<SaleReturnConfirmResult>> ProcessSaleReturn([FromBody] SaleReturnConfirm returnConfirmDto)
+        public async Task<ActionResult<SaleReturnConfirmResult>> ProcessSaleReturn(SaleReturnConfirm returnConfirmDto)
         {
             try
             {
-                var result = await _saleReturnService.ProcessReturnConfirmAsync(
-                    returnConfirmDto,
-                    returnConfirmDto.BranchID,
-                    returnConfirmDto.CompanyID,
-                    returnConfirmDto.UserID);
+                var result = await _saleReturnService.ProcessReturnConfirmAsync(returnConfirmDto);
 
                 if (result.IsSuccess)
                 {
-                    return Ok(new { invoiceNo = result.InvoiceNo, message = result.Message });
+                    return Ok(new SaleReturnConfirmResult { InvoiceNo = result.InvoiceNo, Message = result.Message });
                 }
 
                 return BadRequest(result.Message);

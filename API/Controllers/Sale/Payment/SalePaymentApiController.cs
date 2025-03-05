@@ -18,18 +18,16 @@ namespace API.Controllers.Sale.Payment
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<SaleInfo>>> GetRemainingPaymentList(int companyID, int branchID)
+        public async Task<ActionResult<IEnumerable<SaleInfo>>> GetRemainingPaymentList(int companyID, int branchID)
         {
             var list = await _salePaymentFacade.SaleRepository.RemainingPaymentList(companyID, branchID);
-            if (list.Count == 0) return NotFound();
             return Ok(list);
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<SaleInfo>>> GetPaidHistory(int id)
+        public async Task<ActionResult<IEnumerable<SaleInfo>>> GetPaidHistory(int id)
         {
             var history = await _salePaymentFacade.SalePaymentService.GetSalePaymentHistoryAsync(id);
-            if (history.Count == 0) return NotFound();
             return Ok(history);
         }
 
@@ -37,7 +35,6 @@ namespace API.Controllers.Sale.Payment
         public async Task<ActionResult<IEnumerable<CustomerReturnInvoice>>> GetReturnSaleDetails(int invoiceID)
         {
             var returnDetails = await _salePaymentFacade.CustomerReturnInvoiceRepository.GetReturnDetails(invoiceID);
-            if (returnDetails == null) return NotFound();
             return Ok(returnDetails);
         }
 
@@ -57,10 +54,9 @@ namespace API.Controllers.Sale.Payment
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<SaleInfo>>> GetCustomSalesHistory(int companyID, int branchID, DateTime fromDate, DateTime toDate)
+        public async Task<ActionResult<IEnumerable<SaleInfo>>> GetCustomSalesHistory(int companyID, int branchID, DateTime fromDate, DateTime toDate)
         {
             var list = await _salePaymentFacade.SaleRepository.CustomSalesList(companyID, branchID, fromDate, toDate);
-            if (list == null) return NotFound();
             return Ok(list);
         }
 
@@ -68,12 +64,11 @@ namespace API.Controllers.Sale.Payment
         public async Task<ActionResult<PurchaseItemDetailDto>> GetSaleItemDetail(int id)
         {
             var saleDetail = await _salePaymentFacade.SaleService.GetSaleItemDetailAsync(id);
-            if (saleDetail == null) return NotFound();
             return Ok(saleDetail);
         }
 
         [HttpGet]
-        public async Task<ActionResult<SupplierInvoiceDetail>> GetSaleInvoice(int id)
+        public async Task<ActionResult<IEnumerable<CustomerInvoiceDetail>>> GetSaleInvoice(int id)
         {
             var invoiceDetails = await _salePaymentFacade.CustomerInvoiceDetailRepository.GetListByIdAsync(id);
             if (invoiceDetails == null) return NotFound();

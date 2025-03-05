@@ -3,7 +3,7 @@
 
 @{
     ViewBag.Title = Localization.CloudERP.Purchase.Purchasing;
-    var products = ViewBag.Products as IEnumerable<Domain.Models.Stock> ?? new List<Domain.Models.Stock>();
+    var products = ViewBag.Products as IEnumerable<Domain.Models.Stock>;
 }
 
 @using (Html.BeginForm("AddItem", "PurchaseCart", FormMethod.Post, null))

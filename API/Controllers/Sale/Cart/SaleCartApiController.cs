@@ -3,6 +3,7 @@ using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Utils.Helpers;
 
 namespace API.Controllers.Sale.Cart
 {
@@ -31,7 +32,6 @@ namespace API.Controllers.Sale.Cart
             try
             {
                 var details = await _saleCartDetailRepository.GetByDefaultSettingAsync(branchId, companyId, userId);
-                if (details == null) return NotFound();
                 return Ok(details);
             }
             catch (Exception ex)
@@ -101,19 +101,13 @@ namespace API.Controllers.Sale.Cart
         }
 
         [HttpPost]
-        public async Task<ActionResult<string>> ConfirmSale(SaleConfirm saleConfirmDto, int branchId, int companyId, int userId)
+        public async Task<ActionResult<int>> ConfirmSale(SaleConfirm saleConfirmDto)
         {
             try
             {
-                var result = await _saleCartService.ConfirmSaleAsync(
-                    saleConfirmDto,
-                    saleConfirmDto.CompanyID,
-                    saleConfirmDto.BranchID,
-                    saleConfirmDto.UserID);
+                var result = await _saleCartService.ConfirmSaleAsync(saleConfirmDto);
 
-                if (result.IsSuccess) return Ok(new { id = result.Value });
-
-                return BadRequest(result.ErrorMessage);
+                return result.IsSuccess ? Ok(result.Value) : BadRequest(result.ErrorMessage);
             }
             catch (Exception ex)
             {

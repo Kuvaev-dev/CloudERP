@@ -26,7 +26,7 @@ namespace API.Controllers.Purchase.Cart
         }
 
         [HttpGet]
-        public async Task<ActionResult<object>> FindPurchase(string invoiceID)
+        public async Task<ActionResult<FindPuchaseResponse>> FindPurchase(string invoiceID)
         {
             try
             {
@@ -36,7 +36,7 @@ namespace API.Controllers.Purchase.Cart
                 var invoiceDetails = _supplierReturnInvoiceDetailRepository.GetInvoiceDetails(invoiceID);
                 if (invoiceDetails == null) return NotFound();
 
-                return Ok(new { invoice, invoiceDetails });
+                return Ok(new FindPuchaseResponse { Invoice = invoice, InvoiceDetails = invoiceDetails });
             }
             catch (Exception ex)
             {
@@ -45,15 +45,11 @@ namespace API.Controllers.Purchase.Cart
         }
 
         [HttpPost]
-        public async Task<ActionResult<PurchaseReturnConfirmResult>> ProcessPurchaseReturn([FromBody] PurchaseReturnConfirm returnConfirmDto)
+        public async Task<ActionResult<PurchaseReturnConfirmResult>> ProcessPurchaseReturn(PurchaseReturnConfirm returnConfirmDto)
         {
             try
             {
-                var result = await _purchaseReturnService.ProcessReturnAsync(
-                    returnConfirmDto,
-                    returnConfirmDto.BranchID,
-                    returnConfirmDto.CompanyID,
-                    returnConfirmDto.UserID);
+                var result = await _purchaseReturnService.ProcessReturnAsync(returnConfirmDto);
 
                 if (result.IsSuccess)
                 {

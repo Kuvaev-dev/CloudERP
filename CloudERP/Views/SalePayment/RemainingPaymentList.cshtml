@@ -78,7 +78,7 @@
                             <td>
                                 <label>@(item.TotalAmount - item.PaymentAmount)</label>
                             </td>
-                            <td class="btn-group">
+                            <td class="d-flex btn-group">
                                 @if (item.TotalAmount - 1 > item.PaymentAmount)
                                 {
                                     @Html.ActionLink(Localization.CloudERP.Purchase.PayAmount, "PaidAmount", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-primary" });

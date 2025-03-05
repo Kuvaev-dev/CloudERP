@@ -46,16 +46,11 @@ namespace CloudERP.Controllers.Purchase.Cart
                 HttpContext.Session.SetString("InvoiceNo", string.Empty);
                 HttpContext.Session.SetString("ReturnMessage", string.Empty);
 
-                var response = await _httpClient.GetAsync<object>($"purchasereturnapi/findpurchase?invoiceID={invoiceID}");
-                if (response is null)
-                {
-                    TempData["ErrorMessage"] = "Invoice not found.";
-                    return RedirectToAction("FindPurchase", new { invoiceID });
-                }
+                var response = await _httpClient.GetAsync<FindPuchaseResponse>(
+                    $"purchasereturnapi/findpurchase?invoiceID={invoiceID}");
 
-                dynamic result = response;
-                ViewBag.InvoiceDetails = result.invoiceDetails;
-                return View(result.invoice);
+                ViewBag.InvoiceDetails = response.InvoiceDetails;
+                return View(response.Invoice);
             }
             catch (Exception ex)
             {

@@ -13,7 +13,7 @@ namespace Services.Implementations
             _purchaseReturnFacade = purchaseReturnFacade ?? throw new ArgumentNullException(nameof(purchaseReturnFacade));
         }
 
-        public async Task<PurchaseReturnConfirmResult> ProcessReturnAsync(PurchaseReturnConfirm returnConfirmDto, int branchId, int companyId, int userId)
+        public async Task<PurchaseReturnConfirmResult> ProcessReturnAsync(PurchaseReturnConfirm returnConfirmDto)
         {
             double totalAmount = 0;
             var purchaseDetails = await _purchaseReturnFacade.SupplierInvoiceDetailRepository.GetListByIdAsync(returnConfirmDto.SupplierInvoiceID);
@@ -41,13 +41,13 @@ namespace Services.Implementations
             string invoiceNo = "RPU" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
             var returnInvoiceHeader = new SupplierReturnInvoice()
             {
-                BranchID = branchId,
-                CompanyID = companyId,
+                BranchID = returnConfirmDto.BranchID,
+                CompanyID = returnConfirmDto.CompanyID,
                 Description = Localization.Services.Localization.PurchaseReturn,
                 InvoiceDate = DateTime.Now,
                 InvoiceNo = invoiceNo,
                 SupplierID = supplierID,
-                UserID = userId,
+                UserID = returnConfirmDto.UserID,
                 TotalAmount = totalAmount,
                 SupplierInvoiceID = returnConfirmDto.SupplierInvoiceID
             };
@@ -56,9 +56,9 @@ namespace Services.Implementations
 
             var supplier = await _purchaseReturnFacade.SupplierRepository.GetByIdAsync(supplierID);
             string message = await _purchaseReturnFacade.PurchaseEntryService.ReturnPurchase(
-                companyId,
-                branchId,
-                userId,
+                returnConfirmDto.CompanyID,
+                returnConfirmDto.BranchID,
+                returnConfirmDto.UserID,
                 invoiceNo,
                 returnInvoiceHeader.SupplierInvoiceID.ToString(),
                 returnInvoiceHeader.SupplierReturnInvoiceID,

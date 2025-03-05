@@ -176,11 +176,10 @@ namespace CloudERP.Controllers.Purchase.Payment
 
             try
             {
-                var invoiceDetails = await _httpClient.GetAsync<List<SupplierInvoiceDetail>>(
+                var invoiceDetails = await _httpClient.GetAsync<IEnumerable<SupplierInvoiceDetail>>(
                     $"purchasepaymentapi/getpurchaseinvoice?id={id}");
 
-                if (invoiceDetails == null || invoiceDetails.Count == 0)
-                    return RedirectToAction("EP500", "EP");
+                if (invoiceDetails == null) return RedirectToAction("EP500", "EP");
 
                 var firstItem = invoiceDetails.First();
                 var supplier = firstItem.Supplier;

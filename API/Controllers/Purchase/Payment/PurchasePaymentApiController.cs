@@ -62,10 +62,9 @@ namespace API.Controllers.Purchase.Payment
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<PurchaseInfo>>> GetCustomPurchasesHistory(int companyId, int branchId, DateTime fromDate, DateTime toDate)
+        public async Task<ActionResult<IEnumerable<PurchaseInfo>>> GetCustomPurchasesHistory(int companyId, int branchId, DateTime fromDate, DateTime toDate)
         {
             var list = await _purchasePaymentFacade.PurchaseRepository.CustomPurchasesList(companyId, branchId, fromDate, toDate);
-            if (list.Count == 0) return NotFound();
             return Ok(list);
         }
 
@@ -78,19 +77,18 @@ namespace API.Controllers.Purchase.Payment
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<SupplierInvoiceDetail>>> GetPurchaseInvoice(int id)
+        public async Task<ActionResult<IEnumerable<SupplierInvoiceDetail>>> GetPurchaseInvoice(int id)
         {
             var invoiceDetails = await _purchasePaymentFacade.SupplierInvoiceDetailRepository.GetListByIdAsync(id);
-            if (invoiceDetails == null) return NotFound();
             return Ok(invoiceDetails);
         }
 
         [HttpGet]
         public async Task<ActionResult<double>> GetRemainingAmount(int id)
         {
-            double? totalInvoiceAmount = await _purchasePaymentService.GetTotalAmountByIdAsync(id);
+            double totalInvoiceAmount = await _purchasePaymentService.GetTotalAmountByIdAsync(id);
             double totalPaidAmount = await _purchasePaymentService.GetTotalPaidAmountByIdAsync(id);
-            double remainingAmount = totalInvoiceAmount.Value - totalPaidAmount;
+            double remainingAmount = totalInvoiceAmount - totalPaidAmount;
             return Ok(remainingAmount);
         }
 

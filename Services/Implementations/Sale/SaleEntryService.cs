@@ -25,7 +25,7 @@ namespace Services.Implementations
             _saleEntryFacade = saleEntryFacade ?? throw new ArgumentNullException(nameof(SaleEntryFacade));
         }
 
-        public async Task<string> ConfirmSale(int CompanyID, int BranchID, int UserID, string InvoiceNo, string CustomerInvoiceID, float Amount, string CustomerID, string CustomerName, bool isPayment)
+        public async Task<string> ConfirmSale(SaleConfirm saleConfirm, string InvoiceNo, string CustomerInvoiceID, float Amount, string CustomerID, string CustomerName)
         {
             try
             {
@@ -41,7 +41,7 @@ namespace Services.Implementations
                 }
 
                 // Credit Entry Sale
-                var saleAccount = await _saleEntryFacade.AccountSettingRepository.GetByActivityAsync(SALE_ACCOUNT_ACTIVITY_ID, CompanyID, BranchID);
+                var saleAccount = await _saleEntryFacade.AccountSettingRepository.GetByActivityAsync(SALE_ACCOUNT_ACTIVITY_ID, saleConfirm.CompanyID, saleConfirm.BranchID);
                 if (saleAccount == null)
                 {
                     return Localization.Services.Localization.AccountSettingsForSaleNotFound;
@@ -51,14 +51,14 @@ namespace Services.Implementations
                     saleAccount.AccountControlID.ToString(),
                     saleAccount.AccountSubControlID.ToString(),
                     InvoiceNo,
-                    UserID.ToString(),
+                    saleConfirm.UserID.ToString(),
                     Amount.ToString(),
                     "0",
                     DateTime.Now,
                     saleTitle);
 
                 // Debit Entry Sale
-                saleAccount = await _saleEntryFacade.AccountSettingRepository.GetByActivityAsync(SALE_PAYMENT_PENDING_ACTIVITY_ID, CompanyID, BranchID);
+                saleAccount = await _saleEntryFacade.AccountSettingRepository.GetByActivityAsync(SALE_PAYMENT_PENDING_ACTIVITY_ID, saleConfirm.CompanyID, saleConfirm.BranchID);
                 if (saleAccount == null)
                 {
                     return Localization.Services.Localization.AccountSettingsForSalePaymentPendingNotFound;
@@ -68,18 +68,18 @@ namespace Services.Implementations
                     saleAccount.AccountControlID.ToString(),
                     saleAccount.AccountSubControlID.ToString(),
                     InvoiceNo,
-                    UserID.ToString(),
+                    saleConfirm.UserID.ToString(),
                     "0",
                     Amount.ToString(),
                     DateTime.Now,
                     CustomerName + $", Sale Payment Is Pending");
 
-                if (isPayment)
+                if (saleConfirm.IsPayment)
                 {
                     string payInvoiceNo = "INP" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
 
                     // Credit Entry Sale Payment Paid
-                    saleAccount = await _saleEntryFacade.AccountSettingRepository.GetByActivityAsync(SALE_PAYMENT_PAID_ACTIVITY_ID, CompanyID, BranchID);
+                    saleAccount = await _saleEntryFacade.AccountSettingRepository.GetByActivityAsync(SALE_PAYMENT_PAID_ACTIVITY_ID, saleConfirm.CompanyID, saleConfirm.BranchID);
                     if (saleAccount == null)
                     {
                         return Localization.Services.Localization.AccountSettingsForSalePaymentPaidNotFound;
@@ -89,14 +89,14 @@ namespace Services.Implementations
                         saleAccount.AccountControlID.ToString(),
                         saleAccount.AccountSubControlID.ToString(),
                         payInvoiceNo,
-                        UserID.ToString(),
+                        saleConfirm.UserID.ToString(),
                         Amount.ToString(),
                         "0",
                         DateTime.Now,
                         $"Sale Payment Paid By " + CustomerName);
 
                     // Debit Entry Sale Payment Success
-                    saleAccount = await _saleEntryFacade.AccountSettingRepository.GetByActivityAsync(SALE_PAYMENT_SUCCESS_ACTIVITY_ID, CompanyID, BranchID);
+                    saleAccount = await _saleEntryFacade.AccountSettingRepository.GetByActivityAsync(SALE_PAYMENT_SUCCESS_ACTIVITY_ID, saleConfirm.CompanyID, saleConfirm.BranchID);
                     if (saleAccount == null)
                     {
                         return Localization.Services.Localization.AccountSettingsForSalePaymentSuccessNotFound;
@@ -106,7 +106,7 @@ namespace Services.Implementations
                         saleAccount.AccountControlID.ToString(),
                         saleAccount.AccountSubControlID.ToString(),
                         payInvoiceNo,
-                        UserID.ToString(),
+                        saleConfirm.UserID.ToString(),
                         "0",
                         Amount.ToString(),
                         DateTime.Now,
@@ -115,12 +115,12 @@ namespace Services.Implementations
                     _saleEntryFacade.SaleRepository.SetEntries(_dtEntries);
 
                     // Insert payment record
-                    return await _saleEntryFacade.SaleRepository.ConfirmSale(CompanyID, BranchID, UserID, CustomerInvoiceID, Amount, CustomerID, payInvoiceNo, 0);
+                    return await _saleEntryFacade.SaleRepository.ConfirmSale(saleConfirm.CompanyID, saleConfirm.BranchID, saleConfirm.UserID, CustomerInvoiceID, Amount, CustomerID, payInvoiceNo, 0);
                 }
 
                 _saleEntryFacade.SaleRepository.SetEntries(_dtEntries);
 
-                return await _saleEntryFacade.SaleRepository.InsertTransaction(CompanyID, BranchID);
+                return await _saleEntryFacade.SaleRepository.InsertTransaction(saleConfirm.CompanyID, saleConfirm.BranchID);
             }
             catch (Exception ex)
             {

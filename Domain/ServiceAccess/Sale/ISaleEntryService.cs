@@ -4,16 +4,7 @@ namespace Domain.ServiceAccess
 {
     public interface ISaleEntryService
     {
-        Task<string> ConfirmSale(
-            int CompanyID,
-            int BranchID,
-            int UserID,
-            string InvoiceNo,
-            string CustomerInvoiceID,
-            float Amount,
-            string CustomerID,
-            string CustomerName,
-            bool isPayment);
+        Task<string> ConfirmSale(SaleConfirm saleConfirm, string InvoiceNo, string CustomerInvoiceID, float Amount, string CustomerID, string CustomerName);
         Task<string> SalePayment(
             int CompanyID,
             int BranchID,

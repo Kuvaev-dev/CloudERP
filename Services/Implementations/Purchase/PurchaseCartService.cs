@@ -14,26 +14,26 @@ namespace Services.Implementations
             _purchaseCartFacade = purchaseCartFacade ?? throw new ArgumentNullException(nameof(PurchaseCartFacade));
         }
 
-        public async Task<Result<int>> ConfirmPurchaseAsync(PurchaseConfirm dto, int companyId, int branchId, int userId)
+        public async Task<Result<int>> ConfirmPurchaseAsync(PurchaseConfirm dto)
         {
             try
             {
                 var supplier = await _purchaseCartFacade.SupplierRepository.GetByIdAsync(dto.SupplierId);
-                var purchaseDetails = await _purchaseCartFacade.PurchaseCartDetailRepository.GetAllAsync(branchId, companyId);
+                var purchaseDetails = await _purchaseCartFacade.PurchaseCartDetailRepository.GetAllAsync(dto.BranchID, dto.CompanyID);
 
                 double totalAmount = purchaseDetails.Sum(item => item.PurchaseQuantity * item.PurchaseUnitPrice);
 
                 string invoiceNo = "PUR" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
                 var invoiceHeader = new SupplierInvoice
                 {
-                    BranchID = branchId,
+                    BranchID = dto.BranchID,
                     Title = $"{Localization.Services.Localization.PurchaseInvoice}: {supplier.SupplierName}",
-                    CompanyID = companyId,
+                    CompanyID = dto.CompanyID,
                     Description = dto.Description,
                     InvoiceDate = DateTime.Now,
                     InvoiceNo = invoiceNo,
                     SupplierID = dto.SupplierId,
-                    UserID = userId,
+                    UserID = dto.UserID,
                     TotalAmount = totalAmount
                 };
 
@@ -41,9 +41,9 @@ namespace Services.Implementations
                 await _purchaseCartFacade.SupplierInvoiceDetailRepository.AddPurchaseDetailsAsync(purchaseDetails, invoiceHeader.SupplierInvoiceID);
 
                 string message = await _purchaseCartFacade.PurchaseEntryService.ConfirmPurchase(
-                    companyId,
-                    branchId,
-                    userId,
+                    dto.CompanyID,
+                    dto.BranchID,
+                    dto.UserID,
                     invoiceNo,
                     invoiceHeader.SupplierInvoiceID.ToString(),
                     (float)totalAmount,

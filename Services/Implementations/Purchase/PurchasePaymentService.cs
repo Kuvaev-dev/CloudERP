@@ -30,7 +30,7 @@ namespace Services.Implementations
             return await _purchasePaymentFacade.PurchaseRepository.PurchasePaymentHistory(invoiceId);
         }
 
-        public async Task<double?> GetTotalAmountByIdAsync(int invoiceId)
+        public async Task<double> GetTotalAmountByIdAsync(int invoiceId)
         {
             return await _purchasePaymentFacade.SupplierInvoiceRepository.GetTotalAmountAsync(invoiceId);
         }

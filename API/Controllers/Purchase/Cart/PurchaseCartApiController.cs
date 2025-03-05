@@ -3,6 +3,7 @@ using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Services.Implementations;
 
 namespace API.Controllers.Purchase.Cart
 {
@@ -104,19 +105,13 @@ namespace API.Controllers.Purchase.Cart
         }
 
         [HttpPost]
-        public async Task<ActionResult<object>> ConfirmPurchase(PurchaseConfirm purchaseConfirmDto)
+        public async Task<ActionResult<int>> ConfirmPurchase(PurchaseConfirm purchaseConfirmDto)
         {
             try
             {
-                var result = await _purchaseCartService.ConfirmPurchaseAsync(
-                    purchaseConfirmDto,
-                    purchaseConfirmDto.CompanyID,
-                    purchaseConfirmDto.BranchID,
-                    purchaseConfirmDto.UserID);
+                var result = await _purchaseCartService.ConfirmPurchaseAsync(purchaseConfirmDto);
 
-                if (result.IsSuccess) return Ok(new { id = result.Value });
-
-                return BadRequest(result.ErrorMessage);
+                return result.IsSuccess ? Ok(result.Value) : BadRequest(result.ErrorMessage);
             }
             catch (Exception ex)
             {

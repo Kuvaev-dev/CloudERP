@@ -47,7 +47,7 @@ namespace CloudERP.Controllers.Sale.Cart
                 HttpContext.Session.SetString("SaleInvoiceNo", string.Empty);
                 HttpContext.Session.SetString("SaleReturnMessage", string.Empty);
 
-                var response = await _httpClient.GetAsync<dynamic>(
+                var response = await _httpClient.GetAsync<FindSaleResponse>(
                     $"salereturnapi/findsale?invoiceID={invoiceID}");
 
                 ViewBag.InvoiceDetails = response?.InvoiceDetails;

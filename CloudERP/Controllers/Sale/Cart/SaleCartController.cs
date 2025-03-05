@@ -179,15 +179,11 @@ namespace CloudERP.Controllers.Sale.Cart
                 saleConfirmDto.BranchID = _sessionHelper.BranchID;
                 saleConfirmDto.UserID = _sessionHelper.UserID;
 
-                var result = await _httpClient.PostAndReturnAsync<object>(
+                var result = await _httpClient.PostAndReturnAsync<int>(
                     "salecartapi/confirmsale", saleConfirmDto);
-                if (result is not null)
+                if (result > 0)
                 {
-                    dynamic response = result;
-                    if (response.id is int saleId)
-                    {
-                        return RedirectToAction("PrintSaleInvoice", "SalePayment", new { id = saleId });
-                    }
+                    return RedirectToAction("PrintSaleInvoice", "SalePayment", new { id = result });
                 }
 
                 TempData["ErrorMessage"] = "Purchase return error";
