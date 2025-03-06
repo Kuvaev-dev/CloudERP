@@ -1,9 +1,7 @@
-﻿using API.Factories;
-using Domain.RepositoryAccess;
+﻿using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace API.Controllers.Company
 {

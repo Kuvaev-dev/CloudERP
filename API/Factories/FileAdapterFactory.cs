@@ -1,18 +1,14 @@
 ﻿using API.Adapters;
+using Domain.ServiceAccess;
 using Utils.Interfaces;
 
 namespace API.Factories
 {
-    public interface IFileAdapterFactory
-    {
-        IFile Create(IFormFile file);
-    }
-
     public class FileAdapterFactory : IFileAdapterFactory
     {
-        public IFile Create(IFormFile file)
+        public IFile Create(object file)
         {
-            return new FormFileAdapter(file);
+            return new FormFileAdapter((IFormFile)file);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Domain.ServiceAccess;
 using System.Text.Json;
 
-namespace API.Helpers
+namespace API.Services
 {
     public class CurrencyService : ICurrencyService
     {
