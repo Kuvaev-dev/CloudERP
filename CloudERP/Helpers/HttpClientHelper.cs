@@ -10,10 +10,7 @@ namespace CloudERP.Helpers
         private readonly SessionHelper _sessionHelper;
         private readonly IConfiguration _configuration;
 
-        public HttpClientHelper(
-            HttpClient client,
-            SessionHelper sessionHelper,
-            IConfiguration configuration)
+        public HttpClientHelper(HttpClient client, SessionHelper sessionHelper, IConfiguration configuration)
         {
             _client = client ?? throw new ArgumentException(nameof(client));
             _sessionHelper = sessionHelper ?? throw new ArgumentException(nameof(sessionHelper));
@@ -21,12 +18,16 @@ namespace CloudERP.Helpers
             _client.BaseAddress = new Uri(_configuration["ApiUri"]);
         }
 
+        private void SetAuthorizationHeader()
+        {
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _sessionHelper.Token);
+        }
+
         public async Task<T?> GetAsync<T>(string endpoint)
         {
             try
             {
-                _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _sessionHelper.Token);
-                
+                SetAuthorizationHeader();
                 var response = await _client.GetAsync(endpoint).ConfigureAwait(false);
                 response.EnsureSuccessStatusCode();
                 var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
@@ -43,12 +44,17 @@ namespace CloudERP.Helpers
         {
             try
             {
-                _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _sessionHelper.Token);
-
+                SetAuthorizationHeader();
                 var json = JsonConvert.SerializeObject(data);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 var response = await _client.PostAsync(endpoint, content).ConfigureAwait(false);
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorResponse = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    Console.WriteLine($"POST {endpoint} failed with status {response.StatusCode}. Response: {errorResponse}");
+                }
+
                 return response.IsSuccessStatusCode;
             }
             catch (Exception ex)
@@ -62,15 +68,15 @@ namespace CloudERP.Helpers
         {
             try
             {
-                _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _sessionHelper.Token);
-
+                SetAuthorizationHeader();
                 var json = JsonConvert.SerializeObject(data);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 var response = await _client.PostAsync(endpoint, content).ConfigureAwait(false);
                 if (!response.IsSuccessStatusCode)
                 {
-                    Console.WriteLine($"POST {endpoint} failed with status {response.StatusCode}");
+                    var errorResponse = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    Console.WriteLine($"POST {endpoint} failed with status {response.StatusCode}. Response: {errorResponse}");
                     return default;
                 }
 
@@ -81,22 +87,6 @@ namespace CloudERP.Helpers
             {
                 Console.WriteLine($"POST {endpoint} failed: {ex.Message}");
                 return default;
-            }
-        }
-
-        public async Task<bool> PostMultipartAsync(string endpoint, MultipartFormDataContent content)
-        {
-            try
-            {
-                _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _sessionHelper.Token);
-
-                var response = await _client.PostAsync(endpoint, content).ConfigureAwait(false);
-                return response.IsSuccessStatusCode;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"POST {endpoint} failed: {ex.Message}");
-                return false;
             }
         }
 
@@ -115,22 +105,6 @@ namespace CloudERP.Helpers
             catch (Exception ex)
             {
                 Console.WriteLine($"PUT {endpoint} failed: {ex.Message}");
-                return false;
-            }
-        }
-
-        public async Task<bool> PutMultipartAsync(string endpoint, MultipartFormDataContent content)
-        {
-            try
-            {
-                _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _sessionHelper.Token);
-
-                var response = await _client.PutAsync(endpoint, content).ConfigureAwait(false);
-                return response.IsSuccessStatusCode;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"POST {endpoint} failed: {ex.Message}");
                 return false;
             }
         }

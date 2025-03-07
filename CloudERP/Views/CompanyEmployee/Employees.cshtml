@@ -70,15 +70,14 @@
                             </td>
                             <td class="d-flex btn-group">
                                 @Html.ActionLink(Localization.CloudERP.Company.Profile, "ViewProfile", "BranchEmployee", new { id = item.EmployeeID }, new { @class = "btn btn-info" })
-                                @Html.ActionLink(Localization.CloudERP.Company.Profile, "ViewProfile", new { id = item.EmployeeID }, new { @class = "btn btn-info" })
 
                                 @if (item.UserID == null)
                                 {
-                                    @Html.ActionLink(Localization.CloudERP.Company.CreateUser, "CreateUser", "UserSetting", new { employeeID = item.EmployeeID }, new { @class = "btn btn-success" })
+                                    @Html.ActionLink(Localization.CloudERP.Company.CreateUser, "CreateUser", "UserSetting", new { employeeID = item.EmployeeID }, new { @class = "btn btn-primary" })
                                 }
                                 else
                                 {
-                                    @Html.ActionLink(Localization.CloudERP.Company.UpdateUser, "UpdateUser", "UserSetting", new { userID = item.UserID }, new { @class = "btn btn-success" })
+                                    @Html.ActionLink(Localization.CloudERP.Company.UpdateUser, "UpdateUser", "UserSetting", new { userID = item.UserID }, new { @class = "btn btn-primary" })
                                 }
                             </td>
                         </tr>

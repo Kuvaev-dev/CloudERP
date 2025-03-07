@@ -1,8 +1,5 @@
 ﻿using CloudERP.Helpers;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System.Net.Http.Headers;
-using System.Text;
 
 namespace CloudERP.Controllers.Company
 {
@@ -10,6 +7,8 @@ namespace CloudERP.Controllers.Company
     {
         private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
+
+        private const string DEFAULT_COMPANY_LOGO_PATH = "~/CompanyLogo/erp-logo.png";
 
         public CompanyController(
             SessionHelper sessionHelper,
@@ -68,7 +67,6 @@ namespace CloudERP.Controllers.Company
             return View(new Domain.Models.Company());
         }
 
-        // POST: Company/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(Domain.Models.Company model, IFormFile logo)
@@ -80,20 +78,27 @@ namespace CloudERP.Controllers.Company
             {
                 if (ModelState.IsValid)
                 {
-                    using var content = new MultipartFormDataContent();
-
-                    var modelJson = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
-                    content.Add(modelJson, "model");
-
                     if (logo != null)
                     {
-                        var stream = logo.OpenReadStream();
-                        var fileContent = new StreamContent(stream);
-                        fileContent.Headers.ContentType = new MediaTypeHeaderValue(logo.ContentType);
-                        content.Add(fileContent, "file", logo.FileName);
+                        var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "CompanyLogo");
+                        Directory.CreateDirectory(uploadsFolder);
+
+                        var uniqueFileName = $"{Guid.NewGuid()}_{Path.GetFileName(logo.FileName)}";
+                        var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await logo.CopyToAsync(fileStream);
+                        }
+
+                        model.Logo = $"/CompanyLogo/{uniqueFileName}";
+                    }
+                    else
+                    {
+                        model.Logo = DEFAULT_COMPANY_LOGO_PATH;
                     }
 
-                    var response = await _httpClient.PostMultipartAsync("companyapi/create", content);
+                    var response = await _httpClient.PostAsync("companyapi/create", model);
                     if (response)
                     {
                         return RedirectToAction("Index");
@@ -135,7 +140,6 @@ namespace CloudERP.Controllers.Company
             }
         }
 
-        // POST: Company/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(Domain.Models.Company model, IFormFile logo)
@@ -147,27 +151,38 @@ namespace CloudERP.Controllers.Company
             {
                 if (ModelState.IsValid)
                 {
-                    using var content = new MultipartFormDataContent();
-                    var modelJson = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
-                    content.Add(modelJson, "model");
-
                     if (logo != null)
                     {
-                        var stream = logo.OpenReadStream();
-                        var fileContent = new StreamContent(stream);
-                        fileContent.Headers.ContentType = new MediaTypeHeaderValue(logo.ContentType);
-                        content.Add(fileContent, "file", logo.FileName);
+                        var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "CompanyLogo");
+                        Directory.CreateDirectory(uploadsFolder);
+
+                        var uniqueFileName = $"{Guid.NewGuid()}_{Path.GetFileName(logo.FileName)}";
+                        var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await logo.CopyToAsync(fileStream);
+                        }
+
+                        model.Logo = $"/CompanyLogo/{uniqueFileName}";
                     }
 
-                    var response = await _httpClient.PutMultipartAsync("companyapi/update", content);
-                    if (response) return RedirectToAction("Index");
+                    var response = await _httpClient.PutAsync("companyapi/update", model);
+                    if (response)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Failed to update company.");
+                    }
                 }
 
                 return View(model);
             }
-            catch
+            catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

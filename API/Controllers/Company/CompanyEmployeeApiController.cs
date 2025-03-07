@@ -17,8 +17,7 @@ namespace API.Controllers.Company
         private readonly CompanyEmployeeFacade _companyEmployeeFacade;
         private readonly IFileAdapterFactory _fileAdapterFactory;
 
-        private const string DEFAULT_PHOTO_PATH = "~/Content/EmployeePhoto/Default/default.png";
-        private const string PHOTO_FOLDER_PATH = "~/Content/EmployeePhoto";
+        private const string DEFAULT_PHOTO_PATH = "~/EmployeePhoto/Default/default.png";
 
         public CompanyEmployeeApiController(
             CompanyEmployeeFacade companyEmployeeFacade,
@@ -45,7 +44,7 @@ namespace API.Controllers.Company
         [HttpPost]
         public async Task<ActionResult<Employee>> EmployeeRegistration()
         {
-            if (Request.HasFormContentType && string.IsNullOrEmpty(Request.Form["model"]))
+            if (!Request.HasFormContentType || string.IsNullOrEmpty(Request.Form["model"]))
                 return BadRequest("Model cannot be null.");
 
             Employee model;
@@ -62,21 +61,8 @@ namespace API.Controllers.Company
 
             try
             {
-                if (Request.Form.Files.Count > 0)
-                {
-                    var file = Request.Form.Files[0];
-                    var fileName = $"{model.UserID}.jpg";
-
-                    var fileAdapter = _fileAdapterFactory.Create(file);
-                    model.Photo = await _companyEmployeeFacade.FileService.UploadPhotoAsync(fileAdapter, PHOTO_FOLDER_PATH, fileName);
-                }
-                else
-                {
-                    model.Photo = _companyEmployeeFacade.FileService.SetDefaultPhotoPath(DEFAULT_PHOTO_PATH);
-                }
-
+                model.Photo ??= DEFAULT_PHOTO_PATH;
                 await _companyEmployeeFacade.EmployeeRepository.AddAsync(model);
-
                 SendEmail(model);
 
                 return CreatedAtAction(nameof(GetById), new { id = model.EmployeeID }, model);

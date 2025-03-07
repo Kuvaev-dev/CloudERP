@@ -1,10 +1,7 @@
 ﻿using CloudERP.Helpers;
 using CloudERP.Models;
 using Domain.Models;
-using Domain.Models.FinancialModels;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System.Text;
 
 namespace CloudERP.Controllers.Company
 {
@@ -12,6 +9,8 @@ namespace CloudERP.Controllers.Company
     {
         private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
+
+        private const string DEFAULT_PHOTO_PATH = "~/EmployeePhoto/Default/default.png";
 
         public CompanyEmployeeController(
             SessionHelper sessionHelper,
@@ -72,22 +71,29 @@ namespace CloudERP.Controllers.Company
 
                 if (ModelState.IsValid)
                 {
-                    using var content = new MultipartFormDataContent
-                    {
-                        { new StringContent(JsonConvert.SerializeObject(employee)), "model" }
-                    };
-
                     if (avatar != null)
                     {
-                        var stream = avatar.OpenReadStream();
-                        var fileContent = new StreamContent(stream);
-                        fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(avatar.ContentType);
-                        content.Add(fileContent, "file", avatar.FileName);
+                        var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "EmployeePhoto");
+                        Directory.CreateDirectory(uploadsFolder);
+
+                        var uniqueFileName = $"{Guid.NewGuid()}_{Path.GetFileName(avatar.FileName)}";
+                        var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await avatar.CopyToAsync(fileStream);
+                        }
+
+                        employee.Photo = $"/EmployeePhoto/{uniqueFileName}";
+                    }
+                    else
+                    {
+                        employee.Photo = DEFAULT_PHOTO_PATH;
                     }
 
-                    var success = await _httpClient.PostAsync("companyemployeeapi/employeeregistration", content);
+                    var response = await _httpClient.PostAsync("companyemployeeapi/employeeregistration", employee);
 
-                    if (success)
+                    if (response)
                     {
                         return RedirectToAction("Employee");
                     }

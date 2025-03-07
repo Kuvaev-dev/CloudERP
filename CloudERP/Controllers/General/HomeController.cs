@@ -6,6 +6,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Localization;
+using System.Globalization;
 
 namespace CloudERP.Controllers.General
 {
@@ -32,9 +33,12 @@ namespace CloudERP.Controllers.General
             try
             {
                 var dashboardValues = await _httpClient.GetAsync<DashboardModel>($"homeapi/getdashboardvalues?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
-                var currencies = await _httpClient.GetAsync<Dictionary<string, decimal>>("homeapi/getcurrencies");
+                var currencies = await _httpClient.GetAsync<Dictionary<string, string>>("homeapi/getcurrencies");
 
-                ViewBag.Currencies = currencies;
+                ViewBag.Currencies = currencies?.ToDictionary(
+                    k => k.Key,
+                    v => decimal.TryParse(v.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out var parsed) ? parsed : 0m
+                );
                 ViewBag.SelectedCurrency = HttpContext.Session.GetString("SelectedCurrency") ?? "UAH";
 
                 return View(dashboardValues ?? new DashboardModel());
@@ -77,7 +81,7 @@ namespace CloudERP.Controllers.General
 
                 return userData.User.UserTypeID == ADMIN_USER_TYPE_ID
                     ? View("~/Views/Guide/AdminMenuGuide.cshtml")
-                    : View("~/Views/Guide/PrivacyPolicy.cshtml");
+                    : View("~/Views/Home/Index.cshtml");
             }
             catch (Exception ex)
             {

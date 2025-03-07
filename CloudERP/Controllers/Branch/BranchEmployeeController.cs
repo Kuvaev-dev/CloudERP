@@ -43,7 +43,7 @@ namespace CloudERP.Controllers.Branch
         // POST: EmployeeRegistration
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EmployeeRegistration(Employee model, IFormFile logo)
+        public async Task<ActionResult> EmployeeRegistration(Employee model, IFormFile photo)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -57,25 +57,25 @@ namespace CloudERP.Controllers.Branch
 
                 if (ModelState.IsValid)
                 {
-                    using var content = new MultipartFormDataContent
+                    if (photo != null)
                     {
-                        { new StringContent(JsonConvert.SerializeObject(model)), "model" }
-                    };
+                        var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "EmployeePhoto");
+                        Directory.CreateDirectory(uploadsFolder);
 
-                    if (logo != null)
-                    {
-                        var stream = logo.OpenReadStream();
-                        var fileContent = new StreamContent(stream);
-                        fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(logo.ContentType);
-                        content.Add(fileContent, "file", logo.FileName);
+                        var uniqueFileName = $"{Guid.NewGuid()}_{Path.GetFileName(photo.FileName)}";
+                        var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await photo.CopyToAsync(fileStream);
+                        }
+
+                        model.Photo = $"/EmployeePhoto/{uniqueFileName}";
                     }
 
-                    var success = await _httpClient.PostAsync("branchemployeeapi/employeeregistration", content);
-
+                    var success = await _httpClient.PostAsync("branchemployeeapi/employeeregistration", model);
                     if (success)
-                    {
                         return RedirectToAction("Employee");
-                    }
                 }
 
                 return View(model);
@@ -110,7 +110,7 @@ namespace CloudERP.Controllers.Branch
         // POST: EmployeeUpdation
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EmployeeUpdation(Employee model, IFormFile logo)
+        public async Task<ActionResult> EmployeeUpdation(Employee model, IFormFile photo)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -119,25 +119,25 @@ namespace CloudERP.Controllers.Branch
             {
                 if (ModelState.IsValid)
                 {
-                    using var content = new MultipartFormDataContent
+                    if (photo != null)
                     {
-                        { new StringContent(JsonConvert.SerializeObject(model)), "model" }
-                    };
+                        var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "EmployeePhoto");
+                        Directory.CreateDirectory(uploadsFolder);
 
-                    if (logo != null)
-                    {
-                        var stream = logo.OpenReadStream();
-                        var fileContent = new StreamContent(stream);
-                        fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(logo.ContentType);
-                        content.Add(fileContent, "file", logo.FileName);
+                        var uniqueFileName = $"{Guid.NewGuid()}_{Path.GetFileName(photo.FileName)}";
+                        var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await photo.CopyToAsync(fileStream);
+                        }
+
+                        model.Photo = $"/EmployeePhoto/{uniqueFileName}";
                     }
 
-                    var success = await _httpClient.PostAsync("branchapi/create", content);
-
+                    var success = await _httpClient.PutAsync("branchemployeeapi/employeeupdation", model);
                     if (success)
-                    {
                         return RedirectToAction("Employee");
-                    }
                     else
                     {
                         TempData["ErrorMessage"] = "Ошибка при обновлении сотрудника.";

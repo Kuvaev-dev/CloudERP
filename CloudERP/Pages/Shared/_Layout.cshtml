@@ -140,7 +140,7 @@
                                         {
                                             var selectedCurrency = HttpContextAccessor.HttpContext?.Session.GetString("SelectedCurrency");
 
-                                            @foreach (var currency in (Dictionary<string, string>)ViewBag.Currencies)
+                                            @foreach (var currency in ViewBag.Currencies)
                                             {
                                                 bool isSelected = currency.Key == selectedCurrency;
 
@@ -786,7 +786,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/shepherd.js/8.0.1/js/shepherd.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.6/js/jquery.dataTables.min.js"></script>
     <!-- Themes-->
-    <script src="~/js/Theme/theme-switcher.js"></script>
+    // <script src="~/js/Theme/theme-switcher.js"></script>
     <!-- =============== APP SCRIPTS ===============-->
     <script src="~/Template/js/app.js"></script>
     <script src="~/js/CustomScripts/FullscreenMode.js"></script>

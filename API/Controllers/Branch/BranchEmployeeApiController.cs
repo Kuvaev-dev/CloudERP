@@ -45,38 +45,13 @@ namespace API.Controllers.Branch
         }
 
         [HttpPost]
-        public async Task<ActionResult<Employee>> EmployeeRegistration()
+        public async Task<ActionResult<Employee>> EmployeeRegistration([FromBody] Employee model)
         {
-            if (!Request.HasFormContentType && string.IsNullOrEmpty(Request.Form["model"]))
-                return BadRequest("Form data cannot be null.");
-
-            Employee model;
-            try
-            {
-                model = JsonConvert.DeserializeObject<Employee>(Request.Form["model"]);
-            }
-            catch
-            {
-                return BadRequest("Invalid employee data format.");
-            }
-
             if (model == null) return BadRequest("Model cannot be null.");
 
             try
             {
-                if (Request.Form.Files.Count > 0)
-                {
-                    var file = Request.Form.Files[0];
-                    var fileName = $"{model.UserID}.jpg";
-
-                    var fileAdapter = _fileAdapterFactory.Create(file);
-                    model.Photo = await _fileService.UploadPhotoAsync(fileAdapter, EMPLOYEE_AVATAR_PATH, fileName);
-                }
-                else
-                {
-                    model.Photo = _fileService.SetDefaultPhotoPath(DEFAULT_EMPLOYEE_AVATAR_PATH);
-                }
-
+                model.Photo ??= DEFAULT_EMPLOYEE_AVATAR_PATH;
                 await _employeeRepository.AddAsync(model);
                 return CreatedAtAction(nameof(GetById), new { id = model.EmployeeID }, model);
             }
@@ -103,38 +78,13 @@ namespace API.Controllers.Branch
         }
 
         [HttpPost]
-        public async Task<ActionResult<Employee>> EmployeeUpdation()
+        public async Task<ActionResult<Employee>> EmployeeUpdation([FromBody] Employee model)
         {
-            if (!Request.HasFormContentType && string.IsNullOrEmpty(Request.Form["model"]))
-                return BadRequest("Form data cannot be null.");
-
-            Employee model;
-            try
-            {
-                model = JsonConvert.DeserializeObject<Employee>(Request.Form["model"]);
-            }
-            catch
-            {
-                return BadRequest("Invalid employee data format.");
-            }
-
             if (model == null) return BadRequest("Model cannot be null.");
 
             try
             {
-                if (Request.Form.Files.Count > 0)
-                {
-                    var file = Request.Form.Files[0];
-                    var fileName = $"{model.UserID}.jpg";
-
-                    var fileAdapter = _fileAdapterFactory.Create(file);
-                    model.Photo = await _fileService.UploadPhotoAsync(fileAdapter, EMPLOYEE_AVATAR_PATH, fileName);
-                }
-                else
-                {
-                    model.Photo = _fileService.SetDefaultPhotoPath(DEFAULT_EMPLOYEE_AVATAR_PATH);
-                }
-
+                model.Photo ??= DEFAULT_EMPLOYEE_AVATAR_PATH;
                 await _employeeRepository.UpdateAsync(model);
                 return Ok(model);
             }

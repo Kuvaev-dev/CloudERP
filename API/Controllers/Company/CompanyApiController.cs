@@ -14,7 +14,6 @@ namespace API.Controllers.Company
         private readonly IFileService _fileService;
         private readonly IFileAdapterFactory _fileAdapterFactory;
 
-        private const string COMPANY_LOGO_PATH = "~/CompanyLogo";
         private const string DEFAULT_COMPANY_LOGO_PATH = "~/CompanyLogo/erp-logo.png";
 
         public CompanyApiController(
@@ -57,57 +56,33 @@ namespace API.Controllers.Company
         }
 
         [HttpPost]
-        public async Task<ActionResult<Domain.Models.Company>> Create([FromForm] Domain.Models.Company model, [FromForm] IFormFile file)
+        public async Task<ActionResult<Domain.Models.Company>> Create([FromBody] Domain.Models.Company model)
         {
             if (model == null)
                 return BadRequest("Model cannot be null.");
 
             try
             {
-                if (file != null)
-                {
-                    var fileName = $"{model.Name}.jpg";
-
-                    var fileAdapter = _fileAdapterFactory.Create(file);
-                    model.Logo = await _fileService.UploadPhotoAsync(fileAdapter, COMPANY_LOGO_PATH, fileName);
-                }
-                else
-                {
-                    model.Logo = _fileService.SetDefaultPhotoPath(DEFAULT_COMPANY_LOGO_PATH);
-                }
-
+                model.Logo ??= DEFAULT_COMPANY_LOGO_PATH;
                 await _companyRepository.AddAsync(model);
                 return CreatedAtAction(nameof(GetById), new { id = model.CompanyID }, model);
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Error creating company: {ex.Message}");
                 return Problem(detail: ex.Message, statusCode: 500);
             }
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromForm] Domain.Models.Company model, IFormFile file)
+        public async Task<IActionResult> Update([FromBody] Domain.Models.Company model)
         {
-            if (model == null || (!Request.HasFormContentType && string.IsNullOrEmpty(Request.Form["model"])))
-                return BadRequest("Form data cannot be null");
+            if (model == null)
+                return BadRequest("Model cannot be null.");
 
             try
             {
-                if (model == null) return BadRequest("Model cannot be null.");
-
-                if (Request.Form.Files.Count > 0)
-                {
-                    var fileForm = Request.Form.Files[0];
-                    var fileName = $"{model.Name}.jpg";
-
-                    var fileAdapter = _fileAdapterFactory.Create(fileForm);
-                    model.Logo = await _fileService.UploadPhotoAsync(fileAdapter, COMPANY_LOGO_PATH, fileName);
-                }
-                else
-                {
-                    model.Logo = _fileService.SetDefaultPhotoPath(DEFAULT_COMPANY_LOGO_PATH);
-                }
-
+                model.Logo ??= DEFAULT_COMPANY_LOGO_PATH;
                 await _companyRepository.UpdateAsync(model);
                 return Ok(model);
             }

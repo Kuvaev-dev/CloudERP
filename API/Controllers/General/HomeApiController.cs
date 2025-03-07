@@ -96,13 +96,13 @@ namespace API.Controllers.General
         }
 
         [HttpGet]
-        public async Task<ActionResult<Dictionary<string, string>>> GetCurrencies()
+        public async Task<ActionResult<Dictionary<string, decimal>>> GetCurrencies()
         {
             try
             {
                 var defaultCurrency = _configuration["CurrencyApi:DefaultCurrency"] ?? "USD";
                 var rates = await _homeFacade.CurrencyService.GetExchangeRatesAsync(defaultCurrency);
-                var currencies = rates.ToDictionary(k => k.Key, v => v.Value.ToString("F2"));
+                var currencies = rates.ToDictionary(k => k.Key, v => decimal.TryParse(v.Value.ToString(), out var parsed) ? parsed : 0m);
                 return Ok(currencies);
             }
             catch (Exception ex)
