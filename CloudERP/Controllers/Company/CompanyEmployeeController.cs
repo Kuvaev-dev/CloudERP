@@ -9,15 +9,18 @@ namespace CloudERP.Controllers.Company
     {
         private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
+        private readonly ImageUploadHelper _imageUploadHelper;
 
-        private const string DEFAULT_PHOTO_PATH = "~/EmployeePhoto/Default/default.png";
+        private const string EMPLOYEE_PHOTO_FOLDER = "EmployeePhoto";
 
         public CompanyEmployeeController(
             SessionHelper sessionHelper,
-            HttpClientHelper httpClient)
+            HttpClientHelper httpClient,
+            ImageUploadHelper imageUploadHelper)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
+            _imageUploadHelper = imageUploadHelper ?? throw new ArgumentNullException(nameof(imageUploadHelper));
         }
 
         // GET: Employees
@@ -71,25 +74,8 @@ namespace CloudERP.Controllers.Company
 
                 if (ModelState.IsValid)
                 {
-                    if (avatar != null)
-                    {
-                        var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "EmployeePhoto");
-                        Directory.CreateDirectory(uploadsFolder);
-
-                        var uniqueFileName = $"{Guid.NewGuid()}_{Path.GetFileName(avatar.FileName)}";
-                        var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                        using (var fileStream = new FileStream(filePath, FileMode.Create))
-                        {
-                            await avatar.CopyToAsync(fileStream);
-                        }
-
-                        employee.Photo = $"/EmployeePhoto/{uniqueFileName}";
-                    }
-                    else
-                    {
-                        employee.Photo = DEFAULT_PHOTO_PATH;
-                    }
+                    if (avatar != null) 
+                        employee.Photo = await _imageUploadHelper.UploadImageAsync(avatar, EMPLOYEE_PHOTO_FOLDER);
 
                     var response = await _httpClient.PostAsync("companyemployeeapi/employeeregistration", employee);
 

@@ -17,8 +17,7 @@ namespace API.Controllers.Branch
         private readonly IFileService _fileService;
         private readonly IFileAdapterFactory _fileAdapterFactory;
 
-        private const string EMPLOYEE_AVATAR_PATH = "~/wwwroot/EmployeePhoto";
-        private const string DEFAULT_EMPLOYEE_AVATAR_PATH = "~/wwwroot/EmployeePhoto/Default/default.png";
+        private const string DEFAULT_EMPLOYEE_AVATAR_PATH = "~/EmployeePhoto/Default/default.png";
 
         public BranchEmployeeApiController(
             IEmployeeRepository employeeRepository,

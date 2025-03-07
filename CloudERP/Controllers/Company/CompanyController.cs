@@ -7,15 +7,18 @@ namespace CloudERP.Controllers.Company
     {
         private readonly HttpClientHelper _httpClient;
         private readonly SessionHelper _sessionHelper;
+        private readonly ImageUploadHelper _imageUploadHelper;
 
-        private const string DEFAULT_COMPANY_LOGO_PATH = "~/CompanyLogo/erp-logo.png";
+        private const string COMPANY_LOGO_FOLDER = "CompanyLogo";
 
         public CompanyController(
             SessionHelper sessionHelper,
-            HttpClientHelper httpClient)
+            HttpClientHelper httpClient,
+            ImageUploadHelper imageUploadHelper)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
+            _imageUploadHelper = imageUploadHelper ?? throw new ArgumentNullException(nameof(imageUploadHelper));
         }
 
         // GET: Company
@@ -79,24 +82,7 @@ namespace CloudERP.Controllers.Company
                 if (ModelState.IsValid)
                 {
                     if (logo != null)
-                    {
-                        var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "CompanyLogo");
-                        Directory.CreateDirectory(uploadsFolder);
-
-                        var uniqueFileName = $"{Guid.NewGuid()}_{Path.GetFileName(logo.FileName)}";
-                        var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                        using (var fileStream = new FileStream(filePath, FileMode.Create))
-                        {
-                            await logo.CopyToAsync(fileStream);
-                        }
-
-                        model.Logo = $"/CompanyLogo/{uniqueFileName}";
-                    }
-                    else
-                    {
-                        model.Logo = DEFAULT_COMPANY_LOGO_PATH;
-                    }
+                        model.Logo = await _imageUploadHelper.UploadImageAsync(logo, COMPANY_LOGO_FOLDER);
 
                     var response = await _httpClient.PostAsync("companyapi/create", model);
                     if (response)
@@ -152,30 +138,10 @@ namespace CloudERP.Controllers.Company
                 if (ModelState.IsValid)
                 {
                     if (logo != null)
-                    {
-                        var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "CompanyLogo");
-                        Directory.CreateDirectory(uploadsFolder);
-
-                        var uniqueFileName = $"{Guid.NewGuid()}_{Path.GetFileName(logo.FileName)}";
-                        var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                        using (var fileStream = new FileStream(filePath, FileMode.Create))
-                        {
-                            await logo.CopyToAsync(fileStream);
-                        }
-
-                        model.Logo = $"/CompanyLogo/{uniqueFileName}";
-                    }
+                        model.Logo = await _imageUploadHelper.UploadImageAsync(logo, COMPANY_LOGO_FOLDER);
 
                     var response = await _httpClient.PutAsync("companyapi/update", model);
-                    if (response)
-                    {
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("", "Failed to update company.");
-                    }
+                    if (response) return RedirectToAction("Index");
                 }
 
                 return View(model);
