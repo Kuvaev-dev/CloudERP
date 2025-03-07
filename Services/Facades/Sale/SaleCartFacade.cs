@@ -18,11 +18,11 @@ namespace Domain.Facades
             ISaleCartDetailRepository saleCartDetailRepository,
             ISaleEntryService saleEntryService)
         {
-            _customerRepository = customerRepository ?? throw new ArgumentNullException(nameof(ICustomerRepository));
-            _customerInvoiceRepository = customerInvoiceRepository ?? throw new ArgumentNullException(nameof(ICustomerInvoiceRepository));
-            _customerInvoiceDetailRepository = customerInvoiceDetailRepository ?? throw new ArgumentNullException(nameof(ICustomerInvoiceDetailRepository));
-            _saleCartDetailRepository = saleCartDetailRepository ?? throw new ArgumentNullException(nameof(ISaleCartDetailRepository));
-            _saleEntryService = saleEntryService ?? throw new ArgumentNullException(nameof(ISaleEntryService));
+            _customerRepository = customerRepository ?? throw new ArgumentNullException(nameof(customerRepository));
+            _customerInvoiceRepository = customerInvoiceRepository ?? throw new ArgumentNullException(nameof(customerInvoiceRepository));
+            _customerInvoiceDetailRepository = customerInvoiceDetailRepository ?? throw new ArgumentNullException(nameof(customerInvoiceDetailRepository));
+            _saleCartDetailRepository = saleCartDetailRepository ?? throw new ArgumentNullException(nameof(saleCartDetailRepository));
+            _saleEntryService = saleEntryService ?? throw new ArgumentNullException(nameof(saleEntryService));
         }
 
         public ICustomerRepository CustomerRepository => _customerRepository;

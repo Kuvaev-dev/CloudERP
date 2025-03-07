@@ -10,11 +10,11 @@ namespace Services.Implementations
         private readonly IBranchRepository _branchRepository;
 
         public EmployeeStatisticsService(
-            IEmployeeRepository employeeRepository, 
+            IEmployeeRepository employeeRepository,
             IBranchRepository branchRepository)
         {
-            _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(IEmployeeRepository));
-            _branchRepository = branchRepository ?? throw new ArgumentNullException(nameof(IBranchRepository));
+            _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(employeeRepository));
+            _branchRepository = branchRepository ?? throw new ArgumentNullException(nameof(branchRepository));
         }
 
         public async Task<IEnumerable<EmployeeStatistics>> GetStatisticsAsync(DateTime startDate, DateTime endDate, int branchID, int companyID)

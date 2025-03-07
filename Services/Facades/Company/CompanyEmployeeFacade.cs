@@ -22,13 +22,13 @@ namespace Services.Facades
             IBranchRepository branchRepository,
             IPayrollRepository payrollRepository)
         {
-            _salaryTransactionService = salaryTransactionService ?? throw new ArgumentNullException(nameof(ISalaryTransactionService));
-            _employeeSalaryService = employeeSalaryService ?? throw new ArgumentNullException(nameof(IEmployeeSalaryService));
-            _emailService = emailService ?? throw new ArgumentNullException(nameof(IEmailService));
-            _fileService = fileService ?? throw new ArgumentNullException(nameof(IFileService));
-            _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(IEmployeeRepository));
-            _branchRepository = branchRepository ?? throw new ArgumentNullException(nameof(IBranchRepository));
-            _payrollRepository = payrollRepository ?? throw new ArgumentNullException(nameof(IPayrollRepository));
+            _salaryTransactionService = salaryTransactionService ?? throw new ArgumentNullException(nameof(salaryTransactionService));
+            _employeeSalaryService = employeeSalaryService ?? throw new ArgumentNullException(nameof(employeeSalaryService));
+            _emailService = emailService ?? throw new ArgumentNullException(nameof(emailService));
+            _fileService = fileService ?? throw new ArgumentNullException(nameof(fileService));
+            _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(employeeRepository));
+            _branchRepository = branchRepository ?? throw new ArgumentNullException(nameof(branchRepository));
+            _payrollRepository = payrollRepository ?? throw new ArgumentNullException(nameof(payrollRepository));
         }
 
         public ISalaryTransactionService SalaryTransactionService => _salaryTransactionService;

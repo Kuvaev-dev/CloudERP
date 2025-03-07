@@ -28,6 +28,7 @@ namespace CloudERP
 
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             builder.Services.AddScoped<SessionHelper>();
+            builder.Services.AddScoped<ImageUploadHelper>();
 
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>

@@ -9,14 +9,12 @@ namespace API.Adapters
 
         public FormFileAdapter(IFormFile file)
         {
-            if (file == null) throw new ArgumentNullException(nameof(file));
+            ArgumentNullException.ThrowIfNull(file);
 
             _fileName = file.FileName;
-            using (var memoryStream = new MemoryStream())
-            {
-                file.CopyTo(memoryStream);
-                _fileBytes = memoryStream.ToArray();
-            }
+            using var memoryStream = new MemoryStream();
+            file.CopyTo(memoryStream);
+            _fileBytes = memoryStream.ToArray();
         }
 
         public string FileName => _fileName;

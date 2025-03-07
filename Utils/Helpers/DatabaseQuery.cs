@@ -41,17 +41,13 @@ namespace Utils.Helpers
         {
             try
             {
-                using (SqlConnection connection = await ConnOpenAsync())
-                {
-                    using (var command = new SqlCommand(query, connection))
-                    {
-                        if (parameters != null)
-                            command.Parameters.AddRange(parameters);
+                using SqlConnection connection = await ConnOpenAsync();
+                using var command = new SqlCommand(query, connection);
+                if (parameters != null)
+                    command.Parameters.AddRange(parameters);
 
-                        int affectedRows = await command.ExecuteNonQueryAsync();
-                        return affectedRows > 0;
-                    }
-                }
+                int affectedRows = await command.ExecuteNonQueryAsync();
+                return affectedRows > 0;
             }
             catch (Exception ex)
             {
@@ -66,26 +62,20 @@ namespace Utils.Helpers
 
             try
             {
-                using (SqlConnection connection = await ConnOpenAsync())
-                {
-                    using (var command = new SqlCommand(query, connection))
-                    {
-                        if (parameters != null)
-                            command.Parameters.AddRange(parameters);
+                using SqlConnection connection = await ConnOpenAsync();
+                using var command = new SqlCommand(query, connection);
+                if (parameters != null)
+                    command.Parameters.AddRange(parameters);
 
-                        using (var reader = await command.ExecuteReaderAsync())
-                        {
-                            while (await reader.ReadAsync())
-                            {
-                                var row = new Dictionary<string, object>();
-                                for (int i = 0; i < reader.FieldCount; i++)
-                                {
-                                    row[reader.GetName(i)] = reader.IsDBNull(i) ? null : reader.GetValue(i);
-                                }
-                                results.Add(row);
-                            }
-                        }
+                using var reader = await command.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
+                {
+                    var row = new Dictionary<string, object>();
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        row[reader.GetName(i)] = reader.IsDBNull(i) ? null : reader.GetValue(i);
                     }
+                    results.Add(row);
                 }
             }
             catch (Exception ex)

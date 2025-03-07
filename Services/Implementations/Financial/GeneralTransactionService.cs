@@ -9,7 +9,7 @@ namespace Services.Implementations
 
         public GeneralTransactionService(IGeneralTransactionRepository generalTransactionRepository)
         {
-            _generalTransactionRepository = generalTransactionRepository ?? throw new ArgumentNullException(nameof(IGeneralTransactionRepository));
+            _generalTransactionRepository = generalTransactionRepository ?? throw new ArgumentNullException(nameof(generalTransactionRepository));
         }
 
         public async Task<string> ConfirmTransactionAsync(

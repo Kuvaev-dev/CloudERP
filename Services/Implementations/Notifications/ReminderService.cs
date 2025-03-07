@@ -15,9 +15,9 @@ namespace Services.Implementations
             IUserRepository userRepository, 
             ITaskRepository taskRepository)
         {
-            _emailService = emailService ?? throw new ArgumentNullException(nameof(IEmailService));
-            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(IUserRepository));
-            _taskRepository = taskRepository ?? throw new ArgumentNullException(nameof(ITaskRepository));
+            _emailService = emailService ?? throw new ArgumentNullException(nameof(emailService));
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+            _taskRepository = taskRepository ?? throw new ArgumentNullException(nameof(taskRepository));
         }
 
         public async Task SendReminders()
@@ -46,7 +46,7 @@ namespace Services.Implementations
             _emailService.SendEmail(toEmail, subject, body);
         }
 
-        private string BuildEmailBody(TaskModel task)
+        private static string BuildEmailBody(TaskModel task)
         {
             return $@"
             <h1>{Localization.Services.Localization.ReminderForTask}: {task.Title}</h1>

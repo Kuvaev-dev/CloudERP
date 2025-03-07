@@ -21,23 +21,21 @@ namespace API.Services
             var smtpPassword = _configuration["Smtp:Password"];
             var fromEmail = _configuration["Smtp:FromEmail"];
 
-            using (var client = new SmtpClient(smtpServer, smtpPort))
+            using var client = new SmtpClient(smtpServer, smtpPort);
+            client.Credentials = new NetworkCredential(smtpUsername, smtpPassword);
+            client.EnableSsl = true;
+
+            var message = new MailMessage
             {
-                client.Credentials = new NetworkCredential(smtpUsername, smtpPassword);
-                client.EnableSsl = true;
+                From = new MailAddress(fromEmail, "Cloud ERP"),
+                Subject = subject,
+                Body = body,
+                IsBodyHtml = true
+            };
 
-                var message = new MailMessage
-                {
-                    From = new MailAddress(fromEmail, "Cloud ERP"),
-                    Subject = subject,
-                    Body = body,
-                    IsBodyHtml = true
-                };
+            message.To.Add(new MailAddress(toEmailAddress));
 
-                message.To.Add(new MailAddress(toEmailAddress));
-
-                client.Send(message);
-            }
+            client.Send(message);
         }
     }
 }

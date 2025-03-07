@@ -12,8 +12,8 @@ namespace Services.Implementations
 
         public ForecastingService(IForecastingRepository forecastingRepository, IFinancialForecastAdapter financialForecastAdapter)
         {
-            _forecastingRepository = forecastingRepository;
-            _financialForecastAdapter = financialForecastAdapter;
+            _forecastingRepository = forecastingRepository ?? throw new ArgumentException(nameof(forecastingRepository));
+            _financialForecastAdapter = financialForecastAdapter ?? throw new ArgumentException(nameof(financialForecastAdapter));
         }
 
         public double GenerateForecast(int companyID, int branchID, DateTime startDate, DateTime endDate)

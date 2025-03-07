@@ -65,12 +65,12 @@ namespace Services.Implementations
             }
         }
 
-        private string GenerateInvoiceNumber()
+        private static string GenerateInvoiceNumber()
         {
             return "PUR" + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond;
         }
 
-        private SupplierInvoice CreateInvoiceHeader(int companyId, int branchId, int userId, int supplierID, string description, double totalAmount, string invoiceNo)
+        private static SupplierInvoice CreateInvoiceHeader(int companyId, int branchId, int userId, int supplierID, string description, double totalAmount, string invoiceNo)
         {
             return new SupplierInvoice()
             {

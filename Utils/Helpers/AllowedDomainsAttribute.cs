@@ -11,7 +11,7 @@ namespace Utils.Helpers
             _allowedDomains = allowedDomains ?? throw new ArgumentNullException(nameof(allowedDomains));
         }
 
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
             if (value is string email && email.Contains("@"))
             {
@@ -23,14 +23,14 @@ namespace Utils.Helpers
                 else
                 {
                     string errorMessage = string.Format(
-                        "Domain is Not Avaliable" ?? "Domain {0} is not allowed. Allowed domains: {1}",
+                        "Domain {0} is not allowed. Allowed domains: {1}",
                         emailDomain,
                         string.Join(", ", _allowedDomains)
                     );
                     return new ValidationResult(errorMessage);
                 }
             }
-            return new ValidationResult("Email" ?? "Invalid email format.");
+            return new ValidationResult("Invalid email format.");
         }
     }
 }

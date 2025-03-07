@@ -21,7 +21,6 @@ namespace Domain.Models
 
         [StringLength(200, ErrorMessage = "Address cannot exceed 200 characters.")]
         public string? Address { get; set; }
-
         public string? Photo { get; set; }
 
         [StringLength(20, ErrorMessage = "TIN cannot exceed 20 characters.")]
@@ -32,7 +31,6 @@ namespace Domain.Models
 
         [StringLength(500, ErrorMessage = "Description cannot exceed 500 characters.")]
         public string? Description { get; set; }
-
         public double MonthlySalary { get; set; }
         public bool? IsFirstLogin { get; set; }
         public DateTime? RegistrationDate { get; set; }

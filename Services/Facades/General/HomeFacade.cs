@@ -20,12 +20,12 @@ namespace Services.Facades
             IAuthService authService,
             ICurrencyService currencyService)
         {
-            _dashboardService = dashboardService ?? throw new ArgumentNullException(nameof(IDashboardService));
-            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(IUserRepository));
-            _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(IEmployeeRepository));
-            _companyRepository = companyRepository ?? throw new ArgumentNullException(nameof(ICompanyRepository));
-            _authService = authService ?? throw new ArgumentNullException(nameof(IAuthService));
-            _currencyService = currencyService;
+            _dashboardService = dashboardService ?? throw new ArgumentNullException(nameof(dashboardService));
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+            _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(employeeRepository));
+            _companyRepository = companyRepository ?? throw new ArgumentNullException(nameof(companyRepository));
+            _authService = authService ?? throw new ArgumentNullException(nameof(authService));
+            _currencyService = currencyService ?? throw new ArgumentNullException(nameof(currencyService));
         }
 
         public IDashboardService DashboardService => _dashboardService;

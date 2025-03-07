@@ -13,7 +13,7 @@ namespace Services.Implementations
 
         public IncomeStatementService(IBalanceSheetRepository balanceSheetRepository)
         {
-            _balanceSheetRepository = balanceSheetRepository ?? throw new ArgumentNullException(nameof(IBalanceSheetRepository));
+            _balanceSheetRepository = balanceSheetRepository ?? throw new ArgumentNullException(nameof(balanceSheetRepository));
         }
 
         public async Task<IncomeStatementModel> GetIncomeStatementAsync(int companyID, int branchID, int financialYearID)

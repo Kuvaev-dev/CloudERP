@@ -24,12 +24,12 @@ namespace Domain.Facades
             IPurchaseService purchaseService,
             ISupplierInvoiceDetailRepository supplierInvoiceDetailRepository)
         {
-            _purchaseRepository = purchaseRepository ?? throw new ArgumentNullException(nameof(IPurchaseRepository));
-            _supplierRepository = supplierRepository ?? throw new ArgumentNullException(nameof(ISupplierRepository));
-            _supplierReturnInvoiceRepository = supplierReturnInvoiceRepository ?? throw new ArgumentNullException(nameof(ISupplierReturnInvoiceRepository));
-            _supplierInvoiceRepository = supplierInvoiceRepository ?? throw new ArgumentNullException(nameof(ISupplierInvoiceRepository));
-            _supplierPaymentRepository = supplierPaymentRepository ?? throw new ArgumentNullException(nameof(ISupplierPaymentRepository));
-            _purchaseEntryService = purchaseEntryService ?? throw new ArgumentNullException(nameof(IPurchaseEntryService));
+            _purchaseRepository = purchaseRepository ?? throw new ArgumentNullException(nameof(purchaseRepository));
+            _supplierRepository = supplierRepository ?? throw new ArgumentNullException(nameof(supplierRepository));
+            _supplierReturnInvoiceRepository = supplierReturnInvoiceRepository ?? throw new ArgumentNullException(nameof(supplierReturnInvoiceRepository));
+            _supplierInvoiceRepository = supplierInvoiceRepository ?? throw new ArgumentNullException(nameof(supplierInvoiceRepository));
+            _supplierPaymentRepository = supplierPaymentRepository ?? throw new ArgumentNullException(nameof(supplierPaymentRepository));
+            _purchaseEntryService = purchaseEntryService ?? throw new ArgumentNullException(nameof(purchaseEntryService));
             _purchaseService = purchaseService ?? throw new ArgumentNullException(nameof(purchaseService));
             _supplierInvoiceDetailRepository = supplierInvoiceDetailRepository ?? throw new ArgumentNullException(nameof(supplierInvoiceDetailRepository));
         }

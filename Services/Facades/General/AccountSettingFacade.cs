@@ -17,11 +17,11 @@ namespace Services.Facades
             IAccountHeadRepository accountHeadRepository,
             IAccountActivityRepository accountActivityRepository)
         {
-            _accountSettingRepository = accountSettingRepository ?? throw new ArgumentNullException(nameof(IAccountSettingRepository));
-            _accountControlRepository = accountControlRepository ?? throw new ArgumentNullException(nameof(IAccountControlRepository));
-            _accountSubControlRepository = accountSubControlRepository ?? throw new ArgumentNullException(nameof(IAccountSubControlRepository));
-            _accountHeadRepository = accountHeadRepository ?? throw new ArgumentNullException(nameof(IAccountHeadRepository));
-            _accountActivityRepository = accountActivityRepository ?? throw new ArgumentNullException(nameof(IAccountActivityRepository));
+            _accountSettingRepository = accountSettingRepository ?? throw new ArgumentNullException(nameof(accountSettingRepository));
+            _accountControlRepository = accountControlRepository ?? throw new ArgumentNullException(nameof(accountControlRepository));
+            _accountSubControlRepository = accountSubControlRepository ?? throw new ArgumentNullException(nameof(accountSubControlRepository));
+            _accountHeadRepository = accountHeadRepository ?? throw new ArgumentNullException(nameof(accountHeadRepository));
+            _accountActivityRepository = accountActivityRepository ?? throw new ArgumentNullException(nameof(accountActivityRepository));
         }
 
         public IAccountSettingRepository AccountSettingRepository => _accountSettingRepository;

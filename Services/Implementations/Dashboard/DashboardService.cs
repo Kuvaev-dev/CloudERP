@@ -10,7 +10,7 @@ namespace Services.Implementations
 
         public DashboardService(IDashboardRepository dashboardRepository)
         {
-            _dashboardRepository = dashboardRepository ?? throw new ArgumentNullException(nameof(IDashboardRepository));
+            _dashboardRepository = dashboardRepository ?? throw new ArgumentNullException(nameof(dashboardRepository));
         }
 
         public async Task<DashboardModel> GetDashboardValues(int branchId, int companyId)

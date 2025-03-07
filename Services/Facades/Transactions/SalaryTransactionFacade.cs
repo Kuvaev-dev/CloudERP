@@ -10,15 +10,15 @@ namespace Domain.Facades
         private readonly IAccountSettingRepository _accountSettingRepository;
 
         public SalaryTransactionFacade(
-            ISalaryTransactionRepository salaryTransactionRepository, 
-            IEmployeeRepository employeeRepository, 
-            IFinancialYearRepository financialYearRepository, 
+            ISalaryTransactionRepository salaryTransactionRepository,
+            IEmployeeRepository employeeRepository,
+            IFinancialYearRepository financialYearRepository,
             IAccountSettingRepository accountSettingRepository)
         {
-            _salaryTransactionRepository = salaryTransactionRepository ?? throw new ArgumentNullException(nameof(ISalaryTransactionRepository));
-            _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(IEmployeeRepository));
-            _financialYearRepository = financialYearRepository ?? throw new ArgumentNullException(nameof(IFinancialYearRepository));
-            _accountSettingRepository = accountSettingRepository ?? throw new ArgumentNullException(nameof(IAccountSettingRepository));
+            _salaryTransactionRepository = salaryTransactionRepository ?? throw new ArgumentNullException(nameof(salaryTransactionRepository));
+            _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(employeeRepository));
+            _financialYearRepository = financialYearRepository ?? throw new ArgumentNullException(nameof(financialYearRepository));
+            _accountSettingRepository = accountSettingRepository ?? throw new ArgumentNullException(nameof(accountSettingRepository));
         }
 
         public ISalaryTransactionRepository SalaryTransactionRepository => _salaryTransactionRepository;

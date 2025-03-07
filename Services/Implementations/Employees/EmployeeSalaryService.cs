@@ -11,8 +11,8 @@ namespace Services.Implementations
 
         public EmployeeSalaryService(IPayrollRepository payrollRepository, ISalaryTransactionService salaryTransaction)
         {
-            _payrollRepository = payrollRepository ?? throw new ArgumentNullException(nameof(IPayrollRepository));
-            _salaryTransaction = salaryTransaction ?? throw new ArgumentNullException(nameof(ISalaryTransactionService));
+            _payrollRepository = payrollRepository ?? throw new ArgumentNullException(nameof(payrollRepository));
+            _salaryTransaction = salaryTransaction ?? throw new ArgumentNullException(nameof(salaryTransaction));
         }
 
         public async Task<string> ConfirmSalaryAsync(Salary salary, int userId, int branchId, int companyId)

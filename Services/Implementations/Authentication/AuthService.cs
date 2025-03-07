@@ -24,9 +24,11 @@ namespace Services.Implementations
         public async Task<User> AuthenticateUserAsync(string email, string password)
         {
             var user = await _userRepository.GetByEmailAsync(email);
-            return (user != null && _passwordHelper.VerifyPassword(password, user.Password, user.Salt))
-                ? user
-                : null;
+            if (user == null || user.Password == null || user.Salt == null)
+            {
+                throw new UnauthorizedAccessException("Invalid email or password.");
+            }
+            return PasswordHelper.VerifyPassword(password, user.Password, user.Salt) ? user : throw new UnauthorizedAccessException("Invalid email or password.");
         }
 
         public async Task<bool> IsPasswordResetRequestedRecentlyAsync(string email)
@@ -50,7 +52,7 @@ namespace Services.Implementations
             var user = await _userRepository.GetByPasswordCodesAsync(id, DateTime.Now);
             if (user == null) return false;
 
-            user.Password = _passwordHelper.HashPassword(newPassword, out string salt);
+            user.Password = PasswordHelper.HashPassword(newPassword, out string salt);
             user.Salt = salt;
             user.ResetPasswordCode = null;
             user.ResetPasswordExpiration = null;

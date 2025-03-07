@@ -20,12 +20,12 @@ namespace Services.Facades
             IAccountSettingRepository accountSettingRepository,
             IEmailService emailService)
         {
-            _companyRepository = companyRepository ?? throw new ArgumentNullException(nameof(ICompanyRepository));
-            _branchRepository = branchRepository ?? throw new ArgumentNullException(nameof(IBranchRepository));
-            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(IUserRepository));
-            _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(IEmployeeRepository));
-            _accountSettingRepository = accountSettingRepository ?? throw new ArgumentNullException(nameof(IAccountSettingRepository));
-            _emailService = emailService ?? throw new ArgumentNullException(nameof(IEmailService));
+            _companyRepository = companyRepository ?? throw new ArgumentNullException(nameof(companyRepository));
+            _branchRepository = branchRepository ?? throw new ArgumentNullException(nameof(branchRepository));
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+            _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(employeeRepository));
+            _accountSettingRepository = accountSettingRepository ?? throw new ArgumentNullException(nameof(accountSettingRepository));
+            _emailService = emailService ?? throw new ArgumentNullException(nameof(emailService));
         }
 
         public ICompanyRepository CompanyRepository => _companyRepository;

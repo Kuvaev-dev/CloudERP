@@ -16,7 +16,7 @@ namespace Services.Implementations
 
         public BalanceSheetService(IBalanceSheetRepository balanceSheetRepository)
         {
-            _balanceSheetRepository = balanceSheetRepository ?? throw new ArgumentNullException(nameof(IBalanceSheetRepository));
+            _balanceSheetRepository = balanceSheetRepository ?? throw new ArgumentNullException(nameof(balanceSheetRepository));
         }
 
         public async Task<BalanceSheetModel> GetBalanceSheetAsync(int companyId, int branchId, int financialYearId, List<int> headIds)

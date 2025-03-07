@@ -75,7 +75,7 @@ namespace API.Controllers.User.Users
             {
                 if (model == null) return BadRequest("Model cannot be null.");
 
-                model.Password = _passwordHelper.HashPassword(model.Password, out string salt);
+                model.Password = PasswordHelper.HashPassword(model.Password, out string salt);
                 model.Salt = salt;
 
                 await _userRepository.AddAsync(model); 
@@ -103,7 +103,7 @@ namespace API.Controllers.User.Users
                 }
                 else
                 {
-                    model.Password = _passwordHelper.HashPassword(model.Password, out string salt);
+                    model.Password = PasswordHelper.HashPassword(model.Password, out string salt);
                     model.Salt = salt;
                 }
 

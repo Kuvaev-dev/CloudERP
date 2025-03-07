@@ -20,12 +20,12 @@ namespace Domain.Facades
             IPurchaseCartDetailRepository purchaseCartDetailRepository,
             IPurchaseEntryService purchaseEntryService)
         {
-            _supplierInvoiceRepository = supplierInvoiceRepository ?? throw new ArgumentNullException(nameof(ISupplierInvoiceRepository));
-            _supplierInvoiceDetailRepository = supplierInvoiceDetailRepository ?? throw new ArgumentNullException(nameof(ISupplierInvoiceDetailRepository));
-            _supplierRepository = supplierRepository ?? throw new ArgumentNullException(nameof(ISupplierRepository));
-            _stockRepository = stockRepository ?? throw new ArgumentNullException(nameof(IStockRepository));
-            _purchaseCartDetailRepository = purchaseCartDetailRepository ?? throw new ArgumentNullException(nameof(IPurchaseCartDetailRepository));
-            _purchaseEntryService = purchaseEntryService ?? throw new ArgumentNullException(nameof(IPurchaseEntryService));
+            _supplierInvoiceRepository = supplierInvoiceRepository ?? throw new ArgumentNullException(nameof(supplierInvoiceRepository));
+            _supplierInvoiceDetailRepository = supplierInvoiceDetailRepository ?? throw new ArgumentNullException(nameof(supplierInvoiceDetailRepository));
+            _supplierRepository = supplierRepository ?? throw new ArgumentNullException(nameof(supplierRepository));
+            _stockRepository = stockRepository ?? throw new ArgumentNullException(nameof(stockRepository));
+            _purchaseCartDetailRepository = purchaseCartDetailRepository ?? throw new ArgumentNullException(nameof(purchaseCartDetailRepository));
+            _purchaseEntryService = purchaseEntryService ?? throw new ArgumentNullException(nameof(purchaseEntryService));
         }
 
         public ISupplierInvoiceRepository SupplierInvoiceRepository => _supplierInvoiceRepository;

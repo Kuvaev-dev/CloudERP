@@ -13,7 +13,7 @@ namespace Services.Implementations
 
         public SalaryTransactionService(SalaryTransactionFacade salaryTransactionFacade)
         {
-            _salaryTransactionFacade = salaryTransactionFacade ?? throw new ArgumentNullException(nameof(SalaryTransactionFacade));
+            _salaryTransactionFacade = salaryTransactionFacade ?? throw new ArgumentNullException(nameof(salaryTransactionFacade));
         }
 
         private void InitializeDataTable()
@@ -55,10 +55,11 @@ namespace Services.Implementations
                 {
                     employeename = Localization.Services.Localization.To + employee.FullName;
                     transectiontitle += employeename;
+                    transectiontitle = $"{Localization.Services.Localization.SalarySucceed} {employee.FullName}";
                 }
 
                 var financialYearCheck = await _salaryTransactionFacade.FinancialYearRepository.GetSingleActiveAsync();
-                string FinancialYearID = financialYearCheck != null ? Convert.ToString(financialYearCheck) : string.Empty;
+                string? FinancialYearID = financialYearCheck != null ? Convert.ToString(financialYearCheck) : string.Empty;
                 if (string.IsNullOrEmpty(FinancialYearID))
                 {
                     return Localization.Services.Localization.CompanyFinancialYearNotSet;

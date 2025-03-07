@@ -11,7 +11,7 @@ namespace Services.Implementations
 
         public FinancialForecaster(MLContext mlContext)
         {
-            _mlContext = mlContext;
+            _mlContext = mlContext ?? throw new ArgumentException(nameof(mlContext));
         }
 
         public object TrainModel(IEnumerable<ForecastData> data)

@@ -7,6 +7,7 @@ namespace API.Services
     {
         private readonly IConfiguration _configuration;
         private readonly string _apiUrl;
+        private readonly JsonSerializerOptions _jsonSerializerOptions;
 
         private HttpClient _httpClient;
 
@@ -14,6 +15,10 @@ namespace API.Services
         {
             _configuration = configuration;
             _apiUrl = _configuration["CurrencyApi:BaseUrl"] ?? throw new ArgumentException("ExchangeRateApiUrl is not configured");
+            _jsonSerializerOptions = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
         }
 
         public async Task<Dictionary<string, decimal>> GetExchangeRatesAsync(string baseCurrency = "USD")
@@ -31,10 +36,7 @@ namespace API.Services
                 var json = await response.Content.ReadAsStringAsync();
                 Console.WriteLine($"API Response: {json}");
 
-                var rates = JsonSerializer.Deserialize<ExchangeRateResponse>(json, new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true
-                });
+                var rates = JsonSerializer.Deserialize<ExchangeRateResponse>(json, _jsonSerializerOptions);
 
                 return rates?.Rates ?? [];
             }
