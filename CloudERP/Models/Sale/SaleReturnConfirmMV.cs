@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace CloudERP.Models
+﻿namespace CloudERP.Models
 {
     public class SaleReturnConfirmMV
     {

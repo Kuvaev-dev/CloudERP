@@ -14,15 +14,18 @@ namespace CloudERP.Controllers.General
     {
         private readonly SessionHelper _sessionHelper;
         private readonly HttpClientHelper _httpClient;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         private const int ADMIN_USER_TYPE_ID = 1;
 
         public HomeController(
             SessionHelper sessionHelper,
-            HttpClientHelper httpClient)
+            HttpClientHelper httpClient,
+            IHttpContextAccessor httpContextAccessor)
         {
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<IActionResult> Index()
@@ -34,12 +37,13 @@ namespace CloudERP.Controllers.General
             {
                 var dashboardValues = await _httpClient.GetAsync<DashboardModel>($"homeapi/getdashboardvalues?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 var currencies = await _httpClient.GetAsync<Dictionary<string, string>>("homeapi/getcurrencies");
-
+                
                 ViewBag.Currencies = currencies?.ToDictionary(
                     k => k.Key,
                     v => decimal.TryParse(v.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out var parsed) ? parsed : 0m
                 );
                 ViewBag.SelectedCurrency = HttpContext.Session.GetString("SelectedCurrency") ?? "UAH";
+                ViewBag.CultureCode = HttpContext.Session.GetString("Culture") ?? "en-US";
 
                 return View(dashboardValues ?? new DashboardModel());
             }
@@ -77,11 +81,11 @@ namespace CloudERP.Controllers.General
                     HttpContext.Session.SetString("StartTour", "true");
 
                 var currencies = await _httpClient.GetAsync<Dictionary<string, string>>("homeapi/getcurrencies");
-                ViewBag.Currencies = currencies ?? new Dictionary<string, string>();
+                ViewBag.Currencies = currencies ?? [];
 
                 return userData.User.UserTypeID == ADMIN_USER_TYPE_ID
-                    ? View("~/Views/Guide/AdminMenuGuide.cshtml")
-                    : View("~/Views/Home/Index.cshtml");
+                    ? RedirectToAction("AdminMenuGuide", "Guide")
+                    : RedirectToAction("Index", "Home");
             }
             catch (Exception ex)
             {

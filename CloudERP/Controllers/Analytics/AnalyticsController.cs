@@ -2,7 +2,7 @@
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CloudERP.Controllers.User.Analytics
+namespace CloudERP.Controllers.Analytics
 {
     public class AnalyticsController : Controller
     {

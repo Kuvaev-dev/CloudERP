@@ -3,7 +3,7 @@ using Domain.RepositoryAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers.User.Stuff
+namespace API.Controllers.Client
 {
     [ApiController]
     [Route("api/[controller]/[action]")]

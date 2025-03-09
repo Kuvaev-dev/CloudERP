@@ -5,7 +5,7 @@ using Domain.Models.FinancialModels;
 using Utils.Helpers;
 using Microsoft.Extensions.Configuration;
 
-namespace DatabaseAccess.Repositories.Finance
+namespace DatabaseAccess.Repositories.Financial
 {
     public class LedgerRepository : ILedgerRepository
     {

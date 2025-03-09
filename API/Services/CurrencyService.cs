@@ -1,4 +1,5 @@
-﻿using Domain.ServiceAccess;
+﻿using Domain.Models;
+using Domain.ServiceAccess;
 using System.Text.Json;
 
 namespace API.Services
@@ -45,11 +46,6 @@ namespace API.Services
                 Console.WriteLine($"Error fetching exchange rates: {ex.Message}");
                 return [];
             }
-        }
-
-        private class ExchangeRateResponse
-        {
-            public required Dictionary<string, decimal> Rates { get; set; }
         }
     }
 }

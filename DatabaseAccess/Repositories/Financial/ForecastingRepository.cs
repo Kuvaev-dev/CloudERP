@@ -2,7 +2,7 @@
 using Domain.Models;
 using Domain.RepositoryAccess;
 
-namespace DatabaseAccess.Repositories.Finance
+namespace DatabaseAccess.Repositories.Financial
 {
     public class ForecastingRepository : IForecastingRepository
     {

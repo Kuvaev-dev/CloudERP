@@ -4,7 +4,7 @@ using Domain.Models;
 using Domain.RepositoryAccess;
 using Microsoft.EntityFrameworkCore;
 
-namespace DatabaseAccess.Repositories.Finance
+namespace DatabaseAccess.Repositories.Financial
 {
     public class FinancialYearRepository : IFinancialYearRepository
     {

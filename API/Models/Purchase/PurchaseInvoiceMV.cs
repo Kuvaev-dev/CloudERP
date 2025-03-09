@@ -1,5 +1,4 @@
 ﻿using Domain.Models;
-using System.Collections.Generic;
 
 namespace API.Models
 {

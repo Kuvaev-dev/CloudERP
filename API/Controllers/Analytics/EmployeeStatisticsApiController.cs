@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers.User.Analytics
+namespace API.Controllers.Analytics
 {
     [ApiController]
     [Route("api/[controller]/[action]")]

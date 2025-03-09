@@ -5,8 +5,8 @@
     ViewBag.Title = Localization.CloudERP.Miscellaneous.DashboardTitle;
     DateTime currentDate = DateTime.Now;
     string currentYear = currentDate.ToString("yyyy");
-    string cultureCode = HttpContextAccessor.HttpContext?.Session.GetString("Culture") ?? "en-US";
-    var cultureInfo = new System.Globalization.CultureInfo(cultureCode);
+    string cultureCode = ViewBag.CultureCode as string;
+    System.Globalization.CultureInfo cultureInfo = new(cultureCode);
     string currentMonth = currentDate.ToString("MMMM", cultureInfo);
 }
 

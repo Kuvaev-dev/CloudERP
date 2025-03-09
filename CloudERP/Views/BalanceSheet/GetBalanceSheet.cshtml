@@ -3,6 +3,15 @@
     ViewBag.Title = Localization.CloudERP.Financial.BalanceSheetStr;
 }
 
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<link href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css" rel="stylesheet">
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+
 @using (Html.BeginForm("GetBalanceSheet", "BalanceSheet", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
@@ -23,14 +32,12 @@
 }
 
 <div class="card card-default col-md-12">
-    <div class="card-header">
+    <div class="card-header d-flex justify-content-between align-items-center">
         <h3 class="text-primary">@Localization.CloudERP.Financial.BalanceSheetStr</h3>
-        <h3 class="text-danger">@ViewBag.Message</h3>
-        <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
     </div>
     <div class="card-body">
         <div class="table-responsive bootgrid">
-            <table class="table table-striped table-bordered table-hover" id="dataTable">
+            <table id="dataTable" class="table table-striped table-bordered table-hover">
                 <thead>
                     <tr>
                         <th>@Localization.CloudERP.Financial.AccountTitle</th>
@@ -52,31 +59,17 @@
                                 <td>@accounts.AccountSubTitle</td>
                                 @if (accounts.Status == "Debit")
                                 {
-                                    if (accounts.AccountSubTitle.Contains("Assets"))
-                                    {
-                                        <td>@accounts.TotalAmount</td>
-                                    }
-                                    else if (accounts.AccountSubTitle.Contains("Liabilities") || accounts.AccountSubTitle.Contains("Capital"))
-                                    {
-                                        <td>(@accounts.TotalAmount)</td>
-                                    }
+                                    <td>@(accounts.AccountSubTitle.Contains("Assets") ? accounts.TotalAmount : "(" + accounts.TotalAmount + ")")</td>
                                 }
                                 else
                                 {
-                                    if (accounts.AccountSubTitle.Contains("Assets"))
-                                    {
-                                        <td>(@accounts.TotalAmount)</td>
-                                    }
-                                    else if (accounts.AccountSubTitle.Contains("Liabilities") || accounts.AccountSubTitle.Contains("Capital"))
-                                    {
-                                        <td>@accounts.TotalAmount</td>
-                                    }
+                                    <td>@(accounts.AccountSubTitle.Contains("Assets") ? "(" + accounts.TotalAmount + ")" : accounts.TotalAmount)</td>
                                 }
                                 <td></td>
                             </tr>
                         }
 
-                        if (accountHead.AccountHeadTitle.Contains("Assets"))
+                        @if (accountHead.AccountHeadTitle.Contains("Assets"))
                         {
                             <tr style="background-color:black;color:white;">
                                 <td>@Localization.CloudERP.Financial.TotalAssets:</td>
@@ -116,5 +109,19 @@
             </table>
         </div>
     </div>
-    }
 </div>
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy',
+                'csv', 
+                'excel',
+                'pdf', 
+                'print'
+            ],
+            ordering: false,
+        });
+    });
+</script>

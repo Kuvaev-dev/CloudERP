@@ -6,7 +6,7 @@ using Utils.Helpers;
 using Microsoft.Extensions.Configuration;
 using DatabaseAccess.Context;
 
-namespace DatabaseAccess.Repositories.Finance
+namespace DatabaseAccess.Repositories.Financial
 {
     public class GeneralTransactionRepository : IGeneralTransactionRepository
     {

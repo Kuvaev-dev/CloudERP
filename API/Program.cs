@@ -8,7 +8,7 @@ using DatabaseAccess.Repositories.Branch;
 using DatabaseAccess.Repositories.Company;
 using DatabaseAccess.Repositories.Customers;
 using DatabaseAccess.Repositories.Employees;
-using DatabaseAccess.Repositories.Finance;
+using DatabaseAccess.Repositories.Financial;
 using DatabaseAccess.Repositories.Inventory;
 using DatabaseAccess.Repositories.Purchase;
 using DatabaseAccess.Repositories.Sale;

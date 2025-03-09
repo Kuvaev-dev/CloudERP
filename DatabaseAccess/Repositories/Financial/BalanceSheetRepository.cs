@@ -4,7 +4,7 @@ using Domain.RepositoryAccess;
 using Domain.Models.FinancialModels;
 using Utils.Helpers;
 
-namespace DatabaseAccess.Repositories.Finance
+namespace DatabaseAccess.Repositories.Financial
 {
     public class BalanceSheetRepository : IBalanceSheetRepository
     {
