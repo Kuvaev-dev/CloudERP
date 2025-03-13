@@ -3,6 +3,7 @@ using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Utils.Helpers;
 
 namespace API.Controllers.Purchase.Cart
 {
@@ -53,14 +54,14 @@ namespace API.Controllers.Purchase.Cart
 
                 if (result.IsSuccess)
                 {
-                    return Ok(new PurchaseReturnConfirmResult { InvoiceNo = result.InvoiceNo, Message = result.Message });
+                    return Ok(new PurchaseReturnConfirmResult { InvoiceNo = result.InvoiceNo, IsSuccess = true, Message = result.Message });
                 }
 
-                return BadRequest(result.Message);
+                return Ok(new PurchaseReturnConfirmResult { InvoiceNo = string.Empty, IsSuccess = false, Message = result.Message });
             }
             catch (Exception ex)
             {
-                return Problem(detail: ex.Message, statusCode: 500);
+                return Ok(new PurchaseReturnConfirmResult { InvoiceNo = string.Empty, IsSuccess = false, Message = "Unexpected error: " + ex.Message });
             }
         }
     }

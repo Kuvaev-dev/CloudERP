@@ -90,10 +90,10 @@ namespace DatabaseAccess.Repositories.Suppliers
             return entity?.SupplierID;
         }
 
-        public async Task<double> GetTotalAmountAsync(int id)
+        public async Task<double?> GetTotalAmountAsync(int id)
         {
             var entity = await _dbContext.tblSupplierInvoice.FindAsync(id);
-            return entity.TotalAmount;
+            return entity?.TotalAmount;
         }
 
         public async Task<int?> GetLatestIdAsync(int supplierId)

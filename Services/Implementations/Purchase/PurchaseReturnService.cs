@@ -67,7 +67,7 @@ namespace Services.Implementations
                 supplier.SupplierName,
                 returnConfirmDto.IsPayment);
 
-            if (message.Contains("Success"))
+            if (message.Contains(Localization.Services.Localization.Success))
             {
                 for (int i = 0; i < purchaseDetails.Count(); i++)
                 {

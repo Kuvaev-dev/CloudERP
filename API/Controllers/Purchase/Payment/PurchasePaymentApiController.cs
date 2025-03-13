@@ -86,9 +86,9 @@ namespace API.Controllers.Purchase.Payment
         [HttpGet]
         public async Task<ActionResult<double>> GetRemainingAmount(int id)
         {
-            double totalInvoiceAmount = await _purchasePaymentService.GetTotalAmountByIdAsync(id);
+            double? totalInvoiceAmount = await _purchasePaymentService.GetTotalAmountByIdAsync(id) ?? 0;
             double totalPaidAmount = await _purchasePaymentService.GetTotalPaidAmountByIdAsync(id);
-            double remainingAmount = totalInvoiceAmount - totalPaidAmount;
+            double remainingAmount = totalInvoiceAmount.Value - totalPaidAmount;
             return Ok(remainingAmount);
         }
 

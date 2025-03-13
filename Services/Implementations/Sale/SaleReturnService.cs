@@ -69,7 +69,7 @@ namespace Services.Implementations
                     customer.Customername,
                     returnConfirmDto.IsPayment);
 
-                if (message.Contains("Success"))
+                if (message.Contains(Localization.Services.Localization.Success))
                 {
                     for (int i = 0; i < saleDetails.Count(); i++)
                     {

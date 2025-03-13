@@ -1,8 +1,6 @@
 ﻿using CloudERP.Helpers;
 using Domain.Models;
-using Domain.Models.FinancialModels;
 using Microsoft.AspNetCore.Mvc;
-using Utils.Helpers;
 
 namespace CloudERP.Controllers.Sale.Cart
 {
@@ -110,7 +108,7 @@ namespace CloudERP.Controllers.Sale.Cart
 
             try
             {
-                var success = await _httpClient.PutAsync($"salecartapi/deleteitem?id={id}", new { });
+                var success = await _httpClient.DeleteAsync($"salecartapi/deleteitem?id={id}");
                 if (success) ViewBag.Message = "Item deleted successfully";
 
                 return RedirectToAction("NewSale");
@@ -179,11 +177,12 @@ namespace CloudERP.Controllers.Sale.Cart
                 saleConfirmDto.BranchID = _sessionHelper.BranchID;
                 saleConfirmDto.UserID = _sessionHelper.UserID;
 
-                var result = await _httpClient.PostAndReturnAsync<int>(
+                var result = await _httpClient.PostAndReturnAsync<Dictionary<string, int>>(
                     "salecartapi/confirmsale", saleConfirmDto);
-                if (result > 0)
+
+                if (result != null && result.TryGetValue("invoiceId", out int invoiceId) && invoiceId > 0)
                 {
-                    return RedirectToAction("PrintSaleInvoice", "SalePayment", new { id = result });
+                    return RedirectToAction("PrintSaleInvoice", "SalePayment", new { id = invoiceId });
                 }
 
                 TempData["ErrorMessage"] = "Purchase return error";

@@ -2,6 +2,7 @@
 using CloudERP.Models;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using Utils.Helpers;
 
 namespace CloudERP.Controllers.Purchase.Cart
 {
@@ -68,8 +69,8 @@ namespace CloudERP.Controllers.Purchase.Cart
 
             try
             {
-                HttpContext.Session.SetString("SaleInvoiceNo", string.Empty);
-                HttpContext.Session.SetString("SaleReturnMessage", string.Empty);
+                HttpContext.Session.SetString("PurchaseInvoiceNo", string.Empty);
+                HttpContext.Session.SetString("PurchaseReturnMessage", string.Empty);
 
                 var returnConfirmDto = new PurchaseReturnConfirm
                 {
@@ -82,8 +83,14 @@ namespace CloudERP.Controllers.Purchase.Cart
                     UserID = _sessionHelper.UserID
                 };
 
-                var response = await _httpClient.PostAsync("purchasereturnapi/processpurchasereturn", returnConfirmDto);
-                if (response) return RedirectToAction("AllPurchasesPendingPayment", "PurchasePaymentReturn");
+                var result = await _httpClient.PostAndReturnAsync<PurchaseReturnConfirmResult>
+                    ("purchasereturnapi/processpurchasereturn", returnConfirmDto);
+                
+                HttpContext.Session.SetString("PurchaseInvoiceNo", result?.InvoiceNo ?? string.Empty);
+                HttpContext.Session.SetString("PurchaseReturnMessage", result?.Message ?? string.Empty);
+
+                if (result.IsSuccess) 
+                    return RedirectToAction("AllPurchasesPendingPayment", "PurchasePaymentReturn");
 
                 return RedirectToAction("FindPurchase");
             }

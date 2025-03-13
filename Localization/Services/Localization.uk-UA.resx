@@ -272,4 +272,7 @@
   <data name="Total" xml:space="preserve">
     <value>Разом</value>
   </data>
+  <data name="Success" xml:space="preserve">
+    <value>усп</value>
+  </data>
 </root>

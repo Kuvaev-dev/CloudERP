@@ -601,6 +601,15 @@ namespace Localization.Services {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Success.
+        /// </summary>
+        public static string Success {
+            get {
+                return ResourceManager.GetString("Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на , To .
         /// </summary>
         public static string To {

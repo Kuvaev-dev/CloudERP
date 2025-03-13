@@ -10,7 +10,7 @@ namespace CloudERP.Controllers.Purchase.Payment
         private readonly SessionHelper _sessionHelper;
         private readonly HttpClientHelper _httpClient;
 
-        private const string DEFAULT_IMAGE_PATH = "~/wwwroot/StuffLogo/supplier.png";
+        private const string DEFAULT_IMAGE_PATH = "~/StuffLogo/supplier.png";
 
         public PurchasePaymentController(
             SessionHelper sessionHelper,
@@ -196,7 +196,7 @@ namespace CloudERP.Controllers.Purchase.Payment
                     BranchName = branch.BranchName,
                     BranchContact = branch.BranchContact,
                     BranchAddress = branch.BranchAddress,
-                    InvoiceNo = firstItem.SupplierInvoiceNo,
+                    InvoiceNo = firstItem.SupplierInvoice.InvoiceNo,
                     InvoiceDate = firstItem.SupplierInvoiceDate.ToString("dd/MM/yyyy"),
                     TotalCost = invoiceDetails.Sum(i => i.ItemCost),
                     InvoiceItems = [.. invoiceDetails],

@@ -90,9 +90,7 @@ namespace CloudERP.Controllers.Sale.Cart
                 HttpContext.Session.SetString("SaleReturnMessage", result?.Message ?? string.Empty);
 
                 if (result.IsSuccess)
-                {
                     return RedirectToAction("AllReturnSalesPendingAmount", "SalePaymentReturn");
-                }
 
                 return RedirectToAction("FindSale");
             }

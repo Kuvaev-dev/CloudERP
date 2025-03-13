@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Domain.Models.FinancialModels.JournalModel>
 
 @{
-    string invoiceNo = string.Empty;
+    string previousInvoiceNo = string.Empty;
     ViewBag.Title = Localization.CloudERP.Miscellaneous.JournalByTransactionsDate;
 }
 
@@ -45,8 +45,9 @@
 </div>
 
 <div class="card">
-    <div class="card-header d-flex justify-content-between align-items-center">
+    <div class="card-header d-flex flex-column">
         <h3 class="text-primary">@Localization.CloudERP.Miscellaneous.Transactions</h3>
+        <p>@Localization.CloudERP.Miscellaneous.Export</p>
     </div>
     <div class="card-body">
         <table class="table my-4 w-100" id="dataTable">
@@ -78,58 +79,28 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    if (invoiceNo != item.InvoiceNo)
-                    {
-                        <tr style="background-color:aliceblue">
-                            <td>
-                                @Html.DisplayFor(modelItem => item.SNO)
-                            </td>
-                            <td>
+                    bool isNewInvoice = previousInvoiceNo != item.InvoiceNo;
+                    previousInvoiceNo = item.InvoiceNo;
+
+                    <tr style="background-color:@(isNewInvoice ? "aliceblue" : "white"); border-bottom: 1px solid #ddd;">
+                        <td>@Html.DisplayFor(modelItem => item.SNO)</td>
+                        <td>
+                            @if (isNewInvoice)
+                            {
                                 @Html.DisplayFor(modelItem => item.TransectionDate)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.AccountSubControl)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.TransectionTitle)
-                            </td>
-                            <td>
+                            }
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => item.AccountSubControl)</td>
+                        <td>@Html.DisplayFor(modelItem => item.TransectionTitle)</td>
+                        <td>
+                            @if (isNewInvoice)
+                            {
                                 @Html.DisplayFor(modelItem => item.InvoiceNo)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Debit)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Credit)
-                            </td>
-                        </tr>
-                    }
-                    else
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.SNO)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.TransectionDate)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.AccountSubControl)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.TransectionTitle)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.InvoiceNo)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Debit)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Credit)
-                            </td>
-                        </tr>
-                    }
+                            }
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => item.Debit)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Credit)</td>
+                    </tr>
                 }
             </tbody>
         </table>
@@ -146,7 +117,6 @@
                 'pdf',
                 'print'
             ],
-            "columnDefs": [{ "orderable": false, "targets": 1 }],
             "lengthMenu": [[5, 10, 25, 50, 75, 100, 150, 200, -1], [5, 10, 25, 50, 75, 100, 150, 200, "All"]],
         });
     });

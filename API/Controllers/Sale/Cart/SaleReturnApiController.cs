@@ -53,14 +53,14 @@ namespace API.Controllers.Sale.Cart
 
                 if (result.IsSuccess)
                 {
-                    return Ok(new SaleReturnConfirmResult { InvoiceNo = result.InvoiceNo, Message = result.Message });
+                    return Ok(new SaleReturnConfirmResult { InvoiceNo = result.InvoiceNo, IsSuccess = true, Message = result.Message });
                 }
 
-                return BadRequest(result.Message);
+                return Ok(new SaleReturnConfirmResult { InvoiceNo = string.Empty, IsSuccess = false, Message = result.Message });
             }
             catch (Exception ex)
             {
-                return Problem(detail: ex.Message, statusCode: 500);
+                return Ok(new SaleReturnConfirmResult { InvoiceNo = string.Empty, IsSuccess = false, Message = "Unexpected error: " + ex.Message });
             }
         }
     }

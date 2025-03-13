@@ -101,13 +101,18 @@ namespace API.Controllers.Sale.Cart
         }
 
         [HttpPost]
-        public async Task<ActionResult<int>> ConfirmSale(SaleConfirm saleConfirmDto)
+        public async Task<ActionResult> ConfirmSale(SaleConfirm saleConfirmDto)
         {
             try
             {
                 var result = await _saleCartService.ConfirmSaleAsync(saleConfirmDto);
 
-                return result.IsSuccess ? Ok(result.Value) : BadRequest(result.ErrorMessage);
+                if (!result.IsSuccess)
+                {
+                    return BadRequest(new { error = result.ErrorMessage });
+                }
+
+                return Ok(new Dictionary<string, int> { { "invoiceId", result.Value } });
             }
             catch (Exception ex)
             {

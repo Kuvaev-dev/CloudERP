@@ -1,7 +1,6 @@
 ﻿using CloudERP.Helpers;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Resources;
 
 namespace CloudERP.Controllers.Purchase.Cart
 {
@@ -150,11 +149,12 @@ namespace CloudERP.Controllers.Purchase.Cart
                 purchaseConfirmDto.BranchID = _sessionHelper.BranchID;
                 purchaseConfirmDto.UserID = _sessionHelper.UserID;
 
-                var result = await _httpClient.PostAndReturnAsync<int>(
+                var result = await _httpClient.PostAndReturnAsync<Dictionary<string, int>>(
                     "purchasecartapi/confirmpurchase", purchaseConfirmDto);
-                if (result > 0)
+
+                if (result != null && result.TryGetValue("invoiceId", out int invoiceId) && invoiceId > 0)
                 {
-                    return RedirectToAction("PrintPurchaseInvoice", "PurchasePayment", new { id = result });
+                    return RedirectToAction("PrintSaleInvoice", "SalePayment", new { id = invoiceId });
                 }
 
                 TempData["ErrorMessage"] = "Purchase confirm error";
