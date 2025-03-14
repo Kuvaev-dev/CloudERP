@@ -141,7 +141,9 @@
                 </tfoot>
             </table>
             <div style="float:right; margin-top:20px;" class="btn-group">
-                @Html.ActionLink(Localization.CloudERP.Sale.Next, "SelectCustomer", null, new { @class = "btn btn-success", style = "padding:20px;" })
+                <a href="@Url.Action("SelectCustomer")" class="btn btn-success" style="padding: 20px;">
+                    @Localization.CloudERP.Sale.Next
+                </a>
                 @using (Html.BeginForm("CancelSale", "SaleCart", FormMethod.Post, new { @class = "form-inline" }))
                 {
                     @Html.AntiForgeryToken()

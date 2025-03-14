@@ -23,18 +23,16 @@ namespace API.Controllers.Purchase.Payment
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<PurchaseInfo>>> GetRemainingPaymentList(int companyId, int branchId)
+        public async Task<ActionResult<IEnumerable<PurchaseInfo>>> GetRemainingPaymentList(int companyId, int branchId)
         {
             var list = await _purchasePaymentFacade.PurchaseRepository.RemainingPaymentList(companyId, branchId);
-            if (list.Count == 0) return NotFound();
             return Ok(list);
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<PurchaseInfo>>> GetPaidHistory(int id)
+        public async Task<ActionResult<IEnumerable<PurchaseInfo>>> GetPaidHistory(int id)
         {
             var list = await _purchasePaymentService.GetPurchasePaymentHistoryAsync(id);
-            if (list.Count == 0) return NotFound();
             return Ok(list);
         }
 
@@ -42,7 +40,6 @@ namespace API.Controllers.Purchase.Payment
         public async Task<ActionResult<IEnumerable<SupplierReturnInvoice>>> GetReturnPurchaseDetails(int invoiceID)
         {
             var returnDetails = await _purchasePaymentFacade.SupplierReturnInvoiceRepository.GetReturnDetails(invoiceID);
-            if (returnDetails == null) return NotFound();
             return Ok(returnDetails);
         }
 
@@ -72,7 +69,6 @@ namespace API.Controllers.Purchase.Payment
         public async Task<ActionResult<PurchaseItemDetailDto>> GetPurchaseItemDetail(int id)
         {
             var purchaseDetail = await _purchasePaymentFacade.PurchaseService.GetPurchaseItemDetailAsync(id);
-            if (purchaseDetail == null) return NotFound();
             return Ok(purchaseDetail);
         }
 

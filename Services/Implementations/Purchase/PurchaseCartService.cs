@@ -51,7 +51,7 @@ namespace Services.Implementations
                     supplier.SupplierName,
                     dto.IsPayment);
 
-                if (message.Contains("Success"))
+                if (message.Contains(Localization.Services.Localization.PurchaseSuccess))
                 {
                     await _purchaseCartFacade.PurchaseEntryService.CompletePurchase(purchaseDetails);
                     return Result<int>.Success(invoiceHeader.SupplierInvoiceID);

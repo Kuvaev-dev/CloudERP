@@ -6,6 +6,17 @@
     var products = ViewBag.Products as IEnumerable<Domain.Models.Stock>;
 }
 
+<!-- Tables Sorting-->
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<link href="https://cdn.datatables.net/v/bs5/dt-2.2.2/datatables.min.css" rel="stylesheet">
+<script src="https://cdn.datatables.net/v/bs5/dt-2.2.2/datatables.min.js"></script>
+
+<style>
+    #dataTable_filter input[type="search"] {
+        width: 15rem;
+    }
+</style>
+
 @using (Html.BeginForm("AddItem", "PurchaseCart", FormMethod.Post, null))
 {
     @Html.AntiForgeryToken()
@@ -131,7 +142,9 @@
                 </tfoot>
             </table>
             <div style="float:right; margin-top:20px;" class="btn-group">
-                @Html.ActionLink(Localization.CloudERP.Sale.Next, "SelectSupplier", null, new { @class = "btn btn-success", style = "padding:20px;" })
+                <a href="@Url.Action("SelectSupplier")" class="btn btn-success" style="padding: 20px;">
+                    @Localization.CloudERP.Sale.Next
+                </a>
                 @using (Html.BeginForm("CancelPurchase", "PurchaseCart", FormMethod.Post, new { @class = "form-inline" }))
                 {
                     @Html.AntiForgeryToken()

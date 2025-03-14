@@ -40,6 +40,22 @@ namespace CloudERP.Controllers.Purchase.Cart
             }
         }
 
+        public async Task<IActionResult> GetProductDetails(int id)
+        {
+            try
+            {
+                var product = await _httpClient.GetAsync<Domain.Models.Stock>(
+                    $"purchasecartapi/getproductdetails?id={id}");
+
+                return Json(new { data = product?.CurrentPurchaseUnitPrice });
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
+                return Json(new { error = "Product details fetching error" });
+            }
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddItem(int PID, int Qty, float Price)
@@ -154,7 +170,7 @@ namespace CloudERP.Controllers.Purchase.Cart
 
                 if (result != null && result.TryGetValue("invoiceId", out int invoiceId) && invoiceId > 0)
                 {
-                    return RedirectToAction("PrintSaleInvoice", "SalePayment", new { id = invoiceId });
+                    return RedirectToAction("PrintPurchaseInvoice", "PurchasePayment", new { id = invoiceId });
                 }
 
                 TempData["ErrorMessage"] = "Purchase confirm error";

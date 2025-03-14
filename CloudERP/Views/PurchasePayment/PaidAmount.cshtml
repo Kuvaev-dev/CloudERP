@@ -28,12 +28,12 @@
                 <input type="text" value="@ViewBag.InvoiceID" id="id" name="id" style="display:none;" />
                 <div class="row">
                     <div class="col-md-4">
-                        <label>@Localization.CloudERP.Purchase.PreviousRemainingAmount</label>
+                        <label>@Localization.CloudERP.Sale.SaleRemainingAmount</label>
                         <input type="text" id="previousRemainingAmount" name="previousRemainingAmount" value="@ViewBag.PreviousRemainingAmount" readonly="readonly" class="form-control" required>
                     </div>
                     <div class="col-md-4">
-                        <label>@Localization.CloudERP.Purchase.PaymentAmount</label>
-                        <input min="0" type="number" id="paymentAmount" name="paymentAmount" value="10" class="form-control" required>
+                        <label>@Localization.CloudERP.Sale.PaidAmount</label>
+                        <input type="text" id="paidAmount" name="paidAmount" value="10" class="form-control" required>
                     </div>
                     <div class="col-md-4">
                         <label>@Localization.CloudERP.Sale.CurrentRemainingAmount</label>

@@ -103,7 +103,7 @@
                                 @{
                                     if (item.RemainingBalance < item.TotalAmount && item.PaymentAmount != 0)
                                     {
-                                        @Html.ActionLink(Localization.CloudERP.Sale.PayHistory, "PaidHistory", "PurchasePayment", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-primary mb-2" });
+                                        @Html.ActionLink(Localization.CloudERP.Sale.PayHistory, "PaidHistory", "PurchasePayment", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-primary mb-2" })
                                     }
                                     else
                                     {
@@ -112,7 +112,7 @@
                                         </em>
                                     }
                                 }
-                                @Html.ActionLink(Localization.CloudERP.Sale.ViewDetails, "PurchaseItemDetail", "PurchasePayment", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-info mt-2 mb-2" });
+                                @Html.ActionLink(Localization.CloudERP.Sale.ViewDetails, "PurchaseItemDetail", "PurchasePayment", new { id = item.SupplierInvoiceID }, new { @class = "btn btn-info mt-2 mb-2" })
                             </td>
                         </tr>
                     }
