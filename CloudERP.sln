@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{C092F293-E9C5-424C-8E07-565BC2FEB133}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{D8D64269-9D65-499D-B4CD-4EEBD86534AA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudERP", "CloudERP\CloudERP.csproj", "{F932EC07-636B-4AF8-8DA2-F56A3499858F}"
@@ -19,16 +17,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Localization", "Localization\Localization.csproj", "{3BFABC29-C3ED-4919-8378-E16FBA97384D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests.API", "UnitTests.API\UnitTests.API.csproj", "{A7A6C298-706F-4F2E-B1D3-B495B098ECFD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C092F293-E9C5-424C-8E07-565BC2FEB133}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C092F293-E9C5-424C-8E07-565BC2FEB133}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C092F293-E9C5-424C-8E07-565BC2FEB133}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C092F293-E9C5-424C-8E07-565BC2FEB133}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D8D64269-9D65-499D-B4CD-4EEBD86534AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D8D64269-9D65-499D-B4CD-4EEBD86534AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8D64269-9D65-499D-B4CD-4EEBD86534AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -57,6 +53,10 @@ Global
 		{3BFABC29-C3ED-4919-8378-E16FBA97384D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BFABC29-C3ED-4919-8378-E16FBA97384D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BFABC29-C3ED-4919-8378-E16FBA97384D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7A6C298-706F-4F2E-B1D3-B495B098ECFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7A6C298-706F-4F2E-B1D3-B495B098ECFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7A6C298-706F-4F2E-B1D3-B495B098ECFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7A6C298-706F-4F2E-B1D3-B495B098ECFD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
