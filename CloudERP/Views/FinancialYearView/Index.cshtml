@@ -46,10 +46,10 @@
                                 @Html.DisplayFor(modelItem => item.FinancialYearName)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.StartDate)
+                                @Html.DisplayFor(modelItem => item.StartDate.ToString("MM:dd:yyyy"))
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.EndDate)
+                                @Html.DisplayFor(modelItem => item.EndDate.ToString("MM:dd:yyyy"))
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.IsActive)

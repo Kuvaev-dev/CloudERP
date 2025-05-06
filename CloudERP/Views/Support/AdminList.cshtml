@@ -40,7 +40,7 @@
                             <td>@ticket.Email</td>
                             <td>@ticket.Subject</td>
                             <td>@ticket.Message</td>
-                            <td>@ticket.DateCreated</td>
+                            <td>@ticket.DateCreated.ToString("MM:dd:yyyy")</td>
                             <td>@(ticket.IsResolved ? "Resolved" : "Pending")</td>
                             <td>
                                 @if (ticket.IsResolved)

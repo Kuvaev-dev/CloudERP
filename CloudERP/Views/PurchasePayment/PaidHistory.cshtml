@@ -62,7 +62,7 @@
                                 @Html.DisplayFor(modelItem => item.InvoiceNo)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.InvoiceDate)
+                                @Html.DisplayFor(modelItem => item.InvoiceDate.ToString("MM:dd:yyyy"))
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.TotalAmount)
@@ -117,7 +117,7 @@
                                                 <div>
                                                     <b>@Localization.CloudERP.Sale.InvoiceDate</b>
                                                     <div>
-                                                        @item.InvoiceDate
+                                                        @item.InvoiceDate.ToString("MM:dd:yyyy")
                                                     </div>
                                                 </div>
                                             </div>
@@ -190,7 +190,7 @@
                                                                 @paymentDetails.InvoiceNo
                                                             </td>
                                                             <td>
-                                                                @paymentDetails.InvoiceDate
+                                                                @paymentDetails.InvoiceDate.ToString("MM:dd:yyyy")
                                                             </td>
                                                             <td>
                                                                 @paymentDetails.TotalAmount

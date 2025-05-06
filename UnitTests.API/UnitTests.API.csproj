@@ -27,9 +27,4 @@
     <Using Include="NUnit.Framework" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\Purchase\Payment\" />
-    <Folder Include="Controllers\Sale\" />
-  </ItemGroup>
-
 </Project>

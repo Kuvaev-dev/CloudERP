@@ -69,7 +69,7 @@
                         <tr>
                             <td>@ticket.Subject</td>
                             <td>@ticket.Message</td>
-                            <td>@ticket.DateCreated.ToString("g")</td>
+                            <td>@ticket.DateCreated.ToString("MM:dd:yyyy")</td>
                             <td>@(ticket.IsResolved ? Localization.CloudERP.Common.Resolved : Localization.CloudERP.Common.Pending)</td>
                             <td>@(($"{ticket.RespondedBy}: {ticket.AdminResponse}") ?? "-")</td>
                         </tr>
