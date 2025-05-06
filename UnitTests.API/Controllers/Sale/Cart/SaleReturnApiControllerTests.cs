@@ -5,10 +5,6 @@ using Domain.ServiceAccess;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace UnitTests.API.Controllers.Sale.Cart
 {
@@ -38,7 +34,7 @@ namespace UnitTests.API.Controllers.Sale.Cart
 
             _testCustomerInvoice = new CustomerInvoice
             {
-                InvoiceID = 1,
+                CustomerInvoiceID = 1,
                 InvoiceNo = "INV001",
                 CustomerID = 1,
                 CompanyID = 1,
@@ -187,7 +183,7 @@ namespace UnitTests.API.Controllers.Sale.Cart
             _customerInvoiceRepositoryMock.Setup(r => r.GetByInvoiceNoAsync(invoiceNo))
                                           .ReturnsAsync(_testCustomerInvoice);
             _customerReturnInvoiceDetailRepositoryMock.Setup(r => r.GetInvoiceDetails(invoiceNo))
-                                                     .Returns((IEnumerable<CustomerReturnInvoiceDetail>)null);
+                                                     .Returns((List<CustomerInvoiceDetail>)(IEnumerable<CustomerReturnInvoiceDetail>)null);
 
             // Act
             var result = await _controller.FindSale(invoiceNo);

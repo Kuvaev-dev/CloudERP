@@ -83,7 +83,7 @@ namespace UnitTests.API.Controllers.Sale.Cart
 
             _testSaleConfirm = new SaleConfirm
             {
-                CustomerId = 1,
+                CustomerID = 1,
                 Description = "Test sale",
                 IsPayment = true,
                 CompanyID = 1,

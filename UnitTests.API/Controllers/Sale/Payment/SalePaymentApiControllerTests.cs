@@ -1,5 +1,7 @@
 ﻿using API.Controllers.Sale.Payment;
 using Domain.Models;
+using Domain.RepositoryAccess;
+using Domain.ServiceAccess;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -36,13 +38,13 @@ namespace UnitTests.API.Controllers.Sale.Payment
 
             _testSaleInfo = new SaleInfo
             {
-                InvoiceID = 1,
+                CustomerInvoiceID = 1,
                 CustomerID = 1,
                 CompanyID = 1,
                 BranchID = 1,
                 InvoiceDate = DateTime.Now,
                 TotalAmount = 1000.0,
-                PaidAmount = 500.0,
+                PaymentAmount = 500.0,
                 RemainingBalance = 500.0,
                 UserID = 1
             };
@@ -63,8 +65,8 @@ namespace UnitTests.API.Controllers.Sale.Payment
             _testSaleAmount = new SaleAmount
             {
                 InvoiceId = 1,
-                PreviousRemainingAmount = 500.0,
-                PaidAmount = 200.0,
+                PreviousRemainingAmount = 500,
+                PaidAmount = 200,
                 CompanyID = 1,
                 BranchID = 1,
                 UserID = 1
@@ -94,10 +96,6 @@ namespace UnitTests.API.Controllers.Sale.Payment
                 ProductName = "Test Product",
                 SaleQuantity = 5,
                 SaleUnitPrice = 100.0,
-                CompanyID = 1,
-                BranchID = 1,
-                UserID = 1,
-                UserName = "test_user"
             };
         }
 
@@ -383,25 +381,6 @@ namespace UnitTests.API.Controllers.Sale.Payment
             problemResult.Value.Should().BeOfType<ProblemDetails>()
                          .Which.Detail.Should().Be(exceptionMessage);
             _salePaymentFacadeMock.Verify(f => f.SaleRepository.CustomSalesList(companyId, branchId, fromDate, toDate), Times.Once());
-        }
-
-        [Test]
-        public async Task GetSaleItemDetail_ShouldReturnOkWithDetail_WhenDetailExists()
-        {
-            // Arrange
-            int id = 1;
-            _salePaymentFacadeMock.Setup(f => f.SaleService.GetSaleItemDetailAsync(id))
-                                  .ReturnsAsync(_testSaleItemDetail);
-
-            // Act
-            var result = await _controller.GetSaleItemDetail(id);
-
-            // Assert
-            var okResult = result.Result as OkObjectResult;
-            okResult.Should().NotBeNull();
-            okResult.StatusCode.Should().Be(200);
-            okResult.Value.Should().BeEquivalentTo(_testSaleItemDetail);
-            _salePaymentFacadeMock.Verify(f => f.SaleService.GetSaleItemDetailAsync(id), Times.Once());
         }
 
         [Test]

@@ -56,17 +56,48 @@ namespace UnitTests.API.Controllers.Purchase.Payment
 
             _testPurchaseItemDetail = new PurchaseItemDetailDto
             {
-                PurchaseItemDetailID = 1,
-                ProductID = 101,
-                Quantity = 10
+                InvoiceNo = "INV001",
+                Products = new List<PurchaseProductDetail>
+                {
+                    new PurchaseProductDetail
+                    {
+                        ProductName = "Test Product",
+                        Quantity = 10,
+                        UnitPrice = 50.0,
+                        ItemCost = 500.0
+                    }
+                },
+                Total = 500.0,
+                Returns = new List<PurchaseProductDetail>
+                {
+                    new PurchaseProductDetail
+                    {
+                        ProductName = "Test Product",
+                        Quantity = 2,
+                        UnitPrice = 50.0,
+                        ItemCost = 100.0
+                    }
+                }
             };
 
             _testSupplierInvoiceDetail = new SupplierInvoiceDetail
             {
-                InvoiceID = 1,
+                SupplierInvoiceDetailID = 1,
+                SupplierInvoiceID = 1,
                 ProductID = 101,
-                Quantity = 10,
-                UnitPrice = 50.0
+                ProductName = "Test Product",
+                PurchaseQuantity = 10,
+                SaleQuantity = 8,
+                SaleUnitPrice = 60.0,
+                PurchaseUnitPrice = 50.0,
+                UserName = "test_user",
+                SaleCartDetailID = 1,
+                ItemCost = 500.0,
+                SupplierInvoiceNo = "INV001",
+                SupplierInvoiceDate = DateTime.Now,
+                CompanyName = "Test Company",
+                ReturnedQuantity = 2,
+                Qty = 10
             };
         }
 

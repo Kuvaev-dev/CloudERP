@@ -36,35 +36,46 @@ namespace UnitTests.API.Controllers.Purchase.Payment
 
             _testPurchaseInfo = new PurchaseInfo
             {
-                InvoiceID = 1,
+                PaymentID = 1,
                 SupplierID = 1,
+                SupplierName = "Test Supplier",
+                SupplierContactNo = "1234567890",
+                SupplierAddress = "123 Test St",
+                SupplierInvoiceID = 1,
                 CompanyID = 1,
                 BranchID = 1,
                 InvoiceDate = DateTime.Now,
+                InvoiceNo = "INV001",
                 TotalAmount = 1000.0,
-                PaidAmount = 500.0,
-                SupplierInvoiceID = 1,
-                UserID = 1
+                PaymentAmount = 500.0,
+                RemainingBalance = 500.0,
+                UserID = 1,
+                UserName = "test_user"
             };
 
             _testSupplierReturnPayment = new SupplierReturnPayment
             {
                 SupplierReturnPaymentID = 1,
                 SupplierReturnInvoiceID = 1,
-                Amount = 200.0,
-                PaymentDate = DateTime.Now,
+                SupplierInvoiceID = 1,
+                SupplierID = 1,
+                SupplierName = 123, // Assuming int as per model; likely should be string
                 CompanyID = 1,
                 BranchID = 1,
-                UserID = 1
+                InvoiceNo = "RET001",
+                TotalAmount = 200.0,
+                PaymentAmount = 200.0,
+                RemainingBalance = 0.0,
+                UserID = 1,
+                UserName = 456, // Assuming int as per model; likely should be string
+                InvoiceDate = DateTime.Now
             };
 
             _testPurchaseReturn = new PurchaseReturn
             {
                 InvoiceId = 1,
-                ReturnAmount = 200.0,
-                CompanyID = 1,
-                BranchID = 1,
-                UserID = 1
+                PreviousRemainingAmount = 500.0f,
+                PaymentAmount = 200.0f
             };
         }
 
@@ -232,7 +243,7 @@ namespace UnitTests.API.Controllers.Purchase.Payment
             // Arrange
             int companyId = 1, branchId = 1, userId = 1;
             var message = "Return amount processed successfully";
-            _purchasePaymentReturnServiceMock.Setup(s => s.ProcessReturnPaymentAsync(_testPurchaseReturn, branchId, companyId, userId))
+            _purchasePaymentReturnServiceMock.Setup(s => s.ProcessReturnAmountAsync(_testPurchaseReturn, branchId, companyId, userId))
                                             .ReturnsAsync(message);
 
             // Act
@@ -243,7 +254,7 @@ namespace UnitTests.API.Controllers.Purchase.Payment
             okResult.Should().NotBeNull();
             okResult.StatusCode.Should().Be(200);
             okResult.Value.Should().Be(message);
-            _purchasePaymentReturnServiceMock.Verify(s => s.ProcessReturnPaymentAsync(_testPurchaseReturn, branchId, companyId, userId), Times.Once());
+            _purchasePaymentReturnServiceMock.Verify(s => s.ProcessReturnAmountAsync(_testPurchaseReturn, branchId, companyId, userId), Times.Once());
         }
 
         [Test]
@@ -252,7 +263,7 @@ namespace UnitTests.API.Controllers.Purchase.Payment
             // Arrange
             int companyId = 1, branchId = 1, userId = 1;
             var exceptionMessage = "Processing error";
-            _purchasePaymentReturnServiceMock.Setup(s => s.ProcessReturnPaymentAsync(_testPurchaseReturn, branchId, companyId, userId))
+            _purchasePaymentReturnServiceMock.Setup(s => s.ProcessReturnAmountAsync(_testPurchaseReturn, branchId, companyId, userId))
                                             .ThrowsAsync(new Exception(exceptionMessage));
 
             // Act
@@ -264,7 +275,7 @@ namespace UnitTests.API.Controllers.Purchase.Payment
             problemResult.StatusCode.Should().Be(500);
             problemResult.Value.Should().BeOfType<ProblemDetails>()
                          .Which.Detail.Should().Be(exceptionMessage);
-            _purchasePaymentReturnServiceMock.Verify(s => s.ProcessReturnPaymentAsync(_testPurchaseReturn, branchId, companyId, userId), Times.Once());
+            _purchasePaymentReturnServiceMock.Verify(s => s.ProcessReturnAmountAsync(_testPurchaseReturn, branchId, companyId, userId), Times.Once());
         }
 
         [Test]
@@ -282,7 +293,7 @@ namespace UnitTests.API.Controllers.Purchase.Payment
             badRequestResult.Should().NotBeNull();
             badRequestResult.StatusCode.Should().Be(400);
             badRequestResult.Value.Should().Be("Invalid data.");
-            _purchasePaymentReturnServiceMock.Verify(s => s.ProcessReturnPaymentAsync(It.IsAny<PurchaseReturn>(), branchId, companyId, userId), Times.Never());
+            _purchasePaymentReturnServiceMock.Verify(s => s.ProcessReturnAmountAsync(It.IsAny<PurchaseReturn>(), branchId, companyId, userId), Times.Never());
         }
     }
 }
