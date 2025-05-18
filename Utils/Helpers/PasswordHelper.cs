@@ -4,7 +4,7 @@ namespace Utils.Helpers
 {
     public class PasswordHelper
     {
-        public static string HashPassword(string password, out string salt)
+        public string HashPassword(string password, out string salt)
         {
             using (var hmac = new HMACSHA512())
             {
@@ -16,7 +16,7 @@ namespace Utils.Helpers
             }
         }
 
-        public static bool VerifyPassword(string password, string storedHash, string storedSalt)
+        public bool VerifyPassword(string password, string storedHash, string storedSalt)
         {
             var saltBytes = Convert.FromBase64String(storedSalt);
             using (var hmac = new HMACSHA512(saltBytes))

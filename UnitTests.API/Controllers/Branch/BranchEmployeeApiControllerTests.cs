@@ -233,7 +233,7 @@ namespace UnitTests.API.Controllers.Branch
             okResult.Should().NotBeNull();
             okResult.StatusCode.Should().Be(200);
             okResult.Value.Should().BeEquivalentTo(_testEmployees[0]);
-            _employeeRepositoryMock.Verify(r => r.GetByIdAsync(id), Times.Only());
+            _employeeRepositoryMock.Verify(r => r.GetByIdAsync(id), Times.Once());
         }
 
         [Test]

@@ -41,14 +41,6 @@ namespace CloudERP
 
             builder.Services.AddAuthorization();
 
-            var defaultCulture = new CultureInfo("en-US");
-            var localizationOptions = new RequestLocalizationOptions
-            {
-                DefaultRequestCulture = new RequestCulture(defaultCulture),
-                SupportedCultures = [defaultCulture],
-                SupportedUICultures = [defaultCulture]
-            };
-
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -58,6 +50,20 @@ namespace CloudERP
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            var defaultCulture = new CultureInfo("en-US");
+            var supportedCultures = new List<CultureInfo>
+            {
+                new("en-US"),
+                new("uk-UA")
+            };
+
+            var localizationOptions = new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture(defaultCulture),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures
+            };
 
             app.UseSession();
             app.UseHttpsRedirection();

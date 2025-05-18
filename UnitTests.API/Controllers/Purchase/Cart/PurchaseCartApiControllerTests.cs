@@ -381,7 +381,7 @@ namespace UnitTests.API.Controllers.Purchase.Cart
         public async Task ConfirmPurchase_ShouldReturnOkWithInvoiceId_WhenPurchaseIsSuccessful()
         {
             // Arrange
-            var result = new Result<int> { IsSuccess = true, Value = 123 };
+            var result = new Result<int>(true, 123, null);
             _purchaseCartServiceMock.Setup(s => s.ConfirmPurchaseAsync(_testPurchaseConfirm))
                                     .ReturnsAsync(result);
 
@@ -402,7 +402,7 @@ namespace UnitTests.API.Controllers.Purchase.Cart
         {
             // Arrange
             var errorMessage = "Purchase confirmation failed";
-            var result = new Result<int> { IsSuccess = false, ErrorMessage = errorMessage };
+            var result = new Result<int>(false, 0, errorMessage);
             _purchaseCartServiceMock.Setup(s => s.ConfirmPurchaseAsync(_testPurchaseConfirm))
                                     .ReturnsAsync(result);
 

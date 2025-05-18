@@ -10,7 +10,6 @@
             <dt>
                 @Localization.CloudERP.Task.TaskTitle
             </dt>
-
             <dd>
                 @Html.DisplayFor(model => model.Title)
             </dd>
@@ -18,7 +17,6 @@
             <dt>
                 @Localization.CloudERP.Task.Description
             </dt>
-
             <dd>
                 @Html.DisplayFor(model => model.Description)
             </dd>
@@ -26,15 +24,13 @@
             <dt>
                 @Localization.CloudERP.Task.DueDate
             </dt>
-
             <dd>
-                @Html.DisplayFor(model => model.DueDate.ToString("MM:dd:yyyy"))
+                @Model.DueDate.ToString("MM/dd/yyyy")
             </dd>
 
             <dt>
                 @Localization.CloudERP.Task.ReminderDate
             </dt>
-
             <dd>
                 @Html.DisplayFor(model => model.ReminderDate)
             </dd>
@@ -42,7 +38,6 @@
             <dt>
                 @Localization.CloudERP.Task.IsCompleted
             </dt>
-
             <dd>
                 @Html.DisplayFor(model => model.IsCompleted)
             </dd>

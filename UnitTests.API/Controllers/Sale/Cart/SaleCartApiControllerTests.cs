@@ -393,7 +393,7 @@ namespace UnitTests.API.Controllers.Sale.Cart
         public async Task ConfirmSale_ShouldReturnOkWithInvoiceId_WhenSaleIsSuccessful()
         {
             // Arrange
-            var result = new Result<int> { IsSuccess = true, Value = 123 };
+            var result = new Result<int>(true, 123, null); ;
             _saleCartServiceMock.Setup(s => s.ConfirmSaleAsync(_testSaleConfirm))
                                 .ReturnsAsync(result);
 
@@ -401,7 +401,7 @@ namespace UnitTests.API.Controllers.Sale.Cart
             var resultAction = await _controller.ConfirmSale(_testSaleConfirm);
 
             // Assert
-            var okResult = resultAction.Result as OkObjectResult;
+            var okResult = resultAction as OkObjectResult;
             okResult.Should().NotBeNull();
             okResult.StatusCode.Should().Be(200);
             var response = okResult.Value as Dictionary<string, int>;
@@ -414,7 +414,7 @@ namespace UnitTests.API.Controllers.Sale.Cart
         {
             // Arrange
             var errorMessage = "Sale confirmation failed";
-            var result = new Result<int> { IsSuccess = false, ErrorMessage = errorMessage };
+            var result = new Result<int>(false, 0, errorMessage);
             _saleCartServiceMock.Setup(s => s.ConfirmSaleAsync(_testSaleConfirm))
                                 .ReturnsAsync(result);
 
@@ -422,7 +422,7 @@ namespace UnitTests.API.Controllers.Sale.Cart
             var resultAction = await _controller.ConfirmSale(_testSaleConfirm);
 
             // Assert
-            var badRequestResult = resultAction.Result as BadRequestObjectResult;
+            var badRequestResult = resultAction as BadRequestObjectResult;
             badRequestResult.Should().NotBeNull();
             badRequestResult.StatusCode.Should().Be(400);
             var response = badRequestResult.Value as dynamic;
@@ -442,7 +442,7 @@ namespace UnitTests.API.Controllers.Sale.Cart
             var result = await _controller.ConfirmSale(_testSaleConfirm);
 
             // Assert
-            var problemResult = result.Result as ObjectResult;
+            var problemResult = result as ObjectResult;
             problemResult.Should().NotBeNull();
             problemResult.StatusCode.Should().Be(500);
             problemResult.Value.Should().BeOfType<ProblemDetails>()

@@ -52,7 +52,7 @@ namespace API.Controllers.General
                         Salt = user.Salt,
                         IsActive = user.IsActive,
                     },
-                    Employee = new Domain.Models.Employee
+                    Employee = new Employee
                     {
                         EmployeeID = employee.EmployeeID,
                         FullName = employee.FullName,

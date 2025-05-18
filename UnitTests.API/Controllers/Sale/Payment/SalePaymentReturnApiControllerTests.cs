@@ -4,10 +4,12 @@ using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
 namespace UnitTests.API.Controllers.Sale.Payment
@@ -36,35 +38,47 @@ namespace UnitTests.API.Controllers.Sale.Payment
 
             _testSaleInfo = new SaleInfo
             {
-                InvoiceID = 1,
+                PaymentID = 1,
                 CustomerID = 1,
+                CustomerName = "Test Name",
+                CustomerContactNo = "1234567890",
+                CustomerAddress = "Test Address",
+                CustomerInvoiceID = 1,
                 CompanyID = 1,
                 BranchID = 1,
                 InvoiceDate = DateTime.Now,
+                InvoiceNo = "INV123",
                 TotalAmount = 1000.0,
-                PaidAmount = 500.0,
-                RemainingBalance = 500.0,
-                UserID = 1
+                ReturnProductAmount = 200.0,
+                AfterReturnTotalAmount = 800.0,
+                PaymentAmount = 500.0,
+                ReturnPaymentAmount = 200.0,
+                RemainingBalance = 300.0,
+                UserID = 1,
             };
 
             _testCustomerReturnPayment = new CustomerReturnPayment
             {
                 CustomerReturnPaymentID = 1,
                 CustomerReturnInvoiceID = 1,
-                Amount = 200.0,
-                PaymentDate = DateTime.Now,
+                CustomerID = 1,
+                CustomerName = "Test Customer",
+                CustomerInvoiceID = 1,
                 CompanyID = 1,
                 BranchID = 1,
-                UserID = 1
+                InvoiceNo = "INV123",
+                TotalAmount = 1000.0,
+                PaidAmount = 200.0,
+                RemainingBalance = 800.0,
+                UserID = 1,
+                InvoiceDate = DateTime.Now
             };
 
             _testSaleReturn = new SaleReturn
             {
                 InvoiceId = 1,
-                ReturnAmount = 200.0,
-                CompanyID = 1,
-                BranchID = 1,
-                UserID = 1
+                PreviousRemainingAmount = 800,
+                PaymentAmount = 200,
             };
         }
 

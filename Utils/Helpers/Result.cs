@@ -2,9 +2,9 @@
 {
     public class Result<T>
     {
-        public bool IsSuccess { get; }
-        public T Value { get; }
-        public string? ErrorMessage { get; }
+        public bool IsSuccess { get; set; }
+        public T Value { get; set; }
+        public string? ErrorMessage { get; set; }
 
         public Result(bool isSuccess, T value, string? errorMessage)
         {

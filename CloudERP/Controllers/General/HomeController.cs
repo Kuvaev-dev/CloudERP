@@ -69,7 +69,7 @@ namespace CloudERP.Controllers.General
 
                 if (userData?.User == null)
                 {
-                    TempData["ErrorMessage"] = Localization.CloudERP.Messages.PleaseProvideCorrectDetails;
+                    ViewBag.ErrorMessage = Localization.CloudERP.Messages.PleaseProvideCorrectDetails;
                     return View("Login");
                 }
 
@@ -80,7 +80,7 @@ namespace CloudERP.Controllers.General
                 if (userData.Employee.IsFirstLogin.HasValue && userData.Employee.IsFirstLogin.Value)
                     HttpContext.Session.SetString("StartTour", "true");
 
-                var currencies = await _httpClient.GetAsync<Dictionary<string, string>>("homeapi/getcurrencies");
+                var currencies = await _httpClient.GetAsync<Dictionary<string, decimal>>("homeapi/getcurrencies");
                 ViewBag.Currencies = currencies ?? [];
 
                 return userData.User.UserTypeID == ADMIN_USER_TYPE_ID
@@ -138,22 +138,36 @@ namespace CloudERP.Controllers.General
             HttpContext.Session.SetString("CLogo", company.Logo);
         }
 
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
             HttpContext.Session.Clear();
-            return RedirectToAction("Login");
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login", "Home");
         }
 
         [HttpPost]
-        public IActionResult SetCulture(string culture, string returnUrl = "/")
+        public IActionResult SetCulture(string culture, string returnUrl = "/Guide/PrivacyPolicy")
         {
+            var supportedCultures = new List<string> { "en-US", "uk-UA" };
+
+            if (string.IsNullOrEmpty(culture) || !supportedCultures.Contains(culture))
+            {
+                culture = "en-US";
+            }
+
             Response.Cookies.Append(
                 CookieRequestCultureProvider.DefaultCookieName,
                 CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
-                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+                new CookieOptions
+                {
+                    Expires = DateTimeOffset.UtcNow.AddYears(1),
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.Strict
+                }
             );
 
-            return LocalRedirect(returnUrl);
+            return LocalRedirect(Url.IsLocalUrl(returnUrl) ? returnUrl : "/Guide/PrivacyPolicy");
         }
 
         public IActionResult ForgotPassword()

@@ -29,7 +29,7 @@ namespace Localization.CloudERP {
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public Financial() {
+        internal Financial() {
         }
         
         /// <summary>
@@ -59,223 +59,183 @@ namespace Localization.CloudERP {
                 resourceCulture = value;
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Account Title.
         /// </summary>
-        public static string AccountTitle
-        {
-            get
-            {
+        public static string AccountTitle {
+            get {
                 return ResourceManager.GetString("AccountTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Add Financial Year.
         /// </summary>
-        public static string AddFinancialYear
-        {
-            get
-            {
+        public static string AddFinancialYear {
+            get {
                 return ResourceManager.GetString("AddFinancialYear", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Amount.
         /// </summary>
-        public static string Amount
-        {
-            get
-            {
+        public static string Amount {
+            get {
                 return ResourceManager.GetString("Amount", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Balance Sheet.
         /// </summary>
-        public static string BalanceSheetStr
-        {
-            get
-            {
+        public static string BalanceSheetStr {
+            get {
                 return ResourceManager.GetString("BalanceSheetStr", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Edit Financial Year.
         /// </summary>
-        public static string EditFinancialYear
-        {
-            get
-            {
+        public static string EditFinancialYear {
+            get {
                 return ResourceManager.GetString("EditFinancialYear", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на End Date.
         /// </summary>
-        public static string EndDate
-        {
-            get
-            {
+        public static string EndDate {
+            get {
                 return ResourceManager.GetString("EndDate", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Enter Financial Year Title.
         /// </summary>
-        public static string EnterFinancialYearTitle
-        {
-            get
-            {
+        public static string EnterFinancialYearTitle {
+            get {
                 return ResourceManager.GetString("EnterFinancialYearTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Financial Year Title.
         /// </summary>
-        public static string FinancialYearTitle
-        {
-            get
-            {
+        public static string FinancialYearTitle {
+            get {
                 return ResourceManager.GetString("FinancialYearTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на New Financial Year.
         /// </summary>
-        public static string NewFinancialYear
-        {
-            get
-            {
+        public static string NewFinancialYear {
+            get {
                 return ResourceManager.GetString("NewFinancialYear", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Retrieve Balance Sheet.
         /// </summary>
-        public static string RetrieveBalanceSheet
-        {
-            get
-            {
+        public static string RetrieveBalanceSheet {
+            get {
                 return ResourceManager.GetString("RetrieveBalanceSheet", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Select Financial Year.
         /// </summary>
-        public static string SelectFinancialYear
-        {
-            get
-            {
+        public static string SelectFinancialYear {
+            get {
                 return ResourceManager.GetString("SelectFinancialYear", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Start Date.
         /// </summary>
-        public static string StartDate
-        {
-            get
-            {
+        public static string StartDate {
+            get {
                 return ResourceManager.GetString("StartDate", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Status.
         /// </summary>
-        public static string Status
-        {
-            get
-            {
+        public static string Status {
+            get {
                 return ResourceManager.GetString("Status", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Sub Branch Balance Sheet.
         /// </summary>
-        public static string SubBranchBalanceSheet
-        {
-            get
-            {
+        public static string SubBranchBalanceSheet {
+            get {
                 return ResourceManager.GetString("SubBranchBalanceSheet", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Total.
         /// </summary>
-        public static string Total
-        {
-            get
-            {
+        public static string Total {
+            get {
                 return ResourceManager.GetString("Total", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Total Assets.
         /// </summary>
-        public static string TotalAssets
-        {
-            get
-            {
+        public static string TotalAssets {
+            get {
                 return ResourceManager.GetString("TotalAssets", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Total Balance (Liabilities + Owner Equity + Return Earning).
         /// </summary>
-        public static string TotalBalanceLiabilitiesOwnerEquityReturnEarning
-        {
-            get
-            {
+        public static string TotalBalanceLiabilitiesOwnerEquityReturnEarning {
+            get {
                 return ResourceManager.GetString("TotalBalanceLiabilitiesOwnerEquityReturnEarning", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Total Liabilities.
         /// </summary>
-        public static string TotalLiabilities
-        {
-            get
-            {
+        public static string TotalLiabilities {
+            get {
                 return ResourceManager.GetString("TotalLiabilities", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Total Owner Equity.
         /// </summary>
-        public static string TotalOwnerEquity
-        {
-            get
-            {
+        public static string TotalOwnerEquity {
+            get {
                 return ResourceManager.GetString("TotalOwnerEquity", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Total Return Earning.
         /// </summary>
-        public static string TotalReturnEarning
-        {
-            get
-            {
+        public static string TotalReturnEarning {
+            get {
                 return ResourceManager.GetString("TotalReturnEarning", resourceCulture);
             }
         }

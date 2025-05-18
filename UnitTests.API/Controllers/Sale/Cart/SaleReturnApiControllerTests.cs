@@ -16,7 +16,7 @@ namespace UnitTests.API.Controllers.Sale.Cart
         private Mock<ISaleReturnService> _saleReturnServiceMock;
         private SaleReturnApiController _controller;
         private CustomerInvoice _testCustomerInvoice;
-        private List<CustomerReturnInvoiceDetail> _testInvoiceDetails;
+        private List<CustomerInvoiceDetail> _testInvoiceDetails;
         private SaleReturnConfirm _testSaleReturnConfirm;
         private SaleReturnConfirmResult _testSuccessResult;
         private SaleReturnConfirmResult _testFailureResult;
@@ -44,34 +44,33 @@ namespace UnitTests.API.Controllers.Sale.Cart
                 UserID = 1
             };
 
-            _testInvoiceDetails = new List<CustomerReturnInvoiceDetail>
+            _testInvoiceDetails = new List<CustomerInvoiceDetail>
             {
-                new CustomerReturnInvoiceDetail
+                new CustomerInvoiceDetail
                 {
-                    CustomerReturnInvoiceDetailID = 1,
-                    InvoiceNo = "INV001",
+                    CustomerInvoiceDetailID = 1,
+                    CustomerInvoiceID = 1,
                     ProductID = 101,
-                    ProductName = "Test Product",
-                    ReturnQuantity = 2,
-                    UnitPrice = 100.0,
-                    CompanyID = 1,
-                    BranchID = 1,
-                    UserID = 1
+                    SaleQuantity = 5,
+                    SaleUnitPrice = 200.0,
+                    ProductName = "Test Product 1",
+                    CompanyName = "Test Company",
+                    CompanyLogo = "logo.png",
+                    CustomerInvoiceNo = "INV001",
+                    CustomerInvoiceDate = DateTime.Now,
+                    ReturnedQuantity = 0,
+                    Qty = 5,
+                    ItemCost = 150.0,
+                    TotalCost = 1000.0
                 }
             };
 
             _testSaleReturnConfirm = new SaleReturnConfirm
             {
-                InvoiceNo = "INV001",
-                ReturnItems = new List<SaleReturnItem>
-                {
-                    new SaleReturnItem
-                    {
-                        ProductID = 101,
-                        ReturnQuantity = 2,
-                        UnitPrice = 100.0
-                    }
-                },
+                ProductIDs = new List<int> { 101 },
+                ReturnQty = new List<int> { 2 },
+                CustomerInvoiceID = 1,
+                IsPayment = true,
                 CompanyID = 1,
                 BranchID = 1,
                 UserID = 1

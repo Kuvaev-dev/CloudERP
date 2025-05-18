@@ -10,7 +10,7 @@ using Moq.Protected;
 namespace UnitTests.Controllers.API.Utilities
 {
     [TestFixture]
-    public class AddressApiControllerTests
+    public class AddressApiControllerTests : IDisposable
     {
         private Mock<IConfiguration> _configurationMock;
         private Mock<HttpMessageHandler> _httpMessageHandlerMock;
@@ -326,6 +326,11 @@ namespace UnitTests.Controllers.API.Utilities
             problemResult.StatusCode.Should().Be(500);
             problemResult.Value.Should().BeOfType<ProblemDetails>()
                          .Which.Detail.Should().Be(exceptionMessage);
+        }
+
+        public void Dispose()
+        {
+            _httpClient.Dispose();
         }
     }
 }
