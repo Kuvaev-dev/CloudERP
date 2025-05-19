@@ -38,7 +38,7 @@ namespace CloudERP.Controllers.User.Settings
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Ошибка при получении данных пользователя: " + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -67,7 +67,7 @@ namespace CloudERP.Controllers.User.Settings
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Ошибка при создании пользователя: " + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -93,7 +93,7 @@ namespace CloudERP.Controllers.User.Settings
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Ошибка при получении данных пользователя: " + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -120,7 +120,7 @@ namespace CloudERP.Controllers.User.Settings
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Ошибка при обновлении пользователя: " + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

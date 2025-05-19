@@ -22,7 +22,7 @@ namespace Localization.Domain {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Localization {
+    public class Localization {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Localization.Domain {
         ///   Возвращает кэшированный экземпляр ResourceManager, использованный этим классом.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Localization.Domain.Localization", typeof(Localization).Assembly);
@@ -51,12 +51,102 @@ namespace Localization.Domain {
         ///   обращений к ресурсу с помощью этого класса ресурса со строгой типизацией.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на The {0} field must be a valid date..
+        /// </summary>
+        public static string DateValidation {
+            get {
+                return ResourceManager.GetString("DateValidation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Invalid e-mail.
+        /// </summary>
+        public static string EmailValidation {
+            get {
+                return ResourceManager.GetString("EmailValidation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на The {0} field must be a valid phone number..
+        /// </summary>
+        public static string PhoneNumberValidation {
+            get {
+                return ResourceManager.GetString("PhoneNumberValidation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на The {0} field must be a valid phone number..
+        /// </summary>
+        public static string PhoneValidation {
+            get {
+                return ResourceManager.GetString("PhoneValidation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на The {0} field must be greater than {1}..
+        /// </summary>
+        public static string RangeMinValidation {
+            get {
+                return ResourceManager.GetString("RangeMinValidation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на The {0} field cannot be negative..
+        /// </summary>
+        public static string RangeNonNegativeValidation {
+            get {
+                return ResourceManager.GetString("RangeNonNegativeValidation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на {0} must be a positive integer..
+        /// </summary>
+        public static string RangeValidation {
+            get {
+                return ResourceManager.GetString("RangeValidation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на The {0} field is required..
+        /// </summary>
+        public static string RequiredValidation {
+            get {
+                return ResourceManager.GetString("RequiredValidation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на The {0} field cannot exceed {1} characters..
+        /// </summary>
+        public static string StringLengthMaxValidation {
+            get {
+                return ResourceManager.GetString("StringLengthMaxValidation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на The {0} field must be between {2} and {1} characters..
+        /// </summary>
+        public static string StringLengthMinMaxValidation {
+            get {
+                return ResourceManager.GetString("StringLengthMinMaxValidation", resourceCulture);
             }
         }
     }

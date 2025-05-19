@@ -34,7 +34,7 @@ namespace CloudERP.Controllers.Financial.Reports
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -55,33 +55,12 @@ namespace CloudERP.Controllers.Financial.Reports
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
 
         // GET: IncomeStatement
-        public async Task<ActionResult> GetSubIncomeStatement()
-        {
-            if (!_sessionHelper.IsAuthenticated)
-                return RedirectToAction("Login", "Home");
-
-            try
-            {
-                await PopulateViewBag();
-
-                return View(await _httpClient.GetAsync<IncomeStatementModel>(
-                    $"incomestatementapi/getincomestatement?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}"));
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> GetSubIncomeStatement(int? id)
         {
             if (!_sessionHelper.IsAuthenticated)
@@ -92,11 +71,32 @@ namespace CloudERP.Controllers.Financial.Reports
                 await PopulateViewBag();
 
                 return View(await _httpClient.GetAsync<IncomeStatementModel>(
-                    $"incomestatementapi/getincomestatementbyfinancialyear?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&FinancialYearID={id}"));
+                    $"incomestatementapi/getincomestatement?companyId={_sessionHelper.CompanyID}&branchId={id}"));
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> GetSubIncomeStatement(int? id, int? FinancialYearID)
+        {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            try
+            {
+                await PopulateViewBag();
+
+                return View(await _httpClient.GetAsync<IncomeStatementModel>(
+                    $"incomestatementapi/getincomestatementbyfinancialyear?companyId={_sessionHelper.CompanyID}&branchId={id}&FinancialYearID={FinancialYearID}"));
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

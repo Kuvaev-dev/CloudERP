@@ -1,7 +1,8 @@
 ﻿@model Domain.Models.SupportTicket
-
+@using Localization.CloudERP.Modules.Support;
+@using Localization.CloudERP.Common;
 @{
-    ViewBag.Title = Localization.CloudERP.Support.ContactSupport;
+    ViewBag.Title = Support.ContactSupport;
 }
 
 <!-- Tables Sorting-->
@@ -26,7 +27,7 @@
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
 
         <div class="form-group">
-            @Html.LabelFor(m => m.Subject, Localization.CloudERP.Support.Subject, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(m => m.Subject, Support.Subject, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.TextBoxFor(m => m.Subject, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
@@ -34,7 +35,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(m => m.Message, Localization.CloudERP.Support.Message, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(m => m.Message, Support.Message, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.TextAreaFor(m => m.Message, new { @class = "form-control", rows = 5 })
                 @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
@@ -43,7 +44,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="@Localization.CloudERP.Common.Create" class="btn btn-success" />
+                <input type="submit" value="@Common.Create" class="btn btn-success" />
             </div>
         </div>
     </div>
@@ -51,16 +52,15 @@
 
 <div class="card card-default col-md-12 mt-4">
     <div class="card-body">
-        <h3>My Tickets</h3>
         <div class="table-responsive">
             <table class="table table-striped table-bordered" id="dataTable">
                 <thead>
                     <tr>
-                        <th>@Localization.CloudERP.Support.Subject</th>
-                        <th>@Localization.CloudERP.Support.Message</th>
-                        <th>@Localization.CloudERP.Support.DateCreated</th>
-                        <th>@Localization.CloudERP.Support.Status</th>
-                        <th>@Localization.CloudERP.Support.Response</th>
+                        <th>@Support.Subject</th>
+                        <th>@Support.Message</th>
+                        <th>@Support.DateCreated</th>
+                        <th>@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Status</th>
+                        <th>@Support.Response</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -70,7 +70,7 @@
                             <td>@ticket.Subject</td>
                             <td>@ticket.Message</td>
                             <td>@ticket.DateCreated</td>
-                            <td>@(ticket.IsResolved ? Localization.CloudERP.Common.Resolved : Localization.CloudERP.Common.Pending)</td>
+                            <td>@(ticket.IsResolved ? Common.Resolved : Common.Pending)</td>
                             <td>@(($"{ticket.RespondedBy}: {ticket.AdminResponse}") ?? "-")</td>
                         </tr>
                     }

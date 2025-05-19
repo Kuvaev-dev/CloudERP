@@ -7,19 +7,19 @@ namespace Domain.Models
         [Key]
         public int AccountSettingID { get; set; }
 
-        [Required(ErrorMessage = "Account Head ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public int AccountHeadID { get; set; }
         public string? AccountHeadName { get; set; }
 
-        [Required(ErrorMessage = "Account Control ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public int AccountControlID { get; set; }
         public string? AccountControlName { get; set; }
 
-        [Required(ErrorMessage = "Account Sub Control ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public int AccountSubControlID { get; set; }
         public string? AccountSubControlName { get; set; }
 
-        [Required(ErrorMessage = "Account Activity ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public int AccountActivityID { get; set; }
         public string? AccountActivityName { get; set; }
 

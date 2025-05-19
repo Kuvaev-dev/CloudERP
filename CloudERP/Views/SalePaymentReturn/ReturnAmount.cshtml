@@ -1,9 +1,12 @@
 ﻿@model IEnumerable<Domain.Models.CustomerReturnPayment>
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
-
+@using Localization.CloudERP.Modules.Sale
+@using Localization.CloudERP.Modules.Purchase
+@using Localization.CloudERP.Modules.Miscellaneous
+@using Localization.CloudERP.Common
 @{
     double remainingBalance = (double)ViewBag.PreviousRemainingAmount;
-    ViewBag.Title = Localization.CloudERP.Sale.ReturnSaleAmount;
+    ViewBag.Title = Sale.ReturnSaleAmount;
 }
 
 <div class="card">
@@ -20,22 +23,22 @@
                 <input type="text" value="@ViewBag.InvoiceID" id="id" name="id" style="display:none;" />
                 <div class="row">
                     <div class="col-md-4">
-                        <label>@Localization.CloudERP.Sale.ReturnRemainingAmount</label>
+                        <label>@Sale.ReturnRemainingAmount</label>
                         <input type="text" id="previousRemainingAmount" name="previousRemainingAmount" value="@remainingBalance" readonly="readonly" class="form-control" required>
                     </div>
                     <div class="col-md-4">
-                        <label>@Localization.CloudERP.Sale.PaymentAmount</label>
+                        <label>@Sale.PaymentAmount</label>
                         <input min="0" type="number" id="paymentAmount" name="paymentAmount" value="10" class="form-control" required>
                     </div>
                     <div class="col-md-4">
-                        <label>@Localization.CloudERP.Sale.CurrentRemainingAmount</label>
+                        <label>@Sale.CurrentRemainingAmount</label>
                         <input type="text" id="remainingAmount" name="remainingAmount" value="10" readonly="readonly" class="form-control" required>
                     </div>
                 </div>
                 <br />
                 <br />
-                @Html.ActionLink(Localization.CloudERP.Common.BackToList, "AllReturnSalesPendingAmount", "SalePaymentReturn", null, new { @class = "btn btn-primary" })
-                <input type="submit" value="@Localization.CloudERP.Sale.SubmitPayment" class="btn btn-success" style="float: right;">
+                @Html.ActionLink(Common.BackToList, "AllReturnSalesPendingAmount", "SalePaymentReturn", null, new { @class = "btn btn-primary" })
+                <input type="submit" value="@Sale.SubmitPayment" class="btn btn-success" style="float: right;">
             }
         </div>
     </div>
@@ -52,22 +55,22 @@
                 <thead>
                     <tr>
                         <th>
-                            @Localization.CloudERP.Miscellaneous.CustomerName
+                            @Miscellaneous.CustomerName
                         </th>
                         <th>
-                            @Localization.CloudERP.Sale.InvoiceNo
+                            @Miscellaneous.InvoiceNo
                         </th>
                         <th>
-                            @Localization.CloudERP.Sale.InvoiceDate
+                            @Sale.InvoiceDate
                         </th>
                         <th>
-                            @Localization.CloudERP.Sale.ReturnTotalAmount
+                            @Sale.ReturnTotalAmount
                         </th>
                         <th>
-                            @Localization.CloudERP.Sale.ReturnPaymentAmount
+                            @Purchase.ReturnPaymentAmount
                         </th>
                         <th>
-                            @Localization.CloudERP.Sale.RemainingBalance
+                            @Sale.RemainingBalance
                         </th>
                     </tr>
                 </thead>

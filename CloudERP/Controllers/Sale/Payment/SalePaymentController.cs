@@ -153,6 +153,27 @@ namespace CloudERP.Controllers.Sale.Payment
             }
         }
 
+        public async Task<ActionResult> SubCustomSalesHistory(DateTime fromDate, DateTime toDate, int id)
+        {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            try
+            {
+                var list = await _httpClient.GetAsync<IEnumerable<SaleInfo>>(
+                    $"salepaymentapi/getcustomsaleshistory" +
+                    $"?companyId={_sessionHelper.CompanyID}&branchId={id}" +
+                    $"&fromDate={fromDate:yyyy-MM-dd}&toDate={toDate:yyyy-MM-dd}");
+
+                return View(list);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
+        }
+
         public async Task<ActionResult> SaleItemDetail(int id)
         {
             if (!_sessionHelper.IsAuthenticated)
@@ -216,7 +237,7 @@ namespace CloudERP.Controllers.Sale.Payment
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

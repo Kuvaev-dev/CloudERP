@@ -7,17 +7,17 @@ namespace Domain.Models
         [Key]
         public int SaleCartDetailID { get; set; }
 
-        [Required(ErrorMessage = "Product ID is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Product ID must be a positive integer.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [Range(1, int.MaxValue, ErrorMessageResourceName = "RangeValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public int ProductID { get; set; }
         public string? ProductName { get; set; }
 
-        [Required(ErrorMessage = "Sale Quantity is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Sale Quantity must be greater than 0.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [Range(1, int.MaxValue, ErrorMessageResourceName = "RangeMinValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public int SaleQuantity { get; set; }
 
-        [Required(ErrorMessage = "Sale Unit Price is required.")]
-        [Range(0.01, double.MaxValue, ErrorMessage = "Sale Unit Price must be greater than 0.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [Range(0.01, double.MaxValue, ErrorMessageResourceName = "RangeMinValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public double SaleUnitPrice { get; set; }
         public int CompanyID { get; set; }
         public int BranchID { get; set; }

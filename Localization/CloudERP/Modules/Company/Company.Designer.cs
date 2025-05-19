@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Localization.CloudERP {
+namespace Localization.CloudERP.Modules.Company {
     using System;
     
     
@@ -178,15 +178,6 @@ namespace Localization.CloudERP {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Description.
-        /// </summary>
-        public static string Description {
-            get {
-                return ResourceManager.GetString("Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Ищет локализованную строку, похожую на Edit Company.
         /// </summary>
         public static string EditCompany {
@@ -228,15 +219,6 @@ namespace Localization.CloudERP {
         public static string EmployeeProfile {
             get {
                 return ResourceManager.GetString("EmployeeProfile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Employee Registration.
-        /// </summary>
-        public static string EmployeeRegistration {
-            get {
-                return ResourceManager.GetString("EmployeeRegistration", resourceCulture);
             }
         }
         

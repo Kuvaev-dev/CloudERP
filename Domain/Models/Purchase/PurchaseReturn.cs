@@ -4,14 +4,14 @@ namespace Domain.Models
 {
     public class PurchaseReturn
     {
-        [Required(ErrorMessage = "Invoice ID is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Invoice ID must be a positive integer.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [Range(1, int.MaxValue, ErrorMessageResourceName = "RangeValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public int InvoiceId { get; set; }
 
-        [Range(0, float.MaxValue, ErrorMessage = "Previous Remaining Amount must be a positive value.")]
+        [Range(0, float.MaxValue, ErrorMessageResourceName = "RangeNonNegativeValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public float PreviousRemainingAmount { get; set; }
 
-        [Range(0, float.MaxValue, ErrorMessage = "Payment Amount must be a positive value.")]
+        [Range(0, float.MaxValue, ErrorMessageResourceName = "RangeNonNegativeValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public float PaymentAmount { get; set; }
     }
 }

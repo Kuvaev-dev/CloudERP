@@ -1,8 +1,13 @@
 ﻿@model CloudERP.Models.SalaryMV
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
-
+@using Localization.CloudERP.Modules.Company
+@using Localization.CloudERP.Modules.User
+@using Localization.CloudERP.Common
+@using Localization.CloudERP.Modules.Sale
+@using Localization.CloudERP.Modules.Miscellaneous
+@using Localization.CloudERP.Modules.Branch
 @{
-    ViewBag.Title = Localization.CloudERP.Company.EmployeeSalary;
+    ViewBag.Title = Company.EmployeeSalary;
     var rates = ViewData["CurrencyRates"] as Dictionary<string, double>;
 }
 
@@ -18,7 +23,7 @@
                 @Html.AntiForgeryToken()
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.TIN, Localization.CloudERP.Company.EnterEmployeeTIN, htmlAttributes: new { @class = "control-label col-md-4" })
+                    @Html.LabelFor(model => model.TIN, Company.EnterEmployeeTIN, htmlAttributes: new { @class = "control-label col-md-4" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.TIN, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.TIN, "", new { @class = "text-danger" })
@@ -27,7 +32,7 @@
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="@Localization.CloudERP.Company.Search" class="btn btn-info" />
+                        <input type="submit" value="@Company.Search" class="btn btn-info" />
                     </div>
                 </div>
             }
@@ -49,7 +54,7 @@
 
                 <div class="form-horizontal">
                     <div class="form-group">
-                        @Html.LabelFor(model => model.EmployeeName, Localization.CloudERP.Company.EmployeeName, htmlAttributes: new { @class = "control-label col-md-4" })
+                        @Html.LabelFor(model => model.EmployeeName, Company.EmployeeName, htmlAttributes: new { @class = "control-label col-md-4" })
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.EmployeeName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                             @Html.ValidationMessageFor(model => model.EmployeeName, "", new { @class = "text-danger" })
@@ -65,7 +70,7 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.Designation, Localization.CloudERP.User.Designation, htmlAttributes: new { @class = "control-label col-md-4" })
+                        @Html.LabelFor(model => model.Designation, Localization.CloudERP.Modules.User.User.Designation, htmlAttributes: new { @class = "control-label col-md-4" })
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.Designation, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                             @Html.ValidationMessageFor(model => model.Designation, "", new { @class = "text-danger" })
@@ -73,7 +78,7 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.TransferAmount, Localization.CloudERP.Company.MonthlySalaryAmount, htmlAttributes: new { @class = "control-label col-md-4" })
+                        @Html.LabelFor(model => model.TransferAmount, Company.MonthlySalaryAmount, htmlAttributes: new { @class = "control-label col-md-4" })
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.TransferAmount, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                             @Html.ValidationMessageFor(model => model.TransferAmount, "", new { @class = "text-danger" })
@@ -81,21 +86,21 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.Label(Localization.CloudERP.Miscellaneous.Surcharge, Localization.CloudERP.Miscellaneous.Surcharge, new { @class = "control-label col-md-4" })
+                        @Html.Label(Miscellaneous.Surcharge, Miscellaneous.Surcharge, new { @class = "control-label col-md-4" })
                         <div class="col-md-10">
                             <input type="number" id="bonusPercentage" name="BonusPercentage" class="form-control" min="0" max="100" step="0.01" />
                         </div>
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.TotalAmount, Localization.CloudERP.Sale.TotalAmount, new { @class = "control-label col-md-4" })
+                        @Html.LabelFor(model => model.TotalAmount, Sale.TotalAmount, new { @class = "control-label col-md-4" })
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.TotalAmount, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                         </div>
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.SalaryMonth, Localization.CloudERP.Company.SalaryOfTheMonth, htmlAttributes: new { @class = "control-label col-md-4" })
+                        @Html.LabelFor(model => model.SalaryMonth, Company.SalaryOfTheMonth, htmlAttributes: new { @class = "control-label col-md-4" })
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.SalaryMonth, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                             @Html.ValidationMessageFor(model => model.SalaryMonth, "", new { @class = "text-danger" })
@@ -103,7 +108,7 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.SalaryYear, Localization.CloudERP.Company.SalaryYear, htmlAttributes: new { @class = "control-label col-md-4" })
+                        @Html.LabelFor(model => model.SalaryYear, Company.SalaryYear, htmlAttributes: new { @class = "control-label col-md-4" })
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.SalaryYear, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                             @Html.ValidationMessageFor(model => model.SalaryYear, "", new { @class = "text-danger" })
@@ -112,7 +117,7 @@
 
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="@Localization.CloudERP.Company.ProcessSalary" class="btn btn-success" />
+                            <input type="submit" value="@Company.ProcessSalary" class="btn btn-success" />
                         </div>
                     </div>
                 </div>

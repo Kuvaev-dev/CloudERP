@@ -34,7 +34,7 @@ namespace Services.Implementations
             string FinancialYearID = financialYearCheck != null ? Convert.ToString(financialYearCheck) : string.Empty;
             if (string.IsNullOrEmpty(FinancialYearID))
             {
-                return Localization.Services.Localization.CompanyFinancialYearNotSet;
+                return Localization.CloudERP.Messages.Messages.CompanyFinancialYearNotSet;
             }
 
             // Debit Entry Purchase
@@ -89,7 +89,7 @@ namespace Services.Implementations
                     "0",
                     Amount.ToString(),
                     DateTime.Now,
-                    $"Oayment Paid To: " + SupplierName);
+                    $"{Localization.Services.Localization.PaymentPaidTo} " + SupplierName);
 
                 // Credit Entry Purchase Payment Success
                 purchaseAccount = await _purchaseEntryFacade.AccountSettingRepository.GetByActivityAsync(PURCHASE_PAYMENT_SUCCESS_ACTIVITY_ID, CompanyID, BranchID);
@@ -106,7 +106,7 @@ namespace Services.Implementations
                     Amount.ToString(),
                     "0",
                     DateTime.Now,
-                    SupplierName + $", Purchase Payment Is Succeed");
+                    SupplierName + $", {Localization.Services.Localization.PurchasePaymentIsSucceed}");
 
                 _purchaseEntryFacade.PurchaseRepository.SetEntries(_dtEntries);
 
@@ -131,7 +131,7 @@ namespace Services.Implementations
                 string FinancialYearID = financialYearCheck != null ? Convert.ToString(financialYearCheck) : string.Empty;
                 if (string.IsNullOrEmpty(FinancialYearID))
                 {
-                    return Localization.Services.Localization.CompanyFinancialYearNotSet;
+                    return Localization.CloudERP.Messages.Messages.CompanyFinancialYearNotSet;
                 }
 
                 // Debit Entry Purchase
@@ -188,7 +188,7 @@ namespace Services.Implementations
                         "0",
                         Amount.ToString(),
                         DateTime.Now,
-                        $"Payment Paid To " + SupplierName);
+                        $"{Localization.Services.Localization.PaymentPaidTo} " + SupplierName);
 
                     // Debit Entry Purchase Payment Success
                     purchaseAccount = await _purchaseEntryFacade.AccountSettingRepository.GetByActivityAsync(PURCHASE_PAYMENT_SUCCESS_ACTIVITY_ID, CompanyID, BranchID);
@@ -205,7 +205,7 @@ namespace Services.Implementations
                         Amount.ToString(),
                         "0",
                         DateTime.Now,
-                        SupplierName + $", Purchase Payment Is Succeed");
+                        SupplierName + $", {Localization.Services.Localization.PurchasePaymentIsSucceed}");
 
                     _purchaseEntryFacade.PurchaseRepository.SetEntries(_dtEntries);
 
@@ -237,7 +237,7 @@ namespace Services.Implementations
             string FinancialYearID = (financialYearCheck != null ? Convert.ToString(financialYearCheck) : string.Empty);
             if (string.IsNullOrEmpty(FinancialYearID))
             {
-                return Localization.Services.Localization.CompanyFinancialYearNotSet;
+                return Localization.CloudERP.Messages.Messages.CompanyFinancialYearNotSet;
             }
 
             string successMessage = Localization.Services.Localization.ReturnPurchaseSuccess;
@@ -342,7 +342,7 @@ namespace Services.Implementations
 
                 if (string.IsNullOrEmpty(FinancialYearID))
                 {
-                    return Localization.Services.Localization.CompanyFinancialYearNotSet;
+                    return Localization.CloudERP.Messages.Messages.CompanyFinancialYearNotSet;
                 }
 
                 string AccountHeadID = string.Empty;

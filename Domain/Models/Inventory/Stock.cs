@@ -9,35 +9,35 @@ namespace Domain.Models
         public int CategoryID { get; set; }
         public string? CategoryName { get; set; }
 
-        [Required(ErrorMessage = "Product Name is required.")]
-        [StringLength(200, ErrorMessage = "Product Name cannot be longer than 200 characters.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [StringLength(200, ErrorMessageResourceName = "StringLengthMaxValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public string? ProductName { get; set; }
 
-        [Required(ErrorMessage = "Quantity is required.")]
-        [Range(0, int.MaxValue, ErrorMessage = "Quantity must be a non-negative value.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [Range(0, int.MaxValue, ErrorMessageResourceName = "RangeNonNegativeValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public int Quantity { get; set; }
 
-        [Required(ErrorMessage = "Sale Unit Price is required.")]
-        [Range(0.01, double.MaxValue, ErrorMessage = "Sale Unit Price must be greater than 0.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [Range(0.01, double.MaxValue, ErrorMessageResourceName = "RangeMinValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public double SaleUnitPrice { get; set; }
 
-        [Required(ErrorMessage = "Current Purchase Unit Price is required.")]
-        [Range(0.01, double.MaxValue, ErrorMessage = "Current Purchase Unit Price must be greater than 0.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [Range(0.01, double.MaxValue, ErrorMessageResourceName = "RangeMinValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public double CurrentPurchaseUnitPrice { get; set; }
 
-        [Required(ErrorMessage = "Expiry Date is required.")]
-        [DataType(DataType.Date)]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [DataType(DataType.Date, ErrorMessageResourceName = "DateValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public DateTime ExpiryDate { get; set; }
 
-        [Required(ErrorMessage = "Manufacture Date is required.")]
-        [DataType(DataType.Date)]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [DataType(DataType.Date, ErrorMessageResourceName = "DateValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public DateTime Manufacture { get; set; }
 
-        [Required(ErrorMessage = "Stock Threshold Quantity is required.")]
-        [Range(0, int.MaxValue, ErrorMessage = "Stock Threshold Quantity must be a non-negative value.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [Range(0, int.MaxValue, ErrorMessageResourceName = "RangeNonNegativeValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public int StockTreshHoldQuantity { get; set; }
 
-        [StringLength(500, ErrorMessage = "Description cannot be longer than 500 characters.")]
+        [StringLength(500, ErrorMessageResourceName = "StringLengthMaxValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public string? Description { get; set; }
         public int UserID { get; set; }
         public string? UserName { get; set; }

@@ -6,7 +6,7 @@ namespace Domain.Models
     {
         public int CustomerID { get; set; }
 
-        [StringLength(500, ErrorMessage = "Description cannot exceed 500 characters.")]
+        [StringLength(500, ErrorMessageResourceName = "StringLengthMaxValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public string? Description { get; set; }
         public bool IsPayment { get; set; }
         public int CompanyID { get; set; }

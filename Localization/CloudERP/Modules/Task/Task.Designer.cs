@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Localization.CloudERP {
+namespace Localization.CloudERP.Modules.Task {
     using System;
     
     
@@ -111,24 +111,6 @@ namespace Localization.CloudERP {
         public static string DeleteTask {
             get {
                 return ResourceManager.GetString("DeleteTask", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Description.
-        /// </summary>
-        public static string Description {
-            get {
-                return ResourceManager.GetString("Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Due Date.
-        /// </summary>
-        public static string DueDate {
-            get {
-                return ResourceManager.GetString("DueDate", resourceCulture);
             }
         }
         

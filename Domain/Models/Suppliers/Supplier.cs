@@ -7,23 +7,24 @@ namespace Domain.Models
         [Key]
         public int SupplierID { get; set; }
 
-        [Required(ErrorMessage = "Supplier Name is required.")]
-        [StringLength(100, ErrorMessage = "Supplier Name cannot be longer than 100 characters.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [StringLength(100, ErrorMessageResourceName = "StringLengthMaxValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public string? SupplierName { get; set; }
 
-        [Required(ErrorMessage = "Supplier Address is required.")]
-        [StringLength(250, ErrorMessage = "Supplier Address cannot be longer than 250 characters.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [StringLength(250, ErrorMessageResourceName = "StringLengthMaxValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public string? SupplierAddress { get; set; }
 
-        [Required(ErrorMessage = "Supplier Contact Number is required.")]
-        [Phone(ErrorMessage = "Invalid phone number format.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [StringLength(50, ErrorMessageResourceName = "StringLengthMaxValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [Phone(ErrorMessageResourceName = "PhoneValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public string? SupplierConatctNo { get; set; }
 
-        [Required(ErrorMessage = "Supplier Email is required.")]
-        [EmailAddress(ErrorMessage = "Invalid email address format.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [EmailAddress(ErrorMessageResourceName = "EmailValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public string? SupplierEmail { get; set; }
 
-        [StringLength(500, ErrorMessage = "Description cannot be longer than 500 characters.")]
+        [StringLength(500, ErrorMessageResourceName = "StringLengthMaxValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public string? Discription { get; set; }
         public int CompanyID { get; set; }
         public string? CompanyName { get; set; }

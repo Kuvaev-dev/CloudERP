@@ -62,7 +62,7 @@ namespace Services.Implementations
                 string? FinancialYearID = financialYearCheck != null ? Convert.ToString(financialYearCheck) : string.Empty;
                 if (string.IsNullOrEmpty(FinancialYearID))
                 {
-                    return Localization.Services.Localization.CompanyFinancialYearNotSet;
+                    return Localization.CloudERP.Messages.Messages.CompanyFinancialYearNotSet;
                 }
 
                 var account = await _salaryTransactionFacade.AccountSettingRepository.GetByActivityAsync(SALE_RETURN_PAYMENT_PENDING_ACTIVITY_ID, CompanyID, BranchID);

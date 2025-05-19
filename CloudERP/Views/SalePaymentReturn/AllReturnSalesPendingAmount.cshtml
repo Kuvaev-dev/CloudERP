@@ -1,8 +1,10 @@
 ﻿@model IEnumerable<Domain.Models.SaleInfo>
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
-
+@using Localization.CloudERP.Modules.Sale
+@using Localization.CloudERP.Modules.Miscellaneous
+@using Localization.CloudERP.Common
 @{
-    ViewBag.Title = Localization.CloudERP.Sale.AllReturnSalesAmountPending;
+    ViewBag.Title = Sale.AllReturnSalesAmountPending;
 }
 
 <!-- Tables Sorting-->
@@ -28,37 +30,37 @@
                 <thead>
                     <tr>
                         <th>
-                            @Localization.CloudERP.Sale.Customer
+                            @Sale.Customer
                         </th>
                         <th>
-                            @Localization.CloudERP.User.ContactNo
+                            @Localization.CloudERP.Modules.User.User.ContactNo
                         </th>
                         <th>
-                            @Localization.CloudERP.Sale.InvoiceNo
+                            @Miscellaneous.InvoiceNo
                         </th>
                         <th>
-                            @Localization.CloudERP.Miscellaneous.Date
+                            @Miscellaneous.Date
                         </th>
                         <th>
-                            @Localization.CloudERP.Sale.SaleTotalAmount
+                            @Sale.SaleTotalAmount
                         </th>
                         <th>
-                            @Localization.CloudERP.Sale.ReturnProductsTotalAmount
+                            @Sale.ReturnProductsTotalAmount
                         </th>
                         <th>
-                            @Localization.CloudERP.Sale.AfterReturnSaleTotalAmount
+                            @Sale.AfterReturnSaleTotalAmount
                         </th>
                         <th>
-                            @Localization.CloudERP.Sale.PaidAmount
+                            @Sale.PaidAmount
                         </th>
                         <th>
-                            @Localization.CloudERP.Sale.PaymentToCustomer
+                            @Sale.PaymentToCustomer
                         </th>
                         <th>
-                            @Localization.CloudERP.Sale.RemainingBalance
+                            @Sale.RemainingBalance
                         </th>
                         <th>
-                            @Localization.CloudERP.Common.Actions
+                            @Common.Actions
                         </th>
                     </tr>
                 </thead>
@@ -91,7 +93,7 @@
                                 @{
                                     if (item.PaymentAmount == 0)
                                     {
-                                        @Html.ActionLink(Localization.CloudERP.Sale.SetPaid, "PaidAmount", "SalePayment", new { id = item.CustomerInvoiceID }, new { @class = "text-success" })
+                                        @Html.ActionLink(Sale.SetPaid, "PaidAmount", "SalePayment", new { id = item.CustomerInvoiceID }, new { @class = "text-success" })
                                     }
                                     else
                                     {
@@ -107,7 +109,7 @@
                                     if (item.RemainingBalance == 0 && item.PaymentAmount != 0)
                                     {
                                         <em class="icon-check">
-                                            <label class="text-success">@Localization.CloudERP.Sale.Clear</label>
+                                            <label class="text-success">@Sale.Clear</label>
                                         </em>
                                     }
                                     else if (item.RemainingBalance < 0)
@@ -124,16 +126,16 @@
                                 @{
                                     if (item.RemainingBalance < item.TotalAmount && item.PaymentAmount != 0)
                                     {
-                                        @Html.ActionLink(Localization.CloudERP.Sale.PayHistory, "PaidHistory", "SalePayment", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-primary" })
+                                        @Html.ActionLink(Sale.PayHistory, "PaidHistory", "SalePayment", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-primary" })
                                     }
                                     else
                                     {
                                         <em class="icon-book-open">
-                                            <label class="text-danger"><b>@Localization.CloudERP.Sale.NoHistory</b></label>
+                                            <label class="text-danger"><b>@Sale.NoHistory</b></label>
                                         </em>
                                         <br />
                                     }
-                                    @Html.ActionLink(Localization.CloudERP.Sale.ViewDetails, "SaleItemDetail", "SalePayment", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-info" })
+                                    @Html.ActionLink(Sale.ViewDetails, "SaleItemDetail", "SalePayment", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-info" })
                                 }
                             </td>
                         </tr>

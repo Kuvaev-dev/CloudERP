@@ -24,10 +24,6 @@ namespace Services.Implementations
         public async Task<User> AuthenticateUserAsync(string email, string password)
         {
             var user = await _userRepository.GetByEmailAsync(email);
-            if (user == null || user.Password == null || user.Salt == null)
-            {
-                throw new UnauthorizedAccessException("Invalid email or password.");
-            }
             return _passwordHelper.VerifyPassword(password, user.Password, user.Salt) ? user : throw new UnauthorizedAccessException("Invalid email or password.");
         }
 

@@ -1,7 +1,9 @@
 ﻿@model IEnumerable<Domain.Models.Payroll>
-
+@using Localization.CloudERP.Modules.Company;
+@using Localization.CloudERP.Common;
+@using Localization.CloudERP.Modules.Miscellaneous
 @{
-    ViewBag.Title = Localization.CloudERP.Company.SalariesSucceedList;
+    ViewBag.Title = Company.SalariesSucceedList;
 }
 
 <!-- Tables Sorting-->
@@ -22,28 +24,28 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Company.Employee)
+                            @Html.Raw(Company.Employee)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Miscellaneous.InvoiceNo)
+                            @Html.Raw(Miscellaneous.InvoiceNo)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Miscellaneous.Date)
+                            @Html.Raw(Miscellaneous.Date)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Company.PaidSalary)
+                            @Html.Raw(Company.PaidSalary)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Company.SalaryMonth)
+                            @Html.Raw(Company.SalaryMonth)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Company.SalaryYear)
+                            @Html.Raw(Company.SalaryYear)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Miscellaneous.CreatedBy)
+                            @Html.Raw(Localization.CloudERP.Modules.User.User.CreatedBy)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Company.SalaryInvoice)
+                            @Html.Raw(Company.SalaryInvoice)
                         </th>
                     </tr>
                 </thead>
@@ -73,7 +75,7 @@
                                 @Html.DisplayFor(modelItem => item.UserName)
                             </td>
                             <td>
-                                @Html.ActionLink(Localization.CloudERP.Company.PrintPayroll, "PrintSalaryInvoice", new { id = item.PayrollID }, new { @class = "btn btn-info" })
+                                @Html.ActionLink(Company.PrintPayroll, "PrintSalaryInvoice", new { id = item.PayrollID }, new { @class = "btn btn-info" })
                             </td>
                         </tr>
                     }

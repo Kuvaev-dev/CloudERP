@@ -184,7 +184,8 @@
                                     </div>
                                     <!-- Name and Job-->
                                     <div class="user-block-info">
-                                        <span class="user-block-name">@Localization.CloudERP.Miscellaneous.Hello @HttpContextAccessor.HttpContext?.Session.GetString("UserName")</span>
+                                        <span class="user-block-name">
+                                            @Html.Raw(@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Hello) @HttpContextAccessor.HttpContext?.Session.GetString("UserName") </ span >
                                         <span class="user-block-role">@HttpContextAccessor.HttpContext?.Session.GetString("Designation")</span>
                                     </div>
                                 </div>
@@ -204,89 +205,89 @@
                                     if (userType == 1)
                                     {
                                         <li class="nav-heading ">
-                                            <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Miscellaneous.Guide</span>
+                                            <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Home</span>
                                         </li>
 
                                         <li>
-                                            <a href="@Url.Action("AdminMenuGuide", "Guide")" title="@Localization.CloudERP.Miscellaneous.AdminGuide">
+                                            <a href="@Url.Action("AdminMenuGuide", "Guide")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Guide">
                                                 <em class="bi bi-info-circle"></em>
-                                                <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.AdminGuide)</span>
+                                                <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Guide)</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Index", "Task")" title="@Localization.CloudERP.Miscellaneous.TasksList">
+                                            <a href="@Url.Action("Index", "Task")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.TasksList">
                                                 <em class="bi bi-list-task"></em>
-                                                <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.TasksList)</span>
+                                                <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.TasksList)</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Index", "Analytics")" title="Analytics">
+                                            <a href="@Url.Action("Index", "Analytics")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.SystemAnalytics">
                                                 <em class="bi bi-graph-up-arrow"></em>
-                                                <span class="align-middle">Analytics</span>
+                                                <span class="align-middle">@Html.Raw(@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.SystemAnalytics)</span>
                                             </a>
                                         </li>
 
                                         <li class="nav-heading ">
-                                            <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Miscellaneous.UserSetting</span>
+                                            <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.UserSetting</span>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Index", "UserType")" title="@Localization.CloudERP.Miscellaneous.UserTypes">
+                                            <a href="@Url.Action("Index", "UserType")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.UserTypes">
                                                 <em class="bi bi-person-fill-gear"></em>
-                                                <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.UserTypes)</span>
+                                                <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.UserTypes)</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Index", "User")" title="@Localization.CloudERP.Miscellaneous.Users">
+                                            <a href="@Url.Action("Index", "User")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Users">
                                                 <em class="bi bi-person-fill"></em>
-                                                <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.Users)</span>
+                                                <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Users)</span>
                                             </a>
                                         </li>
                                         <li class="nav-heading ">
-                                            <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Miscellaneous.Companies</span>
+                                            <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Companies</span>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Index", "Company")" title="@Localization.CloudERP.Miscellaneous.Companies">
+                                            <a href="@Url.Action("Index", "Company")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Companies">
                                                 <em class="bi bi-building"></em>
-                                                <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.Companies)</span>
+                                                <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Companies)</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("RegistrationForm", "CompanyRegistration")" title="@Localization.CloudERP.Miscellaneous.CompanyRegistration">
+                                            <a href="@Url.Action("RegistrationForm", "CompanyRegistration")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.CompanyRegistration">
                                                 <em class="bi bi-building-add"></em>
-                                                <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.CompanyRegistration)</span>
+                                                <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.CompanyRegistration)</span>
                                             </a>
                                         </li>
                                         <li class="nav-heading ">
-                                            <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Miscellaneous.Branchs</span>
+                                            <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Branchs</span>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Index", "BranchType")" title="Branch Types">
+                                            <a href="@Url.Action("Index", "BranchType")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.BranchTypes">
                                                 <em class="bi bi-bezier2"></em>
-                                                <span class="align-middle">Branch Types</span>
+                                                <span class="align-middle">@Html.Raw(@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.BranchTypes)</span>
                                             </a>
                                         </li>
                                         <li class="nav-heading ">
-                                            <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Miscellaneous.Employees</span>
+                                            <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Employees</span>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Employees", "CompanyEmployee")" title="@Localization.CloudERP.Miscellaneous.EmployeeRegistration">
+                                            <a href="@Url.Action("Employees", "CompanyEmployee")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.EmployeeRegistration">
                                                 <em class="bi bi-person-add h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.EmployeeRegistration)</span>
+                                                <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.EmployeeRegistration)</span>
                                             </a>
                                         </li>
                                         <li class="nav-heading ">
-                                            <span data-localize="sidebar.heading.COMPONENTS">Main Account Settings</span>
+                                            <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.MainAccountSettings</span>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Index", "AccountHead")" title="@Localization.CloudERP.Miscellaneous.AccountHeads">
+                                            <a href="@Url.Action("Index", "AccountHead")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.AccountHeads">
                                                 <em class="bi bi-lightbulb-fill mb-2"></em>
-                                                <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.AccountHeads)</span>
+                                                <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.AccountHeads)</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Index", "AccountActivity")" title="Account Activities">
+                                            <a href="@Url.Action("Index", "AccountActivity")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.AccountActivities">
                                                 <em class="bi bi-universal-access-circle mb-2"></em>
-                                                <span class="align-middle">Account Activities</span>
+                                                <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.AccountActivities)</span>
                                             </a>
                                         </li>
                                     }
@@ -294,45 +295,45 @@
                                     if (userType == 2)
                                     {
                                         <li class="nav-heading ">
-                                            <span data-localize="sidebar.heading.HEADER">@Localization.CloudERP.Miscellaneous.Home</span>
+                                            <span data-localize="sidebar.heading.HEADER">@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Home</span>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Index", "Home")" title="@Localization.CloudERP.Miscellaneous.DashboardTitle">
+                                            <a href="@Url.Action("Index", "Home")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.DashboardTitle">
                                                 <em class="bi bi-speedometer2 h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.DashboardTitle)</span>
+                                                <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.DashboardTitle)</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Index", "Forecasting")" title="@Localization.CloudERP.Miscellaneous.Forecasting">
+                                            <a href="@Url.Action("Index", "Forecasting")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Forecasting">
                                                 <em class="bi bi-clipboard-data h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.Forecasting)</span>
+                                                <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Forecasting)</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Index", "Task")" title="@Localization.CloudERP.Miscellaneous.TasksList">
+                                            <a href="@Url.Action("Index", "Task")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.TasksList">
                                                 <em class="bi bi-list-task h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.TasksList)</span>
+                                                <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.TasksList)</span>
                                             </a>
                                         </li>
                                         <li class="nav-heading ">
-                                            <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Miscellaneous.SubBranchs</span>
+                                            <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.SubBranchs</span>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Index", "Branch")" title="@Localization.CloudERP.Miscellaneous.Branches">
+                                            <a href="@Url.Action("Index", "Branch")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Branches">
                                                 <em class="bi bi-diagram-2 h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.Branches)</span>
+                                                <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Branches)</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("SubBranchUser", "User")" title="@Localization.CloudERP.Miscellaneous.Users">
+                                            <a href="@Url.Action("SubBranchUser", "User")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Users">
                                                 <em class="bi bi-person-fill h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.Users)</span>
+                                                <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Users)</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("BranchesMap", "Branch")" title="Branches Map">
+                                            <a href="@Url.Action("BranchesMap", "Branch")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.BranchesMap">
                                                 <em class="bi bi-compass h4 mb-0"></em>
-                                                <span class="align-middle">Branches Map</span>
+                                                <span class="align-middle">@Html.Raw(@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.BranchesMap)</span>
                                             </a>
                                         </li>
 
@@ -341,131 +342,131 @@
                                         if (branchTypeID == 1)
                                         {
                                             <li>
-                                                <a href="@Url.Action("Index", "EmployeeStatistics")" title="@Localization.CloudERP.Miscellaneous.EmployeeStatistics">
+                                                <a href="@Url.Action("Index", "EmployeeStatistics")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.EmployeeStatistics">
                                                     <em class="bi bi-bar-chart-fill h4 mb-0"></em>
-                                                    <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.EmployeeStatistics)</span>
+                                                    <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.EmployeeStatistics)</span>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="@Url.Action("AssignTask", "Task")" title="@Localization.CloudERP.Miscellaneous.TasksAssigment">
+                                                <a href="@Url.Action("AssignTask", "Task")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.TasksAssigment">
                                                     <em class="bi bi bi-person-fill-check h4 mb-0"></em>
-                                                    <span class="align-middle">Tasks Assigment</span>
+                                                    <span class="align-middle">@Html.Raw(@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.TasksAssigment)</span>
                                                 </a>
                                             </li>
                                             <li class="nav-heading ">
-                                                <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Miscellaneous.Guide</span>
+                                                <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Guide</span>
                                             </li>
                                             <li>
-                                                <a href="@Url.Action("MainBranchEmployeeGuide", "Guide")" title="@Localization.CloudERP.Miscellaneous.MainEmployeeGuide">
+                                                <a href="@Url.Action("MainBranchEmployeeGuide", "Guide")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Guide">
                                                     <em class="bi bi-info-circle h4 mb-0"></em>
-                                                    <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.MainEmployeeGuide)</span>
+                                                    <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Guide)</span>
                                                 </a>
                                             </li>
                                             <li class="nav-heading ">
-                                                <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Miscellaneous.Branchs</span>
+                                                <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Branchs</span>
                                             </li>
                                             <li>
-                                                <a href="@Url.Action("Create", "Branch")" title="@Localization.CloudERP.Miscellaneous.NewBranch">
+                                                <a href="@Url.Action("Create", "Branch")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.NewBranch">
                                                     <em class="bi bi-diagram-2 h4 mb-0"></em>
-                                                    <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.NewBranch)</span>
+                                                    <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.NewBranch)</span>
                                                 </a>
                                             </li>
                                             <li class="nav-heading ">
-                                                <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Miscellaneous.Employees</span>
+                                                <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Employees</span>
                                             </li>
                                             <li>
-                                                <a href="@Url.Action("Employee", "BranchEmployee")" title="@Localization.CloudERP.Miscellaneous.EmployeeRegistration">
+                                                <a href="@Url.Action("Employee", "BranchEmployee")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.EmployeeRegistration">
                                                     <em class="bi bi-person-add h4 mb-0"></em>
-                                                    <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.EmployeeRegistration)</span>
+                                                    <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.EmployeeRegistration)</span>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="@Url.Action("EmployeeSalary", "CompanyEmployee")" title="@Localization.CloudERP.Miscellaneous.Payroll">
+                                                <a href="@Url.Action("EmployeeSalary", "CompanyEmployee")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Payroll">
                                                     <em class="bi bi-coin h4 mb-0"></em>
-                                                    <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.Payroll)</span>
+                                                    <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Payroll)</span>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="@Url.Action("SalaryHistory", "CompanyEmployee")" title="@Localization.CloudERP.Miscellaneous.PaidSalariesHistory">
+                                                <a href="@Url.Action("SalaryHistory", "CompanyEmployee")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.PaidSalariesHistory">
                                                     <em class="bi bi-cash-stack h4 mb-0"></em>
-                                                    <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.PaidSalariesHistory)</span>
+                                                    <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.PaidSalariesHistory)</span>
                                                 </a>
                                             </li>
                                         }
                                         if (branchTypeID > 1)
                                         {
                                             <li class="nav-heading ">
-                                                <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Miscellaneous.Guide</span>
+                                                <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Guide</span>
                                             </li>
                                             <li>
-                                                <a href="@Url.Action("EmployeeGuide", "Guide")" title="Employee Guide">
+                                                <a href="@Url.Action("EmployeeGuide", "Guide")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Guide">
                                                     <em class="bi bi-info-circle h4 mb-0"></em>
-                                                    <span class="align-middle">Employee Guide</span>
+                                                    <span class="align-middle">@Html.Raw(@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Guide)</span>
                                                 </a>
                                             </li>
                                             <li class="nav-heading ">
-                                                <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Miscellaneous.Employees</span>
+                                                <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Employees</span>
                                             </li>
                                             <li>
-                                                <a href="@Url.Action("Employee", "BranchEmployee")" title="@Localization.CloudERP.Miscellaneous.EmployeeRegistration">
+                                                <a href="@Url.Action("Employee", "BranchEmployee")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.EmployeeRegistration">
                                                     <em class="bi bi-person-add h4 mb-0"></em>
-                                                    <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.EmployeeRegistration)</span>
+                                                    <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.EmployeeRegistration)</span>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="@Url.Action("EmployeeSalary", "CompanyEmployee")" title="@Localization.CloudERP.Miscellaneous.Payroll">
+                                                <a href="@Url.Action("EmployeeSalary", "CompanyEmployee")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Payroll">
                                                     <em class="bi bi-coin h4 mb-0"></em>
-                                                    <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.Payroll)</span>
+                                                    <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Payroll)</span>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="@Url.Action("SalaryHistory", "CompanyEmployee")" title="@Localization.CloudERP.Miscellaneous.PaidSalariesHistory">
+                                                <a href="@Url.Action("SalaryHistory", "CompanyEmployee")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.PaidSalariesHistory">
                                                     <em class="bi bi-cash-stack h4 mb-0"></em>
-                                                    <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.PaidSalariesHistory)</span>
+                                                    <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.PaidSalariesHistory)</span>
                                                 </a>
                                             </li>
                                         }
                                         <li class="nav-heading ">
-                                            <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Miscellaneous.Stocks</span>
+                                            <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Stocks</span>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Index", "Category")" title="@Localization.CloudERP.Miscellaneous.StockCategories">
+                                            <a href="@Url.Action("Index", "Category")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.StockCategories">
                                                 <em class="bi bi-inboxes-fill h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.StockCategories)</span>
+                                                <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.StockCategories)</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("Index", "Stock")" title="@Localization.CloudERP.Miscellaneous.StockDetails">
+                                            <a href="@Url.Action("Index", "Stock")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.StockDetails">
                                                 <em class="bi bi-boxes h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.StockDetails)</span>
+                                                <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.StockDetails)</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="@Url.Action("ProductQuality", "Stock")" title="Product Quality">
+                                            <a href="@Url.Action("ProductQuality", "Stock")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.ProductQuality">
                                                 <em class="bi bi-battery-half h4 mb-0"></em>
-                                                <span class="align-middle">Product Quality</span>
+                                                <span class="align-middle">@Html.Raw(@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.ProductQuality)</span>
                                             </a>
                                         </li>
                                     }
                                     <li class="nav-heading ">
-                                        <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Miscellaneous.AccountSettings</span>
+                                        <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.AccountSettings</span>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("Index", "AccountControl")" title="@Localization.CloudERP.Miscellaneous.AccountControls">
+                                        <a href="@Url.Action("Index", "AccountControl")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.AccountControls">
                                             <em class="bi bi-gear-wide h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.AccountControls)</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.AccountControls)</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("Index", "AccountSubControl")" title="@Localization.CloudERP.Miscellaneous.AccountSubControls">
+                                        <a href="@Url.Action("Index", "AccountSubControl")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.AccountSubControls">
                                             <em class="bi bi-gear-wide-connected h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.AccountSubControls)</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.AccountSubControls)</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("Index", "AccountSetting")" title="@Localization.CloudERP.Miscellaneous.AccountFlow">
+                                        <a href="@Url.Action("Index", "AccountSetting")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.AccountFlow">
                                             <em class="bi bi-person-lines-fill h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.AccountFlow)</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.AccountFlow)</span>
                                         </a>
                                     </li>
                                 }
@@ -473,229 +474,229 @@
                                 if (userType == 1)
                                 {
                                     <li class="nav-heading ">
-                                        <span>@Html.Raw(Localization.CloudERP.Miscellaneous.FinancialYear))</span>
+                                        <span>@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.FinancialYear)</span>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("Index", "FinancialYear")" title="@Localization.CloudERP.Miscellaneous.FinancialYear">
+                                        <a href="@Url.Action("Index", "FinancialYear")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.FinancialYear">
                                             <em class="bi bi-cash h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.FinancialYear)</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.FinancialYear)</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("Create", "FinancialYear")" title="New Financial Year">
+                                        <a href="@Url.Action("Create", "FinancialYear")" title="@Localization.CloudERP.Modules.Financial.Financial.NewFinancialYear">
                                             <em class="bi bi-cash-coin h4 mb-0"></em>
-                                            <span class="align-middle">New Financial Year</span>
+                                            <span class="align-middle">@Html.Raw(@Localization.CloudERP.Modules.Financial.Financial.NewFinancialYear)</span>
                                         </a>
                                     </li>
                                 }
                                 if (userType == 2)
                                 {
                                     <li class="nav-heading ">
-                                        <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Miscellaneous.FinancialYear</span>
+                                        <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.FinancialYear</span>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("Index", "FinancialYearView")" title="@Localization.CloudERP.Miscellaneous.AllFinancialYears">
+                                        <a href="@Url.Action("Index", "FinancialYearView")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.AllFinancialYears">
                                             <em class="bi bi-calendar3 h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.AllFinancialYears)</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.AllFinancialYears)</span>
                                         </a>
                                     </li>
                                 }
                                 <li class="nav-heading ">
-                                    <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Miscellaneous.Customers</span>
+                                    <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Customers</span>
                                 </li>
                                 if (userType == 2)
                                 {
                                     <li>
-                                        <a href="@Url.Action("Create", "Customer")" title="@Localization.CloudERP.Miscellaneous.NewCustomer">
+                                        <a href="@Url.Action("Create", "Customer")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.NewCustomer">
                                             <em class="bi bi-person-fill-add h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.NewCustomer)</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.NewCustomer)</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("Index", "Customer")" title="@Localization.CloudERP.Miscellaneous.BranchCustomers">
+                                        <a href="@Url.Action("Index", "Customer")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.BranchCustomers">
                                             <em class="bi bi-cart h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.BranchCustomers)</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.BranchCustomers)</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("SubBranchCustomer", "Customer")" title="@Localization.CloudERP.Miscellaneous.SubBranchCustomersNavlink">
+                                        <a href="@Url.Action("SubBranchCustomer", "Customer")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.SubBranchCustomersNavlink">
                                             <em class="bi bi-cart-check h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.SubBranchCustomersNavlink)</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.SubBranchCustomersNavlink)</span>
                                         </a>
                                     </li>
                                     <li class="nav-heading ">
-                                        <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Miscellaneous.Sales</span>
+                                        <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Sales</span>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("NewSale", "SaleCart")" title="@Localization.CloudERP.Miscellaneous.NewSale">
+                                        <a href="@Url.Action("NewSale", "SaleCart")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.NewSale">
                                             <em class="bi bi-bag-plus h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.NewSale)</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.NewSale)</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("RemainingPaymentList", "SalePayment")" title="@Localization.CloudERP.Miscellaneous.SalePendingPayment">
+                                        <a href="@Url.Action("RemainingPaymentList", "SalePayment")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.SalePendingPayment">
                                             <em class="bi bi-paypal h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.SalePendingPayment)</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.SalePendingPayment)</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("CustomSalesHistory", "SalePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now })" title="@Localization.CloudERP.Miscellaneous.AllSales">
+                                        <a href="@Url.Action("CustomSalesHistory", "SalePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now })" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.AllSales">
                                             <em class="bi bi-card-checklist h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.AllSales)</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.AllSales)</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("FindSale", "SaleReturn")" title="@Localization.CloudERP.Miscellaneous.SaleReturn">
+                                        <a href="@Url.Action("FindSale", "SaleReturn")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.SaleReturn">
                                             <em class="bi bi-bag-dash h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.SaleReturn)</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.SaleReturn)</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("AllReturnSalesPendingAmount", "SalePaymentReturn")" title="@Localization.CloudERP.Miscellaneous.ReturnSalesPendingAmount">
+                                        <a href="@Url.Action("AllReturnSalesPendingAmount", "SalePaymentReturn")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.ReturnSalesPendingAmount">
                                             <em class="bi bi-wallet-fill h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.ReturnSalesPendingAmount)</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.ReturnSalesPendingAmount)</span>
                                         </a>
                                     </li>
                                 }
                                 if (userType == 1)
                                 {
                                     <li>
-                                        <a href="@Url.Action("AllCustomers", "Customer")" title="@Localization.CloudERP.Miscellaneous.AllCustomers">
+                                        <a href="@Url.Action("AllCustomers", "Customer")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.AllCustomers">
                                             <em class="bi bi-cart h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.AllCustomers)</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.AllCustomers)</span>
                                         </a>
                                     </li>
                                 }
                                 <li class="nav-heading ">
-                                    <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Miscellaneous.Suppliers</span>
+                                    <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Suppliers</span>
                                 </li>
                                 if (userType == 2)
                                 {
                                     <li>
-                                        <a href="@Url.Action("Create", "Supplier")" title="@Localization.CloudERP.Miscellaneous.NewSupplier">
+                                        <a href="@Url.Action("Create", "Supplier")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.NewSupplier">
                                             <em class="bi bi-umbrella h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.NewSupplier)</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.NewSupplier)</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("Index", "Supplier")" title="Branch Suppliers">
+                                        <a href="@Url.Action("Index", "Supplier")" title="@Localization.CloudERP.Modules.Supplier.Supplier.BranchSuppliers">
                                             <em class="bi bi-truck h4 mb-0"></em>
-                                            <span class="align-middle">Branch Suppliers</span>
+                                            <span class="align-middle">@Html.Raw(@Localization.CloudERP.Modules.Supplier.Supplier.BranchSuppliers)</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("SubBranchSupplier", "Supplier")" title="Sub Branch Suppliers">
+                                        <a href="@Url.Action("SubBranchSupplier", "Supplier")" title="@Localization.CloudERP.Modules.Supplier.Supplier.SubBranchSuppliers">
                                             <em class="bi bi-truck-front h4 mb-0"></em>
-                                            <span class="align-middle">Sub Branch Suppliers</span>
+                                            <span class="align-middle">@Html.Raw(@Localization.CloudERP.Modules.Supplier.Supplier.SubBranchSuppliers)</span>
                                         </a>
                                     </li>
                                     <li class="nav-heading ">
-                                        <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Miscellaneous.Purchases</span>
+                                        <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Purchases</span>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("NewPurchase", "PurchaseCart")" title="@Localization.CloudERP.Miscellaneous.NewPurchase">
+                                        <a href="@Url.Action("NewPurchase", "PurchaseCart")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.NewPurchase">
                                             <em class="bi bi-cart-plus h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.NewPurchase)</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.NewPurchase)</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("RemainingPaymentList", "PurchasePayment")" title="@Localization.CloudERP.Miscellaneous.PurchasePendingPayment">
+                                        <a href="@Url.Action("RemainingPaymentList", "PurchasePayment")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.PurchasePendingPayment">
                                             <em class="bi bi-currency-dollar h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.PurchasePendingPayment)</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.PurchasePendingPayment)</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("CustomPurchasesHistory", "PurchasePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now })" title="@Localization.CloudERP.Miscellaneous.AllPurchases">
+                                        <a href="@Url.Action("CustomPurchasesHistory", "PurchasePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now })" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.AllPurchases">
                                             <em class="bi bi-cart h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.AllPurchases)</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.AllPurchases)</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("FindPurchase", "PurchaseReturn")" title="@Localization.CloudERP.Miscellaneous.PurchasesReturn">
+                                        <a href="@Url.Action("FindPurchase", "PurchaseReturn")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.PurchasesReturn">
                                             <em class="bi bi-cart-dash h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.PurchasesReturn)</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.PurchasesReturn)</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("AllPurchasesPendingPayment", "PurchasePaymentReturn")" title="@Localization.CloudERP.Miscellaneous.ReturnPaymentPending">
+                                        <a href="@Url.Action("AllPurchasesPendingPayment", "PurchasePaymentReturn")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.ReturnPaymentPending">
                                             <em class="bi bi-currency-dollar h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.ReturnPaymentPending)</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.ReturnPaymentPending)</span>
                                         </a>
                                     </li>
                                     <li class="nav-heading ">
-                                        <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Miscellaneous.Transactions</span>
+                                        <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Transactions</span>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("GeneralTransaction", "GeneralTransaction", new { transaction = new CloudERP.Models.GeneralTransactionMV() { CreditAccountControlID = 0, DebitAccountControlID = 0, TransferAmount = 0 } })" title="@Localization.CloudERP.Miscellaneous.GeneralTransaction">
+                                        <a href="@Url.Action("GeneralTransaction", "GeneralTransaction", new { transaction = new CloudERP.Models.GeneralTransactionMV() { CreditAccountControlID = 0, DebitAccountControlID = 0, TransferAmount = 0 } })" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.GeneralTransaction">
                                             <em class="bi bi-briefcase h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.GeneralTransaction)</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.GeneralTransaction)</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("Journal", "GeneralTransaction")" title="@Localization.CloudERP.Miscellaneous.Journal">
+                                        <a href="@Url.Action("Journal", "GeneralTransaction")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Journal">
                                             <em class="bi bi-journal-bookmark h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.Journal)</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Journal)</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("GetLedger", "Ledger")" title="@Localization.CloudERP.Miscellaneous.AccountsLedger">
+                                        <a href="@Url.Action("GetLedger", "Ledger")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.AccountsLedger">
                                             <em class="bi bi-book-half h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.AccountsLedger)</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.AccountsLedger)</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("GetTrialBalance", "TrialBalance")" title="@Localization.CloudERP.Miscellaneous.TrialBalance">
+                                        <a href="@Url.Action("GetTrialBalance", "TrialBalance")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.TrialBalance">
                                             <em class="bi bi-currency-dollar h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.TrialBalance)</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.TrialBalance)</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("GetIncomeStatement", "IncomeStatement")" title="@Localization.CloudERP.Miscellaneous.IncomeStatement">
+                                        <a href="@Url.Action("GetIncomeStatement", "IncomeStatement")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.IncomeStatement">
                                             <em class="bi bi-currency-exchange h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.IncomeStatement)</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.IncomeStatement)</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("GetBalanceSheet", "BalanceSheet")" title="@Localization.CloudERP.Miscellaneous.BalanceSheet">
+                                        <a href="@Url.Action("GetBalanceSheet", "BalanceSheet")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.BalanceSheet">
                                             <em class="bi bi-file-earmark-spreadsheet h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.BalanceSheet)</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.BalanceSheet)</span>
                                         </a>
                                     </li>
                                 }
                                 if (userType == 1)
                                 {
                                     <li>
-                                        <a href="@Url.Action("AllSuppliers", "Supplier")" title="@Localization.CloudERP.Supplier.AllSuppliers">
+                                        <a href="@Url.Action("AllSuppliers", "Supplier")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.AllSuppliers">
                                             <em class="bi bi-minecart-loaded h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Supplier.AllSuppliers)</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.AllSuppliers)</span>
                                         </a>
                                     </li>
                                 }
                                 <li class="nav-heading ">
-                                    <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Miscellaneous.License</span>
+                                    <span data-localize="sidebar.heading.COMPONENTS">@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.License</span>
                                 </li>
                                 if (userType == 1)
                                 {
                                     <li>
-                                        <a href="@Url.Action("AdminList", "Support")" title="@Localization.CloudERP.Miscellaneous.TicketList">
+                                        <a href="@Url.Action("AdminList", "Support")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.TicketList">
                                             <em class="bi bi-hammer h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.TicketList)</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.TicketList)</span>
                                         </a>
                                     </li>
                                 }
                                 if (userType == 2)
                                 {
                                     <li>
-                                        <a href="@Url.Action("Support", "Support")" title="@Localization.CloudERP.Miscellaneous.Support">
+                                        <a href="@Url.Action("Support", "Support")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Support">
                                             <em class="bi bi-hammer h4 mb-0"></em>
-                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.Support))</span>
+                                            <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Support))</span>
                                         </a>
                                     </li>
                                 }
                                 <li>
-                                    <a href="@Url.Action("PrivacyPolicy", "Guide")" title="@Localization.CloudERP.Miscellaneous.PrivacyPolicy">
+                                    <a href="@Url.Action("PrivacyPolicy", "Guide")" title="@Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.PrivacyPolicy">
                                         <em class="bi bi-sourceforge h4 mb-0"></em>
-                                        <span class="align-middle">@Html.Raw(Localization.CloudERP.Miscellaneous.PrivacyPolicy)</span>
+                                        <span class="align-middle">@Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.PrivacyPolicy)</span>
                                     </a>
                                 </li>
                             }

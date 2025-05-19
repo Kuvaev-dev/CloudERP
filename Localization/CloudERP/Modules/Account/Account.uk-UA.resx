@@ -228,20 +228,11 @@
   <data name="UserTypeID" xml:space="preserve">
     <value>Тип користувача</value>
   </data>
-  <data name="FullName" xml:space="preserve">
-    <value>Повне ім'я</value>
-  </data>
   <data name="ContactNo" xml:space="preserve">
     <value>Номер телефону</value>
   </data>
   <data name="UserName" xml:space="preserve">
     <value>Ім'я користувача</value>
-  </data>
-  <data name="Password" xml:space="preserve">
-    <value>Пароль</value>
-  </data>
-  <data name="UpdateUser" xml:space="preserve">
-    <value>Оновити користувача</value>
   </data>
   <data name="NewUserTypeID" xml:space="preserve">
     <value>Введіть новий тип користувача</value>
@@ -270,9 +261,6 @@
   <data name="AddUserType" xml:space="preserve">
     <value>Додати тип користувача</value>
   </data>
-  <data name="UserType" xml:space="preserve">
-    <value>Тип користувача</value>
-  </data>
   <data name="AddNewUserType" xml:space="preserve">
     <value>Додати новий тип користувача</value>
   </data>
@@ -286,6 +274,15 @@
     <value>Ви впевнені, що хочете видалити цей тип користувача?</value>
   </data>
   <data name="AccountHeadTitle" xml:space="preserve">
-    <value>Назва головного рахунку</value>
+    <value>Головний рахунок</value>
+  </data>
+  <data name="AddAccountActivity" xml:space="preserve">
+    <value>Додати активність рахунку</value>
+  </data>
+  <data name="AccountControlName" xml:space="preserve">
+    <value>Назва контрольного рахунку</value>
+  </data>
+  <data name="EditAccountingFlow" xml:space="preserve">
+    <value>Редагувати обліковий потік</value>
   </data>
 </root>

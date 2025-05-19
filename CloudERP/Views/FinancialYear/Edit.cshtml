@@ -1,8 +1,9 @@
 ﻿@model Domain.Models.FinancialYear
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
-
+@using Localization.CloudERP.Modules.Financial
+@using Localization.CloudERP.Common
 @{
-    ViewBag.Title = Localization.CloudERP.Financial.EditFinancialYear;
+    ViewBag.Title = Financial.EditFinancialYear;
 }
 
 <script>
@@ -22,7 +23,7 @@
         @Html.HiddenFor(model => model.FinancialYearID)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.FinancialYearName, Localization.CloudERP.Financial.EnterFinancialYearTitle, htmlAttributes: new { @class = "control-label col-md-4" })
+            @Html.LabelFor(model => model.FinancialYearName, Financial.EnterFinancialYearTitle, htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.FinancialYearName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.FinancialYearName, "", new { @class = "text-danger" })
@@ -30,7 +31,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.StartDate, Localization.CloudERP.Financial.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.StartDate, Financial.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
@@ -38,7 +39,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.EndDate, Localization.CloudERP.Financial.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.EndDate, Financial.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
@@ -46,7 +47,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.IsActive, Localization.CloudERP.Financial.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.IsActive, Localization.CloudERP.Modules.User.User.Status, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.IsActive, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
@@ -55,8 +56,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="@Localization.CloudERP.Common.Save" class="btn btn-success" />
-                @Html.ActionLink(Localization.CloudERP.Common.BackToList, "Index", null, new { @class = "btn btn-default" })
+                <input type="submit" value="@Common.Save" class="btn btn-success" />
+                @Html.ActionLink(Common.BackToList, "Index", null, new { @class = "btn btn-default" })
                 <button id="voiceRecognitionButton" class="btn btn-link" type="button">
                     <i class="fas fa-microphone" style="font-size: 1.5em; color: gray;"></i>
                 </button>

@@ -1,8 +1,12 @@
 ﻿@model IEnumerable<Domain.Models.PurchaseInfo>
-
+@using Localization.CloudERP.Modules.Purchase
+@using Localization.CloudERP.Modules.Sale
+@using Localization.CloudERP.Modules.Miscellaneous
+@using Localization.CloudERP.Modules.Supplier
+@using Localization.CloudERP.Common
 @{
     double remainingBalance = 0;
-    ViewBag.Title = Localization.CloudERP.Purchase.PurchasePaidDetails;
+    ViewBag.Title = Purchase.PurchasePaidDetails;
 }
 
 <!-- Tables Sorting-->
@@ -18,7 +22,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        <h4 style="float:left;">@Localization.CloudERP.Purchase.PurchaseInvoicePaymentDetail</h4>
+        <h4 style="float:left;">@Purchase.PurchaseInvoicePaymentDetail</h4>
     </div>
     <div class="card-body">
         <div class="table-responsive bootgrid">
@@ -26,25 +30,25 @@
                 <thead>
                     <tr>
                         <th>
-                            @Localization.CloudERP.Supplier.SupplierName
+                            @Supplier.SupplierName
                         </th>
                         <th>
-                            @Localization.CloudERP.User.ContactNo
+                            @Localization.CloudERP.Modules.User.User.ContactNo
                         </th>
                         <th>
-                            @Localization.CloudERP.Miscellaneous.InvoiceNo
+                            @Miscellaneous.InvoiceNo
                         </th>
                         <th>
-                            @Localization.CloudERP.Miscellaneous.Date
+                            @Miscellaneous.Date
                         </th>
                         <th>
-                            @Localization.CloudERP.Sale.TotalAmount
+                            @Sale.TotalAmount
                         </th>
                         <th>
-                            @Localization.CloudERP.Sale.PaidAmount
+                            @Sale.PaidAmount
                         </th>
                         <th>
-                            @Localization.CloudERP.Sale.RemainingBalance
+                            @Sale.RemainingBalance
                         </th>
                     </tr>
                 </thead>
@@ -87,7 +91,7 @@
 
     if (ViewData["ReturnPurchaseDetails"] != null)
     {
-        <h3>@Localization.CloudERP.Purchase.PurchaseReturnDetails</h3>
+        <h3>@Purchase.PurchaseReturnDetails</h3>
         var returnPurchaseDetail = ViewData["ReturnPurchaseDetails"] as List<Domain.Models.SupplierReturnInvoice>;
         foreach (Domain.Models.SupplierReturnInvoice item in returnPurchaseDetail)
         {
@@ -107,7 +111,7 @@
                                         <div class="row">
                                             <div class="col-md-2">
                                                 <div>
-                                                    <b>@Localization.CloudERP.Sale.Supplier</b>
+                                                    <b>@Sale.Supplier</b>
                                                     <div>
                                                         @item.SupplierName
                                                     </div>
@@ -115,7 +119,7 @@
                                             </div>
                                             <div class="col-md-2">
                                                 <div>
-                                                    <b>@Localization.CloudERP.Sale.InvoiceDate</b>
+                                                    <b>@Sale.InvoiceDate</b>
                                                     <div>
                                                         @item.InvoiceDate
                                                     </div>
@@ -123,7 +127,7 @@
                                             </div>
                                             <div class="col-md-2">
                                                 <div>
-                                                    <b>@Localization.CloudERP.Miscellaneous.InvoiceNo</b>
+                                                    <b>@Miscellaneous.InvoiceNo</b>
                                                     <div>
                                                         @item.InvoiceNo
                                                     </div>
@@ -131,7 +135,7 @@
                                             </div>
                                             <div class="col-md-2">
                                                 <div>
-                                                    <b>@Localization.CloudERP.Sale.ReturnTotal</b>
+                                                    <b>@Sale.ReturnTotal</b>
                                                     <div>
                                                         @item.TotalAmount
                                                     </div>
@@ -139,7 +143,7 @@
                                             </div>
                                             <div class="col-md-2">
                                                 <div>
-                                                    <b>@Localization.CloudERP.Purchase.ReturnPayment</b>
+                                                    <b>@Sale.ReturnPayment</b>
                                                     <div>
                                                         @payAmount
                                                     </div>
@@ -147,7 +151,7 @@
                                             </div>
                                             <div class="col-md-2">
                                                 <div>
-                                                    <b>@Localization.CloudERP.Purchase.RemainingReturn</b>
+                                                    <b>@Sale.RemainingReturn</b>
                                                     <div>
                                                         @invoiceRemainingBalance
                                                     </div>
@@ -166,19 +170,19 @@
                                                 <thead>
                                                     <tr>
                                                         <th>
-                                                            @Localization.CloudERP.Miscellaneous.InvoiceNo
+                                                            @Miscellaneous.InvoiceNo
                                                         </th>
                                                         <th>
-                                                            @Localization.CloudERP.Purchase.PaymentDate
+                                                            @Sale.PaymentDate
                                                         </th>
                                                         <th>
-                                                            @Localization.CloudERP.Sale.TotalAmount
+                                                            @Sale.TotalAmount
                                                         </th>
                                                         <th>
-                                                            @Localization.CloudERP.Purchase.PaymentAmount
+                                                            @Sale.PaymentAmount
                                                         </th>
                                                         <th>
-                                                            @Localization.CloudERP.Sale.RemainingBalance
+                                                            @Sale.RemainingBalance
                                                         </th>
                                                     </tr>
                                                 </thead>
@@ -209,7 +213,7 @@
                                         else
                                         {
                                             <div class="text-center">
-                                                @Localization.CloudERP.Sale.NoPaymentRecord
+                                                @Sale.NoPaymentRecord
                                             </div>
                                         }
                                     </div>
@@ -231,7 +235,7 @@
     <div class="col-lg-6 py-2">
         <div class="row mb-3 align-items-center">
             <div class="col-7">
-                <div class="h3">@Localization.CloudERP.Purchase.RemainingTotalBalance: </div>
+                <div class="h3">@Purchase.RemainingTotalBalance: </div>
             </div>
             <div class="col-5">
                 <div id="previousRemainingAmounts" class="text-left h3">@remainingBalance.ToString("F2")</div>

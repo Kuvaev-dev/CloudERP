@@ -1,8 +1,10 @@
 ﻿@model Domain.Models.AccountActivity
+@using Localization.CloudERP.Modules.Account
+@using Localization.CloudERP.Common
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
-    ViewBag.Title = Localization.CloudERP.Account.NewAccountActivity;
+    ViewBag.Title = Account.NewAccountActivity;
 }
 
 <script>
@@ -21,7 +23,7 @@
         <h2 class="text-danger">@ViewBag.ErrorMessage</h2>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Name, Localization.CloudERP.Account.AccountActivityName, htmlAttributes: new { @class = "control-label col-md-4" })
+            @Html.LabelFor(model => model.Name, Account.AccountActivityName, htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
@@ -30,8 +32,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-5">
-                <input type="submit" value="@Localization.CloudERP.Common.Save" class="btn btn-success" />
-                @Html.ActionLink(Localization.CloudERP.Common.BackToList, "Index", null, new { @class = "btn btn-default" })
+                <input type="submit" value="@Common.Save" class="btn btn-success" />
+                @Html.ActionLink(Common.BackToList, "Index", null, new { @class = "btn btn-default" })
                 <button id="voiceRecognitionButton" class="btn btn-link" type="button">
                     <i class="fas fa-microphone" style="font-size: 1.5em; color: gray;"></i>
                 </button>

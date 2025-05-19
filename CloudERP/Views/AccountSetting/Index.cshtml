@@ -1,8 +1,10 @@
 ﻿@model IEnumerable<Domain.Models.AccountSetting>
+@using Localization.CloudERP.Modules.Account
+@using Localization.CloudERP.Common
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
-    ViewBag.Title = Localization.CloudERP.Account.SetAccountingFlow;
+    ViewBag.Title = Account.SetAccountingFlow;
 }
 
 <!-- Tables Sorting-->
@@ -18,7 +20,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        @Html.ActionLink(Localization.CloudERP.Account.SetAccountingFlow, "Create", "AccountSetting", null, new { @style = "float:left;", @class = "btn btn-success" })
+        @Html.ActionLink(Account.SetAccountingFlow, "Create", "AccountSetting", null, new { @style = "float:left;", @class = "btn btn-success" })
         <h2 class="text-danger">@ViewBag.Message</h2>
         <h2 class="text-danger">@ViewBag.ErrorMessage</h2>
     </div>
@@ -28,22 +30,22 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Account.Activity)
+                            @Html.Raw(Account.Activity)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Account.HeadAccount)
+                            @Html.Raw(Account.HeadAccount)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Account.ControlAccount)
+                            @Html.Raw(Account.ControlAccount)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Account.SubAccount)
+                            @Html.Raw(Account.SubAccount)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.User.FullName)
+                            @Html.Raw(Localization.CloudERP.Modules.User.User.FullName)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Common.Actions)
+                            @Html.Raw(Common.Actions)
                         </th>
                     </tr>
                 </thead>
@@ -69,12 +71,12 @@
                             <td>
                                 @if (!item.IsGlobal || HttpContextAccessor.HttpContext?.Session.GetInt32("UserTypeID") == 1)
                                 {
-                                    @Html.ActionLink(Localization.CloudERP.Common.Edit, "Edit", new { id = item.AccountSettingID }, new { @class = "btn btn-primary" })
+                                    @Html.ActionLink(Common.Edit, "Edit", new { id = item.AccountSettingID }, new { @class = "btn btn-primary" })
                                 }
                                 else
                                 {
                                     <i class="bi bi-ban"></i>
-                                    <label class="text-danger"><b>&nbsp;@Localization.CloudERP.Common.NotAvaliable</b></label>
+                                    <label class="text-danger"><b>&nbsp;@Common.NotAvaliable</b></label>
                                 }
                             </td>
                         </tr>

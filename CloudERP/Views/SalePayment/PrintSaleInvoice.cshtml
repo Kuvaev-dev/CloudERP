@@ -1,4 +1,8 @@
 ﻿@model CloudERP.Models.SaleInvoiceMV
+@using Localization.CloudERP.Modules.Sale
+@using Localization.CloudERP.Modules.Branch
+@using Localization.CloudERP.Modules.Miscellaneous
+@using Localization.CloudERP.Common
 @{
     Layout = null;
 }
@@ -6,7 +10,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>@Localization.CloudERP.Sale.SaleInvoice</title>
+    <title>@Sale.SaleInvoice</title>
     <link rel="stylesheet" href="~/Template/css/bootstrap.css">
     <link rel="stylesheet" href="~/Template/css/app.css">
     <link rel="stylesheet" href="~/CustomStyles/PrintInvoice.css">
@@ -15,17 +19,17 @@
     <div class="content-wrapper">
         <div class="card">
             <div class="card-body">
-                <h3>@Localization.CloudERP.Sale.SaleInvoice</h3>
+                <h3>@Sale.SaleInvoice</h3>
                 <hr>
                 <div class="row mb-3 ml-1">
                     <div class="w-auto m-3">
                         <img src="@Url.Content(Model.CustomerLogo)" class="img-fluid" style="max-width: 50px; height: auto;" />
                     </div>
                     <div class="col-md-3 col-7 br py-2">
-                        <h4>@Localization.CloudERP.Sale.Customer</h4>
+                        <h4>@Sale.Customer</h4>
                         <hr />
                         <h4>@Model.CustomerName</h4>
-                        <h5>@Localization.CloudERP.User.ContactNo: @Model.CustomerContact</h5>
+                        <h5>@Localization.CloudERP.Modules.User.User.ContactNo: @Model.CustomerContact</h5>
                         <address>@Model.CustomerArea</address>
                         <h4>@Model.CompanyName</h4>
                     </div>
@@ -33,30 +37,30 @@
                         <img src="@Url.Content(Model.CompanyLogo)" class="img-fluid" style="max-width: 50px; height: auto;" />
                     </div>
                     <div class="col-xl-4 col-7 br py-2">
-                        <h4>@Localization.CloudERP.Branch.BranchName</h4>
+                        <h4>@Branch.BranchName</h4>
                         <hr />
                         <h4>@Model.BranchName</h4>
-                        <h5>@Localization.CloudERP.User.ContactNo: @Model.BranchContact</h5>
+                        <h5>@Localization.CloudERP.Modules.User.User.ContactNo: @Model.BranchContact</h5>
                         <address>@Model.BranchAddress</address>
                     </div>
                     <div class="col-xl-3 col-7 py-2">
-                        <h4>@Localization.CloudERP.Miscellaneous.Date</h4>
+                        <h4>@Miscellaneous.Date</h4>
                         <hr />
-                        <p>@Localization.CloudERP.Sale.InvoiceNo: @Model.InvoiceNo</p>
-                        <p>@Localization.CloudERP.Sale.InvoiceDate: @Model.InvoiceDate</p>
-                        <p>@Localization.CloudERP.Sale.PrintDate: @DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt")</p>
+                        <p>@Miscellaneous.InvoiceNo: @Model.InvoiceNo</p>
+                        <p>@Sale.InvoiceDate: @Model.InvoiceDate</p>
+                        <p>@Miscellaneous.PrintDate: @DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt")</p>
                     </div>
                 </div>
-                <h4>@Localization.CloudERP.Sale.SaleProductsDetail</h4>
+                <h4>@Sale.SaleProductsDetail</h4>
                 <hr />
                 <div class="table-responsive table-bordered mb-3">
                     <table class="table">
                         <thead>
                             <tr>
                                 <th>№</th>
-                                <th>@Localization.CloudERP.Sale.Quantity</th>
-                                <th>@Localization.CloudERP.Sale.UnitPrice</th>
-                                <th>@Localization.CloudERP.Sale.TotalAmount</th>
+                                <th>@Sale.Quantity</th>
+                                <th>@Sale.UnitPrice</th>
+                                <th>@Sale.TotalAmount</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -78,10 +82,10 @@
                     <div class="col-lg-6 py-2">
                         <div class="row mb-3 align-items-center">
                             <div class="col-7">
-                                <div class="h3">@Localization.CloudERP.Sale.GRANDTOTAL</div>
+                                <div class="h3">@Sale.GRANDTOTAL</div>
                             </div>
                             <div class="col-5">
-                                <div class="text-right h3">@Model.TotalCost.ToString("F2") @Html.Raw(Localization.CloudERP.Common.UAH)</div>
+                                <div class="text-right h3">@Model.TotalCost.ToString("F2") @Html.Raw(Common.UAH)</div>
                             </div>
                         </div>
                     </div>
@@ -90,13 +94,13 @@
                 @foreach (var returnInvoice in Model.ReturnInvoices)
                 {
                     <div class="d-flex align-items-center">
-                        <h3>@Localization.CloudERP.Sale.SaleReturnInvoice</h3>
+                        <h3>@Sale.SaleReturnInvoice</h3>
                     </div>
                     <hr>
                     <div class="row mb-3">
                         <div class="col-xl-4 col-12 py-2">
-                            <p>@Localization.CloudERP.Sale.ReturnInvoiceNo: @returnInvoice.ReturnInvoiceNo</p>
-                            <p>@Localization.CloudERP.Sale.ReturnInvoiceDate: @returnInvoice.ReturnInvoiceDate</p>
+                            <p>@Sale.ReturnInvoiceNo: @returnInvoice.ReturnInvoiceNo</p>
+                            <p>@Sale.ReturnInvoiceDate: @returnInvoice.ReturnInvoiceDate</p>
                         </div>
                     </div>
 
@@ -105,9 +109,9 @@
                             <thead>
                                 <tr>
                                     <th>№</th>
-                                    <th>@Localization.CloudERP.Sale.Quantity</th>
-                                    <th>@Localization.CloudERP.Sale.UnitPrice</th>
-                                    <th>@Localization.CloudERP.Sale.TotalAmount</th>
+                                    <th>@Sale.Quantity</th>
+                                    <th>@Sale.UnitPrice</th>
+                                    <th>@Sale.TotalAmount</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -126,7 +130,7 @@
                 }
 
                 <hr class="d-print-none">
-                <button class="btn btn-secondary" type="button" onclick="window.print();">@Localization.CloudERP.Sale.PrintInvoice</button>
+                <button class="btn btn-secondary" type="button" onclick="window.print();">@Sale.PrintInvoice</button>
             </div>
         </div>
     </div>

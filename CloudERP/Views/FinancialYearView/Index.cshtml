@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Domain.Models.FinancialYear>
-
+@using Localization.CloudERP.Modules.Financial;
 @{
-    ViewBag.Title = Localization.CloudERP.Financial.FinancialYearTitle;
+    ViewBag.Title = Financial.FinancialYearTitle;
 }
 
 <!-- Tables Sorting-->
@@ -22,19 +22,19 @@
                 <thead>
                     <tr>
                         <th>
-                            @Localization.CloudERP.Financial.FinancialYearTitle
+                            @Financial.FinancialYearTitle
                         </th>
                         <th>
-                            @Localization.CloudERP.Financial.StartDate
+                            @Financial.StartDate
                         </th>
                         <th>
-                            @Localization.CloudERP.Financial.EndDate
+                            @Financial.EndDate
                         </th>
                         <th>
-                            @Localization.CloudERP.Miscellaneous.Status
+                            @Localization.CloudERP.Modules.User.User.Status
                         </th>
                         <th>
-                            @Localization.CloudERP.User.FullName
+                            @Localization.CloudERP.Modules.User.User.FullName
                         </th>
                     </tr>
                 </thead>

@@ -7,8 +7,8 @@ namespace Domain.Models
         [Key]
         public int CategoryID { get; set; }
 
-        [Required(ErrorMessage = "Category Name is required.")]
-        [StringLength(100, ErrorMessage = "Category Name cannot exceed 100 characters.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [StringLength(100, ErrorMessageResourceName = "StringLengthMaxValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public string? CategoryName { get; set; }
         public int BranchID { get; set; }
         public string? BranchName { get; set; }

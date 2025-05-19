@@ -1,7 +1,9 @@
 ﻿@model IEnumerable<Domain.Models.Stock>
-
+@using Localization.CloudERP.Modules.Miscellaneous
+@using Localization.CloudERP.Modules.Sale
+@using Localization.CloudERP.Common
 @{
-    ViewBag.Title = Localization.CloudERP.Miscellaneous.StockDetails;
+    ViewBag.Title = Miscellaneous.StockDetails;
 }
 
 <!-- Tables Sorting-->
@@ -17,7 +19,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        @Html.ActionLink(Localization.CloudERP.Miscellaneous.AddProduct, "Create", "Stock", null, new { @style = "float:left;", @class = "btn btn-success" })
+        @Html.ActionLink(Miscellaneous.AddProduct, "Create", "Stock", null, new { @style = "float:left;", @class = "btn btn-success" })
         <h3 class="text-danger">@ViewBag.Message</h3>
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
     </div>
@@ -27,25 +29,25 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Miscellaneous.CategoryName)
+                            @Html.Raw(Miscellaneous.CategoryName)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Miscellaneous.Items)
+                            @Html.Raw(Miscellaneous.Items)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Miscellaneous.CurrentQty)
+                            @Html.Raw(Miscellaneous.CurrentQty)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Miscellaneous.ExpiryDate)
+                            @Html.Raw(Miscellaneous.ExpiryDate)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Miscellaneous.ManufactureDate)
+                            @Html.Raw(Miscellaneous.ManufactureDate)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Miscellaneous.Status)
+                            @Html.Raw(Miscellaneous.Status)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Common.Actions)
+                            @Html.Raw(Common.Actions)
                         </th>
                     </tr>
                 </thead>
@@ -72,8 +74,8 @@
                                 @Html.DisplayFor(modelItem => item.IsActive)
                             </td>
                             <td class="d-flex btn-group">
-                                @Html.ActionLink(Localization.CloudERP.Common.Update, "Edit", new { id = item.ProductID }, new { @class = "btn btn-primary" })
-                                @Html.ActionLink(Localization.CloudERP.Miscellaneous.ItemDetail, "Details", new { id = item.ProductID }, new { @class = "btn btn-info" })
+                                @Html.ActionLink(Common.Update, "Edit", new { id = item.ProductID }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink(Miscellaneous.ItemDetail, "Details", new { id = item.ProductID }, new { @class = "btn btn-info" })
                             </td>
                         </tr>
                     }

@@ -30,7 +30,7 @@ namespace CloudERP.Controllers.User.Settings
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Ошибка при получении типов пользователей: " + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -48,7 +48,7 @@ namespace CloudERP.Controllers.User.Settings
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Ошибка при получении информации о типе пользователя: " + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -82,7 +82,7 @@ namespace CloudERP.Controllers.User.Settings
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Ошибка при создании типа пользователя: " + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -100,7 +100,7 @@ namespace CloudERP.Controllers.User.Settings
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Ошибка при получении информации о типе пользователя: " + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -125,7 +125,7 @@ namespace CloudERP.Controllers.User.Settings
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Ошибка при обновлении типа пользователя: " + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

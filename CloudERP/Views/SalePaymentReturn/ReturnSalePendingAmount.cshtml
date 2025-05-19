@@ -1,8 +1,11 @@
 ﻿@model IEnumerable<Domain.Models.SaleInfo>
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
-
+@using Localization.CloudERP.Modules.Sale
+@using Localization.CloudERP.Modules.Purchase
+@using Localization.CloudERP.Modules.Miscellaneous
+@using Localization.CloudERP.Common
 @{
-    ViewBag.Title = Localization.CloudERP.Sale.ReturnSalesAmountPending;
+    ViewBag.Title = Sale.ReturnSalesAmountPending;
 }
 
 <!-- Tables Sorting-->
@@ -27,13 +30,13 @@
             <table class="table table-striped table-bordered table-hover" id="dataTable">
                 <thead>
                     <tr>
-                        <th>@Localization.CloudERP.Miscellaneous.CustomerName</th>
-                        <th>@Localization.CloudERP.Miscellaneous.InvoiceNo</th>
-                        <th>@Localization.CloudERP.Sale.InvoiceDate</th>
-                        <th>@Localization.CloudERP.Sale.ReturnTotalAmount</th>
-                        <th>@Localization.CloudERP.Sale.ReturnPaymentAmount</th>
-                        <th>@Localization.CloudERP.Sale.RemainingBalance</th>
-                        <th>@Localization.CloudERP.Common.Actions</th>
+                        <th>@Miscellaneous.CustomerName</th>
+                        <th>@Miscellaneous.InvoiceNo</th>
+                        <th>@Sale.InvoiceDate</th>
+                        <th>@Sale.ReturnTotalAmount</th>
+                        <th>@Purchase.ReturnPaymentAmount</th>
+                        <th>@Sale.RemainingBalance</th>
+                        <th>@Common.Actions</th>
                     </tr>
                 </thead>
                 <tbody id="paymentList">
@@ -62,7 +65,7 @@
                                 @{
                                     if (item.ReturnProductAmount - 1 > item.ReturnPaymentAmount)
                                     {
-                                        Html.ActionLink(Localization.CloudERP.Sale.ReturnPayment, "ReturnAmount", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-primary" });
+                                        Html.ActionLink(Sale.ReturnPayment, "ReturnAmount", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-primary" });
                                     }
                                 }
                             </td>

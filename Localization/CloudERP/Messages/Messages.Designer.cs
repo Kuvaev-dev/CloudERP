@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Localization.CloudERP {
+namespace Localization.CloudERP.Messages {
     using System;
     
     
@@ -277,15 +277,6 @@ namespace Localization.CloudERP {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Purchase return.
-        /// </summary>
-        public static string PurchaseReturn {
-            get {
-                return ResourceManager.GetString("PurchaseReturn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Ищет локализованную строку, похожую на Record not found.
         /// </summary>
         public static string RecordNotFound {
@@ -300,24 +291,6 @@ namespace Localization.CloudERP {
         public static string RegistrationSuccessful {
             get {
                 return ResourceManager.GetString("RegistrationSuccessful", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Return successfully.
-        /// </summary>
-        public static string ReturnSuccessfully {
-            get {
-                return ResourceManager.GetString("ReturnSuccessfully", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Salary is already paid.
-        /// </summary>
-        public static string SalaryIsAlreadyPaid {
-            get {
-                return ResourceManager.GetString("SalaryIsAlreadyPaid", resourceCulture);
             }
         }
         

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Localization.CloudERP {
+namespace Localization.CloudERP.Modules.Purchase {
     using System;
     
     
@@ -97,15 +97,6 @@ namespace Localization.CloudERP {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Email.
-        /// </summary>
-        public static string Email {
-            get {
-                return ResourceManager.GetString("Email", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Ищет локализованную строку, похожую на Enter Purchase Invoice №.
         /// </summary>
         public static string EnterPurchaseInvoiceNo {
@@ -120,6 +111,15 @@ namespace Localization.CloudERP {
         public static string EnterReturnPaymentsDetails {
             get {
                 return ResourceManager.GetString("EnterReturnPaymentsDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Find Purchase.
+        /// </summary>
+        public static string FindPurchase {
+            get {
+                return ResourceManager.GetString("FindPurchase", resourceCulture);
             }
         }
         
@@ -160,29 +160,11 @@ namespace Localization.CloudERP {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Item Cost.
-        /// </summary>
-        public static string ItemCost {
-            get {
-                return ResourceManager.GetString("ItemCost", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Ищет локализованную строку, похожую на Item №.
         /// </summary>
         public static string ItemNo {
             get {
                 return ResourceManager.GetString("ItemNo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Item`s.
-        /// </summary>
-        public static string Items {
-            get {
-                return ResourceManager.GetString("Items", resourceCulture);
             }
         }
         
@@ -205,38 +187,11 @@ namespace Localization.CloudERP {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Payment Amount.
-        /// </summary>
-        public static string PaymentAmount {
-            get {
-                return ResourceManager.GetString("PaymentAmount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Payment Date.
-        /// </summary>
-        public static string PaymentDate {
-            get {
-                return ResourceManager.GetString("PaymentDate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Ищет локализованную строку, похожую на Previous Remaining Amount.
         /// </summary>
         public static string PreviousRemainingAmount {
             get {
                 return ResourceManager.GetString("PreviousRemainingAmount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Print Date.
-        /// </summary>
-        public static string PrintDate {
-            get {
-                return ResourceManager.GetString("PrintDate", resourceCulture);
             }
         }
         
@@ -255,15 +210,6 @@ namespace Localization.CloudERP {
         public static string PurchaseDetails {
             get {
                 return ResourceManager.GetString("PurchaseDetails", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Purchase Invoice.
-        /// </summary>
-        public static string PurchaseInvoice {
-            get {
-                return ResourceManager.GetString("PurchaseInvoice", resourceCulture);
             }
         }
         
@@ -322,38 +268,11 @@ namespace Localization.CloudERP {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Purchases.
-        /// </summary>
-        public static string Purchases {
-            get {
-                return ResourceManager.GetString("Purchases", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Purchase`s Payment Pending.
-        /// </summary>
-        public static string PurchasesPaymentPending {
-            get {
-                return ResourceManager.GetString("PurchasesPaymentPending", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Ищет локализованную строку, похожую на Purchasing.
         /// </summary>
         public static string Purchasing {
             get {
                 return ResourceManager.GetString("Purchasing", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Remaining Return.
-        /// </summary>
-        public static string RemainingReturn {
-            get {
-                return ResourceManager.GetString("RemainingReturn", resourceCulture);
             }
         }
         
@@ -385,15 +304,6 @@ namespace Localization.CloudERP {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Return Payment.
-        /// </summary>
-        public static string ReturnPayment {
-            get {
-                return ResourceManager.GetString("ReturnPayment", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Ищет локализованную строку, похожую на Return (Payment Amount).
         /// </summary>
         public static string ReturnPaymentAmount {
@@ -412,24 +322,6 @@ namespace Localization.CloudERP {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Return Products (Total Amount).
-        /// </summary>
-        public static string ReturnProductsTotalAmount {
-            get {
-                return ResourceManager.GetString("ReturnProductsTotalAmount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Return Purchase`s Payment Pending.
-        /// </summary>
-        public static string ReturnPurchasesPaymentPending {
-            get {
-                return ResourceManager.GetString("ReturnPurchasesPaymentPending", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Ищет локализованную строку, похожую на Return (Purchase Total Amount).
         /// </summary>
         public static string ReturnPurchaseTotalAmount {
@@ -439,29 +331,11 @@ namespace Localization.CloudERP {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Return (Total Amount).
-        /// </summary>
-        public static string ReturnTotalAmount {
-            get {
-                return ResourceManager.GetString("ReturnTotalAmount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Ищет локализованную строку, похожую на Search Purchase By Invoice №.
         /// </summary>
         public static string SearchPurchaseByInvoiceNo {
             get {
                 return ResourceManager.GetString("SearchPurchaseByInvoiceNo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Select Product.
-        /// </summary>
-        public static string SelectProduct {
-            get {
-                return ResourceManager.GetString("SelectProduct", resourceCulture);
             }
         }
         

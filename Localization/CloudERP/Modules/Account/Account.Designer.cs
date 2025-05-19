@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Localization.CloudERP {
+namespace Localization.CloudERP.Modules.Account {
     using System;
     
     
@@ -70,6 +70,15 @@ namespace Localization.CloudERP {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Account Control Name.
+        /// </summary>
+        public static string AccountControlName {
+            get {
+                return ResourceManager.GetString("AccountControlName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Account Control.
         /// </summary>
         public static string AccountControlTitle {
@@ -102,6 +111,15 @@ namespace Localization.CloudERP {
         public static string Activity {
             get {
                 return ResourceManager.GetString("Activity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Add Account Activity.
+        /// </summary>
+        public static string AddAccountActivity {
+            get {
+                return ResourceManager.GetString("AddAccountActivity", resourceCulture);
             }
         }
         
@@ -259,6 +277,15 @@ namespace Localization.CloudERP {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Edit Accounting Flow.
+        /// </summary>
+        public static string EditAccountingFlow {
+            get {
+                return ResourceManager.GetString("EditAccountingFlow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Edit Sub Control.
         /// </summary>
         public static string EditSubControl {
@@ -282,15 +309,6 @@ namespace Localization.CloudERP {
         public static string EnterAccountHeadID {
             get {
                 return ResourceManager.GetString("EnterAccountHeadID", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Full Name.
-        /// </summary>
-        public static string FullName {
-            get {
-                return ResourceManager.GetString("FullName", resourceCulture);
             }
         }
         
@@ -439,15 +457,6 @@ namespace Localization.CloudERP {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Password.
-        /// </summary>
-        public static string Password {
-            get {
-                return ResourceManager.GetString("Password", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Ищет локализованную строку, похожую на Select Account Head.
         /// </summary>
         public static string SelectAccountHead {
@@ -529,29 +538,11 @@ namespace Localization.CloudERP {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Update User.
-        /// </summary>
-        public static string UpdateUser {
-            get {
-                return ResourceManager.GetString("UpdateUser", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Ищет локализованную строку, похожую на User Name.
         /// </summary>
         public static string UserName {
             get {
                 return ResourceManager.GetString("UserName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на User Type.
-        /// </summary>
-        public static string UserType {
-            get {
-                return ResourceManager.GetString("UserType", resourceCulture);
             }
         }
         

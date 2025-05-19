@@ -37,7 +37,7 @@ namespace Services.Implementations
                 string FinancialYearID = financialYearCheck != null ? Convert.ToString(financialYearCheck) : string.Empty;
                 if (string.IsNullOrEmpty(FinancialYearID))
                 {
-                    return Localization.Services.Localization.CompanyFinancialYearNotSet;
+                    return Localization.CloudERP.Messages.Messages.CompanyFinancialYearNotSet;
                 }
 
                 // Credit Entry Sale
@@ -72,7 +72,7 @@ namespace Services.Implementations
                     "0",
                     Amount.ToString(),
                     DateTime.Now,
-                    CustomerName + $", Sale Payment Is Pending");
+                    CustomerName + $", {Localization.Services.Localization.SalePaymentIsPending}");
 
                 if (saleConfirm.IsPayment)
                 {
@@ -93,7 +93,7 @@ namespace Services.Implementations
                         Amount.ToString(),
                         "0",
                         DateTime.Now,
-                        $"Sale Payment Paid By " + CustomerName);
+                        $"{Localization.Services.Localization.SalePaymentPaidBy} " + CustomerName);
 
                     // Debit Entry Sale Payment Success
                     saleAccount = await _saleEntryFacade.AccountSettingRepository.GetByActivityAsync(SALE_PAYMENT_SUCCESS_ACTIVITY_ID, saleConfirm.CompanyID, saleConfirm.BranchID);
@@ -110,7 +110,7 @@ namespace Services.Implementations
                         "0",
                         Amount.ToString(),
                         DateTime.Now,
-                        CustomerName + $", Sale Payment Is Succeed");
+                        CustomerName + $", {Localization.Services.Localization.SalePaymentIsSucceed}");
 
                     _saleEntryFacade.SaleRepository.SetEntries(_dtEntries);
 
@@ -143,7 +143,7 @@ namespace Services.Implementations
                 string FinancialYearID = financialYearCheck != null ? Convert.ToString(financialYearCheck) : string.Empty;
                 if (string.IsNullOrEmpty(FinancialYearID))
                 {
-                    return Localization.Services.Localization.CompanyFinancialYearNotSet;
+                    return Localization.CloudERP.Messages.Messages.CompanyFinancialYearNotSet;
                 }
 
                 // Credit Entry Sale Payment Paid
@@ -161,7 +161,7 @@ namespace Services.Implementations
                     Amount.ToString(),
                     "0",
                     DateTime.Now,
-                    $"Sale Payment Paid By " + CustomerName);
+                    $"{Localization.Services.Localization.SalePaymentPaidBy} " + CustomerName);
 
                 // Debit Entry Sale Payment Success
                 saleAccount = await _saleEntryFacade.AccountSettingRepository.GetByActivityAsync(SALE_PAYMENT_SUCCESS_ACTIVITY_ID, CompanyID, BranchID);
@@ -178,7 +178,7 @@ namespace Services.Implementations
                     "0",
                     Amount.ToString(),
                     DateTime.Now,
-                    CustomerName + $", Sale Payment Is Succeed");
+                    CustomerName + $", {Localization.Services.Localization.SalePaymentIsSucceed}");
 
                 _saleEntryFacade.SaleRepository.SetEntries(_dtEntries);
                 // Insert payment record
@@ -209,7 +209,7 @@ namespace Services.Implementations
                 string FinancialYearID = financialYearCheck != null ? Convert.ToString(financialYearCheck) : string.Empty;
                 if (string.IsNullOrEmpty(FinancialYearID))
                 {
-                    return Localization.Services.Localization.CompanyFinancialYearNotSet;
+                    return Localization.CloudERP.Messages.Messages.CompanyFinancialYearNotSet;
                 }
 
                 // Debit Entry Return Sale
@@ -244,7 +244,7 @@ namespace Services.Implementations
                     Amount.ToString(),
                     "0",
                     DateTime.Now,
-                    Customername + $", .Return Sale Payment Is Pending");
+                    Customername + $", {Localization.Services.Localization.ReturnSalePaymentIsPending}");
 
                 if (isPayment)
                 {
@@ -282,7 +282,7 @@ namespace Services.Implementations
                         "0",
                         Amount.ToString(),
                         DateTime.Now,
-                        Customername + $", Return Sale Payment Is Succeed");
+                        Customername + $", {Localization.Services.Localization.ReturnSalePaymentIsSucceed}");
 
                     _saleEntryFacade.SaleRepository.SetEntries(_dtEntries);
                     return await _saleEntryFacade.SaleRepository.ReturnSale(CompanyID, BranchID, UserID, CustomerInvoiceID, CustomerReturnInvoiceID, Amount, CustomerID, payInvoiceNo, 0);
@@ -312,7 +312,7 @@ namespace Services.Implementations
                 string FinancialYearID = financialYearCheck != null ? Convert.ToString(financialYearCheck) : string.Empty;
                 if (string.IsNullOrEmpty(FinancialYearID))
                 {
-                    return Localization.Services.Localization.CompanyFinancialYearNotSet;
+                    return Localization.CloudERP.Messages.Messages.CompanyFinancialYearNotSet;
                 }
 
                 string transactionTitle;

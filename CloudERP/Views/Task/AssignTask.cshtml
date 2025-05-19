@@ -1,7 +1,7 @@
 @model Domain.Models.TaskModel
 
 @{
-    ViewBag.Title = Localization.CloudERP.Task.AssignTaskToEmployee;
+    ViewBag.Title = Localization.CloudERP.Modules.Task.Task.AssignTaskToEmployee;
 }
 
 @using (Html.BeginForm())
@@ -15,7 +15,7 @@
         <h2 class="text-danger">@ViewBag.ErrorMessage</h2>
 
         <div class="form-group">
-            @Html.LabelFor(m => m.Title, Localization.CloudERP.Task.TaskTitle, htmlAttributes: new { @class = "control-label col-md-4" })
+            @Html.LabelFor(m => m.Title, Localization.CloudERP.Modules.Task.Task.TaskTitle, htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-5">
                 @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger" })
@@ -23,7 +23,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(m => m.Description, Localization.CloudERP.Task.Description, htmlAttributes: new { @class = "control-label col-md-4" })
+            @Html.LabelFor(m => m.Description, Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Description, htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-5">
                 @Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
@@ -31,7 +31,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(m => m.DueDate, Localization.CloudERP.Task.DueDate, htmlAttributes: new { @class = "control-label col-md-4" })
+            @Html.LabelFor(m => m.DueDate, Localization.Services.Localization.DueDate, htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-5">
                 @Html.TextBoxFor(m => m.DueDate, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.DueDate, "", new { @class = "text-danger" })
@@ -39,10 +39,10 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-4">@Localization.CloudERP.Task.SelectEmployee</label>
+            <label class="control-label col-md-4">@Localization.CloudERP.Modules.Task.Task.SelectEmployee</label>
             <div class="col-md-5">
                 <select id="AssignedToUserID" name="AssignedToUserID" class="form-control">
-                    <option value="">-- @Localization.CloudERP.Task.SelectEmployee --</option>
+                    <option value="">-- @Localization.CloudERP.Modules.Task.Task.SelectEmployee --</option>
                     @foreach (var employee in ViewBag.Employees)
                     {
                         <option value="@employee.UserID" data-branch-id="@employee.BranchID">@employee.FullName</option>
@@ -53,7 +53,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="@Localization.CloudERP.Common.Save.ToString()" class="btn btn-success" />
+                <input type="submit" value="@Localization.CloudERP.Common.Common.Save" class="btn btn-success" />
                 <button id="voiceRecognitionButton" class="btn btn-link" type="button">
                     <i class="fas fa-microphone" style="font-size: 1.5em; color: gray;"></i>
                 </button>

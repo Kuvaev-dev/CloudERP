@@ -3,7 +3,6 @@ using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Utils.Helpers;
 
 namespace API.Controllers.Sale.Cart
 {

@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models
 {
@@ -8,40 +7,41 @@ namespace Domain.Models
         [Key]
         public int SupplierPaymentID { get; set; }
 
-        [Required(ErrorMessage = "Supplier ID is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Supplier ID must be a positive integer.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [Range(1, int.MaxValue, ErrorMessageResourceName = "RangeValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public int SupplierID { get; set; }
 
-        [Required(ErrorMessage = "Supplier Invoice ID is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Supplier Invoice ID must be a positive integer.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [Range(1, int.MaxValue, ErrorMessageResourceName = "RangeValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public int SupplierInvoiceID { get; set; }
 
-        [Required(ErrorMessage = "Company ID is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Company ID must be a positive integer.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [Range(1, int.MaxValue, ErrorMessageResourceName = "RangeValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public int CompanyID { get; set; }
 
-        [Required(ErrorMessage = "Branch ID is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Branch ID must be a positive integer.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [Range(1, int.MaxValue, ErrorMessageResourceName = "RangeValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public int BranchID { get; set; }
 
-        [Required(ErrorMessage = "Invoice Number is required.")]
-        [StringLength(50, ErrorMessage = "Invoice Number cannot be longer than 50 characters.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [StringLength(50, ErrorMessageResourceName = "StringLengthMaxValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public string? InvoiceNo { get; set; }
 
-        [Range(0, double.MaxValue, ErrorMessage = "Total Amount must be a positive value.")]
+        [Range(0, double.MaxValue, ErrorMessageResourceName = "RangeNonNegativeValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public double TotalAmount { get; set; }
 
-        [Range(0, double.MaxValue, ErrorMessage = "Payment Amount must be a positive value.")]
+        [Range(0, double.MaxValue, ErrorMessageResourceName = "RangeNonNegativeValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public double PaymentAmount { get; set; }
 
-        [Range(0, double.MaxValue, ErrorMessage = "Remaining Balance must be a positive value.")]
+        [Range(0, double.MaxValue, ErrorMessageResourceName = "RangeNonNegativeValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public double RemainingBalance { get; set; }
 
-        [Required(ErrorMessage = "User ID is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "User ID must be a positive integer.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [Range(1, int.MaxValue, ErrorMessageResourceName = "RangeValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public int UserID { get; set; }
 
-        [Required(ErrorMessage = "Invoice Date is required.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [DataType(DataType.Date, ErrorMessageResourceName = "DateValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public DateTime InvoiceDate { get; set; }
     }
 }

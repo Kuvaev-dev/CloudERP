@@ -123,12 +123,6 @@
   <data name="TaskTitle" xml:space="preserve">
     <value>Title</value>
   </data>
-  <data name="Description" xml:space="preserve">
-    <value>Description</value>
-  </data>
-  <data name="DueDate" xml:space="preserve">
-    <value>Due Date</value>
-  </data>
   <data name="ReminderDate" xml:space="preserve">
     <value>Reminder Date</value>
   </data>

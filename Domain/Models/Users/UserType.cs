@@ -7,8 +7,8 @@ namespace Domain.Models
         [Key]
         public int UserTypeID { get; set; }
 
-        [Required(ErrorMessage = "User Type Name is required.")]
-        [StringLength(50, ErrorMessage = "User Type Name cannot exceed 50 characters.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [StringLength(50, ErrorMessageResourceName = "StringLengthMaxValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public string? UserTypeName { get; set; }
     }
 }

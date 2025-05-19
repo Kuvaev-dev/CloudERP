@@ -1,7 +1,9 @@
 ﻿@model IEnumerable<Domain.Models.Customer>
-
+@using Localization.CloudERP.Modules.Sale;
+@using Localization.CloudERP.Modules.Miscellaneous;
+@using Localization.CloudERP.Common;
 @{
-    ViewBag.Title = Localization.CloudERP.Sale.Finilize;
+    ViewBag.Title = Sale.Finilize;
 }
 
 <!-- Tables Sorting-->
@@ -20,7 +22,7 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>@Html.Raw(Localization.CloudERP.Sale.SaleDetails)</h4>
+        <h4>@Html.Raw(Sale.SaleDetails)</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <h3 class="text-danger">@ViewBag.Message</h3>
@@ -28,7 +30,7 @@
 
         <!-- Description -->
         <div class="form-group">
-            <label class="control-label col-md-2">@Html.Raw(Localization.CloudERP.Sale.SaleDescription)</label>
+            <label class="control-label col-md-2">@Html.Raw(Sale.SaleDescription)</label>
             <div class="col-md-12">
                 <input type="text" class="form-control" id="Description" name="Description" required />
             </div>
@@ -36,7 +38,7 @@
 
         <!-- IsPayment -->
         <div class="form-group">
-            <label class="control-label col-md-4">@Html.Raw(Localization.CloudERP.Sale.IsSalePaymentPaid)</label>
+            <label class="control-label col-md-4">@Html.Raw(Sale.IsSalePaymentPaid)</label>
             <div class="col-md-12">
                 <input type="checkbox" name="IsPayment" />
             </div>
@@ -47,17 +49,17 @@
         <div class="card card-default col-md-12">
             <div class="card-header">
                 <h3 style="float:left;">Select Customer</h3>
-                <input type="submit" style="float:right;" value="@Localization.CloudERP.Sale.FinilizeSale" class="btn btn-success" />
+                <input type="submit" style="float:right;" value="@Sale.FinilizeSale" class="btn btn-success" />
             </div>
             <div class="card-body">
                 <div class="table-responsive bootgrid">
                     <table class="table table-striped table-hover" id="dataTable">
                         <thead style="background-color:lightgray;">
                             <tr>
-                                <th>@Html.Raw(Localization.CloudERP.Miscellaneous.CustomerFullName)</th>
-                                <th>@Html.Raw(Localization.CloudERP.User.ContactNo)</th>
-                                <th>@Html.Raw(Localization.CloudERP.User.Address)</th>
-                                <th>@Html.Raw(Localization.CloudERP.Common.Actions)</th>
+                                <th>@Html.Raw(Miscellaneous.CustomerFullName)</th>
+                                <th>@Html.Raw(Localization.CloudERP.Modules.User.User.ContactNo)</th>
+                                <th>@Html.Raw(Localization.CloudERP.Modules.Supplier.Supplier.Address)</th>
+                                <th>@Html.Raw(Common.Actions)</th>
                             </tr>
                         </thead>
                         <tbody id="customerList">

@@ -1,13 +1,14 @@
 ﻿@model Domain.Models.Supplier
-
+@using Localization.CloudERP.Modules.Supplier
+@using Localization.CloudERP.Modules.Miscellaneous
 @{
-    ViewBag.Title = Localization.CloudERP.Supplier.SupplierDetails;
+    ViewBag.Title = Supplier.SupplierDetails;
 }
 
 <div>
     <dl class="dl-horizontal">
         <dt>
-            @Localization.CloudERP.Supplier.SupplierName
+            @Supplier.SupplierName
         </dt>
 
         <dd>
@@ -15,7 +16,7 @@
         </dd>
 
         <dt>
-            @Localization.CloudERP.Supplier.ConatctNo
+            @Supplier.ConatctNo
         </dt>
 
         <dd>
@@ -23,7 +24,7 @@
         </dd>
 
         <dt>
-            @Localization.CloudERP.Supplier.Address
+            @Supplier.Address
         </dt>
 
         <dd>
@@ -31,7 +32,7 @@
         </dd>
 
         <dt>
-            @Localization.CloudERP.Supplier.Email
+            @Localization.CloudERP.Modules.User.User.Email
         </dt>
 
         <dd>
@@ -39,7 +40,7 @@
         </dd>
 
         <dt>
-            @Localization.CloudERP.Supplier.Description
+            @Miscellaneous.Description
         </dt>
 
         <dd>
@@ -47,7 +48,7 @@
         </dd>
 
         <dt>
-            @Localization.CloudERP.Supplier.BranchTitle
+            @Supplier.BranchTitle
         </dt>
 
         <dd>
@@ -55,7 +56,7 @@
         </dd>
 
         <dt>
-            @Localization.CloudERP.Supplier.CompanyTitle
+            @Supplier.CompanyTitle
         </dt>
 
         <dd>
@@ -63,7 +64,7 @@
         </dd>
 
         <dt>
-            @Localization.CloudERP.Supplier.User
+            @Localization.CloudERP.Modules.User.User.UserName
         </dt>
 
         <dd>

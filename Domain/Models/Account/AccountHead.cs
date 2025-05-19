@@ -7,15 +7,15 @@ namespace Domain.Models
         [Key]
         public int AccountHeadID { get; set; }
 
-        [Required(ErrorMessage = "Account head name is required.")]
-        [StringLength(100, ErrorMessage = "Account head name cannot exceed 100 characters.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [StringLength(100, ErrorMessageResourceName = "StringLengthMaxValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public string? AccountHeadName { get; set; }
 
-        [Range(0, int.MaxValue, ErrorMessage = "Code must be a positive number.")]
+        [Range(1, int.MaxValue, ErrorMessageResourceName = "RangeValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public int Code { get; set; }
 
-        [Required(ErrorMessage = "User ID is required.")]
-        [Range(0, int.MaxValue, ErrorMessage = "User ID must be a positive integer.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [Range(1, int.MaxValue, ErrorMessageResourceName = "RangeValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public int UserID { get; set; }
 
         public string? FullName { get; set; }

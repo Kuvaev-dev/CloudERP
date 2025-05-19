@@ -1,6 +1,8 @@
 ﻿@model Domain.Models.FinancialModels.BalanceSheetModel
+@using Localization.CloudERP.Modules.Financial
+@using Localization.CloudERP.Modules.Miscellaneous
 @{
-    ViewBag.Title = Localization.CloudERP.Financial.SubBranchBalanceSheet;
+    ViewBag.Title = Financial.SubBranchBalanceSheet;
 }
 
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
@@ -21,9 +23,9 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">
-                        <label>@Localization.CloudERP.Financial.SelectFinancialYear</label>
-                        @Html.DropDownList("financialYearId", (SelectList)ViewBag.FinancialYears, Localization.CloudERP.Financial.SelectFinancialYear, new { @class = "form-control", required = "required" })
-                        <input type="submit" value="@Localization.CloudERP.Financial.RetrieveBalanceSheet" class="btn btn-success form-control">
+                        <label>@Financial.SelectFinancialYear</label>
+                        @Html.DropDownList("financialYearId", (SelectList)ViewBag.FinancialYears, Financial.SelectFinancialYear, new { @class = "form-control", required = "required" })
+                        <input type="submit" value="@Financial.RetrieveBalanceSheet" class="btn btn-success form-control">
                     </div>
                 </div>
             </div>
@@ -34,8 +36,8 @@
 @{
     <div class="card card-default col-md-12">
         <div class="card-header">
-            <h3 class="text-primary">@Localization.CloudERP.Financial.BalanceSheetStr</h3>
-            <p>@Localization.CloudERP.Miscellaneous.Export</p>
+            <h3 class="text-primary">@Financial.BalanceSheetStr</h3>
+            <p>@Miscellaneous.Export</p>
             <h3 class="text-danger">@ViewBag.Message</h3>
             <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
         </div>
@@ -45,13 +47,13 @@
                     <thead>
                         <tr>
                             <th>
-                                @Localization.CloudERP.Financial.AccountTitle
+                                @Financial.AccountTitle
                             </th>
                             <th>
-                                @Localization.CloudERP.Financial.Amount
+                                @Financial.Amount
                             </th>
                             <th>
-                                @Localization.CloudERP.Financial.Total
+                                @Financial.Total
                             </th>
                         </tr>
                         @if (Model.AccountHeadTotals != null)
@@ -109,7 +111,7 @@
                                 {
                                     <tr style="background-color:black;color:white;">
                                         <td>
-                                            @Localization.CloudERP.Financial.TotalAssets:
+                                            @Financial.TotalAssets:
                                         </td>
                                         <td></td>
                                         <td>
@@ -121,7 +123,7 @@
                                 {
                                     <tr style="background-color:lightcyan;color:black;">
                                         <td>
-                                            @Localization.CloudERP.Financial.TotalLiabilities:
+                                            @Financial.TotalLiabilities:
                                         </td>
                                         <td></td>
                                         <td>
@@ -133,7 +135,7 @@
                                 {
                                     <tr style="background-color:lightcyan;color:black;">
                                         <td>
-                                            @Localization.CloudERP.Financial.TotalOwnerEquity:
+                                            @Financial.TotalOwnerEquity:
                                         </td>
                                         <td></td>
                                         <td>
@@ -145,7 +147,7 @@
                             }
                             <tr style="background-color:lightcyan;color:black;">
                                 <td>
-                                    @Localization.CloudERP.Financial.TotalReturnEarning:
+                                    @Financial.TotalReturnEarning:
                                 </td>
                                 <td></td>
                                 <td>
@@ -154,7 +156,7 @@
                             </tr>
                             <tr style="background-color:black;color:white;">
                                 <td>
-                                    @Localization.CloudERP.Financial.TotalBalanceLiabilitiesOwnerEquityReturnEarning:
+                                    @Financial.TotalBalanceLiabilitiesOwnerEquityReturnEarning:
                                 </td>
                                 <td></td>
                                 <td>

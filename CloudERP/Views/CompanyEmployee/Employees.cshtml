@@ -1,7 +1,10 @@
 ﻿@model IEnumerable<Domain.Models.Employee>
-
+@using Localization.CloudERP.Modules.Company;
+@using Localization.CloudERP.Common;
+@using Localization.CloudERP.Modules.Branch;
+@using Localization.CloudERP.Modules.Miscellaneous;
 @{
-    ViewBag.Title = Localization.CloudERP.Company.AllEmployees;
+    ViewBag.Title = Company.AllEmployees;
 }
 
 <!-- Tables Sorting-->
@@ -17,7 +20,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        @Html.ActionLink(Localization.CloudERP.Company.AddEmployee, "EmployeeRegistration", "CompanyEmployee", null, new { @style = "float:left;", @class = "btn btn-success" })
+        @Html.ActionLink(Company.AddEmployee, "EmployeeRegistration", "CompanyEmployee", null, new { @style = "float:left;", @class = "btn btn-success" })
         <h3 class="text-danger">@ViewBag.Message</h3>
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
     </div>
@@ -27,22 +30,22 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Branch.BranchName)
+                            @Html.Raw(Branch.BranchName)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.User.FullName)
+                            @Html.Raw(Localization.CloudERP.Modules.User.User.FullName)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.User.ContactNo)
+                            @Html.Raw(Localization.CloudERP.Modules.User.User.ContactNo)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Miscellaneous.Photo)
+                            @Html.Raw(Miscellaneous.Photo)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.User.Designation)
+                            @Html.Raw(Localization.CloudERP.Modules.User.User.Designation)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Common.Actions)
+                            @Html.Raw(Common.Actions)
                         </th>
                     </tr>
                 </thead>
@@ -69,15 +72,15 @@
                                 @Html.DisplayFor(modelItem => item.Designation)
                             </td>
                             <td class="d-flex btn-group">
-                                @Html.ActionLink(Localization.CloudERP.Company.Profile, "ViewProfile", "BranchEmployee", new { id = item.EmployeeID }, new { @class = "btn btn-info" })
+                                @Html.ActionLink(Company.Profile, "ViewProfile", "BranchEmployee", new { id = item.EmployeeID }, new { @class = "btn btn-info" })
 
                                 @if (item.UserID == null)
                                 {
-                                    @Html.ActionLink(Localization.CloudERP.Company.CreateUser, "CreateUser", "UserSetting", new { employeeID = item.EmployeeID }, new { @class = "btn btn-primary" })
+                                    @Html.ActionLink(Company.CreateUser, "CreateUser", "UserSetting", new { employeeID = item.EmployeeID }, new { @class = "btn btn-primary" })
                                 }
                                 else
                                 {
-                                    @Html.ActionLink(Localization.CloudERP.Company.UpdateUser, "UpdateUser", "UserSetting", new { userID = item.UserID }, new { @class = "btn btn-primary" })
+                                    @Html.ActionLink(Company.UpdateUser, "UpdateUser", "UserSetting", new { userID = item.UserID }, new { @class = "btn btn-primary" })
                                 }
                             </td>
                         </tr>

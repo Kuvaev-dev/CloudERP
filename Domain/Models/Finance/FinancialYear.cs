@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models
 {
@@ -8,21 +7,21 @@ namespace Domain.Models
         [Key]
         public int FinancialYearID { get; set; }
 
-        [Required(ErrorMessage = "Financial Year Name is required.")]
-        [StringLength(100, ErrorMessage = "Financial Year Name cannot exceed 100 characters.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [StringLength(100, ErrorMessageResourceName = "StringLengthMaxValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public string? FinancialYearName { get; set; }
 
-        [Required(ErrorMessage = "Start Date is required.")]
-        [DataType(DataType.Date, ErrorMessage = "Invalid Start Date format.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [DataType(DataType.Date, ErrorMessageResourceName = "DateValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime StartDate { get; set; }
 
-        [Required(ErrorMessage = "End Date is required.")]
-        [DataType(DataType.Date, ErrorMessage = "Invalid End Date format.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [DataType(DataType.Date, ErrorMessageResourceName = "DateValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime EndDate { get; set; }
 
-        [Required(ErrorMessage = "IsActive status is required.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public bool IsActive { get; set; }
         public int UserID { get; set; }
         public string? UserName { get; set; }

@@ -36,7 +36,7 @@ namespace CloudERP.Controllers.Financial.Reports
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -50,7 +50,7 @@ namespace CloudERP.Controllers.Financial.Reports
 
             if (!id.HasValue)
             {
-                ViewBag.ErrorMessage = Localization.CloudERP.Messages.InvalidFinancialYearID;
+                ViewBag.ErrorMessage = Localization.CloudERP.Messages.Messages.InvalidFinancialYearID;
                 return View(new BalanceSheetModel());
             }
 
@@ -65,7 +65,7 @@ namespace CloudERP.Controllers.Financial.Reports
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -78,12 +78,12 @@ namespace CloudERP.Controllers.Financial.Reports
             try
             {
                 var balanceSheet = await _httpClient.GetAsync<BalanceSheetModel>(
-                    $"balancesheetapi/getbalancesheet?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                    $"balancesheetapi/getbalancesheet?companyId={_sessionHelper.CompanyID}&branchId={id}");
                 return View(balanceSheet);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -97,7 +97,7 @@ namespace CloudERP.Controllers.Financial.Reports
 
             if (!id.HasValue)
             {
-                ViewBag.ErrorMessage = Localization.CloudERP.Messages.InvalidFinancialYearID;
+                ViewBag.ErrorMessage = Localization.CloudERP.Messages.Messages.InvalidFinancialYearID;
                 return View(new BalanceSheetModel());
             }
 
@@ -112,7 +112,7 @@ namespace CloudERP.Controllers.Financial.Reports
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

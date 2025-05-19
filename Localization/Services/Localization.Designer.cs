@@ -223,15 +223,6 @@ namespace Localization.Services {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Company Financial Year Not Set.
-        /// </summary>
-        public static string CompanyFinancialYearNotSet {
-            get {
-                return ResourceManager.GetString("CompanyFinancialYearNotSet", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Ищет локализованную строку, похожую на Credit.
         /// </summary>
         public static string Credit {
@@ -246,15 +237,6 @@ namespace Localization.Services {
         public static string CreditAccountNotFound {
             get {
                 return ResourceManager.GetString("CreditAccountNotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Date.
-        /// </summary>
-        public static string Date {
-            get {
-                return ResourceManager.GetString("Date", resourceCulture);
             }
         }
         
@@ -340,6 +322,15 @@ namespace Localization.Services {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Payment Paid to: .
+        /// </summary>
+        public static string PaymentPaidTo {
+            get {
+                return ResourceManager.GetString("PaymentPaidTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Purchase From .
         /// </summary>
         public static string PurchaseFrom {
@@ -354,6 +345,15 @@ namespace Localization.Services {
         public static string PurchaseInvoice {
             get {
                 return ResourceManager.GetString("PurchaseInvoice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Purchase Payment Is Succeed.
+        /// </summary>
+        public static string PurchasePaymentIsSucceed {
+            get {
+                return ResourceManager.GetString("PurchasePaymentIsSucceed", resourceCulture);
             }
         }
         
@@ -475,6 +475,24 @@ namespace Localization.Services {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Return Sale Payment Is Pending.
+        /// </summary>
+        public static string ReturnSalePaymentIsPending {
+            get {
+                return ResourceManager.GetString("ReturnSalePaymentIsPending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Return Sale Payment Is Succeed.
+        /// </summary>
+        public static string ReturnSalePaymentIsSucceed {
+            get {
+                return ResourceManager.GetString("ReturnSalePaymentIsSucceed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Return Sale Payment Paid to .
         /// </summary>
         public static string ReturnSalePaymentPaidTo {
@@ -547,11 +565,38 @@ namespace Localization.Services {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Sale Invoice.
+        ///   Ищет локализованную строку, похожую на Sale Invoice: .
         /// </summary>
         public static string SaleInvoice {
             get {
                 return ResourceManager.GetString("SaleInvoice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Sale Payment Is Pending.
+        /// </summary>
+        public static string SalePaymentIsPending {
+            get {
+                return ResourceManager.GetString("SalePaymentIsPending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Sale Payment Is Succeed.
+        /// </summary>
+        public static string SalePaymentIsSucceed {
+            get {
+                return ResourceManager.GetString("SalePaymentIsSucceed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Sale Payment Paid By.
+        /// </summary>
+        public static string SalePaymentPaidBy {
+            get {
+                return ResourceManager.GetString("SalePaymentPaidBy", resourceCulture);
             }
         }
         
@@ -561,15 +606,6 @@ namespace Localization.Services {
         public static string SalePaymentRemainingAmountError {
             get {
                 return ResourceManager.GetString("SalePaymentRemainingAmountError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Sale Return.
-        /// </summary>
-        public static string SaleReturn {
-            get {
-                return ResourceManager.GetString("SaleReturn", resourceCulture);
             }
         }
         
@@ -615,15 +651,6 @@ namespace Localization.Services {
         public static string To {
             get {
                 return ResourceManager.GetString("To", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Total.
-        /// </summary>
-        public static string Total {
-            get {
-                return ResourceManager.GetString("Total", resourceCulture);
             }
         }
         

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Localization.CloudERP {
+namespace Localization.CloudERP.Common {
     using System;
     
     
@@ -165,15 +165,6 @@ namespace Localization.CloudERP {
         public static string New {
             get {
                 return ResourceManager.GetString("New", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на New Account Activity.
-        /// </summary>
-        public static string NewAccountActivity {
-            get {
-                return ResourceManager.GetString("NewAccountActivity", resourceCulture);
             }
         }
         

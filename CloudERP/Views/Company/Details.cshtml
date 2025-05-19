@@ -1,7 +1,8 @@
 ﻿@model Domain.Models.Company
-
+@using Localization.CloudERP.Modules.Company;
+@using Localization.CloudERP.Common;
 @{
-    ViewBag.Title = Localization.CloudERP.Company.CompanyDetails;
+    ViewBag.Title = Company.CompanyDetails;
 }
 
 <div class="card col-md-12" style="height: 50vh; padding: 3vh;">
@@ -12,7 +13,7 @@
         <div class="col-7">
             <div clss="p-3">
                 <div class="float-right">
-                    @Html.ActionLink(Localization.CloudERP.Company.EditProfile, "Edit", new { id = Model.CompanyID }, new { @class = "btn btn-primary btn-sm" })
+                    @Html.ActionLink(Company.EditProfile, "Edit", new { id = Model.CompanyID }, new { @class = "btn btn-primary btn-sm" })
                 </div>
                 <p>
                     <span class="text-lg col-1">@Html.DisplayFor(model => model.Name)</span>
@@ -30,5 +31,5 @@
     </div>
 </div>
 <p>
-    @Html.ActionLink(Localization.CloudERP.Common.BackToList, "Index")
+    @Html.ActionLink(Common.BackToList, "Index")
 </p>

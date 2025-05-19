@@ -23,6 +23,7 @@ namespace UnitTests.API.Controllers.Company
         private Mock<IEmailService> _emailServiceMock;
         private CompanyRegistrationApiController _controller;
         private RegistrationMV _testRegistrationMV;
+        private PasswordHelper _passwordHelper;
         private const string DEFAULT_COMPANY_LOGO_PATH = "~/CompanyLogo/erp-logo.png";
         private const string DEFAULT_EMPLOYEE_PHOTO_PATH = "~/EmployeePhoto/Default/default.png";
 
@@ -61,6 +62,7 @@ namespace UnitTests.API.Controllers.Company
                 EmployeeMonthlySalary = 5000,
                 UserName = "johndoe"
             };
+            _passwordHelper = new PasswordHelper();
         }
 
         [Test]
@@ -89,7 +91,7 @@ namespace UnitTests.API.Controllers.Company
             _branchRepositoryMock.Setup(r => r.AddAsync(It.IsAny<Domain.Models.Branch>()))
                                  .Callback<Domain.Models.Branch>(b => b.BranchID = 1)
                                  .Returns(Task.CompletedTask);
-            _passwordHelperMock.Setup(p => PasswordHelper.HashPassword(It.IsAny<string>(), out It.Ref<string>.IsAny))
+            _passwordHelperMock.Setup(p => _passwordHelper.HashPassword(It.IsAny<string>(), out It.Ref<string>.IsAny))
                                .Returns("hashedPassword")
                                .Callback<string, string>((pwd, salt) => salt = "salt");
             _userRepositoryMock.Setup(r => r.AddAsync(It.IsAny<User>()))

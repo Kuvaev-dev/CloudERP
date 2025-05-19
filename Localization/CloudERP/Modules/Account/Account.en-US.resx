@@ -228,20 +228,11 @@
   <data name="UserTypeID" xml:space="preserve">
     <value>User Type</value>
   </data>
-  <data name="FullName" xml:space="preserve">
-    <value>Full Name</value>
-  </data>
   <data name="ContactNo" xml:space="preserve">
     <value>Contact №</value>
   </data>
   <data name="UserName" xml:space="preserve">
     <value>User Name</value>
-  </data>
-  <data name="Password" xml:space="preserve">
-    <value>Password</value>
-  </data>
-  <data name="UpdateUser" xml:space="preserve">
-    <value>Update User</value>
   </data>
   <data name="NewUserTypeID" xml:space="preserve">
     <value>Enter New User Type</value>
@@ -270,9 +261,6 @@
   <data name="AddUserType" xml:space="preserve">
     <value>Add User Type</value>
   </data>
-  <data name="UserType" xml:space="preserve">
-    <value>User Type</value>
-  </data>
   <data name="AddNewUserType" xml:space="preserve">
     <value>Add New User Type</value>
   </data>
@@ -287,5 +275,14 @@
   </data>
   <data name="AccountHeadTitle" xml:space="preserve">
     <value>Account Head Title</value>
+  </data>
+  <data name="AddAccountActivity" xml:space="preserve">
+    <value>Add Account Activity</value>
+  </data>
+  <data name="AccountControlName" xml:space="preserve">
+    <value>Account Control Name</value>
+  </data>
+  <data name="EditAccountingFlow" xml:space="preserve">
+    <value>Edit Accounting Flow</value>
   </data>
 </root>

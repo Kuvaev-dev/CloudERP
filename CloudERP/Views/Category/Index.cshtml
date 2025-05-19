@@ -1,7 +1,10 @@
 ﻿@model IEnumerable<Domain.Models.Category>
-
+@using Localization.CloudERP.Modules.Miscellaneous
+@using Localization.CloudERP.Modules.Branch
+@using Localization.CloudERP.Modules.Company
+@using Localization.CloudERP.Common
 @{
-    ViewBag.Title = Localization.CloudERP.Miscellaneous.AllCategories;
+    ViewBag.Title = Miscellaneous.AllCategories;
 }
 
 <!-- Tables Sorting-->
@@ -17,7 +20,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        @Html.ActionLink("Add New Category", "Create", "Category", null, new { @style = "float:left;", @class = "btn btn-success" })
+        @Html.ActionLink(Miscellaneous.AddCategory, "Create", "Category", null, new { @style = "float:left;", @class = "btn btn-success" })
         <h3 class="text-danger">@ViewBag.Message</h3>
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
     </div>
@@ -26,10 +29,10 @@
             <table class="table table-striped table-bordered table-hover" id="dataTable">
                 <thead>
                     <tr>
-                        <th>@Localization.CloudERP.Miscellaneous.CategoryTitle</th>
-                        <th>@Localization.CloudERP.Branch.BranchName</th>
-                        <th>@Localization.CloudERP.Company.CompanyTitle</th>
-                        <th>@Localization.CloudERP.Common.Actions</th>
+                        <th>@Miscellaneous.CategoryTitle</th>
+                        <th>@Branch.BranchName</th>
+                        <th>@Company.CompanyTitle</th>
+                        <th>@Common.Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -39,9 +42,8 @@
                             <td>@Html.DisplayFor(modelItem => item.CategoryName)</td>
                             <td>@Html.DisplayFor(modelItem => item.BranchName)</td>
                             <td>@Html.DisplayFor(modelItem => item.CompanyName)</td>
-                            <td class="d-flex btn-group">
-                                @Html.ActionLink(Localization.CloudERP.Common.Edit, "Edit", new { id = item.CategoryID }, new { @class = "btn btn-primary" })
-                                @Html.ActionLink(Localization.CloudERP.Common.Details, "Details", new { id = item.CategoryID }, new { @class = "btn btn-info" })
+                            <td>
+                                @Html.ActionLink(Common.Edit, "Edit", new { id = item.CategoryID }, new { @class = "btn btn-primary" })
                             </td>
                         </tr>
                     }

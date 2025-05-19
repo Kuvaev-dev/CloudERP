@@ -1,8 +1,11 @@
 ﻿@model Domain.Models.SupplierInvoice
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
-
+@using Localization.CloudERP.Modules.Purchase
+@using Localization.CloudERP.Modules.Sale
+@using Localization.CloudERP.Modules.Company
+@using Localization.CloudERP.Modules.Miscellaneous
 @{
-    ViewBag.Title = Localization.CloudERP.Purchase.SearchPurchaseByInvoiceNo;
+    ViewBag.Title = Purchase.SearchPurchaseByInvoiceNo;
 }
 
 @using (Html.BeginForm("FindPurchase", "PurchaseReturn", FormMethod.Post, null))
@@ -14,15 +17,15 @@
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
 
         <div class="form-group">
-            <label class="control-label col-md-2">Enter Purchase Invoice №</label>
+            <label class="control-label col-md-2">@Purchase.EnterPurchaseInvoiceNo</label>
             <div class="col-md-5">
-                <input type="text" class="form-control" id="invoiceID" name="invoiceID" placeholder="Enter Purchase Invoice..." required />
+                <input type="text" class="form-control" id="invoiceID" name="invoiceID" required />
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-5">
-                <input type="submit" value="Find Purchase" class="btn btn-success" />
+                <input type="submit" value="@Purchase.FindPurchase" class="btn btn-success" />
             </div>
         </div>
     </div>
@@ -40,33 +43,33 @@
 
             <div class="card mt-4">
                 <div class="card-header">
-                    <h3>@Localization.CloudERP.Sale.Invoice №: @Model.InvoiceNo</h3>
+                    <h3>@Sale.Invoice №: @Model.InvoiceNo</h3>
                     <h3 class="text-danger">@HttpContextAccessor.HttpContext?.Session.GetString("PurchaseReturnMessage")</h3>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
-                            <h4>@Localization.CloudERP.Company.CompanyTitle:</h4>
+                            <h4>@Company.CompanyTitle:</h4>
                             <p>@Model.CompanyName - @Model.BranchName</p>
-                            <p>@Localization.CloudERP.User.Address: @Model.BranchAddress</p>
-                            <p>@Localization.CloudERP.User.ContactNo: @Model.BranchContact</p>
+                            <p>@Localization.CloudERP.Modules.Supplier.Supplier.Address: @Model.BranchAddress</p>
+                            <p>@Localization.CloudERP.Modules.User.User.ContactNo: @Model.BranchContact</p>
                         </div>
                         <div class="col-md-6">
-                            <h4>@Localization.CloudERP.Sale.Supplier:</h4>
+                            <h4>@Sale.Supplier:</h4>
                             <p>@Model.SupplierName</p>
-                            <p>@Localization.CloudERP.User.Address: @Model.SupplierAddress</p>
-                            <p>@Localization.CloudERP.User.ContactNo: @Model.SupplierConatctNo</p>
+                            <p>@Localization.CloudERP.Modules.Supplier.Supplier.Address: @Model.SupplierAddress</p>
+                            <p>@Localization.CloudERP.Modules.User.User.ContactNo: @Model.SupplierConatctNo</p>
                         </div>
                     </div>
 
                     <table class="table table-bordered mt-4">
                         <thead>
                             <tr>
-                                <th>@Localization.CloudERP.Sale.Product</th>
-                                <th>@Localization.CloudERP.Purchase.PurchaseQty</th>
-                                <th>@Localization.CloudERP.Sale.ReturnQty</th>
-                                <th>@Localization.CloudERP.Purchase.UnitPrice</th>
-                                <th>@Localization.CloudERP.Purchase.ItemCost</th>
+                                <th>@Sale.Product</th>
+                                <th>@Purchase.PurchaseQty</th>
+                                <th>@Sale.ReturnQty</th>
+                                <th>@Purchase.UnitPrice</th>
+                                <th>@Miscellaneous.ItemCost</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -89,10 +92,10 @@
 
                     <div class="form-check mt-3">
                         <input type="checkbox" class="form-check-input" id="IsPayment" name="IsPayment" />
-                        <label class="form-check-label" for="IsPayment">@Localization.CloudERP.Purchase.IsReturnPurchasePaymentPaid</label>
+                        <label class="form-check-label" for="IsPayment">@Purchase.IsReturnPurchasePaymentPaid</label>
                     </div>
 
-                    <button type="submit" class="btn btn-success mt-3">@Localization.CloudERP.Sale.SubmitReturn</button>
+                    <button type="submit" class="btn btn-success mt-3">@Sale.SubmitReturn</button>
                 </div>
             </div>
         }

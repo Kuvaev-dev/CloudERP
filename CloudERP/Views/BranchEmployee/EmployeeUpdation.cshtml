@@ -1,7 +1,10 @@
 ﻿@model Domain.Models.Employee
-
+@using Localization.CloudERP.Modules.Miscellaneous
+@using Localization.CloudERP.Modules.Company
+@using Localization.CloudERP.Modules.Supplier
+@using Localization.CloudERP.Common
 @{
-    ViewBag.Title = Localization.CloudERP.Miscellaneous.EmployeeUpdation;
+    ViewBag.Title = Miscellaneous.EmployeeUpdation;
 }
 
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
@@ -20,7 +23,7 @@
         @Html.HiddenFor(model => model.EmployeeID)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.FullName, Localization.CloudERP.Company.EmployeeName, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.FullName, Company.EmployeeName, htmlAttributes: new { @class = "control-label col-md-6" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
@@ -28,7 +31,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ContactNumber, Localization.CloudERP.User.ContactNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ContactNumber, Localization.CloudERP.Modules.User.User.ContactNo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.ContactNumber, new { htmlAttributes = new { @class = "form-control", @id = "PhoneNumber" } })
                 @Html.ValidationMessageFor(model => model.ContactNumber, "", new { @class = "text-danger" })
@@ -36,7 +39,7 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2">Avatar</label>
+            <label class="control-label col-md-2">@Miscellaneous.Avatar</label>
             <div class="col-md-5">
                 <span class="btn btn-default btn-file">
                     <input type="file" name="logo" />
@@ -45,7 +48,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Email, Localization.CloudERP.User.EmailAddress, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Email, Localization.CloudERP.Modules.User.User.EmailAddress, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
@@ -53,7 +56,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.TIN, "TIN", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.TIN, Localization.CloudERP.Modules.User.User.TIN, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.TIN, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.TIN, "", new { @class = "text-danger" })
@@ -61,7 +64,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Designation, Localization.CloudERP.User.Designation, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Designation, Localization.CloudERP.Modules.User.User.Designation, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Designation, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Designation, "", new { @class = "text-danger" })
@@ -69,7 +72,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.MonthlySalary, Localization.CloudERP.User.MonthlySalary, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.MonthlySalary, Localization.CloudERP.Modules.User.User.MonthlySalary, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.MonthlySalary, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.MonthlySalary, "", new { @class = "text-danger" })
@@ -77,7 +80,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Description, Localization.CloudERP.Company.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Description, Miscellaneous.Description, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
@@ -85,7 +88,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Address, Localization.CloudERP.User.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Address, Supplier.Address, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @id = "address" } })
                 @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
@@ -96,8 +99,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-5">
-                <input type="submit" value="@Localization.CloudERP.Common.Save" class="btn btn-success" />
-                @Html.ActionLink(Localization.CloudERP.Company.AllEmployees, "Employee", null, new { @class = "btn btn-default" })
+                <input type="submit" value="@Common.Save" class="btn btn-success" />
+                @Html.ActionLink(Common.BackToList, "Employee", null, new { @class = "btn btn-default" })
             </div>
         </div>
     </div>

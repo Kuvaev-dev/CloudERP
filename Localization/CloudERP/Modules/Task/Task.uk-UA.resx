@@ -123,12 +123,6 @@
   <data name="TaskTitle" xml:space="preserve">
     <value>Назва</value>
   </data>
-  <data name="Description" xml:space="preserve">
-    <value>Опис</value>
-  </data>
-  <data name="DueDate" xml:space="preserve">
-    <value>Термін виконання</value>
-  </data>
   <data name="ReminderDate" xml:space="preserve">
     <value>Дата нагадування</value>
   </data>

@@ -153,9 +153,6 @@
   <data name="BackToList" xml:space="preserve">
     <value>Back to List</value>
   </data>
-  <data name="NewAccountActivity" xml:space="preserve">
-    <value>New Account Activity</value>
-  </data>
   <data name="AccountActivityName" xml:space="preserve">
     <value>Account Activity Name</value>
   </data>

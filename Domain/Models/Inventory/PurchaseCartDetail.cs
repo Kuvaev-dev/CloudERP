@@ -6,29 +6,29 @@ namespace Domain.Models
     {
         public int PurchaseCartDetailID { get; set; }
 
-        [Required(ErrorMessage = "Product ID is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Product ID must be a positive integer.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [Range(1, int.MaxValue, ErrorMessageResourceName = "RangeValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public int ProductID { get; set; }
         public string? ProductName { get; set; }
 
-        [Required(ErrorMessage = "Purchase Quantity is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Purchase Quantity must be greater than 0.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [Range(1, int.MaxValue, ErrorMessageResourceName = "RangeMinValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public int PurchaseQuantity { get; set; }
 
-        [Required(ErrorMessage = "Purchase Unit Price is required.")]
-        [Range(0.01, double.MaxValue, ErrorMessage = "Purchase Unit Price must be greater than 0.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [Range(0.01, double.MaxValue, ErrorMessageResourceName = "RangeMinValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public double PurchaseUnitPrice { get; set; }
 
-        [Required(ErrorMessage = "Company ID is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Company ID must be a positive integer.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [Range(1, int.MaxValue, ErrorMessageResourceName = "RangeValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public int CompanyID { get; set; }
 
-        [Required(ErrorMessage = "Branch ID is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Branch ID must be a positive integer.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [Range(1, int.MaxValue, ErrorMessageResourceName = "RangeValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public int BranchID { get; set; }
 
-        [Required(ErrorMessage = "User ID is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "User ID must be a positive integer.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [Range(1, int.MaxValue, ErrorMessageResourceName = "RangeValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public int UserID { get; set; }
         public string? UserName { get; set; }
     }

@@ -1,14 +1,18 @@
 ﻿@model Domain.Models.Stock
-
+@using Localization.CloudERP.Modules.Miscellaneous
+@using Localization.CloudERP.Modules.Sale
+@using Localization.CloudERP.Modules.Branch
+@using Localization.CloudERP.Modules.Company
+@using Localization.CloudERP.Common
 @{
-    ViewBag.Title = Localization.CloudERP.Miscellaneous.ProductDetails;
+    ViewBag.Title = Miscellaneous.ProductDetails;
 }
 
 <div class="form-horizontal">
     <div class="col-md-10">
         <dl class="dl-horizontal">
             <dt>
-                @Html.Raw(Localization.CloudERP.Miscellaneous.ProductName)
+                @Html.Raw(Miscellaneous.ProductName)
             </dt>
 
             <dd>
@@ -16,7 +20,7 @@
             </dd>
 
             <dt>
-                @Html.Raw(Localization.CloudERP.Miscellaneous.Quantity)
+                @Html.Raw(Sale.Quantity)
             </dt>
 
             <dd>
@@ -24,7 +28,7 @@
             </dd>
 
             <dt>
-                @Html.Raw(Localization.CloudERP.Miscellaneous.SaleUnitPrice)
+                @Html.Raw(Miscellaneous.SaleUnitPrice)
             </dt>
 
             <dd>
@@ -32,7 +36,7 @@
             </dd>
 
             <dt>
-                @Html.Raw(Localization.CloudERP.Miscellaneous.CurrentPurchaseUnitPrice)
+                @Html.Raw(Miscellaneous.CurrentPurchaseUnitPrice)
             </dt>
 
             <dd>
@@ -40,7 +44,7 @@
             </dd>
 
             <dt>
-                @Html.Raw(Localization.CloudERP.Miscellaneous.ExpiryDate)
+                @Html.Raw(Miscellaneous.ExpiryDate)
             </dt>
 
             <dd>
@@ -48,7 +52,7 @@
             </dd>
 
             <dt>
-                @Html.Raw(Localization.CloudERP.Miscellaneous.ManufactureDate)
+                @Html.Raw(Miscellaneous.ManufactureDate)
             </dt>
 
             <dd>
@@ -56,7 +60,7 @@
             </dd>
 
             <dt>
-                @Html.Raw(Localization.CloudERP.Miscellaneous.TresholdQuantity)
+                @Html.Raw(Miscellaneous.TresholdQuantity)
             </dt>
 
             <dd>
@@ -64,7 +68,7 @@
             </dd>
 
             <dt>
-                @Html.Raw(Localization.CloudERP.Company.Description)
+                @Html.Raw(Miscellaneous.Description)
             </dt>
 
             <dd>
@@ -72,7 +76,7 @@
             </dd>
 
             <dt>
-                @Html.Raw(Localization.CloudERP.Miscellaneous.Status)
+                @Html.Raw(Miscellaneous.Status)
             </dt>
 
             <dd>
@@ -80,7 +84,7 @@
             </dd>
 
             <dt>
-                @Html.Raw(Localization.CloudERP.Branch.BranchName)
+                @Html.Raw(Branch.BranchName)
             </dt>
 
             <dd>
@@ -88,7 +92,7 @@
             </dd>
 
             <dt>
-                @Html.Raw(Localization.CloudERP.Miscellaneous.CategoryName)
+                @Html.Raw(Miscellaneous.CategoryName)
             </dt>
 
             <dd>
@@ -96,7 +100,7 @@
             </dd>
 
             <dt>
-                @Html.Raw(Localization.CloudERP.Company.CompanyTitle)
+                @Html.Raw(Company.CompanyTitle)
             </dt>
 
             <dd>
@@ -104,7 +108,7 @@
             </dd>
 
             <dt>
-                @Html.Raw(Localization.CloudERP.User.FullName)
+                @Html.Raw(Localization.CloudERP.Modules.User.User.FullName)
             </dt>
 
             <dd>
@@ -115,8 +119,8 @@
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            @Html.ActionLink(Localization.CloudERP.Common.Edit, "Edit", new { id = Model.ProductID }, new { @class = "btn btn-primary" })
-            @Html.ActionLink(Localization.CloudERP.Common.BackToList, "Index", null, new { @class = "btn btn-default" })
+            @Html.ActionLink(Common.Edit, "Edit", new { id = Model.ProductID }, new { @class = "btn btn-primary" })
+            @Html.ActionLink(Common.BackToList, "Index", null, new { @class = "btn btn-default" })
         </div>
     </div>
 </div>

@@ -1,5 +1,5 @@
 ﻿@model Domain.Models.Category
-
+@using Localization.CloudERP.Common
 @{
     ViewBag.Title = "Category Details";
 }
@@ -32,6 +32,6 @@
 </div>
 
 <div class="btn btn-group">
-    @Html.ActionLink(Localization.CloudERP.Common.Edit, "Edit", null, new { id = Model.CategoryID }, new { @class = "btn btn-primary" })
-    @Html.ActionLink(Localization.CloudERP.Common.BackToList, "Index", null, new { @class = "btn btn-default" })
+    @Html.ActionLink(Common.Edit, "Edit", null, new { id = Model.CategoryID }, new { @class = "btn btn-primary" })
+    @Html.ActionLink(Common.BackToList, "Index", null, new { @class = "btn btn-default" })
 </div>

@@ -1,7 +1,9 @@
 ﻿@model IEnumerable<Domain.Models.Supplier>
-
+@using Localization.CloudERP.Modules.Supplier
+@using Localization.CloudERP.Modules.Miscellaneous
+@using Localization.CloudERP.Common
 @{
-    ViewBag.Title = Localization.CloudERP.Supplier.BranchSuppliers;
+    ViewBag.Title = Supplier.BranchSuppliers;
 }
 
 <!-- Tables Sorting-->
@@ -22,28 +24,28 @@
                 <thead>
                     <tr>
                         <th>
-                            @Localization.CloudERP.Supplier.CompanyTitle
+                            @Supplier.CompanyTitle
                         </th>
                         <th>
-                            @Localization.CloudERP.Supplier.BranchTitle
+                            @Supplier.BranchTitle
                         </th>
                         <th>
-                            @Localization.CloudERP.Supplier.SupplierName
+                            @Supplier.SupplierName
                         </th>
                         <th>
-                            @Localization.CloudERP.Supplier.ConatctNo
+                            @Supplier.ConatctNo
                         </th>
                         <th>
-                            @Localization.CloudERP.Supplier.Email
+                            @Localization.CloudERP.Modules.User.User.Email
                         </th>
                         <th>
-                            @Localization.CloudERP.Supplier.Address
+                            @Supplier.Address
                         </th>
                         <th>
-                            @Localization.CloudERP.Supplier.User
+                            @Localization.CloudERP.Modules.User.User.UserName
                         </th>
                         <th>
-                            @Localization.CloudERP.Common.Actions
+                            @Common.Actions
                         </th>
                     </tr>
                 </thead>
@@ -73,8 +75,8 @@
                                 @Html.DisplayFor(modelItem => item.UserName)
                             </td>
                             <td class="d-flex btn-group">
-                                @Html.ActionLink(Localization.CloudERP.Common.Edit, "Edit", new { id = item.SupplierID }, new { @class = "btn btn-primary" })
-                                @Html.ActionLink(Localization.CloudERP.Common.Details, "Details", new { id = item.SupplierID }, new { @class = "btn btn-info" })
+                                @Html.ActionLink(Common.Edit, "Edit", new { id = item.SupplierID }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink(Common.Details, "Details", new { id = item.SupplierID }, new { @class = "btn btn-info" })
                             </td>
                         </tr>
                     }

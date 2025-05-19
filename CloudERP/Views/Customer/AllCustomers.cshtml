@@ -1,7 +1,10 @@
 ﻿@model IEnumerable<Domain.Models.Customer>
-
+@using Localization.CloudERP.Common
+@using Localization.CloudERP.Modules.Company
+@using Localization.CloudERP.Modules.Branch
+@using Localization.CloudERP.Modules.Miscellaneous
 @{
-    ViewBag.Title = Localization.CloudERP.Miscellaneous.AllCustomers;
+    ViewBag.Title = Miscellaneous.AllCustomers;
 }
 
 <!-- Tables Sorting-->
@@ -22,22 +25,22 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Company.CompanyTitle)
+                            @Html.Raw(Company.CompanyTitle)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Branch.BranchName)
+                            @Html.Raw(Branch.BranchName)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Miscellaneous.CustomerName)
+                            @Html.Raw(Miscellaneous.CustomerName)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.User.ContactNo)
+                            @Html.Raw(Localization.CloudERP.Modules.User.User.ContactNo)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.User.Address)
+                            @Html.Raw(Localization.CloudERP.Modules.Supplier.Supplier.Address)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.User.UserName)
+                            @Html.Raw(Localization.CloudERP.Modules.User.User.UserName)
                         </th>
                     </tr>
                 </thead>

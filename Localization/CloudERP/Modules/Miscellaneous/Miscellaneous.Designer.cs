@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Localization.CloudERP {
+namespace Localization.CloudERP.Modules.Miscellaneous {
     using System;
     
     
@@ -66,6 +66,15 @@ namespace Localization.CloudERP {
         public static string Account {
             get {
                 return ResourceManager.GetString("Account", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Account Activities.
+        /// </summary>
+        public static string AccountActivities {
+            get {
+                return ResourceManager.GetString("AccountActivities", resourceCulture);
             }
         }
         
@@ -133,29 +142,11 @@ namespace Localization.CloudERP {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Add Employee.
-        /// </summary>
-        public static string AddEmployee {
-            get {
-                return ResourceManager.GetString("AddEmployee", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Ищет локализованную строку, похожую на Add Product.
         /// </summary>
         public static string AddProduct {
             get {
                 return ResourceManager.GetString("AddProduct", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Admin Guide.
-        /// </summary>
-        public static string AdminGuide {
-            get {
-                return ResourceManager.GetString("AdminGuide", resourceCulture);
             }
         }
         
@@ -205,11 +196,29 @@ namespace Localization.CloudERP {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на All Suppliers.
+        /// </summary>
+        public static string AllSuppliers {
+            get {
+                return ResourceManager.GetString("AllSuppliers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Area.
         /// </summary>
         public static string Area {
             get {
                 return ResourceManager.GetString("Area", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Profile Photo.
+        /// </summary>
+        public static string Avatar {
+            get {
+                return ResourceManager.GetString("Avatar", resourceCulture);
             }
         }
         
@@ -268,6 +277,15 @@ namespace Localization.CloudERP {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Branch Types.
+        /// </summary>
+        public static string BranchTypes {
+            get {
+                return ResourceManager.GetString("BranchTypes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Case / &lt;br/&gt; Bank Balance.
         /// </summary>
         public static string CaseBankBalance {
@@ -318,24 +336,6 @@ namespace Localization.CloudERP {
         public static string CompanyRegistration {
             get {
                 return ResourceManager.GetString("CompanyRegistration", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Created By.
-        /// </summary>
-        public static string CreatedBy {
-            get {
-                return ResourceManager.GetString("CreatedBy", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Create User.
-        /// </summary>
-        public static string CreateUser {
-            get {
-                return ResourceManager.GetString("CreateUser", resourceCulture);
             }
         }
         
@@ -444,6 +444,15 @@ namespace Localization.CloudERP {
         public static string Debit {
             get {
                 return ResourceManager.GetString("Debit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Description.
+        /// </summary>
+        public static string Description {
+            get {
+                return ResourceManager.GetString("Description", resourceCulture);
             }
         }
         
@@ -637,6 +646,15 @@ namespace Localization.CloudERP {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Item Cost.
+        /// </summary>
+        public static string ItemCost {
+            get {
+                return ResourceManager.GetString("ItemCost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Item Detail.
         /// </summary>
         public static string ItemDetail {
@@ -682,11 +700,11 @@ namespace Localization.CloudERP {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Main Employee Guide.
+        ///   Ищет локализованную строку, похожую на Main Account Settings.
         /// </summary>
-        public static string MainEmployeeGuide {
+        public static string MainAccountSettings {
             get {
-                return ResourceManager.GetString("MainEmployeeGuide", resourceCulture);
+                return ResourceManager.GetString("MainAccountSettings", resourceCulture);
             }
         }
         
@@ -696,24 +714,6 @@ namespace Localization.CloudERP {
         public static string ManufactureDate {
             get {
                 return ResourceManager.GetString("ManufactureDate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Monthly Salary.
-        /// </summary>
-        public static string MonthlySalary {
-            get {
-                return ResourceManager.GetString("MonthlySalary", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Net Income.
-        /// </summary>
-        public static string NetIncome {
-            get {
-                return ResourceManager.GetString("NetIncome", resourceCulture);
             }
         }
         
@@ -817,6 +817,15 @@ namespace Localization.CloudERP {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Pay Amount.
+        /// </summary>
+        public static string PayAmount {
+            get {
+                return ResourceManager.GetString("PayAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Payroll.
         /// </summary>
         public static string Payroll {
@@ -831,6 +840,15 @@ namespace Localization.CloudERP {
         public static string Photo {
             get {
                 return ResourceManager.GetString("Photo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Print Date.
+        /// </summary>
+        public static string PrintDate {
+            get {
+                return ResourceManager.GetString("PrintDate", resourceCulture);
             }
         }
         
@@ -867,6 +885,15 @@ namespace Localization.CloudERP {
         public static string ProductName {
             get {
                 return ResourceManager.GetString("ProductName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Product Quality.
+        /// </summary>
+        public static string ProductQuality {
+            get {
+                return ResourceManager.GetString("ProductQuality", resourceCulture);
             }
         }
         
@@ -934,11 +961,11 @@ namespace Localization.CloudERP {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Quantity.
+        ///   Ищет локализованную строку, похожую на Remaining Total Balance.
         /// </summary>
-        public static string Quantity {
+        public static string RemainingTotalBalance {
             get {
-                return ResourceManager.GetString("Quantity", resourceCulture);
+                return ResourceManager.GetString("RemainingTotalBalance", resourceCulture);
             }
         }
         
@@ -1159,11 +1186,11 @@ namespace Localization.CloudERP {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Select Financial Year.
+        ///   Ищет локализованную строку, похожую на Select Customer.
         /// </summary>
-        public static string SelectFinancialYear {
+        public static string SelectCustomer {
             get {
-                return ResourceManager.GetString("SelectFinancialYear", resourceCulture);
+                return ResourceManager.GetString("SelectCustomer", resourceCulture);
             }
         }
         
@@ -1173,15 +1200,6 @@ namespace Localization.CloudERP {
         public static string SelectFromDate {
             get {
                 return ResourceManager.GetString("SelectFromDate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Select Range (From Date and To Date).
-        /// </summary>
-        public static string SelectRangeFromDateAndToDate {
-            get {
-                return ResourceManager.GetString("SelectRangeFromDateAndToDate", resourceCulture);
             }
         }
         
@@ -1429,15 +1447,6 @@ namespace Localization.CloudERP {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Total Expenses.
-        /// </summary>
-        public static string TotalExpenses {
-            get {
-                return ResourceManager.GetString("TotalExpenses", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Ищет локализованную строку, похожую на Total / &lt;br/&gt; Payable.
         /// </summary>
         public static string TotalPayable {
@@ -1614,6 +1623,15 @@ namespace Localization.CloudERP {
         public static string UserSetting {
             get {
                 return ResourceManager.GetString("UserSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на User Type.
+        /// </summary>
+        public static string UserType {
+            get {
+                return ResourceManager.GetString("UserType", resourceCulture);
             }
         }
         

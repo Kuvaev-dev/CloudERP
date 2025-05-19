@@ -267,7 +267,7 @@ namespace UnitTests.API.Controllers.Sale.Payment
         public async Task ProcessPayment_ShouldReturnBadRequest_WhenRemainingAmountError()
         {
             // Arrange
-            var errorMessage = Localization.CloudERP.Messages.PurchasePaymentRemainingAmountError;
+            var errorMessage = "Purchase Payment Remaining Amount Error";
             _salePaymentFacadeMock.Setup(f => f.SalePaymentService.ProcessPaymentAsync(
                 _testSaleAmount.CompanyID,
                 _testSaleAmount.BranchID,

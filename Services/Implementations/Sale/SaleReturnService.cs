@@ -45,7 +45,7 @@ namespace Services.Implementations
                 {
                     BranchID = returnConfirmDto.BranchID,
                     CompanyID = returnConfirmDto.CompanyID,
-                    Description = Localization.Services.Localization.SaleReturn,
+                    Description = Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.SaleReturn,
                     InvoiceDate = DateTime.Now,
                     InvoiceNo = invoiceNo,
                     CustomerID = customerID,

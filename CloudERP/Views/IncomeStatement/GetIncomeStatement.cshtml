@@ -1,6 +1,10 @@
 ﻿@model Domain.Models.FinancialModels.IncomeStatementModel
+@using Localization.CloudERP.Modules.Miscellaneous
+@using Localization.CloudERP.Modules.Financial
+@using Localization.CloudERP.Modules.Account
+@using Localization.CloudERP.Modules.Sale
 @{
-    ViewBag.Title = Localization.CloudERP.Miscellaneous.IncomeStatementStr;
+    ViewBag.Title = Miscellaneous.IncomeStatementStr;
 }
 
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
@@ -20,9 +24,9 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">
-                        <label>@Localization.CloudERP.Miscellaneous.SelectFinancialYear</label>
-                        @Html.DropDownList("FinancialYearID", (SelectList)ViewBag.FinancialYears, Localization.CloudERP.Miscellaneous.SelectFinancialYear, new { @class = "form-control", required = "required" })
-                        <input type="submit" value="@Localization.CloudERP.Miscellaneous.RetrieveIncomeStatement" class="btn btn-success form-control">
+                        <label>@Financial.SelectFinancialYear</label>
+                        @Html.DropDownList("FinancialYearID", (SelectList)ViewBag.FinancialYears, Financial.SelectFinancialYear, new { @class = "form-control", required = "required" })
+                        <input type="submit" value="@Miscellaneous.RetrieveIncomeStatement" class="btn btn-success form-control">
                     </div>
                 </div>
             </div>
@@ -33,7 +37,7 @@
 @{
     <div class="card card-default col-md-12">
         <div class="card-header">
-            <h3 class="text-primary">@Localization.CloudERP.Miscellaneous.IncomeStatementStr</h3>
+            <h3 class="text-primary">@Miscellaneous.IncomeStatementStr</h3>
             <h3 class="text-danger">@ViewBag.Message</h3>
             <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
         </div>
@@ -43,13 +47,13 @@
                     <thead>
                         <tr>
                             <th>
-                                @Localization.CloudERP.Account.HeadAccount
+                                @Account.HeadAccount
                             </th>
                             <th>
-                                @Localization.CloudERP.Sale.PaymentAmount
+                                @Sale.PaymentAmount
                             </th>
                             <th>
-                                @Localization.CloudERP.Miscellaneous.Total
+                                @Miscellaneous.Total
                             </th>
                         </tr>
                         @foreach (var accountHead in Model.IncomeStatementHeads)
@@ -105,7 +109,7 @@
                             {
                                 <tr style="background-color:black;color:white;">
                                     <td>
-                                        @Localization.CloudERP.Miscellaneous.TotalRevenue:
+                                        @Miscellaneous.TotalRevenue:
                                     </td>
                                     <td></td>
                                     <td>
@@ -117,7 +121,7 @@
                             {
                                 <tr style="background-color:black;color:white;">
                                     <td>
-                                        @Localization.CloudERP.Miscellaneous.TotalExpenses:
+                                        @Localization.Services.Localization.TotalExpenses:
                                     </td>
                                     <td></td>
                                     <td>
@@ -130,7 +134,7 @@
 
                         <tr style="background-color:black;color:white;">
                             <td>
-                                @Localization.CloudERP.Miscellaneous.NetIncome:
+                                @Localization.Services.Localization.NetIncome:
                             </td>
                             <td></td>
                             <td>

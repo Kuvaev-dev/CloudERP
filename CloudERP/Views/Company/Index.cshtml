@@ -1,7 +1,8 @@
 ﻿@model IEnumerable<Domain.Models.Company>
-
+@using Localization.CloudERP.Modules.Company;
+@using Localization.CloudERP.Common;
 @{
-    ViewBag.Title = Localization.CloudERP.Company.AllCompanies;
+    ViewBag.Title = Company.AllCompanies;
 }
 
 <!-- Tables Sorting-->
@@ -17,7 +18,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        @Html.ActionLink(Localization.CloudERP.Company.AddCompanyTitle, "Create", "Company", null, new { @style = "float:left;", @class = "btn btn-success" })
+        @Html.ActionLink(Company.AddCompanyTitle, "Create", "Company", null, new { @style = "float:left;", @class = "btn btn-success" })
         <h3 class="text-danger">@ViewBag.Message</h3>
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
     </div>
@@ -27,13 +28,13 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Company.CompanyTitle)
+                            @Html.Raw(Company.CompanyTitle)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Company.Logo)
+                            @Html.Raw(Company.Logo)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Common.Actions)
+                            @Html.Raw(Common.Actions)
                         </th>
                     </tr>
                 </thead>
@@ -51,8 +52,8 @@
                                 }
                             </td>
                             <td class="d-flex btn-group">
-                                @Html.ActionLink(Localization.CloudERP.Company.UpdateProfile, "Edit", new { id = item.CompanyID }, new { @class = "btn btn-primary" })
-                                @Html.ActionLink(Localization.CloudERP.Common.Details, "Details", new { id = item.CompanyID }, new { @class = "btn btn-info" })
+                                @Html.ActionLink(Company.UpdateProfile, "Edit", new { id = item.CompanyID }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink(Common.Details, "Details", new { id = item.CompanyID }, new { @class = "btn btn-info" })
                             </td>
                         </tr>
                     }

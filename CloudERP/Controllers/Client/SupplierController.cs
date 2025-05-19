@@ -30,7 +30,7 @@ namespace CloudERP.Controllers.Client
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -48,7 +48,25 @@ namespace CloudERP.Controllers.Client
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
+        }
+
+        public async Task<ActionResult> SubBranchSupplier()
+        {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            try
+            {
+                var suppliers = await _httpClient.GetAsync<IEnumerable<Supplier>>(
+                    $"supplierapi/getbybranch?branchId={_sessionHelper.BrchID}");
+                return View(suppliers);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -70,7 +88,7 @@ namespace CloudERP.Controllers.Client
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -103,7 +121,7 @@ namespace CloudERP.Controllers.Client
                     var success = await _httpClient.PostAsync("supplierapi/create", model);
                     if (success) return RedirectToAction("AllSuppliers");
 
-                    ViewBag.Message = Localization.CloudERP.Messages.AlreadyExists;
+                    ViewBag.Message = Localization.CloudERP.Messages.Messages.AlreadyExists;
                     return View(model);
                 }
 
@@ -111,7 +129,7 @@ namespace CloudERP.Controllers.Client
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -133,7 +151,7 @@ namespace CloudERP.Controllers.Client
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -155,7 +173,7 @@ namespace CloudERP.Controllers.Client
                     var success = await _httpClient.PutAsync($"supplierapi/update?id={model.SupplierID}", model);
                     if (success) return RedirectToAction("AllSuppliers");
 
-                    ViewBag.Message = Localization.CloudERP.Messages.AlreadyExists;
+                    ViewBag.Message = Localization.CloudERP.Messages.Messages.AlreadyExists;
                     return View(model);
                 }
 
@@ -163,7 +181,7 @@ namespace CloudERP.Controllers.Client
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

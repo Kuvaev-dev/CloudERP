@@ -1,7 +1,9 @@
 ﻿@model IEnumerable<Domain.Models.FinancialYear>
-
+@using Localization.CloudERP.Modules.Financial
+@using Localization.CloudERP.Common
+@using Localization.CloudERP.Modules.Miscellaneous
 @{
-    ViewBag.Title = Localization.CloudERP.Miscellaneous.AllFinancialYears;
+    ViewBag.Title = Miscellaneous.AllFinancialYears;
 }
 
 <!-- Tables Sorting-->
@@ -17,7 +19,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        @Html.ActionLink(Localization.CloudERP.Financial.AddFinancialYear, "Create", "FinancialYear", null, new { @style = "float:left;", @class = "btn btn-success" })
+        @Html.ActionLink(Financial.AddFinancialYear, "Create", "FinancialYear", null, new { @style = "float:left;", @class = "btn btn-success" })
         <h3 class="text-danger">@ViewBag.Message</h3>
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
     </div>
@@ -27,22 +29,22 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Financial.FinancialYearTitle)
+                            @Html.Raw(Financial.FinancialYearTitle)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Financial.StartDate)
+                            @Html.Raw(Financial.StartDate)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Financial.EndDate)
+                            @Html.Raw(Financial.EndDate)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Financial.Status)
+                            @Html.Raw(Localization.CloudERP.Modules.User.User.Status)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.User.FullName)
+                            @Html.Raw(Localization.CloudERP.Modules.User.User.FullName)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Common.Actions)
+                            @Html.Raw(Common.Actions)
                         </th>
                     </tr>
                 </thead>
@@ -66,7 +68,7 @@
                                 @Html.DisplayFor(modelItem => item.UserName)
                             </td>
                             <td class="d-flex btn-group">
-                                @Html.ActionLink(Localization.CloudERP.Common.Edit, "Edit", new { id = item.FinancialYearID }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink(Common.Edit, "Edit", new { id = item.FinancialYearID }, new { @class = "btn btn-primary" })
                             </td>
                         </tr>
                     }

@@ -1,8 +1,11 @@
 ﻿@model IEnumerable<Domain.Models.PurchaseCartDetail>
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
-
+@using Localization.CloudERP.Modules.Purchase
+@using Localization.CloudERP.Modules.Sale
+@using Localization.CloudERP.Modules.Miscellaneous
+@using Localization.CloudERP.Common
 @{
-    ViewBag.Title = Localization.CloudERP.Purchase.Purchasing;
+    ViewBag.Title = Purchase.Purchasing;
     var products = ViewBag.Products as IEnumerable<Domain.Models.Stock>;
 }
 
@@ -27,10 +30,10 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div class="form-group">
-            <label class="control-label col-md-2">@Html.Raw(Localization.CloudERP.Purchase.SelectProduct)</label>
+            <label class="control-label col-md-2">@Html.Raw(Sale.SelectProduct)</label>
             <div class="col-md-5">
                 <select class="form-control" id="PID" name="PID" required>
-                    <option value="">@Localization.CloudERP.Purchase.SelectProduct</option>
+                    <option value="">@Sale.SelectProduct</option>
                     @foreach (var product in products)
                     {
                         <option value="@product.ProductID">@product.ProductName (QTY: @product.Quantity)</option>
@@ -40,21 +43,21 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2">@Localization.CloudERP.Miscellaneous.Quantity</label>
+            <label class="control-label col-md-2">@Sale.Quantity</label>
             <div class="col-md-5">
-                <input type="number" class="form-control" id="Qty" name="Qty" placeholder="Enter Purchase Quantity..." required />
+                <input type="number" class="form-control" id="Qty" name="Qty" required />
             </div>
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2">@Localization.CloudERP.Purchase.UnitPrice</label>
+            <label class="control-label col-md-2">@Purchase.UnitPrice</label>
             <div class="col-md-5">
-                <input type="number" class="form-control" id="Price" step=".01" name="Price" placeholder="Enter Unit Price..." required />
+                <input type="number" class="form-control" id="Price" step=".01" name="Price" required />
             </div>
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2">@Html.Raw(Localization.CloudERP.Purchase.ItemCost)</label>
+            <label class="control-label col-md-2">@Html.Raw(Miscellaneous.ItemCost)</label>
             <div class="col-md-5">
                 <input type="text" readonly class="form-control" id="selectItemCost" name="selectItemCost" />
             </div>
@@ -62,7 +65,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="@Localization.CloudERP.Sale.AddItem" class="btn btn-success" />
+                <input type="submit" value="@Sale.AddItem" class="btn btn-success" />
             </div>
         </div>
     </div>
@@ -70,7 +73,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        <h3 class="text-bold">@Localization.CloudERP.Purchase.ItemsList</h3>
+        <h3 class="text-bold">@Purchase.ItemsList</h3>
         <h4 class="text-success">
             @{
                 if (ViewBag.Message != null) 
@@ -90,22 +93,22 @@
                 <thead style="background-color:lightgray;">
                     <tr>
                         <th>
-                            @Localization.CloudERP.Purchase.Items
+                            @Miscellaneous.Items
                         </th>
                         <th>
-                            @Localization.CloudERP.Miscellaneous.Quantity
+                            @Sale.Quantity
                         </th>
                         <th>
-                            @Localization.CloudERP.Purchase.UnitPrice
+                            @Purchase.UnitPrice
                         </th>
                         <th>
-                            @Localization.CloudERP.Purchase.ItemCost
+                            @Miscellaneous.ItemCost
                         </th>
                         <th>
-                            @Localization.CloudERP.User.FullName
+                            @Localization.CloudERP.Modules.User.User.FullName
                         </th>
                         <th>
-                            @Localization.CloudERP.Common.Actions
+                            @Common.Actions
                         </th>
                     </tr>
                 </thead>
@@ -123,7 +126,7 @@
                                 {
                                     @Html.AntiForgeryToken()
                                     @Html.Hidden("id", item.PurchaseCartDetailID)
-                                    <input type="submit" value="@Localization.CloudERP.Common.Delete" class="btn btn-danger" />
+                                    <input type="submit" value="@Common.Delete" class="btn btn-danger" />
                                 }
                             </td>
                         </tr>
@@ -134,22 +137,22 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td style="background-color:black; color:white;">@Localization.CloudERP.Purchase.TotalPurchaseAmount</td>
+                        <td style="background-color:black; color:white;">@Purchase.TotalPurchaseAmount</td>
                         <td style="background-color:black; color:white;">
-                            @(string.Format("{0:0.000}", Math.Truncate(ViewBag.TotalAmount * 10) / 10)) @Localization.CloudERP.Common.UAH
+                            @(string.Format("{0:0.000}", Math.Truncate(ViewBag.TotalAmount * 10) / 10)) @Common.UAH
                         </td>
                     </tr>
                 </tfoot>
             </table>
             <div style="float:right; margin-top:20px;" class="btn-group">
                 <a href="@Url.Action("SelectSupplier")" class="btn btn-success" style="padding: 20px;">
-                    @Localization.CloudERP.Sale.Next
+                    @Sale.Next
                 </a>
                 @using (Html.BeginForm("CancelPurchase", "PurchaseCart", FormMethod.Post, new { @class = "form-inline" }))
                 {
                     @Html.AntiForgeryToken()
                     <button type="submit" class="btn btn-danger" style="padding:20px;">
-                        @Localization.CloudERP.Sale.Cancel
+                        @Sale.Cancel
                     </button>
                 }
             </div>

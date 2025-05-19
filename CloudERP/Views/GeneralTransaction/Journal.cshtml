@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<Domain.Models.FinancialModels.JournalModel>
-
+@using Localization.CloudERP.Modules.Miscellaneous
 @{
     string previousInvoiceNo = string.Empty;
-    ViewBag.Title = Localization.CloudERP.Miscellaneous.JournalByTransactionsDate;
+    ViewBag.Title = Miscellaneous.JournalByTransactionsDate;
 }
 
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
@@ -17,7 +17,7 @@
 <div class="card">
     <div class="card card-float">
         <div class="card-header">
-            <h4>@Localization.CloudERP.Miscellaneous.SelectRangeFromDateAndToDate</h4>
+            <h4>@Localization.CloudERP.Modules.User.User.SelectRangeFromDateAndToDate</h4>
             <h5 class="text-danger">@ViewBag.JournalMessage</h5>
             <h3 class="text-danger">@ViewBag.Message</h3>
             <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
@@ -28,17 +28,17 @@
                 @Html.AntiForgeryToken()
                 <div class="row">
                     <div class="col-md-4">
-                        <label>@Localization.CloudERP.Miscellaneous.SelectFromDate</label>
+                        <label>@Miscellaneous.SelectFromDate</label>
                         <input type="date" id="FromDate" name="FromDate" value="@DateTime.Now" class="form-control" required>
                     </div>
                     <div class="col-md-4">
-                        <label>@Localization.CloudERP.Miscellaneous.SelectToDate</label>
+                        <label>@Miscellaneous.SelectToDate</label>
                         <input type="date" id="ToDate" name="ToDate" value="@DateTime.Now" class="form-control" required>
                     </div>
                 </div>
                 <br />
                 <hr />
-                <input type="submit" value="@Localization.CloudERP.Miscellaneous.RetrieveTransactions" class="btn btn-success" style="float: right;">
+                <input type="submit" value="@Miscellaneous.RetrieveTransactions" class="btn btn-success" style="float: right;">
             }
         </div>
     </div>
@@ -46,8 +46,8 @@
 
 <div class="card">
     <div class="card-header d-flex flex-column">
-        <h3 class="text-primary">@Localization.CloudERP.Miscellaneous.Transactions</h3>
-        <p>@Localization.CloudERP.Miscellaneous.Export</p>
+        <h3 class="text-primary">@Miscellaneous.Transactions</h3>
+        <p>@Miscellaneous.Export</p>
     </div>
     <div class="card-body">
         <table class="table my-4 w-100" id="dataTable">
@@ -57,22 +57,22 @@
                         №
                     </th>
                     <th>
-                        @Localization.CloudERP.Miscellaneous.Date
+                        @Miscellaneous.Date
                     </th>
                     <th>
-                        @Localization.CloudERP.Miscellaneous.Account
+                        @Miscellaneous.Account
                     </th>
                     <th>
-                        @Localization.CloudERP.Miscellaneous.Title
+                        @Miscellaneous.Title
                     </th>
                     <th>
-                        @Localization.CloudERP.Miscellaneous.InvoiceNo
+                        @Miscellaneous.InvoiceNo
                     </th>
                     <th>
-                        @Localization.CloudERP.Miscellaneous.Debit
+                        @Miscellaneous.Debit
                     </th>
                     <th>
-                        @Localization.CloudERP.Miscellaneous.Credit
+                        @Miscellaneous.Credit
                     </th>
                 </tr>
             </thead>

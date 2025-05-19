@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DashboardTitle" xml:space="preserve">
-    <value>Панель управління</value>
+    <value>Швидкий доступ</value>
   </data>
   <data name="CurrentMonthRevenue" xml:space="preserve">
     <value>Доходи за поточний місяць</value>
@@ -221,12 +221,8 @@
     <comment>Строка бокової панелі</comment>
   </data>
   <data name="AccountSubControls" xml:space="preserve">
-    <value>Підрахунки</value>
+    <value>Субрахунки</value>
     <comment>Строка меню бокової панелі</comment>
-  </data>
-  <data name="AdminGuide" xml:space="preserve">
-    <value>Посібник адміністратора</value>
-    <comment>Строка бокової панелі</comment>
   </data>
   <data name="AllCustomers" xml:space="preserve">
     <value>Усі клієнти</value>
@@ -249,7 +245,7 @@
     <comment>Строка меню бокової панелі</comment>
   </data>
   <data name="Guide" xml:space="preserve">
-    <value>Посібник</value>
+    <value>Посібник з роботи</value>
     <comment>Строка меню бокової панелі</comment>
   </data>
   <data name="Hello" xml:space="preserve">
@@ -261,7 +257,7 @@
     <comment>Строка бокової панелі</comment>
   </data>
   <data name="PrivacyPolicy" xml:space="preserve">
-    <value>Політика конфіденційності</value>
+    <value>Конфіденційність</value>
     <comment>Строка меню бокової панелі</comment>
   </data>
   <data name="Suppliers" xml:space="preserve">
@@ -292,10 +288,6 @@
     <value>Філії</value>
     <comment>Строка бокової панелі</comment>
   </data>
-  <data name="MainEmployeeGuide" xml:space="preserve">
-    <value>Посібник працівників головної філії</value>
-    <comment>Строка бокової панелі</comment>
-  </data>
   <data name="Branchs" xml:space="preserve">
     <value>Філія</value>
     <comment>Строка бокової панелі</comment>
@@ -313,11 +305,11 @@
     <comment>Строка бокової панелі</comment>
   </data>
   <data name="Payroll" xml:space="preserve">
-    <value>Заробітна плата</value>
+    <value>Нарахування</value>
     <comment>Строка бокової панелі</comment>
   </data>
   <data name="PaidSalariesHistory" xml:space="preserve">
-    <value>Історія виплат зарплат</value>
+    <value>Історія виплат</value>
     <comment>Строка бокової панелі</comment>
   </data>
   <data name="Stocks" xml:space="preserve">
@@ -359,7 +351,7 @@
     <comment>Строка бокової панелі</comment>
   </data>
   <data name="SalePendingPayment" xml:space="preserve">
-    <value>Продаж в очікуванні оплати</value>
+    <value>Продажі в очікуванні&lt;br/&gt;оплати</value>
     <comment>Строка бокової панелі</comment>
   </data>
   <data name="AllSales" xml:space="preserve">
@@ -371,7 +363,7 @@
     <comment>Строка бокової панелі</comment>
   </data>
   <data name="ReturnSalesPendingAmount" xml:space="preserve">
-    <value>Повернення продажу&lt;br/&gt;в очікуванні</value>
+    <value>Повернення продажів&lt;br/&gt;в очікуванні</value>
     <comment>Строка бокової панелі</comment>
   </data>
   <data name="NewSupplier" xml:space="preserve">
@@ -387,7 +379,7 @@
     <comment>Строка бокової панелі</comment>
   </data>
   <data name="PurchasePendingPayment" xml:space="preserve">
-    <value>Закупівля в очікуванні&lt;br/&gt;оплати</value>
+    <value>Закупівлі в очікуванні&lt;br/&gt;оплати</value>
     <comment>Строка бокової панелі</comment>
   </data>
   <data name="AllPurchases" xml:space="preserve">
@@ -395,11 +387,11 @@
     <comment>Строка бокової панелі</comment>
   </data>
   <data name="PurchasesReturn" xml:space="preserve">
-    <value>Повернення закупівель</value>
+    <value>Повернення закупівлі</value>
     <comment>Строка бокової панелі</comment>
   </data>
   <data name="ReturnPaymentPending" xml:space="preserve">
-    <value>Повернення оплати&lt;br/&gt;в очікуванні</value>
+    <value>Повернення закупівель&lt;br/&gt;в очікуванні</value>
     <comment>Строка бокової панелі</comment>
   </data>
   <data name="Transactions" xml:space="preserve">
@@ -410,18 +402,18 @@
     <comment>Строка бокової панелі</comment>
   </data>
   <data name="Journal" xml:space="preserve">
-    <value>Журнал</value>
+    <value>Журнал транзакцій</value>
     <comment>Строка бокової панелі</comment>
   </data>
   <data name="AccountsLedger" xml:space="preserve">
-    <value>Головна книга рахунків</value>
+    <value>Бухгалтерська&lt;/br&gt;книга рахунків</value>
   </data>
   <data name="TrialBalance" xml:space="preserve">
     <value>Баланс</value>
     <comment>Строка бокової панелі</comment>
   </data>
   <data name="IncomeStatement" xml:space="preserve">
-    <value>Звіт про прибутки</value>
+    <value>Звіт про доходи</value>
     <comment>Строка бокової панелі</comment>
   </data>
   <data name="BalanceSheet" xml:space="preserve">
@@ -441,7 +433,7 @@
     <value>Прогнозування</value>
   </data>
   <data name="EmployeeStatistics" xml:space="preserve">
-    <value>Статистика співробітників</value>
+    <value>Статистика реєстрацій</value>
   </data>
   <data name="AllCategories" xml:space="preserve">
     <value>Всі категорії</value>
@@ -491,9 +483,6 @@
   <data name="SubBranchJournalByTransactionsDate" xml:space="preserve">
     <value>Журнал підрозділу (По датам транзакцій)</value>
   </data>
-  <data name="SelectRangeFromDateAndToDate" xml:space="preserve">
-    <value>Виберіть діапазон (З дати та По дату)</value>
-  </data>
   <data name="RetrieveTransactions" xml:space="preserve">
     <value>Отримати транзакції</value>
   </data>
@@ -505,9 +494,6 @@
   </data>
   <data name="Title" xml:space="preserve">
     <value>Назва</value>
-  </data>
-  <data name="Debit" xml:space="preserve">
-    <value>Дебет</value>
   </data>
   <data name="Credit" xml:space="preserve">
     <value>Кредит</value>
@@ -534,25 +520,16 @@
     <value>Звіт про доходи підрозділу</value>
   </data>
   <data name="RetrieveIncomeStatement" xml:space="preserve">
-    <value>Отримати звіт про прибутки</value>
+    <value>Отримати звіт про доходи</value>
   </data>
   <data name="IncomeStatementStr" xml:space="preserve">
     <value>Звіт про доходи</value>
   </data>
-  <data name="Total" xml:space="preserve">
-    <value>Всього</value>
-  </data>
   <data name="TotalRevenue" xml:space="preserve">
     <value>Загальний дохід</value>
   </data>
-  <data name="TotalExpenses" xml:space="preserve">
-    <value>Загальні витрати</value>
-  </data>
-  <data name="NetIncome" xml:space="preserve">
-    <value>Чистий дохід</value>
-  </data>
   <data name="SubBranchAccountsLedger" xml:space="preserve">
-    <value>Головна книга підрозділу</value>
+    <value>Бухгалтерська книга підрозділу</value>
   </data>
   <data name="RetrieveLedger" xml:space="preserve">
     <value>Отримати головну книгу</value>
@@ -569,9 +546,6 @@
   <data name="ManufactureDate" xml:space="preserve">
     <value>Дата виготовлення</value>
   </data>
-  <data name="Status" xml:space="preserve">
-    <value>Статус</value>
-  </data>
   <data name="ItemDetail" xml:space="preserve">
     <value>Деталі товару</value>
   </data>
@@ -580,9 +554,6 @@
   </data>
   <data name="ProductName" xml:space="preserve">
     <value>Назва продукту</value>
-  </data>
-  <data name="Quantity" xml:space="preserve">
-    <value>Кількість</value>
   </data>
   <data name="SaleUnitPrice" xml:space="preserve">
     <value>Ціна за одиницю продажу</value>
@@ -623,12 +594,6 @@
   <data name="TryLinksBelow" xml:space="preserve">
     <value>Тим часом, будь ласка, спробуйте одне з цих посилань нижче або поверніться через мить</value>
   </data>
-  <data name="AddEmployee" xml:space="preserve">
-    <value>Додати робітника</value>
-  </data>
-  <data name="MonthlySalary" xml:space="preserve">
-    <value>Місячна З/П</value>
-  </data>
   <data name="RetriveTransactions" xml:space="preserve">
     <value>Отримати транзакції</value>
   </data>
@@ -650,12 +615,6 @@
   <data name="Surcharge" xml:space="preserve">
     <value>Надбавка (%)</value>
   </data>
-  <data name="SelectFromDate" xml:space="preserve">
-    <value>З дати</value>
-  </data>
-  <data name="SelectToDate" xml:space="preserve">
-    <value>По дату</value>
-  </data>
   <data name="Date" xml:space="preserve">
     <value>Дата</value>
   </data>
@@ -671,17 +630,11 @@
   <data name="ReturnPurchasesPaymentPending" xml:space="preserve">
     <value>Очікується оплата повернень покупок</value>
   </data>
-  <data name="SelectFinancialYear" xml:space="preserve">
-    <value>Оберіть рік фінансуання</value>
-  </data>
   <data name="Items" xml:space="preserve">
     <value>Продукти</value>
   </data>
   <data name="SubBranchTrialBalance" xml:space="preserve">
     <value>Баланс підфілії</value>
-  </data>
-  <data name="CreateUser" xml:space="preserve">
-    <value>Створити користувача</value>
   </data>
   <data name="ProductQualityList" xml:space="preserve">
     <value>Список якості продукції</value>
@@ -692,7 +645,58 @@
   <data name="Quality" xml:space="preserve">
     <value>Якість</value>
   </data>
-  <data name="CreatedBy" xml:space="preserve">
-    <value>Створено</value>
+  <data name="Description" xml:space="preserve">
+    <value>Опис</value>
+  </data>
+  <data name="PrintDate" xml:space="preserve">
+    <value>Дата друку:</value>
+  </data>
+  <data name="SelectFromDate" xml:space="preserve">
+    <value>Оберіть з дати</value>
+  </data>
+  <data name="SelectToDate" xml:space="preserve">
+    <value>Оберіть по дату</value>
+  </data>
+  <data name="Debit" xml:space="preserve">
+    <value>Дебет</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Всього</value>
+  </data>
+  <data name="ItemCost" xml:space="preserve">
+    <value>Вартість товару</value>
+  </data>
+  <data name="UserType" xml:space="preserve">
+    <value>Тип користувача</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Статус</value>
+  </data>
+  <data name="RemainingTotalBalance" xml:space="preserve">
+    <value>Залишковий баланс</value>
+  </data>
+  <data name="PayAmount" xml:space="preserve">
+    <value>Сплатити суму</value>
+  </data>
+  <data name="AllSuppliers" xml:space="preserve">
+    <value>Усі постачальники</value>
+  </data>
+  <data name="BranchTypes" xml:space="preserve">
+    <value>Типи філій</value>
+  </data>
+  <data name="Avatar" xml:space="preserve">
+    <value>Фото профілю</value>
+  </data>
+  <data name="MainAccountSettings" xml:space="preserve">
+    <value>Облікові записи</value>
+  </data>
+  <data name="ProductQuality" xml:space="preserve">
+    <value>Якість продукції</value>
+  </data>
+  <data name="SelectCustomer" xml:space="preserve">
+    <value>Оберіть покупця</value>
+  </data>
+  <data name="AccountActivities" xml:space="preserve">
+    <value>Активності облікових&lt;/br&gt;записів</value>
   </data>
 </root>

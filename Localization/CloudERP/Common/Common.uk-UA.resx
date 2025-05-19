@@ -126,8 +126,8 @@
   <data name="Save" xml:space="preserve">
     <value>Зберегти</value>
   </data>
-  <data name="TasksAssigment" xml:space="preserve">
-    <value>Призначення завдання</value>
+  <data name="Actions" xml:space="preserve">
+    <value>Дії</value>
   </data>
   <data name="IsGlobal" xml:space="preserve">
     <value>Глобально</value>
@@ -135,8 +135,14 @@
   <data name="Details" xml:space="preserve">
     <value>Деталі</value>
   </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Редагувати</value>
+  </data>
   <data name="NotAvaliable" xml:space="preserve">
     <value>Недоступно</value>
+  </data>
+  <data name="TasksAssigment" xml:space="preserve">
+    <value>Призначення завдання</value>
   </data>
   <data name="TaskList" xml:space="preserve">
     <value>Список завдань</value>
@@ -146,9 +152,6 @@
   </data>
   <data name="BackToList" xml:space="preserve">
     <value>Назад до списку</value>
-  </data>
-  <data name="NewAccountActivity" xml:space="preserve">
-    <value>Нова активність акаунту</value>
   </data>
   <data name="AccountActivityName" xml:space="preserve">
     <value>Назва активного рахунку</value>

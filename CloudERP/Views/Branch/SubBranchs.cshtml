@@ -1,7 +1,12 @@
 ﻿@model IEnumerable<Domain.Models.Branch>
-
+@using Localization.CloudERP.Modules.Branch
+@using Localization.CloudERP.Modules.Sale
+@using Localization.CloudERP.Modules.Purchase
+@using Localization.CloudERP.Modules.Miscellaneous
+@using Localization.CloudERP.Modules.Supplier
+@using Localization.CloudERP.Common
 @{
-    ViewBag.Title = Localization.CloudERP.Branch.SubBranches;
+    ViewBag.Title = Branch.SubBranches;
 }
 
 <!-- Tables Sorting-->
@@ -16,18 +21,20 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Branch.Level)
+                            @Html.Raw(Branch.Level)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Branch.BranchName)
+                            @Html.Raw(Branch.BranchName)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.User.ContactNo)
+                            @Html.Raw(Localization.CloudERP.Modules.User.User.ContactNo)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.User.Address)
+                            @Html.Raw(Supplier.Address)
                         </th>
-                        <th></th>
+                        <th>
+                            @Html.Raw(Common.Actions)
+                        </th>
                     </tr>
                 </thead>
                 <tbody id="branchList">
@@ -47,8 +54,8 @@
                                 @Html.DisplayFor(modelItem => item.BranchAddress)
                             </td>
                             <td>
-                                @Html.ActionLink(Localization.CloudERP.Common.Edit, "Edit", new { id = item.BranchID }, new { @class = "btn btn-primary" })
-                                @Html.ActionLink(Localization.CloudERP.Common.Details, "Details", new { id = item.BranchID }, new { @class = "btn btn-info" })
+                                @Html.ActionLink(Common.Edit, "Edit", new { id = item.BranchID }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink(Common.Details, "Details", new { id = item.BranchID }, new { @class = "btn btn-info" })
                             </td>
                         </tr>
                     }

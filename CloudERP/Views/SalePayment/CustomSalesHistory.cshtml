@@ -1,8 +1,10 @@
 ﻿@model IEnumerable<Domain.Models.SaleInfo>
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
-
+@using Localization.CloudERP.Modules.Sale
+@using Localization.CloudERP.Modules.Miscellaneous
+@using Localization.CloudERP.Common
 @{
-    ViewBag.Title = Localization.CloudERP.Sale.CustomBaseSalesHistory;
+    ViewBag.Title = Sale.CustomBaseSalesHistory;
 }
 
 <!-- Tables Sorting-->
@@ -19,7 +21,7 @@
 <div class="card">
     <div class="card card-float">
         <div class="card-header">
-            <h4>@Html.Raw(Localization.CloudERP.Miscellaneous.SelectRangeFromDateAndToDate)</h4>
+            <h4>@Html.Raw(Localization.CloudERP.Modules.User.User.SelectRangeFromDateAndToDate)</h4>
             <h3 class="text-danger">@ViewBag.Message</h3>
             <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
         </div>
@@ -30,17 +32,17 @@
                 <input type="text" value="@ViewBag.InvoiceID" id="id" name="id" style="display:none;" />
                 <div class="row">
                     <div class="col-md-4">
-                        <label>@Html.Raw(Localization.CloudERP.Sale.SelectFromDate)</label>
+                        <label>@Html.Raw(Miscellaneous.SelectFromDate)</label>
                         <input type="date" id="FromDate" name="FromDate" value="@DateTime.Now" class="form-control" required>
                     </div>
                     <div class="col-md-4">
-                        <label>@Html.Raw(Localization.CloudERP.Sale.SelectToDate)</label>
+                        <label>@Html.Raw(Miscellaneous.SelectToDate)</label>
                         <input type="date" id="ToDate" name="ToDate" value="@DateTime.Now" class="form-control" required>
                     </div>
                 </div>
                 <br />
                 <br />
-                <input type="submit" value="@Localization.CloudERP.Sale.RetriveSalesRecord" class="btn btn-success" style="float: right;">
+                <input type="submit" value="@Sale.RetriveSalesRecord" class="btn btn-success" style="float: right;">
             }
         </div>
     </div>
@@ -56,37 +58,37 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Sale.Customer)
+                            @Html.Raw(Sale.Customer)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.User.ContactNo)
+                            @Html.Raw(Localization.CloudERP.Modules.User.User.ContactNo)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Sale.InvoiceNo)
+                            @Html.Raw(Miscellaneous.InvoiceNo)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Miscellaneous.Date)
+                            @Html.Raw(Miscellaneous.Date)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Sale.SaleTotalAmount)
+                            @Html.Raw(Sale.SaleTotalAmount)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Sale.ReturnProductsTotalAmount)
+                            @Html.Raw(Sale.ReturnProductsTotalAmount)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Sale.AfterReturnSaleTotalAmount)
+                            @Html.Raw(Sale.AfterReturnSaleTotalAmount)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Sale.PaidAmount)
+                            @Html.Raw(Sale.PaidAmount)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Sale.PaymentToCustomer)
+                            @Html.Raw(Sale.PaymentToCustomer)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Sale.RemainingBalance)
+                            @Html.Raw(Sale.RemainingBalance)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Common.Actions)
+                            @Html.Raw(Common.Actions)
                         </th>
                     </tr>
                 </thead>
@@ -119,7 +121,7 @@
                                 @{
                                     if (item.PaymentAmount == 0)
                                     {
-                                        @Html.ActionLink(Localization.CloudERP.Sale.SetPaid, "PaidAmount", new { id = item.CustomerInvoiceID }, new { @class = "text-success" })
+                                        @Html.ActionLink(Sale.SetPaid, "PaidAmount", new { id = item.CustomerInvoiceID }, new { @class = "text-success" })
                                     }
                                     else
                                     {
@@ -135,7 +137,7 @@
                                     if (item.RemainingBalance == 0 && item.PaymentAmount != 0)
                                     {
                                         <em class="icon-check">
-                                            <label class="text-success">@Html.Raw(Localization.CloudERP.Sale.Clear)</label>
+                                            <label class="text-success">@Html.Raw(Sale.Clear)</label>
                                         </em>
                                     }
                                     else if (item.RemainingBalance < 0)
@@ -152,18 +154,18 @@
                                 @{
                                     if (item.RemainingBalance < item.TotalAmount && item.PaymentAmount != 0)
                                     {
-                                        @Html.ActionLink(Localization.CloudERP.Sale.PayHistory, "SaleItemDetail", new { id = item.CustomerInvoiceID }, new { @class = "mt-2 btn btn-primary" });
+                                        @Html.ActionLink(Sale.PayHistory, "SaleItemDetail", new { id = item.CustomerInvoiceID }, new { @class = "mt-2 btn btn-primary" });
                                     }
                                     else
                                     {
                                         <em class="icon-book-open">
-                                            <label class="text-danger"><b>@Html.Raw(Localization.CloudERP.Sale.NoHistory)</b></label>
+                                            <label class="text-danger"><b>@Html.Raw(Sale.NoHistory)</b></label>
                                         </em>
                                     }
-                                    @Html.ActionLink(Localization.CloudERP.Sale.ViewDetails, "SaleItemDetail", new { id = item.CustomerInvoiceID }, new { @class = "mt-2 btn btn-info" });
+                                    @Html.ActionLink(Sale.ViewDetails, "SaleItemDetail", new { id = item.CustomerInvoiceID }, new { @class = "mt-2 btn btn-info" });
                                 }
 
-                                @Html.ActionLink(Localization.CloudERP.Sale.PrintInvoice, "PrintSaleInvoice", "SalePayment", new { id = item.CustomerInvoiceID }, new { @class = "mt-2 btn btn-info" })
+                                @Html.ActionLink(Sale.PrintInvoice, "PrintSaleInvoice", "SalePayment", new { id = item.CustomerInvoiceID }, new { @class = "mt-2 btn btn-info" })
                             </td>
                         </tr>
                     }

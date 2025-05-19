@@ -71,7 +71,7 @@ namespace DatabaseAccess.Repositories.Financial
                         {
                             SNo = sNo++,
                             Account = accountName,
-                            Date = Localization.Services.Localization.Date,
+                            Date = Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Date,
                             Description = Localization.Services.Localization.Description,
                             Debit = Localization.Services.Localization.Debit,
                             Credit = Localization.Services.Localization.Credit

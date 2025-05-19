@@ -1,28 +1,30 @@
 ﻿@model Domain.Models.PurchaseItemDetailDto
-
+@using Localization.CloudERP.Modules.Sale
+@using Localization.CloudERP.Modules.Purchase
+@using Localization.CloudERP.Modules.Miscellaneous
 @{
-    ViewBag.Title = Localization.CloudERP.Sale.SaleInvoiceNo + Model.InvoiceNo;
+    ViewBag.Title = Sale.SaleInvoiceNo + Model.InvoiceNo;
 }
 
 <div class="card">
     <div class="card card-float">
         <div class="card-header">
-            <h3 class="text-success">@Localization.CloudERP.Purchase.PurchaseProductsDetail</h3>
+            <h3 class="text-success">@Purchase.PurchaseProductsDetail</h3>
         </div>
         <div class="card-body">
             <table class="table table-hover">
                 <tr>
                     <th>
-                        @Localization.CloudERP.Miscellaneous.ProductName
+                        @Miscellaneous.ProductName
                     </th>
                     <th>
-                        @Localization.CloudERP.Miscellaneous.Quantity
+                        @Sale.Quantity
                     </th>
                     <th>
-                        @Localization.CloudERP.Purchase.UnitPrice
+                        @Purchase.UnitPrice
                     </th>
                     <th>
-                        @Localization.CloudERP.Purchase.ItemCost
+                        @Miscellaneous.ItemCost
                     </th>
                 </tr>
                 @if (Model.Products != null)
@@ -44,7 +46,7 @@
             <div class="col-lg-6 py-2">
                 <div class="row mb-3 align-items-center">
                     <div class="col-7">
-                        <div class="h3">@Localization.CloudERP.Sale.GRANDTOTAL</div>
+                        <div class="h3">@Sale.GRANDTOTAL</div>
                     </div>
                     <div class="col-5">
                         <div class="text-left h3">@Model.Total.ToString("F2")</div>
@@ -60,15 +62,15 @@
     <div class="card">
         <div class="card card-float">
             <div class="card-header">
-                <h3 class="text-danger">@Localization.CloudERP.Purchase.ReturnProductsDetail</h3>
+                <h3 class="text-danger">@Purchase.ReturnProductsDetail</h3>
             </div>
             <div class="card-body">
                 <table class="table table-hover">
                     <tr>
-                        <th>@Localization.CloudERP.Miscellaneous.ProductName</th>
-                        <th>@Localization.CloudERP.Miscellaneous.Quantity</th>
-                        <th>@Localization.CloudERP.Purchase.UnitPrice</th>
-                        <th>@Localization.CloudERP.Purchase.ItemCost</th>
+                        <th>@Miscellaneous.ProductName</th>
+                        <th>@Sale.Quantity</th>
+                        <th>@Purchase.UnitPrice</th>
+                        <th>@Miscellaneous.ItemCost</th>
                     </tr>
 
                     @foreach (var item in Model.Returns)

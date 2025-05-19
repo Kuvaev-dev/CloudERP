@@ -151,6 +151,27 @@ namespace CloudERP.Controllers.Purchase.Payment
             }
         }
 
+        public async Task<ActionResult> SubCustomPurchasesHistory(DateTime fromDate, DateTime toDate, int id)
+        {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            try
+            {
+                var list = await _httpClient.GetAsync<IEnumerable<PurchaseInfo>>(
+                    $"purchasepaymentapi/getcustompurchaseshistory" +
+                    $"?companyId={_sessionHelper.CompanyID}&branchId={id}" +
+                    $"&fromDate={fromDate:yyyy-MM-dd}&toDate={toDate:yyyy-MM-dd}");
+
+                return View(list);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
+        }
+
         public async Task<ActionResult> PurchaseItemDetail(int id)
         {
             if (!_sessionHelper.IsAuthenticated)
@@ -214,7 +235,7 @@ namespace CloudERP.Controllers.Purchase.Payment
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

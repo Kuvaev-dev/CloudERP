@@ -6,42 +6,42 @@ namespace Domain.Models
     {
         public int TicketID { get; set; }
 
-        [Required(ErrorMessage = "Subject is required.")]
-        [StringLength(100, ErrorMessage = "Subject cannot exceed 100 characters.")]
-        public string Subject { get; set; } = null!;
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [StringLength(100, ErrorMessageResourceName = "StringLengthMaxValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        public string? Subject { get; set; }
 
-        [Required(ErrorMessage = "Name is required.")]
-        [StringLength(50, MinimumLength = 2, ErrorMessage = "Name must be between 2 and 50 characters.")]
-        public string Name { get; set; } = null!;
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [StringLength(50, MinimumLength = 2, ErrorMessageResourceName = "StringLengthMinMaxValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        public string? Name { get; set; }
 
-        [Required(ErrorMessage = "Email is required.")]
-        [EmailAddress(ErrorMessage = "Invalid email format.")]
-        [StringLength(100, ErrorMessage = "Email cannot exceed 100 characters.")]
-        public string Email { get; set; } = null!;
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [EmailAddress(ErrorMessageResourceName = "EmailValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [StringLength(100, ErrorMessageResourceName = "StringLengthMaxValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        public string? Email { get; set; }
 
-        [Required(ErrorMessage = "Message is required.")]
-        [StringLength(1000, MinimumLength = 10, ErrorMessage = "Message must be between 10 and 1000 characters.")]
-        public string Message { get; set; } = null!;
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [StringLength(1000, MinimumLength = 10, ErrorMessageResourceName = "StringLengthMinMaxValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        public string? Message { get; set; }
 
         public DateTime DateCreated { get; set; }
 
-        [StringLength(1000, MinimumLength = 10, ErrorMessage = "Admin response must be between 10 and 1000 characters, if provided.")]
-        public string AdminResponse { get; set; } = null!;
+        [StringLength(1000, MinimumLength = 10, ErrorMessageResourceName = "StringLengthMinMaxValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        public string? AdminResponse { get; set; }
 
-        [StringLength(50, MinimumLength = 2, ErrorMessage = "Responded by must be between 2 and 50 characters, if provided.")]
-        public string RespondedBy { get; set; } = null!;
+        [StringLength(50, MinimumLength = 2, ErrorMessageResourceName = "StringLengthMinMaxValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        public string? RespondedBy { get; set; }
 
         public DateTime? ResponseDate { get; set; }
 
         public bool IsResolved { get; set; }
 
-        [Range(1, int.MaxValue, ErrorMessage = "Company ID must be a positive integer.")]
+        [Range(1, int.MaxValue, ErrorMessageResourceName = "RangeValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public int CompanyID { get; set; }
 
-        [Range(1, int.MaxValue, ErrorMessage = "Branch ID must be a positive integer.")]
+        [Range(1, int.MaxValue, ErrorMessageResourceName = "RangeValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public int BranchID { get; set; }
 
-        [Range(1, int.MaxValue, ErrorMessage = "User ID must be a positive integer.")]
+        [Range(1, int.MaxValue, ErrorMessageResourceName = "RangeValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public int UserID { get; set; }
     }
 }

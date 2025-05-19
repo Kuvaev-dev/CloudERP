@@ -49,7 +49,7 @@ namespace CloudERP.Controllers.General
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -69,7 +69,7 @@ namespace CloudERP.Controllers.General
 
                 if (userData?.User == null)
                 {
-                    ViewBag.ErrorMessage = Localization.CloudERP.Messages.PleaseProvideCorrectDetails;
+                    ViewBag.ErrorMessage = Localization.CloudERP.Messages.Messages.PleaseProvideCorrectDetails;
                     return View("Login");
                 }
 
@@ -89,7 +89,7 @@ namespace CloudERP.Controllers.General
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return View("Login");
             }
         }
@@ -181,7 +181,7 @@ namespace CloudERP.Controllers.General
         {
             if (string.IsNullOrEmpty(email))
             {
-                ModelState.AddModelError("", Localization.CloudERP.Messages.EmailIsRequired);
+                ModelState.AddModelError("", Localization.CloudERP.Messages.Messages.EmailIsRequired);
                 return View();
             }
 
@@ -194,7 +194,7 @@ namespace CloudERP.Controllers.General
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -215,7 +215,7 @@ namespace CloudERP.Controllers.General
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -240,7 +240,7 @@ namespace CloudERP.Controllers.General
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

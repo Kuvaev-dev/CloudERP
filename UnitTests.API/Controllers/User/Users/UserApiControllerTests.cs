@@ -14,6 +14,7 @@ namespace UnitTests.Controllers.API.User.Users
         private Mock<IUserRepository> _userRepositoryMock;
         private Mock<PasswordHelper> _passwordHelperMock;
         private UserApiController _controller;
+        private PasswordHelper _passwordHelper;
         private Domain.Models.User _testUser;
         private List<Domain.Models.User> _testUsers;
 
@@ -23,6 +24,7 @@ namespace UnitTests.Controllers.API.User.Users
             _userRepositoryMock = new Mock<IUserRepository>();
             _passwordHelperMock = new Mock<PasswordHelper>();
             _controller = new UserApiController(_userRepositoryMock.Object, _passwordHelperMock.Object);
+            _passwordHelper = new PasswordHelper();
 
             _testUser = new Domain.Models.User
             {
@@ -271,7 +273,7 @@ namespace UnitTests.Controllers.API.User.Users
                 UserTypeID = 1,
                 IsActive = true
             };
-            _passwordHelperMock.Setup(p => PasswordHelper.HashPassword(plainPassword, out salt))
+            _passwordHelperMock.Setup(p => _passwordHelper.HashPassword(plainPassword, out salt))
                                .Returns(hashedPassword);
             _userRepositoryMock.Setup(r => r.AddAsync(It.Is<Domain.Models.User>(u => u.Password == hashedPassword && u.Salt == salt)))
                                .Returns(Task.CompletedTask);
@@ -286,7 +288,7 @@ namespace UnitTests.Controllers.API.User.Users
             createdResult.ActionName.Should().Be(nameof(_controller.GetById));
             createdResult.RouteValues["id"].Should().Be(userToCreate.UserID);
             createdResult.Value.Should().BeEquivalentTo(userToCreate, options => options.Excluding(u => u.Password).Excluding(u => u.Salt));
-            _passwordHelperMock.Verify(p => PasswordHelper.HashPassword(plainPassword, out salt), Times.Once());
+            _passwordHelperMock.Verify(p => _passwordHelper.HashPassword(plainPassword, out salt), Times.Once());
             _userRepositoryMock.Verify(r => r.AddAsync(It.IsAny<Domain.Models.User>()), Times.Once());
         }
 
@@ -301,7 +303,7 @@ namespace UnitTests.Controllers.API.User.Users
             badRequestResult.Should().NotBeNull();
             badRequestResult.StatusCode.Should().Be(400);
             badRequestResult.Value.Should().Be("Model cannot be null.");
-            _passwordHelperMock.Verify(p => PasswordHelper.HashPassword(It.IsAny<string>(), out It.Ref<string>.IsAny), Times.Never());
+            _passwordHelperMock.Verify(p => _passwordHelper.HashPassword(It.IsAny<string>(), out It.Ref<string>.IsAny), Times.Never());
             _userRepositoryMock.Verify(r => r.AddAsync(It.IsAny<Domain.Models.User>()), Times.Never());
         }
 
@@ -324,7 +326,7 @@ namespace UnitTests.Controllers.API.User.Users
                 IsActive = true
             };
             var exceptionMessage = "Database error";
-            _passwordHelperMock.Setup(p => PasswordHelper.HashPassword(plainPassword, out salt))
+            _passwordHelperMock.Setup(p => _passwordHelper.HashPassword(plainPassword, out salt))
                                .Returns(hashedPassword);
             _userRepositoryMock.Setup(r => r.AddAsync(It.IsAny<Domain.Models.User>()))
                                .ThrowsAsync(new Exception(exceptionMessage));
@@ -338,7 +340,7 @@ namespace UnitTests.Controllers.API.User.Users
             problemResult.StatusCode.Should().Be(500);
             problemResult.Value.Should().BeOfType<ProblemDetails>()
                          .Which.Detail.Should().Be(exceptionMessage);
-            _passwordHelperMock.Verify(p => PasswordHelper.HashPassword(plainPassword, out salt), Times.Once());
+            _passwordHelperMock.Verify(p => _passwordHelper.HashPassword(plainPassword, out salt), Times.Once());
             _userRepositoryMock.Verify(r => r.AddAsync(It.IsAny<Domain.Models.User>()), Times.Once());
         }
 
@@ -361,7 +363,7 @@ namespace UnitTests.Controllers.API.User.Users
                 UserTypeID = 1,
                 IsActive = true
             };
-            _passwordHelperMock.Setup(p => PasswordHelper.HashPassword(plainPassword, out salt))
+            _passwordHelperMock.Setup(p => _passwordHelper.HashPassword(plainPassword, out salt))
                                .Returns(hashedPassword);
             _userRepositoryMock.Setup(r => r.UpdateAsync(It.Is<Domain.Models.User>(u => u.Password == hashedPassword && u.Salt == salt)))
                                .Returns(Task.CompletedTask);
@@ -374,10 +376,10 @@ namespace UnitTests.Controllers.API.User.Users
             okResult.Should().NotBeNull();
             okResult.StatusCode.Should().Be(200);
             okResult.Value.Should().BeEquivalentTo(userToUpdate, options => options.Excluding(u => u.Password).Excluding(u => u.Salt));
-            _passwordHelperMock.Verify(p => PasswordHelper.HashPassword(plainPassword, out salt), Times.Once());
+            _passwordHelperMock.Verify(p => _passwordHelper.HashPassword(plainPassword, out salt), Times.Once());
             _userRepositoryMock.Verify(r => r.GetByIdAsync(id), Times.Never());
             _userRepositoryMock.Verify(r => r.UpdateAsync(It.IsAny<Domain.Models.User>()), Times.Once());
-            _passwordHelperMock.Verify(p => PasswordHelper.HashPassword(It.IsAny<string>(), out It.Ref<string>.IsAny), Times.Never());
+            _passwordHelperMock.Verify(p => _passwordHelper.HashPassword(It.IsAny<string>(), out It.Ref<string>.IsAny), Times.Never());
         }
 
         [Test]
@@ -421,7 +423,7 @@ namespace UnitTests.Controllers.API.User.Users
             okResult.Should().NotBeNull();
             okResult.StatusCode.Should().Be(200);
             okResult.Value.Should().BeEquivalentTo(userToUpdate, options => options.Excluding(u => u.Password).Excluding(u => u.Salt));
-            _passwordHelperMock.Verify(p => PasswordHelper.HashPassword(It.IsAny<string>(), out It.Ref<string>.IsAny), Times.Never());
+            _passwordHelperMock.Verify(p => _passwordHelper.HashPassword(It.IsAny<string>(), out It.Ref<string>.IsAny), Times.Never());
             _userRepositoryMock.Verify(r => r.GetByIdAsync(id), Times.Once());
             _userRepositoryMock.Verify(r => r.UpdateAsync(It.IsAny<Domain.Models.User>()), Times.Once());
         }
@@ -440,7 +442,7 @@ namespace UnitTests.Controllers.API.User.Users
             badRequestResult.Should().NotBeNull();
             badRequestResult.StatusCode.Should().Be(400);
             badRequestResult.Value.Should().Be("Model cannot be null.");
-            _passwordHelperMock.Verify(p => PasswordHelper.HashPassword(It.IsAny<string>(), out It.Ref<string>.IsAny), Times.Never());
+            _passwordHelperMock.Verify(p => _passwordHelper.HashPassword(It.IsAny<string>(), out It.Ref<string>.IsAny), Times.Never());
             _userRepositoryMock.Verify(r => r.GetByIdAsync(It.IsAny<int>()), Times.Never());
             _userRepositoryMock.Verify(r => r.UpdateAsync(It.IsAny<Domain.Models.User>()), Times.Never());
         }

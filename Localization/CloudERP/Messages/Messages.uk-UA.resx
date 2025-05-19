@@ -1,221 +1,231 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-	<!-- 
-		Microsoft ResX Schema
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
 
-		Version 1.3
-
-		The primary goals of this format is to allow a simple XML format 
-		that is mostly human readable. The generation and parsing of the 
-		various data types are done through the TypeConverter classes 
-		associated with the data types.
-
-		Example:
-
-		... ado.net/XML headers & schema ...
-		<resheader name="resmimetype">text/microsoft-resx</resheader>
-		<resheader name="version">1.3</resheader>
-		<resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-		<resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-		<data name="Name1">this is my long string</data>
-		<data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-		<data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-			[base64 mime encoded serialized .NET Framework object]
-		</data>
-		<data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-			[base64 mime encoded string representing a byte array form of the .NET Framework object]
-		</data>
-
-		There are any number of "resheader" rows that contain simple 
-		name/value pairs.
-
-		Each data row contains a name, and value. The row also contains a 
-		type or mimetype. Type corresponds to a .NET class that support 
-		text/value conversion through the TypeConverter architecture. 
-		Classes that don't support this are serialized and stored with the 
-		mimetype set.
-
-		The mimetype is used for serialized objects, and tells the 
-		ResXResourceReader how to depersist the object. This is currently not 
-		extensible. For a given mimetype the value must be set accordingly:
-
-		Note - application/x-microsoft.net.object.binary.base64 is the format 
-		that the ResXResourceWriter will generate, however the reader can 
-		read any of the formats listed below.
-
-		mimetype: application/x-microsoft.net.object.binary.base64
-		value   : The object must be serialized with 
-			: System.Serialization.Formatters.Binary.BinaryFormatter
-			: and then encoded with base64 encoding.
-
-		mimetype: application/x-microsoft.net.object.soap.base64
-		value   : The object must be serialized with 
-			: System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-			: and then encoded with base64 encoding.
-
-		mimetype: application/x-microsoft.net.object.bytearray.base64
-		value   : The object must be serialized into a byte array 
-			: using a System.ComponentModel.TypeConverter
-			: and then encoded with base64 encoding.
-	-->
-	
-	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-		<xsd:element name="root" msdata:IsDataSet="true">
-			<xsd:complexType>
-				<xsd:choice maxOccurs="unbounded">
-					<xsd:element name="data">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
-							<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-							<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="resheader">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" use="required" />
-						</xsd:complexType>
-					</xsd:element>
-				</xsd:choice>
-			</xsd:complexType>
-		</xsd:element>
-	</xsd:schema>
-	<resheader name="resmimetype">
-		<value>text/microsoft-resx</value>
-	</resheader>
-	<resheader name="version">
-		<value>1.3</value>
-	</resheader>
-	<resheader name="reader">
-		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
-	<resheader name="writer">
-		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
   <data name="UnexpectedErrorMessage" xml:space="preserve">
     <value>Сталася непередбачена помилка під час внесення змін: </value>
-	</data>
+  </data>
   <data name="AlreadyExists" xml:space="preserve">
     <value>Такі дані вже містяться в базі даних. Перевірте дані форми та спробуйте ще раз.</value>
-	</data>
+  </data>
   <data name="ErrorFetchingDataFromGeoapifyAPI" xml:space="preserve">
     <value>Помилка отримання даних з Geoapify API</value>
-	</data>
+  </data>
   <data name="CompanyFinancialYearNotSet" xml:space="preserve">
     <value>Фінансовий рік вашої компанії не встановлений! Будь ласка, зверніться до адміністратора!</value>
-	</data>
+  </data>
   <data name="InvalidFinancialYearID" xml:space="preserve">
     <value>Невірний ID фінансового року.</value>
-	</data>
+  </data>
   <data name="BranchEists" xml:space="preserve">
     <value>Філія з таким же ім'ям, контактом або адресою вже існує для цієї компанії.</value>
-	</data>
+  </data>
   <data name="RecordNotFound" xml:space="preserve">
     <value>Запис не знайдено</value>
-	</data>
-  <data name="SalaryIsAlreadyPaid" xml:space="preserve">
-    <value>Зарплата вже виплачена</value>
-	</data>
+  </data>
   <data name="PleaseReLoginAndTryAgain" xml:space="preserve">
     <value>Будь ласка, увійдіть в систему знову та спробуйте ще раз</value>
-	</data>
+  </data>
   <data name="UsernameAlreadyExists" xml:space="preserve">
     <value>Користувач з цим ім'ям або електронною поштою вже існує.</value>
-	</data>
+  </data>
   <data name="EmployeeEmailAlreadyExists" xml:space="preserve">
     <value>Співробітник з цим електронним адресом вже існує в цій компанії.</value>
-	</data>
+  </data>
   <data name="RegistrationSuccessful" xml:space="preserve">
     <value>Реєстрація пройшла успішно!</value>
-	</data>
+  </data>
   <data name="PleaseProvideCorrectDetails" xml:space="preserve">
     <value>Будь ласка, надайте правильні дані.</value>
-	</data>
+  </data>
   <data name="EmailIsRequired" xml:space="preserve">
     <value>Електронна пошта є обов'язковою.</value>
-	</data>
+  </data>
   <data name="PasswordResetAlreadyRequested" xml:space="preserve">
     <value>Ви вже запитували скидання пароля. Будь ласка, почекайте деякий час перед повторною спробою.</value>
-	</data>
+  </data>
   <data name="ItemAddedSuccessfully" xml:space="preserve">
     <value>Елемент успішно додано!</value>
-	</data>
+  </data>
   <data name="ItemAlreadyExists" xml:space="preserve">
     <value>Елемент вже існує!</value>
-	</data>
+  </data>
   <data name="DeletedSuccessfully" xml:space="preserve">
     <value>Успішно видалено.</value>
-	</data>
+  </data>
   <data name="UnexpectedIssue" xml:space="preserve">
     <value>Сталася непередбачена проблема. Будь ласка, зверніться до відповідальної особи!</value>
-	</data>
+  </data>
   <data name="PurchaseIsCanceled" xml:space="preserve">
     <value>Покупка скасована.</value>
-	</data>
+  </data>
   <data name="PurchaseCartIsEmpty" xml:space="preserve">
     <value>Корзина покупок порожня</value>
-	</data>
+  </data>
   <data name="PurchasePaymentRemainingAmountError" xml:space="preserve">
     <value>Платіж має бути менше або дорівнювати попередній залишковій сумі.</value>
-	</data>
-  <data name="PurchaseReturn" xml:space="preserve">
-    <value>Повернення покупки</value>
-	</data>
+  </data>
   <data name="OneProductReturnQtyError" xml:space="preserve">
     <value>Має бути хоча б одна кількість повернення продукту</value>
-	</data>
-  <data name="ReturnSuccessfully" xml:space="preserve">
-    <value>Повернення успішно завершено</value>
-	</data>
+  </data>
   <data name="ProductDetailsFetchingError" xml:space="preserve">
     <value>Сталася помилка при отриманні деталей продукту.</value>
-	</data>
+  </data>
   <data name="SaleQuantityError" xml:space="preserve">
     <value>Кількість продажу має бути менше або дорівнювати доступній кількості.</value>
-	</data>
+  </data>
   <data name="ProductNotFound" xml:space="preserve">
     <value>Продукт не знайдено.</value>
-	</data>
+  </data>
   <data name="EmployeeNotFound" xml:space="preserve">
     <value>Співробітник не знайдено.</value>
-	</data>
+  </data>
   <data name="SaleCanceledSuccessfully" xml:space="preserve">
     <value>Продаж успішно скасовано.</value>
-	</data>
+  </data>
   <data name="SaleCartEmpty" xml:space="preserve">
     <value>Корзина продажів порожня.</value>
-	</data>
+  </data>
   <data name="SupportRequestSubmitted" xml:space="preserve">
     <value>Ваш запит на підтримку був успішно відправлений.</value>
-	</data>
+  </data>
   <data name="EmailIsAlreadyRegistered" xml:space="preserve">
     <value>Електронна пошта вже зареєстрована</value>
-	</data>
+  </data>
   <data name="UserNotFound" xml:space="preserve">
     <value>Користувач не знайдено.</value>
-	</data>
+  </data>
   <data name="TrainingSetHasZeroInstances" xml:space="preserve">
     <value>Набір для навчання містить 0 екземплярів, навчання припинено.</value>
-	</data>
+  </data>
   <data name="NoDataAvailableForForecasting" xml:space="preserve">
     <value>Немає даних для прогнозування.</value>
-	</data>
+  </data>
   <data name="SavedSuccessfully" xml:space="preserve">
     <value>Успішно збережено!</value>
-	</data>
+  </data>
   <data name="UpdatedSuccessfully" xml:space="preserve">
     <value>Успішно оновлено!</value>
-	</data>
+  </data>
   <data name="ForecastHasBeenGenerated" xml:space="preserve">
     <value>Дані для прогнозу успішно згенеровано:</value>
-	</data>
-	<data name="PleaseEnterAValidPhoneNumber" xml:space="preserve">
+  </data>
+  <data name="PleaseEnterAValidPhoneNumber" xml:space="preserve">
     <value>Будь-ласка, введіть коректний номер телефону</value>
-	</data>
+  </data>
 </root>

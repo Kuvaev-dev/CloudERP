@@ -1,7 +1,8 @@
 ﻿@model IEnumerable<Domain.Models.AccountActivity>
-
+@using Localization.CloudERP.Modules.Account
+@using Localization.CloudERP.Common
 @{
-    ViewBag.Title = Localization.CloudERP.Account.AllAccountActivities;
+    ViewBag.Title = Account.AllAccountActivities;
 }
 
 <!-- Tables Sorting-->
@@ -17,7 +18,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        @Html.ActionLink("Add Account Activity", "Create", "AccountActivity", null, new { @style = "float:left;", @class = "btn btn-success" })
+        @Html.ActionLink(Account.AddAccountActivity, "Create", "AccountActivity", null, new { @style = "float:left;", @class = "btn btn-success" })
         <h2 class="text-danger">@ViewBag.Message</h2>
         <h2 class="text-danger">@ViewBag.ErrorMessage</h2>
     </div>
@@ -27,10 +28,10 @@
                 <thead>
                     <tr>
                         <th class="col-md-7">
-                            @Localization.CloudERP.Account.AccountActivityName
+                            @Account.AccountActivityName
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Common.Actions)
+                            @Html.Raw(Common.Actions)
                         </th>
                     </tr>
                 </thead>
@@ -42,7 +43,7 @@
                                 @Html.DisplayFor(modelItem => item.Name)
                             </td>
                             <td class="d-flex btn-group">
-                                @Html.ActionLink(Localization.CloudERP.Common.Edit, "Edit", new { id = item.AccountActivityID }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink(Common.Edit, "Edit", new { id = item.AccountActivityID }, new { @class = "btn btn-primary" })
                             </td>
                         </tr>
                     }

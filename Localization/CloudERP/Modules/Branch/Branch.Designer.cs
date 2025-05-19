@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Localization.CloudERP {
+namespace Localization.CloudERP.Modules.Branch {
     using System;
     
     
@@ -138,15 +138,6 @@ namespace Localization.CloudERP {
         public static string EditBranchType {
             get {
                 return ResourceManager.GetString("EditBranchType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Employee Profile.
-        /// </summary>
-        public static string EmployeeProfile {
-            get {
-                return ResourceManager.GetString("EmployeeProfile", resourceCulture);
             }
         }
         

@@ -224,10 +224,6 @@
     <value>Account Sub Controls</value>
     <comment>Sidebar Option Menu String</comment>
   </data>
-  <data name="AdminGuide" xml:space="preserve">
-    <value>Admin Guide</value>
-    <comment>Sidebar Option String</comment>
-  </data>
   <data name="AllCustomers" xml:space="preserve">
     <value>All Customers</value>
     <comment>Sidebar Option Menu String</comment>
@@ -290,10 +286,6 @@
   </data>
   <data name="Branches" xml:space="preserve">
     <value>Branches</value>
-    <comment>Sidebar Option String</comment>
-  </data>
-  <data name="MainEmployeeGuide" xml:space="preserve">
-    <value>Main Employee Guide</value>
     <comment>Sidebar Option String</comment>
   </data>
   <data name="Branchs" xml:space="preserve">
@@ -491,9 +483,6 @@
   <data name="SubBranchJournalByTransactionsDate" xml:space="preserve">
     <value>Sub Branch Journal (By Transactions Date)</value>
   </data>
-  <data name="SelectRangeFromDateAndToDate" xml:space="preserve">
-    <value>Select Range (From Date and To Date)</value>
-  </data>
   <data name="RetrieveTransactions" xml:space="preserve">
     <value>Retrieve Transactions</value>
   </data>
@@ -505,9 +494,6 @@
   </data>
   <data name="Title" xml:space="preserve">
     <value>Title</value>
-  </data>
-  <data name="Debit" xml:space="preserve">
-    <value>Debit</value>
   </data>
   <data name="Credit" xml:space="preserve">
     <value>Credit</value>
@@ -539,17 +525,8 @@
   <data name="IncomeStatementStr" xml:space="preserve">
     <value>Income Statement</value>
   </data>
-  <data name="Total" xml:space="preserve">
-    <value>Total</value>
-  </data>
   <data name="TotalRevenue" xml:space="preserve">
     <value>Total Revenue</value>
-  </data>
-  <data name="TotalExpenses" xml:space="preserve">
-    <value>Total Expenses</value>
-  </data>
-  <data name="NetIncome" xml:space="preserve">
-    <value>Net Income</value>
   </data>
   <data name="SubBranchAccountsLedger" xml:space="preserve">
     <value>Sub Branch Accounts Ledger</value>
@@ -569,9 +546,6 @@
   <data name="ManufactureDate" xml:space="preserve">
     <value>Manufacture Date</value>
   </data>
-  <data name="Status" xml:space="preserve">
-    <value>Status</value>
-  </data>
   <data name="ItemDetail" xml:space="preserve">
     <value>Item Detail</value>
   </data>
@@ -580,9 +554,6 @@
   </data>
   <data name="ProductName" xml:space="preserve">
     <value>Product Name</value>
-  </data>
-  <data name="Quantity" xml:space="preserve">
-    <value>Quantity</value>
   </data>
   <data name="SaleUnitPrice" xml:space="preserve">
     <value>Sale Unit Price</value>
@@ -623,12 +594,6 @@
   <data name="TryLinksBelow" xml:space="preserve">
     <value>In the meantime, please try one of those links below or come back in a moment</value>
   </data>
-  <data name="AddEmployee" xml:space="preserve">
-    <value>Add Employee</value>
-  </data>
-  <data name="MonthlySalary" xml:space="preserve">
-    <value>Monthly Salary</value>
-  </data>
   <data name="RetriveTransactions" xml:space="preserve">
     <value>Retrieve Transactions</value>
   </data>
@@ -650,12 +615,6 @@
   <data name="Surcharge" xml:space="preserve">
     <value>Surcharge (%)</value>
   </data>
-  <data name="SelectFromDate" xml:space="preserve">
-    <value>Select From Date</value>
-  </data>
-  <data name="SelectToDate" xml:space="preserve">
-    <value>Select To Date</value>
-  </data>
   <data name="Date" xml:space="preserve">
     <value>Date</value>
   </data>
@@ -671,17 +630,11 @@
   <data name="ReturnPurchasesPaymentPending" xml:space="preserve">
     <value>Return Purchases Payment Pending</value>
   </data>
-  <data name="SelectFinancialYear" xml:space="preserve">
-    <value>Select Financial Year</value>
-  </data>
   <data name="Items" xml:space="preserve">
     <value>Items</value>
   </data>
   <data name="SubBranchTrialBalance" xml:space="preserve">
     <value>Sub Branch Trial Balance</value>
-  </data>
-  <data name="CreateUser" xml:space="preserve">
-    <value>Create User</value>
   </data>
   <data name="ProductQualityList" xml:space="preserve">
     <value>Product Quality List</value>
@@ -692,7 +645,58 @@
   <data name="Quality" xml:space="preserve">
     <value>Quality</value>
   </data>
-  <data name="CreatedBy" xml:space="preserve">
-    <value>Created By</value>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="PrintDate" xml:space="preserve">
+    <value>Print Date</value>
+  </data>
+  <data name="SelectFromDate" xml:space="preserve">
+    <value>Select From Date</value>
+  </data>
+  <data name="SelectToDate" xml:space="preserve">
+    <value>Select To Date</value>
+  </data>
+  <data name="Debit" xml:space="preserve">
+    <value>Debit</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="ItemCost" xml:space="preserve">
+    <value>Item Cost</value>
+  </data>
+  <data name="UserType" xml:space="preserve">
+    <value>User Type</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="RemainingTotalBalance" xml:space="preserve">
+    <value>Remaining Total Balance</value>
+  </data>
+  <data name="PayAmount" xml:space="preserve">
+    <value>Pay Amount</value>
+  </data>
+  <data name="AllSuppliers" xml:space="preserve">
+    <value>All Suppliers</value>
+  </data>
+  <data name="BranchTypes" xml:space="preserve">
+    <value>Branch Types</value>
+  </data>
+  <data name="Avatar" xml:space="preserve">
+    <value>Profile Photo</value>
+  </data>
+  <data name="MainAccountSettings" xml:space="preserve">
+    <value>Main Account Settings</value>
+  </data>
+  <data name="ProductQuality" xml:space="preserve">
+    <value>Product Quality</value>
+  </data>
+  <data name="SelectCustomer" xml:space="preserve">
+    <value>Select Customer</value>
+  </data>
+  <data name="AccountActivities" xml:space="preserve">
+    <value>Account Activities</value>
   </data>
 </root>

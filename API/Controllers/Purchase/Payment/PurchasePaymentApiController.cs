@@ -52,7 +52,7 @@ namespace API.Controllers.Purchase.Payment
                 paymentDto.UserID,
                 paymentDto);
 
-            if (message == Localization.CloudERP.Messages.PurchasePaymentRemainingAmountError)
+            if (message == Localization.CloudERP.Messages.Messages.PurchasePaymentRemainingAmountError)
                 return BadRequest(message);
 
             return Ok(message);

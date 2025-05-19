@@ -7,28 +7,28 @@ namespace Domain.Models
         [Key]
         public int CustomerReturnInvoiceDetailID { get; set; }
 
-        [Required(ErrorMessage = "Customer Invoice Detail ID is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Customer Invoice Detail ID must be a positive integer.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [Range(1, int.MaxValue, ErrorMessageResourceName = "RangeValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public int CustomerInvoiceDetailID { get; set; }
 
-        [Required(ErrorMessage = "Customer Invoice ID is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Customer Invoice ID must be a positive integer.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [Range(1, int.MaxValue, ErrorMessageResourceName = "RangeValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public int CustomerInvoiceID { get; set; }
 
-        [Required(ErrorMessage = "Customer Return Invoice ID is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Customer Return Invoice ID must be a positive integer.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [Range(1, int.MaxValue, ErrorMessageResourceName = "RangeValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public int CustomerReturnInvoiceID { get; set; }
 
-        [Required(ErrorMessage = "Product ID is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Product ID must be a positive integer.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [Range(1, int.MaxValue, ErrorMessageResourceName = "RangeValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public int ProductID { get; set; }
 
-        [Required(ErrorMessage = "Sale Return Quantity is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Sale Return Quantity must be greater than zero.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [Range(1, int.MaxValue, ErrorMessageResourceName = "RangeMinValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public int SaleReturnQuantity { get; set; }
 
-        [Required(ErrorMessage = "Sale Return Unit Price is required.")]
-        [Range(0.01, double.MaxValue, ErrorMessage = "Sale Return Unit Price must be greater than zero.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [Range(0.01, double.MaxValue, ErrorMessageResourceName = "RangeMinValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public double SaleReturnUnitPrice { get; set; }
         public string? ProductName { get; set; }
         public string? InvoiceNo { get; set; }

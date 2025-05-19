@@ -1,8 +1,11 @@
 ﻿@model Domain.Models.User
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
-
+@using Localization.CloudERP.Modules.Miscellaneous
+@using Localization.CloudERP.Modules.Company
+@using Localization.CloudERP.Common
+@using Localization.CloudERP.Messages
 @{
-    ViewBag.Title = Localization.CloudERP.Miscellaneous.CreateUser;
+    ViewBag.Title = Company.CreateUser;
 }
 
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
@@ -24,15 +27,15 @@
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.UserTypeID, Localization.CloudERP.User.UserType, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.UserTypeID, Localization.CloudERP.Modules.User.User.UserType, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.UserTypeID, ViewBag.UserTypeList as IEnumerable<SelectListItem>, Localization.CloudERP.User.UserType, new { @class = "form-control", @id = "UserTypeID" })
+                @Html.DropDownListFor(model => model.UserTypeID, ViewBag.UserTypeList as IEnumerable<SelectListItem>, Localization.CloudERP.Modules.User.User.UserType, new { @class = "form-control", @id = "UserTypeID" })
                 @Html.ValidationMessageFor(model => model.UserTypeID, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.FullName, Localization.CloudERP.User.FullName, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.FullName, Localization.CloudERP.Modules.User.User.FullName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
@@ -40,7 +43,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Email, Localization.CloudERP.User.EmailAddress, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Email, Localization.CloudERP.Modules.User.User.EmailAddress, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
@@ -48,7 +51,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ContactNo, Localization.CloudERP.User.ContactNo, htmlAttributes: new { @class = "col-md-2" })
+            @Html.LabelFor(model => model.ContactNo, Localization.CloudERP.Modules.User.User.ContactNo, htmlAttributes: new { @class = "col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.ContactNo, new { htmlAttributes = new { @class = "form-control w-100", @id = "PhoneNumber" } })
                 @Html.ValidationMessageFor(model => model.ContactNo, "", new { @class = "text-danger" })
@@ -56,7 +59,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.UserName, Localization.CloudERP.User.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.UserName, Localization.CloudERP.Modules.User.User.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
@@ -64,7 +67,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Password, Localization.CloudERP.User.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Password, Localization.CloudERP.Modules.User.User.Password, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
@@ -72,7 +75,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.IsActive, Localization.CloudERP.User.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.IsActive, Miscellaneous.Status, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
                     @Html.EditorFor(model => model.IsActive)
@@ -83,8 +86,15 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-                @Html.ActionLink(Localization.CloudERP.Common.BackToList.ToString(), "Index", null, new { @class = "btn btn-default" })
+                <input type="submit" value="@Common.Create" class="btn btn-default" />
+                @if (HttpContextAccessor.HttpContext?.Session.GetInt32("UserTypeID") == 1)
+                {
+                    Html.ActionLink(Localization.CloudERP.Common.Common.BackToList, "Index", null, new { @class = "btn btn-default" });
+                }
+                else
+                {
+                    Html.ActionLink(Localization.CloudERP.Common.Common.BackToList, "SubBranchUser", null, new { @class = "btn btn-default" });
+                }
             </div>
         </div>
     </div>
@@ -106,7 +116,7 @@
             var phoneNumber = iti.getNumber();
             if (!iti.isValidNumber()) {
                 e.preventDefault();
-                alert(@Localization.CloudERP.Messages.PleaseEnterAValidPhoneNumber);
+                alert(@Messages.PleaseEnterAValidPhoneNumber);
             } else {
                 $('#PhoneNumber').val(phoneNumber);
             }

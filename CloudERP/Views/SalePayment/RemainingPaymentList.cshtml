@@ -1,8 +1,10 @@
 ﻿@model IEnumerable<Domain.Models.SaleInfo>
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
-
+@using Localization.CloudERP.Modules.Sale
+@using Localization.CloudERP.Modules.Miscellaneous
+@using Localization.CloudERP.Common
 @{
-    ViewBag.Title = Localization.CloudERP.Sale.SalesPaymentPendingList;
+    ViewBag.Title = Miscellaneous.SalePendingPayment;
 }
 
 <!-- Tables Sorting-->
@@ -28,28 +30,28 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Sale.Customer)
+                            @Html.Raw(Sale.Customer)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.User.ContactNo)
+                            @Html.Raw(Localization.CloudERP.Modules.User.User.ContactNo)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Sale.InvoiceNo)
+                            @Html.Raw(Miscellaneous.InvoiceNo)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Miscellaneous.Date)
+                            @Html.Raw(Miscellaneous.Date)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Sale.TotalAmount)
+                            @Html.Raw(Sale.TotalAmount)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Sale.PaidAmount)
+                            @Html.Raw(Sale.PaidAmount)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Sale.RemainingBalance)
+                            @Html.Raw(Sale.RemainingBalance)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Common.Actions)
+                            @Html.Raw(Common.Actions)
                         </th>
                     </tr>
                 </thead>
@@ -81,11 +83,12 @@
                             <td class="d-flex btn-group">
                                 @if (item.TotalAmount - 1 > item.PaymentAmount)
                                 {
-                                    @Html.ActionLink(Localization.CloudERP.Purchase.PayAmount, "PaidAmount", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-primary" });
+                                    @Html.ActionLink(Miscellaneous.PayAmount, "PaidAmount", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-primary" })
+                                    ;
                                 }
                                 @if (item.PaymentAmount > 0)
                                 {
-                                    @Html.ActionLink(Localization.CloudERP.Sale.PayHistory, "PaidHistory", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-info" });
+                                    @Html.ActionLink(Sale.PayHistory, "PaidHistory", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-info" });
                                 }
                             </td>
                         </tr>

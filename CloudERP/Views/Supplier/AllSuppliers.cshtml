@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Domain.Models.Supplier>
-
+@using Localization.CloudERP.Modules.Supplier;
 @{
-    ViewBag.Title = Localization.CloudERP.Supplier.AllSuppliers;
+    ViewBag.Title = Supplier.AllSuppliers;
 }
 
 <!-- Tables Sorting-->
@@ -22,28 +22,28 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Supplier.CompanyTitle)
+                            @Html.Raw(Supplier.CompanyTitle)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Supplier.BranchTitle)
+                            @Html.Raw(Supplier.BranchTitle)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Supplier.SupplierName)
+                            @Html.Raw(Supplier.SupplierName)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Supplier.ConatctNo)
+                            @Html.Raw(Supplier.ConatctNo)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Supplier.Email)
+                            @Html.Raw(Localization.CloudERP.Modules.User.User.Email)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Supplier.Address)
+                            @Html.Raw(Supplier.Address)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Supplier.User)
+                            @Html.Raw(Localization.CloudERP.Modules.Sale.Sale.User)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Supplier.Description)
+                            @Html.Raw(Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Description)
                         </th>
                     </tr>
                 </thead>

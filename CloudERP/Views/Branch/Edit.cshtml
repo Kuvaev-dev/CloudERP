@@ -1,8 +1,12 @@
 ﻿@model Domain.Models.Branch
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
-
+@using Localization.CloudERP.Modules.Branch
+@using Localization.CloudERP.Modules.Supplier
+@using Localization.CloudERP.Modules.Miscellaneous
+@using Localization.CloudERP.Common
+@using Localization.CloudERP.Messages
 @{
-    ViewBag.Title = Localization.CloudERP.Branch.EditBranch;
+    ViewBag.Title = Branch.EditBranch;
 }
 
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
@@ -32,7 +36,7 @@
         @Html.HiddenFor(model => model.BrchID)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.BranchName, Localization.CloudERP.Branch.BranchName, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.BranchName, Branch.BranchName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.BranchName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.BranchName, "", new { @class = "text-danger" })
@@ -40,7 +44,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.BranchContact, Localization.CloudERP.User.ContactNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.BranchContact, Localization.CloudERP.Modules.User.User.ContactNo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.EditorFor(model => model.BranchContact, new { htmlAttributes = new { @class = "form-control", @id = "PhoneNumber" } })
                 @Html.ValidationMessageFor(model => model.BranchContact, "", new { @class = "text-danger" })
@@ -48,7 +52,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.BranchAddress, Localization.CloudERP.User.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.BranchAddress, Supplier.Address, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 <div class="input-group">
                     @Html.EditorFor(model => model.BranchAddress, new { htmlAttributes = new { @class = "form-control", @id = "address" } })
@@ -59,15 +63,15 @@
                     </div>
                 </div>
                 @Html.ValidationMessageFor(model => model.BranchAddress, "", new { @class = "text-danger" })
-                <h5 class="mt-3">@Localization.CloudERP.Miscellaneous.ClickHereToChooseACorrectAddressBelow</h5>
+                <h5 class="mt-3">@Miscellaneous.ClickHereToChooseACorrectAddressBelow</h5>
                 <ul id="suggestions"></ul>
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="@Localization.CloudERP.Common.Save" class="btn btn-success" />
-                @Html.ActionLink(Localization.CloudERP.Common.BackToList, "Index", null, new { @class = "btn btn-default" })
+                <input type="submit" value="@Common.Save" class="btn btn-success" />
+                @Html.ActionLink(Common.BackToList, "Index", null, new { @class = "btn btn-default" })
                 <button id="voiceRecognitionButton" class="btn btn-link" type="button">
                     <i class="fas fa-microphone" style="font-size: 1.5em; color: gray;"></i>
                 </button>
@@ -91,7 +95,7 @@
             var phoneNumber = iti.getNumber();
             if (!iti.isValidNumber()) {
                 e.preventDefault();
-                alert('@Localization.CloudERP.Messages.PleaseEnterAValidPhoneNumber');
+                alert('@Messages.PleaseEnterAValidPhoneNumber');
             } else {
                 $('#PhoneNumber').val(phoneNumber);
             }

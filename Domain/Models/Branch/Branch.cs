@@ -8,20 +8,23 @@ namespace Domain.Models
         public int BranchID { get; set; }
         public int BrchID { get; set; }
 
-        [Required(ErrorMessage = "Branch Name is required.")]
-        [StringLength(100, ErrorMessage = "Branch Name cannot exceed 100 characters.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [StringLength(100, ErrorMessageResourceName = "StringLengthMaxValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public string? BranchName { get; set; }
 
-        [StringLength(50, ErrorMessage = "Branch Contact cannot exceed 50 characters.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [StringLength(50, ErrorMessageResourceName = "StringLengthMaxValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [Phone(ErrorMessageResourceName = "PhoneValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public string? BranchContact { get; set; }
 
-        [StringLength(500, ErrorMessage = "Branch Address cannot exceed 200 characters.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [StringLength(500, ErrorMessageResourceName = "StringLengthMaxValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public string? BranchAddress { get; set; }
 
         public double Latitude { get; set; }
         public double Longitude { get; set; }
 
-        [Required(ErrorMessage = "Company ID is required.")]
+        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public int CompanyID { get; set; }
         public int? ParentBranchID { get; set; }
         public int BranchTypeID { get; set; }

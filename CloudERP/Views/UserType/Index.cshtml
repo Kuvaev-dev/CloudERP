@@ -1,7 +1,9 @@
 ﻿@model IEnumerable<Domain.Models.UserType>
-
+@using Localization.CloudERP.Modules.Account
+@using Localization.CloudERP.Modules.Miscellaneous
+@using Localization.CloudERP.Common
 @{
-    ViewBag.Title = Localization.CloudERP.Account.AllUserTypes;
+    ViewBag.Title = Account.AllUserTypes;
 }
 
 <!-- Tables Sorting-->
@@ -17,7 +19,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header">
-        @Html.ActionLink(Localization.CloudERP.Account.AddUserType, "Create", "UserType", null, new { @style = "float:left;", @class = "btn btn-success" })
+        @Html.ActionLink(Account.AddUserType, "Create", "UserType", null, new { @style = "float:left;", @class = "btn btn-success" })
         <h3 class="text-danger">@ViewBag.Message</h3>
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
     </div>
@@ -27,10 +29,10 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Account.UserType)
+                            @Html.Raw(Miscellaneous.UserType)
                         </th>
                         <th>
-                            @Html.Raw(Localization.CloudERP.Common.Actions)
+                            @Html.Raw(Common.Actions)
                         </th>
                     </tr>
                 </thead>
@@ -42,8 +44,8 @@
                                 <p>@Html.DisplayFor(modelItem => item.UserTypeName)</p>
                             </td>
                             <td class="d-flex btn-group">
-                                @Html.ActionLink(Localization.CloudERP.Common.Edit, "Edit", new { id = item.UserTypeID }, new { @class = "btn btn-primary" })
-                                @Html.ActionLink(Localization.CloudERP.Common.Details, "Details", new { id = item.UserTypeID }, new { @class = "btn btn-info" })
+                                @Html.ActionLink(Common.Edit, "Edit", new { id = item.UserTypeID }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink(Common.Details, "Details", new { id = item.UserTypeID }, new { @class = "btn btn-info" })
                             </td>
                         </tr>
                     }

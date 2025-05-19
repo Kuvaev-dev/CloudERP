@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Localization.CloudERP {
+namespace Localization.CloudERP.Modules.User {
     using System;
     
     
@@ -57,15 +57,6 @@ namespace Localization.CloudERP {
             }
             set {
                 resourceCulture = value;
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Address.
-        /// </summary>
-        public static string Address {
-            get {
-                return ResourceManager.GetString("Address", resourceCulture);
             }
         }
         
@@ -124,6 +115,15 @@ namespace Localization.CloudERP {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Created By.
+        /// </summary>
+        public static string CreatedBy {
+            get {
+                return ResourceManager.GetString("CreatedBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Designation.
         /// </summary>
         public static string Designation {
@@ -138,6 +138,15 @@ namespace Localization.CloudERP {
         public static string EditUser {
             get {
                 return ResourceManager.GetString("EditUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Email.
+        /// </summary>
+        public static string Email {
+            get {
+                return ResourceManager.GetString("Email", resourceCulture);
             }
         }
         
@@ -205,29 +214,11 @@ namespace Localization.CloudERP {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Select From Date.
-        /// </summary>
-        public static string SelectFromDate {
-            get {
-                return ResourceManager.GetString("SelectFromDate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Ищет локализованную строку, похожую на Select Range (From Date and To Date).
         /// </summary>
         public static string SelectRangeFromDateAndToDate {
             get {
                 return ResourceManager.GetString("SelectRangeFromDateAndToDate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Select To Date.
-        /// </summary>
-        public static string SelectToDate {
-            get {
-                return ResourceManager.GetString("SelectToDate", resourceCulture);
             }
         }
         

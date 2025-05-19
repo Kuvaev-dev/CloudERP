@@ -1,13 +1,15 @@
 ﻿@model Domain.Models.AnalyticsModel
+@using Localization.CloudERP.Modules.Miscellaneous
+@using Localization.CloudERP.Common
 @{
-    ViewBag.Title = Localization.CloudERP.Miscellaneous.SystemAnalytics;
+    ViewBag.Title = Miscellaneous.SystemAnalytics;
 }
 
 <div class="container mt-4">
     <div class="row mb-4">
         <div class="col-md-6">
             <div class="card">
-                <div class="card-header bg-primary text-white">@Localization.CloudERP.Miscellaneous.UsersActivity</div>
+                <div class="card-header bg-primary text-white">@Miscellaneous.UsersActivity</div>
                 <div class="card-body">
                     <canvas id="usersChart" width="400" height="200"></canvas>
                 </div>
@@ -16,7 +18,7 @@
 
         <div class="col-md-6">
             <div class="card">
-                <div class="card-header bg-info text-white">@Localization.CloudERP.Miscellaneous.Stocks</div>
+                <div class="card-header bg-info text-white">@Miscellaneous.Stocks</div>
                 <div class="card-body">
                     <canvas id="stockChart" width="400" height="200"></canvas>
                 </div>
@@ -27,7 +29,7 @@
     <div class="row mb-4">
         <div class="col-md-6">
             <div class="card">
-                <div class="card-header bg-success text-white">@Localization.CloudERP.Miscellaneous.Support</div>
+                <div class="card-header bg-success text-white">@Miscellaneous.Support</div>
                 <div class="card-body">
                     <canvas id="supportChart" width="400" height="200"></canvas>
                 </div>
@@ -40,7 +42,23 @@
 <script>
     const chartData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.ChartData));
 
-    // Users
+    const localizedLabels = {
+        common: {
+            all: '@Html.Raw(Common.All)',
+            newInAMonth: '@Html.Raw(Common.NewInAMonth)',
+            newInAYear: '@Html.Raw(Common.New)',
+            resolved: '@Html.Raw(Common.Resolved)',
+            pending: '@Html.Raw(Common.Pending)',
+            inStock: '@Html.Raw(Common.InStock)'
+        },
+        miscellaneous: {
+            users: '@Html.Raw(Miscellaneous.Users)',
+            stocks: '@Html.Raw(Miscellaneous.Stocks)',
+            support: '@Html.Raw(Miscellaneous.Support)'
+        }
+    };
+
+    // Users Chart
     const usersCtx = document.getElementById('usersChart').getContext('2d');
     new Chart(usersCtx, {
         type: 'polarArea',
@@ -49,19 +67,19 @@
         },
         data: {
             labels: [
-                '@Localization.CloudERP.Common.All', 
-                '@Localization.CloudERP.Common.NewInAMonth', 
-                '@Localization.CloudERP.Common.New'
+                localizedLabels.common.all,
+                localizedLabels.common.newInAMonth,
+                localizedLabels.common.newInAYear
             ],
             datasets: [{
-                label: '@Localization.CloudERP.Miscellaneous.Users',
+                label: localizedLabels.miscellaneous.users,
                 data: [chartData.Employees.Total, chartData.Employees.NewInAMonth, chartData.Employees.NewInAYear],
                 backgroundColor: ['#007bff', '#28a745', '#ffc107']
             }]
         }
     });
 
-    // Stock
+    // Stock Chart
     const stockCtx = document.getElementById('stockChart').getContext('2d');
     new Chart(stockCtx, {
         type: 'polarArea',
@@ -69,16 +87,19 @@
             responsive: true
         },
         data: {
-            labels: ['@Localization.CloudERP.Common.All', '@Localization.CloudERP.Common.InStock'],
+            labels: [
+                localizedLabels.common.all,
+                localizedLabels.common.inStock
+            ],
             datasets: [{
-                label: '@Localization.CloudERP.Miscellaneous.Stocks',
+                label: localizedLabels.miscellaneous.stocks,
                 data: [chartData.Stock.TotalItems, chartData.Stock.Available, chartData.Stock.Expired],
                 backgroundColor: ['#17a2b8', '#6c757d']
             }]
         }
     });
 
-    // Support
+    // Support Chart
     const supportCtx = document.getElementById('supportChart').getContext('2d');
     new Chart(supportCtx, {
         type: 'polarArea',
@@ -87,12 +108,12 @@
         },
         data: {
             labels: [
-                '@Localization.CloudERP.Common.All', 
-                '@Localization.CloudERP.Common.Resolved', 
-                '@Localization.CloudERP.Common.Pending'
+                localizedLabels.common.all,
+                localizedLabels.common.resolved,
+                localizedLabels.common.pending
             ],
             datasets: [{
-                label: '@Localization.CloudERP.Miscellaneous.Support',
+                label: localizedLabels.miscellaneous.support,
                 data: [chartData.Support.TotalTickets, chartData.Support.Resolved, chartData.Support.Pending],
                 backgroundColor: ['#6c757d', '#28a745', '#ffc107']
             }]

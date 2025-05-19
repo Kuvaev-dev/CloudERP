@@ -67,7 +67,7 @@ namespace DatabaseAccess.Repositories.Financial
 
                 if (string.IsNullOrEmpty(financialYearId))
                 {
-                    return Localization.Services.Localization.CompanyFinancialYearNotSet;
+                    return Localization.CloudERP.Messages.Messages.CompanyFinancialYearNotSet;
                 }
 
                 var debitAccount = await _accountSubControlRepository.GetBySettingAsync(debitAccountControlId, companyId, branchId);

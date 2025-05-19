@@ -1,42 +1,42 @@
 ﻿@model Domain.Models.TaskModel
 
 @{
-    ViewBag.Title = Localization.CloudERP.Task.TaskDetails;
+    ViewBag.Title = Localization.CloudERP.Modules.Task.Task.TaskDetails;
 }
 
 <div class="form-horizontal">
     <div class="col-md-10">
         <dl class="dl-horizontal">
             <dt>
-                @Localization.CloudERP.Task.TaskTitle
+                @Localization.CloudERP.Modules.Task.Task.TaskTitle
             </dt>
             <dd>
                 @Html.DisplayFor(model => model.Title)
             </dd>
 
             <dt>
-                @Localization.CloudERP.Task.Description
+                @Localization.CloudERP.Modules.Miscellaneous.Miscellaneous.Description
             </dt>
             <dd>
                 @Html.DisplayFor(model => model.Description)
             </dd>
 
             <dt>
-                @Localization.CloudERP.Task.DueDate
+                @Localization.Services.Localization.DueDate
             </dt>
             <dd>
                 @Model.DueDate.ToString("MM/dd/yyyy")
             </dd>
 
             <dt>
-                @Localization.CloudERP.Task.ReminderDate
+                @Localization.CloudERP.Modules.Task.Task.ReminderDate
             </dt>
             <dd>
                 @Html.DisplayFor(model => model.ReminderDate)
             </dd>
 
             <dt>
-                @Localization.CloudERP.Task.IsCompleted
+                @Localization.CloudERP.Modules.Task.Task.IsCompleted
             </dt>
             <dd>
                 @Html.DisplayFor(model => model.IsCompleted)
@@ -44,8 +44,8 @@
         </dl>
         <div class="form-group">
             <div class="col-md-offset-2">
-                @Html.ActionLink(Localization.CloudERP.Common.Edit, "Edit", new { id = Model.TaskID }, new { @class = "btn btn-primary" })
-                @Html.ActionLink(Localization.CloudERP.Common.BackToList, "Index", null, new { @class = "btn btn-default" })
+                @Html.ActionLink(Localization.CloudERP.Common.Common.Edit, "Edit", new { id = Model.TaskID }, new { @class = "btn btn-primary" })
+                @Html.ActionLink(Localization.CloudERP.Common.Common.BackToList, "Index", null, new { @class = "btn btn-default" })
             </div>
         </div>
     </div>
