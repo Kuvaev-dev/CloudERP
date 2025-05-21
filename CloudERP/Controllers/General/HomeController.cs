@@ -37,7 +37,7 @@ namespace CloudERP.Controllers.General
             {
                 var dashboardValues = await _httpClient.GetAsync<DashboardModel>($"homeapi/getdashboardvalues?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 var currencies = await _httpClient.GetAsync<Dictionary<string, string>>("homeapi/getcurrencies");
-                
+
                 ViewBag.Currencies = currencies?.ToDictionary(
                     k => k.Key,
                     v => decimal.TryParse(v.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out var parsed) ? parsed : 0m
@@ -46,6 +46,24 @@ namespace CloudERP.Controllers.General
                 ViewBag.CultureCode = HttpContext.Session.GetString("Culture") ?? "en-US";
 
                 return View(dashboardValues ?? new DashboardModel());
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SetCurrency(string currencySelect)
+        {
+            try
+            {
+                var currencies = await _httpClient.GetAsync<Dictionary<string, decimal>>("homeapi/getcurrencies");
+                var selectedCurrency = (currencies?.ContainsKey(currencySelect) == true) ? currencySelect : "UAH";
+                ViewBag.Currencies = currencies;
+                HttpContext.Session.SetString("SelectedCurrency", selectedCurrency);
+                return RedirectToAction("Index", "Home");
             }
             catch (Exception ex)
             {

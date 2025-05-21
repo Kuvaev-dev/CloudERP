@@ -127,7 +127,7 @@
     <value>Отримати баланс</value>
   </data>
   <data name="BalanceSheetStr" xml:space="preserve">
-    <value>Баланс</value>
+    <value>Балансовий звіт</value>
   </data>
   <data name="AccountTitle" xml:space="preserve">
     <value>Назва рахунку</value>

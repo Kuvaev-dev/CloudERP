@@ -153,9 +153,6 @@
   <data name="BackToList" xml:space="preserve">
     <value>Назад до списку</value>
   </data>
-  <data name="AccountActivityName" xml:space="preserve">
-    <value>Назва активного рахунку</value>
-  </data>
   <data name="All" xml:space="preserve">
     <value>Усі</value>
   </data>

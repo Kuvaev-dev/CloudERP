@@ -61,15 +61,6 @@ namespace Localization.CloudERP.Common {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Account Activity Name.
-        /// </summary>
-        public static string AccountActivityName {
-            get {
-                return ResourceManager.GetString("AccountActivityName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Ищет локализованную строку, похожую на Actions.
         /// </summary>
         public static string Actions {

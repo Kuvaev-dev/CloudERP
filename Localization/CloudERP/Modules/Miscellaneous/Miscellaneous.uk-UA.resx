@@ -205,7 +205,7 @@
     <value>Оплачено за повернення закупівель</value>
   </data>
   <data name="AccountControls" xml:space="preserve">
-    <value>Керування рахунками</value>
+    <value>Контрольні рахунки</value>
     <comment>Строка меню бокової панелі</comment>
   </data>
   <data name="AccountFlow" xml:space="preserve">
@@ -269,7 +269,7 @@
     <comment>Строка меню бокової панелі</comment>
   </data>
   <data name="UserSetting" xml:space="preserve">
-    <value>Налаштування користувача</value>
+    <value>Налаштування користувачів</value>
     <comment>Строка бокової панелі</comment>
   </data>
   <data name="UserTypes" xml:space="preserve">
@@ -409,7 +409,7 @@
     <value>Бухгалтерська&lt;/br&gt;книга рахунків</value>
   </data>
   <data name="TrialBalance" xml:space="preserve">
-    <value>Баланс</value>
+    <value>Баланс рахунків</value>
     <comment>Строка бокової панелі</comment>
   </data>
   <data name="IncomeStatement" xml:space="preserve">
@@ -697,6 +697,6 @@
     <value>Оберіть покупця</value>
   </data>
   <data name="AccountActivities" xml:space="preserve">
-    <value>Активності облікових&lt;/br&gt;записів</value>
+    <value>Активності рахунків</value>
   </data>
 </root>

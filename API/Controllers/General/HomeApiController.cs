@@ -100,10 +100,9 @@ namespace API.Controllers.General
         {
             try
             {
-                var defaultCurrency = _configuration["CurrencyApi:DefaultCurrency"] ?? "USD";
+                var defaultCurrency = "UAH";
                 var rates = await _homeFacade.CurrencyService.GetExchangeRatesAsync(defaultCurrency);
-                var currencies = rates.ToDictionary(k => k.Key, v => decimal.TryParse(v.Value.ToString(), out var parsed) ? parsed : 0m);
-                return Ok(currencies);
+                return Ok(rates);
             }
             catch (Exception ex)
             {

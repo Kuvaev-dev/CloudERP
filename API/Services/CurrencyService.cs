@@ -20,26 +20,43 @@ namespace API.Services
             {
                 PropertyNameCaseInsensitive = true
             };
+            _httpClient = new HttpClient();
         }
 
-        public async Task<Dictionary<string, decimal>> GetExchangeRatesAsync(string baseCurrency = "USD")
+        public async Task<Dictionary<string, decimal>> GetExchangeRatesAsync(string baseCurrency = "UAH")
         {
             try
             {
-                _httpClient = new HttpClient();
-
-                var apiUrl = $"{_apiUrl}/latest/{baseCurrency}";
+                var apiUrl = $"{_apiUrl}/{baseCurrency}";
                 var response = await _httpClient.GetAsync(apiUrl);
 
                 if (!response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine($"API request failed with status code: {response.StatusCode}");
                     return [];
+                }
 
                 var json = await response.Content.ReadAsStringAsync();
                 Console.WriteLine($"API Response: {json}");
 
                 var rates = JsonSerializer.Deserialize<ExchangeRateResponse>(json, _jsonSerializerOptions);
 
-                return rates?.Rates ?? [];
+                if (rates?.Rates == null)
+                {
+                    Console.WriteLine("No rates found in API response");
+                    return [];
+                }
+
+                if (baseCurrency != "UAH" && rates.Rates.ContainsKey("UAH"))
+                {
+                    var uahRate = rates.Rates["UAH"];
+                    return rates.Rates.ToDictionary(
+                        k => k.Key,
+                        v => v.Key == "UAH" ? 1m : v.Value / uahRate
+                    );
+                }
+
+                return rates.Rates;
             }
             catch (Exception ex)
             {
