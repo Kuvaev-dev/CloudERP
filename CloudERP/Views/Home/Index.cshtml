@@ -1,12 +1,13 @@
 ﻿@model Domain.Models.FinancialModels.DashboardModel
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using Microsoft.AspNetCore.Localization
 @using Localization.CloudERP.Modules.Miscellaneous
 @using Localization.CloudERP.Common
 @{
     ViewBag.Title = Miscellaneous.DashboardTitle;
     DateTime currentDate = DateTime.Now;
     string currentYear = currentDate.ToString("yyyy");
-    string cultureCode = ViewBag.CultureCode as string;
+    string cultureCode = HttpContextAccessor.HttpContext?.Features.Get<IRequestCultureFeature>()?.RequestCulture.Culture.Name ?? "en-US";
     System.Globalization.CultureInfo cultureInfo = new(cultureCode);
     string currentMonth = currentDate.ToString("MMMM", cultureInfo);
 }

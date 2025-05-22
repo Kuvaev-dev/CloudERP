@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Pages\Shared\vvksf53q.4ow~" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\CompanyLogo\0.jpg" />
     <None Include="wwwroot\CompanyLogo\1.jpg" />
     <None Include="wwwroot\CompanyLogo\1003.jpg" />

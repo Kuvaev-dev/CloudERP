@@ -132,14 +132,17 @@
                             @using (Html.BeginForm("SetCurrency", "Currency", FormMethod.Post, new { @id = "currencyForm" }))
                             {
                                 <div class="dropdown-item">
-                                    <select id="currencySelect" name="currencySelect" class="custom-select" onchange="this.form.submit()">
+                                    <select id="currencySelect" class="custom-select" onchange="document.getElementById('currencyForm').submit()">
                                         @if (ViewBag.Currencies != null)
                                         {
+                                            var selectedCurrency = HttpContextAccessor.HttpContext?.Session.GetString("SelectedCurrency");
+
                                             @foreach (var currency in ViewBag.Currencies)
                                             {
-                                                bool isSelected = currency.Key == ViewBag.SelectedCurrency;
+                                                bool isSelected = currency.Key == selectedCurrency;
+
                                                 <option value="@currency.Key" selected="@(isSelected ? "selected" : null)">
-                                                    @currency.Key (@currency.Value.ToString("F2", new System.Globalization.CultureInfo(ViewBag.CultureCode)))
+                                                    @currency.Key (@currency.Value)
                                                 </option>
                                             }
                                         }

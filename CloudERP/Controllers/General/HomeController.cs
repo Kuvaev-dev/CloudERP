@@ -6,7 +6,6 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Localization;
-using System.Globalization;
 
 namespace CloudERP.Controllers.General
 {
@@ -36,14 +35,14 @@ namespace CloudERP.Controllers.General
             try
             {
                 var dashboardValues = await _httpClient.GetAsync<DashboardModel>($"homeapi/getdashboardvalues?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
-                var currencies = await _httpClient.GetAsync<Dictionary<string, string>>("homeapi/getcurrencies");
+                //var currencies = await _httpClient.GetAsync<Dictionary<string, decimal>>("homeapi/getcurrencies");
 
-                ViewBag.Currencies = currencies?.ToDictionary(
-                    k => k.Key,
-                    v => decimal.TryParse(v.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out var parsed) ? parsed : 0m
-                );
-                ViewBag.SelectedCurrency = HttpContext.Session.GetString("SelectedCurrency") ?? "UAH";
-                ViewBag.CultureCode = HttpContext.Session.GetString("Culture") ?? "en-US";
+                //ViewBag.Currencies = currencies?.ToDictionary(
+                //    k => k.Key,
+                //    v => v.Value
+                //);
+                //ViewBag.SelectedCurrency = HttpContext.Session.GetString("SelectedCurrency") ?? "UAH";
+                //ViewBag.CultureCode = HttpContext.Session.GetString("Culture") ?? "en-US";
 
                 return View(dashboardValues ?? new DashboardModel());
             }
@@ -55,21 +54,10 @@ namespace CloudERP.Controllers.General
         }
 
         [HttpPost]
-        public async Task<IActionResult> SetCurrency(string currencySelect)
+        public IActionResult SetCurrency(string currency)
         {
-            try
-            {
-                var currencies = await _httpClient.GetAsync<Dictionary<string, decimal>>("homeapi/getcurrencies");
-                var selectedCurrency = (currencies?.ContainsKey(currencySelect) == true) ? currencySelect : "UAH";
-                ViewBag.Currencies = currencies;
-                HttpContext.Session.SetString("SelectedCurrency", selectedCurrency);
-                return RedirectToAction("Index", "Home");
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            HttpContext.Session.SetString("SelectedCurrency", currency);
+            return Redirect(HttpContext.Request.Headers["Referer"].ToString());
         }
 
         public IActionResult Login()
