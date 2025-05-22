@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Localization.CloudERP {
+namespace Localization.CloudERP.Modules.Guide {
     using System;
     
     
@@ -29,7 +29,7 @@ namespace Localization.CloudERP {
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public Guide() {
+        internal Guide() {
         }
         
         /// <summary>
@@ -59,620 +59,499 @@ namespace Localization.CloudERP {
                 resourceCulture = value;
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на You have the right to request access to the personal information we hold about you..
         /// </summary>
-        public static string AccessText
-        {
-            get
-            {
+        public static string AccessText {
+            get {
                 return ResourceManager.GetString("AccessText", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Access.
         /// </summary>
-        public static string AccessTitle
-        {
-            get
-            {
+        public static string AccessTitle {
+            get {
                 return ResourceManager.GetString("AccessTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Details about your account, including login credentials and preferences..
         /// </summary>
-        public static string AccountInformationText
-        {
-            get
-            {
+        public static string AccountInformationText {
+            get {
                 return ResourceManager.GetString("AccountInformationText", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Account Information.
         /// </summary>
-        public static string AccountInformationTitle
-        {
-            get
-            {
+        public static string AccountInformationTitle {
+            get {
                 return ResourceManager.GetString("AccountInformationTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на We may share your information with our affiliates for business purposes..
         /// </summary>
-        public static string AffiliatesText
-        {
-            get
-            {
+        public static string AffiliatesText {
+            get {
                 return ResourceManager.GetString("AffiliatesText", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Affiliates.
         /// </summary>
-        public static string AffiliatesTitle
-        {
-            get
-            {
+        public static string AffiliatesTitle {
+            get {
                 return ResourceManager.GetString("AffiliatesTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на We may update this Privacy Policy from time to time. Any changes will be posted on this page..
         /// </summary>
-        public static string ChangesText
-        {
-            get
-            {
+        public static string ChangesText {
+            get {
                 return ResourceManager.GetString("ChangesText", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на 8. Changes to this Privacy Policy.
         /// </summary>
-        public static string ChangesTitle
-        {
-            get
-            {
+        public static string ChangesTitle {
+            get {
                 return ResourceManager.GetString("ChangesTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на We may use your information to contact you regarding updates, promotions, or customer service..
         /// </summary>
-        public static string CommunicateText
-        {
-            get
-            {
+        public static string CommunicateText {
+            get {
                 return ResourceManager.GetString("CommunicateText", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на To Communicate with You.
         /// </summary>
-        public static string CommunicateTitle
-        {
-            get
-            {
+        public static string CommunicateTitle {
+            get {
                 return ResourceManager.GetString("CommunicateTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на If you have any questions or concerns about this Privacy Policy, please contact us using the information below:.
         /// </summary>
-        public static string ContactUsText
-        {
-            get
-            {
+        public static string ContactUsText {
+            get {
                 return ResourceManager.GetString("ContactUsText", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на 9. Contact Us.
         /// </summary>
-        public static string ContactUsTitle
-        {
-            get
-            {
+        public static string ContactUsTitle {
+            get {
                 return ResourceManager.GetString("ContactUsTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Small files that are stored on your device to enhance your experience and provide personalized services..
         /// </summary>
-        public static string CookiesText
-        {
-            get
-            {
+        public static string CookiesText {
+            get {
                 return ResourceManager.GetString("CookiesText", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Cookies.
         /// </summary>
-        public static string CookiesTitle
-        {
-            get
-            {
+        public static string CookiesTitle {
+            get {
                 return ResourceManager.GetString("CookiesTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на You have the right to request that we correct any inaccuracies in your personal information..
         /// </summary>
-        public static string CorrectionText
-        {
-            get
-            {
+        public static string CorrectionText {
+            get {
                 return ResourceManager.GetString("CorrectionText", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Correction.
         /// </summary>
-        public static string CorrectionTitle
-        {
-            get
-            {
+        public static string CorrectionTitle {
+            get {
                 return ResourceManager.GetString("CorrectionTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на You have the right to request that we transfer your personal information to another organization..
         /// </summary>
-        public static string DataPortabilityText
-        {
-            get
-            {
+        public static string DataPortabilityText {
+            get {
                 return ResourceManager.GetString("DataPortabilityText", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Data Portability.
         /// </summary>
-        public static string DataPortabilityTitle
-        {
-            get
-            {
+        public static string DataPortabilityTitle {
+            get {
                 return ResourceManager.GetString("DataPortabilityTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на We retain your information for as long as necessary to fulfill the purposes outlined in this Privacy Policy..
         /// </summary>
-        public static string DataRetentionText
-        {
-            get
-            {
+        public static string DataRetentionText {
+            get {
                 return ResourceManager.GetString("DataRetentionText", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на 6. Data Retention.
         /// </summary>
-        public static string DataRetentionTitle
-        {
-            get
-            {
+        public static string DataRetentionTitle {
+            get {
                 return ResourceManager.GetString("DataRetentionTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на We take reasonable measures to protect your information from loss, theft, misuse, and unauthorized access..
         /// </summary>
-        public static string DataSecurityText
-        {
-            get
-            {
+        public static string DataSecurityText {
+            get {
                 return ResourceManager.GetString("DataSecurityText", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на 5. Data Security.
         /// </summary>
-        public static string DataSecurityTitle
-        {
-            get
-            {
+        public static string DataSecurityTitle {
+            get {
                 return ResourceManager.GetString("DataSecurityTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на You have the right to request that we delete your personal information, subject to certain exceptions..
         /// </summary>
-        public static string DeletionText
-        {
-            get
-            {
+        public static string DeletionText {
+            get {
                 return ResourceManager.GetString("DeletionText", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Deletion.
         /// </summary>
-        public static string DeletionTitle
-        {
-            get
-            {
+        public static string DeletionTitle {
+            get {
                 return ResourceManager.GetString("DeletionTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Effective Date:.
         /// </summary>
-        public static string EffectiveDate
-        {
-            get
-            {
+        public static string EffectiveDate {
+            get {
                 return ResourceManager.GetString("EffectiveDate", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Payment details and transaction history..
         /// </summary>
-        public static string FinancialInformationText
-        {
-            get
-            {
+        public static string FinancialInformationText {
+            get {
                 return ResourceManager.GetString("FinancialInformationText", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Financial Information.
-        /// </summary>
-        public static string FinancialInformationTitle
-        {
-            get
-            {
-                return ResourceManager.GetString("FinancialInformationTitle", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на We use the information we collect for various purposes to provide and improve our services to you..
         /// </summary>
-        public static string HowWeUseInformationText
-        {
-            get
-            {
+        public static string HowWeUseInformationText {
+            get {
                 return ResourceManager.GetString("HowWeUseInformationText", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на 3. How We Use Your Information.
-        /// </summary>
-        public static string HowWeUseInformationTitle
-        {
-            get
-            {
-                return ResourceManager.GetString("HowWeUseInformationTitle", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на We analyze your data to improve our services and develop new features..
         /// </summary>
-        public static string ImproveServicesText
-        {
-            get
-            {
+        public static string ImproveServicesText {
+            get {
                 return ResourceManager.GetString("ImproveServicesText", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на To Improve Services.
-        /// </summary>
-        public static string ImproveServicesTitle
-        {
-            get
-            {
-                return ResourceManager.GetString("ImproveServicesTitle", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на We collect various types of information in order to provide and improve our services to you..
-        /// </summary>
-        public static string InformationWeCollectText
-        {
-            get
-            {
-                return ResourceManager.GetString("InformationWeCollectText", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на 2. Information We Collect.
         /// </summary>
-        public static string InformationWeCollectTitle
-        {
-            get
-            {
+        public static string InformationWeCollectTitle {
+            get {
                 return ResourceManager.GetString("InformationWeCollectTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на We are committed to protecting your privacy. This Privacy Policy outlines our practices regarding the collection, use, and disclosure of your information..
         /// </summary>
-        public static string IntroductionText
-        {
-            get
-            {
+        public static string IntroductionText {
+            get {
                 return ResourceManager.GetString("IntroductionText", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на 1. Introduction.
-        /// </summary>
-        public static string IntroductionTitle
-        {
-            get
-            {
-                return ResourceManager.GetString("IntroductionTitle", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на We may process your information to comply with applicable laws and regulations..
         /// </summary>
-        public static string LegalObligationsText
-        {
-            get
-            {
+        public static string LegalObligationsText {
+            get {
                 return ResourceManager.GetString("LegalObligationsText", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на To Comply with Legal Obligations.
-        /// </summary>
-        public static string LegalObligationsTitle
-        {
-            get
-            {
-                return ResourceManager.GetString("LegalObligationsTitle", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на We may disclose your information if required to do so by law or in response to valid legal requests..
-        /// </summary>
-        public static string LegalReasonsText
-        {
-            get
-            {
-                return ResourceManager.GetString("LegalReasonsText", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Legal Reasons.
         /// </summary>
-        public static string LegalReasonsTitle
-        {
-            get
-            {
+        public static string LegalReasonsTitle {
+            get {
                 return ResourceManager.GetString("LegalReasonsTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на You have the right to object to the processing of your personal information in certain circumstances..
         /// </summary>
-        public static string ObjectionText
-        {
-            get
-            {
+        public static string ObjectionText {
+            get {
                 return ResourceManager.GetString("ObjectionText", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Objection.
-        /// </summary>
-        public static string ObjectionTitle
-        {
-            get
-            {
-                return ResourceManager.GetString("ObjectionTitle", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Information you provide that personally identifies you, such as your name, email address, and phone number..
         /// </summary>
-        public static string PersonalInformationText
-        {
-            get
-            {
+        public static string PersonalInformationText {
+            get {
                 return ResourceManager.GetString("PersonalInformationText", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Personal Information.
         /// </summary>
-        public static string PersonalInformationTitle
-        {
-            get
-            {
+        public static string PersonalInformationTitle {
+            get {
                 return ResourceManager.GetString("PersonalInformationTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Privacy Policy.
         /// </summary>
-        public static string PrivacyPolicyTitle
-        {
-            get
-            {
+        public static string PrivacyPolicyTitle {
+            get {
                 return ResourceManager.GetString("PrivacyPolicyTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на We use your information to provide and deliver the services you request..
         /// </summary>
-        public static string ProvideServicesText
-        {
-            get
-            {
+        public static string ProvideServicesText {
+            get {
                 return ResourceManager.GetString("ProvideServicesText", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на To Provide Services.
         /// </summary>
-        public static string ProvideServicesTitle
-        {
-            get
-            {
+        public static string ProvideServicesTitle {
+            get {
                 return ResourceManager.GetString("ProvideServicesTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на We implement security measures to protect your information from unauthorized access or disclosure..
         /// </summary>
-        public static string SecurityText
-        {
-            get
-            {
+        public static string SecurityText {
+            get {
                 return ResourceManager.GetString("SecurityText", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на To Ensure Security.
         /// </summary>
-        public static string SecurityTitle
-        {
-            get
-            {
+        public static string SecurityTitle {
+            get {
                 return ResourceManager.GetString("SecurityTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на We may share your information with third-party service providers who assist us in operating our services..
         /// </summary>
-        public static string ServiceProvidersText
-        {
-            get
-            {
+        public static string ServiceProvidersText {
+            get {
                 return ResourceManager.GetString("ServiceProvidersText", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Service Providers.
         /// </summary>
-        public static string ServiceProvidersTitle
-        {
-            get
-            {
+        public static string ServiceProvidersTitle {
+            get {
                 return ResourceManager.GetString("ServiceProvidersTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на We may share your information with third parties in certain circumstances..
         /// </summary>
-        public static string SharingInformationText
-        {
-            get
-            {
+        public static string SharingInformationText {
+            get {
                 return ResourceManager.GetString("SharingInformationText", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на 4. Sharing Your Information.
         /// </summary>
-        public static string SharingInformationTitle
-        {
-            get
-            {
+        public static string SharingInformationTitle {
+            get {
                 return ResourceManager.GetString("SharingInformationTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Information about how you interact with our services, such as IP address, browser type, and pages visited..
+        ///   Ищет локализованную строку, похожую на Use this button to show/hide side navigation.
         /// </summary>
-        public static string UsageDataText
-        {
-            get
-            {
-                return ResourceManager.GetString("UsageDataText", resourceCulture);
+        public static string Step1 {
+            get {
+                return ResourceManager.GetString("Step1", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Have fun!.
+        /// </summary>
+        public static string Step10 {
+            get {
+                return ResourceManager.GetString("Step10", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Use this button to view/hide your profile information.
+        /// </summary>
+        public static string Step2 {
+            get {
+                return ResourceManager.GetString("Step2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Use this button to log out.
+        /// </summary>
+        public static string Step3 {
+            get {
+                return ResourceManager.GetString("Step3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Use this button to change light/dark theme.
+        /// </summary>
+        public static string Step4 {
+            get {
+                return ResourceManager.GetString("Step4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Use this button to enable/disable full screen mode&apos;.
+        /// </summary>
+        public static string Step5 {
+            get {
+                return ResourceManager.GetString("Step5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Use this dropdown to switch language.
+        /// </summary>
+        public static string Step6 {
+            get {
+                return ResourceManager.GetString("Step6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Use this dropdown to switch currency.
+        /// </summary>
+        public static string Step7 {
+            get {
+                return ResourceManager.GetString("Step7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Use this button to restart the tour.
+        /// </summary>
+        public static string Step8 {
+            get {
+                return ResourceManager.GetString("Step8", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Use the sidebar for quick navigation around the work panel.
+        /// </summary>
+        public static string Step9 {
+            get {
+                return ResourceManager.GetString("Step9", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Ищет локализованную строку, похожую на Usage Data.
         /// </summary>
-        public static string UsageDataTitle
-        {
-            get
-            {
+        public static string UsageDataTitle {
+            get {
                 return ResourceManager.GetString("UsageDataTitle", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на You have the right to access, correct, or delete your personal information..
-        /// </summary>
-        public static string YourRightsText
-        {
-            get
-            {
-                return ResourceManager.GetString("YourRightsText", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на 7. Your Rights.
-        /// </summary>
-        public static string YourRightsTitle
-        {
-            get
-            {
-                return ResourceManager.GetString("YourRightsTitle", resourceCulture);
             }
         }
     }

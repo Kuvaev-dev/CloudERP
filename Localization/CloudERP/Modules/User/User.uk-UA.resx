@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AllUsers" xml:space="preserve">
-    <value>Усі користувачі</value>
+    <value>Всі користувачі</value>
   </data>
   <data name="FullName" xml:space="preserve">
     <value>Повне ім'я</value>

@@ -35,15 +35,6 @@ namespace CloudERP.Controllers.General
             try
             {
                 var dashboardValues = await _httpClient.GetAsync<DashboardModel>($"homeapi/getdashboardvalues?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
-                //var currencies = await _httpClient.GetAsync<Dictionary<string, decimal>>("homeapi/getcurrencies");
-
-                //ViewBag.Currencies = currencies?.ToDictionary(
-                //    k => k.Key,
-                //    v => v.Value
-                //);
-                //ViewBag.SelectedCurrency = HttpContext.Session.GetString("SelectedCurrency") ?? "UAH";
-                //ViewBag.CultureCode = HttpContext.Session.GetString("Culture") ?? "en-US";
-
                 return View(dashboardValues ?? new DashboardModel());
             }
             catch (Exception ex)
@@ -90,7 +81,7 @@ namespace CloudERP.Controllers.General
                 ViewBag.Currencies = currencies ?? [];
 
                 return userData.User.UserTypeID == ADMIN_USER_TYPE_ID
-                    ? RedirectToAction("AdminMenuGuide", "Guide")
+                    ? RedirectToAction("Index", "UserType")
                     : RedirectToAction("Index", "Home");
             }
             catch (Exception ex)

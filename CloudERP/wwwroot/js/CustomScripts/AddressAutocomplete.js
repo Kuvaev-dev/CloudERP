@@ -3,7 +3,7 @@
         var query = $(this).val();
         if (query.length > 2) {
             $.ajax({
-                url: '/Address/Autocomplete',
+                url: 'https://localhost:44311/api/address/autocomplete/',
                 data: { query: query },
                 dataType: 'json',
                 success: function (data) {

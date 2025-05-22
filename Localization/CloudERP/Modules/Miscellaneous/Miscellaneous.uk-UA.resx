@@ -225,7 +225,7 @@
     <comment>Строка меню бокової панелі</comment>
   </data>
   <data name="AllCustomers" xml:space="preserve">
-    <value>Усі клієнти</value>
+    <value>Всі клієнти</value>
     <comment>Строка меню бокової панелі</comment>
   </data>
   <data name="Companies" xml:space="preserve">
@@ -679,7 +679,7 @@
     <value>Сплатити суму</value>
   </data>
   <data name="AllSuppliers" xml:space="preserve">
-    <value>Усі постачальники</value>
+    <value>Всі постачальники</value>
   </data>
   <data name="BranchTypes" xml:space="preserve">
     <value>Типи філій</value>

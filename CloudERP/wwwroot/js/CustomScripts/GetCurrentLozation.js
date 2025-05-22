@@ -11,7 +11,7 @@ function showPosition(position) {
     var lon = position.coords.longitude;
 
     $.ajax({
-        url: '/Address/GetAddressByCoordinates',
+        url: 'https://localhost:44311/api/address/getaddressbycoordinates/',
         data: { latitude: lat, longitude: lon },
         dataType: 'json',
         success: function (data) {

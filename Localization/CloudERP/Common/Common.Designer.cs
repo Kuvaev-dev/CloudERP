@@ -79,6 +79,15 @@ namespace Localization.CloudERP.Common {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Back.
+        /// </summary>
+        public static string Back {
+            get {
+                return ResourceManager.GetString("Back", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Back to List.
         /// </summary>
         public static string BackToList {
@@ -133,6 +142,15 @@ namespace Localization.CloudERP.Common {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Finish.
+        /// </summary>
+        public static string Finish {
+            get {
+                return ResourceManager.GetString("Finish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на In Stock.
         /// </summary>
         public static string InStock {
@@ -165,6 +183,15 @@ namespace Localization.CloudERP.Common {
         public static string NewInAMonth {
             get {
                 return ResourceManager.GetString("NewInAMonth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Next.
+        /// </summary>
+        public static string Next {
+            get {
+                return ResourceManager.GetString("Next", resourceCulture);
             }
         }
         

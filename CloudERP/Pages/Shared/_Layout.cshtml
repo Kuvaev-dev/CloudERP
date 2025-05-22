@@ -1,5 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Localization
+@using System.Web
 @using Localization.CloudERP.Modules.Miscellaneous
+@using Localization.CloudERP.Modules.Guide
+@using Localization.CloudERP.Common
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @{
     var currentCulture = HttpContextAccessor.HttpContext?.Features.Get<IRequestCultureFeature>()?.RequestCulture.Culture.Name ?? "en-US";
@@ -92,6 +95,20 @@
                 <!-- START Right Navbar-->
                 <ul class="navbar-nav flex-row">
                     <!-- START Dark Mode-->
+                    <li class="nav-item d-flex align-items-center px-3 text-white" id="step5">
+                        @if (ViewBag.Currencies != null && ViewBag.SelectedCurrency != null)
+                        {
+                            var selectedCurrency = ViewBag.SelectedCurrency as string;
+                            var currencies = ViewBag.Currencies as Dictionary<string, decimal>;
+
+                            if (currencies.TryGetValue(selectedCurrency, out var rate))
+                            {
+                                <span>1 @selectedCurrency = @rate.ToString("0.##") @Common.UAH</span>
+                            }
+                        }
+                    </li>
+                    <!-- END Dark Mode-->
+                    <!-- START Dark Mode-->
                     <li class="nav-item" id="step4">
                         <div class="nav-link container">
                             <i class="fas fa-moon"></i>
@@ -129,10 +146,10 @@
                             <i class="fa-solid fa-dollar-sign"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="currencyDropdown">
-                            @using (Html.BeginForm("SetCurrency", "Currency", FormMethod.Post, new { @id = "currencyForm" }))
+                            @using (Html.BeginForm("SetCurrency", "Home", FormMethod.Post, new { @id = "currencyForm" }))
                             {
                                 <div class="dropdown-item">
-                                    <select id="currencySelect" class="custom-select" onchange="document.getElementById('currencyForm').submit()">
+                                    <select id="currencySelect" name="currency" class="custom-select" onchange="document.getElementById('currencyForm').submit()">
                                         @if (ViewBag.Currencies != null)
                                         {
                                             var selectedCurrency = HttpContextAccessor.HttpContext?.Session.GetString("SelectedCurrency");
@@ -211,6 +228,10 @@
                                 {
                                     <!-- Iterates over all sidebar items-->
 
+                                    <li class="nav-item px-3 mt-2">
+                                        <input type="text" id="sidebarSearch" class="form-control form-control-sm" placeholder="Пошук...">
+                                    </li>
+
                                     @*Configuration*@
                                     @*Admin*@
                                     if (userType == 1)
@@ -219,19 +240,19 @@
                                             <span data-localize="sidebar.heading.COMPONENTS">@Miscellaneous.Home</span>
                                         </li>
 
-                                        <li>
+                                        <li data-heading="components-heading">
                                             <a href="@Url.Action("AdminMenuGuide", "Guide")" title="@Miscellaneous.Guide">
                                                 <em class="bi bi-info-circle"></em>
                                                 <span class="align-middle">@Html.Raw(Miscellaneous.Guide)</span>
                                             </a>
                                         </li>
-                                        <li>
+                                        <li data-heading="components-heading">
                                             <a href="@Url.Action("Index", "Task")" title="@Miscellaneous.TasksList">
                                                 <em class="bi bi-list-task"></em>
                                                 <span class="align-middle">@Html.Raw(Miscellaneous.TasksList)</span>
                                             </a>
                                         </li>
-                                        <li>
+                                        <li data-heading="components-heading">
                                             <a href="@Url.Action("Index", "Analytics")" title="@Miscellaneous.SystemAnalytics">
                                                 <em class="bi bi-graph-up-arrow"></em>
                                                 <span class="align-middle">@Html.Raw(Miscellaneous.SystemAnalytics)</span>
@@ -241,13 +262,13 @@
                                         <li class="nav-heading ">
                                             <span data-localize="sidebar.heading.COMPONENTS">@Miscellaneous.UserSetting</span>
                                         </li>
-                                        <li>
+                                        <li data-heading="components-heading">
                                             <a href="@Url.Action("Index", "UserType")" title="@Miscellaneous.UserTypes">
                                                 <em class="bi bi-person-fill-gear"></em>
                                                 <span class="align-middle">@Html.Raw(Miscellaneous.UserTypes)</span>
                                             </a>
                                         </li>
-                                        <li>
+                                        <li data-heading="components-heading">
                                             <a href="@Url.Action("Index", "User")" title="@Miscellaneous.Users">
                                                 <em class="bi bi-person-fill"></em>
                                                 <span class="align-middle">@Html.Raw(Miscellaneous.Users)</span>
@@ -256,13 +277,13 @@
                                         <li class="nav-heading ">
                                             <span data-localize="sidebar.heading.COMPONENTS">@Miscellaneous.Companies</span>
                                         </li>
-                                        <li>
+                                        <li data-heading="components-heading">
                                             <a href="@Url.Action("Index", "Company")" title="@Miscellaneous.Companies">
                                                 <em class="bi bi-building"></em>
                                                 <span class="align-middle">@Html.Raw(Miscellaneous.Companies)</span>
                                             </a>
                                         </li>
-                                        <li>
+                                        <li data-heading="components-heading">
                                             <a href="@Url.Action("RegistrationForm", "CompanyRegistration")" title="@Miscellaneous.CompanyRegistration">
                                                 <em class="bi bi-building-add"></em>
                                                 <span class="align-middle">@Html.Raw(Miscellaneous.CompanyRegistration)</span>
@@ -271,7 +292,7 @@
                                         <li class="nav-heading ">
                                             <span data-localize="sidebar.heading.COMPONENTS">@Miscellaneous.Branchs</span>
                                         </li>
-                                        <li>
+                                        <li data-heading="components-heading">
                                             <a href="@Url.Action("Index", "BranchType")" title="@Miscellaneous.BranchTypes">
                                                 <em class="bi bi-bezier2"></em>
                                                 <span class="align-middle">@Html.Raw(Miscellaneous.BranchTypes)</span>
@@ -280,7 +301,7 @@
                                         <li class="nav-heading ">
                                             <span data-localize="sidebar.heading.COMPONENTS">@Miscellaneous.Employees</span>
                                         </li>
-                                        <li>
+                                        <li data-heading="components-heading">
                                             <a href="@Url.Action("Employees", "CompanyEmployee")" title="@Miscellaneous.EmployeeRegistration">
                                                 <em class="bi bi-person-add h4 mb-0"></em>
                                                 <span class="align-middle">@Html.Raw(Miscellaneous.EmployeeRegistration)</span>
@@ -289,13 +310,13 @@
                                         <li class="nav-heading ">
                                             <span data-localize="sidebar.heading.COMPONENTS">@Miscellaneous.MainAccountSettings</span>
                                         </li>
-                                        <li>
+                                        <li data-heading="components-heading">
                                             <a href="@Url.Action("Index", "AccountHead")" title="@Miscellaneous.AccountHeads">
                                                 <em class="bi bi-lightbulb-fill mb-2"></em>
                                                 <span class="align-middle">@Html.Raw(Miscellaneous.AccountHeads)</span>
                                             </a>
                                         </li>
-                                        <li>
+                                        <li data-heading="components-heading">
                                             <a href="@Url.Action("Index", "AccountActivity")" title="@Miscellaneous.AccountActivities">
                                                 <em class="bi bi-universal-access-circle mb-2"></em>
                                                 <span class="align-middle">@Html.Raw(Miscellaneous.AccountActivities)</span>
@@ -308,19 +329,19 @@
                                         <li class="nav-heading ">
                                             <span data-localize="sidebar.heading.HEADER">@Miscellaneous.Home</span>
                                         </li>
-                                        <li>
+                                        <li data-heading="components-heading">
                                             <a href="@Url.Action("Index", "Home")" title="@Miscellaneous.DashboardTitle">
                                                 <em class="bi bi-speedometer2 h4 mb-0"></em>
                                                 <span class="align-middle">@Html.Raw(Miscellaneous.DashboardTitle)</span>
                                             </a>
                                         </li>
-                                        <li>
+                                        <li data-heading="components-heading">
                                             <a href="@Url.Action("Index", "Forecasting")" title="@Miscellaneous.Forecasting">
                                                 <em class="bi bi-clipboard-data h4 mb-0"></em>
                                                 <span class="align-middle">@Html.Raw(Miscellaneous.Forecasting)</span>
                                             </a>
                                         </li>
-                                        <li>
+                                        <li data-heading="components-heading">
                                             <a href="@Url.Action("Index", "Task")" title="@Miscellaneous.TasksList">
                                                 <em class="bi bi-list-task h4 mb-0"></em>
                                                 <span class="align-middle">@Html.Raw(Miscellaneous.TasksList)</span>
@@ -329,19 +350,19 @@
                                         <li class="nav-heading ">
                                             <span data-localize="sidebar.heading.COMPONENTS">@Miscellaneous.SubBranchs</span>
                                         </li>
-                                        <li>
+                                        <li data-heading="components-heading">
                                             <a href="@Url.Action("Index", "Branch")" title="@Miscellaneous.Branches">
                                                 <em class="bi bi-diagram-2 h4 mb-0"></em>
                                                 <span class="align-middle">@Html.Raw(Miscellaneous.Branches)</span>
                                             </a>
                                         </li>
-                                        <li>
+                                        <li data-heading="components-heading">
                                             <a href="@Url.Action("SubBranchUser", "User")" title="@Miscellaneous.Users">
                                                 <em class="bi bi-person-fill h4 mb-0"></em>
                                                 <span class="align-middle">@Html.Raw(Miscellaneous.Users)</span>
                                             </a>
                                         </li>
-                                        <li>
+                                        <li data-heading="components-heading">
                                             <a href="@Url.Action("BranchesMap", "Branch")" title="@Miscellaneous.BranchesMap">
                                                 <em class="bi bi-compass h4 mb-0"></em>
                                                 <span class="align-middle">@Html.Raw(Miscellaneous.BranchesMap)</span>
@@ -352,13 +373,13 @@
                                         @*Main Branch*@
                                         if (branchTypeID == 1)
                                         {
-                                            <li>
+                                            <li data-heading="components-heading">
                                                 <a href="@Url.Action("Index", "EmployeeStatistics")" title="@Miscellaneous.EmployeeStatistics">
                                                     <em class="bi bi-bar-chart-fill h4 mb-0"></em>
                                                     <span class="align-middle">@Html.Raw(Miscellaneous.EmployeeStatistics)</span>
                                                 </a>
                                             </li>
-                                            <li>
+                                            <li data-heading="components-heading">
                                                 <a href="@Url.Action("AssignTask", "Task")" title="@Miscellaneous.TasksAssigment">
                                                     <em class="bi bi bi-person-fill-check h4 mb-0"></em>
                                                     <span class="align-middle">@Html.Raw(Miscellaneous.TasksAssigment)</span>
@@ -367,7 +388,7 @@
                                             <li class="nav-heading ">
                                                 <span data-localize="sidebar.heading.COMPONENTS">@Miscellaneous.Guide</span>
                                             </li>
-                                            <li>
+                                            <li data-heading="components-heading">
                                                 <a href="@Url.Action("MainBranchEmployeeGuide", "Guide")" title="@Miscellaneous.Guide">
                                                     <em class="bi bi-info-circle h4 mb-0"></em>
                                                     <span class="align-middle">@Html.Raw(Miscellaneous.Guide)</span>
@@ -376,7 +397,7 @@
                                             <li class="nav-heading ">
                                                 <span data-localize="sidebar.heading.COMPONENTS">@Miscellaneous.Branchs</span>
                                             </li>
-                                            <li>
+                                            <li data-heading="components-heading">
                                                 <a href="@Url.Action("Create", "Branch")" title="@Miscellaneous.NewBranch">
                                                     <em class="bi bi-diagram-2 h4 mb-0"></em>
                                                     <span class="align-middle">@Html.Raw(Miscellaneous.NewBranch)</span>
@@ -385,19 +406,19 @@
                                             <li class="nav-heading ">
                                                 <span data-localize="sidebar.heading.COMPONENTS">@Miscellaneous.Employees</span>
                                             </li>
-                                            <li>
+                                            <li data-heading="components-heading">
                                                 <a href="@Url.Action("Employee", "BranchEmployee")" title="@Miscellaneous.EmployeeRegistration">
                                                     <em class="bi bi-person-add h4 mb-0"></em>
                                                     <span class="align-middle">@Html.Raw(Miscellaneous.EmployeeRegistration)</span>
                                                 </a>
                                             </li>
-                                            <li>
+                                            <li data-heading="components-heading">
                                                 <a href="@Url.Action("EmployeeSalary", "CompanyEmployee")" title="@Miscellaneous.Payroll">
                                                     <em class="bi bi-coin h4 mb-0"></em>
                                                     <span class="align-middle">@Html.Raw(Miscellaneous.Payroll)</span>
                                                 </a>
                                             </li>
-                                            <li>
+                                            <li data-heading="components-heading">
                                                 <a href="@Url.Action("SalaryHistory", "CompanyEmployee")" title="@Miscellaneous.PaidSalariesHistory">
                                                     <em class="bi bi-cash-stack h4 mb-0"></em>
                                                     <span class="align-middle">@Html.Raw(Miscellaneous.PaidSalariesHistory)</span>
@@ -409,7 +430,7 @@
                                             <li class="nav-heading ">
                                                 <span data-localize="sidebar.heading.COMPONENTS">@Miscellaneous.Guide</span>
                                             </li>
-                                            <li>
+                                            <li data-heading="components-heading">
                                                 <a href="@Url.Action("EmployeeGuide", "Guide")" title="@Miscellaneous.Guide">
                                                     <em class="bi bi-info-circle h4 mb-0"></em>
                                                     <span class="align-middle">@Html.Raw(Miscellaneous.Guide)</span>
@@ -418,19 +439,19 @@
                                             <li class="nav-heading ">
                                                 <span data-localize="sidebar.heading.COMPONENTS">@Miscellaneous.Employees</span>
                                             </li>
-                                            <li>
+                                            <li data-heading="components-heading">
                                                 <a href="@Url.Action("Employee", "BranchEmployee")" title="@Miscellaneous.EmployeeRegistration">
                                                     <em class="bi bi-person-add h4 mb-0"></em>
                                                     <span class="align-middle">@Html.Raw(Miscellaneous.EmployeeRegistration)</span>
                                                 </a>
                                             </li>
-                                            <li>
+                                            <li data-heading="components-heading">
                                                 <a href="@Url.Action("EmployeeSalary", "CompanyEmployee")" title="@Miscellaneous.Payroll">
                                                     <em class="bi bi-coin h4 mb-0"></em>
                                                     <span class="align-middle">@Html.Raw(Miscellaneous.Payroll)</span>
                                                 </a>
                                             </li>
-                                            <li>
+                                            <li data-heading="components-heading">
                                                 <a href="@Url.Action("SalaryHistory", "CompanyEmployee")" title="@Miscellaneous.PaidSalariesHistory">
                                                     <em class="bi bi-cash-stack h4 mb-0"></em>
                                                     <span class="align-middle">@Html.Raw(Miscellaneous.PaidSalariesHistory)</span>
@@ -440,19 +461,19 @@
                                         <li class="nav-heading ">
                                             <span data-localize="sidebar.heading.COMPONENTS">@Miscellaneous.Stocks</span>
                                         </li>
-                                        <li>
+                                        <li data-heading="components-heading">
                                             <a href="@Url.Action("Index", "Category")" title="@Miscellaneous.StockCategories">
                                                 <em class="bi bi-inboxes-fill h4 mb-0"></em>
                                                 <span class="align-middle">@Html.Raw(Miscellaneous.StockCategories)</span>
                                             </a>
                                         </li>
-                                        <li>
+                                        <li data-heading="components-heading">
                                             <a href="@Url.Action("Index", "Stock")" title="@Miscellaneous.StockDetails">
                                                 <em class="bi bi-boxes h4 mb-0"></em>
                                                 <span class="align-middle">@Html.Raw(Miscellaneous.StockDetails)</span>
                                             </a>
                                         </li>
-                                        <li>
+                                        <li data-heading="components-heading">
                                             <a href="@Url.Action("ProductQuality", "Stock")" title="@Miscellaneous.ProductQuality">
                                                 <em class="bi bi-battery-half h4 mb-0"></em>
                                                 <span class="align-middle">@Html.Raw(Miscellaneous.ProductQuality)</span>
@@ -462,19 +483,19 @@
                                     <li class="nav-heading ">
                                         <span data-localize="sidebar.heading.COMPONENTS">@Miscellaneous.AccountSettings</span>
                                     </li>
-                                    <li>
+                                    <li data-heading="components-heading">
                                         <a href="@Url.Action("Index", "AccountControl")" title="@Miscellaneous.AccountControls">
                                             <em class="bi bi-gear-wide h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(Miscellaneous.AccountControls)</span>
                                         </a>
                                     </li>
-                                    <li>
+                                    <li data-heading="components-heading">
                                         <a href="@Url.Action("Index", "AccountSubControl")" title="@Miscellaneous.AccountSubControls">
                                             <em class="bi bi-gear-wide-connected h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(Miscellaneous.AccountSubControls)</span>
                                         </a>
                                     </li>
-                                    <li>
+                                    <li data-heading="components-heading">
                                         <a href="@Url.Action("Index", "AccountSetting")" title="@Miscellaneous.AccountFlow">
                                             <em class="bi bi-person-lines-fill h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(Miscellaneous.AccountFlow)</span>
@@ -487,13 +508,13 @@
                                     <li class="nav-heading ">
                                         <span>@Html.Raw(Miscellaneous.FinancialYear)</span>
                                     </li>
-                                    <li>
+                                    <li data-heading="components-heading">
                                         <a href="@Url.Action("Index", "FinancialYear")" title="@Miscellaneous.FinancialYear">
                                             <em class="bi bi-cash h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(Miscellaneous.FinancialYear)</span>
                                         </a>
                                     </li>
-                                    <li>
+                                    <li data-heading="components-heading">
                                         <a href="@Url.Action("Create", "FinancialYear")" title="@Localization.CloudERP.Modules.Financial.Financial.NewFinancialYear">
                                             <em class="bi bi-cash-coin h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(@Localization.CloudERP.Modules.Financial.Financial.NewFinancialYear)</span>
@@ -505,7 +526,7 @@
                                     <li class="nav-heading ">
                                         <span data-localize="sidebar.heading.COMPONENTS">@Miscellaneous.FinancialYear</span>
                                     </li>
-                                    <li>
+                                    <li data-heading="components-heading">
                                         <a href="@Url.Action("Index", "FinancialYearView")" title="@Miscellaneous.AllFinancialYears">
                                             <em class="bi bi-calendar3 h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(Miscellaneous.AllFinancialYears)</span>
@@ -517,19 +538,19 @@
                                 </li>
                                 if (userType == 2)
                                 {
-                                    <li>
+                                    <li data-heading="components-heading">
                                         <a href="@Url.Action("Create", "Customer")" title="@Miscellaneous.NewCustomer">
                                             <em class="bi bi-person-fill-add h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(Miscellaneous.NewCustomer)</span>
                                         </a>
                                     </li>
-                                    <li>
+                                    <li data-heading="components-heading">
                                         <a href="@Url.Action("Index", "Customer")" title="@Miscellaneous.BranchCustomers">
                                             <em class="bi bi-cart h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(Miscellaneous.BranchCustomers)</span>
                                         </a>
                                     </li>
-                                    <li>
+                                    <li data-heading="components-heading">
                                         <a href="@Url.Action("SubBranchCustomer", "Customer")" title="@Miscellaneous.SubBranchCustomersNavlink">
                                             <em class="bi bi-cart-check h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(Miscellaneous.SubBranchCustomersNavlink)</span>
@@ -538,31 +559,31 @@
                                     <li class="nav-heading ">
                                         <span data-localize="sidebar.heading.COMPONENTS">@Miscellaneous.Sales</span>
                                     </li>
-                                    <li>
+                                    <li data-heading="components-heading">
                                         <a href="@Url.Action("NewSale", "SaleCart")" title="@Miscellaneous.NewSale">
                                             <em class="bi bi-bag-plus h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(Miscellaneous.NewSale)</span>
                                         </a>
                                     </li>
-                                    <li>
+                                    <li data-heading="components-heading">
                                         <a href="@Url.Action("RemainingPaymentList", "SalePayment")" title="@Miscellaneous.SalePendingPayment">
                                             <em class="bi bi-paypal h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(Miscellaneous.SalePendingPayment)</span>
                                         </a>
                                     </li>
-                                    <li>
+                                    <li data-heading="components-heading">
                                         <a href="@Url.Action("CustomSalesHistory", "SalePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now })" title="@Miscellaneous.AllSales">
                                             <em class="bi bi-card-checklist h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(Miscellaneous.AllSales)</span>
                                         </a>
                                     </li>
-                                    <li>
+                                    <li data-heading="components-heading">
                                         <a href="@Url.Action("FindSale", "SaleReturn")" title="@Miscellaneous.SaleReturn">
                                             <em class="bi bi-bag-dash h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(Miscellaneous.SaleReturn)</span>
                                         </a>
                                     </li>
-                                    <li>
+                                    <li data-heading="components-heading">
                                         <a href="@Url.Action("AllReturnSalesPendingAmount", "SalePaymentReturn")" title="@Miscellaneous.ReturnSalesPendingAmount">
                                             <em class="bi bi-wallet-fill h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(Miscellaneous.ReturnSalesPendingAmount)</span>
@@ -571,7 +592,7 @@
                                 }
                                 if (userType == 1)
                                 {
-                                    <li>
+                                    <li data-heading="components-heading">
                                         <a href="@Url.Action("AllCustomers", "Customer")" title="@Miscellaneous.AllCustomers">
                                             <em class="bi bi-cart h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(Miscellaneous.AllCustomers)</span>
@@ -583,19 +604,19 @@
                                 </li>
                                 if (userType == 2)
                                 {
-                                    <li>
+                                    <li data-heading="components-heading">
                                         <a href="@Url.Action("Create", "Supplier")" title="@Miscellaneous.NewSupplier">
                                             <em class="bi bi-umbrella h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(Miscellaneous.NewSupplier)</span>
                                         </a>
                                     </li>
-                                    <li>
+                                    <li data-heading="components-heading">
                                         <a href="@Url.Action("Index", "Supplier")" title="@Localization.CloudERP.Modules.Supplier.Supplier.BranchSuppliers">
                                             <em class="bi bi-truck h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(@Localization.CloudERP.Modules.Supplier.Supplier.BranchSuppliers)</span>
                                         </a>
                                     </li>
-                                    <li>
+                                    <li data-heading="components-heading">
                                         <a href="@Url.Action("SubBranchSupplier", "Supplier")" title="@Localization.CloudERP.Modules.Supplier.Supplier.SubBranchSuppliers">
                                             <em class="bi bi-truck-front h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(@Localization.CloudERP.Modules.Supplier.Supplier.SubBranchSuppliers)</span>
@@ -604,31 +625,31 @@
                                     <li class="nav-heading ">
                                         <span data-localize="sidebar.heading.COMPONENTS">@Miscellaneous.Purchases</span>
                                     </li>
-                                    <li>
+                                    <li data-heading="components-heading">
                                         <a href="@Url.Action("NewPurchase", "PurchaseCart")" title="@Miscellaneous.NewPurchase">
                                             <em class="bi bi-cart-plus h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(Miscellaneous.NewPurchase)</span>
                                         </a>
                                     </li>
-                                    <li>
+                                    <li data-heading="components-heading">
                                         <a href="@Url.Action("RemainingPaymentList", "PurchasePayment")" title="@Miscellaneous.PurchasePendingPayment">
                                             <em class="bi bi-currency-dollar h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(Miscellaneous.PurchasePendingPayment)</span>
                                         </a>
                                     </li>
-                                    <li>
+                                    <li data-heading="components-heading">
                                         <a href="@Url.Action("CustomPurchasesHistory", "PurchasePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now })" title="@Miscellaneous.AllPurchases">
                                             <em class="bi bi-cart h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(Miscellaneous.AllPurchases)</span>
                                         </a>
                                     </li>
-                                    <li>
+                                    <li data-heading="components-heading">
                                         <a href="@Url.Action("FindPurchase", "PurchaseReturn")" title="@Miscellaneous.PurchasesReturn">
                                             <em class="bi bi-cart-dash h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(Miscellaneous.PurchasesReturn)</span>
                                         </a>
                                     </li>
-                                    <li>
+                                    <li data-heading="components-heading">
                                         <a href="@Url.Action("AllPurchasesPendingPayment", "PurchasePaymentReturn")" title="@Miscellaneous.ReturnPaymentPending">
                                             <em class="bi bi-currency-dollar h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(Miscellaneous.ReturnPaymentPending)</span>
@@ -637,37 +658,37 @@
                                     <li class="nav-heading ">
                                         <span data-localize="sidebar.heading.COMPONENTS">@Miscellaneous.Transactions</span>
                                     </li>
-                                    <li>
+                                    <li data-heading="components-heading">
                                         <a href="@Url.Action("GeneralTransaction", "GeneralTransaction", new { transaction = new CloudERP.Models.GeneralTransactionMV() { CreditAccountControlID = 0, DebitAccountControlID = 0, TransferAmount = 0 } })" title="@Miscellaneous.GeneralTransaction">
                                             <em class="bi bi-briefcase h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(Miscellaneous.GeneralTransaction)</span>
                                         </a>
                                     </li>
-                                    <li>
+                                    <li data-heading="components-heading">
                                         <a href="@Url.Action("Journal", "GeneralTransaction")" title="@Miscellaneous.Journal">
                                             <em class="bi bi-journal-bookmark h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(Miscellaneous.Journal)</span>
                                         </a>
                                     </li>
-                                    <li>
+                                    <li data-heading="components-heading">
                                         <a href="@Url.Action("GetLedger", "Ledger")" title="@Miscellaneous.AccountsLedger">
                                             <em class="bi bi-book-half h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(Miscellaneous.AccountsLedger)</span>
                                         </a>
                                     </li>
-                                    <li>
+                                    <li data-heading="components-heading">
                                         <a href="@Url.Action("GetTrialBalance", "TrialBalance")" title="@Miscellaneous.TrialBalance">
                                             <em class="bi bi-currency-dollar h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(Miscellaneous.TrialBalance)</span>
                                         </a>
                                     </li>
-                                    <li>
+                                    <li data-heading="components-heading">
                                         <a href="@Url.Action("GetIncomeStatement", "IncomeStatement")" title="@Miscellaneous.IncomeStatement">
                                             <em class="bi bi-currency-exchange h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(Miscellaneous.IncomeStatement)</span>
                                         </a>
                                     </li>
-                                    <li>
+                                    <li data-heading="components-heading">
                                         <a href="@Url.Action("GetBalanceSheet", "BalanceSheet")" title="@Miscellaneous.BalanceSheet">
                                             <em class="bi bi-file-earmark-spreadsheet h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(Miscellaneous.BalanceSheet)</span>
@@ -676,7 +697,7 @@
                                 }
                                 if (userType == 1)
                                 {
-                                    <li>
+                                    <li data-heading="components-heading">
                                         <a href="@Url.Action("AllSuppliers", "Supplier")" title="@Miscellaneous.AllSuppliers">
                                             <em class="bi bi-minecart-loaded h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(Miscellaneous.AllSuppliers)</span>
@@ -688,7 +709,7 @@
                                 </li>
                                 if (userType == 1)
                                 {
-                                    <li>
+                                    <li data-heading="components-heading">
                                         <a href="@Url.Action("AdminList", "Support")" title="@Miscellaneous.TicketList">
                                             <em class="bi bi-hammer h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(Miscellaneous.TicketList)</span>
@@ -697,14 +718,14 @@
                                 }
                                 if (userType == 2)
                                 {
-                                    <li>
+                                    <li data-heading="components-heading">
                                         <a href="@Url.Action("Support", "Support")" title="@Miscellaneous.Support">
                                             <em class="bi bi-hammer h4 mb-0"></em>
                                             <span class="align-middle">@Html.Raw(Miscellaneous.Support))</span>
                                         </a>
                                     </li>
                                 }
-                                <li>
+                                <li data-heading="components-heading">
                                     <a href="@Url.Action("PrivacyPolicy", "Guide")" title="@Miscellaneous.PrivacyPolicy">
                                         <em class="bi bi-sourceforge h4 mb-0"></em>
                                         <span class="align-middle">@Html.Raw(Miscellaneous.PrivacyPolicy)</span>
@@ -782,13 +803,31 @@
     <!-- =============== APP SCRIPTS ===============-->
     <script src="~/Template/js/app.js"></script>
     <script src="~/js/CustomScripts/FullscreenMode.js"></script>
-    <script src="~/js/CustomScripts/Tour.js"></script>
+    <script src="~/js/CustomScripts/NavbarSearch.js"></script>
     <script>
         $(document).ready(function () {
+            window.localizedSteps = {
+                guide: {
+                    step1: '@Html.Raw(HttpUtility.JavaScriptStringEncode(Guide.Step1))',
+                    step2: '@Html.Raw(HttpUtility.JavaScriptStringEncode(Guide.Step2))',
+                    step3: '@Html.Raw(HttpUtility.JavaScriptStringEncode(Guide.Step3))',
+                    step4: '@Html.Raw(HttpUtility.JavaScriptStringEncode(Guide.Step4))',
+                    step5: '@Html.Raw(HttpUtility.JavaScriptStringEncode(Guide.Step5))',
+                    step6: '@Html.Raw(HttpUtility.JavaScriptStringEncode(Guide.Step6))',
+                    step7: '@Html.Raw(HttpUtility.JavaScriptStringEncode(Guide.Step7))',
+                    step8: '@Html.Raw(HttpUtility.JavaScriptStringEncode(Guide.Step8))',
+                    step9: '@Html.Raw(HttpUtility.JavaScriptStringEncode(Guide.Step9))',
+                    step10: '@Html.Raw(HttpUtility.JavaScriptStringEncode(Guide.Step10))',
+                    next: '@Html.Raw(HttpUtility.JavaScriptStringEncode(Common.Next))',
+                    back: '@Html.Raw(HttpUtility.JavaScriptStringEncode(Common.Back))',
+                    finish: '@Html.Raw(HttpUtility.JavaScriptStringEncode(Common.Finish))'
+                }
+            };
             if (@startTour.ToString().ToLower()) {
                 startTour();
             }
         });
     </script>
+    <script src="~/js/CustomScripts/Tour.js"></script>
 </body>
 </html>

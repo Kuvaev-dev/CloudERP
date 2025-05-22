@@ -19,7 +19,7 @@ namespace API.Controllers.Utilities
             _apiUrl = _configuration["GeoapifyApi:BaseUrl"] ?? throw new ArgumentNullException("Geoapify Api Url is missing in configuration.");
         }
 
-        [HttpGet("autocomplete")]
+        [HttpGet]
         public async Task<IActionResult> Autocomplete([FromQuery] string query)
         {
             if (string.IsNullOrWhiteSpace(query))
@@ -47,7 +47,7 @@ namespace API.Controllers.Utilities
             }
         }
 
-        [HttpGet("reverse")]
+        [HttpGet]
         public async Task<IActionResult> GetAddressByCoordinates([FromQuery] double latitude, [FromQuery] double longitude)
         {
             try
