@@ -5,9 +5,15 @@ namespace DatabaseAccess.Helpers
 {
     public class BranchHelper : IBranchHelper
     {
-        public List<int> GetBranchsIDs(int? brnchId, object db)
+        private readonly CloudDBEntities _dbContext;
+
+        public BranchHelper(CloudDBEntities dbContext)
         {
-            var context = db as CloudDBEntities ?? throw new ArgumentNullException(nameof(db));
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+        }
+
+        public List<int> GetBranchsIDs(int? brnchId)
+        {
             if (!brnchId.HasValue) return [];
 
             var branchIDs = new List<int>();
@@ -20,7 +26,7 @@ namespace DatabaseAccess.Helpers
                 int currentBranchId = queue.Dequeue();
                 branchIDs.Add(currentBranchId);
 
-                var subBranches = context.tblBranch
+                var subBranches = _dbContext.tblBranch
                     .Where(b => b.BrchID == currentBranchId)
                     .Select(b => b.BranchID)
                     .ToList();

@@ -153,4 +153,7 @@
   <data name="NewSupplier" xml:space="preserve">
     <value>New Supplier</value>
   </data>
+  <data name="SupplierTitle" xml:space="preserve">
+    <value>Supplier</value>
+  </data>
 </root>

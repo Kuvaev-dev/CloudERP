@@ -78,9 +78,24 @@
                                 @Html.DisplayFor(modelItem => item.RemainingBalance)
                             </td>
                         </tr>
+                        remainingBalance = item.RemainingBalance;
                     }
                 </tbody>
             </table>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6"></div>
+    <div class="col-lg-6 py-2">
+        <div class="row mb-3 align-items-center">
+            <div class="col-7">
+                <div class="h3">@Miscellaneous.RemainingTotalBalance: </div>
+            </div>
+            <div class="col-5">
+                <div class="text-left h3">@remainingBalance.ToString("F2")</div>
+            </div>
         </div>
     </div>
 </div>
@@ -226,23 +241,24 @@
             <br />
 
         }
-    }
-    remainingBalance = ((double)ViewBag.PreviousRemainingAmount - totalReturnRemainingBalance);
-}
 
-<div class="row">
-    <div class="col-lg-6"></div>
-    <div class="col-lg-6 py-2">
-        <div class="row mb-3 align-items-center">
-            <div class="col-7">
-                <div class="h3">@Purchase.RemainingTotalBalance: </div>
-            </div>
-            <div class="col-5">
-                <div id="previousRemainingAmounts" class="text-left h3">@remainingBalance.ToString("F2")</div>
+        remainingBalance = ((double)ViewBag.PreviousRemainingAmount - totalReturnRemainingBalance);
+
+        <div class="row">
+            <div class="col-lg-6"></div>
+            <div class="col-lg-6 py-2">
+                <div class="row mb-3 align-items-center">
+                    <div class="col-7">
+                        <div class="h3">@Purchase.RemainingTotalBalance: </div>
+                    </div>
+                    <div class="col-5">
+                        <div id="previousRemainingAmounts" class="text-left h3">@remainingBalance.ToString("F2")</div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
+    }
+}
 
 <script type="text/javascript">
     $(document).ready(function () {

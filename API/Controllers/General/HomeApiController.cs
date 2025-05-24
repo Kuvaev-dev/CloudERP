@@ -1,5 +1,6 @@
 ﻿using Domain.Models;
 using Domain.Models.FinancialModels;
+using Domain.ServiceAccess;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Services.Facades;
@@ -14,12 +15,14 @@ namespace API.Controllers.General
     public class HomeApiController : ControllerBase
     {
         private readonly HomeFacade _homeFacade;
+        private readonly ICurrencyService _currencyService;
         private readonly IConfiguration _configuration;
 
-        public HomeApiController(HomeFacade homeFacade, IConfiguration configuration)
+        public HomeApiController(HomeFacade homeFacade, IConfiguration configuration, ICurrencyService currencyService)
         {
             _homeFacade = homeFacade ?? throw new ArgumentNullException(nameof(homeFacade));
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            _currencyService = currencyService ?? throw new ArgumentNullException(nameof(currencyService));
         }
 
         [HttpPost]
@@ -101,7 +104,7 @@ namespace API.Controllers.General
             try
             {
                 var defaultCurrency = _configuration["CurrencyApi:DefaultCurrency"] ?? "UAH";
-                var rates = await _homeFacade.CurrencyService.GetExchangeRatesAsync(defaultCurrency);
+                var rates = await _currencyService.GetExchangeRatesAsync(defaultCurrency);
                 var currencies = rates.ToDictionary(k => k.Key, v => decimal.TryParse(v.Value.ToString(), out var parsed) ? parsed : 0m);
                 return Ok(currencies);
             }

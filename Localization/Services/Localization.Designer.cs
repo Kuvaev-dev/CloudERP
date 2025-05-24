@@ -223,6 +223,15 @@ namespace Localization.Services {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Company Financial Year Not Set.
+        /// </summary>
+        public static string CompanyFinancialYearNotSet {
+            get {
+                return ResourceManager.GetString("CompanyFinancialYearNotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Credit.
         /// </summary>
         public static string Credit {

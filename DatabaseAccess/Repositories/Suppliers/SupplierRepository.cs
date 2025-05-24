@@ -1,8 +1,8 @@
 ﻿using DatabaseAccess.Context;
-using DatabaseAccess.Helpers;
 using DatabaseAccess.Models;
 using Domain.Models;
 using Domain.RepositoryAccess;
+using Domain.UtilsAccess;
 using Microsoft.EntityFrameworkCore;
 
 namespace DatabaseAccess.Repositories.Suppliers
@@ -10,14 +10,14 @@ namespace DatabaseAccess.Repositories.Suppliers
     public class SupplierRepository : ISupplierRepository
     {
         private readonly CloudDBEntities _dbContext;
-        private readonly BranchHelper _branchHelper;
+        private readonly IBranchHelper _branchHelper;
 
         public SupplierRepository(
             CloudDBEntities dbContext,
-            BranchHelper branchHelper)
+            IBranchHelper branchHelper)
         {
-            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(CloudDBEntities));
-            _branchHelper = branchHelper ?? throw new ArgumentNullException(nameof(BranchHelper));
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+            _branchHelper = branchHelper ?? throw new ArgumentNullException(nameof(branchHelper));
         }
 
         public async Task<IEnumerable<Supplier>> GetAllAsync()
@@ -121,7 +121,7 @@ namespace DatabaseAccess.Repositories.Suppliers
 
         public async Task<IEnumerable<Supplier>> GetSuppliersByBranchesAsync(int branchID)
         {
-            List<int> branchIDs = _branchHelper.GetBranchsIDs(branchID, _dbContext);
+            List<int> branchIDs = _branchHelper.GetBranchsIDs(branchID);
 
             var entities = await _dbContext.tblSupplier
                 .Where(s => branchIDs.Contains(s.BranchID))

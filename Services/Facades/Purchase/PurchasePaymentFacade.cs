@@ -12,7 +12,6 @@ namespace Domain.Facades
         private readonly ISupplierInvoiceDetailRepository _supplierInvoiceDetailRepository;
         private readonly ISupplierPaymentRepository _supplierPaymentRepository;
         private readonly IPurchaseEntryService _purchaseEntryService;
-        private readonly IPurchasePaymentService _purchasePaymentService;
         private readonly IPurchaseService _purchaseService;
 
         public PurchasePaymentFacade(
@@ -23,8 +22,7 @@ namespace Domain.Facades
             ISupplierPaymentRepository supplierPaymentRepository,
             IPurchaseEntryService purchaseEntryService,
             IPurchaseService purchaseService,
-            ISupplierInvoiceDetailRepository supplierInvoiceDetailRepository,
-            IPurchasePaymentService purchasePaymentService)
+            ISupplierInvoiceDetailRepository supplierInvoiceDetailRepository)
         {
             _purchaseRepository = purchaseRepository ?? throw new ArgumentNullException(nameof(purchaseRepository));
             _supplierRepository = supplierRepository ?? throw new ArgumentNullException(nameof(supplierRepository));
@@ -34,7 +32,6 @@ namespace Domain.Facades
             _purchaseEntryService = purchaseEntryService ?? throw new ArgumentNullException(nameof(purchaseEntryService));
             _purchaseService = purchaseService ?? throw new ArgumentNullException(nameof(purchaseService));
             _supplierInvoiceDetailRepository = supplierInvoiceDetailRepository ?? throw new ArgumentNullException(nameof(supplierInvoiceDetailRepository));
-            _purchasePaymentService = purchasePaymentService;
         }
 
         public IPurchaseRepository PurchaseRepository => _purchaseRepository;
@@ -45,6 +42,5 @@ namespace Domain.Facades
         public IPurchaseEntryService PurchaseEntryService => _purchaseEntryService;
         public IPurchaseService PurchaseService => _purchaseService;
         public ISupplierInvoiceDetailRepository SupplierInvoiceDetailRepository => _supplierInvoiceDetailRepository;
-        public IPurchasePaymentService PurchasePaymentService => _purchasePaymentService;
     }
 }

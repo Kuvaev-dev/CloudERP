@@ -167,5 +167,14 @@ namespace Localization.CloudERP.Modules.Supplier {
                 return ResourceManager.GetString("SupplierName", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Supplier.
+        /// </summary>
+        public static string SupplierTitle {
+            get {
+                return ResourceManager.GetString("SupplierTitle", resourceCulture);
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Domain.Facades;
 using Domain.Models;
+using Domain.ServiceAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,10 +12,14 @@ namespace API.Controllers.Purchase.Payment
     public class PurchasePaymentApiController : ControllerBase
     {
         private readonly PurchasePaymentFacade _purchasePaymentFacade;
+        private readonly IPurchasePaymentService _purchasePaymentService;
 
-        public PurchasePaymentApiController(PurchasePaymentFacade purchasePaymentFacade)
+        public PurchasePaymentApiController(
+            PurchasePaymentFacade purchasePaymentFacade,
+            IPurchasePaymentService purchasePaymentService)
         {
             _purchasePaymentFacade = purchasePaymentFacade ?? throw new ArgumentNullException(nameof(purchasePaymentFacade));
+            _purchasePaymentService = purchasePaymentService ?? throw new ArgumentNullException(nameof(purchasePaymentService));
         }
 
         [HttpGet]
@@ -41,7 +46,7 @@ namespace API.Controllers.Purchase.Payment
         [HttpPost]
         public async Task<ActionResult<string>> ProcessPayment(PurchaseAmount paymentDto)
         {
-            string message = await _purchasePaymentFacade.PurchasePaymentService.ProcessPaymentAsync(
+            string message = await _purchasePaymentService.ProcessPaymentAsync(
                 paymentDto.CompanyID,
                 paymentDto.BranchID,
                 paymentDto.UserID,

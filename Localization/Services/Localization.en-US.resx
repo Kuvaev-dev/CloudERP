@@ -333,4 +333,7 @@
   <data name="ReturnSalePaymentIsSucceed" xml:space="preserve">
     <value>Return Sale Payment Is Succeed</value>
   </data>
+  <data name="CompanyFinancialYearNotSet" xml:space="preserve">
+    <value>Company Financial Year Not Set</value>
+  </data>
 </root>

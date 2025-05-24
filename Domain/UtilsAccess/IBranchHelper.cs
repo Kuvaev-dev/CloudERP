@@ -2,6 +2,6 @@
 {
     public interface IBranchHelper
     {
-        List<int> GetBranchsIDs(int? brnchId, object db);
+        List<int> GetBranchsIDs(int? brnchId);
     }
 }

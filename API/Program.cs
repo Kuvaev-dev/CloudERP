@@ -45,6 +45,7 @@ namespace API
             builder.Services.AddScoped<IConnectionStringProvider, WebConfigConnectionStringProvider>();
             // Local Services
             builder.Services.AddScoped<IEmailService, EmailService>();
+            builder.Services.AddScoped<ICurrencyService, CurrencyService>();
             builder.Services.AddScoped<IFileService, FileService>();
             // Local Adapters
             builder.Services.AddScoped<IFileAdapterFactory, FileAdapterFactory>();

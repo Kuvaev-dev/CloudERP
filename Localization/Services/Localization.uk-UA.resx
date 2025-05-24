@@ -333,4 +333,7 @@
   <data name="ReturnSalePaymentIsSucceed" xml:space="preserve">
     <value>Оплата повернення продажу проведена успішно</value>
   </data>
+  <data name="CompanyFinancialYearNotSet" xml:space="preserve">
+    <value>Фінансовий рік не встановлено для даної компанії</value>
+  </data>
 </root>

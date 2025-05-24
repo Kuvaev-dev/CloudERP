@@ -2,6 +2,7 @@
 @using Localization.CloudERP.Modules.Sale
 @using Localization.CloudERP.Modules.Branch
 @using Localization.CloudERP.Modules.Miscellaneous
+@using Localization.CloudERP.Modules.Supplier
 @using Localization.CloudERP.Common
 @{
     Layout = null;
@@ -41,7 +42,7 @@
                         <hr />
                         <h4>@Model.BranchName</h4>
                         <h5>@Localization.CloudERP.Modules.User.User.ContactNo: @Model.BranchContact</h5>
-                        <address>@Model.BranchAddress</address>
+                        @Supplier.Address: <address>@Model.BranchAddress</address>
                     </div>
                     <div class="col-xl-3 col-7 py-2">
                         <h4>@Miscellaneous.Date</h4>

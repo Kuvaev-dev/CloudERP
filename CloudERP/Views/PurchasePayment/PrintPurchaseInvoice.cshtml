@@ -28,7 +28,7 @@
                         <img src="@Url.Content(Model.SupplierLogo)" class="img-fluid" style="max-width: 50px; height: auto;" />
                     </div>
                     <div class="col-xl-3 col-7 br py-2">
-                        <h4>@Supplier.SupplierName</h4>
+                        <h4>@Supplier.SupplierTitle</h4>
                         <hr/>
                         <h4>@Model.SupplierName</h4>
                         <h5>@Localization.CloudERP.Modules.User.User.ContactNo: @Model.SupplierConatctNo</h5>
@@ -43,7 +43,7 @@
                         <hr />
                         <h4>@Model.BranchName</h4>
                         <h5>@Localization.CloudERP.Modules.User.User.ContactNo: @Model.BranchContact</h5>
-                        <address>@Model.BranchAddress</address>
+                        @Supplier.Address: <address>@Model.BranchAddress</address>
                     </div>
                     <div class="col-xl-3 col-7 py-2">
                         <h4>@Miscellaneous.Date</h4>
