@@ -2,16 +2,16 @@
 using Domain.RepositoryAccess;
 using System.Data;
 using Microsoft.Data.SqlClient;
-using Utils.Helpers;
 using Microsoft.Extensions.Configuration;
 using DatabaseAccess.Context;
+using Domain.UtilsAccess;
 
 namespace DatabaseAccess.Repositories.Financial
 {
     public class GeneralTransactionRepository : IGeneralTransactionRepository
     {
         private readonly CloudDBEntities _dbContext;
-        private readonly DatabaseQuery _query;
+        private readonly IDatabaseQuery _query;
         private readonly IAccountSubControlRepository _accountSubControlRepository;
         private readonly IConfiguration _configuration;
 
@@ -19,14 +19,14 @@ namespace DatabaseAccess.Repositories.Financial
 
         public GeneralTransactionRepository(
             CloudDBEntities dbContext,
-            DatabaseQuery query,
+            IDatabaseQuery query,
             IAccountSubControlRepository accountSubControlRepository,
             IConfiguration configuration)
         {
-            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(CloudDBEntities));
-            _query = query ?? throw new ArgumentNullException(nameof(DatabaseQuery));
-            _accountSubControlRepository = accountSubControlRepository ?? throw new ArgumentNullException(nameof(IAccountSubControlRepository));
-            _configuration = configuration ?? throw new ArgumentNullException(nameof(IConfiguration));
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+            _query = query ?? throw new ArgumentNullException(nameof(query));
+            _accountSubControlRepository = accountSubControlRepository ?? throw new ArgumentNullException(nameof(accountSubControlRepository));
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
         private void InitializeDataTable()
@@ -126,7 +126,7 @@ namespace DatabaseAccess.Repositories.Financial
                         new SqlParameter("@BranchID", branchId)
                     };
 
-                    await _query.InsertAsync(entryQuery, entryParams);
+                    await _query.ExecuteNonQueryAsync(entryQuery, entryParams);
                 }
 
                 transaction.Commit();
@@ -138,7 +138,7 @@ namespace DatabaseAccess.Repositories.Financial
         {
             var accountsList = new List<AllAccountModel>();
 
-            using (SqlConnection connection = await _query.ConnOpenAsync())
+            using (SqlConnection connection = await _query.ConnOpenAsync() as SqlConnection)
             {
                 using (SqlCommand command = new("GetAllAccounts", connection))
                 {
@@ -178,7 +178,7 @@ namespace DatabaseAccess.Repositories.Financial
         {
             var journalEntries = new List<JournalModel>();
 
-            using (SqlConnection connection = await _query.ConnOpenAsync())
+            using (SqlConnection connection = await _query.ConnOpenAsync() as SqlConnection)
             {
                 using (SqlCommand command = new("GetJournal", connection))
                 {

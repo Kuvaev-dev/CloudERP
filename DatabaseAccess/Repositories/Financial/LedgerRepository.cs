@@ -2,22 +2,17 @@
 using System.Data;
 using Domain.RepositoryAccess;
 using Domain.Models.FinancialModels;
-using Utils.Helpers;
-using Microsoft.Extensions.Configuration;
+using Domain.UtilsAccess;
 
 namespace DatabaseAccess.Repositories.Financial
 {
     public class LedgerRepository : ILedgerRepository
     {
-        private readonly DatabaseQuery _query;
-        private readonly IConfiguration _configuration;
+        private readonly IDatabaseQuery _query;
 
-        public LedgerRepository(
-            DatabaseQuery query,
-            IConfiguration configuration)
+        public LedgerRepository(IDatabaseQuery query)
         {
-            _query = query ?? throw new ArgumentNullException(nameof(DatabaseQuery));
-            _configuration = configuration ?? throw new ArgumentNullException(nameof(IConfiguration));
+            _query = query ?? throw new ArgumentNullException(nameof(query));
         }
 
         public async Task<List<AccountLedgerModel>> GetLedgerAsync(int companyId, int branchId, int financialYearId)
@@ -25,7 +20,7 @@ namespace DatabaseAccess.Repositories.Financial
             var ledger = new List<AccountLedgerModel>();
             int sNo = 1;
 
-            using (SqlConnection connection = await _query.ConnOpenAsync())
+            using (SqlConnection connection = await _query.ConnOpenAsync() as SqlConnection)
             {
                 using SqlCommand command = new("GetLedger", connection);
                 command.CommandType = CommandType.StoredProcedure;

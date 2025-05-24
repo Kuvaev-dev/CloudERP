@@ -1,30 +1,30 @@
-﻿using CloudERP.Helpers;
-using Domain.Models.FinancialModels;
+﻿using Domain.Models.FinancialModels;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Localization;
+using Domain.UtilsAccess;
 
 namespace CloudERP.Controllers.General
 {
     public class HomeController : Controller
     {
-        private readonly SessionHelper _sessionHelper;
-        private readonly HttpClientHelper _httpClient;
+        private readonly ISessionHelper _sessionHelper;
+        private readonly IHttpClientHelper _httpClient;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         private const int ADMIN_USER_TYPE_ID = 1;
 
         public HomeController(
-            SessionHelper sessionHelper,
-            HttpClientHelper httpClient,
+            ISessionHelper sessionHelper,
+            IHttpClientHelper httpClient,
             IHttpContextAccessor httpContextAccessor)
         {
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
-            _httpContextAccessor = httpContextAccessor;
+            _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
         }
 
         public async Task<IActionResult> Index()

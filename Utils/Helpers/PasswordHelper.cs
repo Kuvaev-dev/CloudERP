@@ -1,8 +1,9 @@
-﻿using System.Security.Cryptography;
+﻿using Domain.UtilsAccess;
+using System.Security.Cryptography;
 
 namespace Utils.Helpers
 {
-    public class PasswordHelper
+    public class PasswordHelper : IPasswordHelper
     {
         public string HashPassword(string password, out string salt)
         {

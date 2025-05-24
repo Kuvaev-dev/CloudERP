@@ -1,22 +1,22 @@
 ﻿using DatabaseAccess.Context;
 using Domain.RepositoryAccess;
+using Domain.UtilsAccess;
 using Microsoft.Data.SqlClient;
 using System.Data;
-using Utils.Helpers;
 
 namespace DatabaseAccess.Repositories.Employees
 {
     public class SalaryTransactionRepository : ISalaryTransactionRepository
     {
         private readonly CloudDBEntities _dbContext;
-        private readonly DatabaseQuery _query;
+        private readonly IDatabaseQuery _query;
 
         private DataTable? _dtEntries = null;
 
-        public SalaryTransactionRepository(CloudDBEntities dbContext, DatabaseQuery query)
+        public SalaryTransactionRepository(CloudDBEntities dbContext, IDatabaseQuery query)
         {
-            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(CloudDBEntities));
-            _query = query ?? throw new ArgumentNullException(nameof(DatabaseQuery));
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+            _query = query ?? throw new ArgumentNullException(nameof(query));
         }
 
         public async Task<string> Confirm(int EmployeeID, double TransferAmount, int UserID, int BranchID, int CompanyID, string InvoiceNo, string SalaryMonth, string SalaryYear)
@@ -39,7 +39,7 @@ namespace DatabaseAccess.Repositories.Employees
                     new("@UserID", UserID)
                 };
 
-                await _query.InsertAsync(paymentquery, paymentParameters);
+                await _query.ExecuteNonQueryAsync(paymentquery, paymentParameters);
 
                 transaction.Commit();
                 return Localization.Services.Localization.SalarySucceed;
@@ -71,7 +71,7 @@ namespace DatabaseAccess.Repositories.Employees
                         new SqlParameter("@BranchID", BranchID)
                     };
 
-                    await _query.InsertAsync(entryQuery, entryParams);
+                    await _query.ExecuteNonQueryAsync(entryQuery, entryParams);
                 }
                 transaction.Commit();
                 return Localization.Services.Localization.SalarySucceed;

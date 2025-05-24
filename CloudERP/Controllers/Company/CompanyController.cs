@@ -1,20 +1,20 @@
-﻿using CloudERP.Helpers;
+﻿using Domain.UtilsAccess;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudERP.Controllers.Company
 {
     public class CompanyController : Controller
     {
-        private readonly HttpClientHelper _httpClient;
-        private readonly SessionHelper _sessionHelper;
-        private readonly ImageUploadHelper _imageUploadHelper;
+        private readonly IHttpClientHelper _httpClient;
+        private readonly ISessionHelper _sessionHelper;
+        private readonly IImageUploadHelper _imageUploadHelper;
 
         private const string COMPANY_LOGO_FOLDER = "CompanyLogo";
 
         public CompanyController(
-            SessionHelper sessionHelper,
-            HttpClientHelper httpClient,
-            ImageUploadHelper imageUploadHelper)
+            ISessionHelper sessionHelper,
+            IHttpClientHelper httpClient,
+            IImageUploadHelper imageUploadHelper)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));

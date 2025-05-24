@@ -1,6 +1,8 @@
-﻿namespace CloudERP.Helpers
+﻿using Domain.UtilsAccess;
+
+namespace CloudERP.Helpers
 {
-    public class SessionHelper
+    public class SessionHelper : ISessionHelper
     {
         private readonly ISession _session;
 

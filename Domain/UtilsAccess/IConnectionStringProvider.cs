@@ -1,4 +1,4 @@
-﻿namespace Utils.Interfaces
+﻿namespace Domain.UtilsAccess
 {
     public interface IConnectionStringProvider
     {

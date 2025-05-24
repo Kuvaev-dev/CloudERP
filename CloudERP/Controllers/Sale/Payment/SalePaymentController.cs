@@ -1,23 +1,23 @@
 ﻿using CloudERP.Models;
-using CloudERP.Helpers;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using Domain.UtilsAccess;
 
 namespace CloudERP.Controllers.Sale.Payment
 {
     public class SalePaymentController : Controller
     {
-        private readonly SessionHelper _sessionHelper;
-        private readonly HttpClientHelper _httpClient;
+        private readonly ISessionHelper _sessionHelper;
+        private readonly IHttpClientHelper _httpClient;
 
         private const string DEFAULT_IMAGE_PATH = "~/StuffLogo/customer.png";
 
         public SalePaymentController(
-            SessionHelper sessionHelper,
-            HttpClientHelper httpClient)
+            ISessionHelper sessionHelper,
+            IHttpClientHelper httpClient)
         {
-            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
-            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
 
         // GET: PurchasePayment

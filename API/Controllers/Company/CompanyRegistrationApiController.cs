@@ -1,9 +1,9 @@
 ﻿using API.Models;
 using Domain.Models;
+using Domain.UtilsAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Facades;
-using Utils.Helpers;
 
 namespace API.Controllers.Company
 {
@@ -13,7 +13,7 @@ namespace API.Controllers.Company
     public class CompanyRegistrationApiController : ControllerBase
     {
         private readonly CompanyRegistrationFacade _companyRegistrationFacade;
-        private readonly PasswordHelper _passwordHelper;
+        private readonly IPasswordHelper _passwordHelper;
 
         private const string DEFAULT_COMPANY_LOGO_PATH = "~/CompanyLogo/erp-logo.png";
         private const string DEFAULT_EMPLOYEE_PHOTO_PATH = "~/EmployeePhoto/Default/default.png";
@@ -22,7 +22,7 @@ namespace API.Controllers.Company
 
         public CompanyRegistrationApiController(
             CompanyRegistrationFacade companyRegistrationFacade,
-            PasswordHelper passwordHelper)
+            IPasswordHelper passwordHelper)
         {
             _companyRegistrationFacade = companyRegistrationFacade ?? throw new ArgumentNullException(nameof(companyRegistrationFacade));
             _passwordHelper = passwordHelper ?? throw new ArgumentNullException(nameof(passwordHelper));

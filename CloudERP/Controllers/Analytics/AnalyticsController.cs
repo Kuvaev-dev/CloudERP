@@ -1,20 +1,20 @@
-﻿using CloudERP.Helpers;
-using Domain.Models;
+﻿using Domain.Models;
+using Domain.UtilsAccess;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudERP.Controllers.Analytics
 {
     public class AnalyticsController : Controller
     {
-        private readonly HttpClientHelper _httpClientHelper;
-        private readonly SessionHelper _sessionHelper;
+        private readonly IHttpClientHelper _httpClientHelper;
+        private readonly ISessionHelper _sessionHelper;
 
         public AnalyticsController(
-            HttpClientHelper httpClientHelper,
-            SessionHelper sessionHelper)
+            IHttpClientHelper httpClientHelper,
+            ISessionHelper sessionHelper)
         {
-            _httpClientHelper = httpClientHelper ?? throw new ArgumentNullException(nameof(HttpClientHelper));
-            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _httpClientHelper = httpClientHelper ?? throw new ArgumentNullException(nameof(httpClientHelper));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
         }
 
         public async Task<ActionResult> Index()

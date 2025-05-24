@@ -1,12 +1,14 @@
 ﻿using DatabaseAccess.Context;
+using Domain.UtilsAccess;
 
 namespace DatabaseAccess.Helpers
 {
-    public class BranchHelper
+    public class BranchHelper : IBranchHelper
     {
-        public List<int> GetBranchsIDs(int? brnchId, CloudDBEntities db)
+        public List<int> GetBranchsIDs(int? brnchId, object db)
         {
-            if (!brnchId.HasValue) return new List<int>();
+            var context = db as CloudDBEntities ?? throw new ArgumentNullException(nameof(db));
+            if (!brnchId.HasValue) return [];
 
             var branchIDs = new List<int>();
             var queue = new Queue<int>();
@@ -18,7 +20,7 @@ namespace DatabaseAccess.Helpers
                 int currentBranchId = queue.Dequeue();
                 branchIDs.Add(currentBranchId);
 
-                var subBranches = db.tblBranch
+                var subBranches = context.tblBranch
                     .Where(b => b.BrchID == currentBranchId)
                     .Select(b => b.BranchID)
                     .ToList();

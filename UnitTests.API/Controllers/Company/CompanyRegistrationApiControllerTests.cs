@@ -3,6 +3,7 @@ using API.Models;
 using Domain.Models;
 using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
+using Domain.UtilsAccess;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -15,7 +16,7 @@ namespace UnitTests.API.Controllers.Company
     public class CompanyRegistrationApiControllerTests
     {
         private Mock<CompanyRegistrationFacade> _companyRegistrationFacadeMock;
-        private Mock<PasswordHelper> _passwordHelperMock;
+        private Mock<IPasswordHelper> _passwordHelperMock;
         private Mock<ICompanyRepository> _companyRepositoryMock;
         private Mock<IBranchRepository> _branchRepositoryMock;
         private Mock<IUserRepository> _userRepositoryMock;
@@ -31,7 +32,7 @@ namespace UnitTests.API.Controllers.Company
         public void SetUp()
         {
             _companyRegistrationFacadeMock = new Mock<CompanyRegistrationFacade>();
-            _passwordHelperMock = new Mock<PasswordHelper>();
+            _passwordHelperMock = new Mock<IPasswordHelper>();
             _companyRepositoryMock = new Mock<ICompanyRepository>();
             _branchRepositoryMock = new Mock<IBranchRepository>();
             _userRepositoryMock = new Mock<IUserRepository>();

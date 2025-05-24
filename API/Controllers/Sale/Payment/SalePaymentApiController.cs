@@ -27,7 +27,7 @@ namespace API.Controllers.Sale.Payment
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SaleInfo>>> GetPaidHistory(int id)
         {
-            var history = await _salePaymentFacade.SalePaymentService.GetSalePaymentHistoryAsync(id);
+            var history = await _salePaymentFacade.SaleRepository.SalePaymentHistory(id);
             return Ok(history);
         }
 
@@ -78,8 +78,8 @@ namespace API.Controllers.Sale.Payment
         [HttpGet]
         public async Task<ActionResult<double>> GetRemainingAmount(int id)
         {
-            double? totalInvoiceAmount = await _salePaymentFacade.SalePaymentService.GetTotalAmountByIdAsync(id) ?? 0;
-            double totalPaidAmount = await _salePaymentFacade.SalePaymentService.GetTotalPaidAmountByIdAsync(id);
+            double? totalInvoiceAmount = await _salePaymentFacade.CustomerInvoiceRepository.GetTotalAmountByIdAsync(id) ?? 0;
+            double totalPaidAmount = await _salePaymentFacade.CustomerPaymentRepository.GetTotalPaidAmountById(id);
             double remainingAmount = totalInvoiceAmount.Value - totalPaidAmount;
             return Ok(remainingAmount);
         }
@@ -87,7 +87,7 @@ namespace API.Controllers.Sale.Payment
         [HttpGet]
         public async Task<ActionResult<double>> GetTotalAmount(int id)
         {
-            double? totalInvoiceAmount = await _salePaymentFacade.SalePaymentService.GetTotalAmountByIdAsync(id);
+            double? totalInvoiceAmount = await _salePaymentFacade.CustomerInvoiceRepository.GetTotalAmountByIdAsync(id);
             return Ok(totalInvoiceAmount);
         }
     }

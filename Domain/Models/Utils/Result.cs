@@ -1,4 +1,4 @@
-﻿namespace Utils.Helpers
+﻿namespace Domain.Models
 {
     public class Result<T>
     {

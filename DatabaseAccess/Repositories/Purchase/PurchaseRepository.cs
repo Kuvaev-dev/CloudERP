@@ -2,16 +2,16 @@
 using System.Data;
 using Domain.RepositoryAccess;
 using Domain.Models.FinancialModels;
-using Utils.Helpers;
 using Domain.Models;
 using DatabaseAccess.Context;
+using Domain.UtilsAccess;
 
 namespace DatabaseAccess.Repositories.Purchase
 {
     public class PurchaseRepository : IPurchaseRepository
     {
         private readonly CloudDBEntities _dbContext;
-        private readonly DatabaseQuery _query;
+        private readonly IDatabaseQuery _query;
         private readonly ISupplierRepository _suppliers;
         private readonly IUserRepository _users;
 
@@ -19,17 +19,17 @@ namespace DatabaseAccess.Repositories.Purchase
 
         public PurchaseRepository(
             CloudDBEntities dbContext,
-            DatabaseQuery query,
+            IDatabaseQuery query,
             ISupplierRepository suppliers,
             IUserRepository users)
         {
-            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(CloudDBEntities));
-            _query = query ?? throw new ArgumentNullException(nameof(DatabaseQuery));
-            _suppliers = suppliers ?? throw new ArgumentNullException(nameof(ISupplierRepository));
-            _users = users ?? throw new ArgumentNullException(nameof(IUserRepository));
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+            _query = query ?? throw new ArgumentNullException(nameof(query));
+            _suppliers = suppliers ?? throw new ArgumentNullException(nameof(suppliers));
+            _users = users ?? throw new ArgumentNullException(nameof(users));
         }
 
-        public void SetEntries(DataTable dataTable)
+        public async Task SetEntries(DataTable dataTable)
         {
             _dtEntries = dataTable;
         }
@@ -38,7 +38,7 @@ namespace DatabaseAccess.Repositories.Purchase
         {
             var remainingPaymentList = new List<PurchaseInfo>();
 
-            using (SqlCommand command = new("GetSupplierRemainingPaymentRecord", await _query.ConnOpenAsync()))
+            using (SqlCommand command = new("GetSupplierRemainingPaymentRecord", await _query.ConnOpenAsync() as SqlConnection))
             {
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@BranchID", BranchID);
@@ -84,7 +84,7 @@ namespace DatabaseAccess.Repositories.Purchase
         {
             var remainingPaymentList = new List<PurchaseInfo>();
 
-            using (SqlCommand command = new("GetPurchasesHistory", await _query.ConnOpenAsync()))
+            using (SqlCommand command = new("GetPurchasesHistory", await _query.ConnOpenAsync() as SqlConnection))
             {
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@BranchID", BranchID);
@@ -132,7 +132,7 @@ namespace DatabaseAccess.Repositories.Purchase
         {
             var remainingPaymentList = new List<PurchaseInfo>();
 
-            using (SqlCommand command = new("GetSupplierPaymentHistory", await _query.ConnOpenAsync()))
+            using (SqlCommand command = new("GetSupplierPaymentHistory", await _query.ConnOpenAsync() as SqlConnection))
             {
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@SupplierInvoiceID", SupplierInvoiceID);
@@ -177,7 +177,7 @@ namespace DatabaseAccess.Repositories.Purchase
         {
             var remainingPaymentList = new List<SupplierReturnInvoiceModel>();
 
-            using (SqlCommand command = new("GetSupplierReturnPurchasePaymentPending", await _query.ConnOpenAsync()))
+            using (SqlCommand command = new("GetSupplierReturnPurchasePaymentPending", await _query.ConnOpenAsync() as SqlConnection))
             {
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@SupplierInvoiceID", SupplierInvoiceID.HasValue ? SupplierInvoiceID.Value : DBNull.Value);
@@ -223,7 +223,7 @@ namespace DatabaseAccess.Repositories.Purchase
         {
             var remainingPaymentList = new List<PurchaseInfo>();
 
-            using (SqlCommand command = new("GetReturnPurchasePaymentPending", await _query.ConnOpenAsync()))
+            using (SqlCommand command = new("GetReturnPurchasePaymentPending", await _query.ConnOpenAsync() as SqlConnection))
             {
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@BranchID", BranchID);
@@ -305,7 +305,7 @@ namespace DatabaseAccess.Repositories.Purchase
                     new SqlParameter("@InvoiceDate", DateTime.Now.Date)
                 };
 
-                await _query.InsertAsync(paymentQuery, paymentParams);
+                await _query.ExecuteNonQueryAsync(paymentQuery, paymentParams);
 
                 await InsertTransaction(CompanyID, BranchID);
 
@@ -338,7 +338,7 @@ namespace DatabaseAccess.Repositories.Purchase
                         new SqlParameter("@BranchID", BranchID)
                     };
 
-                    await _query.InsertAsync(entryQuery, entryParams);
+                    await _query.ExecuteNonQueryAsync(entryQuery, entryParams);
                 }
                 return Localization.Services.Localization.PurchaseSuccess;
             }
@@ -366,7 +366,7 @@ namespace DatabaseAccess.Repositories.Purchase
                     new SqlParameter("@InvoiceDate", DateTime.Now.Date)
                 };
 
-                await _query.InsertAsync(paymentQuery, paymentParams);
+                await _query.ExecuteNonQueryAsync(paymentQuery, paymentParams);
                 return Localization.Services.Localization.WithPayment;
             }
         }

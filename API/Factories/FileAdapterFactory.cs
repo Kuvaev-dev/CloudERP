@@ -1,6 +1,6 @@
 ﻿using API.Adapters;
 using Domain.ServiceAccess;
-using Utils.Interfaces;
+using Domain.UtilsAccess;
 
 namespace API.Factories
 {

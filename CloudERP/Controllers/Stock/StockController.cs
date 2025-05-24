@@ -1,5 +1,5 @@
-﻿using CloudERP.Helpers;
-using Domain.Models;
+﻿using Domain.Models;
+using Domain.UtilsAccess;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -7,15 +7,15 @@ namespace CloudERP.Controllers.Stock
 {
     public class StockController : Controller
     {
-        private readonly HttpClientHelper _httpClient;
-        private readonly SessionHelper _sessionHelper;
+        private readonly IHttpClientHelper _httpClient;
+        private readonly ISessionHelper _sessionHelper;
 
         public StockController(
-            HttpClientHelper httpClient,
-            SessionHelper sessionHelper)
+            IHttpClientHelper httpClient,
+            ISessionHelper sessionHelper)
         {
-            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
-            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
         }
 
         // GET: Stock

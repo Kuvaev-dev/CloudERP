@@ -1,6 +1,5 @@
 ﻿using Domain.Facades;
 using Domain.Models;
-using Domain.ServiceAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,14 +11,10 @@ namespace API.Controllers.Purchase.Payment
     public class PurchasePaymentApiController : ControllerBase
     {
         private readonly PurchasePaymentFacade _purchasePaymentFacade;
-        private readonly IPurchasePaymentService _purchasePaymentService;
 
-        public PurchasePaymentApiController(
-            PurchasePaymentFacade purchasePaymentFacade,
-            IPurchasePaymentService purchasePaymentService)
+        public PurchasePaymentApiController(PurchasePaymentFacade purchasePaymentFacade)
         {
             _purchasePaymentFacade = purchasePaymentFacade ?? throw new ArgumentNullException(nameof(purchasePaymentFacade));
-            _purchasePaymentService = purchasePaymentService ?? throw new ArgumentNullException(nameof(purchasePaymentService));
         }
 
         [HttpGet]
@@ -32,7 +27,7 @@ namespace API.Controllers.Purchase.Payment
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PurchaseInfo>>> GetPaidHistory(int id)
         {
-            var list = await _purchasePaymentService.GetPurchasePaymentHistoryAsync(id);
+            var list = await _purchasePaymentFacade.PurchaseRepository.PurchasePaymentHistory(id);
             return Ok(list);
         }
 
@@ -46,7 +41,7 @@ namespace API.Controllers.Purchase.Payment
         [HttpPost]
         public async Task<ActionResult<string>> ProcessPayment(PurchaseAmount paymentDto)
         {
-            string message = await _purchasePaymentService.ProcessPaymentAsync(
+            string message = await _purchasePaymentFacade.PurchasePaymentService.ProcessPaymentAsync(
                 paymentDto.CompanyID,
                 paymentDto.BranchID,
                 paymentDto.UserID,
@@ -82,8 +77,8 @@ namespace API.Controllers.Purchase.Payment
         [HttpGet]
         public async Task<ActionResult<double>> GetRemainingAmount(int id)
         {
-            double? totalInvoiceAmount = await _purchasePaymentService.GetTotalAmountByIdAsync(id) ?? 0;
-            double totalPaidAmount = await _purchasePaymentService.GetTotalPaidAmountByIdAsync(id);
+            double? totalInvoiceAmount = await _purchasePaymentFacade.SupplierInvoiceRepository.GetTotalAmountAsync(id) ?? 0;
+            double totalPaidAmount = await _purchasePaymentFacade.SupplierPaymentRepository.GetTotalPaidAmount(id);
             double remainingAmount = totalInvoiceAmount.Value - totalPaidAmount;
             return Ok(remainingAmount);
         }
@@ -91,7 +86,7 @@ namespace API.Controllers.Purchase.Payment
         [HttpGet]
         public async Task<ActionResult<double>> GetTotalAmount(int id)
         {
-            double? totalInvoiceAmount = await _purchasePaymentService.GetTotalAmountByIdAsync(id);
+            double? totalInvoiceAmount = await _purchasePaymentFacade.SupplierInvoiceRepository.GetTotalAmountAsync(id);
             return Ok(totalInvoiceAmount);
         }
     }

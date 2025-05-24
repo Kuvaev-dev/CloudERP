@@ -2,29 +2,29 @@
 using System.Data;
 using Domain.RepositoryAccess;
 using Domain.Models.FinancialModels;
-using Utils.Helpers;
 using Microsoft.Extensions.Configuration;
+using Domain.UtilsAccess;
 
 namespace DatabaseAccess.Repositories.Financial
 {
     public class TrialBalanceRepository : ITrialBalanceRepository
     {
-        private readonly DatabaseQuery _query;
+        private readonly IDatabaseQuery _query;
         private readonly IConfiguration _configuration;
 
         public TrialBalanceRepository(
-            DatabaseQuery query,
+            IDatabaseQuery query,
             IConfiguration configuration)
         {
-            _query = query ?? throw new ArgumentNullException(nameof(DatabaseQuery));
-            _configuration = configuration ?? throw new ArgumentNullException(nameof(IConfiguration));
+            _query = query ?? throw new ArgumentNullException(nameof(query));
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
         public async Task<List<TrialBalanceModel>> GetTrialBalanceAsync(int branchId, int companyId, int financialYearId)
         {
             var trialBalance = new List<TrialBalanceModel>();
 
-            using (SqlConnection connection = await _query.ConnOpenAsync())
+            using (SqlConnection connection = await _query.ConnOpenAsync() as SqlConnection)
             {
                 using (SqlCommand command = new("GetTrialBalance", connection))
                 {

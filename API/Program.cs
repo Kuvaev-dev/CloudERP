@@ -1,32 +1,14 @@
 using API.Factories;
 using API.Helpers;
 using API.Services;
-using DatabaseAccess.Context;
-using DatabaseAccess.Helpers;
-using DatabaseAccess.Repositories.Account;
-using DatabaseAccess.Repositories.Branch;
-using DatabaseAccess.Repositories.Company;
-using DatabaseAccess.Repositories.Customers;
-using DatabaseAccess.Repositories.Employees;
-using DatabaseAccess.Repositories.Financial;
-using DatabaseAccess.Repositories.Inventory;
-using DatabaseAccess.Repositories.Purchase;
-using DatabaseAccess.Repositories.Sale;
-using DatabaseAccess.Repositories.Suppliers;
-using DatabaseAccess.Repositories.Users;
-using DatabaseAccess.Repositories.Utilities;
-using Domain.Facades;
-using Domain.RepositoryAccess;
+using DatabaseAccess.DependencyInjection;
 using Domain.ServiceAccess;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.ML;
-using Services.Adapters;
-using Services.Facades;
-using Services.Implementations;
+using Services.DependencyInjection;
 using System.Text;
-using Utils.Helpers;
-using Utils.Interfaces;
+using Utils.DependencyInjection;
+using Domain.UtilsAccess;
 
 namespace API
 {
@@ -52,151 +34,20 @@ namespace API
                 };
             });
 
-            #region Context
-            // Main DB Context
-            builder.Services.AddScoped<CloudDBEntities>();
-            // ML Context
-            builder.Services.AddSingleton<MLContext>();
-            #endregion
+            // Database Access
+            builder.Services.AddDatabaseServices();
+            // Utils
+            builder.Services.AddUtilsServices();
+            // Services
+            builder.Services.AddServices();
 
-            #region Helpers
-            // Database Query Helper
-            builder.Services.AddScoped<DatabaseQuery>();
-            // Branch Helper
-            builder.Services.AddScoped<BranchHelper>();
-            // Password Helper
-            builder.Services.AddScoped<PasswordHelper>();
             // Connetion String Provider
             builder.Services.AddScoped<IConnectionStringProvider, WebConfigConnectionStringProvider>();
-            #endregion
-
-            #region Facades
-            // Domain
-            builder.Services.AddScoped<PurchaseCartFacade>();
-            builder.Services.AddScoped<PurchasePaymentFacade>();
-            builder.Services.AddScoped<PurchaseReturnFacade>();
-            builder.Services.AddScoped<PurchaseEntryFacade>();
-            builder.Services.AddScoped<SalaryTransactionFacade>();
-            builder.Services.AddScoped<SaleCartFacade>();
-            builder.Services.AddScoped<SalePaymentFacade>();
-            builder.Services.AddScoped<SaleEntryFacade>();
-            builder.Services.AddScoped<SaleReturnFacade>();
-            // Cloud ERP
-            builder.Services.AddScoped<AccountSettingFacade>();
-            builder.Services.AddScoped<CompanyEmployeeFacade>();
-            builder.Services.AddScoped<CompanyRegistrationFacade>();
-            builder.Services.AddScoped<HomeFacade>();
-            #endregion
-
-            #region Repositories
-            // Account
-            builder.Services.AddScoped<IAccountActivityRepository, AccountActivityRepository>();
-            builder.Services.AddScoped<IAccountControlRepository, AccountControlRepository>();
-            builder.Services.AddScoped<IAccountHeadRepository, AccountHeadRepository>();
-            builder.Services.AddScoped<IAccountSettingRepository, AccountSettingRepository>();
-            builder.Services.AddScoped<IAccountSubControlRepository, AccountSubControlRepository>();
-            // Balance Sheet
-            builder.Services.AddScoped<IBalanceSheetRepository, BalanceSheetRepository>();
-            // Branch
-            builder.Services.AddScoped<IBranchRepository, BranchRepository>();
-            builder.Services.AddScoped<IBranchTypeRepository, BranchTypeRepository>();
-            // Category
-            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-            // Company
-            builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
-            // Customer
-            builder.Services.AddScoped<ICustomerInvoiceRepository, CustomerInvoiceRepository>();
-            builder.Services.AddScoped<ICustomerInvoiceDetailRepository, CustomerInvoiceDetailRepository>();
-            builder.Services.AddScoped<ICustomerPaymentRepository, CustomerPaymentRepository>();
-            builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
-            builder.Services.AddScoped<ICustomerReturnInvoiceDetailRepository, CustomerReturnInvoiceDetailRepository>();
-            builder.Services.AddScoped<ICustomerReturnInvoiceRepository, CustomerReturnInvoiceRepository>();
-            builder.Services.AddScoped<ICustomerReturnPaymentRepository, CustomerReturnPaymentRepository>();
-            // Dashboard
-            builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
-            // Employee
-            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
-            // Financial Yaer
-            builder.Services.AddScoped<IFinancialYearRepository, FinancialYearRepository>();
-            // Forecasting
-            builder.Services.AddScoped<IForecastingRepository, ForecastingRepository>();
-            // General Transaction
-            builder.Services.AddScoped<IGeneralTransactionRepository, GeneralTransactionRepository>();
-            // Ledger
-            builder.Services.AddScoped<ILedgerRepository, LedgerRepository>();
-            // Payroll
-            builder.Services.AddScoped<IPayrollRepository, PayrollRepository>();
-            // Purchase
-            builder.Services.AddScoped<IPurchaseCartDetailRepository, PurchaseCartDetailRepository>();
-            builder.Services.AddScoped<IPurchaseRepository, PurchaseRepository>();
-            // Salary Transaction
-            builder.Services.AddScoped<ISalaryTransactionRepository, SalaryTransactionRepository>();
-            // Sale
-            builder.Services.AddScoped<ISaleCartDetailRepository, SaleCartDetailRepository>();
-            builder.Services.AddScoped<ISaleRepository, SaleRepository>();
-            // Stock
-            builder.Services.AddScoped<IStockRepository, StockRepository>();
-            // Supplier
-            builder.Services.AddScoped<ISupplierInvoiceDetailRepository, SupplierInvoiceDetailRepository>();
-            builder.Services.AddScoped<ISupplierInvoiceRepository, SupplierInvoiceRepository>();
-            builder.Services.AddScoped<ISupplierPaymentRepository, SupplierPaymentRepository>();
-            builder.Services.AddScoped<ISupplierRepository, SupplierRepository>();
-            builder.Services.AddScoped<ISupplierReturnInvoiceDetailRepository, SupplierReturnInvoiceDetailRepository>();
-            builder.Services.AddScoped<ISupplierReturnInvoiceRepository, SupplierReturnInvoiceRepository>();
-            builder.Services.AddScoped<ISupplierReturnPaymentRepository, SupplierReturnPaymentRepository>();
-            // Support
-            builder.Services.AddScoped<ISupportTicketRepository, SupportTicketRepository>();
-            // Task
-            builder.Services.AddScoped<ITaskRepository, TaskRepository>();
-            // Trial Balance
-            builder.Services.AddScoped<ITrialBalanceRepository, TrialBalanceRepository>();
-            // User
-            builder.Services.AddScoped<IUserRepository, UserRepository>();
-            builder.Services.AddScoped<IUserTypeRepository, UserTypeRepository>();
-            #endregion
-
-            #region Services
-            // Main
-            builder.Services.AddScoped<IAuthService, AuthService>();
-            builder.Services.AddScoped<IBalanceSheetService, BalanceSheetService>();
-            builder.Services.AddScoped<ICurrencyService, CurrencyService>();
-            builder.Services.AddScoped<IDashboardService, DashboardService>();
-            builder.Services.AddScoped<IEmployeeSalaryService, EmployeeSalaryService>();
-            builder.Services.AddScoped<IEmployeeStatisticsService, EmployeeStatisticsService>();
-            builder.Services.AddScoped<IGeneralTransactionService, GeneralTransactionService>();
-            builder.Services.AddScoped<IIncomeStatementService, IncomeStatementService>();
+            // Local Services
             builder.Services.AddScoped<IEmailService, EmailService>();
-            builder.Services.AddScoped<IProductQualityService, ProductQualityService>();
-            builder.Services.AddScoped<IReminderService, ReminderService>();
-            builder.Services.AddScoped<ISalaryTransactionService, SalaryTransactionService>();
-            // Purchase
-            builder.Services.AddScoped<IPurchaseCartService, PurchaseCartService>();
-            builder.Services.AddScoped<IPurchaseEntryService, PurchaseEntryService>();
-            builder.Services.AddScoped<IPurchasePaymentReturnService, PurchasePaymentReturnService>();
-            builder.Services.AddScoped<IPurchasePaymentService, PurchasePaymentService>();
-            builder.Services.AddScoped<IPurchaseReturnService, PurchaseReturnService>();
-            builder.Services.AddScoped<IPurchaseService, PurchaseService>();
-            // Sale
-            builder.Services.AddScoped<ISaleCartService, SaleCartService>();
-            builder.Services.AddScoped<ISaleEntryService, SaleEntryService>();
-            builder.Services.AddScoped<ISalePaymentReturnService, SalePaymentReturnService>();
-            builder.Services.AddScoped<ISalePaymentService, SalePaymentService>();
-            builder.Services.AddScoped<ISaleReturnService, SaleReturnService>();
-            builder.Services.AddScoped<ISaleService, SaleService>();
-            // Miscellaneous
             builder.Services.AddScoped<IFileService, FileService>();
-            builder.Services.AddScoped<IForecastingService, ForecastingService>();
-            builder.Services.AddScoped<IPurchaseEntryService, PurchaseEntryService>();
-            builder.Services.AddScoped<ISaleEntryService, SaleEntryService>();
-            builder.Services.AddScoped<IFinancialForecaster, FinancialForecaster>();
-            #endregion
-
-            #region Adapters
-            // Forecasting
-            builder.Services.AddScoped<IFinancialForecastAdapter, FinancialForecastAdapter>();
-            // File Upload
+            // Local Adapters
             builder.Services.AddScoped<IFileAdapterFactory, FileAdapterFactory>();
-            #endregion
 
             var app = builder.Build();
 

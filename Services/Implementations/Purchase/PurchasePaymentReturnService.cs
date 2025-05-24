@@ -23,14 +23,9 @@ namespace Services.Implementations
             _purchaseEntryService = purchaseEntryService ?? throw new ArgumentNullException(nameof(IPurchaseEntryService));
         }
 
-        public async Task<IEnumerable<SupplierReturnPayment>> GetSupplierReturnPaymentsAsync(int invoiceId)
-        {
-            return await _supplierReturnPaymentRepository.GetBySupplierReturnInvoiceId(invoiceId);
-        }
-
         public async Task<double> GetRemainingAmountAsync(int? invoiceId)
         {
-            var list = await GetSupplierReturnPaymentsAsync(invoiceId.Value);
+            var list = await _supplierReturnPaymentRepository.GetBySupplierReturnInvoiceId(invoiceId.Value);
             double? remainingAmount = list.Sum(item => item.RemainingBalance);
 
             if (remainingAmount == 0)

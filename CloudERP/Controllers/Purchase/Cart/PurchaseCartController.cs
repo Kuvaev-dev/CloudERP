@@ -1,17 +1,17 @@
-﻿using CloudERP.Helpers;
-using Domain.Models;
+﻿using Domain.Models;
+using Domain.UtilsAccess;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudERP.Controllers.Purchase.Cart
 {
     public class PurchaseCartController : Controller
     {
-        private readonly HttpClientHelper _httpClient;
-        private readonly SessionHelper _sessionHelper;
+        private readonly IHttpClientHelper _httpClient;
+        private readonly ISessionHelper _sessionHelper;
 
         public PurchaseCartController(
-            SessionHelper sessionHelper,
-            HttpClientHelper httpClient)
+            ISessionHelper sessionHelper,
+            IHttpClientHelper httpClient)
         {
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));

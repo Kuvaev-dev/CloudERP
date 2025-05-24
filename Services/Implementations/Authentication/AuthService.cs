@@ -1,7 +1,7 @@
 ﻿using Domain.Models;
 using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
-using Utils.Helpers;
+using Domain.UtilsAccess;
 
 namespace Services.Implementations
 {
@@ -9,15 +9,15 @@ namespace Services.Implementations
     {
         private readonly IUserRepository _userRepository;
         private readonly IEmailService _emailService;
-        private readonly PasswordHelper _passwordHelper;
+        private readonly IPasswordHelper _passwordHelper;
 
         public AuthService(
-            IUserRepository userRepository, 
-            PasswordHelper passwordHelper, 
+            IUserRepository userRepository,
+            IPasswordHelper passwordHelper, 
             IEmailService emailService)
         {
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(IUserRepository));
-            _passwordHelper = passwordHelper ?? throw new ArgumentNullException(nameof(PasswordHelper));
+            _passwordHelper = passwordHelper ?? throw new ArgumentNullException(nameof(IPasswordHelper));
             _emailService = emailService ?? throw new ArgumentNullException(nameof(IEmailService));
         }
 

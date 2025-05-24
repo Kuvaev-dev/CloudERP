@@ -1,16 +1,16 @@
 ﻿using Domain.RepositoryAccess;
 using System.Data;
 using Microsoft.Data.SqlClient;
-using Utils.Helpers;
 using Domain.Models;
 using DatabaseAccess.Context;
+using Domain.UtilsAccess;
 
 namespace DatabaseAccess.Repositories.Sale
 {
     public class SaleRepository : ISaleRepository
     {
         private readonly CloudDBEntities _dbContext;
-        private readonly DatabaseQuery _query;
+        private readonly IDatabaseQuery _query;
         private readonly ICustomerRepository _customerRepository;
         private readonly IUserRepository _userRepository;
 
@@ -18,17 +18,17 @@ namespace DatabaseAccess.Repositories.Sale
 
         public SaleRepository(
             CloudDBEntities dbContext,
-            DatabaseQuery query,
+            IDatabaseQuery query,
             ICustomerRepository customerRepository,
             IUserRepository userRepository)
         {
-            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(CloudDBEntities));
-            _query = query ?? throw new ArgumentNullException(nameof(DatabaseQuery));
-            _customerRepository = customerRepository ?? throw new ArgumentNullException(nameof(ICustomerRepository));
-            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(IUserRepository));
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+            _query = query ?? throw new ArgumentNullException(nameof(query));
+            _customerRepository = customerRepository ?? throw new ArgumentNullException(nameof(customerRepository));
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         }
 
-        public void SetEntries(DataTable dataTable)
+        public async Task SetEntries(DataTable dataTable)
         {
             _dtEntries = dataTable;
         }
@@ -64,7 +64,7 @@ namespace DatabaseAccess.Repositories.Sale
                     new SqlParameter("@InvoiceDate", DateTime.Now.Date)
                 };
 
-                await _query.InsertAsync(paymentQuery, paymentParams);
+                await _query.ExecuteNonQueryAsync(paymentQuery, paymentParams);
                 return Localization.Services.Localization.SaleSuccessWithPayment;
             }
         }
@@ -73,7 +73,7 @@ namespace DatabaseAccess.Repositories.Sale
         {
             var remainingPaymentList = new List<SaleInfo>();
 
-            using (SqlConnection connection = await _query.ConnOpenAsync())
+            using (SqlConnection connection = await _query.ConnOpenAsync() as SqlConnection)
             {
                 using (SqlCommand command = new("GetSalesHistory", connection))
                 {
@@ -125,7 +125,7 @@ namespace DatabaseAccess.Repositories.Sale
         {
             var remainingPaymentList = new List<SaleInfo>();
 
-            using (SqlConnection connection = await _query.ConnOpenAsync())
+            using (SqlConnection connection = await _query.ConnOpenAsync() as SqlConnection)
             {
                 using (SqlCommand command = new("GetReturnSaleAmountPending", connection))
                 {
@@ -196,7 +196,7 @@ namespace DatabaseAccess.Repositories.Sale
                         new SqlParameter("@BranchID", BranchID)
                     };
 
-                    await _query.InsertAsync(entryQuery, entryParams);
+                    await _query.ExecuteNonQueryAsync(entryQuery, entryParams);
                 }
                 return Localization.Services.Localization.PurchaseSuccess;
             }
@@ -206,7 +206,7 @@ namespace DatabaseAccess.Repositories.Sale
         {
             var remainingPaymentList = new List<SaleInfo>();
 
-            using (SqlConnection connection = await _query.ConnOpenAsync())
+            using (SqlConnection connection = await _query.ConnOpenAsync() as SqlConnection)
             {
                 using (SqlCommand command = new("GetCustomerRemainingPaymentRecord", connection))
                 {
@@ -280,7 +280,7 @@ namespace DatabaseAccess.Repositories.Sale
                     new SqlParameter("@InvoiceDate", DateTime.Now.Date)
                 };
 
-                await _query.InsertAsync(paymentQuery, paymentParams);
+                await _query.ExecuteNonQueryAsync(paymentQuery, paymentParams);
                 return Localization.Services.Localization.ReturnSaleSuccessWithPayment;
             }
         }
@@ -316,7 +316,7 @@ namespace DatabaseAccess.Repositories.Sale
                     new SqlParameter("@CustomerReturnInvoiceID", CustomerReturnInvoiceID),
                     new SqlParameter("@InvoiceDate", DateTime.Now.Date)
                 };
-                await _query.InsertAsync(paymentQuery, paymentParams);
+                await _query.ExecuteNonQueryAsync(paymentQuery, paymentParams);
             }
         }
 
@@ -324,7 +324,7 @@ namespace DatabaseAccess.Repositories.Sale
         {
             var remainingPaymentList = new List<SaleInfo>();
 
-            using (SqlConnection connection = await _query.ConnOpenAsync())
+            using (SqlConnection connection = await _query.ConnOpenAsync() as SqlConnection)
             {
                 using (SqlCommand command = new("GetCustomerPaymentHistory", connection))
                 {

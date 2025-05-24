@@ -5,7 +5,7 @@ namespace Domain.RepositoryAccess
 {
     public interface ISaleRepository
     {
-        void SetEntries(DataTable dataTable);
+        Task SetEntries(DataTable dataTable);
 
         Task<List<SaleInfo>> RemainingPaymentList(int CompanyID, int BranchID);
         Task<List<SaleInfo>> CustomSalesList(int CompanyID, int BranchID, DateTime FromDate, DateTime ToDate);

@@ -25,21 +25,6 @@ namespace Services.Implementations
             return (paymentHistory, returnDetails, remainingAmount);
         }
 
-        public async Task<List<PurchaseInfo>> GetPurchasePaymentHistoryAsync(int invoiceId)
-        {
-            return await _purchasePaymentFacade.PurchaseRepository.PurchasePaymentHistory(invoiceId);
-        }
-
-        public async Task<double?> GetTotalAmountByIdAsync(int invoiceId)
-        {
-            return await _purchasePaymentFacade.SupplierInvoiceRepository.GetTotalAmountAsync(invoiceId);
-        }
-
-        public async Task<double> GetTotalPaidAmountByIdAsync(int invoiceId)
-        {
-            return await _purchasePaymentFacade.SupplierPaymentRepository.GetTotalPaidAmount(invoiceId);
-        }
-
         public async Task<string> ProcessPaymentAsync(int companyId, int branchId, int userId, PurchaseAmount paymentDto)
         {
             if (paymentDto.PaidAmount > paymentDto.PreviousRemainingAmount)

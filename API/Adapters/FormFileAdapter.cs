@@ -1,4 +1,4 @@
-﻿using Utils.Interfaces;
+﻿using Domain.UtilsAccess;
 
 namespace API.Adapters
 {

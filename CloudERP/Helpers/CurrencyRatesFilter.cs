@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
+using Domain.UtilsAccess;
 
 namespace CloudERP.Helpers
 {
     public class CurrencyRatesFilter : IAsyncActionFilter
     {
-        private readonly HttpClientHelper _httpClientHelper;
+        private readonly IHttpClientHelper _httpClientHelper;
 
-        public CurrencyRatesFilter(HttpClientHelper httpClientHelper)
+        public CurrencyRatesFilter(IHttpClientHelper httpClientHelper)
         {
             _httpClientHelper = httpClientHelper;
         }

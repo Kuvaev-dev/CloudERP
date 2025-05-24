@@ -1,7 +1,7 @@
 ﻿using Domain.RepositoryAccess;
+using Domain.UtilsAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Utils.Helpers;
 
 namespace API.Controllers.User.Users
 {
@@ -11,11 +11,11 @@ namespace API.Controllers.User.Users
     public class UserApiController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
-        private readonly PasswordHelper _passwordHelper;
+        private readonly IPasswordHelper _passwordHelper;
 
         public UserApiController(
             IUserRepository userRepository,
-            PasswordHelper passwordHelper)
+            IPasswordHelper passwordHelper)
         {
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
             _passwordHelper = passwordHelper ?? throw new ArgumentNullException(nameof(passwordHelper));

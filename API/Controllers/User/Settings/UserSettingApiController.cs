@@ -1,7 +1,7 @@
 ﻿using Domain.RepositoryAccess;
+using Domain.UtilsAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Utils.Helpers;
 
 namespace API.Controllers.User.Settings
 {
@@ -13,18 +13,18 @@ namespace API.Controllers.User.Settings
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IUserRepository _userRepository;
         private readonly IUserTypeRepository _userTypeRepository;
-        private readonly PasswordHelper _passwordHelper;
+        private readonly IPasswordHelper _passwordHelper;
 
         public UserSettingApiController(
             IEmployeeRepository employeeRepository,
             IUserRepository userRepository,
             IUserTypeRepository userTypeRepository,
-            PasswordHelper passwordHelper)
+            IPasswordHelper passwordHelper)
         {
             _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(IEmployeeRepository));
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(IUserRepository));
             _userTypeRepository = userTypeRepository ?? throw new ArgumentNullException(nameof(IUserTypeRepository));
-            _passwordHelper = passwordHelper ?? throw new ArgumentNullException(nameof(PasswordHelper));
+            _passwordHelper = passwordHelper ?? throw new ArgumentNullException(nameof(IPasswordHelper));
         }
 
         // POST: Create User

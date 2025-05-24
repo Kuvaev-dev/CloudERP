@@ -1,5 +1,5 @@
 ﻿using Domain.ServiceAccess;
-using Utils.Interfaces;
+using Domain.UtilsAccess;
 
 namespace API.Services
 {

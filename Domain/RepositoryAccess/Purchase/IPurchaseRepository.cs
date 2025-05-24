@@ -6,7 +6,7 @@ namespace Domain.RepositoryAccess
 {
     public interface IPurchaseRepository
     {
-        void SetEntries(DataTable dataTable);
+        Task SetEntries(DataTable dataTable);
 
         Task<List<PurchaseInfo>> RemainingPaymentList(int CompanyID, int BranchID);
         Task<List<PurchaseInfo>> CustomPurchasesList(int CompanyID, int BranchID, DateTime FromDate, DateTime ToDate);

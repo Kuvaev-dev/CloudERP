@@ -1,4 +1,5 @@
 using CloudERP.Helpers;
+using Domain.UtilsAccess;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
@@ -14,7 +15,7 @@ namespace CloudERP
             // Add services to the container.
             builder.Services.AddRazorPages();
 
-            builder.Services.AddHttpClient<HttpClientHelper>();
+            builder.Services.AddHttpClient<IHttpClientHelper, HttpClientHelper>();
 
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddDistributedMemoryCache();
@@ -27,10 +28,10 @@ namespace CloudERP
             });
 
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            builder.Services.AddScoped<SessionHelper>();
-            builder.Services.AddScoped<ImageUploadHelper>();
-            builder.Services.AddScoped<CurrencyRatesFilter>();
+            builder.Services.AddScoped<ISessionHelper, SessionHelper>();
+            builder.Services.AddScoped<IImageUploadHelper, ImageUploadHelper>();
 
+            builder.Services.AddScoped<CurrencyRatesFilter>();
             builder.Services.AddControllersWithViews(options =>
             {
                 options.Filters.Add<CurrencyRatesFilter>();

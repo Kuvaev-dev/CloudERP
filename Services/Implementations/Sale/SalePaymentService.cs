@@ -26,21 +26,6 @@ namespace Services.Implementations
             _saleEntryService = saleEntryService ?? throw new ArgumentNullException(nameof(ISaleEntryService));
         }
 
-        public async Task<List<SaleInfo>> GetSalePaymentHistoryAsync(int invoiceId)
-        {
-            return await _saleRepository.SalePaymentHistory(invoiceId);
-        }
-
-        public async Task<double?> GetTotalAmountByIdAsync(int invoiceId)
-        {
-            return await _customerInvoiceRepository.GetTotalAmountByIdAsync(invoiceId);
-        }
-
-        public async Task<double> GetTotalPaidAmountByIdAsync(int invoiceId)
-        {
-            return await _customerPaymentRepository.GetTotalPaidAmountById(invoiceId);
-        }
-
         public async Task<string> ProcessPaymentAsync(int companyId, int branchId, int userId, SaleAmount paymentDto)
         {
             if (paymentDto.PaidAmount > paymentDto.PreviousRemainingAmount)

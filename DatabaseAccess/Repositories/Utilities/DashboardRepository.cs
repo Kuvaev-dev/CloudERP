@@ -2,24 +2,24 @@
 using System.Data;
 using Domain.RepositoryAccess;
 using Domain.Models.FinancialModels;
-using Utils.Helpers;
+using Domain.UtilsAccess;
 
 namespace DatabaseAccess.Repositories.Utilities
 {
     public class DashboardRepository : IDashboardRepository
     {
-        private readonly DatabaseQuery _query;
+        private readonly IDatabaseQuery _query;
 
-        public DashboardRepository(DatabaseQuery query)
+        public DashboardRepository(IDatabaseQuery query)
         {
-            _query = query ?? throw new ArgumentNullException(nameof(DatabaseQuery));
+            _query = query ?? throw new ArgumentNullException(nameof(query));
         }
 
         public async Task<DashboardModel> GetDashboardValuesAsync(string fromDate, string toDate, int branchID, int companyID)
         {
             DashboardModel dashboardValues = new();
 
-            using (SqlCommand command = new("GetDashboardValues", await _query.ConnOpenAsync()))
+            using (SqlCommand command = new("GetDashboardValues", await _query.ConnOpenAsync() as SqlConnection))
             {
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@FromDate", fromDate);

@@ -2,28 +2,28 @@
 using System.Data;
 using Domain.RepositoryAccess;
 using Domain.Models.FinancialModels;
-using Utils.Helpers;
+using Domain.UtilsAccess;
 
 namespace DatabaseAccess.Repositories.Financial
 {
     public class BalanceSheetRepository : IBalanceSheetRepository
     {
-        private readonly DatabaseQuery _query;
+        private readonly IDatabaseQuery _query;
         private readonly IAccountHeadRepository _accountHeadRepository;
 
         public BalanceSheetRepository(
-            DatabaseQuery query,
+            IDatabaseQuery query,
             IAccountHeadRepository accountHeadRepository)
         {
-            _query = query ?? throw new ArgumentNullException(nameof(DatabaseQuery));
-            _accountHeadRepository = accountHeadRepository ?? throw new ArgumentNullException(nameof(IAccountHeadRepository));
+            _query = query ?? throw new ArgumentNullException(nameof(query));
+            _accountHeadRepository = accountHeadRepository ?? throw new ArgumentNullException(nameof(accountHeadRepository));
         }
 
         public async Task<double> GetAccountTotalAmountAsync(int companyId, int branchId, int financialYearId, int headId)
         {
             double totalAmount = 0;
 
-            using (SqlConnection connection = await _query.ConnOpenAsync())
+            using (SqlConnection connection = await _query.ConnOpenAsync() as SqlConnection)
             {
                 using SqlCommand command = new("GetTotalByHeadAccount", connection);
                 command.CommandType = CommandType.StoredProcedure;
@@ -56,7 +56,7 @@ namespace DatabaseAccess.Repositories.Financial
             var accountsList = new List<AccountHeadDetail>();
             double totalAmount = 0;
 
-            using (SqlConnection connection = await _query.ConnOpenAsync())
+            using (SqlConnection connection = await _query.ConnOpenAsync() as SqlConnection)
             {
                 using (SqlCommand command = new SqlCommand("GetAccountHeadDetails", connection))
                 {

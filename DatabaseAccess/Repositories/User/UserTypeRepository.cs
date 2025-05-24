@@ -3,7 +3,6 @@ using DatabaseAccess.Models;
 using Domain.Models;
 using Domain.RepositoryAccess;
 using Microsoft.EntityFrameworkCore;
-using Utils.Helpers;
 
 namespace DatabaseAccess.Repositories.Users
 {
@@ -13,7 +12,7 @@ namespace DatabaseAccess.Repositories.Users
 
         public UserTypeRepository(CloudDBEntities dbContext)
         {
-            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(DatabaseQuery));
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
         public async Task<IEnumerable<UserType>> GetAllAsync()

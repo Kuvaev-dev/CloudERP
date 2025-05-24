@@ -1,17 +1,17 @@
-﻿using CloudERP.Helpers;
-using CloudERP.Models;
+﻿using CloudERP.Models;
+using Domain.UtilsAccess;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudERP.Controllers.Company
 {
     public class CompanyRegistrationController : Controller
     {
-        private readonly HttpClientHelper _httpClient;
-        private readonly SessionHelper _sessionHelper;
+        private readonly IHttpClientHelper _httpClient;
+        private readonly ISessionHelper _sessionHelper;
 
         public CompanyRegistrationController(
-            SessionHelper sessionHelper,
-            HttpClientHelper httpClient)
+            ISessionHelper sessionHelper,
+            IHttpClientHelper httpClient)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));

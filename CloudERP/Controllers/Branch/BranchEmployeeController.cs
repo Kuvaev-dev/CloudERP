@@ -1,21 +1,22 @@
 ﻿using CloudERP.Helpers;
 using Domain.Models;
+using Domain.UtilsAccess;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudERP.Controllers.Branch
 {
     public class BranchEmployeeController : Controller
     {
-        private readonly SessionHelper _sessionHelper;
-        private readonly HttpClientHelper _httpClient;
-        private readonly ImageUploadHelper _imageUploadHelper;
+        private readonly ISessionHelper _sessionHelper;
+        private readonly IHttpClientHelper _httpClient;
+        private readonly IImageUploadHelper _imageUploadHelper;
 
         private const string EMPLOYEE_PHOTO_FOLDER = "EmployeePhoto";
 
         public BranchEmployeeController(
-            SessionHelper sessionHelper,
-            HttpClientHelper httpClient,
-            ImageUploadHelper imageUploadHelper)
+            ISessionHelper sessionHelper,
+            IHttpClientHelper httpClient,
+            IImageUploadHelper imageUploadHelper)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));

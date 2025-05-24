@@ -1,6 +1,7 @@
 ﻿using API.Controllers.User.Settings;
 using Domain.Models;
 using Domain.RepositoryAccess;
+using Domain.UtilsAccess;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +16,7 @@ namespace UnitTests.Controllers.API.User.Settings
         private Mock<IEmployeeRepository> _employeeRepositoryMock;
         private Mock<IUserRepository> _userRepositoryMock;
         private Mock<IUserTypeRepository> _userTypeRepositoryMock;
-        private Mock<PasswordHelper> _passwordHelperMock;
+        private Mock<IPasswordHelper> _passwordHelperMock;
         private UserSettingApiController _controller;
         private Domain.Models.User _testUser;
         private Employee _testEmployee;
@@ -28,7 +29,7 @@ namespace UnitTests.Controllers.API.User.Settings
             _employeeRepositoryMock = new Mock<IEmployeeRepository>();
             _userRepositoryMock = new Mock<IUserRepository>();
             _userTypeRepositoryMock = new Mock<IUserTypeRepository>();
-            _passwordHelperMock = new Mock<PasswordHelper>();
+            _passwordHelperMock = new Mock<IPasswordHelper>();
             _controller = new UserSettingApiController(
                 _employeeRepositoryMock.Object,
                 _userRepositoryMock.Object,

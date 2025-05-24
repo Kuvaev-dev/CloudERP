@@ -1,16 +1,17 @@
-﻿using Newtonsoft.Json;
+﻿using Domain.UtilsAccess;
+using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text;
 
 namespace CloudERP.Helpers
 {
-    public class HttpClientHelper
+    public class HttpClientHelper : IHttpClientHelper
     {
         private readonly HttpClient _client;
-        private readonly SessionHelper _sessionHelper;
+        private readonly ISessionHelper _sessionHelper;
         private readonly IConfiguration _configuration;
 
-        public HttpClientHelper(HttpClient client, SessionHelper sessionHelper, IConfiguration configuration)
+        public HttpClientHelper(HttpClient client, ISessionHelper sessionHelper, IConfiguration configuration)
         {
             _client = client ?? throw new ArgumentException(nameof(client));
             _sessionHelper = sessionHelper ?? throw new ArgumentException(nameof(sessionHelper));
