@@ -7,7 +7,6 @@
     ViewBag.Title = Account.SetAccountingFlow;
 }
 
-<!-- Tables Sorting-->
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 
 <style>
@@ -90,11 +89,11 @@
             layout: {
                 topStart: {
                     buttons: [
-                        { extend: 'copy', className: 'btn btn-secondary', exportOptions: { columns: [0] } },
-                        { extend: 'csv', className: 'btn btn-secondary', exportOptions: { columns: [0] } },
-                        { extend: 'excel', className: 'btn btn-secondary', exportOptions: { columns: [0] } },
-                        { extend: 'pdf', className: 'btn btn-secondary', exportOptions: { columns: [0] } },
-                        { extend: 'print', className: 'btn btn-secondary', exportOptions: { columns: [0] } }
+                        { extend: 'copy', className: 'btn btn-secondary', exportOptions: { columns: ':not(:last-child)' } },
+                        { extend: 'csv', className: 'btn btn-secondary', exportOptions: { columns: ':not(:last-child)' } },
+                        { extend: 'excel', className: 'btn btn-secondary', exportOptions: { columns: ':not(:last-child)' } },
+                        { extend: 'pdf', className: 'btn btn-secondary', exportOptions: { columns: ':not(:last-child)' } },
+                        { extend: 'print', className: 'btn btn-secondary', exportOptions: { columns: ':not(:last-child)' } }
                     ]
                 },
                 topEnd: 'search',

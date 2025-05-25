@@ -7,10 +7,7 @@
     ViewBag.Title = Sale.SubBranchCustomBaseSalesHistory;
 }
 
-<!-- Tables Sorting-->
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-<link href="https://cdn.datatables.net/v/bs5/dt-2.2.2/datatables.min.css" rel="stylesheet">
-<script src="https://cdn.datatables.net/v/bs5/dt-2.2.2/datatables.min.js"></script>
 
 <style>
     #dataTable_filter input[type="search"] {
@@ -175,6 +172,21 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#dataTable').DataTable({
+            layout: {
+                topStart: {
+                    buttons: [
+                        { extend: 'copy', className: 'btn btn-secondary', exportOptions: { columns: ':not(:last-child)' } },
+                        { extend: 'csv', className: 'btn btn-secondary', exportOptions: { columns: ':not(:last-child)' } },
+                        { extend: 'excel', className: 'btn btn-secondary', exportOptions: { columns: ':not(:last-child)' } },
+                        { extend: 'pdf', className: 'btn btn-secondary', exportOptions: { columns: ':not(:last-child)' } },
+                        { extend: 'print', className: 'btn btn-secondary', exportOptions: { columns: ':not(:last-child)' } }
+                    ]
+                },
+                topEnd: 'search',
+                bottomStart: 'info',
+                bottomEnd: 'paging',
+                top2Start: 'pageLength'
+            },
             "columnDefs": [{ "orderable": false, "targets": 10 }],
             "lengthMenu": [[5, 10, 25, 50, 75, 100, 150, 200, -1], [5, 10, 25, 50, 75, 100, 150, 200, "All"]],
         });

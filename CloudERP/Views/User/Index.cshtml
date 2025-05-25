@@ -78,21 +78,6 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#dataTable').DataTable({
-            layout: {
-                topStart: {
-                    buttons: [
-                        { extend: 'copy', className: 'btn btn-secondary', exportOptions: { columns: [0] } },
-                        { extend: 'csv', className: 'btn btn-secondary', exportOptions: { columns: [0] } },
-                        { extend: 'excel', className: 'btn btn-secondary', exportOptions: { columns: [0] } },
-                        { extend: 'pdf', className: 'btn btn-secondary', exportOptions: { columns: [0] } },
-                        { extend: 'print', className: 'btn btn-secondary', exportOptions: { columns: [0] } }
-                    ]
-                },
-                topEnd: 'search',
-                bottomStart: 'info',
-                bottomEnd: 'paging',
-                top2Start: 'pageLength'
-            },
             columnDefs: [{ orderable: false, targets: 6 }],
             lengthMenu: [[5, 10, 25, 50, 75, 100, 150, 200, -1], [5, 10, 25, 50, 75, 100, 150, 200, "*"]],
         });
