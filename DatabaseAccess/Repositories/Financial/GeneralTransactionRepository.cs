@@ -5,6 +5,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using DatabaseAccess.Context;
 using Domain.UtilsAccess;
+using Microsoft.EntityFrameworkCore;
 
 namespace DatabaseAccess.Repositories.Financial
 {
@@ -62,10 +63,10 @@ namespace DatabaseAccess.Repositories.Financial
                 InitializeDataTable();
 
                 string transactionTitle = reason;
-                var financialYearCheck = await _query.RetrieveAsync("SELECT TOP 1 FinancialYearID FROM tblFinancialYear WHERE IsActive = 1");
-                string financialYearId = financialYearCheck.FirstOrDefault()?["FinancialYearID"].ToString();
+                var activeFinancialYear = await _dbContext.tblFinancialYear.FirstOrDefaultAsync(f => f.IsActive == true);
+                int financialYearId = activeFinancialYear.FinancialYearID;
 
-                if (string.IsNullOrEmpty(financialYearId))
+                if (financialYearId <= 0)
                 {
                     return Localization.CloudERP.Messages.Messages.CompanyFinancialYearNotSet;
                 }
@@ -76,7 +77,7 @@ namespace DatabaseAccess.Repositories.Financial
                     return Localization.Services.Localization.DebitAccountNotFound;
                 }
 
-                SetEntries(financialYearId,
+                SetEntries(Convert.ToString(financialYearId),
                     debitAccount.AccountHeadID.ToString(),
                     debitAccount.AccountControlID.ToString(),
                     debitAccount.AccountSubControlID.ToString(),
@@ -94,7 +95,7 @@ namespace DatabaseAccess.Repositories.Financial
 
                 transactionTitle = Localization.Services.Localization.GeneralTransactionSucceed;
 
-                SetEntries(financialYearId,
+                SetEntries(Convert.ToString(financialYearId),
                     creditAccount.AccountHeadID.ToString(),
                     creditAccount.AccountControlID.ToString(),
                     creditAccount.AccountSubControlID.ToString(),

@@ -124,6 +124,15 @@ namespace Localization.CloudERP.Modules.Miscellaneous {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Accounts Ledger.
+        /// </summary>
+        public static string AccountsLedgerTitle {
+            get {
+                return ResourceManager.GetString("AccountsLedgerTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Account Sub Controls.
         /// </summary>
         public static string AccountSubControls {

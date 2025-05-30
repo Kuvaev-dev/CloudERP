@@ -631,7 +631,7 @@
     <value>Очікується оплата повернень покупок</value>
   </data>
   <data name="Items" xml:space="preserve">
-    <value>Продукти</value>
+    <value>Продукція</value>
   </data>
   <data name="SubBranchTrialBalance" xml:space="preserve">
     <value>Баланс підфілії</value>
@@ -698,5 +698,8 @@
   </data>
   <data name="AccountActivities" xml:space="preserve">
     <value>Активності рахунків</value>
+  </data>
+  <data name="AccountsLedgerTitle" xml:space="preserve">
+    <value>Бухгалтерська книга рахунків</value>
   </data>
 </root>

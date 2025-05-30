@@ -184,16 +184,16 @@
     <value>Повне ім'я співробітника</value>
   </data>
   <data name="EmployeeSalary" xml:space="preserve">
-    <value>Зарплата співробітника</value>
+    <value>Нарахування співробітнику</value>
   </data>
   <data name="EnterEmployeeTIN" xml:space="preserve">
     <value>Введіть ІПН співробітника</value>
   </data>
   <data name="MonthlySalaryAmount" xml:space="preserve">
-    <value>Сума місячної зарплати</value>
+    <value>Сума місячної зарплатні</value>
   </data>
   <data name="SalaryOfTheMonth" xml:space="preserve">
-    <value>Зарплата за місяць</value>
+    <value>Зарплатня за місяць</value>
   </data>
   <data name="SalaryYear" xml:space="preserve">
     <value>Рік виплати</value>
@@ -223,16 +223,16 @@
     <value>Друкувати розрахунковий лист</value>
   </data>
   <data name="PrintSalaryInvoice" xml:space="preserve">
-    <value>Друкувати рахунок на зарплату</value>
+    <value>Друкувати рахунок на зарплатню</value>
   </data>
   <data name="PrintInvoiceNo" xml:space="preserve">
     <value>НОМЕР РАХУНКУ</value>
   </data>
   <data name="SalaryPaidDate" xml:space="preserve">
-    <value>Дата виплати зарплати</value>
+    <value>Дата виплати зарплатні</value>
   </data>
   <data name="TotalSalary" xml:space="preserve">
-    <value>Загальна зарплата</value>
+    <value>Загальна зарплатня</value>
   </data>
   <data name="Print" xml:space="preserve">
     <value>Друк</value>

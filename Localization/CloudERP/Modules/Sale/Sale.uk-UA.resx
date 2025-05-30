@@ -301,13 +301,13 @@
     <value>Підтвердити платіж</value>
   </data>
   <data name="SaleProductsDetail" xml:space="preserve">
-    <value>Продані продукти</value>
+    <value>Продана продукція</value>
   </data>
   <data name="SaleInvoiceNo" xml:space="preserve">
     <value>Номер рахунку продажу:</value>
   </data>
   <data name="ReturnSaleProductsDetail" xml:space="preserve">
-    <value>Повернені продукти</value>
+    <value>Повернена продукція</value>
   </data>
   <data name="NewSale" xml:space="preserve">
     <value>Новий продаж</value>

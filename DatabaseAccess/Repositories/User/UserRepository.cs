@@ -107,6 +107,7 @@ namespace DatabaseAccess.Repositories.Users
 
             _dbContext.tblUser.Add(entity);
             await _dbContext.SaveChangesAsync();
+            user.UserID = entity.UserID;
         }
 
         public async Task UpdateAsync(User user)

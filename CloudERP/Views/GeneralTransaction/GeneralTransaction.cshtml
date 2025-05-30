@@ -11,7 +11,6 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h3 class="text-danger">@HttpContextAccessor.HttpContext?.Session.GetString("GNMessage")</h3>
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 

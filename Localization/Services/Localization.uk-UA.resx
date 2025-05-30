@@ -214,7 +214,7 @@
     <value>Платіж за повернення покупки сплачено</value>
   </data>
   <data name="SalaryIsPending" xml:space="preserve">
-    <value>Очікується виплата зарплати</value>
+    <value>Очікується виплата зарплатні</value>
   </data>
   <data name="To" xml:space="preserve">
     <value>, До </value>
@@ -223,7 +223,7 @@
     <value>Налаштування облікового запису для наданих CompanyID та BranchID не знайдено.</value>
   </data>
   <data name="SalarySucceed" xml:space="preserve">
-    <value>Зарплата успішно виплачена</value>
+    <value>Зарплатня успішно виплачена</value>
   </data>
   <data name="SaleTo" xml:space="preserve">
     <value>Продаж до </value>

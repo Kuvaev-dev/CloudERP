@@ -699,4 +699,7 @@
   <data name="AccountActivities" xml:space="preserve">
     <value>Account Activities</value>
   </data>
+  <data name="AccountsLedgerTitle" xml:space="preserve">
+    <value>Accounts Ledger</value>
+  </data>
 </root>

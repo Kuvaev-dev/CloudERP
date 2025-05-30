@@ -53,6 +53,7 @@ namespace DatabaseAccess.Repositories.Company
 
             _dbContext.tblCompany.Add(entity);
             await _dbContext.SaveChangesAsync();
+            company.CompanyID = entity.CompanyID;
         }
 
         public async Task UpdateAsync(Domain.Models.Company company)

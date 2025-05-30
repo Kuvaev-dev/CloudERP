@@ -112,6 +112,7 @@ namespace DatabaseAccess.Repositories.Account
             entity.AccountControlID = accountSetting.AccountControlID;
             entity.AccountSubControlID = accountSetting.AccountSubControlID;
             entity.AccountActivityID = accountSetting.AccountActivityID;
+            entity.IsGlobal = accountSetting.IsGlobal;
 
             _dbContext.tblAccountSetting.Update(entity);
             await _dbContext.SaveChangesAsync();

@@ -73,14 +73,14 @@ namespace CloudERP.Controllers.User.Settings
         }
 
         // GET: Update User
-        public async Task<ActionResult> UpdateUser(int? userID)
+        public async Task<ActionResult> UpdateUser(int? UserID)
         {
-            if (userID == null) return RedirectToAction("EP404", "EP");
+            if (UserID == null) return RedirectToAction("EP404", "EP");
 
             try
             {
-                var user = await _httpClient.GetAsync<Domain.Models.User>($"usersettingapi/getuser?userId={userID}");
-                var userTypes = await _httpClient.GetAsync<List<UserType>>("usersettingapi/getusertypes");
+                var user = await _httpClient.GetAsync<Domain.Models.User>($"usersettingapi/getuser?userId={UserID}");
+                var userTypes = await _httpClient.GetAsync<IEnumerable<UserType>>("usertypeapi/getall");
 
                 ViewBag.UserTypeID = userTypes.Select(x => new SelectListItem
                 {

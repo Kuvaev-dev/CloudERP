@@ -94,7 +94,7 @@ namespace API.Controllers.Company
                 };
                 await _companyRegistrationFacade.EmployeeRepository.AddAsync(employee);
 
-                SendEmail(employee, company);
+                //SendEmail(employee, company);
 
                 return Ok("Registration succeeded");
             }

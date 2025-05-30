@@ -217,6 +217,7 @@ namespace DatabaseAccess.Repositories.Employees
         public async Task<IEnumerable<Employee>> GetEmployeesByDateRangeAsync(DateTime startDate, DateTime endDate, List<int> branchIDs, int companyID)
         {
             var entities = await _dbContext.tblEmployee
+                .Include(e => e.Branch)
                 .Where(e => e.RegistrationDate.HasValue
                     && e.RegistrationDate.Value >= startDate
                     && e.RegistrationDate.Value <= endDate

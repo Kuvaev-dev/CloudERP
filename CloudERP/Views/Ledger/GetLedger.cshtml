@@ -2,7 +2,7 @@
 @using Localization.CloudERP.Modules.Miscellaneous
 @using Localization.CloudERP.Modules.Financial
 @{
-    ViewBag.Title = Miscellaneous.AccountsLedger;
+    ViewBag.Title = Miscellaneous.AccountsLedgerTitle;
 }
 
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
@@ -27,7 +27,7 @@
 
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
-        <h3 class="text-primary">@Html.Raw(Miscellaneous.AccountsLedger)</h3>
+        <h3 class="text-primary">@Miscellaneous.AccountsLedgerTitle</h3>
         <h3 class="text-danger">@ViewBag.Message</h3>
         <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
     </div>
