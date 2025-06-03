@@ -10,17 +10,20 @@ namespace CloudERP.Controllers.Branch
         private readonly ISessionHelper _sessionHelper;
         private readonly IHttpClientHelper _httpClient;
         private readonly IImageUploadHelper _imageUploadHelper;
+        private readonly IPhoneNumberHelper _phoneNumberHelper;
 
         private const string EMPLOYEE_PHOTO_FOLDER = "EmployeePhoto";
 
         public BranchEmployeeController(
             ISessionHelper sessionHelper,
             IHttpClientHelper httpClient,
-            IImageUploadHelper imageUploadHelper)
+            IImageUploadHelper imageUploadHelper,
+            IPhoneNumberHelper phoneNumberHelper)
         {
-            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClientHelper));
-            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(SessionHelper));
-            _imageUploadHelper = imageUploadHelper ?? throw new ArgumentNullException(nameof(ImageUploadHelper));
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
+            _imageUploadHelper = imageUploadHelper ?? throw new ArgumentNullException(nameof(imageUploadHelper));
+            _phoneNumberHelper = phoneNumberHelper ?? throw new ArgumentNullException(nameof(phoneNumberHelper));
         }
 
         // GET: Employee
@@ -89,7 +92,7 @@ namespace CloudERP.Controllers.Branch
             {
                 var employee = await _httpClient.GetAsync<Employee>($"branchemployeeapi/getbyid?id={id}");
                 if (employee == null) return RedirectToAction("EP404", "EP");
-
+                employee.ContactNumber = _phoneNumberHelper.ExtractNationalNumber(employee.ContactNumber);
                 return View(employee);
             }
             catch (Exception ex)

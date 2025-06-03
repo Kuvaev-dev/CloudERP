@@ -9,15 +9,18 @@ namespace CloudERP.Controllers.Branch
     {
         private readonly IHttpClientHelper _httpClient;
         private readonly ISessionHelper _sessionHelper;
+        private readonly IPhoneNumberHelper _phoneNumberHelper;
 
         private const int MAIN_BRANCH_TYPE_ID = 1;
 
         public BranchController(
             ISessionHelper sessionHelper,
-            IHttpClientHelper httpClient)
+            IHttpClientHelper httpClient,
+            IPhoneNumberHelper phoneNumberHelper)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
+            _phoneNumberHelper = phoneNumberHelper ?? throw new ArgumentNullException(nameof(phoneNumberHelper));
         }
 
         // GET: Branch
@@ -115,6 +118,7 @@ namespace CloudERP.Controllers.Branch
             {
                 var branch = await _httpClient.GetAsync<Domain.Models.Branch>($"branchapi/getbyid?id={id.Value}");
                 if (branch == null) return RedirectToAction("EP404", "EP");
+                branch.BranchContact = _phoneNumberHelper.ExtractNationalNumber(branch.BranchContact);
 
                 return View(branch);
             }

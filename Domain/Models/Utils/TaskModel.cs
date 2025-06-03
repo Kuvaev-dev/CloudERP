@@ -14,8 +14,10 @@ namespace Domain.Models
         public string? Description { get; set; }
 
         [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime DueDate { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? ReminderDate { get; set; }
         public int? AssignedByUserID { get; set; }
         public int? AssignedToUserID { get; set; }

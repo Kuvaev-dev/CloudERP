@@ -8,13 +8,16 @@ namespace CloudERP.Controllers.Client
     {
         private readonly IHttpClientHelper _httpClient;
         private readonly ISessionHelper _sessionHelper;
+        private readonly IPhoneNumberHelper _phoneNumberHelper;
 
         public CustomerController(
             ISessionHelper sessionHelper,
-            IHttpClientHelper httpClient)
+            IHttpClientHelper httpClient,
+            IPhoneNumberHelper phoneNumberHelper)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
+            _phoneNumberHelper = phoneNumberHelper ?? throw new ArgumentNullException(nameof(phoneNumberHelper));
         }
 
         // GET: AllCustomers
@@ -139,6 +142,7 @@ namespace CloudERP.Controllers.Client
             try
             {
                 var customer = await _httpClient.GetAsync<Customer>($"customerapi/getbyid?id={id}");
+                customer.CustomerContact = _phoneNumberHelper.ExtractNationalNumber(customer.CustomerContact);
                 return View(customer);
             }
             catch (Exception ex)

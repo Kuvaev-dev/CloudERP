@@ -9,13 +9,16 @@ namespace CloudERP.Controllers.User.Settings
     {
         private readonly IHttpClientHelper _httpClient;
         private readonly ISessionHelper _sessionHelper;
+        private readonly IPhoneNumberHelper _phoneNumberHelper;
 
         public UserSettingController(
             ISessionHelper sessionHelper,
-            IHttpClientHelper httpClient)
+            IHttpClientHelper httpClient,
+            IPhoneNumberHelper phoneNumberHelper)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
+            _phoneNumberHelper = phoneNumberHelper ?? throw new ArgumentNullException(nameof(phoneNumberHelper));
         }
 
         // GET: Create User
@@ -81,7 +84,7 @@ namespace CloudERP.Controllers.User.Settings
             {
                 var user = await _httpClient.GetAsync<Domain.Models.User>($"usersettingapi/getuser?userId={UserID}");
                 var userTypes = await _httpClient.GetAsync<IEnumerable<UserType>>("usertypeapi/getall");
-
+                user.ContactNo = _phoneNumberHelper.ExtractNationalNumber(user.ContactNo);
                 ViewBag.UserTypeID = userTypes.Select(x => new SelectListItem
                 {
                     Value = x.UserTypeID.ToString(),

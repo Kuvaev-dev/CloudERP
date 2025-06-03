@@ -33,6 +33,16 @@ namespace API
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
                 };
             });
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowLocalhostFrontend",
+                    policy =>
+                    {
+                        policy.WithOrigins("https://localhost:44328")
+                              .AllowAnyHeader()
+                              .AllowAnyMethod();
+                    });
+            });
 
             // Database Access
             builder.Services.AddDatabaseServices();
@@ -56,6 +66,8 @@ namespace API
             {
                 app.MapOpenApi();
             }
+
+            app.UseCors("AllowLocalhostFrontend");
 
             app.UseHttpsRedirection();
 

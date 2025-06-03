@@ -43,6 +43,8 @@ namespace Domain.Models
         public double MonthlySalary { get; set; }
 
         public bool? IsFirstLogin { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? RegistrationDate { get; set; }
         public int CompanyID { get; set; }
         public int BranchID { get; set; }

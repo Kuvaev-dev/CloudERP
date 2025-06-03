@@ -23,6 +23,7 @@ namespace Domain.Models
         [StringLength(1000, MinimumLength = 10, ErrorMessageResourceName = "StringLengthMinMaxValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public string? Message { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime DateCreated { get; set; }
 
         [StringLength(1000, MinimumLength = 10, ErrorMessageResourceName = "StringLengthMinMaxValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
@@ -31,6 +32,7 @@ namespace Domain.Models
         [StringLength(50, MinimumLength = 2, ErrorMessageResourceName = "StringLengthMinMaxValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public string? RespondedBy { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? ResponseDate { get; set; }
 
         public bool IsResolved { get; set; }

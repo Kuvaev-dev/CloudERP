@@ -30,6 +30,7 @@ namespace CloudERP
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             builder.Services.AddScoped<ISessionHelper, SessionHelper>();
             builder.Services.AddScoped<IImageUploadHelper, ImageUploadHelper>();
+            builder.Services.AddScoped<IPhoneNumberHelper, PhoneNumberHelper>();
 
             builder.Services.AddScoped<CurrencyRatesFilter>();
             builder.Services.AddControllersWithViews(options =>

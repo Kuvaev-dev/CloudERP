@@ -5,7 +5,6 @@ namespace API.Controllers.Utilities
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
-    [Authorize]
     public class AddressApiController : ControllerBase
     {
         private readonly IConfiguration _configuration;

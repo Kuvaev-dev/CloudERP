@@ -8,13 +8,16 @@ namespace CloudERP.Controllers.Client
     {
         private readonly IHttpClientHelper _httpClient;
         private readonly ISessionHelper _sessionHelper;
+        private readonly IPhoneNumberHelper _phoneNumberHelper;
 
         public SupplierController(
             ISessionHelper sessionHelper,
-            IHttpClientHelper httpClient)
+            IHttpClientHelper httpClient,
+            IPhoneNumberHelper phoneNumberHelper)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
+            _phoneNumberHelper = phoneNumberHelper ?? throw new ArgumentNullException(nameof(phoneNumberHelper));
         }
 
         // GET: All Suppliers
@@ -146,7 +149,7 @@ namespace CloudERP.Controllers.Client
 
                 var supplier = await _httpClient.GetAsync<Supplier>($"supplierapi/getbyid?id={id}");
                 if (supplier == null) return RedirectToAction("EP404", "EP");
-
+                supplier.SupplierConatctNo = _phoneNumberHelper.ExtractNationalNumber(supplier.SupplierConatctNo);
                 return View(supplier);
             }
             catch (Exception ex)
