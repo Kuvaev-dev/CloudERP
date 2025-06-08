@@ -1,4 +1,4 @@
-﻿using API.Controllers.Stock;
+﻿using API.Controllers.Inventory;
 using Domain.Models;
 using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
