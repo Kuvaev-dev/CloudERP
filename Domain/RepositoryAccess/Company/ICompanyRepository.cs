@@ -10,5 +10,6 @@ namespace Domain.RepositoryAccess
         Task<bool> CheckCompanyExistsAsync(string name);
         Task AddAsync(Company company);
         Task UpdateAsync(Company company);
+        Task<bool> IsExists(Company company);
     }
 }

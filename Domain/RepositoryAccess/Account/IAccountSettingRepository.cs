@@ -9,5 +9,6 @@ namespace Domain.RepositoryAccess
         Task<AccountSetting> GetByActivityAsync(int id, int companyId, int branchId);
         Task AddAsync(AccountSetting accountSetting);
         Task UpdateAsync(AccountSetting accountSetting);
+        Task<bool> IsExists(AccountSetting accountSetting);
     }
 }

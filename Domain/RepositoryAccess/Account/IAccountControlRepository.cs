@@ -8,5 +8,6 @@ namespace Domain.RepositoryAccess
         Task<AccountControl> GetByIdAsync(int id);
         Task AddAsync(AccountControl accountControl);
         Task UpdateAsync(AccountControl accountControl);
+        Task<bool> IsExists(AccountControl accountControl);
     }
 }

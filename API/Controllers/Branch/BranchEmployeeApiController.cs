@@ -50,6 +50,9 @@ namespace API.Controllers.Branch
 
             try
             {
+                if (await _employeeRepository.IsExists(model))
+                    return Conflict("An employee with the same name already exists.");
+
                 model.Photo ??= DEFAULT_EMPLOYEE_AVATAR_PATH;
                 await _employeeRepository.AddAsync(model);
                 return CreatedAtAction(nameof(GetById), new { id = model.EmployeeID }, model);
@@ -83,6 +86,9 @@ namespace API.Controllers.Branch
 
             try
             {
+                if (await _employeeRepository.IsExists(model))
+                    return Conflict("An employee with the same name already exists.");
+
                 model.Photo ??= DEFAULT_EMPLOYEE_AVATAR_PATH;
                 await _employeeRepository.UpdateAsync(model);
                 return Ok(model);

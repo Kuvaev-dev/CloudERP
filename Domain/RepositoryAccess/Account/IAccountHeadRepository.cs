@@ -9,5 +9,6 @@ namespace Domain.RepositoryAccess
         Task<AccountHead> GetByIdAsync(int id);
         Task AddAsync(AccountHead accountHead);
         Task UpdateAsync(AccountHead accountHead);
+        Task<bool> IsExists(AccountHead accountHead);
     }
 }

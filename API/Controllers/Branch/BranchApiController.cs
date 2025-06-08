@@ -91,6 +91,9 @@ namespace API.Controllers.Branch
 
             try
             {
+                if (await _branchRepository.IsExists(model))
+                    return Conflict("A branch with the same name already exists.");
+
                 await _branchRepository.AddAsync(model);
                 return CreatedAtAction(nameof(GetByCompany), new { companyId = model.CompanyID }, model);
             }
@@ -108,6 +111,9 @@ namespace API.Controllers.Branch
 
             try
             {
+                if (await _branchRepository.IsExists(model))
+                    return Conflict("A branch with the same name already exists.");
+
                 await _branchRepository.UpdateAsync(model);
                 return Ok(model);
             }

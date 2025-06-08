@@ -61,6 +61,9 @@ namespace API.Controllers.Company
 
             try
             {
+                if (await _companyEmployeeFacade.EmployeeRepository.IsExists(model))
+                    return Conflict("An employee with the same TIN or email already exists.");
+
                 model.Photo ??= DEFAULT_PHOTO_PATH;
                 await _companyEmployeeFacade.EmployeeRepository.AddAsync(model);
                 SendEmail(model);

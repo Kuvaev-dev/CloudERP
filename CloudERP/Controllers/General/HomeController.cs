@@ -48,7 +48,7 @@ namespace CloudERP.Controllers.General
         public IActionResult SetCurrency(string currency)
         {
             HttpContext.Session.SetString("SelectedCurrency", currency);
-            return Redirect(HttpContext.Request.Headers["Referer"].ToString());
+            return Redirect(HttpContext.Request.Headers.Referer.ToString());
         }
 
         public IActionResult Login()
@@ -79,6 +79,7 @@ namespace CloudERP.Controllers.General
 
                 var currencies = await _httpClient.GetAsync<Dictionary<string, decimal>>("homeapi/getcurrencies");
                 ViewBag.Currencies = currencies ?? [];
+                ViewBag.SelectedCurrency = HttpContext.Session.GetString("SelectedCurrency") ?? "UAH";
 
                 return userData.User.UserTypeID == ADMIN_USER_TYPE_ID
                     ? RedirectToAction("Index", "UserType")

@@ -87,5 +87,11 @@ namespace DatabaseAccess.Repositories.Company
             var companies = await GetAllAsync();
             return companies.Any(c => c.Name == name);
         }
+
+        public async Task<bool> IsExists(Domain.Models.Company company)
+        {
+            return await _dbContext.tblCompany
+                .AnyAsync(c => c.Name == company.Name && c.CompanyID != company.CompanyID);
+        }
     }
 }

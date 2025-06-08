@@ -4,7 +4,7 @@ using Domain.ServiceAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers.Stock
+namespace API.Controllers.Inventory
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
@@ -27,7 +27,7 @@ namespace API.Controllers.Stock
 
         // GET: api/stock
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Domain.Models.Stock>>> GetAll(int companyId, int branchId)
+        public async Task<ActionResult<IEnumerable<Stock>>> GetAll(int companyId, int branchId)
         {
             try
             {
@@ -42,7 +42,7 @@ namespace API.Controllers.Stock
 
         // GET: api/stock/{id}
         [HttpGet]
-        public async Task<ActionResult<Domain.Models.Stock>> GetById(int id)
+        public async Task<ActionResult<Stock>> GetById(int id)
         {
             try
             {
@@ -59,20 +59,15 @@ namespace API.Controllers.Stock
 
         // POST: api/stock
         [HttpPost]
-        public async Task<ActionResult<Domain.Models.Stock>> Create([FromBody] Domain.Models.Stock model)
+        public async Task<ActionResult<Stock>> Create([FromBody] Domain.Models.Stock model)
         {
             try
             {
-                if (ModelState.IsValid)
-                {
-                    var existingStock = await _stockRepository.GetByProductNameAsync(model.CompanyID, model.BranchID, model.ProductName);
-                    if (existingStock != null) return Conflict();
+                if (await _stockRepository.IsExists(model))
+                    return Conflict("A stock item with the same name already exists.");
 
-                    await _stockRepository.AddAsync(model);
-                    return CreatedAtRoute("GetById", new { id = model.ProductID }, model);
-                }
-
-                return BadRequest("Invalid data.");
+                await _stockRepository.AddAsync(model);
+                return CreatedAtRoute("GetById", new { id = model.ProductID }, model);
             }
             catch (Exception ex)
             {
@@ -89,6 +84,9 @@ namespace API.Controllers.Stock
 
             try
             {
+                if (await _stockRepository.IsExists(model))
+                    return Conflict("A stock item with the same name already exists.");
+
                 await _stockRepository.UpdateAsync(model);
                 return Ok(model);
             }

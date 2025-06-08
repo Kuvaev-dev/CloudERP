@@ -109,11 +109,11 @@
                     </li>
                     <!-- END Dark Mode-->
                     <!-- START Dark Mode-->
-                    <li class="nav-item" id="step4">
+                    @* <li class="nav-item" id="step4">
                         <div class="nav-link container">
                             <i class="fas fa-moon"></i>
                         </div>
-                    </li>
+                    </li> *@
                     <!-- END Dark Mode-->
                     <!-- START Fullscreen Mode-->
                     <li class="nav-item" id="step5">
@@ -240,12 +240,12 @@
                                             <span data-localize="sidebar.heading.COMPONENTS">@Miscellaneous.Home</span>
                                         </li>
 
-                                        <li data-heading="components-heading">
-                                            <a href="@Url.Action("AdminMenuGuide", "Guide")" title="@Miscellaneous.Guide">
-                                                <em class="bi bi-info-circle"></em>
-                                                <span class="align-middle">@Html.Raw(Miscellaneous.Guide)</span>
-                                            </a>
-                                        </li>
+                                        // <li data-heading="components-heading">
+                                        //     <a href="@Url.Action("AdminMenuGuide", "Guide")" title="@Miscellaneous.Guide">
+                                        //         <em class="bi bi-info-circle"></em>
+                                        //         <span class="align-middle">@Html.Raw(Miscellaneous.Guide)</span>
+                                        //     </a>
+                                        // </li>
                                         <li data-heading="components-heading">
                                             <a href="@Url.Action("Index", "Task")" title="@Miscellaneous.TasksList">
                                                 <em class="bi bi-list-task"></em>
@@ -335,12 +335,12 @@
                                                 <span class="align-middle">@Html.Raw(Miscellaneous.DashboardTitle)</span>
                                             </a>
                                         </li>
-                                        <li data-heading="components-heading">
-                                            <a href="@Url.Action("Index", "Forecasting")" title="@Miscellaneous.Forecasting">
-                                                <em class="bi bi-clipboard-data h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(Miscellaneous.Forecasting)</span>
-                                            </a>
-                                        </li>
+                                        // <li data-heading="components-heading">
+                                        //     <a href="@Url.Action("Index", "Forecasting")" title="@Miscellaneous.Forecasting">
+                                        //         <em class="bi bi-clipboard-data h4 mb-0"></em>
+                                        //         <span class="align-middle">@Html.Raw(Miscellaneous.Forecasting)</span>
+                                        //     </a>
+                                        // </li>
                                         <li data-heading="components-heading">
                                             <a href="@Url.Action("Index", "Task")" title="@Miscellaneous.TasksList">
                                                 <em class="bi bi-list-task h4 mb-0"></em>
@@ -385,15 +385,15 @@
                                                     <span class="align-middle">@Html.Raw(Miscellaneous.TasksAssigment)</span>
                                                 </a>
                                             </li>
-                                            <li class="nav-heading ">
-                                                <span data-localize="sidebar.heading.COMPONENTS">@Miscellaneous.Guide</span>
-                                            </li>
-                                            <li data-heading="components-heading">
-                                                <a href="@Url.Action("MainBranchEmployeeGuide", "Guide")" title="@Miscellaneous.Guide">
-                                                    <em class="bi bi-info-circle h4 mb-0"></em>
-                                                    <span class="align-middle">@Html.Raw(Miscellaneous.Guide)</span>
-                                                </a>
-                                            </li>
+                                            // <li class="nav-heading ">
+                                            //     <span data-localize="sidebar.heading.COMPONENTS">@Miscellaneous.Guide</span>
+                                            // </li>
+                                            // <li data-heading="components-heading">
+                                            //     <a href="@Url.Action("MainBranchEmployeeGuide", "Guide")" title="@Miscellaneous.Guide">
+                                            //         <em class="bi bi-info-circle h4 mb-0"></em>
+                                            //         <span class="align-middle">@Html.Raw(Miscellaneous.Guide)</span>
+                                            //     </a>
+                                            // </li>
                                             <li class="nav-heading ">
                                                 <span data-localize="sidebar.heading.COMPONENTS">@Miscellaneous.Branchs</span>
                                             </li>
@@ -427,15 +427,15 @@
                                         }
                                         if (branchTypeID > 1)
                                         {
-                                            <li class="nav-heading ">
-                                                <span data-localize="sidebar.heading.COMPONENTS">@Miscellaneous.Guide</span>
-                                            </li>
-                                            <li data-heading="components-heading">
-                                                <a href="@Url.Action("EmployeeGuide", "Guide")" title="@Miscellaneous.Guide">
-                                                    <em class="bi bi-info-circle h4 mb-0"></em>
-                                                    <span class="align-middle">@Html.Raw(Miscellaneous.Guide)</span>
-                                                </a>
-                                            </li>
+                                            // <li class="nav-heading ">
+                                            //     <span data-localize="sidebar.heading.COMPONENTS">@Miscellaneous.Guide</span>
+                                            // </li>
+                                            // <li data-heading="components-heading">
+                                            //     <a href="@Url.Action("EmployeeGuide", "Guide")" title="@Miscellaneous.Guide">
+                                            //         <em class="bi bi-info-circle h4 mb-0"></em>
+                                            //         <span class="align-middle">@Html.Raw(Miscellaneous.Guide)</span>
+                                            //     </a>
+                                            // </li>
                                             <li class="nav-heading ">
                                                 <span data-localize="sidebar.heading.COMPONENTS">@Miscellaneous.Employees</span>
                                             </li>

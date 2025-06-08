@@ -51,6 +51,12 @@ namespace DatabaseAccess.Repositories.Branch
             };
         }
 
+        public async Task<bool> IsExists(BranchType branchType)
+        {
+            return await _dbContext.tblBranchType
+                .AnyAsync(bt => bt.BranchType == branchType.BranchTypeName && bt.BranchTypeID != branchType.BranchTypeID);
+        }
+
         public async Task UpdateAsync(BranchType branchType)
         {
             var entity = await _dbContext.tblBranchType.FindAsync(branchType.BranchTypeID);

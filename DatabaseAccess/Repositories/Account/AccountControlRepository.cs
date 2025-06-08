@@ -85,5 +85,15 @@ namespace DatabaseAccess.Repositories.Account
             _dbContext.tblAccountControl.Update(entity);
             await _dbContext.SaveChangesAsync();
         }
+
+        public async Task<bool> IsExists(AccountControl accountControl)
+        {
+            return await _dbContext.tblAccountControl
+                .AnyAsync(ac => ac.AccountControlName == accountControl.AccountControlName &&
+                                ac.AccountHeadID == accountControl.AccountHeadID &&
+                                ac.BranchID == accountControl.BranchID &&
+                                ac.CompanyID == accountControl.CompanyID &&
+                                ac.AccountControlID != accountControl.AccountControlID);
+        }
     }
 }

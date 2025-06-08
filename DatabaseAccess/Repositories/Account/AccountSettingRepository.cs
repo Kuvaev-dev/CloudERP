@@ -151,5 +151,17 @@ namespace DatabaseAccess.Repositories.Account
                 IsGlobal = entity.IsGlobal ?? false
             };
         }
+
+        public async Task<bool> IsExists(AccountSetting accountSetting)
+        {
+            return await _dbContext.tblAccountSetting
+                .AnyAsync(a => a.AccountHeadID == accountSetting.AccountHeadID &&
+                               a.AccountControlID == accountSetting.AccountControlID &&
+                               a.AccountSubControlID == accountSetting.AccountSubControlID &&
+                               a.AccountActivityID == accountSetting.AccountActivityID &&
+                               a.CompanyID == accountSetting.CompanyID &&
+                               a.BranchID == accountSetting.BranchID &&
+                               (a.IsGlobal ?? false) == accountSetting.IsGlobal);
+        }
     }
 }

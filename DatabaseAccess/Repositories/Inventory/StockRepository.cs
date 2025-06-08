@@ -164,5 +164,14 @@ namespace DatabaseAccess.Repositories.Inventory
                 .Where(s => s.CompanyID == companyID && s.ExpiryDate < DateTime.Now)
                 .SumAsync(s => (int?)s.Quantity) ?? 0;
         }
+
+        public async Task<bool> IsExists(Stock stock)
+        {
+            return await _dbContext.tblStock
+                .AnyAsync(s => s.ProductName == stock.ProductName &&
+                               s.CompanyID == stock.CompanyID &&
+                               s.BranchID == stock.BranchID &&
+                               s.ProductID != stock.ProductID);
+        }
     }
 }

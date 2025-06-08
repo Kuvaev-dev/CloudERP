@@ -119,5 +119,16 @@ namespace DatabaseAccess.Repositories.Account
                 FullName = entity.User.FullName
             };
         }
+
+        public async Task<bool> IsExists(AccountSubControl entity)
+        {
+            return await _dbContext.tblAccountSubControl
+                .AnyAsync(a => a.AccountSubControlName == entity.AccountSubControlName &&
+                               a.AccountControlID == entity.AccountControlID &&
+                               a.AccountHeadID == entity.AccountHeadID &&
+                               a.CompanyID == entity.CompanyID &&
+                               a.BranchID == entity.BranchID &&
+                               a.AccountSubControlID != entity.AccountSubControlID);
+        }
     }
 }

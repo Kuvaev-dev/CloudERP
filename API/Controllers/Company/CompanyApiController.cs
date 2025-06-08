@@ -63,6 +63,9 @@ namespace API.Controllers.Company
 
             try
             {
+                if (await _companyRepository.IsExists(model))
+                    return Conflict("A company with the same name already exists.");
+
                 model.Logo ??= DEFAULT_COMPANY_LOGO_PATH;
                 await _companyRepository.AddAsync(model);
                 return CreatedAtAction(nameof(GetById), new { id = model.CompanyID }, model);
@@ -77,11 +80,13 @@ namespace API.Controllers.Company
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] Domain.Models.Company model)
         {
-            if (model == null)
-                return BadRequest("Model cannot be null.");
+            if (model == null) return BadRequest("Model cannot be null.");
 
             try
             {
+                if (await _companyRepository.IsExists(model))
+                    return Conflict("A company with the same name already exists.");
+
                 model.Logo ??= DEFAULT_COMPANY_LOGO_PATH;
                 await _companyRepository.UpdateAsync(model);
                 return Ok(model);

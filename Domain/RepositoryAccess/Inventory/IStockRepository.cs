@@ -12,5 +12,6 @@ namespace Domain.RepositoryAccess
         Task<int> GetTotalStockItemsByCompanyAsync(int companyID);
         Task<int> GetTotalAvaliableItemsByCompanyAsync(int companyID);
         Task<int> GetTotalExpiredItemsByCompanyAsync(int companyID);
+        Task<bool> IsExists(Stock stock);
     }
 }

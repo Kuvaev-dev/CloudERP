@@ -14,7 +14,7 @@ namespace DatabaseAccess.Helpers
 
         public async Task<object> ConnOpenAsync()
         {
-            var connection = new SqlConnection(_connectionStringProvider.GetConnectionString("CloudDBDirect"));
+            var connection = new SqlConnection(_connectionStringProvider.GetConnectionString("CloudDBAzure"));
             await connection.OpenAsync();
             return connection;
         }

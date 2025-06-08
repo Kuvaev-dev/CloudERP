@@ -10,5 +10,6 @@ namespace Domain.RepositoryAccess
         Task<FinancialYear> GetByIdAsync(int id);
         Task AddAsync(FinancialYear financialYear);
         Task UpdateAsync(FinancialYear financialYear);
+        Task<bool> IsExists(FinancialYear financialYear);
     }
 }

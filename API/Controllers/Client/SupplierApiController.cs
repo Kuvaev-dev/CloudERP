@@ -10,11 +10,11 @@ namespace API.Controllers.Client
     [Authorize]
     public class SupplierApiController : ControllerBase
     {
-        private readonly ISupplierRepository _repository;
+        private readonly ISupplierRepository _supplierRepository;
 
         public SupplierApiController(ISupplierRepository repository)
         {
-            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _supplierRepository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
         [HttpGet]
@@ -22,7 +22,7 @@ namespace API.Controllers.Client
         {
             try
             {
-                var suppliers = await _repository.GetAllAsync();
+                var suppliers = await _supplierRepository.GetAllAsync();
                 return Ok(suppliers);
             }
             catch (Exception ex)
@@ -36,7 +36,7 @@ namespace API.Controllers.Client
         {
             try
             {
-                var suppliers = await _repository.GetByCompanyAndBranchAsync(companyId, branchId);
+                var suppliers = await _supplierRepository.GetByCompanyAndBranchAsync(companyId, branchId);
                 return Ok(suppliers);
             }
             catch (Exception ex)
@@ -50,7 +50,7 @@ namespace API.Controllers.Client
         {
             try
             {
-                var supplier = await _repository.GetByIdAsync(id);
+                var supplier = await _supplierRepository.GetByIdAsync(id);
                 if (supplier == null) return NotFound("Model not found.");
                 return Ok(supplier);
             }
@@ -67,7 +67,10 @@ namespace API.Controllers.Client
 
             try
             {
-                await _repository.AddAsync(model);
+                if (await _supplierRepository.IsExists(model))
+                    return Conflict("A supplier with the same name and contact number already exists.");
+
+                await _supplierRepository.AddAsync(model);
                 return CreatedAtAction(nameof(GetById), new { id = model.SupplierID }, model);
             }
             catch (Exception ex)
@@ -84,7 +87,10 @@ namespace API.Controllers.Client
 
             try
             {
-                await _repository.UpdateAsync(model);
+                if (await _supplierRepository.IsExists(model))
+                    return Conflict("A supplier with the same name and contact number already exists.");
+
+                await _supplierRepository.UpdateAsync(model);
                 return Ok(model);
             }
             catch (Exception ex)
@@ -98,7 +104,7 @@ namespace API.Controllers.Client
         {
             try
             {
-                var suppliers = await _repository.GetSuppliersByBranchesAsync(branchId);
+                var suppliers = await _supplierRepository.GetSuppliersByBranchesAsync(branchId);
                 return Ok(suppliers);
             }
             catch (Exception ex)

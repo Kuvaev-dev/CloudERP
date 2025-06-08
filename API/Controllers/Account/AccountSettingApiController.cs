@@ -53,6 +53,9 @@ namespace API.Controllers.Account
 
             try
             {
+                if (await _accountSettingFacade.AccountSettingRepository.IsExists(model))
+                    return Conflict("An account setting with the same details already exists.");
+
                 await _accountSettingFacade.AccountSettingRepository.AddAsync(model);
                 return CreatedAtAction(nameof(GetById), new { id = model.AccountSettingID }, model);
             }
@@ -70,6 +73,9 @@ namespace API.Controllers.Account
 
             try
             {
+                if (await _accountSettingFacade.AccountSettingRepository.IsExists(model))
+                    return Conflict("An account setting with the same details already exists.");
+
                 await _accountSettingFacade.AccountSettingRepository.UpdateAsync(model);
                 return Ok(model);
             }

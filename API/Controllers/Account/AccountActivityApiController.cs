@@ -53,6 +53,9 @@ namespace API.Controllers.Account
 
             try
             {
+                if (await _accountActivityRepository.IsExists(model))
+                    return Conflict("An account activity with the same name already exists.");
+
                 await _accountActivityRepository.AddAsync(model);
                 return CreatedAtAction(nameof(GetById), new { id = model.AccountActivityID }, model);
             }
@@ -67,6 +70,8 @@ namespace API.Controllers.Account
         {
             if (model == null) return BadRequest("Model cannot be null.");
             if (id != model.AccountActivityID) return BadRequest("ID in the request does not match the model ID.");
+            if (await _accountActivityRepository.IsExists(model))
+                return Conflict("An account activity with the same name already exists.");
 
             try
             {

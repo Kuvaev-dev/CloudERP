@@ -152,5 +152,14 @@ namespace DatabaseAccess.Repositories.Customers
             _dbContext.Entry(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
         }
+
+        public async Task<bool> IsExists(Customer customer)
+        {
+            return await _dbContext.tblCustomer
+                .AnyAsync(c => c.Customername == customer.Customername &&
+                               c.CustomerID != customer.CustomerID &&
+                               c.BranchID == customer.BranchID &&
+                               c.CompanyID == customer.CompanyID);
+        }
     }
 }

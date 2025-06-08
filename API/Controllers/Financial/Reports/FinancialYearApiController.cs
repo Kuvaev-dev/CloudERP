@@ -53,6 +53,9 @@ namespace API.Controllers.Financial.Reports
 
             try
             {
+                if (await _financialYearRepository.IsExists(model))
+                    return Conflict("A financial year with the same name already exists.");
+
                 await _financialYearRepository.AddAsync(model);
                 return CreatedAtAction(nameof(GetById), new { id = model.FinancialYearID }, model);
             }
@@ -70,6 +73,9 @@ namespace API.Controllers.Financial.Reports
 
             try
             {
+                if (await _financialYearRepository.IsExists(model))
+                    return Conflict("A financial year with the same name already exists.");
+
                 await _financialYearRepository.UpdateAsync(model);
                 return Ok(model);
             }

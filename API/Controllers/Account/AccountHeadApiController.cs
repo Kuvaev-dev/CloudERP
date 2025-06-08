@@ -53,6 +53,9 @@ namespace API.Controllers.Account
 
             try
             {
+                if (await _accountHeadRepository.IsExists(model))
+                    return Conflict("An account head with the same name already exists.");
+
                 await _accountHeadRepository.AddAsync(model);
                 return CreatedAtAction(nameof(GetById), new { id = model.AccountHeadID }, model);
             }
@@ -70,6 +73,9 @@ namespace API.Controllers.Account
 
             try
             {
+                if (await _accountHeadRepository.IsExists(model))
+                    return Conflict("An account head with the same name already exists.");
+
                 await _accountHeadRepository.UpdateAsync(model);
                 return Ok(model);
             }

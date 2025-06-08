@@ -70,6 +70,9 @@ namespace API.Controllers.Client
 
             try
             {
+                if (await _customerRepository.IsExists(model))
+                    return Conflict("A customer with the same name already exists.");
+
                 await _customerRepository.AddAsync(model);
                 return CreatedAtAction(nameof(GetById), new { id = model.CustomerID }, model);
             }
@@ -88,6 +91,9 @@ namespace API.Controllers.Client
 
             try
             {
+                if (await _customerRepository.IsExists(model))
+                    return Conflict("A customer with the same name already exists.");
+
                 await _customerRepository.UpdateAsync(model);
                 return Ok(model);
             }

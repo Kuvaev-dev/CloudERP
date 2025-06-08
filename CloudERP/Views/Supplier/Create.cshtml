@@ -92,12 +92,17 @@
     $(document).ready(function () {
         var input = document.querySelector("#PhoneNumber");
         var iti = window.intlTelInput(input, {
-            initialCountry: "@ViewBag.SelectedCountryCode",
+            initialCountry: "ua",
             separateDialCode: true,
             utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
         });
 
-        iti.setNumber("@Model.SupplierConatctNo");
+        var initialPhone = "@Model.SupplierConatctNo";
+        if (initialPhone && initialPhone.trim() !== "") {
+            iti.setNumber(initialPhone);
+        } else {
+            iti.setNumber("+380");
+        }
 
         $('form').submit(function (e) {
             var countryCode = iti.getSelectedCountryData().dialCode;

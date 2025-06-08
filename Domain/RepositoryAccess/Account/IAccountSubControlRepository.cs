@@ -9,5 +9,6 @@ namespace Domain.RepositoryAccess
         Task<AccountSubControl> GetBySettingAsync(int id, int companyId, int branchId);
         Task AddAsync(AccountSubControl entity);
         Task UpdateAsync(AccountSubControl entity);
+        Task<bool> IsExists(AccountSubControl entity);
     }
 }

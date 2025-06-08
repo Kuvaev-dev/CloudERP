@@ -8,5 +8,6 @@ namespace Domain.RepositoryAccess
         Task<Category> GetByIdAsync(int id);
         Task AddAsync(Category category);
         Task UpdateAsync(Category category);
+        Task<bool> IsExists(Category category);
     }
 }

@@ -303,5 +303,15 @@ namespace DatabaseAccess.Repositories.Employees
                          && e.RegistrationDate.Value.Year == DateTime.Now.Year)
                 .CountAsync();
         }
+
+        public async Task<bool> IsExists(Employee employee)
+        {
+            return await _dbContext.tblEmployee
+                .AnyAsync(e => e.Name == employee.FullName
+                            && e.ContactNo == employee.ContactNumber
+                            && e.Email == employee.Email
+                            && e.TIN == employee.TIN
+                            && e.EmployeeID != employee.EmployeeID);
+        }
     }
 }

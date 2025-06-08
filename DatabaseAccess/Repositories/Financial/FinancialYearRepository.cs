@@ -108,5 +108,15 @@ namespace DatabaseAccess.Repositories.Financial
             _dbContext.Entry(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
         }
+
+        public async Task<bool> IsExists(FinancialYear financialYear)
+        {
+            return await _dbContext.tblFinancialYear
+                .AnyAsync(f => f.FinancialYear == financialYear.FinancialYearName &&
+                               f.StartDate == financialYear.StartDate &&
+                               f.EndDate == financialYear.EndDate &&
+                               f.IsActive == financialYear.IsActive &&
+                               f.UserID == financialYear.UserID);
+        }
     }
 }

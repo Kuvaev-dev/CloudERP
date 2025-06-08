@@ -10,5 +10,6 @@ namespace Domain.RepositoryAccess
         Task<Customer> GetByIdAsync(int id);
         Task AddAsync(Customer customer);
         Task UpdateAsync(Customer customer);
+        Task<bool> IsExists(Customer customer);
     }
 }

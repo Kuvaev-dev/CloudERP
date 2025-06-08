@@ -115,5 +115,11 @@ namespace DatabaseAccess.Repositories.Branch
             branchIDs.Add(branchID);
             return branchIDs;
         }
+
+        public async Task<bool> IsExists(Domain.Models.Branch branch)
+        {
+            return await _dbContext.tblBranch
+                .AnyAsync(b => b.BranchName == branch.BranchName && b.CompanyID == branch.CompanyID && b.BranchID != branch.BranchID);
+        }
     }
 }

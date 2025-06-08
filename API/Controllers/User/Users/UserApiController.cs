@@ -75,6 +75,9 @@ namespace API.Controllers.User.Users
             {
                 if (model == null) return BadRequest("Model cannot be null.");
 
+                if (await _userRepository.IsExists(model))
+                    return Conflict("A user with the same email already exists.");
+
                 model.Password = _passwordHelper.HashPassword(model.Password, out string salt);
                 model.Salt = salt;
 
@@ -94,6 +97,9 @@ namespace API.Controllers.User.Users
             try
             {
                 if (model == null) return BadRequest("Model cannot be null.");
+
+                if (await _userRepository.IsExists(model))
+                    return Conflict("A user with the same email already exists.");
 
                 if (string.IsNullOrEmpty(model.Password))
                 {

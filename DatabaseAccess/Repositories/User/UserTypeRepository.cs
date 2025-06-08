@@ -59,5 +59,11 @@ namespace DatabaseAccess.Repositories.Users
             _dbContext.Entry(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
         }
+
+        public async Task<bool> IsExists(UserType userType)
+        {
+            return await _dbContext.tblUserType
+                .AnyAsync(ut => ut.UserType == userType.UserTypeName && ut.UserTypeID != userType.UserTypeID);
+        }
     }
 }

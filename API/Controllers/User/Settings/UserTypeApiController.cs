@@ -56,6 +56,9 @@ namespace API.Controllers.User.Settings
 
             try
             {
+                if (await _userTypeRepository.IsExists(model))
+                    return Conflict("A user type with the same name already exists.");
+
                 await _userTypeRepository.AddAsync(model);
                 return CreatedAtAction(nameof(GetById), new { id = model.UserTypeID }, model);
             }
@@ -74,6 +77,9 @@ namespace API.Controllers.User.Settings
 
             try
             {
+                if (await _userTypeRepository.IsExists(model))
+                    return Conflict("A user type with the same name already exists.");
+
                 await _userTypeRepository.UpdateAsync(model);
                 return Ok(model);
             }

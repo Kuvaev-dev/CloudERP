@@ -3,7 +3,7 @@ using Domain.RepositoryAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers.Stock
+namespace API.Controllers.Inventory
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
@@ -38,6 +38,9 @@ namespace API.Controllers.Stock
 
             try
             {
+                if (await _categoryRepository.IsExists(model))
+                    return Conflict("A category with the same name already exists.");
+
                 await _categoryRepository.AddAsync(model);
                 return CreatedAtAction(nameof(GetById), new { id = model.CategoryID }, model);
             }
@@ -55,6 +58,9 @@ namespace API.Controllers.Stock
 
             try
             {
+                if (await _categoryRepository.IsExists(model))
+                    return Conflict("A category with the same name already exists.");
+
                 await _categoryRepository.UpdateAsync(model);
                 return Ok(model);
             }

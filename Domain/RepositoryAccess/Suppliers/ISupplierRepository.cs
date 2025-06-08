@@ -11,5 +11,6 @@ namespace Domain.RepositoryAccess
         Task<IEnumerable<Supplier>> GetSuppliersByBranchesAsync(int branchID);
         Task AddAsync(Supplier supplier);
         Task UpdateAsync(Supplier supplier);
+        Task<bool> IsExists(Supplier supplier);
     }
 }

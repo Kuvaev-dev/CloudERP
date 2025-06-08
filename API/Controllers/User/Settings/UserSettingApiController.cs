@@ -63,9 +63,12 @@ namespace API.Controllers.User.Settings
         [HttpPut]
         public async Task<ActionResult<Domain.Models.User>> UpdateUser(Domain.Models.User user)
         {
+            if (user == null) return BadRequest("Model cannot be null.");
+
             try
             {
-                if (!ModelState.IsValid) return BadRequest("Model is invalid.");
+                if (await _userRepository.IsExists(user))
+                    return Conflict("User with the same name already exists.");
 
                 await _userRepository.UpdateAsync(user);
 

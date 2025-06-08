@@ -175,5 +175,15 @@ namespace DatabaseAccess.Repositories.Suppliers
             _dbContext.Entry(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
         }
+
+        public async Task<bool> IsExists(Supplier supplier)
+        {
+            return await _dbContext.tblSupplier
+                .AnyAsync(s => s.SupplierName == supplier.SupplierName
+                            && s.SupplierConatctNo == supplier.SupplierConatctNo
+                            && s.CompanyID == supplier.CompanyID
+                            && s.BranchID == supplier.BranchID
+                            && s.SupplierID != supplier.SupplierID);
+        }
     }
 }

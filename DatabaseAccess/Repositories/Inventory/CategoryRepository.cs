@@ -82,5 +82,14 @@ namespace DatabaseAccess.Repositories.Inventory
             _dbContext.tblCategory.Update(entity);
             await _dbContext.SaveChangesAsync();
         }
+
+        public async Task<bool> IsExists(Category category)
+        {
+            return await _dbContext.tblCategory
+                .AnyAsync(c => c.CategoryName == category.CategoryName 
+                            && c.CompanyID == category.CompanyID 
+                            && c.BranchID == category.BranchID 
+                            && c.CategoryID != category.CategoryID);
+        }
     }
 }

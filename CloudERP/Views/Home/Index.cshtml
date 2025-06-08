@@ -10,6 +10,8 @@
     string cultureCode = HttpContextAccessor.HttpContext?.Features.Get<IRequestCultureFeature>()?.RequestCulture.Culture.Name ?? "en-US";
     System.Globalization.CultureInfo cultureInfo = new(cultureCode);
     string currentMonth = currentDate.ToString("MMMM", cultureInfo);
+    var selectedCurrency = HttpContextAccessor.HttpContext?.Session.GetString("SelectedCurrency") ?? "UAH";
+    var currencyRates = ViewBag.Currencies as Dictionary<string, decimal> ?? new();
 }
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -32,8 +34,10 @@
                         </div>
                         <div class="col-8 py-3 bg-primary rounded-right">
                             <div class="mt-0">
-                                <div class="h3 d-inline">@Html.DisplayFor(model => Model.CurrentMonthRevenue)</div>
-                                <div class="h4 d-inline">&nbsp;@Common.UAH</div>
+                                <div class="h3 d-inline">
+                                    <span class="amount-to-convert" data-original="@Model.CurrentMonthRevenue">@Model.CurrentMonthRevenue</span>
+                                    <span class="currency-symbol">@Common.UAH</span>
+                                </div>
                             </div>
                             <div class="mt-3">@Html.Raw(Miscellaneous.CurrentMonthRevenue)</div>
                         </div>
@@ -473,178 +477,199 @@
     </div>
 </body>
 <script>
-    const localizedLabels = {
-        miscellaneous: {
-            totalSales: '@Html.Raw(Miscellaneous.TotalSales)',
-            returnSales: '@Html.Raw(Miscellaneous.ReturnSales)',
-            paidSales: '@Html.Raw(Miscellaneous.PaidSales)',
-            totalPurchases: '@Html.Raw(Miscellaneous.TotalPurchases)',
-            returnPurchases: '@Html.Raw(Miscellaneous.ReturnPurchases)',
-            paidPurchases: '@Html.Raw(Miscellaneous.PaidPurchases)'
-        }
-    };
-
-    // Graph for Total Sales Today
-    var salesChartCtx = document.getElementById('todaySalesChart').getContext('2d');
-    var salesTotal = @Model.TotalSalesToday;
-    var salesReturn = @Model.TotalReturnSalesToday;
-    var salesPaid = salesTotal - salesReturn;
-
-    var salesChart = new Chart(salesChartCtx, {
-        type: 'bar',
-        data: {
-            labels: [
-                localizedLabels.miscellaneous.totalSales,
-                localizedLabels.miscellaneous.returnSales,
-                localizedLabels.miscellaneous.paidSales
-            ],
-            datasets: [{
-                data: [salesTotal, salesReturn, salesPaid],
-                backgroundColor: ['#36a2eb', '#ffcd56', '#ff6384'],
-                borderColor: ['#36a2eb', '#ffcd56', '#ff6384'],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    display: false
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
+    $(document).ready(function () {
+        const localizedLabels = {
+            miscellaneous: {
+                totalSales: '@Html.Raw(Miscellaneous.TotalSales)',
+                returnSales: '@Html.Raw(Miscellaneous.ReturnSales)',
+                paidSales: '@Html.Raw(Miscellaneous.PaidSales)',
+                totalPurchases: '@Html.Raw(Miscellaneous.TotalPurchases)',
+                returnPurchases: '@Html.Raw(Miscellaneous.ReturnPurchases)',
+                paidPurchases: '@Html.Raw(Miscellaneous.PaidPurchases)'
             }
-        }
-    });
+        };
 
-    // Graph for Total Purchases Today
-    var purchasesChartCtx = document.getElementById('todayPurchasesChart').getContext('2d');
-    var purchasesTotal = @Model.TotalPurchasesToday;
-    var purchasesReturn = @Model.TotalReturnPurchasesToday;
-    var purchasesPaid = purchasesTotal - purchasesReturn;
+        // Graph for Total Sales Today
+        var salesChartCtx = document.getElementById('todaySalesChart').getContext('2d');
+        var salesTotal = @Model.TotalSalesToday;
+        var salesReturn = @Model.TotalReturnSalesToday;
+        var salesPaid = salesTotal - salesReturn;
 
-    var purchasesChart = new Chart(purchasesChartCtx, {
-        type: 'bar',
-        data: {
-            labels: [
-                localizedLabels.miscellaneous.totalPurchases,
-                localizedLabels.miscellaneous.returnPurchases,
-                localizedLabels.miscellaneous.paidPurchases
-            ],
-            datasets: [{
-                data: [purchasesTotal, purchasesReturn, purchasesPaid],
-                backgroundColor: ['#36a2eb', '#ffcd56', '#ff6384'],
-                borderColor: ['#36a2eb', '#ffcd56', '#ff6384'],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    display: false
-                }
+        var salesChart = new Chart(salesChartCtx, {
+            type: 'bar',
+            data: {
+                labels: [
+                    localizedLabels.miscellaneous.totalSales,
+                    localizedLabels.miscellaneous.returnSales,
+                    localizedLabels.miscellaneous.paidSales
+                ],
+                datasets: [{
+                    data: [salesTotal, salesReturn, salesPaid],
+                    backgroundColor: ['#36a2eb', '#ffcd56', '#ff6384'],
+                    borderColor: ['#36a2eb', '#ffcd56', '#ff6384'],
+                    borderWidth: 1
+                }]
             },
-            scales: {
-                y: {
-                    beginAtZero: true
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
                 }
-            }
-        }
-    });
-
-    // Graph for Total Sales Current Month
-    var salesChartMonthCtx = document.getElementById('currentMonthSalesChart').getContext('2d');
-    var salesTotalMonth = @Model.TotalSalesCurrentMonth;
-    var salesReturnMonth = @Model.TotalReturnSalesCurrentMonth;
-    var salesPaidMonth = salesTotalMonth - salesReturnMonth;
-
-    var salesChartMonth = new Chart(salesChartMonthCtx, {
-        type: 'bar',
-        data: {
-            labels: [
-                localizedLabels.miscellaneous.totalSales,
-                localizedLabels.miscellaneous.returnSales,
-                localizedLabels.miscellaneous.paidSales
-            ],
-            datasets: [{
-                data: [salesTotalMonth, salesReturnMonth, salesPaidMonth],
-                backgroundColor: ['#36a2eb', '#ffcd56', '#ff6384'],
-                borderColor: ['#36a2eb', '#ffcd56', '#ff6384'],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    display: false
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-
-    // Graph for Total Purchases Current Month
-    var purchasesChartMonthCtx = document.getElementById('currentMonthPurchasesChart').getContext('2d');
-    var purchasesTotalMonth = @Model.TotalPurchasesCurrentMonth;
-    var purchasesReturnMonth = @Model.TotalReturnPurchasesCurrentMonth;
-    var purchasesPaidMonth = purchasesTotalMonth - purchasesReturnMonth;
-
-    var purchasesChartMonth = new Chart(purchasesChartMonthCtx, {
-        type: 'bar',
-        data: {
-            labels: [
-                localizedLabels.miscellaneous.totalPurchases,
-                localizedLabels.miscellaneous.returnPurchases,
-                localizedLabels.miscellaneous.paidPurchases
-            ],
-            datasets: [{
-                data: [purchasesTotalMonth, purchasesReturnMonth, purchasesPaidMonth],
-                backgroundColor: ['#36a2eb', '#ffcd56', '#ff6384'],
-                borderColor: ['#36a2eb', '#ffcd56', '#ff6384'],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    display: false
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-
-    function adjustFontSize() {
-        const container = document.querySelectorAll('.responsive-text-container');
-        container.forEach(element => {
-            const textElement = element.querySelector('.responsive-text');
-            let fontSize = parseFloat(window.getComputedStyle(textElement).fontSize);
-
-            while (textElement.scrollWidth > element.clientWidth && fontSize > 0) {
-                fontSize -= 1;
-                textElement.style.fontSize = fontSize + 'px';
             }
         });
-    }
 
-    window.addEventListener('load', adjustFontSize);
-    window.addEventListener('resize', adjustFontSize);
+        // Graph for Total Purchases Today
+        var purchasesChartCtx = document.getElementById('todayPurchasesChart').getContext('2d');
+        var purchasesTotal = @Model.TotalPurchasesToday;
+        var purchasesReturn = @Model.TotalReturnPurchasesToday;
+        var purchasesPaid = purchasesTotal - purchasesReturn;
 
-    function printPage() {
-        window.print();
-    }
+        var purchasesChart = new Chart(purchasesChartCtx, {
+            type: 'bar',
+            data: {
+                labels: [
+                    localizedLabels.miscellaneous.totalPurchases,
+                    localizedLabels.miscellaneous.returnPurchases,
+                    localizedLabels.miscellaneous.paidPurchases
+                ],
+                datasets: [{
+                    data: [purchasesTotal, purchasesReturn, purchasesPaid],
+                    backgroundColor: ['#36a2eb', '#ffcd56', '#ff6384'],
+                    borderColor: ['#36a2eb', '#ffcd56', '#ff6384'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Graph for Total Sales Current Month
+        var salesChartMonthCtx = document.getElementById('currentMonthSalesChart').getContext('2d');
+        var salesTotalMonth = @Model.TotalSalesCurrentMonth;
+        var salesReturnMonth = @Model.TotalReturnSalesCurrentMonth;
+        var salesPaidMonth = salesTotalMonth - salesReturnMonth;
+
+        var salesChartMonth = new Chart(salesChartMonthCtx, {
+            type: 'bar',
+            data: {
+                labels: [
+                    localizedLabels.miscellaneous.totalSales,
+                    localizedLabels.miscellaneous.returnSales,
+                    localizedLabels.miscellaneous.paidSales
+                ],
+                datasets: [{
+                    data: [salesTotalMonth, salesReturnMonth, salesPaidMonth],
+                    backgroundColor: ['#36a2eb', '#ffcd56', '#ff6384'],
+                    borderColor: ['#36a2eb', '#ffcd56', '#ff6384'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Graph for Total Purchases Current Month
+        var purchasesChartMonthCtx = document.getElementById('currentMonthPurchasesChart').getContext('2d');
+        var purchasesTotalMonth = @Model.TotalPurchasesCurrentMonth;
+        var purchasesReturnMonth = @Model.TotalReturnPurchasesCurrentMonth;
+        var purchasesPaidMonth = purchasesTotalMonth - purchasesReturnMonth;
+
+        var purchasesChartMonth = new Chart(purchasesChartMonthCtx, {
+            type: 'bar',
+            data: {
+                labels: [
+                    localizedLabels.miscellaneous.totalPurchases,
+                    localizedLabels.miscellaneous.returnPurchases,
+                    localizedLabels.miscellaneous.paidPurchases
+                ],
+                datasets: [{
+                    data: [purchasesTotalMonth, purchasesReturnMonth, purchasesPaidMonth],
+                    backgroundColor: ['#36a2eb', '#ffcd56', '#ff6384'],
+                    borderColor: ['#36a2eb', '#ffcd56', '#ff6384'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        function adjustFontSize() {
+            const container = document.querySelectorAll('.responsive-text-container');
+            container.forEach(element => {
+                const textElement = element.querySelector('.responsive-text');
+                let fontSize = parseFloat(window.getComputedStyle(textElement).fontSize);
+
+                while (textElement.scrollWidth > element.clientWidth && fontSize > 0) {
+                    fontSize -= 1;
+                    textElement.style.fontSize = fontSize + 'px';
+                }
+            });
+        }
+
+        window.addEventListener('load', adjustFontSize);
+        window.addEventListener('resize', adjustFontSize);
+
+        function printPage() {
+            window.print();
+        }
+
+        const currencyRates = @Html.Raw(Json.Serialize(currencyRates));
+        const selectedCurrency = '@selectedCurrency';
+        const defaultCurrency = 'UAH';
+
+        function convertCurrency() {
+            $(".amount-to-convert").each(function () {
+                const original = parseFloat($(this).data("original"));
+                const rate = currencyRates[selectedCurrency] || 1;
+                if (!isNaN(original)) {
+                    const converted = (original / rate).toFixed(2);
+                    $(this).text(converted);
+                }
+            });
+
+            $(".currency-symbol").text(selectedCurrency);
+        }
+
+        convertCurrency();
+    });
 </script>

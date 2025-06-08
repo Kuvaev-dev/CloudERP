@@ -171,5 +171,11 @@ namespace DatabaseAccess.Repositories.Users
                 IsActive = entity.IsActive
             };
         }
+
+        public async Task<bool> IsExists(User user)
+        {
+            return await _dbContext.tblUser
+                .AnyAsync(u => u.Email == user.Email && u.UserID != user.UserID);
+        }
     }
 }

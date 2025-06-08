@@ -60,6 +60,9 @@ namespace API.Controllers.Account
 
             try
             {
+                if (await _accountSubControlRepository.IsExists(model))
+                    return Conflict("An account sub-control with the same name already exists.");
+
                 await _accountSubControlRepository.AddAsync(model);
                 return CreatedAtAction(nameof(GetById), new { id = model.AccountSubControlID }, model);
             }
@@ -77,6 +80,9 @@ namespace API.Controllers.Account
 
             try
             {
+                if (await _accountSubControlRepository.IsExists(model))
+                    return Conflict("An account sub-control with the same name already exists.");
+
                 await _accountSubControlRepository.UpdateAsync(model);
                 return Ok(model);
             }

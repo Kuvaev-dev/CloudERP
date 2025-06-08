@@ -10,5 +10,6 @@ namespace Domain.RepositoryAccess
         Task<Branch> GetByIdAsync(int id);
         Task AddAsync(Branch branch);
         Task UpdateAsync(Branch branch);
+        Task<bool> IsExists(Branch branch);
     }
 }

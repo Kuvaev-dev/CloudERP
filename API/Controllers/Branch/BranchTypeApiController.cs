@@ -53,6 +53,9 @@ namespace API.Controllers.Branch
 
             try
             {
+                if (await _branchTypeRepository.IsExists(model))
+                    return Conflict("A branch type with the same name already exists.");
+
                 await _branchTypeRepository.AddAsync(model);
                 return CreatedAtAction(nameof(GetById), new { id = model.BranchTypeID }, model);
             }
@@ -70,6 +73,9 @@ namespace API.Controllers.Branch
 
             try
             {
+                if (await _branchTypeRepository.IsExists(model))
+                    return Conflict("A branch type with the same name already exists.");
+
                 await _branchTypeRepository.UpdateAsync(model);
                 return Ok(model);
             }

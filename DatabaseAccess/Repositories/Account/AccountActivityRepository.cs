@@ -53,6 +53,12 @@ namespace DatabaseAccess.Repositories.Account
             };
         }
 
+        public async Task<bool> IsExists(AccountActivity accountActivity)
+        {
+            return await _dbContext.tblAccountActivity
+                .AnyAsync(a => a.Name == accountActivity.Name && a.AccountActivityID != accountActivity.AccountActivityID);
+        }
+
         public async Task UpdateAsync(AccountActivity accountActivity)
         {
             var entity = await _dbContext.tblAccountActivity.FindAsync(accountActivity.AccountActivityID);

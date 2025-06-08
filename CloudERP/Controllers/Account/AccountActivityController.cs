@@ -55,8 +55,6 @@ namespace CloudERP.Controllers.Account
             {
                 var success = await _httpClient.PostAsync("accountactivityapi/create", model);
                 if (success) return RedirectToAction("Index");
-
-                TempData["ErrorMessage"] = "Error Creating a New Record";
                 return View(model);
             }
             catch (Exception ex)
@@ -74,7 +72,8 @@ namespace CloudERP.Controllers.Account
             try
             {
                 var accountActivity = await _httpClient.GetAsync<AccountActivity>($"accountactivityapi/getbyid?id={id}");
-                if (accountActivity == null) return NotFound();
+                if (accountActivity == null) 
+                    return RedirectToAction("EP404", "EP");
 
                 return View(accountActivity);
             }
@@ -98,8 +97,6 @@ namespace CloudERP.Controllers.Account
             {
                 var success = await _httpClient.PutAsync($"accountactivityapi/update?id={model.AccountActivityID}", model);
                 if (success) return RedirectToAction("Index");
-
-                TempData["ErrorMessage"] = "Error Updating a Record";
                 return View(model);
             }
             catch (Exception ex)
