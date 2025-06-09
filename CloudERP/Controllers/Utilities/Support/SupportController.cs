@@ -55,12 +55,12 @@ namespace CloudERP.Controllers.Utilities.Support
 
                 if (ModelState.IsValid)
                 {
-                    await _httpClient.PostAsync("supportapi/create", model);
+                    await _httpClient.PostAsync("supportapi/submitticket", model);
                     ViewBag.Message = Localization.CloudERP.Messages.Messages.SupportRequestSubmitted;
 
                     ViewBag.UserTickets = userTickets;
 
-                    return View("Support", new SupportTicket());
+                    return View();
                 }
 
                 ViewBag.UserTickets = userTickets;

@@ -48,12 +48,6 @@ namespace CloudERP.Controllers.Financial.Reports
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            if (!id.HasValue)
-            {
-                ViewBag.ErrorMessage = Localization.CloudERP.Messages.Messages.InvalidFinancialYearID;
-                return View(new BalanceSheetModel());
-            }
-
             try
             {
                 await PopulateViewBag();
@@ -94,12 +88,6 @@ namespace CloudERP.Controllers.Financial.Reports
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
-
-            if (!id.HasValue)
-            {
-                ViewBag.ErrorMessage = Localization.CloudERP.Messages.Messages.InvalidFinancialYearID;
-                return View(new BalanceSheetModel());
-            }
 
             try
             {

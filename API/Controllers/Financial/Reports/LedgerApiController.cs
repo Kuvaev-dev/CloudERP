@@ -1,4 +1,5 @@
-﻿using Domain.Models.FinancialModels;
+﻿using Domain.Models;
+using Domain.Models.FinancialModels;
 using Domain.RepositoryAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -26,15 +27,14 @@ namespace API.Controllers.Financial.Reports
         {
             try
             {
-                await PopulateViewBag();
+                var financialYear = await GetActiveAsync();
 
-                var defaultFinancialYear = await _financialYearRepository.GetSingleActiveAsync();
-                if (defaultFinancialYear != null)
-                {
-                    return Ok(await _ledgerRepository.GetLedgerAsync(companyId, branchId, defaultFinancialYear.FinancialYearID));
-                }
+                var ledger = await _ledgerRepository.GetLedgerAsync(
+                    companyId, 
+                    branchId, 
+                    financialYear.FinancialYearID);
 
-                return Ok(new List<AccountLedgerModel>());
+                return Ok(ledger);
             }
             catch (Exception ex)
             {
@@ -47,9 +47,12 @@ namespace API.Controllers.Financial.Reports
         {
             try
             {
-                await PopulateViewBag(financialYearId);
+                var ledger = await _ledgerRepository.GetLedgerAsync(
+                   companyId,
+                   branchId,
+                   financialYearId);
 
-                return Ok(await _ledgerRepository.GetLedgerAsync(companyId, branchId, financialYearId));
+                return Ok(ledger);
             }
             catch (Exception ex)
             {
@@ -57,9 +60,6 @@ namespace API.Controllers.Financial.Reports
             }
         }
 
-        private async Task PopulateViewBag(int? selectedId = null)
-        {
-            var financialYears = await _financialYearRepository.GetAllActiveAsync();
-        }
+        private async Task<FinancialYear> GetActiveAsync() => await _financialYearRepository.GetSingleActiveAsync();
     }
 }

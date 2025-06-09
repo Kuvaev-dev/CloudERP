@@ -72,6 +72,5 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const voiceRecognitionButton = document.getElementById('voiceRecognitionButton');
     voiceRecognitionButton.addEventListener('click', toggleVoiceRecognition);
 
-    // Initialize recognition with culture parameter
-    initializeRecognition(window.Culture);
+    initializeRecognition(window.Culture || 'uk-UA');
 });

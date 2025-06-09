@@ -49,7 +49,7 @@ namespace CloudERP.Controllers.Financial.Reports
 
             try
             {
-                await PopulateViewBag(id);
+                await PopulateViewBag();
 
                 var trialBalance = await _httpClient.GetAsync<IEnumerable<BalanceSheetModel>>(
                     $"trialbalanceapi/gettrialbalancebyfinancialyear?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&financialYearId={id}");
@@ -93,7 +93,7 @@ namespace CloudERP.Controllers.Financial.Reports
 
             try
             {
-                await PopulateViewBag(id);
+                await PopulateViewBag();
 
                 var trialBalance = await _httpClient.GetAsync<IEnumerable<BalanceSheetModel>>(
                     $"trialbalanceapi/gettrialbalancebyfinancialyear?companyId={_sessionHelper.CompanyID}&branchId={id}&financialYearId={FinancialYearID}");
@@ -107,7 +107,7 @@ namespace CloudERP.Controllers.Financial.Reports
             }
         }
 
-        private async Task PopulateViewBag(int? selectedId = null)
+        private async Task PopulateViewBag()
         {
             ViewBag.FinancialYears = new SelectList(await _httpClient.GetAsync<IEnumerable<FinancialYear>>(
                     "financialyearapi/getall"), "FinancialYearID", "FinancialYearName");

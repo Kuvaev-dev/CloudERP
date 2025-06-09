@@ -26,10 +26,10 @@ namespace API.Controllers.Utilities
         }
 
         [HttpPost]
-        public async Task<ActionResult<string>> SubmitTicket([FromBody] SupportTicket model)
+        public async Task<ActionResult> SubmitTicket([FromBody] SupportTicket model)
         {
             await _supportTicketRepository.AddAsync(model);
-            return Ok(new { message = "Заявка успешно отправлена" });
+            return Ok();
         }
 
         [HttpGet]
@@ -40,19 +40,27 @@ namespace API.Controllers.Utilities
             return Ok(tickets);
         }
 
+        [HttpGet]
+        public async Task<ActionResult<SupportTicket>> GetById(int id)
+        {
+            var ticket = await _supportTicketRepository.GetByIdAsync(id);
+            if (ticket == null) return NotFound();
+            return Ok(ticket);
+        }
+
         [HttpPost]
-        public async Task<ActionResult<string>> ResolveTicket(int id, [FromBody] string responseMessage)
+        public async Task<ActionResult> ResolveTicket(int id, [FromBody] SupportTicket supportTicket)
         {
             var ticket = await _supportTicketRepository.GetByIdAsync(id);
             if (ticket == null) return NotFound();
 
-            ticket.AdminResponse = responseMessage;
-            ticket.RespondedBy = "Admin";
-            ticket.ResponseDate = DateTime.Now;
-            ticket.IsResolved = true;
+            ticket.AdminResponse = supportTicket.AdminResponse;
+            ticket.RespondedBy = supportTicket.RespondedBy;
+            ticket.ResponseDate = supportTicket.ResponseDate;
+            ticket.IsResolved = supportTicket.IsResolved;
 
             await _supportTicketRepository.UpdateAsync(ticket);
-            return Ok(new { message = "Тикет успешно обработан" });
+            return Ok();
         }
     }
 }

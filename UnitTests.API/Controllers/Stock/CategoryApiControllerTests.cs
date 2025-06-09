@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using API.Controllers.Inventory;
+using Domain.Models;
 using Domain.RepositoryAccess;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
