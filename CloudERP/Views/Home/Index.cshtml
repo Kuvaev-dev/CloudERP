@@ -36,7 +36,7 @@
                         <div class="col-8 py-3 bg-primary rounded-right">
                             <div class="mt-0">
                                 <div class="h3 d-inline">
-                                    <span class="h3 amount-to-convert" data-original="@Model.CurrentMonthRevenue">@Model.CurrentMonthRevenue</span>
+                                    <div class="h3 d-inline">@Html.DisplayFor(model => Model.CurrentMonthRevenue)</div>
                                     <span class="h4 currency-symbol">@Common.UAH</span>
                                 </div>
                             </div>
@@ -471,7 +471,7 @@
                     </div>
                 </div>
             </div>
-            <button class="btn btn-link" type="button" onclick="printPage()">
+            <button class="btn btn-link" type="button" onclick="window.print();">
                 <i class="fa fa-print" style="font-size: 1.5em; color: gray;"></i>
             </button>
         </div>
@@ -649,10 +649,6 @@
 
         window.addEventListener('load', adjustFontSize);
         window.addEventListener('resize', adjustFontSize);
-
-        function printPage() {
-            window.print();
-        }
 
         const currencyRates = @Html.Raw(Json.Serialize(currencyRates));
         const selectedCurrency = '@selectedCurrency';

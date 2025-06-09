@@ -187,10 +187,10 @@
     <value>Оплачено за продажі</value>
   </data>
   <data name="PurchasesPaymentPaid" xml:space="preserve">
-    <value>Оплачено за закупівлі</value>
+    <value>Оплачено за закупівлею</value>
   </data>
   <data name="ReturnSalesReturnPurchases" xml:space="preserve">
-    <value>Повернення продажів / Закупівель</value>
+    <value>Повернено продажів / Закупівель</value>
   </data>
   <data name="TotalReturnSales" xml:space="preserve">
     <value>Загалом повернено продажів</value>
