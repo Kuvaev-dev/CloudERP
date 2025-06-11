@@ -2,6 +2,7 @@
 using Domain.UtilsAccess;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Localization.CloudERP.Messages;
 
 namespace CloudERP.Controllers.Account
 {
@@ -31,7 +32,7 @@ namespace CloudERP.Controllers.Account
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -48,7 +49,7 @@ namespace CloudERP.Controllers.Account
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -60,6 +61,8 @@ namespace CloudERP.Controllers.Account
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
+            if (!ModelState.IsValid) return View(model);
+
             try
             {
                 model.CompanyID = _sessionHelper.CompanyID;
@@ -67,11 +70,9 @@ namespace CloudERP.Controllers.Account
                 model.UserID = _sessionHelper.UserID;
                 model.IsGlobal = false;
 
-                if (ModelState.IsValid)
-                {
-                    await _httpClient.PostAsync("accountsettingapi/create", model);
-                    return RedirectToAction("Index");
-                }
+                var success = await _httpClient.PostAsync("accountsettingapi/create", model);
+                if (success) return RedirectToAction("Index");
+                else ViewBag.ErrorMessage = Messages.AlreadyExists;
 
                 await PopulateDropdownsAsync();
 
@@ -79,7 +80,7 @@ namespace CloudERP.Controllers.Account
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -102,7 +103,7 @@ namespace CloudERP.Controllers.Account
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -114,13 +115,13 @@ namespace CloudERP.Controllers.Account
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
+            if (!ModelState.IsValid) return View(model);
+
             try
             {
-                if (ModelState.IsValid)
-                {
-                    await _httpClient.PutAsync($"accountsettingapi/update?id={model.AccountSettingID}", model);
-                    return RedirectToAction("Index");
-                }
+                var success = await _httpClient.PutAsync($"accountsettingapi/update?id={model.AccountSettingID}", model);
+                if (success) return RedirectToAction("Index");
+                else ViewBag.ErrorMessage = Messages.AlreadyExists;
 
                 await PopulateDropdownsAsync(model);
 
@@ -128,7 +129,7 @@ namespace CloudERP.Controllers.Account
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

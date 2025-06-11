@@ -1,6 +1,7 @@
 ﻿using Domain.Models;
 using Domain.UtilsAccess;
 using Microsoft.AspNetCore.Mvc;
+using Localization.CloudERP.Messages;
 
 namespace CloudERP.Controllers.Purchase.Payment
 {
@@ -32,7 +33,7 @@ namespace CloudERP.Controllers.Purchase.Payment
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -51,7 +52,7 @@ namespace CloudERP.Controllers.Purchase.Payment
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -76,7 +77,7 @@ namespace CloudERP.Controllers.Purchase.Payment
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -97,15 +98,13 @@ namespace CloudERP.Controllers.Purchase.Payment
                     PaymentAmount = paymentAmount
                 };
 
-                bool isSuccess = await _httpClient.PostAsync("purchasepaymentreturnapi/processreturnamount", returnAmountDto);
-
-                HttpContext.Session.SetString("Message", isSuccess ? "Payment processed successfully" : "Payment processing failed");
+                await _httpClient.PostAsync("purchasepaymentreturnapi/processreturnamount", returnAmountDto);
 
                 return RedirectToAction("AllPurchasesPendingPayment");
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

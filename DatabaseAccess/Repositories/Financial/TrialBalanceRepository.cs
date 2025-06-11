@@ -20,7 +20,7 @@ namespace DatabaseAccess.Repositories.Financial
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
-        public async Task<List<TrialBalanceModel>> GetTrialBalanceAsync(int branchId, int companyId, int financialYearId)
+        public async Task<List<TrialBalanceModel>> GetTrialBalanceAsync(int companyId, int branchId, int financialYearId)
         {
             var trialBalance = new List<TrialBalanceModel>();
 

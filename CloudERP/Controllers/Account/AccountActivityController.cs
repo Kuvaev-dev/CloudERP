@@ -1,6 +1,7 @@
 ﻿using Domain.Models;
 using Domain.UtilsAccess;
 using Microsoft.AspNetCore.Mvc;
+using Localization.CloudERP.Messages;
 
 namespace CloudERP.Controllers.Account
 {
@@ -29,7 +30,7 @@ namespace CloudERP.Controllers.Account
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("Error", "Home");
             }
         }
@@ -54,12 +55,14 @@ namespace CloudERP.Controllers.Account
             try
             {
                 var success = await _httpClient.PostAsync("accountactivityapi/create", model);
-                if (success) return RedirectToAction("Index");
+                if (success) return RedirectToAction("Index"); 
+                else ViewBag.ErrorMessage = Messages.AlreadyExists; 
+                
                 return View(model);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("Error", "Home");
             }
         }
@@ -72,14 +75,13 @@ namespace CloudERP.Controllers.Account
             try
             {
                 var accountActivity = await _httpClient.GetAsync<AccountActivity>($"accountactivityapi/getbyid?id={id}");
-                if (accountActivity == null) 
-                    return RedirectToAction("EP404", "EP");
+                if (accountActivity == null) return RedirectToAction("EP404", "EP");
 
                 return View(accountActivity);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("Error", "Home");
             }
         }
@@ -97,11 +99,13 @@ namespace CloudERP.Controllers.Account
             {
                 var success = await _httpClient.PutAsync($"accountactivityapi/update?id={model.AccountActivityID}", model);
                 if (success) return RedirectToAction("Index");
+                else ViewBag.ErrorMessage = Messages.AlreadyExists;
+
                 return View(model);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("Error", "Home");
             }
         }

@@ -100,10 +100,11 @@ namespace DatabaseAccess.Repositories.Account
                 .Include(a => a.AccountHead)
                 .Include(a => a.AccountControl)
                 .Include(a => a.User)
-                .FirstOrDefaultAsync(a =>
-                    a.AccountSubControlID == id &&
-                    a.CompanyID == companyId &&
-                    a.BranchID == branchId);
+                .FirstOrDefaultAsync(a => a.AccountSubControlID == id &&
+                (
+                    (a.CompanyID == companyId && a.BranchID == branchId)
+                    || a.IsGlobal == true
+                ));
 
             return entity == null ? null : new AccountSubControl
             {

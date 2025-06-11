@@ -35,12 +35,15 @@ namespace API
             });
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy("AllowLocalhostFrontend",
+                options.AddPolicy("AllowFrontend",
                     policy =>
                     {
-                        policy.WithOrigins("https://localhost:44328")
-                              .AllowAnyHeader()
-                              .AllowAnyMethod();
+                        policy.WithOrigins(
+                            "https://localhost:44328",                         
+                            "https://clouderpfrontend.azurewebsites.net"       
+                        )
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
                     });
             });
 
@@ -67,7 +70,7 @@ namespace API
                 app.MapOpenApi();
             }
 
-            app.UseCors("AllowLocalhostFrontend");
+            app.UseCors("AllowFrontend");
 
             app.UseHttpsRedirection();
 

@@ -2,6 +2,7 @@
 using Domain.Models;
 using Domain.UtilsAccess;
 using Microsoft.AspNetCore.Mvc;
+using Localization.CloudERP.Messages;
 
 namespace CloudERP.Controllers.Purchase.Cart
 {
@@ -29,7 +30,7 @@ namespace CloudERP.Controllers.Purchase.Cart
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -54,7 +55,7 @@ namespace CloudERP.Controllers.Purchase.Cart
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -95,7 +96,7 @@ namespace CloudERP.Controllers.Purchase.Cart
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

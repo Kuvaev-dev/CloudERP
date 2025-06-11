@@ -38,7 +38,7 @@
                         <img src="@Url.Content(Model.CompanyLogo)" class="img-fluid" style="max-width: 50px; height: auto;" />
                     </div>
                     <div class="col-xl-4 col-7 br py-2">
-                        <h4>@Branch.BranchName</h4>
+                        <h4>@Supplier.BranchTitle</h4>
                         <hr />
                         <h4>@Model.BranchName</h4>
                         <h5>@Localization.CloudERP.Modules.User.User.ContactNo: @Model.BranchContact</h5>
@@ -131,7 +131,10 @@
                 }
 
                 <hr class="d-print-none">
-                <button class="btn btn-secondary" type="button" onclick="window.print();">@Sale.PrintInvoice</button>
+                <div class="btn btn-group">
+                    <button class="btn btn-secondary" type="button" onclick="window.print();">@Sale.PrintInvoice</button>
+                    @Html.ActionLink(Common.Back, "NewSale", "SaleCart", null, new { @class = "btn btn-secondary" })
+                </div>
             </div>
         </div>
     </div>

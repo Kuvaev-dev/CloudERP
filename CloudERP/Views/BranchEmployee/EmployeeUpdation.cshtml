@@ -16,10 +16,10 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal" style="width:100%;">
-        <h3 class="text-danger">@ViewBag.Message</h3>
-        <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
-
+        <h5 class="text-danger">@ViewBag.Message</h5>
+        <h5 class="text-danger">@ViewBag.ErrorMessage</h5>
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
         @Html.HiddenFor(model => model.EmployeeID)
 
         <div class="form-group">

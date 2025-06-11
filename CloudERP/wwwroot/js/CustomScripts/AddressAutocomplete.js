@@ -3,7 +3,7 @@
         var query = $(this).val();
         if (query.length > 2) {
             $.ajax({
-                url: 'https://localhost:44311/api/addressapi/autocomplete',
+                url: 'https://clouderpapi.azurewebsites.net/api/addressapi/autocomplete',
                 data: { query: query },
                 dataType: 'json',
                 success: function (data) {

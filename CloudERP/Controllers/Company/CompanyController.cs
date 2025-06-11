@@ -85,14 +85,8 @@ namespace CloudERP.Controllers.Company
                         model.Logo = await _imageUploadHelper.UploadImageAsync(logo, COMPANY_LOGO_FOLDER);
 
                     var response = await _httpClient.PostAsync("companyapi/create", model);
-                    if (response)
-                    {
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("", "Failed to create company.");
-                    }
+                    if (response) return RedirectToAction("Index");
+                    else ModelState.AddModelError("", "Failed to create company.");
                 }
 
                 return View(model);
@@ -142,6 +136,7 @@ namespace CloudERP.Controllers.Company
 
                     var response = await _httpClient.PutAsync("companyapi/update", model);
                     if (response) return RedirectToAction("Index");
+                    else ModelState.AddModelError("", "Failed to create company.");
                 }
 
                 return View(model);

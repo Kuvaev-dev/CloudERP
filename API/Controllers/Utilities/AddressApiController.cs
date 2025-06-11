@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 
 namespace API.Controllers.Utilities
 {
@@ -27,7 +27,8 @@ namespace API.Controllers.Utilities
             try
             {
                 using var client = new HttpClient();
-                var response = await client.GetAsync($"{_apiUrl}/autocomplete?text={query}&apiKey={_apiKey}");
+                var encodedQuery = Uri.EscapeDataString(query);
+                var response = await client.GetAsync($"{_apiUrl}/geocode/autocomplete?text={encodedQuery}&apiKey={_apiKey}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -52,7 +53,12 @@ namespace API.Controllers.Utilities
             try
             {
                 using var client = new HttpClient();
-                var response = await client.GetAsync($"{_apiUrl}/reverse?lat={latitude}&lon={longitude}&apiKey={_apiKey}");
+
+                var latStr = latitude.ToString(CultureInfo.InvariantCulture);
+                var lonStr = longitude.ToString(CultureInfo.InvariantCulture);
+
+                var url = $"{_apiUrl}/geocode/reverse?lat={latStr}&lon={lonStr}&apiKey={_apiKey}";
+                var response = await client.GetAsync(url);
 
                 if (response.IsSuccessStatusCode)
                 {

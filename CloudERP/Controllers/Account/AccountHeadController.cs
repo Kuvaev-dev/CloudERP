@@ -1,6 +1,7 @@
 ﻿using Domain.Models;
 using Domain.UtilsAccess;
 using Microsoft.AspNetCore.Mvc;
+using Localization.CloudERP.Messages;
 
 namespace CloudERP.Controllers.Account
 {
@@ -29,7 +30,7 @@ namespace CloudERP.Controllers.Account
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("Error", "Home");
             }
         }
@@ -57,12 +58,13 @@ namespace CloudERP.Controllers.Account
 
                 var success = await _httpClient.PostAsync("accountheadapi/create", model);
                 if (success) return RedirectToAction("Index");
+                else ViewBag.ErrorMessage = Messages.AlreadyExists;
 
                 return View(model);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("Error", "Home");
             }
         }
@@ -81,7 +83,7 @@ namespace CloudERP.Controllers.Account
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("Error", "Home");
             }
         }
@@ -101,12 +103,13 @@ namespace CloudERP.Controllers.Account
 
                 var success = await _httpClient.PutAsync($"accountheadapi/update?id={model.AccountHeadID}", model);
                 if (success) return RedirectToAction("Index");
+                else ViewBag.ErrorMessage = Messages.AlreadyExists;
 
                 return View(model);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("Error", "Home");
             }
         }

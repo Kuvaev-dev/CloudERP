@@ -19,8 +19,8 @@
 
     <div class="form-horizontal">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <h2 class="text-danger">@ViewBag.Message</h2>
-        <h2 class="text-danger">@ViewBag.ErrorMessage</h2>
+        <h5 class="text-danger">@ViewBag.Message</h5>
+        <h5 class="text-danger">@ViewBag.ErrorMessage</h5>
 
         @Html.HiddenFor(model => model.AccountControlID)
         @Html.HiddenFor(model => model.CompanyID)

@@ -16,8 +16,8 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h2 class="text-danger">@ViewBag.Message</h2>
-        <h2 class="text-danger">@ViewBag.ErrorMessage</h2>
+        <h5 class="text-danger">@ViewBag.Message</h5>
+        <h5 class="text-danger">@ViewBag.ErrorMessage</h5>
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.BranchTypeID)

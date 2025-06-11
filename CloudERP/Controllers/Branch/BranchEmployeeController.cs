@@ -1,6 +1,6 @@
-﻿using CloudERP.Helpers;
-using Domain.Models;
+﻿using Domain.Models;
 using Domain.UtilsAccess;
+using Localization.CloudERP.Messages;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudERP.Controllers.Branch
@@ -40,7 +40,7 @@ namespace CloudERP.Controllers.Branch
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -69,15 +69,15 @@ namespace CloudERP.Controllers.Branch
                         model.Photo = await _imageUploadHelper.UploadImageAsync(photo, EMPLOYEE_PHOTO_FOLDER);
 
                     var success = await _httpClient.PostAsync("branchemployeeapi/employeeregistration", model);
-                    if (success)
-                        return RedirectToAction("Employee");
+                    if (success) return RedirectToAction("Employee");
+                    else ViewBag.ErrorMessage = Messages.AlreadyExists;
                 }
 
                 return View(model);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -97,7 +97,7 @@ namespace CloudERP.Controllers.Branch
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -118,15 +118,15 @@ namespace CloudERP.Controllers.Branch
                         model.Photo = await _imageUploadHelper.UploadImageAsync(photo, EMPLOYEE_PHOTO_FOLDER);
 
                     var success = await _httpClient.PutAsync("branchemployeeapi/employeeupdation", model);
-                    if (success)
-                        return RedirectToAction("Employee");
+                    if (success) return RedirectToAction("Employee");
+                    else ViewBag.ErrorMessage = Messages.AlreadyExists;
                 }
 
                 return View(model);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -146,7 +146,7 @@ namespace CloudERP.Controllers.Branch
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

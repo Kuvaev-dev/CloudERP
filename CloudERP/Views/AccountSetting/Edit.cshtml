@@ -12,10 +12,10 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h2 class="text-danger">@ViewBag.Message</h2>
-        <h2 class="text-danger">@ViewBag.ErrorMessage</h2>
-
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <h5 class="text-danger">@ViewBag.Message</h5>
+        <h5 class="text-danger">@ViewBag.ErrorMessage</h5>
+
         @Html.HiddenFor(model => model.AccountSettingID)
         @Html.HiddenFor(model => model.CompanyID)
         @Html.HiddenFor(model => model.BranchID)

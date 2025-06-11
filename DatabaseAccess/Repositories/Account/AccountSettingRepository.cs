@@ -128,7 +128,8 @@ namespace DatabaseAccess.Repositories.Account
                 .Include(a => a.Company)
                 .Include(a => a.Branch)
                 .Include(a => a.User)
-                .Where(a => a.AccountActivityID == id && a.CompanyID == companyId && a.BranchID == branchId)
+                .Where(a => a.AccountActivityID == id &&
+                           ((a.CompanyID == companyId && a.BranchID == branchId) || a.IsGlobal == true))
                 .FirstOrDefaultAsync();
 
             return entity == null ? null : new AccountSetting

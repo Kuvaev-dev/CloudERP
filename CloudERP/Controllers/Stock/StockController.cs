@@ -2,6 +2,7 @@
 using Domain.UtilsAccess;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Localization.CloudERP.Messages;
 
 namespace CloudERP.Controllers.Stock
 {
@@ -32,7 +33,7 @@ namespace CloudERP.Controllers.Stock
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -54,7 +55,7 @@ namespace CloudERP.Controllers.Stock
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -76,7 +77,7 @@ namespace CloudERP.Controllers.Stock
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -89,17 +90,17 @@ namespace CloudERP.Controllers.Stock
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
+            if (!ModelState.IsValid) return View(model);
+
             try
             {
                 model.CompanyID = _sessionHelper.CompanyID;
                 model.BranchID = _sessionHelper.BranchID;
                 model.UserID = _sessionHelper.UserID;
 
-                if (ModelState.IsValid)
-                {
-                    var success = await _httpClient.PostAsync("stockapi/create", model);
-                    if (success) return RedirectToAction("Index");
-                }
+                var success = await _httpClient.PostAsync("stockapi/create", model);
+                if (success) return RedirectToAction("Index");
+                else ViewBag.ErrorMessage = Messages.AlreadyExists;
 
                 var categories = await _httpClient.GetAsync<List<Category>>(
                     $"categoryapi/getall?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
@@ -110,7 +111,7 @@ namespace CloudERP.Controllers.Stock
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -137,7 +138,7 @@ namespace CloudERP.Controllers.Stock
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -150,15 +151,15 @@ namespace CloudERP.Controllers.Stock
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
+            if (!ModelState.IsValid) return View(model);
+
             try
             {
                 model.UserID = _sessionHelper.UserID;
 
-                if (ModelState.IsValid)
-                {
-                    var success = await _httpClient.PutAsync($"stockapi/update?id={model.ProductID}", model);
-                    if (success) return RedirectToAction("Index");
-                }
+                var success = await _httpClient.PutAsync($"stockapi/update?id={model.ProductID}", model);
+                if (success) return RedirectToAction("Index");
+                else ViewBag.ErrorMessage = Messages.AlreadyExists;
 
                 var categories = await _httpClient.GetAsync<List<Category>>(
                     $"categoryapi/getall?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
@@ -169,7 +170,7 @@ namespace CloudERP.Controllers.Stock
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -185,7 +186,7 @@ namespace CloudERP.Controllers.Stock
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

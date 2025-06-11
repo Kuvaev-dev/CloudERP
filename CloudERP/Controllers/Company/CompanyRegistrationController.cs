@@ -1,5 +1,6 @@
 ﻿using CloudERP.Models;
 using Domain.UtilsAccess;
+using Localization.CloudERP.Messages;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudERP.Controllers.Company
@@ -36,27 +37,20 @@ namespace CloudERP.Controllers.Company
 
             if (!ModelState.IsValid)
             {
-                ViewBag.Message = "Please provide correct details";
+                ViewBag.Message = Messages.PleaseProvideCorrectDetails;
                 return View(model);
             }
 
             try
             {
                 bool isSuccess = await _httpClient.PostAsync("companyregistrationapi/register", model);
-                if (isSuccess)
-                {
-                    ViewBag.Message = "Registration successfull";
-                    return RedirectToAction("Login", "Home");
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Unexpected error. Try again, please");
-                }
+                if (isSuccess) return RedirectToAction("Login", "Home");
+                else ModelState.AddModelError("", Messages.UnexpectedErrorMessage);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
-                return RedirectToAction("EP500", "EP");
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("Error", "Home");
             }
 
             return View(model);

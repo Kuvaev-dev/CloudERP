@@ -1,6 +1,7 @@
 ﻿using Domain.Models;
 using Domain.UtilsAccess;
 using Microsoft.AspNetCore.Mvc;
+using Localization.CloudERP.Messages;
 
 namespace CloudERP.Controllers.Branch
 {
@@ -30,7 +31,7 @@ namespace CloudERP.Controllers.Branch
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -52,19 +53,19 @@ namespace CloudERP.Controllers.Branch
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
+            if (!ModelState.IsValid) return View(model);
+
             try
             {
-                if (ModelState.IsValid)
-                {
-                    await _httpClient.PostAsync("branchtypeapi/create", model);
-                    return RedirectToAction("Index");
-                }
+                var success = await _httpClient.PostAsync("branchtypeapi/create", model);
+                if (success) return RedirectToAction("Index");
+                else ViewBag.ErrorMessage = Messages.AlreadyExists;
 
                 return View(model);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -84,7 +85,7 @@ namespace CloudERP.Controllers.Branch
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -97,18 +98,19 @@ namespace CloudERP.Controllers.Branch
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
+            if (!ModelState.IsValid) return View(model);
+
             try
             {
-                if (ModelState.IsValid)
-                {
-                    await _httpClient.PutAsync($"branchtypeapi/update?id={model.BranchTypeID}", model);
-                    return RedirectToAction("Index");
-                }
+                var success = await _httpClient.PutAsync($"branchtypeapi/update?id={model.BranchTypeID}", model);
+                if (success) return RedirectToAction("Index");
+                else ViewBag.ErrorMessage = Messages.AlreadyExists;
+
                 return View(model);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

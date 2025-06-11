@@ -13,9 +13,9 @@
 <div class="card">
     <div class="card card-flat">
         <div class="card-header">
-            <h4>Enter Return Payment`s Details</h4>
-            <h3 class="text-danger">@ViewBag.Message</h3>
-            <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
+            <h4>@Purchase.EnterReturnPaymentsDetails</h4>
+            <h5 class="text-danger">@ViewBag.Message</h5>
+            <h5 class="text-danger">@ViewBag.ErrorMessage</h5>
         </div>
         <div class="card-body">
             @using (Html.BeginForm("ReturnAmount", "PurchasePaymentReturn", FormMethod.Post))

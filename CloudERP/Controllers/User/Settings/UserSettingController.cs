@@ -2,6 +2,7 @@
 using Domain.UtilsAccess;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Localization.CloudERP.Messages;
 
 namespace CloudERP.Controllers.User.Settings
 {
@@ -24,6 +25,9 @@ namespace CloudERP.Controllers.User.Settings
         // GET: Create User
         public async Task<ActionResult> CreateUser(int? employeeID)
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             if (employeeID == null) return RedirectToAction("EP404", "EP");
 
             try
@@ -41,7 +45,7 @@ namespace CloudERP.Controllers.User.Settings
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -51,10 +55,10 @@ namespace CloudERP.Controllers.User.Settings
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreateUser(Domain.Models.User user)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(user);
-            }
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            if (!ModelState.IsValid) return View(user);
 
             try
             {
@@ -65,12 +69,13 @@ namespace CloudERP.Controllers.User.Settings
                     $"usersettingapi/createuser?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}",
                     user);
                 if (success) return RedirectToAction("Employees", "CompanyEmployee");
+                else ViewBag.ErrorMessage = Messages.AlreadyExists;
 
                 return View(user);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -78,6 +83,9 @@ namespace CloudERP.Controllers.User.Settings
         // GET: Update User
         public async Task<ActionResult> UpdateUser(int? UserID)
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
             if (UserID == null) return RedirectToAction("EP404", "EP");
 
             try
@@ -96,7 +104,7 @@ namespace CloudERP.Controllers.User.Settings
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -106,10 +114,10 @@ namespace CloudERP.Controllers.User.Settings
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> UpdateUser(Domain.Models.User user)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(user);
-            }
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            if (!ModelState.IsValid) return View(user);
 
             try
             {
@@ -118,12 +126,13 @@ namespace CloudERP.Controllers.User.Settings
 
                 var success = await _httpClient.PutAsync($"usersettingapi/updateuser", user);
                 if (success) return RedirectToAction("Employees", "CompanyEmployee");
+                else ViewBag.ErrorMessage = Messages.AlreadyExists;
 
                 return View(user);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

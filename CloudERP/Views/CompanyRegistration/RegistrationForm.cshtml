@@ -21,8 +21,8 @@
         <button id="voiceRecognitionButton" class="btn btn-link" type="button">
             <i class="fas fa-microphone" style="font-size: 1.5em; color: gray;"></i>
         </button>
-        <h3 class="text-danger">@ViewBag.Message</h3>
-        <h3 class="text-danger">@ViewBag.ErrorMessage</h3>
+        <h5 class="text-danger">@ViewBag.Message</h5>
+        <h5 class="text-danger">@ViewBag.ErrorMessage</h5>
     </div>
     <div class="card-body">
         @using (Html.BeginForm("RegistrationForm", "CompanyRegistration", FormMethod.Post, new { @id = "example-form" }))

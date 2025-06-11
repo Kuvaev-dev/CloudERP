@@ -1,5 +1,6 @@
 ﻿using Domain.Models;
 using Domain.UtilsAccess;
+using Localization.CloudERP.Messages;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudERP.Controllers.Stock
@@ -30,7 +31,7 @@ namespace CloudERP.Controllers.Stock
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -47,7 +48,7 @@ namespace CloudERP.Controllers.Stock
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -67,23 +68,23 @@ namespace CloudERP.Controllers.Stock
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
+            if (!ModelState.IsValid) return View(model);
+
             try
             {
                 model.CompanyID = _sessionHelper.CompanyID;
                 model.BranchID = _sessionHelper.BranchID;
                 model.UserID = _sessionHelper.UserID;
 
-                if (ModelState.IsValid)
-                {
-                    var response = await _httpClient.PostAsync("categoryapi/create", model);
-                    if (response) return RedirectToAction("Index");
-                }
+                var success = await _httpClient.PostAsync("categoryapi/create", model);
+                if (success) return RedirectToAction("Index");
+                else ViewBag.ErrorMessage = Messages.AlreadyExists;
 
                 return View(model);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -100,7 +101,7 @@ namespace CloudERP.Controllers.Stock
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -113,23 +114,23 @@ namespace CloudERP.Controllers.Stock
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
+            if (!ModelState.IsValid) return View(model);
+
             try
             {
                 model.CompanyID = _sessionHelper.CompanyID;
                 model.BranchID = _sessionHelper.BranchID;
                 model.UserID = _sessionHelper.UserID;
 
-                if (ModelState.IsValid)
-                {
-                    var response = await _httpClient.PutAsync($"categoryapi/update?id={model.CategoryID}", model);
-                    if (response) return RedirectToAction("Index");
-                }
+                var success = await _httpClient.PutAsync($"categoryapi/update?id={model.CategoryID}", model);
+                if (success) return RedirectToAction("Index");
+                else ViewBag.ErrorMessage = Messages.AlreadyExists;
 
                 return View(model);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

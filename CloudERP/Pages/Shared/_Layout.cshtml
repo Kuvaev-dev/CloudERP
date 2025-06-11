@@ -176,6 +176,11 @@
                         </div>
                     </li>
                     <!-- END Tour -->
+                    <!-- START Date and time -->
+                    <li class="nav-item d-flex align-items-center px-3 text-white">
+                        <span id="datetime-display"></span>
+                    </li>
+                    <!-- END Date and time -->
                 </ul>
                 <!-- END Right Navbar-->
             </nav>
@@ -826,6 +831,22 @@
             if (@startTour.ToString().ToLower()) {
                 startTour();
             }
+
+            function updateDateTime() {
+                const now = new Date();
+                const options = {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                };
+                document.getElementById('datetime-display').textContent = now.toLocaleString('uk-UA', options);
+            }
+
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
         });
     </script>
     <script src="~/js/CustomScripts/Tour.js"></script>

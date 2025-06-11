@@ -51,7 +51,7 @@ namespace CloudERP.Controllers.Financial.Reports
             {
                 await PopulateViewBag();
 
-                var trialBalance = await _httpClient.GetAsync<IEnumerable<BalanceSheetModel>>(
+                var trialBalance = await _httpClient.GetAsync<IEnumerable<TrialBalanceModel>>(
                     $"trialbalanceapi/gettrialbalancebyfinancialyear?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&financialYearId={id}");
 
                 return View(trialBalance);
@@ -95,7 +95,7 @@ namespace CloudERP.Controllers.Financial.Reports
             {
                 await PopulateViewBag();
 
-                var trialBalance = await _httpClient.GetAsync<IEnumerable<BalanceSheetModel>>(
+                var trialBalance = await _httpClient.GetAsync<IEnumerable<TrialBalanceModel>>(
                     $"trialbalanceapi/gettrialbalancebyfinancialyear?companyId={_sessionHelper.CompanyID}&branchId={id}&financialYearId={FinancialYearID}");
 
                 return View(trialBalance);

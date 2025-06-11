@@ -1,5 +1,6 @@
 ﻿using Domain.Models;
 using Domain.UtilsAccess;
+using Localization.CloudERP.Messages;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudERP.Controllers.Purchase.Cart
@@ -35,7 +36,7 @@ namespace CloudERP.Controllers.Purchase.Cart
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -51,8 +52,8 @@ namespace CloudERP.Controllers.Purchase.Cart
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
-                return Json(new { error = "Product details fetching error" });
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
         }
 
@@ -65,6 +66,14 @@ namespace CloudERP.Controllers.Purchase.Cart
 
             try
             {
+                var checkQty = await _httpClient.GetAsync<Domain.Models.Stock>($"stockapi/getbyid?id={PID}");
+
+                if (Qty > checkQty?.Quantity)
+                {
+                    ViewBag.Message = Messages.SaleQuantityError;
+                    return RedirectToAction("NewSale");
+                }
+
                 var newItem = new PurchaseCartDetail
                 {
                     ProductID = PID,
@@ -76,14 +85,15 @@ namespace CloudERP.Controllers.Purchase.Cart
                 };
 
                 var success = await _httpClient.PostAsync("purchasecartapi/additem", newItem);
-                if (success) ViewBag.Message = "Item added successfully";
+                if (success) ViewBag.ErrorMessage = Messages.ItemAddedSuccessfully;
+                else ViewBag.ErrorMessage = Messages.AlreadyExists;
 
                 return RedirectToAction("NewPurchase");
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("NewPurchase");
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
         }
 
@@ -97,14 +107,15 @@ namespace CloudERP.Controllers.Purchase.Cart
             try
             {
                 var success = await _httpClient.DeleteAsync($"purchasecartapi/deleteitem?id={id}");
-                if (success) ViewBag.Message = "Deleted successfully";
+                if (success) ViewBag.ErrorMessage = Messages.DeletedSuccessfully;
+                else ViewBag.ErrorMessage = Messages.UnexpectedErrorMessage;
 
                 return RedirectToAction("NewPurchase");
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("NewPurchase");
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
         }
 
@@ -120,8 +131,8 @@ namespace CloudERP.Controllers.Purchase.Cart
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("NewPurchase");
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
         }
 
@@ -134,21 +145,19 @@ namespace CloudERP.Controllers.Purchase.Cart
 
             try
             {
-                var success = await _httpClient.PostAsync($"purchasecartapi/cancelpurchase", new
+                await _httpClient.PostAsync($"purchasecartapi/cancelpurchase", new
                 {
                     branchId = _sessionHelper.BranchID,
                     companyId = _sessionHelper.CompanyID,
                     userId = _sessionHelper.UserID
                 });
 
-                if (success) ViewBag.Message = "Purchase canceled";
-
                 return RedirectToAction("NewPurchase");
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("NewPurchase");
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
         }
 
@@ -173,13 +182,13 @@ namespace CloudERP.Controllers.Purchase.Cart
                     return RedirectToAction("PrintPurchaseInvoice", "PurchasePayment", new { id = invoiceId });
                 }
 
-                TempData["ErrorMessage"] = "Purchase confirm error";
+                ViewBag.ErrorMessage = Messages.UnexpectedErrorMessage;
                 return RedirectToAction("NewPurchase");
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("NewPurchase");
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
+                return RedirectToAction("EP500", "EP");
             }
         }
     }

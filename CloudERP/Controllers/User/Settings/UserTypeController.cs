@@ -1,6 +1,7 @@
 ﻿using Domain.Models;
 using Domain.UtilsAccess;
 using Microsoft.AspNetCore.Mvc;
+using Localization.CloudERP.Messages;
 
 namespace CloudERP.Controllers.User.Settings
 {
@@ -30,7 +31,7 @@ namespace CloudERP.Controllers.User.Settings
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -48,7 +49,7 @@ namespace CloudERP.Controllers.User.Settings
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -72,17 +73,15 @@ namespace CloudERP.Controllers.User.Settings
 
             try
             {
-                if (ModelState.IsValid)
-                {
-                    var success = await _httpClient.PostAsync("usertypeapi/create", model);
-                    if (success) return RedirectToAction("Index");
-                }
+                var success = await _httpClient.PostAsync("usertypeapi/create", model);
+                if (success) return RedirectToAction("Index");
+                else ViewBag.ErrorMessage = Messages.AlreadyExists;
 
                 return View(model);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -100,7 +99,7 @@ namespace CloudERP.Controllers.User.Settings
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -115,17 +114,15 @@ namespace CloudERP.Controllers.User.Settings
 
             try
             {
-                if (ModelState.IsValid)
-                {
-                    var success = await _httpClient.PutAsync($"usertypeapi/update?id={model.UserTypeID}", model);
-                    if (success) return RedirectToAction("Index");
-                }
+                var success = await _httpClient.PutAsync($"usertypeapi/update?id={model.UserTypeID}", model);
+                if (success) return RedirectToAction("Index");
+                else ViewBag.ErrorMessage = Messages.AlreadyExists;
 
                 return View(model);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

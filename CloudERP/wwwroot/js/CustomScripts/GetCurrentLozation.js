@@ -11,7 +11,7 @@ function showPosition(position) {
     var lon = position.coords.longitude;
 
     $.ajax({
-        url: 'https://localhost:44311/api/addressapi/getaddressbycoordinates',
+        url: 'https://clouderpapi.azurewebsites.net/api/addressapi/getaddressbycoordinates',
         data: { latitude: lat, longitude: lon },
         dataType: 'json',
         success: function (data) {

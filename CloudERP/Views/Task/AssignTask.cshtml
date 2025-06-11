@@ -11,8 +11,8 @@
     <div class="form-horizontal">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(m => m.BranchID, new { id = "BranchID" })
-        <h2 class="text-danger">@ViewBag.Message</h2>
-        <h2 class="text-danger">@ViewBag.ErrorMessage</h2>
+        <h5 class="text-danger">@ViewBag.Message</h5>
+        <h5 class="text-danger">@ViewBag.ErrorMessage</h5>
 
         <div class="form-group">
             @Html.LabelFor(m => m.Title, Localization.CloudERP.Modules.Task.Task.TaskTitle, htmlAttributes: new { @class = "control-label col-md-4" })

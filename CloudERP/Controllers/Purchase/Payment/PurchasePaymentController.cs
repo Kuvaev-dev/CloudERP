@@ -2,6 +2,7 @@
 using Domain.Models;
 using Domain.UtilsAccess;
 using Microsoft.AspNetCore.Mvc;
+using Localization.CloudERP.Messages;
 
 namespace CloudERP.Controllers.Purchase.Payment
 {
@@ -34,7 +35,7 @@ namespace CloudERP.Controllers.Purchase.Payment
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -55,7 +56,7 @@ namespace CloudERP.Controllers.Purchase.Payment
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -85,7 +86,7 @@ namespace CloudERP.Controllers.Purchase.Payment
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -125,7 +126,7 @@ namespace CloudERP.Controllers.Purchase.Payment
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return View();
             }
         }
@@ -146,7 +147,7 @@ namespace CloudERP.Controllers.Purchase.Payment
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -167,7 +168,7 @@ namespace CloudERP.Controllers.Purchase.Payment
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -185,7 +186,7 @@ namespace CloudERP.Controllers.Purchase.Payment
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Unexpected error: " + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -235,7 +236,7 @@ namespace CloudERP.Controllers.Purchase.Payment
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

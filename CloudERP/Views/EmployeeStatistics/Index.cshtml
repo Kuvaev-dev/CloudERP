@@ -10,7 +10,8 @@
     <div class="card card-float">
         <div class="card-header">
             <h4>@Html.Raw(Localization.CloudERP.Modules.User.User.SelectRangeFromDateAndToDate)</h4>
-            <h3 class="text-danger">@TempData["ErrorMessage"]</h3>
+            <h5 class="text-danger">@ViewBag.Message</h5>
+            <h5 class="text-danger">@ViewBag.ErrorMessage</h5>
         </div>
         <div class="card-body">
             @using (Html.BeginForm("Index", "EmployeeStatistics", FormMethod.Post))

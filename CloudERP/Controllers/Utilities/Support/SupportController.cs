@@ -1,5 +1,6 @@
 ﻿using Domain.Models;
 using Domain.UtilsAccess;
+using Localization.CloudERP.Messages;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudERP.Controllers.Utilities.Support
@@ -28,7 +29,7 @@ namespace CloudERP.Controllers.Utilities.Support
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("Error");
             }
         }
@@ -37,6 +38,11 @@ namespace CloudERP.Controllers.Utilities.Support
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SubmitTicket(SupportTicket model)
         {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            if (!ModelState.IsValid) return View(model);
+
             try
             {
                 var user = await _httpClient.GetAsync<Domain.Models.User>($"userapi/getbyid?id={_sessionHelper.UserID}");
@@ -53,23 +59,15 @@ namespace CloudERP.Controllers.Utilities.Support
                 model.RespondedBy = string.Empty;
                 model.ResponseDate = null;
 
-                if (ModelState.IsValid)
-                {
-                    await _httpClient.PostAsync("supportapi/submitticket", model);
-                    ViewBag.Message = Localization.CloudERP.Messages.Messages.SupportRequestSubmitted;
+                var success = await _httpClient.PostAsync("supportapi/submitticket", model);
+                if (success) ViewBag.UserTickets = userTickets;
+                else ViewBag.ErrorMessage = Messages.AlreadyExists;
 
-                    ViewBag.UserTickets = userTickets;
-
-                    return View();
-                }
-
-                ViewBag.UserTickets = userTickets;
-
-                return View("Support", model);
+                return View();
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -85,7 +83,7 @@ namespace CloudERP.Controllers.Utilities.Support
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -112,7 +110,7 @@ namespace CloudERP.Controllers.Utilities.Support
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

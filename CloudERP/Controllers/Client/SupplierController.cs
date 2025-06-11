@@ -1,6 +1,7 @@
 ﻿using Domain.Models;
 using Domain.UtilsAccess;
 using Microsoft.AspNetCore.Mvc;
+using Localization.CloudERP.Messages;
 
 namespace CloudERP.Controllers.Client
 {
@@ -33,7 +34,7 @@ namespace CloudERP.Controllers.Client
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -51,7 +52,7 @@ namespace CloudERP.Controllers.Client
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -69,7 +70,7 @@ namespace CloudERP.Controllers.Client
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -91,7 +92,7 @@ namespace CloudERP.Controllers.Client
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -113,26 +114,23 @@ namespace CloudERP.Controllers.Client
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
+            if (!ModelState.IsValid) return View(model);
+
             try
             {
                 model.CompanyID = _sessionHelper.CompanyID;
                 model.BranchID = _sessionHelper.BranchID;
                 model.UserID = _sessionHelper.UserID;
 
-                if (ModelState.IsValid)
-                {
-                    var success = await _httpClient.PostAsync("supplierapi/create", model);
-                    if (success) return RedirectToAction("AllSuppliers");
-
-                    ViewBag.Message = Localization.CloudERP.Messages.Messages.AlreadyExists;
-                    return View(model);
-                }
+                var success = await _httpClient.PostAsync("supplierapi/create", model);
+                if (success) return RedirectToAction("AllSuppliers");
+                else ViewBag.ErrorMessage = Messages.AlreadyExists;
 
                 return View(model);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -154,7 +152,7 @@ namespace CloudERP.Controllers.Client
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -167,24 +165,21 @@ namespace CloudERP.Controllers.Client
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
+            if (!ModelState.IsValid) return View(model);
+
             try
             {
                 model.UserID = _sessionHelper.UserID;
 
-                if (ModelState.IsValid)
-                {
-                    var success = await _httpClient.PutAsync($"supplierapi/update?id={model.SupplierID}", model);
-                    if (success) return RedirectToAction("AllSuppliers");
-
-                    ViewBag.Message = Localization.CloudERP.Messages.Messages.AlreadyExists;
-                    return View(model);
-                }
+                var success = await _httpClient.PutAsync($"supplierapi/update?id={model.SupplierID}", model);
+                if (success) return RedirectToAction("AllSuppliers");
+                else ViewBag.ErrorMessage = Messages.AlreadyExists;
 
                 return View(model);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
