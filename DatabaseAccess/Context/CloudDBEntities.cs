@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using DatabaseAccess.Models;
+﻿using DatabaseAccess.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DatabaseAccess.Context;
@@ -109,9 +107,7 @@ public partial class CloudDBEntities : DbContext
 
             entity.HasIndex(e => e.UserID, "IX_FK_tblAccountControl_tblUser");
 
-            entity.Property(e => e.AccountControlName)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.Property(e => e.AccountControlName).HasMaxLength(50);
 
             entity.HasOne(d => d.AccountHead).WithMany(p => p.tblAccountControl)
                 .HasForeignKey(d => d.AccountHeadID)
@@ -140,9 +136,7 @@ public partial class CloudDBEntities : DbContext
 
             entity.HasIndex(e => e.UserID, "IX_FK_tblAccountHead_tblUser");
 
-            entity.Property(e => e.AccountHeadName)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.Property(e => e.AccountHeadName).HasMaxLength(50);
 
             entity.HasOne(d => d.User).WithMany(p => p.tblAccountHead)
                 .HasForeignKey(d => d.UserID)
@@ -213,9 +207,7 @@ public partial class CloudDBEntities : DbContext
 
             entity.HasIndex(e => e.UserID, "IX_FK_tblAccountSubControl_tblUser");
 
-            entity.Property(e => e.AccountSubControlName)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.Property(e => e.AccountSubControlName).HasMaxLength(50);
 
             entity.HasOne(d => d.AccountControl).WithMany(p => p.tblAccountSubControl)
                 .HasForeignKey(d => d.AccountControlID)
@@ -242,13 +234,9 @@ public partial class CloudDBEntities : DbContext
 
             entity.HasIndex(e => e.BranchTypeID, "IX_FK_tblBranch_tblBranchType");
 
-            entity.Property(e => e.BranchAddress)
-                .HasMaxLength(300)
-                .IsUnicode(false);
+            entity.Property(e => e.BranchAddress).HasMaxLength(300);
             entity.Property(e => e.BranchContact).HasMaxLength(50);
-            entity.Property(e => e.BranchName)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.Property(e => e.BranchName).HasMaxLength(50);
 
             entity.HasOne(d => d.BranchType).WithMany(p => p.tblBranch)
                 .HasForeignKey(d => d.BranchTypeID)
@@ -260,9 +248,7 @@ public partial class CloudDBEntities : DbContext
         {
             entity.HasKey(e => e.BranchTypeID);
 
-            entity.Property(e => e.BranchType)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.Property(e => e.BranchType).HasMaxLength(50);
         });
 
         modelBuilder.Entity<tblCategory>(entity =>
@@ -275,9 +261,7 @@ public partial class CloudDBEntities : DbContext
 
             entity.HasIndex(e => e.UserID, "IX_FK_tblCategory_tblUser");
 
-            entity.Property(e => e.CategoryName)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.Property(e => e.CategoryName).HasMaxLength(50);
 
             entity.HasOne(d => d.Branch).WithMany(p => p.tblCategory)
                 .HasForeignKey(d => d.BranchID)
@@ -314,16 +298,10 @@ public partial class CloudDBEntities : DbContext
 
             entity.HasIndex(e => e.UserID, "IX_FK_tblCustomer_tblUser");
 
-            entity.Property(e => e.CustomerAddress)
-                .HasMaxLength(300)
-                .IsUnicode(false);
+            entity.Property(e => e.CustomerAddress).HasMaxLength(300);
             entity.Property(e => e.CustomerContact).HasMaxLength(150);
-            entity.Property(e => e.Customername)
-                .HasMaxLength(150)
-                .IsUnicode(false);
-            entity.Property(e => e.Description)
-                .HasMaxLength(300)
-                .IsUnicode(false);
+            entity.Property(e => e.Customername).HasMaxLength(150);
+            entity.Property(e => e.Description).HasMaxLength(300);
 
             entity.HasOne(d => d.Branch).WithMany(p => p.tblCustomer)
                 .HasForeignKey(d => d.BranchID)
@@ -353,9 +331,7 @@ public partial class CloudDBEntities : DbContext
 
             entity.HasIndex(e => e.UserID, "IX_FK_tblCustomerInvoice_tblUser");
 
-            entity.Property(e => e.Description)
-                .HasMaxLength(500)
-                .IsUnicode(false);
+            entity.Property(e => e.Description).HasMaxLength(500);
             entity.Property(e => e.InvoiceDate).HasColumnType("datetime");
             entity.Property(e => e.InvoiceNo).HasMaxLength(150);
             entity.Property(e => e.Title).HasMaxLength(150);
@@ -567,9 +543,7 @@ public partial class CloudDBEntities : DbContext
 
             entity.HasIndex(e => e.CompanyID, "IX_FK_tblEmployee_tblCompany");
 
-            entity.Property(e => e.Address)
-                .HasMaxLength(300)
-                .IsUnicode(false);
+            entity.Property(e => e.Address).HasMaxLength(300);
             entity.Property(e => e.ContactNo).HasMaxLength(50);
             entity.Property(e => e.Description).HasMaxLength(300);
             entity.Property(e => e.Designation).HasMaxLength(150);
