@@ -141,9 +141,6 @@
   <data name="SubBranchSuppliers" xml:space="preserve">
     <value>Постачальники&lt;/br&gt;підрозділу</value>
   </data>
-  <data name="PleaseEnterAValidPhoneNumber" xml:space="preserve">
-    <value>Будь ласка, введіть правильний номер телефону</value>
-  </data>
   <data name="EditSupplier" xml:space="preserve">
     <value>Редагувати постачальника</value>
   </data>

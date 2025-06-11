@@ -141,9 +141,6 @@
   <data name="SubBranchSuppliers" xml:space="preserve">
     <value>Sub Branch Suppliers</value>
   </data>
-  <data name="PleaseEnterAValidPhoneNumber" xml:space="preserve">
-    <value>Please enter a valid phone number</value>
-  </data>
   <data name="EditSupplier" xml:space="preserve">
     <value>Edit Supplier</value>
   </data>

@@ -154,6 +154,7 @@
         setTimeout(function () {
             var employeeContactInput = document.querySelector("#EmployeeContactNo");
             var hiddenEmployeeContactInput = document.querySelector("#HiddenEmployeeContactNo");
+            var errorMessage = '@Html.Raw(System.Web.HttpUtility.JavaScriptStringEncode(Localization.CloudERP.Messages.Messages.PleaseEnterAValidPhoneNumber))';
 
             if (employeeContactInput) {
                 var employeeContactIti = window.intlTelInput(employeeContactInput, {
@@ -167,11 +168,8 @@
                     utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/utils.js"
                 });
 
-                console.log("Employee Contact initialized with country: ", employeeContactIti.getSelectedCountryData());
-
                 employeeContactInput.addEventListener("blur", function () {
                     var fullNumber = employeeContactIti.getNumber();
-                    console.log("Full number captured for EmployeeContactNo: ", fullNumber);
                     hiddenEmployeeContactInput.value = fullNumber;
                 });
             }
@@ -191,11 +189,8 @@
                     utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/utils.js"
                 });
 
-                console.log("Branch Contact initialized with country: ", branchContactIti.getSelectedCountryData());
-
                 branchContactInput.addEventListener("blur", function () {
                     var fullNumber = branchContactIti.getNumber();
-                    console.log("Full number captured for BranchContact: ", fullNumber);
                     hiddenBranchContactInput.value = fullNumber;
                 });
             }

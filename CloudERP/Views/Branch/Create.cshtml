@@ -92,6 +92,7 @@
 }
 <script>
     $(document).ready(function () {
+        var errorMessage = '@Html.Raw(System.Web.HttpUtility.JavaScriptStringEncode(Localization.CloudERP.Messages.Messages.PleaseEnterAValidPhoneNumber))';
         var input = document.querySelector("#PhoneNumber");
         var iti = window.intlTelInput(input, {
             initialCountry: "ua",
@@ -110,7 +111,7 @@
             var phoneNumber = iti.getNumber();
             if (!iti.isValidNumber()) {
                 e.preventDefault();
-                alert('@Messages.PleaseEnterAValidPhoneNumber');
+                alert(errorMessage);
             } else {
                 $('#PhoneNumber').val(phoneNumber);
             }

@@ -133,15 +133,6 @@ namespace Localization.CloudERP.Modules.Supplier {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Please enter a valid phone number.
-        /// </summary>
-        public static string PleaseEnterAValidPhoneNumber {
-            get {
-                return ResourceManager.GetString("PleaseEnterAValidPhoneNumber", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Ищет локализованную строку, похожую на Sub Branch Suppliers.
         /// </summary>
         public static string SubBranchSuppliers {
