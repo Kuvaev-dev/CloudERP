@@ -3,6 +3,7 @@ using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Domain.UtilsAccess;
 using Localization.CloudERP.Messages;
+using Localization.CloudERP.Modules.User;
 
 namespace CloudERP.Controllers.Sale.Payment
 {
@@ -154,16 +155,28 @@ namespace CloudERP.Controllers.Sale.Payment
             }
         }
 
-        public async Task<ActionResult> SubCustomSalesHistory(DateTime fromDate, DateTime toDate, int id)
+        public ActionResult SubCustomSalesHistory(int id)
+        {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            HttpContext.Session.SetInt32("SubBranchID", id);
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SubCustomSalesHistory(DateTime fromDate, DateTime toDate)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
             try
             {
+                int? subBranchID = HttpContext.Session.GetInt32("SubBranchID");
                 var list = await _httpClient.GetAsync<IEnumerable<SaleInfo>>(
                     $"salepaymentapi/getcustomsaleshistory" +
-                    $"?companyId={_sessionHelper.CompanyID}&branchId={id}" +
+                    $"?companyId={_sessionHelper.CompanyID}&branchId={subBranchID.Value}" +
                     $"&fromDate={fromDate:yyyy-MM-dd}&toDate={toDate:yyyy-MM-dd}");
 
                 return View(list);

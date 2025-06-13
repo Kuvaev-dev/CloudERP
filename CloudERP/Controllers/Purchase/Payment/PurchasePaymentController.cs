@@ -152,16 +152,28 @@ namespace CloudERP.Controllers.Purchase.Payment
             }
         }
 
-        public async Task<ActionResult> SubCustomPurchasesHistory(DateTime fromDate, DateTime toDate, int id)
+        public ActionResult SubCustomPurchasesHistory(int id)
+        {
+            if (!_sessionHelper.IsAuthenticated)
+                return RedirectToAction("Login", "Home");
+
+            HttpContext.Session.SetInt32("SubBranchID", id);
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SubCustomPurchasesHistory(DateTime fromDate, DateTime toDate)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
             try
             {
+                int? subBranchID = HttpContext.Session.GetInt32("SubBranchID");
                 var list = await _httpClient.GetAsync<IEnumerable<PurchaseInfo>>(
                     $"purchasepaymentapi/getcustompurchaseshistory" +
-                    $"?companyId={_sessionHelper.CompanyID}&branchId={id}" +
+                    $"?companyId={_sessionHelper.CompanyID}&branchId={subBranchID.Value}" +
                     $"&fromDate={fromDate:yyyy-MM-dd}&toDate={toDate:yyyy-MM-dd}");
 
                 return View(list);

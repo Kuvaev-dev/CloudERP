@@ -74,59 +74,62 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model)
+                @if (Model != null)
                 {
-                    if (invoiceNo != item.InvoiceNo)
+                    foreach (var item in Model)
                     {
-                        <tr style="background-color:aliceblue">
-                            <td>
-                                @Html.DisplayFor(modelItem => item.SNO)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.TransectionDate)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.AccountSubControl)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.TransectionTitle)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.InvoiceNo)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Debit)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Credit)
-                            </td>
-                        </tr>
-                    }
-                    else
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.SNO)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.TransectionDate)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.AccountSubControl)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.TransectionTitle)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.InvoiceNo)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Debit)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Credit)
-                            </td>
-                        </tr>
+                        if (invoiceNo != item.InvoiceNo)
+                        {
+                            <tr style="background-color:aliceblue">
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SNO)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TransectionDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AccountSubControl)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TransectionTitle)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.InvoiceNo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Debit)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Credit)
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SNO)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TransectionDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AccountSubControl)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TransectionTitle)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.InvoiceNo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Debit)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Credit)
+                                </td>
+                            </tr>
+                        }
                     }
                 }
             </tbody>

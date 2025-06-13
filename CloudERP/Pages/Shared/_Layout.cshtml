@@ -303,6 +303,12 @@
                                                 <span class="align-middle">@Html.Raw(Miscellaneous.BranchTypes)</span>
                                             </a>
                                         </li>
+                                        <li data-heading="components-heading">
+                                            <a href="@Url.Action("Index", "Branch")" title="@Miscellaneous.Branches">
+                                                <em class="bi bi-diagram-2"></em>
+                                                <span class="align-middle">@Html.Raw(Miscellaneous.Branches)</span>
+                                            </a>
+                                        </li>
                                         <li class="nav-heading ">
                                             <span data-localize="sidebar.heading.COMPONENTS">@Miscellaneous.Employees</span>
                                         </li>
@@ -356,9 +362,9 @@
                                             <span data-localize="sidebar.heading.COMPONENTS">@Miscellaneous.SubBranchs</span>
                                         </li>
                                         <li data-heading="components-heading">
-                                            <a href="@Url.Action("Index", "Branch")" title="@Miscellaneous.Branches">
-                                                <em class="bi bi-diagram-2 h4 mb-0"></em>
-                                                <span class="align-middle">@Html.Raw(Miscellaneous.Branches)</span>
+                                            <a href="@Url.Action("SubBranchs", "Branch")" title="@Miscellaneous.SubBranchs">
+                                                <em class="bi bi-diagram-3 h4 mb-0"></em>
+                                                <span class="align-middle">@Html.Raw(Miscellaneous.SubBranchs)</span>
                                             </a>
                                         </li>
                                         <li data-heading="components-heading">

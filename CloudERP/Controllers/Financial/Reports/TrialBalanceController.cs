@@ -63,7 +63,7 @@ namespace CloudERP.Controllers.Financial.Reports
             }
         }
 
-        public async Task<ActionResult> GetSubTrialBalance(int? id)
+        public async Task<ActionResult> GetSubTrialBalance(int id)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -71,11 +71,8 @@ namespace CloudERP.Controllers.Financial.Reports
             try
             {
                 await PopulateViewBag();
-
-                var trialBalance = await _httpClient.GetAsync<IEnumerable<TrialBalanceModel>>(
-                    $"trialbalanceapi/gettrialbalance?companyId={_sessionHelper.CompanyID}&branchId={id}");
-
-                return View(trialBalance);
+                HttpContext.Session.SetInt32("SubBranchID", id);
+                return View();
             }
             catch (Exception ex)
             {
@@ -86,7 +83,7 @@ namespace CloudERP.Controllers.Financial.Reports
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> GetSubTrialBalance(int? id, int? FinancialYearID)
+        public async Task<ActionResult> PostSubTrialBalance(int financialYearID)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -94,11 +91,11 @@ namespace CloudERP.Controllers.Financial.Reports
             try
             {
                 await PopulateViewBag();
-
-                var trialBalance = await _httpClient.GetAsync<IEnumerable<TrialBalanceModel>>(
-                    $"trialbalanceapi/gettrialbalancebyfinancialyear?companyId={_sessionHelper.CompanyID}&branchId={id}&financialYearId={FinancialYearID}");
-
-                return View(trialBalance);
+                int? subBranchID = HttpContext.Session.GetInt32("SubBranchID");
+                var subTrialBalance = await _httpClient.GetAsync<IEnumerable<TrialBalanceModel>>(
+                    $"trialbalanceapi/gettrialbalancebyfinancialyear?companyId={_sessionHelper.CompanyID}" +
+                    $"&branchId={subBranchID}&financialYearId={financialYearID}");
+                return View("GetSubTrialBalance", subTrialBalance);
             }
             catch (Exception ex)
             {

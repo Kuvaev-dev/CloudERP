@@ -64,16 +64,16 @@ namespace CloudERP.Controllers.Financial.Reports
             }
         }
 
-        public async Task<ActionResult> GetSubBalanceSheet(int? id)
+        public async Task<ActionResult> GetSubBalanceSheet(int id)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
             try
             {
-                var balanceSheet = await _httpClient.GetAsync<BalanceSheetModel>(
-                    $"balancesheetapi/getbalancesheet?companyId={_sessionHelper.CompanyID}&branchId={id}");
-                return View(balanceSheet);
+                await PopulateViewBag();
+                HttpContext.Session.SetInt32("SubBranchID", id);
+                return View();
             }
             catch (Exception ex)
             {
@@ -84,7 +84,7 @@ namespace CloudERP.Controllers.Financial.Reports
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> GetSubBalanceSheet(int? id, int? financialYearId)
+        public async Task<ActionResult> PostSubBalanceSheet(int financialYearId)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -92,11 +92,11 @@ namespace CloudERP.Controllers.Financial.Reports
             try
             {
                 await PopulateViewBag();
-
+                int? subBranchID = HttpContext.Session.GetInt32("SubBranchID");
                 var balanceSheet = await _httpClient.GetAsync<BalanceSheetModel>(
-                    $"balancesheetapi/getbalancesheetbyfinancialyear?companyId={_sessionHelper.CompanyID}&branchId={id}&financialYearId={financialYearId}");
-
-                return View(balanceSheet);
+                    $"balancesheetapi/getbalancesheetbyfinancialyear?companyId={_sessionHelper.CompanyID}" +
+                    $"&branchId={subBranchID}&financialYearId={financialYearId}");
+                return View("GetSubBalanceSheet", balanceSheet);
             }
             catch (Exception ex)
             {

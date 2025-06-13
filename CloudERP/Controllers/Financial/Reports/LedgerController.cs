@@ -60,7 +60,7 @@ namespace CloudERP.Controllers.Financial.Reports
             }
         }
 
-        public async Task<ActionResult> GetSubLedger()
+        public async Task<ActionResult> GetSubLedger(int id)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -68,10 +68,8 @@ namespace CloudERP.Controllers.Financial.Reports
             try
             {
                 await PopulateViewBag();
-
-                var balanceSheet = await _httpClient.GetAsync<IEnumerable<AccountLedgerModel>>(
-                    $"ledgerapi/getledger?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
-                return View(balanceSheet);
+                HttpContext.Session.SetInt32("SubBranchID", id);
+                return View();
             }
             catch (Exception ex)
             {
@@ -81,7 +79,7 @@ namespace CloudERP.Controllers.Financial.Reports
         }
 
         [HttpPost]
-        public async Task<ActionResult> GetSubLedger(int id)
+        public async Task<ActionResult> PostSubLedger(int financialYearID)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -89,9 +87,11 @@ namespace CloudERP.Controllers.Financial.Reports
             try
             {
                 await PopulateViewBag();
-
-                return View(await _httpClient.GetAsync<IEnumerable<AccountLedgerModel>>
-                    ($"ledgerapi/getledgerbyfinancialyear?companyId={_sessionHelper.CompanyID}&branchId={id}"));
+                int? subBranchID = HttpContext.Session.GetInt32("SubBranchID");
+                var subLedger = await _httpClient.GetAsync<IEnumerable<AccountLedgerModel>>
+                    ($"ledgerapi/getledgerbyfinancialyear?companyId={_sessionHelper.CompanyID}&branchId={subBranchID.Value}" +
+                    $"&financialYearId={financialYearID}");
+                return View("GetSubLedger", subLedger);
             }
             catch (Exception ex)
             {

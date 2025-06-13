@@ -6,7 +6,7 @@
 @using Localization.CloudERP.Modules.Supplier
 @using Localization.CloudERP.Common
 @{
-    ViewBag.Title = Branch.SubBranches;
+    ViewBag.Title = Miscellaneous.SubBranchs;
 }
 
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
@@ -51,8 +51,20 @@
                                 @Html.DisplayFor(modelItem => item.BranchAddress)
                             </td>
                             <td>
-                                @Html.ActionLink(Common.Edit, "Edit", new { id = item.BranchID }, new { @class = "btn btn-primary" })
-                                @Html.ActionLink(Common.Details, "Details", new { id = item.BranchID }, new { @class = "btn btn-info" })
+                                <div class="mt-2 btn-group">
+                                    @Html.ActionLink(Common.Edit, "Edit", "Branch", new { id = item.BranchID }, new { @class = "btn btn-primary" })
+                                    @Html.ActionLink(Miscellaneous.Sales, "SubCustomSalesHistory", "SalePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now, id = item.BranchID }, new { @class = "btn btn-info" })
+                                    @Html.ActionLink(Miscellaneous.Purchases, "SubCustomPurchasesHistory", "PurchasePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now, id = item.BranchID }, new { @class = "btn btn-info" })
+                                </div>
+                                <div class="mt-2 btn-group">
+                                    @Html.ActionLink(Miscellaneous.Journal, "SubJournal", "GeneralTransaction", new { FromDate = DateTime.Now, ToDate = DateTime.Now, id = item.BranchID }, new { @class = "btn btn-info" })
+                                    @Html.ActionLink(Miscellaneous.SubBranchAccountsLedger, "GetSubLedger", "Ledger", new { id = item.BranchID }, new { @class = "btn btn-info" })
+                                </div>
+                                <div class="mt-2 btn-group">
+                                    @Html.ActionLink(Miscellaneous.BalanceSheet, "GetSubBalanceSheet", "BalanceSheet", new { id = item.BranchID }, new { @class = "btn btn-info" })
+                                    @Html.ActionLink(Miscellaneous.IncomeStatement, "GetSubIncomeStatement", "IncomeStatement", new { id = item.BranchID }, new { @class = "btn btn-info" })
+                                    @Html.ActionLink(Miscellaneous.TrialBalance, "GetSubTrialBalance", "TrialBalance", new { id = item.BranchID }, new { @class = "btn btn-info" })
+                                </div>
                             </td>
                         </tr>
                     }

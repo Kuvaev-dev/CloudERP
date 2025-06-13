@@ -13,7 +13,7 @@
     }
 </style>
 
-@using (Html.BeginForm("GetTrialBalance", "TrialBalance", FormMethod.Post))
+@using (Html.BeginForm("PostSubTrialBalance", "TrialBalance", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     <div class="card">
@@ -22,7 +22,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <label>@Financial.SelectFinancialYear</label>
-                        @Html.DropDownList("id", (SelectList)ViewBag.FinancialYears, Financial.SelectFinancialYear, new { @class = "form-control", required = "required" })
+                        @Html.DropDownList("financialYearID", (SelectList)ViewBag.FinancialYears, Financial.SelectFinancialYear, new { @class = "form-control", required = "required" })
                         <input type="submit" value="@Miscellaneous.GetTrialBalance" class="btn btn-success form-control mt-2">
                     </div>
                 </div>
@@ -52,59 +52,62 @@
                     </th>
                 </tr>
             </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.AccountSubControl)
-                        </td>
-                        <td>
-                            @if (item.Debit == 0)
-                            {
-                                <p style="background-color:white;color:white;text-align:center;">
-                                    @Html.DisplayFor(modelItem => item.Debit)
-                                </p>
-                            }
-                            else
-                            {
-                                @Html.DisplayFor(modelItem => item.Debit)
-                            }
-                        </td>
-                        <td>
-                            @if (item.Credit == 0)
-                            {
-                                <p style="background-color:white;color:white;text-align:center;">
-                                    @Html.DisplayFor(modelItem => item.Credit)
-                                </p>
-                            }
-                            else
-                            {
-                                @Html.DisplayFor(modelItem => item.Credit)
-                            }
-                        </td>
-                    </tr>
-                }
-            </tbody>
-            <tfoot>
-                @foreach (var item in Model)
-                {
-                    if (item.AccountSubControl == "Total")
+            @if (Model != null) 
+            {  
+                <tbody>
+                    @foreach (var item in Model)
                     {
-                        <tr style="background-color:aliceblue;">
+                        <tr>
                             <td>
-                                <b>@Html.DisplayFor(modelItem => item.AccountSubControl)</b>
+                                @Html.DisplayFor(modelItem => item.AccountSubControl)
                             </td>
                             <td>
-                                <b>@Html.DisplayFor(modelItem => item.Debit)</b>
+                                @if (item.Debit == 0)
+                                {
+                                    <p style="background-color:white;color:white;text-align:center;">
+                                        @Html.DisplayFor(modelItem => item.Debit)
+                                    </p>
+                                }
+                                else
+                                {
+                                    @Html.DisplayFor(modelItem => item.Debit)
+                                }
                             </td>
                             <td>
-                                <b>@Html.DisplayFor(modelItem => item.Credit)</b>
+                                @if (item.Credit == 0)
+                                {
+                                    <p style="background-color:white;color:white;text-align:center;">
+                                        @Html.DisplayFor(modelItem => item.Credit)
+                                    </p>
+                                }
+                                else
+                                {
+                                    @Html.DisplayFor(modelItem => item.Credit)
+                                }
                             </td>
                         </tr>
                     }
-                }
-            </tfoot>
+                </tbody>
+                <tfoot>
+                    @foreach (var item in Model)
+                    {
+                        if (item.AccountSubControl == "Total")
+                        {
+                            <tr style="background-color:aliceblue;">
+                                <td>
+                                    <b>@Html.DisplayFor(modelItem => item.AccountSubControl)</b>
+                                </td>
+                                <td>
+                                    <b>@Html.DisplayFor(modelItem => item.Debit)</b>
+                                </td>
+                                <td>
+                                    <b>@Html.DisplayFor(modelItem => item.Credit)</b>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tfoot>
+            }
         </table>
     </div>
 </div>

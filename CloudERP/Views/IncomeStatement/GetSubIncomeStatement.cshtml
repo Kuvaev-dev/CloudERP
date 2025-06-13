@@ -5,11 +5,13 @@
 @using Localization.CloudERP.Modules.Sale
 @{
     ViewBag.Title = Miscellaneous.SubBranchIncomeStatement;
+    double totalRevenue = 0;
+    double totalExpenses = 0;
 }
 
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 
-@using (Html.BeginForm("GetSubIncomeStatement", "IncomeStatement", FormMethod.Post))
+@using (Html.BeginForm("PostSubIncomeStatement", "IncomeStatement", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     <div class="card">
@@ -18,7 +20,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <label>@Financial.SelectFinancialYear</label>
-                        @Html.DropDownList("id", (SelectList)ViewBag.FinancialYears, Financial.SelectFinancialYear, new { @class = "form-control", required = "required" })
+                        @Html.DropDownList("financialYearID", (SelectList)ViewBag.FinancialYears, Financial.SelectFinancialYear, new { @class = "form-control", required = "required" })
                         <input type="submit" value="@Miscellaneous.RetrieveIncomeStatement" class="btn btn-success form-control">
                     </div>
                 </div>
@@ -49,53 +51,55 @@
                                 @Miscellaneous.Total
                             </th>
                         </tr>
-                        @if (Model.IncomeStatementHeads != null)
+                        @if (Model.IncomeStatementHeads != null && Model != null)
                         {
                             foreach (var accountHead in Model.IncomeStatementHeads)
                             {
                                 <tr style="background-color:lightgray;">
-                                    <td>
-                                        @accountHead.Title
-                                    </td>
+                                    <td>@accountHead.Title</td>
                                     <td></td>
                                     <td></td>
                                 </tr>
+
                                 foreach (var accounts in accountHead.AccountHead.AccountHeadDetails)
                                 {
                                     <tr>
-                                        <td>
-                                            @accounts.AccountSubTitle
-                                        </td>
-                                        @if (accounts.Status == "Debit")
-                                        {
-                                            if (accounts.AccountSubTitle.Contains("Revenue"))
+                                        <td>@accounts.AccountSubTitle</td>
+                                        @{
+                                            double amount = accounts.TotalAmount;
+                                            bool isRevenue = accounts.AccountSubTitle.Contains("Revenue");
+                                            bool isExpense = accounts.AccountSubTitle.Contains("Expenses");
+                                            bool isDebit = accounts.Status == "Debit";
+                                            string displayAmount = "";
+
+                                            if (isRevenue)
                                             {
-                                                <td>
-                                                    (@accounts.TotalAmount)
-                                                </td>
+                                                if (isDebit)
+                                                {
+                                                    displayAmount = $"({amount})";
+                                                    amount = -amount;
+                                                }
+                                                else
+                                                {
+                                                    displayAmount = amount.ToString();
+                                                }
+                                                totalRevenue += amount;
                                             }
-                                            else if (accounts.AccountSubTitle.Contains("Expenses"))
+                                            else if (isExpense)
                                             {
-                                                <td>
-                                                    @accounts.TotalAmount
-                                                </td>
+                                                if (isDebit)
+                                                {
+                                                    displayAmount = amount.ToString();
+                                                }
+                                                else
+                                                {
+                                                    displayAmount = $"({amount})";
+                                                    amount = -amount;
+                                                }
+                                                totalExpenses += amount;
                                             }
                                         }
-                                        else
-                                        {
-                                            if (accounts.AccountSubTitle.Contains("Revenue"))
-                                            {
-                                                <td>
-                                                    @accounts.TotalAmount
-                                                </td>
-                                            }
-                                            else if (accounts.AccountSubTitle.Contains("Expenses"))
-                                            {
-                                                <td>
-                                                    (@accounts.TotalAmount)
-                                                </td>
-                                            }
-                                        }
+                                        <td>@Html.Raw(displayAmount)</td>
                                         <td></td>
                                     </tr>
                                 }
@@ -103,38 +107,29 @@
                                 if (accountHead.Title.Contains("Revenue"))
                                 {
                                     <tr style="background-color:black;color:white;">
-                                        <td>
-                                            @Miscellaneous.TotalRevenue:
-                                        </td>
+                                        <td>@Miscellaneous.TotalRevenue:</td>
                                         <td></td>
-                                        <td>
-                                            @accountHead.TotalAmount
-                                        </td>
+                                        <td>@totalRevenue</td>
                                     </tr>
                                 }
                                 else if (accountHead.Title.Contains("Expenses"))
                                 {
                                     <tr style="background-color:black;color:white;">
-                                        <td>
-                                            @Localization.Services.Localization.TotalExpenses:
-                                        </td>
+                                        <td>@Localization.Services.Localization.TotalExpenses:</td>
                                         <td></td>
-                                        <td>
-                                            @accountHead.TotalAmount
-                                        </td>
+                                        <td>@totalExpenses</td>
                                     </tr>
                                 }
+
                                 <tr><td></td><td></td><td></td></tr>
                             }
 
+                            double netIncome = totalRevenue - totalExpenses;
+
                             <tr style="background-color:black;color:white;">
-                                <td>
-                                    @Localization.Services.Localization.NetIncome:
-                                </td>
+                                <td>@Localization.Services.Localization.NetIncome:</td>
                                 <td></td>
-                                <td>
-                                    @Model.NetIncome
-                                </td>
+                                <td>@netIncome</td>
                             </tr>
                         }
                 </table>

@@ -3,6 +3,8 @@
 @using Localization.CloudERP.Modules.Miscellaneous
 @{
     ViewBag.Title = Financial.BalanceSheetStr;
+    double totalLiabilities = 0;
+    double totalOwnerEquity = 0;
 }
 
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
@@ -28,7 +30,7 @@
 
 <div class="card card-default col-md-12">
     <div class="card-header d-flex justify-content-between align-items-center">
-        <h5 class="text-primary">@Financial.BalanceSheetStr</h5>
+        <h3 class="text-primary">@Financial.BalanceSheetStr</h3>
         <h5 class="text-danger">@ViewBag.Message</h5>
         <h5 class="text-danger">@ViewBag.ErrorMessage</h5>
     </div>
@@ -74,8 +76,9 @@
                                 <td>@accountHead.TotalAmount</td>
                             </tr>
                         }
-                        else if (accountHead.AccountHeadTitle.Contains("Liabilities"))
+                        @if (accountHead.AccountHeadTitle.Contains("Liabilities"))
                         {
+                            totalLiabilities += accountHead.TotalAmount;
                             <tr style="background-color:lightcyan;color:black;">
                                 <td>@Financial.TotalLiabilities:</td>
                                 <td></td>
@@ -84,6 +87,7 @@
                         }
                         else if (accountHead.AccountHeadTitle.Contains("Capital"))
                         {
+                            totalOwnerEquity += accountHead.TotalAmount;
                             <tr style="background-color:lightcyan;color:black;">
                                 <td>@Financial.TotalOwnerEquity:</td>
                                 <td></td>
@@ -100,7 +104,7 @@
                     <tr style="background-color:black;color:white;">
                         <td>@Financial.TotalBalanceLiabilitiesOwnerEquityReturnEarning:</td>
                         <td></td>
-                        <td>@Model.Total_Liabilities_OwnerEquity_ReturnEarning</td>
+                        <td>@(totalLiabilities + totalOwnerEquity + Model.ReturnEarning)</td>
                     </tr>
                 </tbody>
             </table>

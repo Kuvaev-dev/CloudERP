@@ -113,36 +113,30 @@ namespace CloudERP.Controllers.Financial.Transactions
         }
 
         // GET: GeneralTransaction/SubJournal
-        public async Task<ActionResult> SubJournal(int? id)
+        public ActionResult SubJournal(int id)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            try
-            {
-                var endpoint = $"generaltransactionapi/getjournal?companyId={_sessionHelper.CompanyID}&branchId={id}&fromDate={DateTime.Now:yyyy-MM-dd}&toDate={DateTime.Now:yyyy-MM-dd}";
-                var subJournalEntries = await _httpClient.GetAsync<IEnumerable<JournalModel>>(endpoint);
-                return View(subJournalEntries);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
-                return RedirectToAction("EP500", "EP");
-            }
+            HttpContext.Session.SetInt32("SubBranchID", id);
+
+            return View();
         }
 
         // POST: GeneralTransaction/SubJournal
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SubJournal(DateTime FromDate, DateTime ToDate, int? id)
+        public async Task<ActionResult> SubJournal(DateTime FromDate, DateTime ToDate)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
             try
             {
-                var endpoint = $"generaltransactionapi/getjournal?companyId={_sessionHelper.CompanyID}&branchId={id}&fromDate{FromDate:yyyy-MM-dd}&toDate={ToDate:yyyy-MM-dd}";
-                var subJournalEntries = await _httpClient.GetAsync<IEnumerable<JournalModel>>(endpoint);
+                int? subBranchID = HttpContext.Session.GetInt32("SubBranchID");
+                var subJournalEntries = await _httpClient.GetAsync<IEnumerable<JournalModel>>(
+                    $"generaltransactionapi/getjournal?companyId={_sessionHelper.CompanyID}&branchId={subBranchID}" +
+                    $"&fromDate{FromDate:yyyy-MM-dd}&toDate={ToDate:yyyy-MM-dd}");
                 return View(subJournalEntries);
             }
             catch (Exception ex)

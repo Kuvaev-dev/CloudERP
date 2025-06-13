@@ -61,7 +61,7 @@ namespace CloudERP.Controllers.Financial.Reports
         }
 
         // GET: IncomeStatement
-        public async Task<ActionResult> GetSubIncomeStatement(int? id)
+        public async Task<ActionResult> GetSubIncomeStatement(int id)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -69,9 +69,8 @@ namespace CloudERP.Controllers.Financial.Reports
             try
             {
                 await PopulateViewBag();
-
-                return View(await _httpClient.GetAsync<IncomeStatementModel>(
-                    $"incomestatementapi/getincomestatement?companyId={_sessionHelper.CompanyID}&branchId={id}"));
+                HttpContext.Session.SetInt32("SubBranchID", id);
+                return View(new IncomeStatementModel());
             }
             catch (Exception ex)
             {
@@ -82,7 +81,7 @@ namespace CloudERP.Controllers.Financial.Reports
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> GetSubIncomeStatement(int? id, int? FinancialYearID)
+        public async Task<ActionResult> PostSubIncomeStatement(int financialYearID)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -90,9 +89,11 @@ namespace CloudERP.Controllers.Financial.Reports
             try
             {
                 await PopulateViewBag();
-
-                return View(await _httpClient.GetAsync<IncomeStatementModel>(
-                    $"incomestatementapi/getincomestatementbyfinancialyear?companyId={_sessionHelper.CompanyID}&branchId={id}&FinancialYearID={FinancialYearID}"));
+                int? subBranchID = HttpContext.Session.GetInt32("SubBranchID");
+                var subIncome = await _httpClient.GetAsync<IncomeStatementModel>(
+                    $"incomestatementapi/getincomestatementbyfinancialyear?companyId={_sessionHelper.CompanyID}" +
+                    $"&branchId={subBranchID}&FinancialYearID={financialYearID}");
+                return View("GetSubIncomeStatement", subIncome);
             }
             catch (Exception ex)
             {

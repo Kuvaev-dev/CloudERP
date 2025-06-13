@@ -49,7 +49,7 @@ namespace CloudERP.Controllers.User.Users
             try
             {
                 var users = await _httpClient.GetAsync<List<Domain.Models.User>>(
-                    $"userapi/getbybranch?companyId={_sessionHelper.CompanyID}&branchTypeId={_sessionHelper.BranchTypeID}&branchId={_sessionHelper.BrchID}");
+                    $"userapi/getbybranch?companyId={_sessionHelper.CompanyID}&branchTypeId={_sessionHelper.BranchTypeID}&branchId={_sessionHelper.BranchID}");
                 return View(users ?? []);
             }
             catch (Exception ex)

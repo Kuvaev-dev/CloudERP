@@ -90,79 +90,84 @@
                     </tr>
                 </thead>
                 <tbody id="paymentList">
-                    @foreach (var item in Model)
+                    @if (Model != null)
                     {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.CustomerName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.CustomerContactNo)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.InvoiceNo)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.InvoiceDate)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.TotalAmount)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ReturnProductAmount)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.AfterReturnTotalAmount)
-                            </td>
-                            <td>
-                                @{
-                                    if (item.PaymentAmount == 0)
-                                    {
-                                        @Html.ActionLink(Sale.SetPaid, "PaidAmount", new { id = item.CustomerInvoiceID }, new { @class = "text-success" })
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CustomerName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CustomerContactNo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.InvoiceNo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.InvoiceDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TotalAmount)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ReturnProductAmount)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AfterReturnTotalAmount)
+                                </td>
+                                <td>
+                                    @{
+                                        if (item.PaymentAmount == 0)
+                                        {
+                                            @Html.ActionLink(Sale.SetPaid, "PaidAmount", new { id = item.CustomerInvoiceID }, new { @class = "text-success" })
+                                        }
+                                        else
+                                        {
+                                            @Html.DisplayFor(modelItem => item.PaymentAmount)
+                                        }
                                     }
-                                    else
-                                    {
-                                        @Html.DisplayFor(modelItem => item.PaymentAmount)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ReturnPaymentAmount)
+                                </td>
+                                <td>
+                                    @{
+                                        if (item.RemainingBalance == 0 && item.PaymentAmount != 0)
+                                        {
+                                            <em class="icon-check">
+                                                <label class="text-success">@Html.Raw(Sale.Clear)</label>
+                                            </em>
+                                        }
+                                        else if (item.RemainingBalance < 0)
+                                        {
+                                            @Html.ActionLink(item.RemainingBalance.ToString("F2"), "ReturnSalePendingAmount", "SalePaymentReturn", new { @id = item.CustomerInvoiceID }, new { @class = "btn btn-outline-danger btn-lg" })
+                                        }
+                                        else
+                                        {
+                                            <label>@(item.TotalAmount - item.PaymentAmount)</label>
+                                        }
                                     }
-                                }
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ReturnPaymentAmount)
-                            </td>
-                            <td>
-                                @{
-                                    if (item.RemainingBalance == 0 && item.PaymentAmount != 0)
-                                    {
-                                        <em class="icon-check">
-                                            <label class="text-success">@Html.Raw(Sale.Clear)</label>
-                                        </em>
+                                </td>
+                                <td>
+                                    @{
+                                        if (item.RemainingBalance < item.TotalAmount && item.PaymentAmount != 0)
+                                        {
+                                            @Html.ActionLink(Sale.PayHistory, "SaleItemDetail", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-primary" })
+                                            ;
+                                        }
+                                        else
+                                        {
+                                            <em class="icon-book-open">
+                                                <label class="text-danger"><b>@Html.Raw(Sale.NoHistory)</b></label>
+                                            </em>
+                                        }
+                                        @Html.ActionLink(Sale.ViewDetails, "SaleItemDetail", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-info" })
+                                        ;
                                     }
-                                    else if (item.RemainingBalance < 0)
-                                    {
-                                        @Html.ActionLink(item.RemainingBalance.ToString("F2"), "ReturnSalePendingAmount", "SalePaymentReturn", new { @id = item.CustomerInvoiceID }, new { @class = "btn btn-outline-danger btn-lg" })
-                                    }
-                                    else
-                                    {
-                                        <label>@(item.TotalAmount - item.PaymentAmount)</label>
-                                    }
-                                }
-                            </td>
-                            <td>
-                                @{
-                                    if (item.RemainingBalance < item.TotalAmount && item.PaymentAmount != 0)
-                                    {
-                                        @Html.ActionLink(Sale.PayHistory, "SaleItemDetail", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-primary" });
-                                    }
-                                    else
-                                    {
-                                        <em class="icon-book-open">
-                                            <label class="text-danger"><b>@Html.Raw(Sale.NoHistory)</b></label>
-                                        </em>
-                                    }
-                                    @Html.ActionLink(Sale.ViewDetails, "SaleItemDetail", new { id = item.CustomerInvoiceID }, new { @class = "btn btn-info" });
-                                }
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
+                        }
                     }
                 </tbody>
             </table>
