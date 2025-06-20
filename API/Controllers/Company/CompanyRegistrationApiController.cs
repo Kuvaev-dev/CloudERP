@@ -1,6 +1,5 @@
 ﻿using API.Models;
 using Domain.Models;
-using Domain.UtilsAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Facades;
@@ -86,7 +85,8 @@ namespace API.Controllers.Company
                     UserID = user.UserID,
                     FullName = model.EmployeeName,
                     IsFirstLogin = true,
-                    Photo = DEFAULT_EMPLOYEE_PHOTO_PATH
+                    Photo = DEFAULT_EMPLOYEE_PHOTO_PATH,
+                    RegistrationDate = DateTime.Now
                 };
                 await _companyRegistrationFacade.EmployeeRepository.AddAsync(employee);
 

@@ -335,7 +335,7 @@
                                         </li>
                                     }
                                     @*User*@
-                                    if (userType == 2)
+                                    if (userType > 1)
                                     {
                                         <li class="nav-heading ">
                                             <span data-localize="sidebar.heading.HEADER">@Miscellaneous.Home</span>
@@ -532,7 +532,7 @@
                                         </a>
                                     </li>
                                 }
-                                if (userType == 2)
+                                if (userType > 1)
                                 {
                                     <li class="nav-heading ">
                                         <span data-localize="sidebar.heading.COMPONENTS">@Miscellaneous.FinancialYear</span>
@@ -547,7 +547,7 @@
                                 <li class="nav-heading ">
                                     <span data-localize="sidebar.heading.COMPONENTS">@Miscellaneous.Customers</span>
                                 </li>
-                                if (userType == 2)
+                                if (userType > 1)
                                 {
                                     <li data-heading="components-heading">
                                         <a href="@Url.Action("Create", "Customer")" title="@Miscellaneous.NewCustomer">
@@ -613,7 +613,7 @@
                                 <li class="nav-heading ">
                                     <span data-localize="sidebar.heading.COMPONENTS">@Miscellaneous.Suppliers</span>
                                 </li>
-                                if (userType == 2)
+                                if (userType > 1)
                                 {
                                     <li data-heading="components-heading">
                                         <a href="@Url.Action("Create", "Supplier")" title="@Miscellaneous.NewSupplier">
@@ -727,7 +727,7 @@
                                         </a>
                                     </li>
                                 }
-                                if (userType == 2)
+                                if (userType > 1)
                                 {
                                     <li data-heading="components-heading">
                                         <a href="@Url.Action("Support", "Support")" title="@Miscellaneous.Support">
