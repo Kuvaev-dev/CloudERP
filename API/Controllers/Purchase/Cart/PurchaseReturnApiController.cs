@@ -3,7 +3,6 @@ using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Utils.Helpers;
 
 namespace API.Controllers.Purchase.Cart
 {
@@ -51,7 +50,6 @@ namespace API.Controllers.Purchase.Cart
             try
             {
                 var result = await _purchaseReturnService.ProcessReturnAsync(returnConfirmDto);
-
                 if (result.IsSuccess)
                 {
                     return Ok(new PurchaseReturnConfirmResult { InvoiceNo = result.InvoiceNo, IsSuccess = true, Message = result.Message });

@@ -1,10 +1,8 @@
 ﻿using API.Models;
 using Domain.Models;
 using Domain.Models.FinancialModels;
-using Domain.ServiceAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using Services.Facades;
 
 namespace API.Controllers.Company
@@ -15,16 +13,12 @@ namespace API.Controllers.Company
     public class CompanyEmployeeApiController : ControllerBase
     {
         private readonly CompanyEmployeeFacade _companyEmployeeFacade;
-        private readonly IFileAdapterFactory _fileAdapterFactory;
 
         private const string DEFAULT_PHOTO_PATH = "~/EmployeePhoto/Default/default.png";
 
-        public CompanyEmployeeApiController(
-            CompanyEmployeeFacade companyEmployeeFacade,
-            IFileAdapterFactory fileAdapterFactory)
+        public CompanyEmployeeApiController(CompanyEmployeeFacade companyEmployeeFacade)
         {
             _companyEmployeeFacade = companyEmployeeFacade;
-            _fileAdapterFactory = fileAdapterFactory;
         }
 
         [HttpGet]

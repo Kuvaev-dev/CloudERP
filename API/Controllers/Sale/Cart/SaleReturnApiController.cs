@@ -50,7 +50,6 @@ namespace API.Controllers.Sale.Cart
             try
             {
                 var result = await _saleReturnService.ProcessReturnConfirmAsync(returnConfirmDto);
-
                 if (result.IsSuccess)
                 {
                     return Ok(new SaleReturnConfirmResult { InvoiceNo = result.InvoiceNo, IsSuccess = true, Message = result.Message });

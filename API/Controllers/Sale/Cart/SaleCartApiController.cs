@@ -105,7 +105,6 @@ namespace API.Controllers.Sale.Cart
             try
             {
                 var result = await _saleCartService.ConfirmSaleAsync(saleConfirmDto);
-
                 if (!result.IsSuccess)
                 {
                     return BadRequest(new { error = result.ErrorMessage });

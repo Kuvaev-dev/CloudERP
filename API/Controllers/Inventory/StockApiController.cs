@@ -79,8 +79,10 @@ namespace API.Controllers.Inventory
         [HttpPut]
         public async Task<IActionResult> Update(int id, [FromBody] Domain.Models.Stock model)
         {
-            if (model == null) return BadRequest("Model cannot be null.");
-            if (id != model.ProductID) return BadRequest("ID in the request does not match the model ID.");
+            if (model == null) 
+                return BadRequest("Model cannot be null.");
+            if (id != model.ProductID) 
+                return BadRequest("ID in the request does not match the model ID.");
 
             try
             {

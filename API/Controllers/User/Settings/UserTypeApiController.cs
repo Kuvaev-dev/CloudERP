@@ -72,8 +72,10 @@ namespace API.Controllers.User.Settings
         [HttpPut]
         public async Task<IActionResult> Update(int id, [FromBody] UserType model)
         {
-            if (model == null) return BadRequest("Model cannot be null.");
-            if (id != model.UserTypeID) return BadRequest("ID in the request does not match the model ID.");
+            if (model == null) 
+                return BadRequest("Model cannot be null.");
+            if (id != model.UserTypeID) 
+                return BadRequest("ID in the request does not match the model ID.");
 
             try
             {

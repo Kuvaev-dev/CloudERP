@@ -1,5 +1,6 @@
 ﻿using Domain.RepositoryAccess;
 using Domain.ServiceAccess;
+using Domain.UtilsAccess;
 
 namespace Services.Facades
 {
@@ -11,6 +12,7 @@ namespace Services.Facades
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IAccountSettingRepository _accountSettingRepository;
         private readonly IEmailService _emailService;
+        private readonly IPasswordHelper _passwordHelper;
 
         public CompanyRegistrationFacade(
             ICompanyRepository companyRepository,
@@ -18,7 +20,8 @@ namespace Services.Facades
             IUserRepository userRepository,
             IEmployeeRepository employeeRepository,
             IAccountSettingRepository accountSettingRepository,
-            IEmailService emailService)
+            IEmailService emailService,
+            IPasswordHelper passwordHelper)
         {
             _companyRepository = companyRepository ?? throw new ArgumentNullException(nameof(companyRepository));
             _branchRepository = branchRepository ?? throw new ArgumentNullException(nameof(branchRepository));
@@ -26,6 +29,7 @@ namespace Services.Facades
             _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(employeeRepository));
             _accountSettingRepository = accountSettingRepository ?? throw new ArgumentNullException(nameof(accountSettingRepository));
             _emailService = emailService ?? throw new ArgumentNullException(nameof(emailService));
+            _passwordHelper = passwordHelper ?? throw new ArgumentNullException(nameof(passwordHelper));
         }
 
         public ICompanyRepository CompanyRepository => _companyRepository;
@@ -34,5 +38,6 @@ namespace Services.Facades
         public IEmployeeRepository EmployeeRepository => _employeeRepository;
         public IAccountSettingRepository AccountSettingRepository => _accountSettingRepository;
         public IEmailService EmailService => _emailService;
+        public IPasswordHelper PasswordHelper => _passwordHelper;
     }
 }

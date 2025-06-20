@@ -297,11 +297,11 @@
     <comment>Строка бокової панелі</comment>
   </data>
   <data name="Employees" xml:space="preserve">
-    <value>Працівники</value>
+    <value>Співробітники</value>
     <comment>Строка бокової панелі</comment>
   </data>
   <data name="EmployeeRegistration" xml:space="preserve">
-    <value>Реєстрація працівника</value>
+    <value>Реєстрація співробітника</value>
     <comment>Строка бокової панелі</comment>
   </data>
   <data name="Payroll" xml:space="preserve">

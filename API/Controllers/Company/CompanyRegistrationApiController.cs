@@ -4,7 +4,6 @@ using Domain.UtilsAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Facades;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace API.Controllers.Company
 {
@@ -14,19 +13,15 @@ namespace API.Controllers.Company
     public class CompanyRegistrationApiController : ControllerBase
     {
         private readonly CompanyRegistrationFacade _companyRegistrationFacade;
-        private readonly IPasswordHelper _passwordHelper;
 
         private const string DEFAULT_COMPANY_LOGO_PATH = "~/CompanyLogo/erp-logo.png";
         private const string DEFAULT_EMPLOYEE_PHOTO_PATH = "~/EmployeePhoto/Default/default.png";
         private const int MAIN_BRANCH_ID = 1;
         private const int DEFAULT_USER_TYPE_ID = 2;
 
-        public CompanyRegistrationApiController(
-            CompanyRegistrationFacade companyRegistrationFacade,
-            IPasswordHelper passwordHelper)
+        public CompanyRegistrationApiController(CompanyRegistrationFacade companyRegistrationFacade)
         {
             _companyRegistrationFacade = companyRegistrationFacade ?? throw new ArgumentNullException(nameof(companyRegistrationFacade));
-            _passwordHelper = passwordHelper ?? throw new ArgumentNullException(nameof(passwordHelper));
         }
 
         [HttpPost]
@@ -63,7 +58,7 @@ namespace API.Controllers.Company
                 };
                 await _companyRegistrationFacade.BranchRepository.AddAsync(branch);
 
-                string hashedPassword = _passwordHelper.HashPassword(model.EmployeeContactNo, out string salt);
+                string hashedPassword = _companyRegistrationFacade.PasswordHelper.HashPassword(model.EmployeeContactNo, out string salt);
                 var user = new Domain.Models.User
                 {
                     ContactNo = model.EmployeeContactNo,
