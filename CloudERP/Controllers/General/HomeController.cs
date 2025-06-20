@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Localization;
 using Domain.UtilsAccess;
+using System.Text;
 
 namespace CloudERP.Controllers.General
 {
@@ -185,7 +186,7 @@ namespace CloudERP.Controllers.General
 
             try
             {
-                var success = await _httpClient.PostAsync("homeapi/forgotpassword", new { email });
+                var success = await _httpClient.PostAsync("homeapi/forgotpassword", new ForgotPasswordRequest { Email = email });
                 if (success) return View("ForgotPasswordEmailSent");
 
                 return View();
@@ -201,10 +202,9 @@ namespace CloudERP.Controllers.General
         {
             try
             {
-                var response = await _httpClient.GetAsync<dynamic>($"homeapi/getresetpassword?id={id}");
-                if (response?.IsSuccessStatusCode)
+                var response = await _httpClient.GetAsync<object>($"homeapi/getresetpassword?id={id}");
+                if (response != null)
                 {
-                    var content = await response?.Content.ReadAsAsync<dynamic>();
                     ViewBag.ResetCode = id;
                     return View();
                 }
@@ -231,7 +231,7 @@ namespace CloudERP.Controllers.General
                     ConfirmPassword = confirmPassword
                 };
 
-                var success = await _httpClient.PostAsync("home/reset-password", request);
+                var success = await _httpClient.PostAsync("home/resetpassword", request);
                 if (success) return View("ResetPasswordSuccess");
 
                 return View();

@@ -39,7 +39,7 @@ namespace CloudERP.Controllers.Financial.Reports
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            return View(new FinancialYear());
+            return View(new FinancialYear() { StartDate = DateTime.Now, EndDate = DateTime.Now } );
         }
 
         [HttpPost]

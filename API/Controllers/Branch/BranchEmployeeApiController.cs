@@ -1,8 +1,6 @@
 ﻿using Domain.RepositoryAccess;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using API.Factories;
 using Microsoft.AspNetCore.Authorization;
 using Domain.ServiceAccess;
 
@@ -16,17 +14,18 @@ namespace API.Controllers.Branch
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IFileService _fileService;
         private readonly IFileAdapterFactory _fileAdapterFactory;
-
-        private const string DEFAULT_EMPLOYEE_AVATAR_PATH = "~/EmployeePhoto/Default/default.png";
+        private readonly IEmailService _emailService;
 
         public BranchEmployeeApiController(
             IEmployeeRepository employeeRepository,
             IFileService fileService,
-            IFileAdapterFactory fileAdapterFactory)
+            IFileAdapterFactory fileAdapterFactory,
+            IEmailService emailService)
         {
-            _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(IEmployeeRepository));
-            _fileService = fileService ?? throw new ArgumentNullException(nameof(IFileService));
-            _fileAdapterFactory = fileAdapterFactory ?? throw new ArgumentNullException(nameof(IFileAdapterFactory));
+            _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(employeeRepository));
+            _fileService = fileService ?? throw new ArgumentNullException(nameof(fileService));
+            _fileAdapterFactory = fileAdapterFactory ?? throw new ArgumentNullException(nameof(fileAdapterFactory));
+            _emailService = emailService ?? throw new ArgumentNullException(nameof(emailService));
         }
 
         [HttpGet]
@@ -53,8 +52,8 @@ namespace API.Controllers.Branch
                 if (await _employeeRepository.IsExists(model))
                     return Conflict("An employee with the same name already exists.");
 
-                model.Photo ??= DEFAULT_EMPLOYEE_AVATAR_PATH;
                 await _employeeRepository.AddAsync(model);
+                await SendRegistrationEmail(model);
                 return CreatedAtAction(nameof(GetById), new { id = model.EmployeeID }, model);
             }
             catch (Exception ex)
@@ -79,7 +78,7 @@ namespace API.Controllers.Branch
             }
         }
 
-        [HttpPost]
+        [HttpPut]
         public async Task<ActionResult<Employee>> EmployeeUpdation([FromBody] Employee model)
         {
             if (model == null) return BadRequest("Model cannot be null.");
@@ -89,7 +88,6 @@ namespace API.Controllers.Branch
                 if (await _employeeRepository.IsExists(model))
                     return Conflict("An employee with the same name already exists.");
 
-                model.Photo ??= DEFAULT_EMPLOYEE_AVATAR_PATH;
                 await _employeeRepository.UpdateAsync(model);
                 return Ok(model);
             }
@@ -97,6 +95,23 @@ namespace API.Controllers.Branch
             {
                 return Problem(detail: ex.Message, statusCode: 500);
             }
+        }
+
+        public async Task SendRegistrationEmail(Employee data)
+        {
+            var subject = "Cloud ERP - Profile Registration";
+            var body = $"<strong>Dear {data.FullName},</strong><br/>" +
+                       $"<p>Your profile has been successfully registered with Cloud ERP.</p>" +
+                       $"<p>Username: {data.Email}</p>" +
+                       $"<p>Contact Number: {data.ContactNumber}</p>" +
+                       $"<p>Address: {data.Address}</p>" +
+                       $"<p>TIN: {data.TIN}</p>" +
+                       $"<p>Designation: {data.Designation}</p>" +
+                       $"<p>Description: {data.Description}</p>" +
+                       $"<p>Monthly Salary: {data.MonthlySalary}</p>" +
+                       $"<p>Registration Date: {data.RegistrationDate}</p>";
+
+            await _emailService.SendEmail(data.Email, subject, body);
         }
     }
 }

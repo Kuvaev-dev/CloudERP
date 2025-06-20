@@ -75,7 +75,8 @@ namespace CloudERP.Controllers.Analytics
             };
 
             ViewBag.ChartData = chartData;
-            return statistics?.ToList() ?? [];
+
+            return statistics?.ToList() ?? new List<EmployeeStatistics>();
         }
     }
 }

@@ -702,4 +702,7 @@
   <data name="AccountsLedgerTitle" xml:space="preserve">
     <value>Бухгалтерська книга рахунків</value>
   </data>
+  <data name="Search" xml:space="preserve">
+    <value>Пошук</value>
+  </data>
 </root>

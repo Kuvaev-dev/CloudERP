@@ -702,4 +702,7 @@
   <data name="AccountsLedgerTitle" xml:space="preserve">
     <value>Accounts Ledger</value>
   </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
 </root>

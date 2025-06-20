@@ -10,6 +10,7 @@ namespace Domain.RepositoryAccess
         Task<Employee> GetByIdAsync(int id);
         Task<Employee> GetByTINAsync(string TIN);
         Task<Employee> GetByUserIdAsync(int id);
+        Task<Employee?> GetByContactAsync(string contact);
         Task<IEnumerable<Employee>> GetEmployeesByDateRangeAsync(DateTime startDate, DateTime endDate, List<int> branchIDs, int companyID);
         Task AddAsync(Employee employee);
         Task UpdateAsync(Employee employee);

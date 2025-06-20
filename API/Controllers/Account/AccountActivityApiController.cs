@@ -68,8 +68,10 @@ namespace API.Controllers.Account
         [HttpPut]
         public async Task<IActionResult> Update(int id, [FromBody] AccountActivity model)
         {
-            if (model == null) return BadRequest("Model cannot be null.");
-            if (id != model.AccountActivityID) return BadRequest("ID in the request does not match the model ID.");
+            if (model == null) 
+                return BadRequest("Model cannot be null.");
+            if (id != model.AccountActivityID) 
+                return BadRequest("ID in the request does not match the model ID.");
             if (await _accountActivityRepository.IsExists(model))
                 return Conflict("An account activity with the same name already exists.");
 

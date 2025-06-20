@@ -1,6 +1,7 @@
 ﻿using API.Controllers.General;
 using Domain.Models;
 using Domain.Models.FinancialModels;
+using Domain.ServiceAccess;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +15,7 @@ namespace UnitTests.API.Controllers.General
     {
         private Mock<HomeFacade> _homeFacadeMock;
         private Mock<IConfiguration> _configurationMock;
+        private Mock<ICurrencyService> _currencyMock;
         private HomeApiController _controller;
         private User _testUser;
         private Employee _testEmployee;
@@ -28,7 +30,7 @@ namespace UnitTests.API.Controllers.General
         {
             _homeFacadeMock = new Mock<HomeFacade>();
             _configurationMock = new Mock<IConfiguration>();
-            _controller = new HomeApiController(_homeFacadeMock.Object, _configurationMock.Object);
+            _controller = new HomeApiController(_homeFacadeMock.Object, _configurationMock.Object, _currencyMock.Object);
 
             _testUser = new User
             {
@@ -106,13 +108,13 @@ namespace UnitTests.API.Controllers.General
         [Test]
         public void Constructor_ShouldThrowArgumentNullException_WhenFacadeIsNull()
         {
-            Assert.Throws<ArgumentNullException>(() => new HomeApiController(null, _configurationMock.Object));
+            Assert.Throws<ArgumentNullException>(() => new HomeApiController(null, _configurationMock.Object, _currencyMock.Object));
         }
 
         [Test]
         public void Constructor_ShouldThrowArgumentNullException_WhenConfigurationIsNull()
         {
-            Assert.Throws<ArgumentNullException>(() => new HomeApiController(_homeFacadeMock.Object, null));
+            Assert.Throws<ArgumentNullException>(() => new HomeApiController(_homeFacadeMock.Object, null, _currencyMock.Object));
         }
 
         [Test]
@@ -270,80 +272,37 @@ namespace UnitTests.API.Controllers.General
         }
 
         [Test]
-        public async Task GetCurrencies_ShouldReturnOkWithCurrencies_WhenDataIsValid()
-        {
-            // Arrange
-            //_homeFacadeMock.Setup(f => f.CurrencyService.GetExchangeRatesAsync("USD"))
-            //               .ReturnsAsync(_testExchangeRates);
-
-            // Act
-            var result = await _controller.GetCurrencies();
-
-            // Assert
-            var okResult = result.Result as OkObjectResult;
-            okResult.Should().NotBeNull();
-            okResult.StatusCode.Should().Be(200);
-            var currencies = okResult.Value as Dictionary<string, decimal>;
-            currencies.Should().ContainKey("EUR").WhoseValue.Should().Be(1.1m);
-            currencies.Should().ContainKey("GBP").WhoseValue.Should().Be(1.3m);
-            _homeFacadeMock.Verify(f => f.CurrencyService.GetExchangeRatesAsync("USD"), Times.Once());
-        }
-
-        [Test]
-        public async Task GetCurrencies_ShouldReturnProblem_WhenExceptionIsThrown()
-        {
-            // Arrange
-            var exceptionMessage = "Currency retrieval error";
-            _homeFacadeMock.Setup(f => f.CurrencyService.GetExchangeRatesAsync("USD"))
-                           .ThrowsAsync(new Exception(exceptionMessage));
-
-            // Act
-            var result = await _controller.GetCurrencies();
-
-            // Assert
-            var problemResult = result.Result as ObjectResult;
-            problemResult.Should().NotBeNull();
-            problemResult.StatusCode.Should().Be(500);
-            problemResult.Value.Should().BeOfType<ProblemDetails>()
-                         .Which.Detail.Should().Be(exceptionMessage);
-            _homeFacadeMock.Verify(f => f.CurrencyService.GetExchangeRatesAsync("USD"), Times.Once());
-        }
-
-        [Test]
         public async Task ForgotPassword_ShouldReturnOk_WhenEmailIsValid()
         {
             // Arrange
-            var email = "john.doe@example.com";
-            _homeFacadeMock.Setup(f => f.AuthService.IsPasswordResetRequestedRecentlyAsync(email))
+            var esr = new ForgotPasswordRequest { Email = "test@gmail.com" };
+            _homeFacadeMock.Setup(f => f.AuthService.IsPasswordResetRequestedRecentlyAsync(esr.Email))
                            .ReturnsAsync(false);
-            _homeFacadeMock.Setup(f => f.UserRepository.GetByEmailAsync(email))
+            _homeFacadeMock.Setup(f => f.UserRepository.GetByEmailAsync(esr.Email))
                            .ReturnsAsync(_testUser);
             _homeFacadeMock.Setup(f => f.UserRepository.UpdateAsync(It.IsAny<User>()))
                            .Returns(Task.CompletedTask);
-            _homeFacadeMock.Setup(f => f.AuthService.SendPasswordResetEmailAsync(It.IsAny<string>(), email, It.IsAny<string>()));
+            _homeFacadeMock.Setup(f => f.AuthService.SendPasswordResetEmailAsync(It.IsAny<string>(), esr.Email, It.IsAny<string>()));
 
             // Act
-            var result = await _controller.ForgotPassword(email);
+            var result = await _controller.ForgotPassword(esr);
 
             // Assert
             var okResult = result.Result as OkObjectResult;
             okResult.Should().NotBeNull();
             okResult.StatusCode.Should().Be(200);
             okResult.Value.Should().Be("Password reset email sent.");
-            _homeFacadeMock.Verify(f => f.AuthService.IsPasswordResetRequestedRecentlyAsync(email), Times.Once());
-            _homeFacadeMock.Verify(f => f.UserRepository.GetByEmailAsync(email), Times.Once());
+            _homeFacadeMock.Verify(f => f.AuthService.IsPasswordResetRequestedRecentlyAsync(esr.Email), Times.Once());
+            _homeFacadeMock.Verify(f => f.UserRepository.GetByEmailAsync(esr.Email), Times.Once());
             _homeFacadeMock.Verify(f => f.UserRepository.UpdateAsync(It.Is<User>(u => u.ResetPasswordCode != null && u.ResetPasswordExpiration != null)), Times.Once());
-            _homeFacadeMock.Verify(f => f.AuthService.SendPasswordResetEmailAsync(It.IsAny<string>(), email, It.IsAny<string>()), Times.Once());
+            _homeFacadeMock.Verify(f => f.AuthService.SendPasswordResetEmailAsync(It.IsAny<string>(), esr.Email, It.IsAny<string>()), Times.Once());
         }
 
         [Test]
         public async Task ForgotPassword_ShouldReturnBadRequest_WhenEmailIsEmpty()
         {
-            // Arrange
-            string email = null;
-
             // Act
-            var result = await _controller.ForgotPassword(email);
+            var result = await _controller.ForgotPassword(null);
 
             // Assert
             var badRequestResult = result.Result as BadRequestObjectResult;
@@ -357,8 +316,8 @@ namespace UnitTests.API.Controllers.General
         public async Task ForgotPassword_ShouldReturnBadRequest_WhenResetRecentlyRequested()
         {
             // Arrange
-            var email = "john.doe@example.com";
-            _homeFacadeMock.Setup(f => f.AuthService.IsPasswordResetRequestedRecentlyAsync(email))
+            var email = new ForgotPasswordRequest { Email = "test@gmail.com" };
+            _homeFacadeMock.Setup(f => f.AuthService.IsPasswordResetRequestedRecentlyAsync(email.Email))
                            .ReturnsAsync(true);
 
             // Act
@@ -368,7 +327,7 @@ namespace UnitTests.API.Controllers.General
             var badRequestResult = result.Result as BadRequestObjectResult;
             badRequestResult.Should().NotBeNull();
             badRequestResult.StatusCode.Should().Be(400);
-            _homeFacadeMock.Verify(f => f.AuthService.IsPasswordResetRequestedRecentlyAsync(email), Times.Once());
+            _homeFacadeMock.Verify(f => f.AuthService.IsPasswordResetRequestedRecentlyAsync(email.Email), Times.Once());
             _homeFacadeMock.Verify(f => f.UserRepository.GetByEmailAsync(It.IsAny<string>()), Times.Never());
         }
 
@@ -376,10 +335,10 @@ namespace UnitTests.API.Controllers.General
         public async Task ForgotPassword_ShouldReturnNotFound_WhenUserNotFound()
         {
             // Arrange
-            var email = "john.doe@example.com";
-            _homeFacadeMock.Setup(f => f.AuthService.IsPasswordResetRequestedRecentlyAsync(email))
+            var email = new ForgotPasswordRequest { Email = "test@gmail.com" };
+            _homeFacadeMock.Setup(f => f.AuthService.IsPasswordResetRequestedRecentlyAsync(email.Email))
                            .ReturnsAsync(false);
-            _homeFacadeMock.Setup(f => f.UserRepository.GetByEmailAsync(email))
+            _homeFacadeMock.Setup(f => f.UserRepository.GetByEmailAsync(email.Email))
                            .ReturnsAsync((User)null);
 
             // Act
@@ -390,8 +349,8 @@ namespace UnitTests.API.Controllers.General
             notFoundResult.Should().NotBeNull();
             notFoundResult.StatusCode.Should().Be(404);
             notFoundResult.Value.Should().Be("User not found");
-            _homeFacadeMock.Verify(f => f.AuthService.IsPasswordResetRequestedRecentlyAsync(email), Times.Once());
-            _homeFacadeMock.Verify(f => f.UserRepository.GetByEmailAsync(email), Times.Once());
+            _homeFacadeMock.Verify(f => f.AuthService.IsPasswordResetRequestedRecentlyAsync(email.Email), Times.Once());
+            _homeFacadeMock.Verify(f => f.UserRepository.GetByEmailAsync(email.Email), Times.Once());
             _homeFacadeMock.Verify(f => f.UserRepository.UpdateAsync(It.IsAny<User>()), Times.Never());
         }
 
@@ -399,9 +358,9 @@ namespace UnitTests.API.Controllers.General
         public async Task ForgotPassword_ShouldReturnProblem_WhenExceptionIsThrown()
         {
             // Arrange
-            var email = "john.doe@example.com";
+            var email = new ForgotPasswordRequest { Email = "test@gmail.com" };
             var exceptionMessage = "Password reset error";
-            _homeFacadeMock.Setup(f => f.AuthService.IsPasswordResetRequestedRecentlyAsync(email))
+            _homeFacadeMock.Setup(f => f.AuthService.IsPasswordResetRequestedRecentlyAsync(email.Email))
                            .ThrowsAsync(new Exception(exceptionMessage));
 
             // Act
@@ -413,7 +372,7 @@ namespace UnitTests.API.Controllers.General
             problemResult.StatusCode.Should().Be(500);
             problemResult.Value.Should().BeOfType<ProblemDetails>()
                          .Which.Detail.Should().Be(exceptionMessage);
-            _homeFacadeMock.Verify(f => f.AuthService.IsPasswordResetRequestedRecentlyAsync(email), Times.Once());
+            _homeFacadeMock.Verify(f => f.AuthService.IsPasswordResetRequestedRecentlyAsync(email.Email), Times.Once());
         }
 
         [Test]

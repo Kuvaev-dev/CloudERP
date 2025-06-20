@@ -103,7 +103,7 @@ namespace CloudERP.Controllers.Account
                 if (id == null) return RedirectToAction("Index");
 
                 var accountControls = await _httpClient.GetAsync<List<AccountControl>>(
-                    $"accountcontrolapi/getall?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+                    $"accountsubcontrolapi/getall?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
                 if (accountControls == null) return RedirectToAction("EP404", "EP");
 
                 var subControl = await _httpClient.GetAsync<AccountSubControl>($"accountsubcontrolapi/getbyid?id={id.Value}");

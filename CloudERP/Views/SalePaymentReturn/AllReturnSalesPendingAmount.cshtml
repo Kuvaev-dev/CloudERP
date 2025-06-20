@@ -50,9 +50,9 @@
                         <th>
                             @Sale.PaidAmount
                         </th>
-                        <th>
+                        @* <th>
                             @Sale.PaymentToCustomer
-                        </th>
+                        </th> *@
                         <th>
                             @Sale.RemainingBalance
                         </th>
@@ -98,9 +98,9 @@
                                     }
                                 }
                             </td>
-                            <td>
+                            @* <td>
                                 @Html.DisplayFor(modelItem => item.ReturnPaymentAmount)
-                            </td>
+                            </td> *@
                             <td>
                                 @{
                                     if (item.RemainingBalance == 0 && item.PaymentAmount != 0)

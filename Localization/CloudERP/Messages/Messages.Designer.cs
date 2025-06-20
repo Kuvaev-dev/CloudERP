@@ -151,6 +151,15 @@ namespace Localization.CloudERP.Messages {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на The debit and credit entries match. Please check the selection and resubmit the form..
+        /// </summary>
+        public static string GeneralTransactionSelectionError {
+            get {
+                return ResourceManager.GetString("GeneralTransactionSelectionError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Invalid financial year ID..
         /// </summary>
         public static string InvalidFinancialYearID {

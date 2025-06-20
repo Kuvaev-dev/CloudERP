@@ -13,29 +13,28 @@ namespace API.Services
             _configuration = configuration;
         }
 
-        public void SendEmail(string toEmailAddress, string subject, string body)
+        public async Task SendEmail(string toEmailAddress, string subject, string body)
         {
-            var smtpServer = _configuration["Smtp:Server"];
-            var smtpPort = int.Parse(_configuration["Smtp:Port"]);
-            var smtpUsername = _configuration["Smtp:Username"];
-            var smtpPassword = _configuration["Smtp:Password"];
-            var fromEmail = _configuration["Smtp:FromEmail"];
+            var smtpSection = _configuration.GetSection("Smtp");
+            var host = smtpSection["Host"];
+            var port = int.Parse(smtpSection["Port"]);
+            var enableSsl = bool.Parse(smtpSection["EnableSsl"]);
+            var user = smtpSection["User"];
+            var password = smtpSection["Password"];
+            var from = smtpSection["From"];
 
-            using var client = new SmtpClient(smtpServer, smtpPort);
-            client.Credentials = new NetworkCredential(smtpUsername, smtpPassword);
-            client.EnableSsl = true;
-
-            var message = new MailMessage
+            var client = new SmtpClient(host, port)
             {
-                From = new MailAddress(fromEmail, "Cloud ERP"),
-                Subject = subject,
-                Body = body,
+                Credentials = new NetworkCredential(user, password),
+                EnableSsl = enableSsl
+            };
+
+            var message = new MailMessage(from, toEmailAddress, subject, body)
+            {
                 IsBodyHtml = true
             };
 
-            message.To.Add(new MailAddress(toEmailAddress));
-
-            client.Send(message);
+            await client.SendMailAsync(message);
         }
     }
 }

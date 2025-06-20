@@ -1,6 +1,7 @@
 ﻿using CloudERP.Models;
 using Domain.Models.FinancialModels;
 using Domain.UtilsAccess;
+using Localization.CloudERP.Messages;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -32,7 +33,7 @@ namespace CloudERP.Controllers.Financial.Transactions
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -50,24 +51,25 @@ namespace CloudERP.Controllers.Financial.Transactions
                 return View("GeneralTransaction", transaction);
             }
 
+            if (transaction.CreditAccountControlID == transaction.DebitAccountControlID)
+            {
+                ViewBag.ErrorMessage = Messages.GeneralTransactionSelectionError;
+                await PopulateViewBag();
+                return View("GeneralTransaction", transaction);
+            }
+
             try
             {
                 var endpoint = $"generaltransactionapi/savetransaction?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}&userId={_sessionHelper.UserID}";
                 var result = await _httpClient.PostAsync(endpoint, transaction);
+                if (result) return RedirectToAction("Journal");
 
-                if (result)
-                {
-                    HttpContext.Session.SetString("GNMessage", "Transaction succeeded.");
-                    return RedirectToAction("Journal");
-                }
-
-                HttpContext.Session.SetString("GNMessage", "Failed to save transaction. Please try again.");
                 await PopulateViewBag();
                 return View("GeneralTransaction", transaction);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -86,7 +88,7 @@ namespace CloudERP.Controllers.Financial.Transactions
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -107,7 +109,7 @@ namespace CloudERP.Controllers.Financial.Transactions
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -141,7 +143,7 @@ namespace CloudERP.Controllers.Financial.Transactions
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }

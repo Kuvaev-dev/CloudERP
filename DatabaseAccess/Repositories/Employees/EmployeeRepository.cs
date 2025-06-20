@@ -63,6 +63,35 @@ namespace DatabaseAccess.Repositories.Employees
             });
         }
 
+        public async Task<Employee?> GetByContactAsync(string contact)
+        {
+            var e = await _dbContext.tblEmployee
+                .Include(e => e.Branch)
+                .FirstOrDefaultAsync(e => e.ContactNo == contact);
+
+            return e == null ? null : new Employee
+            {
+                EmployeeID = e.EmployeeID,
+                FullName = e.Name,
+                ContactNumber = e.ContactNo,
+                Email = e.Email,
+                Address = e.Address,
+                Photo = e.Photo,
+                TIN = e.TIN,
+                Designation = e.Designation,
+                Description = e.Description,
+                MonthlySalary = e.MonthlySalary,
+                IsFirstLogin = e.IsFirstLogin,
+                RegistrationDate = e.RegistrationDate,
+                CompanyID = e.CompanyID,
+                BranchID = e.BranchID,
+                BranchTypeID = e.Branch.BranchTypeID,
+                BrchID = e.Branch.BrchID,
+                BranchName = e.Branch.BranchName,
+                UserID = e.UserID
+            };
+        }
+
         public async Task<IEnumerable<Employee>> GetByCompanyIdAsync(int companyId)
         {
             var entities = await _dbContext.tblEmployee
@@ -162,8 +191,6 @@ namespace DatabaseAccess.Repositories.Employees
             entity.MonthlySalary = employee.MonthlySalary;
             entity.IsFirstLogin = employee.IsFirstLogin;
             entity.RegistrationDate = employee.RegistrationDate;
-            entity.CompanyID = employee.CompanyID;
-            entity.BranchID = employee.BranchID;
             entity.UserID = employee.UserID;
 
             _dbContext.tblEmployee.Update(entity);

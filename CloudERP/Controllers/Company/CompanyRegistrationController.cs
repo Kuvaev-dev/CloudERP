@@ -45,7 +45,6 @@ namespace CloudERP.Controllers.Company
             {
                 bool isSuccess = await _httpClient.PostAsync("companyregistrationapi/register", model);
                 if (isSuccess) return RedirectToAction("Login", "Home");
-                else ModelState.AddModelError("", Messages.UnexpectedErrorMessage);
             }
             catch (Exception ex)
             {

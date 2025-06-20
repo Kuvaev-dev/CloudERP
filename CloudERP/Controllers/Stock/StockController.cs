@@ -90,6 +90,10 @@ namespace CloudERP.Controllers.Stock
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
+            var categories = await _httpClient.GetAsync<List<Category>>(
+                $"categoryapi/getall?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
+            ViewBag.CategoryID = new SelectList(categories, "CategoryID", "CategoryName");
+
             if (!ModelState.IsValid) return View(model);
 
             try
@@ -101,12 +105,6 @@ namespace CloudERP.Controllers.Stock
                 var success = await _httpClient.PostAsync("stockapi/create", model);
                 if (success) return RedirectToAction("Index");
                 else ViewBag.ErrorMessage = Messages.AlreadyExists;
-
-                var categories = await _httpClient.GetAsync<List<Category>>(
-                    $"categoryapi/getall?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BranchID}");
-
-                ViewBag.CategoryID = new SelectList(categories, "CategoryID", "CategoryName");
-
                 return View(model);
             }
             catch (Exception ex)

@@ -228,4 +228,7 @@
   <data name="PleaseEnterAValidPhoneNumber" xml:space="preserve">
     <value>Будь-ласка, введіть коректний номер телефону</value>
   </data>
+  <data name="GeneralTransactionSelectionError" xml:space="preserve">
+    <value>Записи дебету та кредиту співпадають. Будь ласка, перевірте вибір і повторно надішліть форму.</value>
+  </data>
 </root>

@@ -12,19 +12,14 @@ namespace API.Controllers.User.Settings
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IUserRepository _userRepository;
-        private readonly IUserTypeRepository _userTypeRepository;
-        private readonly IPasswordHelper _passwordHelper;
 
         public UserSettingApiController(
             IEmployeeRepository employeeRepository,
             IUserRepository userRepository,
-            IUserTypeRepository userTypeRepository,
             IPasswordHelper passwordHelper)
         {
-            _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(IEmployeeRepository));
-            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(IUserRepository));
-            _userTypeRepository = userTypeRepository ?? throw new ArgumentNullException(nameof(IUserTypeRepository));
-            _passwordHelper = passwordHelper ?? throw new ArgumentNullException(nameof(IPasswordHelper));
+            _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(employeeRepository));
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         }
 
         // POST: Create User
@@ -37,16 +32,16 @@ namespace API.Controllers.User.Settings
 
                 var existingUser = (await _userRepository.GetAllAsync())
                     .FirstOrDefault(u => u.Email == user.Email && u.UserID != user.UserID);
-                var existingEmployee = (await _employeeRepository.GetByBranchAsync(branchId, companyId))
-                    .FirstOrDefault(u => u.Email == user.Email && u.UserID == user.UserID);
 
-                if (existingUser != null || existingEmployee != null) return Conflict("User or employee already exists");
+                if (existingUser != null) return Conflict("User already exists");
 
                 await _userRepository.AddAsync(user);
 
-                var employee = await _employeeRepository.GetByIdAsync(user.UserID);
+                var employee = await _employeeRepository.GetByContactAsync(user.ContactNo);
                 if (employee != null)
                 {
+                    employee.CompanyID = companyId;
+                    employee.BranchID = branchId;
                     employee.UserID = user.UserID;
                     await _employeeRepository.UpdateAsync(employee);
                 }

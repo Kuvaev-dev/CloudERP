@@ -115,21 +115,18 @@ namespace API.Controllers.General
         }
 
         [HttpPost]
-        public async Task<ActionResult<string>> ForgotPassword([FromBody] string email)
+        public async Task<ActionResult<string>> ForgotPassword(ForgotPasswordRequest request)
         {
-            if (string.IsNullOrEmpty(email))
+            if (string.IsNullOrEmpty(request.Email))
                 return BadRequest(Localization.CloudERP.Messages.Messages.EmailIsRequired);
 
             try
             {
-                if (await _homeFacade.AuthService.IsPasswordResetRequestedRecentlyAsync(email))
+                if (await _homeFacade.AuthService.IsPasswordResetRequestedRecentlyAsync(request.Email))
                     return BadRequest(Localization.CloudERP.Messages.Messages.PasswordResetAlreadyRequested);
 
-                var user = await _homeFacade.UserRepository.GetByEmailAsync(email);
-                if (user == null)
-                {
-                    return NotFound("User not found");
-                }
+                var user = await _homeFacade.UserRepository.GetByEmailAsync(request.Email);
+                if (user == null) return NotFound("User not found");
 
                 user.ResetPasswordCode = Guid.NewGuid().ToString();
                 user.ResetPasswordExpiration = DateTime.Now.AddHours(1);
@@ -137,8 +134,8 @@ namespace API.Controllers.General
 
                 await _homeFacade.UserRepository.UpdateAsync(user);
 
-                var resetLink = Url.Link("ResetPassword", new { id = user.ResetPasswordCode });
-                _homeFacade.AuthService.SendPasswordResetEmailAsync(resetLink, user.Email, user.ResetPasswordCode);
+                var resetLink = Url.Link($"{_configuration["Frontend:BaseUrl"]}/Home/ResetPassword", new { id = user.ResetPasswordCode });
+                await _homeFacade.AuthService.SendPasswordResetEmailAsync(resetLink, user.Email, user.ResetPasswordCode);
 
                 return Ok("Password reset email sent.");
             }

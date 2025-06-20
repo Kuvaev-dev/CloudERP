@@ -1,8 +1,10 @@
 using CloudERP.Helpers;
+using Domain.ServiceAccess;
 using Domain.UtilsAccess;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
+using Utils.Helpers;
 
 namespace CloudERP
 {
@@ -31,6 +33,7 @@ namespace CloudERP
             builder.Services.AddScoped<ISessionHelper, SessionHelper>();
             builder.Services.AddScoped<IImageUploadHelper, ImageUploadHelper>();
             builder.Services.AddScoped<IPhoneNumberHelper, PhoneNumberHelper>();
+            builder.Services.AddScoped<IPasswordHelper, PasswordHelper>();
 
             builder.Services.AddScoped<CurrencyRatesFilter>();
             builder.Services.AddControllersWithViews(options =>

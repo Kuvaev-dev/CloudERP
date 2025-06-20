@@ -68,8 +68,10 @@ namespace API.Controllers.Branch
         [HttpPut]
         public async Task<IActionResult> Update(int id, [FromBody] BranchType model)
         {
-            if (model == null) return BadRequest("Model cannot be null.");
-            if (id != model.BranchTypeID) return BadRequest("ID in the request does not match the model ID.");
+            if (model == null) 
+                return BadRequest("Model cannot be null.");
+            if (id != model.BranchTypeID) 
+                return BadRequest("ID in the request does not match the model ID.");
 
             try
             {

@@ -85,8 +85,9 @@
                     </div>
                 </div>
                 <hr class="d-print-none">
-                <div class="clearfix">
-                    <button class="btn btn-secondary float-left" type="button" onclick="window.print();">@Html.Raw(Company.Print)</button>
+                <div class="btn btn-group">
+                    <button class="btn btn-secondary" type="button" onclick="window.print();">@Html.Raw(Company.Print)</button>
+                    @Html.ActionLink(Common.Back, "NewSale", "SaleCart", null, new { @class = "btn btn-secondary" })
                 </div>
             </div>
         </div>

@@ -4,6 +4,7 @@ using Domain.UtilsAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Facades;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace API.Controllers.Company
 {
@@ -94,7 +95,7 @@ namespace API.Controllers.Company
                 };
                 await _companyRegistrationFacade.EmployeeRepository.AddAsync(employee);
 
-                //SendEmail(employee, company);
+                SendEmail(employee, company, branch, user);
 
                 return Ok("Registration succeeded");
             }
@@ -104,15 +105,25 @@ namespace API.Controllers.Company
             }
         }
 
-        private void SendEmail(Employee employee, Domain.Models.Company company)
+        private void SendEmail(Employee employee, Domain.Models.Company company, Domain.Models.Branch branch, Domain.Models.User user)
         {
-            var subject = $"Welcome to {company.Name}";
-            var body = $"Hello, {employee.FullName},\n\n" +
-                       "Your registration succeeded. Here is your data:\n" +
-                       $"Full Name: {employee.FullName}\n" +
-                       $"Email: {employee.Email}\n" +
-                       $"Contact Number: {employee.ContactNumber}\n\n" +
-                       $"Best regards,\n{company.Name}'s command.";
+            var subject = "Cloud ERP - Company Registration";
+            var body = $"<strong>Dear {employee.FullName},</strong><br/>" +
+                       $"<p>Your company profile has been successfully registered with Cloud ERP.</p>" +
+                       $"<p>Company Name: {company.Name}</p>" +
+                       $"<p>Main Branch Name: {branch.BranchName}</p>" +
+                       $"<p>Main Branch Contact: {branch.BranchContact}</p>" +
+                       $"<p>Main Branch Address: {branch.BranchAddress}</p>" +
+                       $"<p>Employee Name: {employee.FullName}</p>" +
+                       $"<p>Employee Contact: {employee.ContactNumber}</p>" +
+                       $"<p>Employee Email: {employee.Email}</p>" +
+                       $"<p>Employee TIN: {employee.TIN}</p>" +
+                       $"<p>Employee Designation: {employee.Designation}</p>" +
+                       $"<p>Employee Description: {employee.Description}</p>" +
+                       $"<p>Employee Monthly Salary: {employee.MonthlySalary}</p>" +
+                       $"<p>Employee Address: {employee.Address}</p>" +
+                       $"<p>User Name: {user.UserName}</p>" +
+                       $"<p>Password is your contact number.</p>";
 
             _companyRegistrationFacade.EmailService.SendEmail(employee.Email, subject, body);
         }

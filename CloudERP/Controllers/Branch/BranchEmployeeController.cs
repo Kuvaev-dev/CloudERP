@@ -13,6 +13,7 @@ namespace CloudERP.Controllers.Branch
         private readonly IPhoneNumberHelper _phoneNumberHelper;
 
         private const string EMPLOYEE_PHOTO_FOLDER = "EmployeePhoto";
+        private const string DEFAULT_EMPLOYEE_AVATAR_PATH = "~/EmployeePhoto/Default/default.png";
 
         public BranchEmployeeController(
             ISessionHelper sessionHelper,
@@ -51,7 +52,7 @@ namespace CloudERP.Controllers.Branch
         // POST: EmployeeRegistration
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EmployeeRegistration(Employee model, IFormFile photo)
+        public async Task<ActionResult> EmployeeRegistration(Employee model, IFormFile logo)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
@@ -63,11 +64,16 @@ namespace CloudERP.Controllers.Branch
                 model.RegistrationDate = DateTime.Now;
                 model.IsFirstLogin = true;
 
+                if (logo != null)
+                    model.Photo = await _imageUploadHelper.UploadImageAsync(logo, EMPLOYEE_PHOTO_FOLDER);
+                else
+                    model.Photo = DEFAULT_EMPLOYEE_AVATAR_PATH;
+
+                if (ModelState.ContainsKey("logo"))
+                    ModelState.Remove("logo");
+
                 if (ModelState.IsValid)
                 {
-                    if (photo != null)
-                        model.Photo = await _imageUploadHelper.UploadImageAsync(photo, EMPLOYEE_PHOTO_FOLDER);
-
                     var success = await _httpClient.PostAsync("branchemployeeapi/employeeregistration", model);
                     if (success) return RedirectToAction("Employee");
                     else ViewBag.ErrorMessage = Messages.AlreadyExists;
@@ -105,18 +111,23 @@ namespace CloudERP.Controllers.Branch
         // POST: EmployeeUpdation
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EmployeeUpdation(Employee model, IFormFile photo)
+        public async Task<ActionResult> EmployeeUpdation(Employee model, IFormFile logo)
         {
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
             try
             {
+                if (logo != null)
+                    model.Photo = await _imageUploadHelper.UploadImageAsync(logo, EMPLOYEE_PHOTO_FOLDER);
+                else
+                    model.Photo = DEFAULT_EMPLOYEE_AVATAR_PATH;
+
+                if (ModelState.ContainsKey("logo"))
+                    ModelState.Remove("logo");
+
                 if (ModelState.IsValid)
                 {
-                    if (photo != null)
-                        model.Photo = await _imageUploadHelper.UploadImageAsync(photo, EMPLOYEE_PHOTO_FOLDER);
-
                     var success = await _httpClient.PutAsync("branchemployeeapi/employeeupdation", model);
                     if (success) return RedirectToAction("Employee");
                     else ViewBag.ErrorMessage = Messages.AlreadyExists;

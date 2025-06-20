@@ -50,12 +50,12 @@ namespace CloudERP.Controllers.Account
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
+            model.UserID = _sessionHelper.UserID;
+
             if (!ModelState.IsValid) return View(model);
 
             try
             {
-                model.UserID = _sessionHelper.UserID;
-
                 var success = await _httpClient.PostAsync("accountheadapi/create", model);
                 if (success) return RedirectToAction("Index");
                 else ViewBag.ErrorMessage = Messages.AlreadyExists;
@@ -95,12 +95,12 @@ namespace CloudERP.Controllers.Account
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
+            model.UserID = _sessionHelper.UserID;
+
             if (!ModelState.IsValid) return View(model);
 
             try
             {
-                model.UserID = _sessionHelper.UserID;
-
                 var success = await _httpClient.PutAsync($"accountheadapi/update?id={model.AccountHeadID}", model);
                 if (success) return RedirectToAction("Index");
                 else ViewBag.ErrorMessage = Messages.AlreadyExists;

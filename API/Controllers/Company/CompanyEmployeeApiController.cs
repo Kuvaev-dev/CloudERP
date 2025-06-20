@@ -42,33 +42,19 @@ namespace API.Controllers.Company
         }
 
         [HttpPost]
-        public async Task<ActionResult<Employee>> EmployeeRegistration()
+        public async Task<ActionResult<Employee>> EmployeeRegistration([FromBody] Employee employee)
         {
-            if (!Request.HasFormContentType || string.IsNullOrEmpty(Request.Form["model"]))
-                return BadRequest("Model cannot be null.");
-
-            Employee model;
-            try
-            {
-                model = JsonConvert.DeserializeObject<Employee>(Request.Form["model"]);
-            }
-            catch
-            {
-                return BadRequest("Invalid employee data format.");
-            }
-
-            if (model == null) return BadRequest("Model cannot be null.");
+            if (employee == null) return BadRequest("Model cannot be null.");
 
             try
             {
-                if (await _companyEmployeeFacade.EmployeeRepository.IsExists(model))
+                if (await _companyEmployeeFacade.EmployeeRepository.IsExists(employee))
                     return Conflict("An employee with the same TIN or email already exists.");
 
-                model.Photo ??= DEFAULT_PHOTO_PATH;
-                await _companyEmployeeFacade.EmployeeRepository.AddAsync(model);
-                SendEmail(model);
+                await _companyEmployeeFacade.EmployeeRepository.AddAsync(employee);
+                await SendRegistrationEmail(employee);
 
-                return CreatedAtAction(nameof(GetById), new { id = model.EmployeeID }, model);
+                return CreatedAtAction(nameof(GetById), new { id = employee.EmployeeID }, employee);
             }
             catch (Exception ex)
             {
@@ -91,18 +77,21 @@ namespace API.Controllers.Company
             }
         }
 
-        private void SendEmail(Employee employee)
+        private async Task SendRegistrationEmail(Employee employee)
         {
-            var subject = "Employee Registration Successful";
-            var body = $"<strong>Dear {employee.FullName},</strong><br/><br/>" +
-                       $"Your registration is successful. Here are your details:<br/>" +
-                       $"Name: {employee.FullName}<br/>" +
-                       $"Email: {employee.Email}<br/>" +
-                       $"Contact No: {employee.ContactNumber}<br/>" +
-                       $"Designation: {employee.Designation}<br/><br/>" +
-                       $"Best regards,<br/>Cloud ERP's Team";
+            var subject = "Cloud ERP - Profile Registration";
+            var body = $"<strong>Dear {employee.FullName},</strong><br/>" +
+                       $"<p>Your profile has been successfully registered with Cloud ERP.</p>" +
+                       $"<p>Username: {employee.Email}</p>" +
+                       $"<p>Contact Number: {employee.ContactNumber}</p>" +
+                       $"<p>Address: {employee.Address}</p>" +
+                       $"<p>TIN: {employee.TIN}</p>" +
+                       $"<p>Designation: {employee.Designation}</p>" +
+                       $"<p>Description: {employee.Description}</p>" +
+                       $"<p>Monthly Salary: {employee.MonthlySalary}</p>" +
+                       $"<p>Registration Date: {employee.RegistrationDate}</p>";
 
-            _companyEmployeeFacade.EmailService.SendEmail(employee.Email, subject, body);
+            await _companyEmployeeFacade.EmailService.SendEmail(employee.Email, subject, body);
         }
 
         [HttpGet]

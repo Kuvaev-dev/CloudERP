@@ -82,8 +82,10 @@ namespace API.Controllers.Client
         [HttpPut]
         public async Task<IActionResult> Update(int id, [FromBody] Supplier model)
         {
-            if (model == null) return BadRequest("Model cannot be null.");
-            if (id != model.SupplierID) return BadRequest("ID in the request does not match the model ID.");
+            if (model == null) 
+                return BadRequest("Model cannot be null.");
+            if (id != model.SupplierID) 
+                return BadRequest("ID in the request does not match the model ID.");
 
             try
             {

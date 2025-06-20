@@ -1,6 +1,7 @@
 ﻿using CloudERP.Models;
 using Domain.Models;
 using Domain.UtilsAccess;
+using Localization.CloudERP.Messages;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudERP.Controllers.Company
@@ -12,6 +13,7 @@ namespace CloudERP.Controllers.Company
         private readonly IImageUploadHelper _imageUploadHelper;
 
         private const string EMPLOYEE_PHOTO_FOLDER = "EmployeePhoto";
+        private const string DEFAULT_EMPLOYEE_AVATAR_PATH = "~/EmployeePhoto/Default/default.png";
 
         public CompanyEmployeeController(
             ISessionHelper sessionHelper,
@@ -36,7 +38,7 @@ namespace CloudERP.Controllers.Company
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -53,7 +55,7 @@ namespace CloudERP.Controllers.Company
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
         }
@@ -72,29 +74,26 @@ namespace CloudERP.Controllers.Company
                 employee.RegistrationDate = DateTime.Now;
                 employee.IsFirstLogin = true;
 
+                if (avatar != null) 
+                    employee.Photo = await _imageUploadHelper.UploadImageAsync(avatar, EMPLOYEE_PHOTO_FOLDER);
+                else
+                    employee.Photo = DEFAULT_EMPLOYEE_AVATAR_PATH;
+
+                if (ModelState.ContainsKey("avatar"))
+                    ModelState.Remove("avatar");
+
                 if (ModelState.IsValid)
                 {
-                    if (avatar != null) 
-                        employee.Photo = await _imageUploadHelper.UploadImageAsync(avatar, EMPLOYEE_PHOTO_FOLDER);
-
                     var response = await _httpClient.PostAsync("companyemployeeapi/employeeregistration", employee);
-
-                    if (response)
-                    {
-                        return RedirectToAction("Employee");
-                    }
-                    else
-                    {
-                        TempData["ErrorMessage"] = "Ошибка при регистрации сотрудника.";
-                        return RedirectToAction("EP500", "EP");
-                    }
+                    if (response) return RedirectToAction("Employees");
+                    else ViewBag.ErrorMessage = Messages.AlreadyExists;
                 }
 
                 ViewBag.Branches = await _httpClient.GetAsync<List<Domain.Models.Branch>>($"branchapi/getbycompany?companyId={_sessionHelper.CompanyID}");
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Localization.CloudERP.Messages.Messages.UnexpectedErrorMessage + ex.Message;
+                TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
 

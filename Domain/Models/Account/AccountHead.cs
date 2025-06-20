@@ -13,11 +13,7 @@ namespace Domain.Models
 
         [Range(1, int.MaxValue, ErrorMessageResourceName = "RangeValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public int Code { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
-        [Range(1, int.MaxValue, ErrorMessageResourceName = "RangeValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public int UserID { get; set; }
-
         public string? FullName { get; set; }
     }
 }

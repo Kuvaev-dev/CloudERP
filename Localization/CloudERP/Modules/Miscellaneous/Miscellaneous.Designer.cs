@@ -1168,6 +1168,15 @@ namespace Localization.CloudERP.Modules.Miscellaneous {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Search.
+        /// </summary>
+        public static string Search {
+            get {
+                return ResourceManager.GetString("Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Select Credit Account.
         /// </summary>
         public static string SelectAccountCredit {

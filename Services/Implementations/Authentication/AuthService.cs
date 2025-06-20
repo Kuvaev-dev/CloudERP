@@ -33,12 +33,12 @@ namespace Services.Implementations
             return user != null && (DateTime.Now - user.LastPasswordResetRequest)?.TotalMinutes < 5;
         }
 
-        public void SendPasswordResetEmailAsync(string resetLink, string email, string resetPasswordCode)
+        public async Task SendPasswordResetEmailAsync(string resetLink, string email, string resetPasswordCode)
         {
-            var subject = "Password Reset";
+            var subject = "Cloud ERP - Password Reset";
             var body = $"<strong>Please reset your password by clicking the following link: <a href='{resetLink}'>Reset Password</a></strong>";
 
-            _emailService.SendEmail(email, subject, body);
+            await _emailService.SendEmail(email, subject, body);
         }
 
         public async Task<bool> ResetPasswordAsync(string id, string newPassword, string confirmPassword)

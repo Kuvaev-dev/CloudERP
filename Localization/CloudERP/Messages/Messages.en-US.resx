@@ -228,4 +228,7 @@
   <data name="PleaseEnterAValidPhoneNumber" xml:space="preserve">
     <value>Please enter a valid phone number.</value>
   </data>
+  <data name="GeneralTransactionSelectionError" xml:space="preserve">
+    <value>The debit and credit entries match. Please check the selection and resubmit the form.</value>
+  </data>
 </root>

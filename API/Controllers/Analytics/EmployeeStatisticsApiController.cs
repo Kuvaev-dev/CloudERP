@@ -31,13 +31,7 @@ namespace API.Controllers.Analytics
                     companyId
                 );
 
-                var chartData = new
-                {
-                    Labels = statistics.Select(s => s.Date.ToString("yyyy-MM-dd")).ToList(),
-                    Data = statistics.Select(s => s.NumberOfRegistrations).ToList()
-                };
-
-                return Ok(new { statistics, chartData });
+                return Ok(statistics);
             }
             catch (Exception ex)
             {
