@@ -705,4 +705,10 @@
   <data name="Search" xml:space="preserve">
     <value>Search</value>
   </data>
+  <data name="SubBranchSuppliersTitle" xml:space="preserve">
+    <value>Sub Branch Suppliers</value>
+  </data>
+  <data name="SalePendingPaymentTitle" xml:space="preserve">
+    <value>Sale Pending Payment</value>
+  </data>
 </root>

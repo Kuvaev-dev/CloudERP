@@ -68,6 +68,7 @@
                             </td>
                             <td class="d-flex btn-group">
                                 @Html.ActionLink(Common.Update, "Edit", new { id = item.CustomerID }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink(Common.Details, "Details", new { id = item.CustomerID }, new { @class = "btn btn-info" })
                             </td>
                         </tr>
                     }

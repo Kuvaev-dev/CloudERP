@@ -157,7 +157,7 @@ namespace DatabaseAccess.Repositories.Customers
         {
             return await _dbContext.tblCustomer
                 .AnyAsync(c => c.Customername == customer.Customername &&
-                               c.CustomerID != customer.CustomerID &&
+                               c.CustomerContact == customer.CustomerContact &&
                                c.BranchID == customer.BranchID &&
                                c.CompanyID == customer.CompanyID);
         }

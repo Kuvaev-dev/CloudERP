@@ -92,8 +92,7 @@ namespace DatabaseAccess.Repositories.Account
                 .AnyAsync(ac => ac.AccountControlName == accountControl.AccountControlName &&
                                 ac.AccountHeadID == accountControl.AccountHeadID &&
                                 ac.BranchID == accountControl.BranchID &&
-                                ac.CompanyID == accountControl.CompanyID &&
-                                ac.AccountControlID != accountControl.AccountControlID);
+                                ac.CompanyID == accountControl.CompanyID);
         }
     }
 }

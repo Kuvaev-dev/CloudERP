@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using DatabaseAccess.Repositories.Customers;
+using Domain.Models;
 using Domain.RepositoryAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +24,20 @@ namespace API.Controllers.Client
             try
             {
                 var suppliers = await _supplierRepository.GetAllAsync();
+                return Ok(suppliers);
+            }
+            catch (Exception ex)
+            {
+                return Problem(detail: ex.Message, statusCode: 500);
+            }
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Customer>>> GetFromSubBranch(int branchId)
+        {
+            try
+            {
+                var suppliers = await _supplierRepository.GetSuppliersByBranchesAsync(branchId);
                 return Ok(suppliers);
             }
             catch (Exception ex)

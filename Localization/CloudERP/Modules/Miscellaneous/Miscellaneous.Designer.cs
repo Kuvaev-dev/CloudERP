@@ -1114,6 +1114,15 @@ namespace Localization.CloudERP.Modules.Miscellaneous {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Sale Pending Payment.
+        /// </summary>
+        public static string SalePendingPaymentTitle {
+            get {
+                return ResourceManager.GetString("SalePendingPaymentTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Sale Return.
         /// </summary>
         public static string SaleReturn {
@@ -1335,6 +1344,15 @@ namespace Localization.CloudERP.Modules.Miscellaneous {
         public static string SubBranchs {
             get {
                 return ResourceManager.GetString("SubBranchs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Sub Branch Suppliers.
+        /// </summary>
+        public static string SubBranchSuppliersTitle {
+            get {
+                return ResourceManager.GetString("SubBranchSuppliersTitle", resourceCulture);
             }
         }
         

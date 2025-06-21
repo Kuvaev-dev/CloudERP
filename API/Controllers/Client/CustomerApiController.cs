@@ -33,6 +33,20 @@ namespace API.Controllers.Client
         }
 
         [HttpGet]
+        public async Task<ActionResult<IEnumerable<Customer>>> GetFromSubBranch(int branchId)
+        {
+            try
+            {
+                var customers = await _customerRepository.GetByBranchesAsync(branchId);
+                return Ok(customers);
+            }
+            catch (Exception ex)
+            {
+                return Problem(detail: ex.Message, statusCode: 500);
+            }
+        }
+
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<Customer>>> GetBySetting(int companyId, int branchId)
         {
             try

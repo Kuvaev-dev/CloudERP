@@ -301,7 +301,7 @@
     <comment>Строка бокової панелі</comment>
   </data>
   <data name="EmployeeRegistration" xml:space="preserve">
-    <value>Реєстрація співробітника</value>
+    <value>Реєстрація працівника</value>
     <comment>Строка бокової панелі</comment>
   </data>
   <data name="Payroll" xml:space="preserve">
@@ -335,11 +335,11 @@
     <comment>Строка бокової панелі</comment>
   </data>
   <data name="SubBranchCustomersNavlink" xml:space="preserve">
-    <value>Клієнти підрозділу</value>
+    <value>Клієнти підрозділів</value>
     <comment>Строка бокової панелі</comment>
   </data>
   <data name="SubBranchCustomers" xml:space="preserve">
-    <value>Клієнти підрозділу</value>
+    <value>Клієнти підрозділів</value>
     <comment>Строка бокової панелі</comment>
   </data>
   <data name="Sales" xml:space="preserve">
@@ -704,5 +704,11 @@
   </data>
   <data name="Search" xml:space="preserve">
     <value>Пошук</value>
+  </data>
+  <data name="SubBranchSuppliersTitle" xml:space="preserve">
+    <value>Постачальники підрозділів</value>
+  </data>
+  <data name="SalePendingPaymentTitle" xml:space="preserve">
+    <value>Продажі в очікуванні оплати</value>
   </data>
 </root>

@@ -124,6 +124,8 @@ namespace DatabaseAccess.Repositories.Suppliers
             List<int> branchIDs = _branchHelper.GetBranchsIDs(branchID);
 
             var entities = await _dbContext.tblSupplier
+                .Include(s => s.Company)
+                .Include(s => s.Branch)
                 .Where(s => branchIDs.Contains(s.BranchID))
                 .ToListAsync();
 
@@ -136,8 +138,11 @@ namespace DatabaseAccess.Repositories.Suppliers
                 SupplierEmail = s.SupplierEmail,
                 Discription = s.Discription,
                 CompanyID = s.CompanyID,
+                CompanyName = s.Company.Name,
                 BranchID = s.BranchID,
-                UserID = s.UserID
+                BranchName = s.Branch.BranchName,
+                UserID = s.UserID,
+                UserName = s.User.UserName
             });
         }
 

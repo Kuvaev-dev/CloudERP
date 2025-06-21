@@ -128,8 +128,7 @@ namespace DatabaseAccess.Repositories.Account
                                a.AccountControlID == entity.AccountControlID &&
                                a.AccountHeadID == entity.AccountHeadID &&
                                a.CompanyID == entity.CompanyID &&
-                               a.BranchID == entity.BranchID &&
-                               a.AccountSubControlID != entity.AccountSubControlID);
+                               a.BranchID == entity.BranchID);
         }
     }
 }

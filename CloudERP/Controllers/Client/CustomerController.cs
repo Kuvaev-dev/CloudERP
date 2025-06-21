@@ -67,7 +67,7 @@ namespace CloudERP.Controllers.Client
             {
                 if (HttpContext.Session.GetInt32("BrchID") == null) return View();
                 var customers = await _httpClient.GetAsync<IEnumerable<Customer>>(
-                    $"customerapi/getbysetting?companyId={_sessionHelper.CompanyID}&branchId={_sessionHelper.BrchID}");
+                    $"customerapi/getfromsubbranch?branchId={_sessionHelper.BranchID}");
 
                 return View(customers);
             }
@@ -169,7 +169,7 @@ namespace CloudERP.Controllers.Client
                 model.BranchID = _sessionHelper.BranchID;
                 model.UserID = _sessionHelper.UserID;
 
-                var success = await _httpClient.PutAsync($"customer/update?id={model.CustomerID}", model);
+                var success = await _httpClient.PutAsync($"customerapi/update?id={model.CustomerID}", model);
                 if (success) return RedirectToAction("Index");
                 else ViewBag.ErrorMessage = Messages.AlreadyExists;
 

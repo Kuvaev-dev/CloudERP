@@ -56,7 +56,7 @@ namespace DatabaseAccess.Repositories.Account
         public async Task<bool> IsExists(AccountActivity accountActivity)
         {
             return await _dbContext.tblAccountActivity
-                .AnyAsync(a => a.Name == accountActivity.Name && a.AccountActivityID != accountActivity.AccountActivityID);
+                .AnyAsync(a => a.Name == accountActivity.Name);
         }
 
         public async Task UpdateAsync(AccountActivity accountActivity)

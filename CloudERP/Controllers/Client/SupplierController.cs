@@ -65,7 +65,7 @@ namespace CloudERP.Controllers.Client
             try
             {
                 var suppliers = await _httpClient.GetAsync<IEnumerable<Supplier>>(
-                    $"supplierapi/getbybranch?branchId={_sessionHelper.BrchID}");
+                    $"supplierapi/getfromsubbranch?branchId={_sessionHelper.BranchID}");
                 return View(suppliers);
             }
             catch (Exception ex)
@@ -123,7 +123,7 @@ namespace CloudERP.Controllers.Client
                 model.UserID = _sessionHelper.UserID;
 
                 var success = await _httpClient.PostAsync("supplierapi/create", model);
-                if (success) return RedirectToAction("AllSuppliers");
+                if (success) return RedirectToAction("Index");
                 else ViewBag.ErrorMessage = Messages.AlreadyExists;
 
                 return View(model);
@@ -172,7 +172,7 @@ namespace CloudERP.Controllers.Client
                 model.UserID = _sessionHelper.UserID;
 
                 var success = await _httpClient.PutAsync($"supplierapi/update?id={model.SupplierID}", model);
-                if (success) return RedirectToAction("AllSuppliers");
+                if (success) return RedirectToAction("Index");
                 else ViewBag.ErrorMessage = Messages.AlreadyExists;
 
                 return View(model);
