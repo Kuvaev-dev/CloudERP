@@ -65,7 +65,6 @@ namespace CloudERP.Controllers.Client
 
             try
             {
-                if (HttpContext.Session.GetInt32("BrchID") == null) return View();
                 var customers = await _httpClient.GetAsync<IEnumerable<Customer>>(
                     $"customerapi/getfromsubbranch?branchId={_sessionHelper.BranchID}");
 

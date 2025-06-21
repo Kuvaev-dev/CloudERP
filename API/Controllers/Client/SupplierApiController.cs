@@ -33,7 +33,7 @@ namespace API.Controllers.Client
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Customer>>> GetFromSubBranch(int branchId)
+        public async Task<ActionResult<IEnumerable<Supplier>>> GetFromSubBranch(int branchId)
         {
             try
             {

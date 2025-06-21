@@ -3,6 +3,7 @@ using DatabaseAccess.Models;
 using Domain.Models;
 using Domain.RepositoryAccess;
 using Domain.UtilsAccess;
+using Localization.CloudERP.Modules.Branch;
 using Microsoft.EntityFrameworkCore;
 
 namespace DatabaseAccess.Repositories.Suppliers
@@ -121,12 +122,13 @@ namespace DatabaseAccess.Repositories.Suppliers
 
         public async Task<IEnumerable<Supplier>> GetSuppliersByBranchesAsync(int branchID)
         {
-            List<int> branchIDs = _branchHelper.GetBranchsIDs(branchID);
+            var branchIds = _branchHelper.GetBranchsIDs(branchID);
 
             var entities = await _dbContext.tblSupplier
-                .Include(s => s.Company)
-                .Include(s => s.Branch)
-                .Where(s => branchIDs.Contains(s.BranchID))
+                .Where(c => branchIds.Contains(c.BranchID))
+                .Include(c => c.Branch)
+                .Include(c => c.Company)
+                .Include(c => c.User)
                 .ToListAsync();
 
             return entities.Select(s => new Supplier
