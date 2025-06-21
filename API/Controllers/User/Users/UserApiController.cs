@@ -92,7 +92,7 @@ namespace API.Controllers.User.Users
 
         // PUT: api/user/update/{id}
         [HttpPut]
-        public async Task<ActionResult<string>> Update(int id, [FromBody] Domain.Models.User model)
+        public async Task<ActionResult> Update([FromBody] Domain.Models.User model)
         {
             try
             {
@@ -100,20 +100,6 @@ namespace API.Controllers.User.Users
 
                 if (await _userRepository.IsExists(model))
                     return Conflict("A user with the same email already exists.");
-
-                if (string.IsNullOrEmpty(model.Password))
-                {
-                    var existingUser = await _userRepository.GetByIdAsync(id);
-                    model.Password = existingUser.Password;
-                    model.Salt = existingUser.Salt;
-                }
-                else
-                {
-                    model.Password = _passwordHelper.HashPassword(model.Password, out string salt);
-                    model.Salt = salt;
-                }
-
-                model.UserID = id;
 
                 await _userRepository.UpdateAsync(model);
 

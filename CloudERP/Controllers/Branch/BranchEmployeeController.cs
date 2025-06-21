@@ -119,9 +119,9 @@ namespace CloudERP.Controllers.Branch
             try
             {
                 if (logo != null)
+                {
                     model.Photo = await _imageUploadHelper.UploadImageAsync(logo, EMPLOYEE_PHOTO_FOLDER);
-                else
-                    model.Photo = DEFAULT_EMPLOYEE_AVATAR_PATH;
+                }
 
                 if (ModelState.ContainsKey("logo"))
                     ModelState.Remove("logo");

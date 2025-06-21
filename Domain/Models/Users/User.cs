@@ -25,7 +25,6 @@ namespace Domain.Models
         [StringLength(50, ErrorMessageResourceName = "StringLengthMaxValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public string? UserName { get; set; }
 
-        [Required(ErrorMessageResourceName = "RequiredValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         [StringLength(255, MinimumLength = 6, ErrorMessageResourceName = "StringLengthMinMaxValidation", ErrorMessageResourceType = typeof(Localization.Domain.Localization))]
         public string? Password { get; set; }
         public string? Salt { get; set; }

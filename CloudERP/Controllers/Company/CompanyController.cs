@@ -129,15 +129,13 @@ namespace CloudERP.Controllers.Company
 
             try
             {
-                if (ModelState.IsValid)
-                {
-                    if (logo != null)
-                        model.Logo = await _imageUploadHelper.UploadImageAsync(logo, COMPANY_LOGO_FOLDER);
+                if (logo == null) ModelState.Remove("Logo");
+                if (!ModelState.IsValid) return View(model);
+                if (logo != null) model.Logo = await _imageUploadHelper.UploadImageAsync(logo, COMPANY_LOGO_FOLDER);
 
-                    var response = await _httpClient.PutAsync("companyapi/update", model);
-                    if (response) return RedirectToAction("Index");
-                    else ModelState.AddModelError("", "Failed to create company.");
-                }
+                var response = await _httpClient.PutAsync("companyapi/update", model);
+                if (response) return RedirectToAction("Index");
+                else ModelState.AddModelError("", "Failed to create company.");
 
                 return View(model);
             }

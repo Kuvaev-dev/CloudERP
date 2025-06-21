@@ -24,6 +24,8 @@
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.UserID)
+        @Html.HiddenFor(model => model.Password)
+        @Html.HiddenFor(model => model.Salt)
 
         <div class="form-group">
             @Html.LabelFor(model => model.FullName, Localization.CloudERP.Modules.User.User.FullName, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -60,7 +62,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Password, Localization.CloudERP.Modules.User.User.Password, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
-                @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
+                <input type="password" name="NewPassword" class="form-control" />
                 @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
             </div>
         </div>

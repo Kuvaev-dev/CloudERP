@@ -11,15 +11,18 @@ namespace CloudERP.Controllers.User.Users
         private readonly IHttpClientHelper _httpClient;
         private readonly ISessionHelper _sessionHelper;
         private readonly IPhoneNumberHelper _phoneNumberHelper;
+        private readonly IPasswordHelper _passwordHelper;
 
         public UserController(
             ISessionHelper sessionHelper,
             IHttpClientHelper httpClient,
-            IPhoneNumberHelper phoneNumberHelper)
+            IPhoneNumberHelper phoneNumberHelper,
+            IPasswordHelper passwordHelper)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             _sessionHelper = sessionHelper ?? throw new ArgumentNullException(nameof(sessionHelper));
             _phoneNumberHelper = phoneNumberHelper ?? throw new ArgumentNullException(nameof(phoneNumberHelper));
+            _passwordHelper = passwordHelper;
         }
 
         // GET: User
@@ -83,12 +86,7 @@ namespace CloudERP.Controllers.User.Users
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
-            var userTypes = await _httpClient.GetAsync<IEnumerable<UserType>>($"usertypeapi/getall");
-            ViewBag.UserTypeList = userTypes?.Select(ut => new SelectListItem
-            {
-                Value = ut.UserTypeID.ToString(),
-                Text = ut.UserTypeName
-            });
+            await PopulateViewBag();
 
             return View(new Domain.Models.User());
         }
@@ -128,12 +126,7 @@ namespace CloudERP.Controllers.User.Users
             {
                 var user = await _httpClient.GetAsync<Domain.Models.User>($"userapi/getbyid?id={id}");
                 user.ContactNo = _phoneNumberHelper.ExtractNationalNumber(user.ContactNo);
-                var userTypes = await _httpClient.GetAsync<IEnumerable<UserType>>($"usertypeapi/getall");
-                ViewBag.UserTypeList = userTypes?.Select(ut => new SelectListItem
-                {
-                    Value = ut.UserTypeID.ToString(),
-                    Text = ut.UserTypeName
-                });
+                await PopulateViewBag();
 
                 return View(user);
             }
@@ -152,14 +145,36 @@ namespace CloudERP.Controllers.User.Users
             if (!_sessionHelper.IsAuthenticated)
                 return RedirectToAction("Login", "Home");
 
+            var newPassword = Request.Form["NewPassword"].ToString();
+
+            await PopulateViewBag();
+
+            if (!string.IsNullOrWhiteSpace(newPassword) && newPassword.Length < 6)
+            {
+                ModelState.AddModelError("Password", Localization.Domain.Localization.StringLengthMinMaxValidation);
+            }
+
             if (!ModelState.IsValid) return View(model);
 
             try
             {
-                var success = await _httpClient.PutAsync($"userapi/update?id={model.UserID}", model);
-                if (success) return RedirectToAction("Index");
-                else ViewBag.ErrorMessage = Messages.AlreadyExists;
+                var existingUser = await _httpClient.GetAsync<Domain.Models.User>($"userapi/getbyid?id={model.UserID}");
 
+                if (string.IsNullOrWhiteSpace(newPassword))
+                {
+                    model.Password = existingUser.Password;
+                    model.Salt = existingUser.Salt;
+                }
+                else
+                {
+                    model.Password = _passwordHelper.HashPassword(newPassword, out string salt);
+                    model.Salt = salt;
+                }
+
+                var success = await _httpClient.PutAsync($"userapi/update", model);
+                if (success) return RedirectToAction("Index");
+
+                ViewBag.ErrorMessage = Messages.AlreadyExists;
                 return View(model);
             }
             catch (Exception ex)
@@ -167,6 +182,16 @@ namespace CloudERP.Controllers.User.Users
                 TempData["ErrorMessage"] = Messages.UnexpectedErrorMessage + ex.Message;
                 return RedirectToAction("EP500", "EP");
             }
+        }
+
+        private async Task PopulateViewBag()
+        {
+            var userTypes = await _httpClient.GetAsync<IEnumerable<UserType>>($"usertypeapi/getall");
+            ViewBag.UserTypeList = userTypes?.Select(ut => new SelectListItem
+            {
+                Value = ut.UserTypeID.ToString(),
+                Text = ut.UserTypeName
+            });
         }
     }
 }

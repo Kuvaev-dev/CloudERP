@@ -87,7 +87,6 @@ namespace API.Controllers.Company
                 if (await _companyRepository.IsExists(model))
                     return Conflict("A company with the same name already exists.");
 
-                model.Logo ??= DEFAULT_COMPANY_LOGO_PATH;
                 await _companyRepository.UpdateAsync(model);
                 return Ok(model);
             }
